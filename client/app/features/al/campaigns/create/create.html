@@ -1,0 +1,136 @@
+<div class="well well-sm">
+    <a ui-sref="campaigns.list">
+        &lt&lt Back to List
+    </a>
+</div>
+
+<div class="alert alert-{{$ctrl.message.type}}" role="alert" ng-show="$ctrl.message.show">
+    <p ng-bind-html="$ctrl.message.text"></p>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>Create New Campaign</strong>
+    </div>
+    <div class="panel-body">
+        <form  name="formCampaign" novalidate class="form-horizontal" ng-submit="formCampaign.$valid && $ctrl.save()">
+            <div class="form-group" ng-class="{ 'has-error': formCampaign.campaignName.$invalid && formCampaign.$submitted }">
+                <label class="control-label col-xs-2">Name (*)</label>
+                <div class="col-xs-10">
+                    <input type="text" class="form-control" ng-model="$ctrl.newCampaign.name" name="campaignName" required ng-minlength="5">
+                    <div ng-messages="formCampaign.campaignName.$error" ng-show="formCampaign.$submitted">
+                        <p ng-message="minlength">This field is too short</p>
+                        <p ng-message="required">This field is required</p>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-2">Description</label>
+                <div class="col-xs-10">
+                    <textarea  class="form-control" ng-model="$ctrl.newCampaign.description"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputDesc" class="control-label col-xs-2">Type</label>
+                <div class="col-xs-3">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" ng-model="$ctrl.newCampaign.type" value="outbound" ng-change="$ctrl.checkRadio()"> OutBound
+                        </label>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" ng-model="$ctrl.newCampaign.type" value="inbound" ng-change="$ctrl.checkRadio()"> InBound
+                        </label>
+                    </div>
+                </div>      
+                <div class="col-xs-3">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" ng-model="$ctrl.newCampaign.type" value="autodial" ng-change="$ctrl.checkRadio()"> Autodial
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" ng-if="$ctrl.newCampaign.type!=='outbound'"  ng-class="{ 'has-error': formCampaign.campaignIVR.$invalid && formCampaign.$submitted }">
+                <label for="inputMessage" class="control-label col-xs-2">IVR Script (*)</label>
+                <div class="col-xs-10">
+                    <h4 ng-hide="$ctrl.loadingIVR===false" class="text-center"><span class="label label-success">Loading IVRScripts...</span></h4>
+                    <select  ng-show="$ctrl.loadingIVR===false" name="campaignIVR"  class="form-control"  ng-options="o.name for o in $ctrl.ivrScripts track by o.name"
+                        ng-model="$ctrl.newCampaign.ivrscript" required></select>
+                    <div ng-messages="formCampaign.campaignIVR.$error" ng-show="formCampaign.$submitted">
+                        <p ng-message="required">This field is required</p>
+                    </div>                
+
+                </div>
+            </div>
+            <div class="form-group"  ng-if="$ctrl.newCampaign.type==='inbound'"  ng-class="{ 'has-error': (!$ctrl.dnisToSend.length && formCampaign.$submitted) }">
+               <label for="inputMessage" class="control-label col-xs-2">Listen for Incomming Calls On (DNIS)</label>
+                <h4 ng-show="$ctrl.loadedOnceDNIS===false" class="text-center"><span class="label label-success">Loading DNIS...</span></h4>
+                <div ng-show="$ctrl.loadedOnceDNIS===true">
+                    <div ng-messages="{hasDNIS:!$ctrl.dnisToSend.length}" ng-show="formCampaign.$submitted">
+                        <p  class="col col-xs-10" ng-message="hasDNIS">At least one DNI is required</p>
+                    </div>
+                    <div class="col col-xs-5">     
+                        <div class="well well-sm">  
+                            <h4>DNIS Numbers Available</h4>
+                            <div class="list-group with-scroll">
+                                <a href="#"  class="list-group-item" ng-repeat="dni in $ctrl.dnis" ng-click="$ctrl.addDni(dni)">
+                                    {{dni}} <span class="pull-right glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                </a>                                               
+                            </div>                       
+                        </div>                      
+                    </div> 
+                    <div class="col col-xs-5" >
+                        <div class="well well-sm">
+                            <h4>DNIS Numbers Added</h4>                    
+                            <div class="list-group with-scroll">
+                                <a href="#"  class="list-group-item" ng-repeat="dnitosend in $ctrl.dnisToSend"  ng-click="$ctrl.removeDni(dnitosend)">
+                                    {{dnitosend}} <span class="pull-right glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                </a>                                               
+                            </div>
+                        </div>    
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"  ng-if="$ctrl.newCampaign.type!=='inbound'"  ng-class="{ 'has-error': (!$ctrl.listToSend.length && formCampaign.$submitted) }">
+               <label for="inputMessage" class="control-label col-xs-2">List(s) to be Dialed</label>
+                <h4 ng-show="$ctrl.loadedOnceLISTS===false" class="text-center"><span class="label label-success">Loading Lists...</span></h4>               
+                <div ng-show="$ctrl.loadedOnceLISTS===true">
+                    <div ng-messages="{hasList:!$ctrl.listToSend.length}" ng-show="formCampaign.$submitted">
+                        <p  class="col col-xs-10" ng-message="hasList">At least one List is required</p>
+                    </div>
+                    <div class="col col-xs-5">     
+                        <div class="well well-sm">  
+                            <h4>Lists Available</h4>
+                            <div class="list-group with-scroll">
+                                <a href="#"  class="list-group-item" ng-repeat="listItem in $ctrl.lists" ng-click="$ctrl.addList(listItem)">
+                                    {{listItem.name}} ({{listItem.size}} Record(s)) <span class="pull-right glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                </a>                                               
+                            </div>                       
+                        </div>                      
+                    </div> 
+                    <div class="col col-xs-5" >
+                        <div class="well well-sm">
+                            <h4>Lists Added</h4>                    
+                            <div class="list-group with-scroll">
+                                <a href="#"  class="list-group-item" ng-repeat="lisItemtSend in $ctrl.listToSend"  ng-click="$ctrl.removeList(lisItemtSend)">
+                                     {{lisItemtSend.name}} ({{lisItemtSend.size}} Record(s))  <span class="pull-right glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                </a>                                               
+                            </div>
+                        </div>    
+                    </div>
+
+                </div>
+            </div>          
+            <div class="form-group">
+                <div class="col-xs-offset-2 col-xs-10">
+                    <button type="submit" class="btn btn-success" ng-disabled="$ctrl.SubmitText=='Saving...'">{{$ctrl.SubmitText}}</button>
+                    <button type="button" class="btn btn-warning" ui-sref="campaigns.list">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

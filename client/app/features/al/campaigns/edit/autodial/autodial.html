@@ -1,0 +1,68 @@
+<div class="well well-sm">
+    <a ui-sref="campaigns.list">
+        &lt&lt Back to List
+    </a>
+</div>
+
+<div class="alert alert-{{$ctrl.message.type}}" role="alert" ng-show="$ctrl.message.show">
+    <p ng-bind-html="$ctrl.message.text"></p>
+</div>
+ <h4 ng-hide="$ctrl.found" class="text-center"><span class="label label-success">Loading Campaign...</span></h4>
+<div class="panel panel-default" ng-show="$ctrl.found">
+    <div class="panel-heading">
+        <strong>Editing Campaign "{{::$ctrl.campaign.name}}" </strong>
+    </div>
+    <div class="panel-body">
+        <form name="formCampaign" novalidate class="form-horizontal" ng-submit="formCampaign.$valid && $ctrl.update()">
+
+            <div class="form-group">
+                <label class="control-label col-xs-2">Name</label>
+                <div class="col-xs-10">
+                      <input type="text" class="form-control" ng-model="$ctrl.campaign.name" name="campaignName" readonly >
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-2">Description</label>
+                <div class="col-xs-10">
+                    <textarea  class="form-control" ng-model="$ctrl.campaign.description"></textarea>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{ 'has-error': (formCampaign.numberLines.$invalid||formCampaign.campaignIVR.$invalid) && formCampaign.$submitted }">
+                <label  class="control-label col-xs-2">Max Number of Lines</label>
+                <div class="col-xs-2">
+                    <input  type="number"class="form-control" name="numberLines" min="0" ng-model="$ctrl.campaign.maxNumOfLines" required>
+                    <div ng-messages="formCampaign.numberLines.$error" ng-show="formCampaign.$submitted">                  
+                        <p ng-message="required">Max Number is required</p>
+                        <p ng-message="min">Value mus be greater than 0</p>
+                    </div>           
+                </div>
+                <label for="inputMessage" class="control-label col-xs-2">IVR Script</label>
+                <div class="col-xs-6">
+                    <h4 ng-hide="$ctrl.ivrScripts.length>0" class="text-center"><span class="label label-success">Loading IVRScripts...</span></h4>
+                    <select ng-show="$ctrl.ivrScripts.length>0"  name="campaignIVR"  class="form-control"  ng-options="o.name for o in $ctrl.ivrScripts track by o.name"
+      ng-model="$ctrl.campaign.ivrscript" required></select>
+                    <div ng-messages="formCampaign.campaignIVR.$error" ng-show="formCampaign.$submitted">
+                        <p ng-message="required">This field is required</p>
+                    </div>                 
+                </div>
+            </div> 
+            <div class="form-group">              
+                <label class="checkbox col-xs-offset-2">
+                    <input type="checkbox" id="inlineCheckbox2" ng-model="$ctrl.campaign.autoRecord">Auto Record Call for Agents
+                </label>
+                <label class="checkbox col-xs-offset-2">
+                    <input type="checkbox" id="inlineCheckbox3" ng-model="$ctrl.campaign.noOutOfNumbersAlert"">Show 'Out of Numbers' Alert
+                </label>
+                   <label class="checkbox col-xs-offset-2">
+                    <input type="checkbox" id="inlineCheckbox3" ng-model="$ctrl.campaign.dnisAsAni"">Use Contact's Phone Number as Caller ID (DNIS as ANI) for 3rd Party Transfers
+                </label>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-offset-2 col-xs-10">
+                    <button type="submit" class="btn btn-success" ng-disabled="$ctrl.SubmitText=='Saving...'">{{$ctrl.SubmitText}}</button>
+                    <button type="button" class="btn btn-warning" ui-sref="campaigns.list">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

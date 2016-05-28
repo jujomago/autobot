@@ -1,0 +1,83 @@
+<div class="alert alert-{{$ctrl.message.type}}" role="alert" ng-show="$ctrl.message.show">
+    <p ng-bind-html="$ctrl.message.text"></p>
+</div>
+
+<h4 ng-show="$ctrl.skills.length==0 && !$ctrl.message.show" class="text-center "><span class="label label-success ">Loading ...</span></h4>
+
+<div ng-show="$ctrl.skills.length>0" >
+  <div class="well well-sm ">
+   <form class="form-inline ">
+        <div class="form-group ">
+          <button ui-sref="skills.create " class="btn btn-warning ">Create New Skill</button>
+        </div>
+        <div class="form-group ">
+            <label >Search</label>
+            <input type="text " ng-model="search " class="form-control " placeholder="Search ">
+        </div>
+    </form>
+  </div> 
+<div class="panel panel-primary ">
+    <div class="panel-heading ">
+        <strong>Skills List</strong>
+    </div>
+    <table class="table table-striped table-bordered table-hover ">
+    <thead>
+        <th>ID TABLE</th>
+        <th ng-click="$ctrl.sortColumn( 'id') ">Id
+            <span class="glyphicon " ng-show="$ctrl.sortKey=='id' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
+'glyphicon-chevron-down':!$ctrl.reverse} "></span>
+        </th>
+        <th ng-click="$ctrl.sortColumn( 'name') ">Name
+            <span class="glyphicon " ng-show="$ctrl.sortKey=='name' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
+'glyphicon-chevron-down':!$ctrl.reverse} "></span>
+        </th>
+        <th ng-click="$ctrl.sortColumn( 'description') ">Description
+            <span class="glyphicon " ng-show="$ctrl.sortKey=='description' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
+'glyphicon-chevron-down':!$ctrl.reverse} "></span>
+        </th>
+        <th ng-click="$ctrl.sortColumn( 'messageOfTheDay') ">Message of the Day
+            <span class="glyphicon " ng-show="$ctrl.sortKey=='messageOfTheDay' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
+'glyphicon-chevron-down':!$ctrl.reverse} "></span>
+        </th>
+        <th ng-click="$ctrl.sortColumn( 'routeVoiceMails') ">Route Voice Mails
+            <span class="glyphicon " ng-show="$ctrl.sortKey=='routeVoiceMails' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
+'glyphicon-chevron-down':!$ctrl.reverse} "></span>
+        </th>
+        <th>
+            ACTIONS
+        </th>
+    </thead>
+    <tbody>
+        <!--tr ng-repeat="item in $ctrl.filteredSkills|filter:search "-->
+        <tr ng-repeat="item in $ctrl.skills | filter:search | limitTo:$ctrl.numPerPage:$ctrl.beginNext | orderBy:$ctrl.sortKey:$ctrl.reverse "
+        ng-dblclick="$ctrl.getDetail(item) " ng-class="{ 'danger' : $ctrl.toggleSkillRow==$index} ">
+            <td>{{$ctrl.beginNext+$index+1}}</td>
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.description}}</td>
+            <td>{{item.messageOfTheDay}}</td>
+            <td>{{item.routeVoiceMails}}</td>
+            <td>
+                <button class="btn btn-danger " ng-click="$ctrl.deleteSkill(item,$index) " ng-disabled="$ctrl.toggleSkillRow==$index ">
+                    {{($ctrl.toggleSkillRow == $index)?'Deleting ..':'Delete'}}
+                </button>
+                <button class="btn btn-info " ng-click="$ctrl.getDetail(item) ">
+                    Edit
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<label>Displaying {{$ctrl.beginNext+1}}-{{$ctrl.currentPage*$ctrl.numPerPage}} of {{$ctrl.totalItems}}</label>
+
+<uib-pagination total-items="$ctrl.totalItems " ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
+" boundary-links="true "
+ng-change="$ctrl.pageChanged() ">
+</uib-pagination>
+
+Show
+<select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities ">
+</select> results per page
+</div>
