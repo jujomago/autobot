@@ -1,37 +1,38 @@
-<div class="alert alert-{{$ctrl.message.type}}" role="alert" ng-show="$ctrl.message.show">
-    <p ng-bind-html="$ctrl.message.text"></p>
-</div>
-
+<abx-message msg="$ctrl.message"></abx-message> 
 <h4 ng-show="$ctrl.campaigns.length==0 && !$ctrl.message.show" class="text-center "><span class="label label-success ">Loading ...</span></h4>
 
-<div ng-show="$ctrl.campaigns.length>0" >
-  <div class="well well-sm">
-   <form class="form-inline">
-        <div class="form-group col-xs-3">
-          <button ui-sref="campaigns.create " class="btn btn-warning ">Create New Campaign</button>
-         </div>
-         <div class="form-group col-xs-3">
-            <label>Type</label>
-            <select name="typeCampaignFilter" class="form-control" ng-model="$ctrl.typeCampaignFilter">
-                    <option value="">All</option>
-                    <option value="INBOUND">InBound</option>
-                    <option value="OUTBOUND">OutBound</option>
-                    <option value="AUTODIAL">Autodial</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label >Search</label>
-            <input type="text " ng-model="search " class="form-control " placeholder="Search ">
-        </div>
-    </form>
-  </div> 
-<div class="panel panel-primary ">
-    <div class="panel-heading ">
-        <strong>campaigns List</strong>
+<div ng-show="$ctrl.campaigns.length>0" > 
+  
+<div class="mywell">
+
+    <div class="filter_select">
+        <label>Filter by Type</label>
+        <select name="typeCampaignFilter" class="form-control" ng-model="$ctrl.typeCampaignFilter">
+                <option value="">All</option>
+                <option value="INBOUND">InBound</option>
+                <option value="OUTBOUND">OutBound</option>
+                <option value="AUTODIAL">Autodial</option>
+        </select>
     </div>
-    <table class="table table-striped table-bordered table-hover ">
+   
+    
+    <div class="searchbox_container">          
+       <input type="search" ng-model="search.name" class="searchbox" placeholder="Search Name">
+       <span class="glyphicon glyphicon-search"></span>
+    </div>
+
+
+
+    <button ui-sref="campaigns.create " class="btn btn-black pull-right">New</button>
+
+</div>  
+  
+  
+
+<table class="table table-striped"> 
+
     <thead>
-        <th>ID TABLE</th>
+        
         <th ng-click="$ctrl.sortColumn('name') ">Name
             <span class="glyphicon " ng-show="$ctrl.sortKey=='name' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
 'glyphicon-chevron-down':!$ctrl.reverse} "></span>
@@ -63,42 +64,48 @@
     <tbody>
         <!--tr ng-repeat="item in $ctrl.filteredcampaigns|filter:search "-->
         <tr ng-repeat="item in $ctrl.campaigns | filter:search| filter:{ type: $ctrl.typeCampaignFilter }  | limitTo:$ctrl.numPerPage:$ctrl.beginNext | orderBy:$ctrl.sortKey:$ctrl.reverse "
-       ng-class="{ 'danger' : $ctrl.toggleCampaignRow==$index}" ng-dblclick="$ctrl.getDetail(item)">
-            <td>{{$ctrl.beginNext+$index+1}}</td>     
-            <td>{{item.name}}</td>
-          
+       ng-class="{'danger' : $ctrl.toggleCampaignRow==$index, 'warning': $ctrl.toggleStatusRow==$index}">            
+            <td>
+               <a href ng-click="$ctrl.getDetail(item)">
+                {{item.name}}
+               </a>
+            </td>
             <td>{{item.type}}</td>
             <td>{{item.mode}}</td>
             <td>{{item.profileName}}</td>
             <td>{{item.state}}</td>
             <td>{{item.trainingMode}}</td>
             <td>
-                <button class="btn btn-danger" ng-click="$ctrl.deleteCampaign(item,$index)" ng-disabled="$ctrl.toggleCampaignRow==$index">
+                  <a href class="circle_delete" ng-click="$ctrl.deleteCampaign(item,$index)"  
+                ng-hide="$ctrl.toggleCampaignRow==$index"></a>
+                
+                <!--button class="btn btn-danger" ng-click="$ctrl.deleteCampaign(item,$index)" ng-disabled="$ctrl.toggleCampaignRow==$index">
                     {{($ctrl.toggleCampaignRow == $index)?'Deleting ..':'Delete'}}
                 </button>
                 <button class="btn btn-info" ng-click="$ctrl.getDetail(item)">
                     Edit
-                </button>                 
-                <button class="btn btn-success"  ng-show="item.state==='NOT_RUNNING'" ng-click="$ctrl.updateState(item)">
-                    Start
-                </button>
-                <button class="btn btn-warning" ng-show="item.state==='RUNNING'" ng-click="$ctrl.updateState(item)">
-                    Stop
-                </button>       
+                </button-->                
+
+                <button class="btn" ng-class="{'btn-success':item.state==='NOT_RUNNING','btn-warning':item.state==='RUNNING'}" 
+                 ng-click="$ctrl.updateState(item,$index)" ng-init="item.statusBtnText=(item.state==='RUNNING')?'Stop':'Start'" ng-disabled="(item.statusBtnText==='Starting...' || item.statusBtnText=='Stopping...')">
+                    {{ item.statusBtnText }}
+                </button>               
+
             </td>
         </tr>
     </tbody>
 </table>
+
+<div class="mywell footer_table text-center">
+    <label class="pull-left">Showing {{$ctrl.beginNext+1}}-{{$ctrl.currentPage*$ctrl.numPerPage}} of {{$ctrl.totalItems}}</label>    
+    <uib-pagination total-items="$ctrl.totalItems " ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
+    " boundary-links="true "
+    ng-change="$ctrl.pageChanged()" >
+    </uib-pagination>
+    <div class="pull-right">Show
+        <select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities ">
+        </select> results per page
+    </div>  
 </div>
 
-<label>Displaying {{$ctrl.beginNext+1}}-{{$ctrl.currentPage*$ctrl.numPerPage}} of {{$ctrl.totalItems}}</label>
-
-<uib-pagination total-items="$ctrl.totalItems " ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
-" boundary-links="true "
-ng-change="$ctrl.pageChanged() ">
-</uib-pagination>
-
-Show
-<select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities ">
-</select> results per page
 </div>

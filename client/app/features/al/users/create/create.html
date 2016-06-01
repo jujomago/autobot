@@ -10,10 +10,7 @@
       You must complete all users fields
  </div>
  
-<div class="alert alert-{{$ctrl.message.type}}" role="alert" ng-show="$ctrl.message.show">
-    <p ng-bind-html="$ctrl.message.text"></p>
-</div>
- 
+<abx-message msg="$ctrl.message"></abx-message> 
  
 
 <form name="userForm" class="form-horizontal" novalidate autocomplete="off"  ng-submit="userForm.$valid && $ctrl.save()">

@@ -1,27 +1,32 @@
 'use strict';
 (function(){
   
-  let  _CampaignService,_state,_stateParams;
+  let  _CampaignService,_timeout,_state,_stateParams;
 
 class InboundComponent {
-  constructor($state,$stateParams,CampaignService) {
+  constructor($state,$timeout,$stateParams,CampaignService) {
     _CampaignService=CampaignService;
     _stateParams=$stateParams;
     _state=$state;
+    _timeout=$timeout;
     this.message = { show: false };
     this.campaign = {};
     this.SubmitText='Save';
     this.found=false;
     this.ivrScripts=[];
+    this.dnisAssigned=[];
+    this.dnisAvailable=[];
   }
   $onInit(){
     if(_stateParams.campaign!==null){
       let campaignType=_stateParams.campaign.type.toLowerCase();
       let campaignName=_stateParams.campaign.name;
       this.getCampaign(campaignType,campaignName);
+      this.getAttachedDnis(campaignName);
     }
     this.getIVRScripts();
   }
+
   getIVRScripts() {
     return _CampaignService.getIVRScripts()
         .then(response => {
@@ -35,21 +40,55 @@ class InboundComponent {
                     this.campaign.ivrscript=el;
                     break;
                   }
-                }             
-           
-            } else {
-                console.warn('there is an error');
-                this.message = { show: true, type: 'danger', text: response.error.body };                     
-            }
+                }   
+            } 
             return response;                   
-        }).catch(err => {
-            console.log('error in client');
-            console.error(err);
-            this.message = { show: true, type: 'warning', text: err };
-            return null;
+        })
+        .catch(e =>{    
+           let theMsg= (e.error)? e.error.body:e; 
+           this.message={ show: true, type: 'danger', text: theMsg };
+           return e;
         });
   }  
   
+  getAttachedDnis(campaignName){           
+        return _CampaignService.getAttachedDnis(campaignName)
+          .then(response => {
+              console.log('response ATTACHED DNIS in client');
+              console.log(response);       
+              if (response.statusCode === 200) {
+                   if(response.data){
+                      this.dnisAssigned=response.data;  
+                   }                                              
+                //   this.listsAssigned=response.data.map(e=>e.listName);
+                 //  console.log(this.listsAssigned);
+                   this.getDnis();                 
+              }
+              return response;                   
+          })
+         .catch(e =>{    
+            let theMsg= (e.error)? e.error.body:e; 
+            this.message={ show: true, type: 'danger', text: theMsg };
+            return e;
+          });     
+   }
+   getDnis(){
+         return _CampaignService.getDNIS()
+          .then(response => {
+              console.log('response  DNIS in client');
+                console.log(response);       
+              if (response.statusCode === 200) {
+                   this.dnisAvailable=response.data;  
+              }
+              return response;                   
+          })
+         .catch(e =>{    
+            let theMsg= (e.error)? e.error.body:e; 
+            this.message={ show: true, type: 'danger', text: theMsg };
+            return e;
+          });        
+   } 
+    
   getCampaign(type,name){    
     return _CampaignService.getCampaign(type,name)
     .then(response=>{
@@ -60,26 +99,70 @@ class InboundComponent {
            name:response.data.name,
            description:response.data.description,          
            autoRecord:response.data.autoRecord,        
-           maxNumOfLines:response.data.maxNumOfLines
-           
+           maxNumOfLines:response.data.maxNumOfLines           
          };
          if(response.data.defaultIvrSchedule){
-           this.campaign.ivrscript=response.data.defaultIvrSchedule.scriptName;
-         }        
-         
-         this.found=true;
-         return response;
-      }else{
-         this.message = { show: true, type: 'danger', text: response.error.body };
-         return null;
+             this.campaign.ivrscript=response.data.defaultIvrSchedule.scriptName;
+         }       
+         this.found=true;        
       }
+       return response;
     })
-    .catch(error=>{
-       console.log('error in client');
-       console.log(error);
-       this.message = { show: true, type: 'danger', text: error };
+    .catch(e =>{    
+        let theMsg= (e.error)? e.error.body:e; 
+        this.message={ show: true, type: 'danger', text: theMsg };
+        return e;
+    });
+ }
+  
+  removeDni(dniItemAssigned){
+     let requiredFormat={
+       campaignName:this.campaign.name,
+       DNISList:[dniItemAssigned]
+     };
+      let indexElem = this.dnisAssigned.indexOf(dniItemAssigned);
+     
+     return _CampaignService.removeDnis(requiredFormat)
+     .then(response=>{
+        if (response.statusCode === 200){            
+            this.dnisAssigned.splice(indexElem, 1);
+            this.dnisAvailable.unshift(dniItemAssigned);
+            this.message={ show: true, type: 'success', text: 'Dni Removed Correctly', expires:1500 };
+        }
+        return response;
+     })
+    .catch(e =>{    
+        let theMsg= (e.error)? e.error.body:e; 
+        this.message={ show: true, type: 'danger', text: theMsg };
+        return e;
     });
   }
+  
+  addDnis(dnisItem){
+     let requiredFormat={
+       campaignName:this.campaign.name,
+       DNISList:[dnisItem]
+     };
+     
+     let indexElem = this.dnisAvailable.indexOf(dnisItem);
+     
+     return _CampaignService.addDNIS(requiredFormat)
+     .then(response=>{
+        if (response.statusCode === 200){            
+            this.dnisAvailable.splice(indexElem, 1);
+            this.dnisAssigned.unshift(dnisItem);
+            this.message={ show: true, type: 'success', text: 'Dni Added Correctly', expires:1500 };
+           
+        }
+        return response;
+     })
+    .catch(e =>{    
+        let theMsg= (e.error)? e.error.body:e; 
+        this.message={ show: true, type: 'danger', text: theMsg };
+        return e;
+    });
+  } 
+   
   
   update(){  
     this.SubmitText='Saving...';
@@ -92,30 +175,26 @@ class InboundComponent {
       if(response.statusCode===200 && response.error===null){
          let messageObj={show:true,type:'success',text:'Campaign "'+this.campaign.name+'" Updated'};
          _state.go('campaigns.list', { message: messageObj });
-      }else{
-         this.message = { show: true, type: 'danger', text: response.error.body };
-         this.SubmitText='Save';       
       }
-       return response;
+      return response;
     })
-    .catch(error=>{
-         console.log('error in client');
-         this.SubmitText='Save';
-         console.log(error);
-         this.message = { show: true, type: 'danger', text: error };
-    });    
-  }
-  
+    .catch(e =>{    
+       this.SubmitText='Save';
+        let theMsg= (e.error)? e.error.body:e; 
+        this.message={ show: true, type: 'danger', text: theMsg , expires:3000};
+        return e;
+    });
+ }  
 }
 
 
-InboundComponent.$inject=['$state','$stateParams','CampaignService'];
+InboundComponent.$inject=['$state','$timeout','$stateParams','CampaignService'];
 
 
 angular.module('fakiyaMainApp')
   .component('al.campaigns.edit.inbound', {
     templateUrl: 'app/features/al/campaigns/edit/inbound/inbound.html',
     controller: InboundComponent
-  });
+  }); 
 
 })();

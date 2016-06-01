@@ -43,7 +43,7 @@
         }
 
         getSkills() {
-            return this.SkillsService.getSkills()
+            return this.SkillsService.getSkillsInfo()
                 .then(_skills => {
                     // console.log('error comes in _skills');
                     //console.log(_skills);
@@ -80,15 +80,14 @@
         }
 
         deleteSkill(skill, indexRow) {
+            console.log(skill);
             return _ConfirmAsync('Are you sure to delete?')
                 .then(() => {
 
                     this.toggleSkillRow = indexRow;
                     return this.SkillsService.deleteSkill(skill)
                         .then(response => {
-                            console.log('response');
-                            console.log(response);
-
+                   
                             if (response.statusCode === 204 && response.data === null) {
                                 let index = this.skills.indexOf(skill);
 
@@ -100,10 +99,15 @@
                                 this.timeout(() => {
                                     this.message.show = false;
                                 }, 3000);
+                            }else{
+
+                                  this.toggleSkillRow = -1;
+
+                                   this.message = { show: true, type: 'danger', text: response.errorMessage, expires:8000};
                             }
                             return response;
                         }).catch(err => {
-                            console.error(err);
+                              console.error(err);
                         });
                 })
                 .catch(() => {

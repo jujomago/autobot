@@ -79,7 +79,7 @@ describe('Component: al.skills.list', function () {
   describe('#getSkills', () => {
 
     it('Skill List Returned', () => {
-      httpBackend.whenGET(endPointUrl).respond(mockSkillData);
+      httpBackend.whenGET(endPointUrl+'/skillsInfo').respond(mockSkillData);
       
       expect(ListComponent.message.show).to.equal(false);
       expect(ListComponent.skills).to.have.lengthOf(0);

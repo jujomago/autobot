@@ -3,20 +3,20 @@
 class NavbarController {
   //start-non-standard
   menu = [{
-    'title': 'Home',
-    'state': 'main'
+    'title': 'Dashboard',
+    'state': 'main',
+     'link':'#'
   },
   {
-    'title': 'Skills',
-    'state': 'skills.list'
+    'title': 'My Apps',
+    'state': 'skills.list',
+     'link':'#'
   },
     {
-    'title': 'Users',
-    'state': 'users.list'
-  },
-  {
-    'title': 'Campaigns',
-    'state': 'campaigns.list'
+    'title': 'Reports',
+    'state': 'users.list',
+     'link':'#'
+    
   }
   ];
 

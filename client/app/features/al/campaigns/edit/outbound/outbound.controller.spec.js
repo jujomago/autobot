@@ -80,6 +80,7 @@ describe('Component: al.campaigns.edit.outbound', function () {
                  expect(response.statusCode).to.equal(500);
                  expect(response.data).to.equal(null);
                  expect(response.error).to.not.equal(null);
+                 expect(OutboundComponent.message).to.eql({ show: true, type: 'danger', text: response.error.body });
              });
 
              httpBackend.flush();
@@ -123,5 +124,112 @@ describe('Component: al.campaigns.edit.outbound', function () {
         });        
       
     });  
+    
+    describe('#getAttachedLists', () => {
+         it('=> should return list of attached', () => {            
+             httpBackend.whenGET(endPointUrl+'/attached/lists/test7outAutoxob').respond(200,{
+                                return: [
+                                    {
+                                    'campaignName': 'test7outAutoxob',
+                                    'dialingPriority': 1,
+                                    'listName': 'SMS_Queue',
+                                    'priority': 1
+                                    },
+                                    {
+                                    'campaignName': 'test7outAutoxob',
+                                    'dialingPriority': 1,
+                                    'listName': 'SRT List',
+                                    'priority': 2
+                                    }
+                                ]
+                        });
+             httpBackend.expectGET(endPointUrl+'/lists').respond(200, {
+                     return: [
+                        {'name': 'Five9Outbound', 'size': 14 },
+                        {'name': 'ListSync','size': 3 }
+                     ]
+             });               
+                          
+
+             OutboundComponent.getAttachedLists('test7outAutoxob')
+            .then(response => {
+                 expect(response.statusCode).to.equal(200);
+                 expect(response.data).to.not.equal(null); 
+                 expect(response.error).to.equal(null);
+                 expect(OutboundComponent.listsAssigned).to.have.lengthOf(2);  
+                 
+             });
+
+             httpBackend.flush();
+        });   
+    });
+    describe('#getLists', () => {
+        it('=> should return array of lists', () => {            
+             httpBackend.whenGET(endPointUrl+'/lists').respond(200,{
+                  return: [
+                        {'name': 'Five9Outbound', 'size': 14 },
+                        {'name': 'ListSync','size': 3 },
+                        {'name': 'SRT List','size': 10 },
+                        {'name': 'AgentList','size': 6}
+                     ]
+             });             
+
+             OutboundComponent.getLists()
+            .then(response => {
+                 expect(response.statusCode).to.equal(200);
+                 expect(response.data).to.not.equal(null); 
+                 expect(response.error).to.equal(null);
+                 expect(OutboundComponent.listsAvailable).to.have.lengthOf(4);  
+                 
+             });
+
+             httpBackend.flush();
+        }); 
+        
+        
+    });
+    describe('#removeList', () => {
+        it('=> should return status 200, removed list OK', () => {  
+           
+            OutboundComponent.campaign={
+                name:'SomeCampaignName'
+            };
+            let listItem={name:'AgentList',size:2};
+            
+            httpBackend.whenPOST(endPointUrl+'/remove/lists').respond(200,'');             
+          
+             OutboundComponent.removeList(listItem)
+            .then(response => {
+                 expect(response.statusCode).to.equal(200);
+                 expect(response.data).to.equal(null); 
+                 expect(response.error).to.equal(null);        
+                 expect(OutboundComponent.message).to.eql({ show: true, type: 'success', text: 'List Removed Correctly', expires:1500});                    
+                 
+             });
+
+             httpBackend.flush();
+        });
+    });
+    describe('#addList', () => {
+       it('=> should return status 200, added list OK', () => {  
+           
+            OutboundComponent.campaign={
+                name:'SomeCampaignName'
+            };
+            let listItem={name:'AgentList'};
+            httpBackend.whenPOST(endPointUrl+'/add/lists').respond(200,'');             
+          
+             OutboundComponent.addList(listItem)
+            .then(response => {
+                 expect(response.statusCode).to.equal(200);
+                 expect(response.data).to.equal(null); 
+                 expect(response.error).to.equal(null);           
+                 
+             });
+
+             httpBackend.flush();
+        }); 
+    });
+    
 
 });

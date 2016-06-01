@@ -4,11 +4,15 @@
     </a>
 </div>
 
-<div class="alert alert-{{$ctrl.message.type}}" role="alert" ng-show="$ctrl.message.show">
-    <p ng-bind-html="$ctrl.message.text"></p>
-</div>
+<abx-message msg="$ctrl.message"></abx-message> 
+
  <h4 ng-hide="$ctrl.found" class="text-center"><span class="label label-success">Loading Campaign...</span></h4>
-<div class="panel panel-default" ng-show="$ctrl.found">
+ 
+ 
+ <uib-tabset active="active1" justified="false" ng-hide="!$ctrl.found">
+    <uib-tab index="0" heading="General">  
+ 
+<div class="panel panel-default">
     <div class="panel-heading">
         <strong>Editing Campaign "{{::$ctrl.campaign.name}}" </strong>
     </div>
@@ -36,7 +40,7 @@
                         <p ng-message="min">Value mus be greater than 0</p>
                     </div>           
                 </div>
-                <label for="inputMessage" class="control-label col-xs-2">IVR Script</label>
+                <label for="inputMessage" class="control-label col-xs-2">Defatult IVR Script</label>
                 <div class="col-xs-6">
                     <h4 ng-hide="$ctrl.ivrScripts.length>0" class="text-center"><span class="label label-success">Loading IVRScripts...</span></h4>
                     <select ng-show="$ctrl.ivrScripts.length>0"  name="campaignIVR"  class="form-control"  ng-options="o.name for o in $ctrl.ivrScripts track by o.name"
@@ -58,7 +62,7 @@
                 </label>
             </div>
             <div class="form-group">
-                <div class="col-xs-offset-2 col-xs-10">
+                <div class="col-xs-offset-2 col-xs-10 text-right">
                     <button type="submit" class="btn btn-success" ng-disabled="$ctrl.SubmitText=='Saving...'">{{$ctrl.SubmitText}}</button>
                     <button type="button" class="btn btn-warning" ui-sref="campaigns.list">Cancel</button>
                 </div>
@@ -66,3 +70,58 @@
         </form>
     </div>
 </div>
+    </uib-tab>
+    <uib-tab index="1" heading="Lists">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>Editing Campaign "{{::$ctrl.campaign.name}}" </strong>
+    </div>
+    <div class="panel-body">
+      <div class="row">
+            <div class="col col-xs-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <strong>Lists Assigned</strong>
+                    </div>
+                    <table  class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Action</th>
+                            </td>
+                        </thead>
+                        <tbody  ng-repeat="listItemAssigned in $ctrl.listsAssigned ">
+                            <tr>
+                                <td>{{listItemAssigned}}</td>
+                                <td><button class="btn btn-danger" ng-click="$ctrl.removeList(listItemAssigned)">Remove from Campaign</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col col-xs-6">
+                <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong>Lists Available</strong>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody ng-repeat="listItem in $ctrl.listsAvailable">
+                                <tr ng-show="listItem.size && $ctrl.listsAssigned.indexOf(listItem.name)<0">
+                                    <td>{{listItem.name}} ({{listItem.size}} Record(s))</td>
+                                    <td><button class="btn btn-primary" ng-click="$ctrl.addList(listItem)">Add to Campaign</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+        </div>     
+        </div>
+        </div>
+    </uib-tab>
+</uib-tabset>

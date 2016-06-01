@@ -720,8 +720,8 @@ module.exports = function (grunt) {
       return grunt.task.run([
         'env:all',
         'env:test',
+        'mochaTest:integration',
         'mochaTest:unit',
-        'mochaTest:integration'
       ]);
     }
 
@@ -799,6 +799,22 @@ module.exports = function (grunt) {
         ]);
       }
 
+    }
+    
+    else if (target === 'unit'){
+      return grunt.task.run([
+        'env:all',
+        'env:test',
+        'mochaTest:unit'
+      ]);
+    }
+    
+    else if (target === 'integration'){
+      return grunt.task.run([
+        'env:all',
+        'env:test',
+        'mochaTest:integration'
+      ]);
     }
 
     else grunt.task.run([

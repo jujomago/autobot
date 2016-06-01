@@ -109,6 +109,61 @@ describe('Component: al.campaigns.edit.inbound', function () {
 
   });
 
+  describe('#getAttachedDnis', () => {
+         it('=> should return attached dnis numbers', () => {            
+             httpBackend.whenGET(endPointUrl+'/attached/dnis/TestInboundCampaignAutobox').respond(200,{
+                                return: [
+                                  '9253574077',
+                                  '9252935004',
+                                  '9252935010'
+                                ]
+                        });
+             httpBackend.expectGET(endPointUrl+'/dnis').respond(200, {
+                   return: [
+                      '9253574016', '9253574078', '9252935008', '9252935009',  '9253574236',
+                      '9255298354','9255298355', '9255298356', '9255298361', '9255298362',
+                      '9255298363', '9255298364', '9255298365', '9255298367', '9255298368'
+                  ]
+             });                                         
+
+             InboundComponent.getAttachedDnis('TestInboundCampaignAutobox')
+            .then(response => {
+                 expect(response.statusCode).to.equal(200);
+                 expect(response.data).to.not.equal(null); 
+                 expect(response.error).to.equal(null);
+                 expect(InboundComponent.dnisAssigned).to.have.lengthOf(3);  
+                 
+             });
+
+             httpBackend.flush();
+        });   
+  });
+  
+    describe('#getDnis', () => {
+         it('=> should return array of dnis numbers', () => {            
+             httpBackend.whenGET(endPointUrl+'/dnis').respond(200,{
+                                return: [
+                                 '9253574016', '9253574078', '9252935008', '9252935009',  '9253574236',
+                                '9255298354','9255298355', '9255298356', '9255298361', '9255298362'                         
+                                ]
+                        });                                      
+
+            InboundComponent.getDnis()
+            .then(response => {
+                 expect(response.statusCode).to.equal(200);
+                 expect(response.data).to.not.equal(null); 
+                 expect(response.error).to.equal(null);
+                 expect(InboundComponent.dnisAvailable).to.have.lengthOf(10);  
+                 
+             });
+
+             httpBackend.flush();
+        });   
+  });
+  
+
+
+
   describe('#update', () => {
 
         it('=> update status 200', () => {
@@ -161,7 +216,7 @@ describe('Component: al.campaigns.edit.inbound', function () {
                  expect(response.statusCode).to.equal(500);
                  expect(response.data).to.equal(null);
                  expect(response.error).to.not.equal(null);
-                 expect(InboundComponent.message).to.eql({ show: true, type: 'danger', text: response.error.body });
+                 expect(InboundComponent.message).to.eql({ show: true, type: 'danger', text: response.error.body, expires:3000 });
                  expect(InboundComponent.SubmitText).to.equal('Save');
              });
 
@@ -170,5 +225,59 @@ describe('Component: al.campaigns.edit.inbound', function () {
     });  
     
     
+    describe('#removeDni', () => {
+        it('=> should return status 200, removed dni OK', () => {  
+           
+            InboundComponent.campaign={
+                name:'SomeCampaignName'
+            };
+            InboundComponent.dnisAssigned=[55554444,55235555,222222];
+           
+            expect(InboundComponent.dnisAssigned).to.include(55554444);
+            expect(InboundComponent.dnisAvailable).to.not.include(55554444);
+            
+            httpBackend.whenPOST(endPointUrl+'/remove/dnis').respond(200,'');             
+          
+             InboundComponent.removeDni(55554444)
+            .then(response => {
+                 expect(response.statusCode).to.equal(200);
+                 expect(response.data).to.equal(null); 
+                 expect(response.error).to.equal(null);        
+                 expect(InboundComponent.dnisAssigned).to.not.include(55554444);
+                 expect(InboundComponent.dnisAvailable).to.include(55554444);           
+             });
+             httpBackend.flush();
+        });
+    });
+    
+    describe('#addDnis', () => {
+       it('=> should return status 200, added dni OK', () => {  
+           
+            InboundComponent.campaign={
+                name:'SomeCampaignName'
+            };
+           
+            InboundComponent.dnisAvailable=[55554444,43434343,222222];
+            
+           
+            expect(InboundComponent.dnisAvailable).to.include(43434343);
+            expect(InboundComponent.dnisAssigned).to.not.include(43434343);
+            
+
+            httpBackend.whenPOST(endPointUrl+'/add/dnis').respond(200,'');             
+          
+             InboundComponent.addDnis(43434343)
+            .then(response => {
+                 expect(response.statusCode).to.equal(200);
+                 expect(response.data).to.equal(null); 
+                 expect(response.error).to.equal(null);     
+                 expect(InboundComponent.dnisAvailable).to.not.include(43434343);
+                 expect(InboundComponent.dnisAssigned).to.include(43434343);      
+                 
+             });
+
+             httpBackend.flush();
+        }); 
+    });   
 
 });

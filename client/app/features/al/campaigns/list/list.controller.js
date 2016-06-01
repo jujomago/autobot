@@ -18,7 +18,8 @@
       this.beginNext = 0;
       this.quantities = [5, 10, 15, 20];
       this.toggleCampaignRow = -1;
-      this.message = { show: false };
+      this.toggleStatusRow=-1;
+      this.message = { show: false }; 
       this.typeCampaignFilter = '';   
       _state = $state;
       _stateParams = $stateParams;
@@ -30,37 +31,28 @@
       if (_stateParams.message !== null) {
         console.log('stateParams');
         console.log(_stateParams);
-        this.message = { show: true, type: _stateParams.message.type, text: _stateParams.message.text };
-        $timeout(() => {
-          this.message.show = false;
-        }, 3000);
+         this.message={ show: true, type: _stateParams.message.type, text: _stateParams.message.text, expires:3000};
       }
-
-
     }
     $onInit() {
       this.getCampaigns();
     }
+ 
     getCampaigns() {
       return _CampaignService.getCampaigns()
-        .then(response => {
-          console.log('response in cliente');
-          console.log(response);
+        .then(response => {         
           if (response.statusCode === 200) {
-            this.campaigns = response.data;
-            this.totalItems = this.campaigns.length;
-            return response;
-          } else { // error diferent status 
-            this.message = { show: true, type: 'danger', text: response.error.body };
-            return null;
-          }
-        }).catch(err => {
-          console.log('====ERROR IN CLIENT====');
-          console.log(err);
+              this.campaigns = response.data;
+              this.totalItems = this.campaigns.length;
+           } 
+           return response;
+        })
+       .catch(e =>{    
+         let theMsg= (e.error)? e.error.body:e; 
+         this.message={ show: true, type: 'warning', text: theMsg};
+          return e;
         });
     }
-
-
 
     pageChanged() {
       console.log('Page changed to: ' + this.currentPage);
@@ -80,7 +72,6 @@
     }
     
     deleteCampaign(campaign, indexRow) {
-
       return _ConfirmAsync('Are you sure to delete "' + campaign.name + '"?')
         .then(() => {
           this.toggleCampaignRow = indexRow;
@@ -94,62 +85,73 @@
             let index = this.campaigns.indexOf(campaign);
 
             this.campaigns.splice(index, 1);
-
             this.toggleCampaignRow = -1;
-            this.message = { show: true, type: 'success', text: 'Campaign "' + campaign.name + '" Deleted' };
-
-            _timeout(() => {
-              this.message.show = false;
-            }, 3000);
+            this.message={ show: true, 
+                           type: 'success', 
+                           text: 'Campaign "' + campaign.name + '" Deleted"', 
+                           expires:3000};
+           // this.showMessage('success','Campaign "' + campaign.name + '" Deleted',3000);    
             return true;
-          } else {
-            this.message = { show: true, type: 'danger', text: response.error.body };
-            return false;
-          }
-          //   return response;
+          } 
         })
-        .catch((err) => {
-          if (err) {
-            console.log('====ERROR IN CLIENT====');
-            console.log(err);
-          }
-          return false;
+        .catch(e =>{    
+         let theMsg= (e.error)? e.error.body:e; 
+         this.message={ show: true, type: 'warning', text: theMsg };
+         return e;
         });
     }
 
-    updateState(item){     
+    updateState(item, indexRow){
+           
+       this.toggleStatusRow = indexRow;   
         if(item.state==='RUNNING'){
+        
+          item.statusBtnText='Stopping...';
           return _CampaignService.stopCampaign(item.name)
           .then(response=>{
               if(response.statusCode===200){
-                item.state='NOT_RUNNING';            
-                return true;
-              }else {
-                this.message = { show: true, type: 'danger', text: response.error.body };
-                return false;
-              }
-          }).catch(err => {
-              console.log('====ERROR IN CLIENT====');
-              console.log(err);
+                item.state='NOT_RUNNING';  
+                item.statusBtnText='Start';  
+                this.toggleStatusRow = -1; 
+                 this.message={ show: true, 
+                           type: 'success', 
+                           text: 'Stopped Succesfully', 
+                           expires:2000};    
+               // this.showMessage('success','Stopped Succesfully',2000);              
+              }      
+              return response;
+          })
+         .catch(e =>{    
+            item.statusBtnText='Stop'; 
+            this.toggleStatusRow = -1;  
+            let theMsg= (e.error)? e.error.body:e; 
+            this.message={ show: true, type: 'warning', text: theMsg };
+            return e;
           });
-       }else{        
+           
+       }else{
+         
+          item.statusBtnText='Starting...';        
           return _CampaignService.startCampaign(item.name)
           .then(response=>{
               if(response.statusCode===200){
-                item.state='RUNNING';      
-                return true;
-              }else {
-                this.message = { show: true, type: 'danger', text: response.error.body };
-                return false;
+                item.state='RUNNING';
+                 item.statusBtnText='Stop';
+                this.toggleStatusRow = -1; 
+                this.message={ show: true, type: 'success', text: 'Started Succesfully', expires:2000 };
+          //      this.showMessage('success','Started Succesfully',2000);         
               }
-          }).catch(err => {
-              console.log('====ERROR IN CLIENT====');
-              console.log(err);
-          });
+            return response;
+          })
+          .catch(e =>{    
+            item.statusBtnText='Start'; 
+            this.toggleStatusRow = -1;  
+            let theMsg= (e.error)? e.error.body:e; 
+            this.message={ show: true, type: 'warning', text: theMsg };
+            return e;
+          });          
        }
-
     }   
-
 
     getDetail(item) {
       let typeEdit = item.type.toLowerCase();

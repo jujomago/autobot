@@ -20,6 +20,7 @@
       <link rel="stylesheet" href="app/app.css">
       <!-- injector:css -->
       <link rel="stylesheet" href="app/app.css">
+      <link rel="stylesheet" href="app/directives/abxMessage/abxMessage.css">
       <link rel="stylesheet" href="app/features/al/campaigns/campaigns.css">
       <link rel="stylesheet" href="app/features/al/campaigns/create/create.css">
       <link rel="stylesheet" href="app/features/al/campaigns/edit/autodial/autodial.css">
@@ -37,17 +38,26 @@
       <link rel="stylesheet" href="app/main/main.css">
       <link rel="stylesheet" href="components/footer/footer.css">
       <link rel="stylesheet" href="components/modal/modal.css">
+      <link rel="stylesheet" href="components/navbar/navbar.css">
+      <link rel="stylesheet" href="components/sidebar/sidebar.css">
       <!-- endinjector -->
     <!-- endbuild -->
   </head>
-  <body ng-app="fakiyaMainApp" class="container-fluid">
+  <body ng-app="fakiyaMainApp">
     <!--[if lt IE 7]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
     <!-- Add your site or application content here -->
     <navbar></navbar>
-    <div ui-view=""></div>
+
+    <div class="container-fluid main-container">
+      <div class="row">
+        <sidebar></sidebar>
+        <div ui-view class="col-sm-9 col-md-10 rightside"></div>
+       </div>     
+
+    </div>
     <footer></footer>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -84,6 +94,7 @@
       <!-- injector:js -->
       <script src="components/util/util.module.js"></script>
       <script src="app/features/al/skills/skills.js"></script>
+      <script src="app/factories/ConfirmAsync/ConfirmAsync.service.js"></script>
       <script src="app/features/al/campaigns/campaigns.controller.js"></script>
       <script src="app/features/al/campaigns/campaigns.js"></script>
       <script src="app/features/al/campaigns/create/create.controller.js"></script>
@@ -103,7 +114,7 @@
       <script src="app/features/al/skills/list/list.controller.js"></script>
       <script src="app/features/al/skills/list/list.js"></script>
       <script src="app/features/al/skills/skills.controller.js"></script>
-      <script src="app/factories/ConfirmAsync/ConfirmAsync.service.js"></script>
+      <script src="app/directives/abxMessage/abxMessage.directive.js"></script>
       <script src="app/features/al/users/create/create.controller.js"></script>
       <script src="app/features/al/users/create/create.js"></script>
       <script src="app/features/al/users/edit/edit.controller.js"></script>
@@ -122,6 +133,7 @@
       <script src="components/modal/modal.service.js"></script>
       <script src="components/navbar/navbar.controller.js"></script>
       <script src="components/navbar/navbar.directive.js"></script>
+      <script src="components/sidebar/sidebar.directive.js"></script>
       <script src="app/app.constant.js"></script>
       <script src="components/util/util.service.js"></script>
       <!-- endinjector -->

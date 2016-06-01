@@ -156,10 +156,6 @@ export function updateInBound(req, res) {
     .catch(handleError(res));
 }
 
-
-
-
-
 // Deletes a Campaign 
 export function destroy(req, res) {
     let params = { campaignName: req.params.campaignName };
@@ -167,8 +163,6 @@ export function destroy(req, res) {
         .then(respondWithResult(res, 204))
         .catch(handleError(res));
 }
-
-
 
 // get IVR Scripts
 export function ivrscripts(req, res) {
@@ -207,6 +201,7 @@ export function getDNISList(req, res) {
 export function addDNIS(req, res) {
      let params =  req.body ;
      return service.f9CallService('addDNISToCampaign',params , '', req)    
+
     .then(respondWithResult(res)) 
     .catch(handleError(res));
 }
@@ -216,5 +211,32 @@ export function addLists(req, res) {
      return service.f9CallService('addListsToCampaign',params , '', req)    
     .then(respondWithResult(res)) 
     .catch(handleError(res));
+}
 
+export function getListsForCampaign(req, res) {
+     let params = { campaignName: req.params.campaignName };
+     return service.f9CallService('getListsForCampaign',params , '', req)    
+    .then(respondWithResult(res)) 
+    .catch(handleError(res));
+}
+
+export function getDNISForCampaign(req, res) {
+     let params = { campaignName: req.params.campaignName };
+     return service.f9CallService('getCampaignDNISList',params , '', req)    
+    .then(respondWithResult(res)) 
+    .catch(handleError(res));
+}
+
+export function removeListsFromCampaign(req, res) {
+     let params =  req.body ;
+     return service.f9CallService('removeListsFromCampaign',params , '', req)    
+    .then(respondWithResult(res)) 
+    .catch(handleError(res));
+}
+
+export function removeDNISFromCampaign(req, res) {
+     let params =  req.body ;
+     return service.f9CallService('removeDNISFromCampaign',params , '', req)    
+    .then(respondWithResult(res)) 
+    .catch(handleError(res));
 }

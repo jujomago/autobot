@@ -1,6 +1,10 @@
 footer.footer {
   text-align: center;
-  padding: 30px 0;
-  margin-top: 70px;
-  border-top: 1px solid #E5E5E5;
+  height: 50px;
+  padding-top: 13px;
+  color:white;
+}
+
+footer p{
+  margin: 0;
 }

@@ -26,7 +26,49 @@ describe('Component: CreateComponent', function () {
     httpBackend.verifyNoOutstandingRequest();
   });
 
-  
+    describe('#checkRadio', () => {
+
+         it('=> radio different from outbound, return String "loadingIVR"', () => {
+
+               
+            CreateComponent.newCampaign={
+              name:'TestNameCampaign',
+              description:'Description for the campaign',
+              type:'inbound'              
+            };
+            CreateComponent.ivrScripts=[];
+            CreateComponent.loadingIVR=false;
+                  
+           expect(CreateComponent.checkRadio()).to.equal('loadingIVR');
+        });
+        it('=> radio different from outbound, IVR LOADED, should return String "loadedIVR"', () => {
+               
+            CreateComponent.newCampaign={
+              name:'TestNameCampaign',
+              description:'Description for the campaign',
+              type:'autodial'              
+            };
+            CreateComponent.ivrScripts=[{name:'ivrname',script:{}}];
+            CreateComponent.loadingIVR=false;
+                  
+           expect(CreateComponent.checkRadio()).to.equal('loadedIVR');
+        });
+        
+        it('=> radio equal to outbound, nothint to load, null return', () => {
+               
+            CreateComponent.newCampaign={
+              name:'TestNameCampaign',
+              description:'Description for the campaign',
+              type:'outbound'              
+            };
+          
+                  
+           expect(CreateComponent.checkRadio()).to.equal(null);
+        });
+        
+        
+    });
+    
 
     describe('#getIVRScripts', () => {
 
@@ -66,6 +108,53 @@ describe('Component: CreateComponent', function () {
            httpBackend.flush();
 
         });
-
     });
+    
+    describe('#save', () => {
+
+         it('=> should return Status 201, created OK"', () => {
+            httpBackend.whenPOST(endPointUrl).respond(201,null);
+        
+            CreateComponent.newCampaign={
+              name:'TestNameCampaign',
+              description:'Description for the campaign',
+              type:'outbound'              
+            };
+            
+            
+            let proms=CreateComponent.save();
+           expect(CreateComponent.SubmitText).to.equal('Saving...'); 
+           proms.then(response=>{
+               expect(response.statusCode).to.equal(201);
+               expect(response.data).to.equal(null);
+               expect(response.error).to.equal(null);
+            });
+            httpBackend.flush();
+        });        
+        
+        it('=> should return Status 500, created error', () => {
+            httpBackend.whenPOST(endPointUrl).respond(500,{
+                statusCode: 500,
+                from: 'error from controller endpoint',
+                body: 'the explicit first error'
+            });
+            
+            CreateComponent.newCampaign={
+              name:'', // this parameter will throw the error, name must not be empty
+              description:'Description for the campaign',
+              type:'outbound'              
+            };              
+                
+           CreateComponent.save()
+            .then(response=>{           
+               expect(response.statusCode).to.equal(500);
+               expect(response.data).to.equal(null);
+               expect(response.error).to.not.equal(null);   
+               expect(CreateComponent.SubmitText).to.equal('Save');
+            });
+            httpBackend.flush();
+        });  
+        
+    });    
+  
 });

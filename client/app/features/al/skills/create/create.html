@@ -4,9 +4,7 @@
     </a>
 </div>
 
-<div class="alert alert-{{$ctrl.message.type}}" role="alert" ng-show="$ctrl.message.show">
-    <p ng-bind-html="$ctrl.message.text"></p>
-</div>
+<abx-message msg="$ctrl.message"></abx-message> 
 
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -38,14 +36,13 @@
                     <input type="text" class="form-control" id="inputMessage" ng-model="$ctrl.newSkill.messageOfTheDay">
                 </div>
             </div>
-            <div class="form-group">
-                <label class="control-label col-xs-2">Route Voice Mails</label>
-                <!--pre>{{radioModel || 'null'}}</pre-->
-                <div class="col-xs-10">
-                    <label class="btn btn-default" ng-model="$ctrl.newSkill.routeVoiceMails" uib-btn-radio="true">True</label>
-                    <label class="btn btn-default" ng-model="$ctrl.newSkill.routeVoiceMails" uib-btn-radio="false">False</label>
-                </div>
-            </div>
+            <div class="form-group" >
+                <label class="checkbox  col-xs-offset-2">
+                    <input type="checkbox" id="inlineCheckbox1" ng-model="$ctrl.newSkill.routeVoiceMails">Route Voice Mails
+                </label>                   
+           </div>
+            
+            
             <div class="form-group">
                 <div class="col-xs-offset-2 col-xs-10">
                     <button type="submit" class="btn btn-success" ng-disabled="$ctrl.SubmitText=='Saving...'">{{$ctrl.SubmitText}}</button>

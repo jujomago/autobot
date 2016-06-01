@@ -7,7 +7,7 @@
 </div>
 
 <uib-tabset active="active1" justified="false" ng-hide="!$ctrl.found">
-    <uib-tab index="0" heading="Skill" select="$ctrl.showSkill()">
+    <uib-tab index="0" heading="General" select="$ctrl.showSkill()">
         <div ng-show="$ctrl.found">
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -33,15 +33,14 @@
                                 <input type="text" class="form-control" id="inputMessage" ng-model="$ctrl.selectedSkill.messageOfTheDay">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-xs-2">Route Voice Mails</label>
-                            <!--pre>{{radioModel || 'null'}}</pre-->
-                            <div class="col-xs-10">
-                                <label class="btn btn-primary" ng-model="$ctrl.selectedSkill.routeVoiceMails" uib-btn-radio="true">True</label>
-                                <label class="btn btn-primary" ng-model="$ctrl.selectedSkill.routeVoiceMails" uib-btn-radio="false">False</label>
-
-                            </div>
+                        <div class="form-group" >
+                                <label class="checkbox  col-xs-offset-2">
+                                    <input type="checkbox" id="inlineCheckbox1" ng-model="$ctrl.selectedSkill.routeVoiceMails">Route Voice Mails
+                                </label>                   
                         </div>
+                        
+                        
+                        
                         <div class="form-group">
                             <div class="col-xs-offset-2 col-xs-10">
                                 <button type="submit" class="btn btn-success" ng-disabled="$ctrl.SubmitText=='Saving...'">{{$ctrl.SubmitText}}</button>
@@ -60,9 +59,7 @@
         </p>
         
         
-        <div class="alert alert-{{$ctrl.message.type}}" role="alert" ng-show="$ctrl.message.show">
-            <p ng-bind-html="$ctrl.message.text"></p>   
-        </div>
+          <abx-message msg="$ctrl.message"></abx-message>     
         <div class="row">
             <div class="col-xs-3">
                 <div class="panel panel-primary">
@@ -91,11 +88,16 @@
                 <h4 ng-show="$ctrl.filteredUsers.length===0">
                     <label class="label label-info">Loading Users...</label>
                 </h4>
+               
                 <div class="panel panel-info" ng-show="$ctrl.filteredUsers.length>0">
                     <div class="panel-heading">
                         <strong>Users UnAssigned</strong>
                     </div>
-                    <table class="table table-striped table-bordered table-hover">
+                    <div class="form-group well well-sm">
+                      <label>Search UserName</label>
+                      <input type="search " ng-model="search.userName " class="form-control " placeholder="Search ">
+                    </div>
+                    <table class="table table-striped">
                         <thead>
                             <th>UserName</th>
                             <th>FirstName</th>
@@ -105,7 +107,7 @@
                             <th>Assign</th>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="useritem  in $ctrl.filteredUsers | limitTo:$ctrl.numPerPage:$ctrl.beginNext" ng-class="{'success' : $ctrl.toggleUserItem.item == $index}">
+                            <tr ng-repeat="useritem  in $ctrl.filteredUsers  | filter:search | limitTo:$ctrl.numPerPage:$ctrl.beginNext" ng-class="{'success' : $ctrl.toggleUserItem.item == $index}">
                                 <td>{{useritem.userName}}</td>
                                 <td>{{useritem.firstName}}</td>
                                 <td>{{useritem.lastName}}</td>

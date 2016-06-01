@@ -6,6 +6,7 @@ var controller = require('./skill.controller');
 var router = express.Router();
 
 router.get('/', controller.index);
+router.get('/skillsInfo',controller.skillsInfo);
 router.get('/:skillname', controller.show);
 router.post('/create', controller.create);
 router.put('/update', controller.update);
