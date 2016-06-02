@@ -217,8 +217,40 @@ footer,
 
 }
 
+.mywell .pagination li:first-child a,
+.mywell .pagination li:last-child a,
+.mywell .pagination li:nth-child(2) a,
+.mywell .pagination li:nth-last-child(2) a{
+    text-indent: -100px;
+    overflow: hidden;
+}
 
+.mywell .pagination li:first-child a{     
+    background: url('/assets/images/PaginationArrows-FirstDefault.png') no-repeat center center;
+}
+.mywell .pagination li:first-child a:hover{    
+    background: url('/assets/images/PaginationArrows-FirstActive.png') no-repeat center center;
+}
 
+.mywell .pagination li:last-child a{   
+    background: url('/assets/images/PaginationArrows-LastDefault.png') no-repeat center center;
+}
+.mywell .pagination li:last-child a:hover{   
+    background: url('/assets/images/PaginationArrows-LastActive.png') no-repeat center center;
+}
+
+.mywell .pagination li:nth-child(2) a{     
+    background: url('/assets/images/PaginationArrows-PrevDefult.png') no-repeat center center;
+}
+.mywell .pagination li:nth-child(2) a:hover{     
+    background: url('/assets/images/PaginationArrows-PrevActive.png') no-repeat center center;
+}
+.mywell .pagination li:nth-last-child(2) a{    
+    background: url('/assets/images/PaginationArrows-NextDefault.png') no-repeat center center;
+}
+.mywell .pagination li:nth-last-child(2) a:hover{    
+    background: url('/assets/images/PaginationArrows-NextActive.png') no-repeat center center;
+}
 
 .mywell{
     background: none;
