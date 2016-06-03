@@ -6,49 +6,31 @@
 
 <abx-message msg="$ctrl.message"></abx-message> 
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <strong>Create New Skill</strong>
+<form class="custom_form" name="formSkill" novalidate ng-submit="formSkill.$valid && $ctrl.save()">
+    <div class="form-group" ng-class="{ 'has-error': formSkill.skillName.$invalid && formSkill.$submitted }">       
+            <input    placeholder="NAME (*)"  type="text" class="form-control" 
+            id="inputName" ng-model="$ctrl.newSkill.name" name="skillName" required ng-minlength="5" 
+         />                    
+                <div ng-messages="formSkill.skillName.$error" ng-show="formSkill.$submitted">
+                <p ng-message="minlength">This field is too short</p>
+                <p ng-message="required">This field is required</p>
+            </div>       
     </div>
-    <div class="panel-body">
-        <form name="formSkill" novalidate class="form-horizontal" ng-submit="formSkill.$valid && $ctrl.save()">
-            <div class="form-group" ng-class="{ 'has-error': formSkill.skillName.$invalid && formSkill.$submitted }">
-                <label for="inputName" class="control-label col-xs-2">Name</label>
-                <div class="col-xs-10">
-                    <input type="text" class="form-control" id="inputName" ng-model="$ctrl.newSkill.name" name="skillName" required ng-minlength="5" >
-                          
-                     <div ng-messages="formSkill.skillName.$error" ng-show="formSkill.$submitted">
-                        <p ng-message="minlength">This field is too short</p>
-                        <p ng-message="required">This field is required</p>
-                    </div>
-   
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="inputDesc" class="control-label col-xs-2">Description</label>
-                <div class="col-xs-10">
-                    <textarea id="inputDesc" class="form-control" ng-model="$ctrl.newSkill.description"></textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="inputMessage" class="control-label col-xs-2">Message of the Day</label>
-                <div class="col-xs-10">
-                    <input type="text" class="form-control" id="inputMessage" ng-model="$ctrl.newSkill.messageOfTheDay">
-                </div>
-            </div>
-            <div class="form-group" >
-                <label class="checkbox  col-xs-offset-2">
-                    <input type="checkbox" id="inlineCheckbox1" ng-model="$ctrl.newSkill.routeVoiceMails">Route Voice Mails
-                </label>                   
-           </div>
-            
-            
-            <div class="form-group">
-                <div class="col-xs-offset-2 col-xs-10">
-                    <button type="submit" class="btn btn-success" ng-disabled="$ctrl.SubmitText=='Saving...'">{{$ctrl.SubmitText}}</button>
-                    <button type="button" class="btn btn-warning" ng-click="$ctrl.cancel()">Cancel</button>
-                </div>
-            </div>
-        </form>
+    <div class="form-group">      
+            <input  placeholder="DESCRIPTION" type="text" id="inputDesc" class="form-control" ng-model="$ctrl.newSkill.description"/>
     </div>
-</div>
+    <div class="form-group">
+            <input placeholder="MESSAGE OF THE DAY" type="text" class="form-control" id="inputMessage" ng-model="$ctrl.newSkill.messageOfTheDay"/>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" id="inlineCheckbox1" ng-model="$ctrl.newSkill.routeVoiceMails">
+             ROUTE VOICE MAILS
+        </label>                   
+    </div> 
+    
+    <div class="form-group text-center">     
+        <button type="submit" class="btn btn-black" ng-disabled="$ctrl.SubmitText=='Saving...'">{{$ctrl.SubmitText}}</button>
+        <button type="button" class="btn btn-black" ng-click="$ctrl.cancel()">Cancel</button>
+    </div>
+</form>

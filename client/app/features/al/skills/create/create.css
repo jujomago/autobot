@@ -1,3 +1,19 @@
 h4{
     font-weight: normal;
 }
+.custom_form .form-group{
+    margin-bottom: 10px;
+}
+.custom_form div.checkbox{
+    margin: 14px 0;
+}
+.custom_form input.form-control{
+    margin-bottom: 10px;
+    border-radius: 0;
+    height: auto;
+    padding: 9px 12px;
+    border-color: #f2f2f2;
+}
+.custom_form .form-group.text-center button{
+    margin: 0 10px;
+}
