@@ -1,3 +1,43 @@
 h4{
     font-weight: normal;
 }
+.custom_form .form-group.input{
+    background: white;
+    border: 1px solid  #f2f2f2;
+    margin-bottom: 10px;
+}
+.custom_form .form-group .control-label{
+    text-align: left;
+    font-size: 12px;
+    color: #666;
+    font-weight: normal;
+}
+
+.custom_form div.checkbox{
+    /*margin: 14px 0;*/
+}
+.custom_form .form-group.input .form-control{
+  /*  margin-bottom: 10px;*/
+    border-radius: 0;
+    /*height: auto;*/
+    padding: 9px 12px;
+    border: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.custom_form .form-group.input .form-control:focus{
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border: 0;
+}
+.custom_form .form-group.text-center button{
+    margin: 0 10px;
+}
+p.has-error{
+    color: #AB1818;
+    background: #F3D6D6;
+    line-height: 30px;
+    padding-left: 12px;
+    clear: both;
+    margin: 10px 21px;
+}

@@ -232,12 +232,14 @@ footer,
     background: url('/assets/images/PaginationArrows-FirstActive.png') no-repeat center center;
 }
 
+
 .mywell .pagination li:last-child a{   
     background: url('/assets/images/PaginationArrows-LastDefault.png') no-repeat center center;
 }
 .mywell .pagination li:last-child a:hover{   
     background: url('/assets/images/PaginationArrows-LastActive.png') no-repeat center center;
 }
+
 
 .mywell .pagination li:nth-child(2) a{     
     background: url('/assets/images/PaginationArrows-PrevDefult.png') no-repeat center center;
@@ -379,4 +381,16 @@ footer,
   overflow: hidden;
       margin-left: 50px;
       margin-right:70px;
+}
+.nav-tabs >li.active >a{
+    border-bottom: 3px solid #36A3DC;
+}
+
+.nav-tabs >li >a{
+    font-family: BrandonMedium;
+    font-size: 16px;
+    padding: 5px 15px;
+    border: 0;
+    background: transparent;
+
 }
