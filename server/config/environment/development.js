@@ -4,6 +4,8 @@
 // ==================================
 module.exports = {
   // Seed database on startup
-  seedDB: true
+  seedDB: true,
+  
+  apiUri: 'http://localhost:9000/api'
 
 };

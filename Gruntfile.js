@@ -825,6 +825,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'env:prod',
     'concurrent:pre',
     'concurrent:dist',
     'injector',

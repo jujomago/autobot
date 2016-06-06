@@ -11,5 +11,7 @@ module.exports = {
   // Server port
   port:   process.env.OPENSHIFT_NODEJS_PORT ||
           process.env.PORT ||
-          8080
+          8080,
+  
+  apiUri: 'http://u19212546.onlinehome-server.com:8080/api'
 };
