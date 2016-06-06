@@ -13,8 +13,7 @@
             this.message={show:false};
         }
 
-        save() {          
-    
+        save() {              
                 this.SubmitText = 'Saving...';
                 this.SkillsService.createSkill(this.newSkill)
                 .then(_skillInfo => {

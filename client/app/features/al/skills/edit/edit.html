@@ -9,47 +9,39 @@
 <uib-tabset active="active1" justified="false" ng-hide="!$ctrl.found">
     <uib-tab index="0" heading="General" select="$ctrl.showSkill()">
         <div ng-show="$ctrl.found">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <strong>Editing:  {{::$ctrl.selectedSkill.name}}</strong>
+            <form class="custom_form form-horizontal" ng-submit="$ctrl.save()">
+                <div class="form-group"> 
+                        <label for="inputName" class="col-sm-2 control-label">NAME (*)</label>    
+                        <div class="col-sm-10"> 
+                    <input placeholder="NAME (*)"  type="text" class="form-control" id="inputName" ng-model="$ctrl.selectedSkill.name"/>
+                        </div>
                 </div>
-                <div class="panel-body">
-                    <form class="form-horizontal" ng-submit="$ctrl.save()">
-                        <div class="form-group">
-                            <label for="inputName" class="control-label col-xs-2">Name</label>
-                            <div class="col-xs-10">
-                                <input type="text" class="form-control" id="inputName" ng-model="$ctrl.selectedSkill.name">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputDesc" class="control-label col-xs-2">Description</label>
-                            <div class="col-xs-10">
-                                <textarea id="inputDesc" class="form-control" ng-model="$ctrl.selectedSkill.description"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputMessage" class="control-label col-xs-2">Message of the Day</label>
-                            <div class="col-xs-10">
-                                <input type="text" class="form-control" id="inputMessage" ng-model="$ctrl.selectedSkill.messageOfTheDay">
-                            </div>
-                        </div>
-                        <div class="form-group" >
-                                <label class="checkbox  col-xs-offset-2">
-                                    <input type="checkbox" id="inlineCheckbox1" ng-model="$ctrl.selectedSkill.routeVoiceMails">Route Voice Mails
-                                </label>                   
-                        </div>
-                        
-                        
-                        
-                        <div class="form-group">
-                            <div class="col-xs-offset-2 col-xs-10">
-                                <button type="submit" class="btn btn-success" ng-disabled="$ctrl.SubmitText=='Saving...'">{{$ctrl.SubmitText}}</button>
-                                <button type="submit" class="btn btn-warning" ng-click="$ctrl.cancel()">Cancel</button>
-                            </div>
-                        </div>
-                    </form>
+                <div class="form-group">  
+                     <label for="inputDesc"  class="col-sm-2 control-label">DESCRIPTION (*)</label>
+                    <div class="col-sm-10">              
+                    <input   placeholder="DESCRIPTION" type="text" id="inputDesc" class="form-control" ng-model="$ctrl.selectedSkill.description"/>   
+                     </div>                
                 </div>
-            </div>
+                <div class="form-group"> 
+                      <label for="inputMessage" class="col-sm-2 control-label">MESSAGE OF THE DAY</label>    
+                    <div class="col-sm-10">              
+                    <input placeholder="MESSAGE OF THE DAY" type="text" class="form-control" id="inputMessage" ng-model="$ctrl.selectedSkill.messageOfTheDay"/>        </div>             
+                </div>
+                    <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox" >
+                            <label>
+                                <input type="checkbox" id="inlineCheckbox1" ng-model="$ctrl.selectedSkill.routeVoiceMails">ROUTE VOICE MAILS
+                            </label>                   
+                    </div> 
+                </div>
+     </div>                    
+                
+                <div class="form-group text-center">                 
+                        <button type="submit" class="btn btn-black" ng-disabled="$ctrl.SubmitText=='Saving...'">{{$ctrl.SubmitText}}</button>
+                        <button type="submit" class="btn btn-black" ng-click="$ctrl.cancel()">Cancel</button>
+                </div>
+            </form>          
         </div>
     </uib-tab>
     <uib-tab index="1" heading="Users" select="$ctrl.listUsers()">
