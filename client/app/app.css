@@ -254,6 +254,8 @@ footer,
     background: url('/assets/images/PaginationArrows-NextActive.png') no-repeat center center;
 }
 
+
+
 .mywell{
     background: none;
     border: 0;
@@ -382,7 +384,17 @@ footer,
       margin-left: 50px;
       margin-right:70px;
 }
-.nav-tabs >li.active >a{
+
+.nav-tabs > li { 
+    margin-bottom: -2px;
+}
+
+.nav-tabs >li.active >a,
+.nav-tabs >li.active >a:hover,
+.nav-tabs >li.active >a:focus{
+    background: none;
+    border:0;
+
     border-bottom: 3px solid #36A3DC;
 }
 
@@ -391,6 +403,26 @@ footer,
     font-size: 16px;
     padding: 5px 15px;
     border: 0;
+    color: #666;
     background: transparent;
+    border-bottom: 3px solid transparent;
 
 }
+.nav-tabs > li > a:hover{ 
+    background: none;
+     border-bottom: 3px solid #dedede;
+}
+
+.tab-content{
+/*  background: #F1F1F1;*/
+   padding: 30px 18px;
+}
+
+pre{
+	 white-space: pre-wrap;       /* CSS 3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+

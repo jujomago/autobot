@@ -4,7 +4,8 @@ h4{
 .custom_form .form-group.input{
     background: white;
     border: 1px solid  #f2f2f2;
-    margin-bottom: 10px;
+    margin-bottom: 10px;  
+
 }
 .custom_form .form-group .control-label{
     text-align: left;
@@ -15,6 +16,9 @@ h4{
 
 .custom_form div.checkbox{
     /*margin: 14px 0;*/
+
+    color:#666;
+
 }
 .custom_form .form-group.input .form-control{
   /*  margin-bottom: 10px;*/
@@ -24,7 +28,17 @@ h4{
     border: 0;
     -webkit-box-shadow: none;
     box-shadow: none;
+
+      color: #000;
+      font-size: 15px;
 }
+.custom_form .form-group.input select.form-control{
+   padding: 0; 
+}
+
+
+
+
 .custom_form .form-group.input .form-control:focus{
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -40,4 +54,9 @@ p.has-error{
     padding-left: 12px;
     clear: both;
     margin: 10px 21px;
+
+}
+.custom_form .form-group.has-error{
+   border:1px solid  #D07979;
+
 }
