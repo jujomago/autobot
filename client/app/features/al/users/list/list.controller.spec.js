@@ -110,6 +110,21 @@ describe('Component: al.users.list', function () {
   });
 
 
+  describe('#filteringBySearch', () => {
+
+    it('Should return true, when searching something', () => {
+      ListComponent.search.userName='some text to search';
+      expect(ListComponent.filteringBySearch()).to.equal (true);
+      expect(ListComponent.beginNext).to.equal(0);
+      expect(ListComponent.currentPage).to.equal(1);
+    });
+
+    it('Should return false, when input search is empty', () => {
+        ListComponent.search.userName='';
+        expect(ListComponent.filteringBySearch()).to.equal (false);       
+    });
+
+  });
 
 
 

@@ -37,6 +37,8 @@
             this.quantities = [5, 10, 15, 20];
 
             this.toogleUserRow = -1;
+            this.search={userName:''}
+            this.filteredUsers=[];
 
         }
 
@@ -114,6 +116,15 @@
             console.log('sorting:' + columnName);
             this.sortKey = columnName;
             this.reverse = !this.reverse;
+        }
+
+        filteringBySearch(){  
+            if(this.search.userName){               
+                this.beginNext=0;
+                this.currentPage = 1;
+                return true;
+             }
+             return false;
         }
 
     }

@@ -33,23 +33,25 @@
 
     <thead>
         
-        <th ng-click="$ctrl.sortColumn('name') ">Name
+        <th ng-click="$ctrl.sortColumn('name') " class="sortColumn">Name
             <span class="glyphicon " ng-show="$ctrl.sortKey=='name' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
 'glyphicon-chevron-down':!$ctrl.reverse} "></span>
         </th>        
-        <th ng-click="$ctrl.sortColumn('type') ">Type
+        <th ng-click="$ctrl.sortColumn('type') " class="sortColumn">Type
             <span class="glyphicon " ng-show="$ctrl.sortKey=='type' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
 'glyphicon-chevron-down':!$ctrl.reverse} "></span>
         </th>
-        <th ng-click="$ctrl.sortColumn('mode') ">Mode
+        <th ng-click="$ctrl.sortColumn('mode') " class="sortColumn">Mode
             <span class="glyphicon " ng-show="$ctrl.sortKey=='mode' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
 'glyphicon-chevron-down':!$ctrl.reverse} "></span>
-        </th>         
-        <th ng-click="$ctrl.sortColumn('state') ">State
+        </th>        
+
+        <th ng-click="$ctrl.sortColumn('state') " class="sortColumn">State
             <span class="glyphicon " ng-show="$ctrl.sortKey=='state' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
 'glyphicon-chevron-down':!$ctrl.reverse} "></span>
         </th>
-        <th ng-click="$ctrl.sortColumn('trainingMode') " class="text-center"  width="220">Training
+        <th ng-click="$ctrl.sortColumn('trainingMode') " class=" sortColumn text-center"  width="220">Training
+
             <span class="glyphicon " ng-show="$ctrl.sortKey=='trainingMode' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
 'glyphicon-chevron-down':!$ctrl.reverse} "></span>
         </th>
@@ -58,7 +60,6 @@
         </th>
     </thead>
     <tbody>
-        <!--tr ng-repeat="item in $ctrl.filteredcampaigns|filter:search "-->
         <tr ng-repeat="item in $ctrl.campaigns | filter:search| filter:{ type: $ctrl.typeCampaignFilter }  | limitTo:$ctrl.numPerPage:$ctrl.beginNext | orderBy:$ctrl.sortKey:$ctrl.reverse "
        ng-class="{'danger' : $ctrl.toggleCampaignRow==$index, 'warning': $ctrl.toggleStatusRow==$index}">            
             <td>
