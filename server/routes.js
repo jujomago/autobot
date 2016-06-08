@@ -6,9 +6,20 @@
 
 import errors from './components/errors';
 import path from 'path';
+import cors from 'cors';
 
 export default function (app) {
   //Insert middlewares below
+  var whitelist = ['http://www.dev-autoboxcorp.com:8080', 'http://example2.com'];
+  var corsOptions = {
+    origin: function (origin, callback) {
+      console.log('Evaluating origin -> ' + origin);
+      var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
+      callback(null, originIsWhitelisted);
+    }
+  };
+  app.use(cors(corsOptions));
+
   app.use('/api', require('./common/middlewares/partnerenabler').partner);
 
   // Insert routes below
