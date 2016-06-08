@@ -1,0 +1,12 @@
+.btn-row-campaign{
+      border-radius: 0;
+    padding: 1px 14px;
+    font-size: 14px;
+    border: 0;
+}
+.btn-danger{
+    background: #E64B3B;
+}
+.btn-primary{
+    background: #36A3DC;
+}

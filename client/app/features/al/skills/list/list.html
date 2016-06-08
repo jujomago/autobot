@@ -8,7 +8,7 @@
     <div class="mywell">
 
         <div class="searchbox_container">           
-              <input type="search" ng-model="search.skill.name" class="searchbox" placeholder="Search Name">
+              <input type="search" ng-model="$ctrl.search.skill.name" class="searchbox" placeholder="Search Name" ng-change="$ctrl.filteringBySearch()">
               <span class="glyphicon glyphicon-search"></span> 
         </div>
       
@@ -21,33 +21,27 @@
 
     <thead>      
 
-        <th ng-click="$ctrl.sortColumn( 'id') ">Id
+        <th ng-click="$ctrl.sortColumn( 'id')" class="sortColumn">Id
             <span class="glyphicon " ng-show="$ctrl.sortKey=='id' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
 'glyphicon-chevron-down':!$ctrl.reverse} "></span>
         </th>
-        <th ng-click="$ctrl.sortColumn( 'name') ">Name
-            <span class="glyphicon " ng-show="$ctrl.sortKey=='name' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
+        <th ng-click="$ctrl.sortColumn('skill.name') " class="sortColumn">Name
+            <span class="glyphicon " ng-show="$ctrl.sortKey=='skill.name' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
 'glyphicon-chevron-down':!$ctrl.reverse} "></span>
         </th>
-        <th ng-click="$ctrl.sortCoslumn( 'description') ">Description
-            <span class="glyphicon " ng-show="$ctrl.sortKey=='description' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
-'glyphicon-chevron-down':!$ctrl.reverse} "></span>
-        </th>
-        <th ng-click="$ctrl.sortColumn( 'messageOfTheDay') "  class="text-center">Users
-            <span class="glyphicon " ng-show="$ctrl.sortKey=='messageOfTheDay' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
-'glyphicon-chevron-down':!$ctrl.reverse} "></span>
-        </th>
+        <th>Description</th>
+        <th class="text-center">Users</th>
         <th width="100"  class="text-center">
             ACTIONS
         </th>
     </thead>
     <tbody>
         <!--tr ng-repeat="item in $ctrl.filteredSkills|filter:search "-->
-        <tr ng-repeat="item in $ctrl.skills | filter:search | limitTo:$ctrl.numPerPage:$ctrl.beginNext | orderBy:$ctrl.sortKey:$ctrl.reverse "
+        <tr ng-repeat="item in ( $ctrl.filteredSkills=($ctrl.skills | filter:$ctrl.search |  limitTo:$ctrl.numPerPage:$ctrl.beginNext) | orderBy:$ctrl.sortKey:$ctrl.reverse  ) "
 
         ng-class="{ 'danger' : $ctrl.toggleSkillRow==$index}">            
             <td>{{item.skill.id}}</td>
-            <td>
+            <td> 
                 <a href ng-click="$ctrl.getDetail(item.skill)">{{item.skill.name}}</a></td>
 
             <td>{{item.skill.description}}</td>
@@ -65,15 +59,23 @@
                 <!--button class="btn btn-info " ng-click="$ctrl.getDetail(item.skill) ">
 
                     Edit
-                </button-->
+                </button-->      
+                
             </td>
         </tr>
     </tbody>
 </table>
 
 <div class="mywell footer_table text-center">
-    <label class="pull-left">Showing {{$ctrl.beginNext+1}}-{{$ctrl.currentPage*$ctrl.numPerPage}} of {{$ctrl.totalItems}}</label>    
-    <uib-pagination total-items="$ctrl.totalItems " ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
+    <label ng-show="!$ctrl.filteredSkills.length"  ng-if="$ctrl.search.skill.name">NO RESULTS</label>
+
+    <label for="pull-left" ng-show="$ctrl.filteredSkills.length"  ng-if="$ctrl.search.skill.name">Showing {{$ctrl.filteredSkills.length}} results</label>
+
+    <label class="pull-left" ng-if="!$ctrl.search.skill.name">Showing {{$ctrl.beginNext+1}}-{{$ctrl.currentPage*$ctrl.numPerPage}} of {{$ctrl.totalItems}}</label>    
+
+
+
+    <uib-pagination ng-if="!$ctrl.search.skill.name" total-items="$ctrl.totalItems " ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
     " boundary-links="true "
     ng-change="$ctrl.pageChanged()" >
     </uib-pagination>

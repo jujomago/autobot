@@ -6,7 +6,7 @@
 <div class="mywell">
 
     <div class="filter_select">
-        <label>Filter by Type</label>
+        <span class="glyphicon glyphicon-filter"></span>
         <select name="typeCampaignFilter" class="form-control" ng-model="$ctrl.typeCampaignFilter">
                 <option value="">All</option>
                 <option value="INBOUND">InBound</option>
@@ -44,20 +44,16 @@
         <th ng-click="$ctrl.sortColumn('mode') ">Mode
             <span class="glyphicon " ng-show="$ctrl.sortKey=='mode' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
 'glyphicon-chevron-down':!$ctrl.reverse} "></span>
-        </th>
-         <th ng-click="$ctrl.sortColumn('ProfileName') ">ProfileName
-            <span class="glyphicon " ng-show="$ctrl.sortKey=='ProfileName' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
-'glyphicon-chevron-down':!$ctrl.reverse} "></span>
-        </th>
+        </th>         
         <th ng-click="$ctrl.sortColumn('state') ">State
             <span class="glyphicon " ng-show="$ctrl.sortKey=='state' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
 'glyphicon-chevron-down':!$ctrl.reverse} "></span>
         </th>
-        <th ng-click="$ctrl.sortColumn('trainingMode') ">Training
+        <th ng-click="$ctrl.sortColumn('trainingMode') " class="text-center"  width="220">Training
             <span class="glyphicon " ng-show="$ctrl.sortKey=='trainingMode' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
 'glyphicon-chevron-down':!$ctrl.reverse} "></span>
         </th>
-        <th>
+        <th class="text-center" width="128">
             ACTIONS
         </th>
     </thead>
@@ -72,12 +68,11 @@
             </td>
             <td>{{item.type}}</td>
             <td>{{item.mode}}</td>
-            <td>{{item.profileName}}</td>
+          
             <td>{{item.state}}</td>
-            <td>{{item.trainingMode}}</td>
-            <td>
-                  <a href class="circle_delete" ng-click="$ctrl.deleteCampaign(item,$index)"  
-                ng-hide="$ctrl.toggleCampaignRow==$index"></a>
+            <td class="text-center">{{item.trainingMode}}</td>
+            <td class="text-center">
+              
                 
                 <!--button class="btn btn-danger" ng-click="$ctrl.deleteCampaign(item,$index)" ng-disabled="$ctrl.toggleCampaignRow==$index">
                     {{($ctrl.toggleCampaignRow == $index)?'Deleting ..':'Delete'}}
@@ -86,11 +81,12 @@
                     Edit
                 </button-->                
 
-                <button class="btn" ng-class="{'btn-success':item.state==='NOT_RUNNING','btn-warning':item.state==='RUNNING'}" 
+                <button class="btn btn-row-campaign" ng-class="{'btn-primary':item.state==='NOT_RUNNING','btn-danger':item.state==='RUNNING'}" 
                  ng-click="$ctrl.updateState(item,$index)" ng-init="item.statusBtnText=(item.state==='RUNNING')?'Stop':'Start'" ng-disabled="(item.statusBtnText==='Starting...' || item.statusBtnText=='Stopping...')">
                     {{ item.statusBtnText }}
                 </button>               
-
+                <a href class="circle_delete" ng-click="$ctrl.deleteCampaign(item,$index)"  
+                ng-hide="$ctrl.toggleCampaignRow==$index"></a>
             </td>
         </tr>
     </tbody>

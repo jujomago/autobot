@@ -116,5 +116,23 @@ describe('Component: al.skills.list', function () {
 
   });
 
+  describe('#filteringBySearch', () => {
+
+    it('Should return true, when searching something', () => {
+      ListComponent.search.skill.name='some text to search';
+      expect(ListComponent.filteringBySearch()).to.equal (true);
+      expect(ListComponent.beginNext).to.equal(0);
+      expect(ListComponent.currentPage).to.equal(1);
+    });
+
+    it('Should return false, when input search is empty', () => {
+        ListComponent.search.skill.name='';
+        expect(ListComponent.filteringBySearch()).to.equal (false);       
+    });
+
+  });
+
+
+
 
 });
