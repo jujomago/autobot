@@ -14,12 +14,12 @@ angular.module('fakiyaMainApp')
         scope.$watch(function () {
           return scope.msgInfo.show;
         },
-          function (newValue, oldValue) {
+          function (newValue) { //it is possible to use oldValue too like a parameter for this function
             var val = newValue || null;
             if (val === true) {
-              let timeout_time = scope.msgInfo.expires ? scope.msgInfo.expires : attrs.expires;
+              let timeoutTime = scope.msgInfo.expires ? scope.msgInfo.expires : attrs.expires;
               console.log('Value scope.msgInfo.expires ' + scope.msgInfo.expires);//$log.info
-              if (timeout_time) {
+              if (timeoutTime) {
                 var timer = $timeout(function () {
                   scope.msgInfo.show = false;
                 }, scope.msgInfo.expires);
@@ -45,26 +45,7 @@ angular.module('fakiyaMainApp')
           );
         }*/
       },
-      controller: function ($scope) {
-        /*$scope.$watch(function () {
-          return $scope.msgInfo.show;
-        },
-          function (newValue, oldValue) {
-            var val = newValue || null;
-            if (val===true) {
-              //let timeout_time = $scope.msgInfo.expires? $scope.msgInfo.expires: 
-              console.log('Value $scope.msgInfo.expires ' + $scope.msgInfo.expires);//$log.info
-              var timer = $timeout(function () {
-                $scope.msgInfo.show = false;
-              }, $scope.msgInfo.expires);
-
-              $scope.$on('$destroy',
-                function () {
-                  $timeout.cancel(timer);
-                }
-              );
-            }
-          }.bind(this));*/
-      }
+/*      controller: function ($scope) {
+      }*/
     };
   });
