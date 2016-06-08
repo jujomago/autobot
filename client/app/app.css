@@ -177,10 +177,11 @@ footer,
 .mywell.footer_table{
      font-family: BrandonRegular;
     margin-top: 50px;
+    margin-bottom: 30px;
 
     font-size: 14px;
 
-
+        overflow: hidden;
 }
 
 .mywell .pagination > li > a, 
