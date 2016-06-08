@@ -25,6 +25,10 @@
             this.timeout = $timeout;
             this.toggleSkillRow = -1;
             _ConfirmAsync=ConfirmAsync;
+
+            this.search={skill:{name:''}};
+            this.filteredSkills=[];
+
         }
 
         init() {
@@ -70,7 +74,7 @@
 
         sortColumn(columnName) {
             if (columnName !== undefined && columnName) {
-                //   console.log('sorting:' + columnName);
+                  console.log('sorting:' + columnName);
                 this.sortKey = columnName;
                 this.reverse = !this.reverse;
                 return true;
@@ -118,6 +122,17 @@
         getDetail(item) {
             this.state.go('skills.edit', { name: item.name });
         }
+
+        filteringBySearch(){  
+            if(this.search.skill.name){               
+                this.beginNext=0;
+                this.currentPage = 1;
+                return true;
+             }
+             return false;
+        }
+
+
     }
 
 
