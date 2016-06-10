@@ -127,7 +127,7 @@
         }
 
         getPermissions() {
-            return http.get('/assets/roles.json')
+            return http.get('/assets/al/json/roles.json')
                 .then(response => {
                     if (response.data) {
                         return response.data;

@@ -98,7 +98,7 @@ describe('Component: al.users.create', function() {
         });
 
         it('Check Role data loaded', () => {
-            httpBackend.whenGET('/assets/roles.json').respond({
+            httpBackend.whenGET('/assets/al/json/roles.json').respond({
                 'admin': {
                     'permissions': [
                         { 'type': 'ReceiveTransfer', 'value': false },
