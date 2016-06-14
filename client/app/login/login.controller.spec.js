@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Component: mainComponent', function() {
+describe('Component: LoginController', function() {
 
   // load the controller's module
   beforeEach(module('fakiyaMainApp'));
@@ -24,7 +24,7 @@ describe('Component: mainComponent', function() {
 
       scope = $rootScope.$new();
       state = $state;
-      mainComponent = $componentController('main', {
+      mainComponent = $componentController('login', {
         $http: $http,
         $scope: scope
       });

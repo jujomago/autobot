@@ -37,7 +37,7 @@
             this.quantities = [5, 10, 15, 20];
 
             this.toogleUserRow = -1;
-            this.search={userName:''}
+            this.search={userName:''};
             this.filteredUsers=[];
 
         }

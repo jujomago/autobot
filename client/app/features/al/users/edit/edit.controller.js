@@ -21,6 +21,7 @@
             this.allRoles = ['admin', 'agent', 'reporting', 'supervisor'];
             this.userRoles = [];
             this.showErrorMessage = { show: false, message: '' };   
+            this.message = { show: false };
             this.rolSelectedPermissions = [];  
         }
 

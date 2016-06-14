@@ -1,0 +1,16 @@
+<div id="loginbox">
+<abx-message msg="$ctrl.message"></abx-message> 
+  <form ng-submit="$ctrl.autentichate()" novalidate autocomplete="off">
+      <div class="form-group">     
+          <input type="text" name="username" ng-model="$ctrl.username"  class="form-control" placeholder="autobox">     
+      </div>
+      <div class="form-group">
+          <input type="password" name="password"  ng-model="$ctrl.password" class="form-control"  placeholder="autobox">    
+      </div> 
+      <div class="form-group">
+        <div>
+          <button type="submit" class="btn btn-black">Sign in</button>
+        </div>
+      </div>
+  </form>
+</div>

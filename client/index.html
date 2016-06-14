@@ -35,7 +35,6 @@
       <link rel="stylesheet" href="app/features/al/users/edit/edit.css">
       <link rel="stylesheet" href="app/features/al/users/list/list.css">
       <link rel="stylesheet" href="app/features/al/users/users.css">
-      <link rel="stylesheet" href="app/main/main.css">
       <link rel="stylesheet" href="components/footer/footer.css">
       <link rel="stylesheet" href="components/modal/modal.css">
       <link rel="stylesheet" href="components/navbar/navbar.css">
@@ -49,14 +48,9 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <navbar></navbar>
-
-    <div class="container-fluid main-container">
-      <div class="row">
-        <sidebar></sidebar>
-        <div ui-view class="col-sm-9 col-md-10 rightside"></div>
-       </div>     
-
+    <navbar></navbar>    
+    <div class="container-fluid main-container">    
+        <div ui-view class="row"></div>         
     </div>
     <footer></footer>
 
@@ -124,8 +118,8 @@
       <script src="app/features/al/users/users.controller.js"></script>
       <script src="app/features/al/users/users.js"></script>
       <script src="app/filters/camelToHuman/camelToHuman.filter.js"></script>
-      <script src="app/main/main.controller.js"></script>
-      <script src="app/main/main.js"></script>
+      <script src="app/login/login.controller.js"></script>
+      <script src="app/login/login.js"></script>
       <script src="app/services/f9/CampaignService/CampaignService.service.js"></script>
       <script src="app/services/f9/SkillsService/SkillsService.service.js"></script>
       <script src="app/services/f9/UsersService/UsersService.service.js"></script>

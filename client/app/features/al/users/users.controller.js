@@ -2,13 +2,14 @@
 (function() {
 
 class UsersComponent {
-  constructor($state) {
+  constructor($state,$sessionStorage) {
       console.log('constructor UsersComponent');
-    this.messageRedirect='In 3 seconds,  it will redirect to stage => users.list';
-      $state.go('users.list');
+      if(!$sessionStorage.logged){
+          $state.go('login');
+      }
    }
 }
-UsersComponent.$inject=['$state']; 
+UsersComponent.$inject=['$state','$sessionStorage']; 
 angular.module('fakiyaMainApp')
   .component('al.users', {
     templateUrl: 'app/features/al/users/users.html',

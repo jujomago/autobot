@@ -2,13 +2,17 @@
 (function(){
 
 class SkillsComponent {
-  constructor($state) {
+  constructor($state,$sessionStorage) {
+      
       console.log('Component SkillsComponent - al.skills');
-      $state.go('skills.list');    
+      
+      if(!$sessionStorage.logged){
+          $state.go('login');
+      } 
   }
 }
 
-SkillsComponent.$inject=['$state']; 
+SkillsComponent.$inject=['$state','$sessionStorage']; 
 angular.module('fakiyaMainApp')
 
   .component('al.skills', {

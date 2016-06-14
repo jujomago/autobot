@@ -20,13 +20,23 @@ class NavbarController {
   }
   ];
 
-
+  
   isCollapsed = true;
   //end-non-standard
 
-  constructor() {
+  constructor($sessionStorage) {
+console.log($sessionStorage);
+
+
+    this.hideNavBar=false;
+    
+    if(!$sessionStorage.logged){
+      this.hideNavBar=true;
     }
+  }
 }
+
+NavbarController.$inject=['$sessionStorage'];
 
 angular.module('fakiyaMainApp')
   .controller('NavbarController', NavbarController);
