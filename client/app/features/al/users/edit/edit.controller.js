@@ -123,7 +123,7 @@
                 return deferred.promise;
             }else{
                 
-               
+                 this.SubmitText = 'Saving...';
                 let _rolesToRemove=this.allRoles.map((el)=>{        
                      if(el==='admin') {
                          return 'DomainAdmin';
@@ -152,7 +152,7 @@
                         console.log('userInfo update:');
                         console.log(response.data);                        
                         let messageObj={show:true,type:'success',text:'User Updated'};
-                        _state.go('users.list', { message: messageObj });                                         
+                        _state.go('ap.al.users', { message: messageObj });                                         
                     }else{
                         this.message = { show: true, type:'danger', text:response.errorMessage };
                     }                   

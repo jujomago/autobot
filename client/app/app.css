@@ -51,7 +51,17 @@
     font-style: normal;
 }
 
-
+@font-face {
+  font-family: 'BrandonBold';
+  src: url('/assets/al/fonts/BrandonGrotesque-Bold.eot');
+  src: url('/assets/al/fonts/BrandonGrotesque-Bold.woff2') format('woff2'),
+       url('/assets/al/fonts/BrandonGrotesque-Bold.woff') format('woff'),
+       url('/assets/al/fonts/BrandonGrotesque-Bold.ttf') format('truetype'),
+       url('/assets/al/fonts/BrandonGrotesque-Bold.svg#BrandonGrotesque-Bold') format('svg'),
+       url('/assets/al/fonts/BrandonGrotesque-Bold.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal; 
+}
 
 /**
  * App-wide Styles
@@ -83,11 +93,11 @@ footer,
 .navbar > .container-fluid{
   background: #000; 
 }
-
+/*
 .main-container{
-  margin-top: 60px; /*offset by the navbar fixed top*/
+  margin-top: 60px; /*offset by the navbar fixed top
 
-}
+}*/
 .rightside{
   background: #f7f7f7;
 }
@@ -450,4 +460,13 @@ pre{
     width: 35%;
     margin: 200px auto;
     
+
+}
+
+.has-error  p[ng-message] { 
+    color: #AB1818;
+    background: #F3D6D6;
+    line-height: 30px;
+    padding-left: 12px;
+
 }

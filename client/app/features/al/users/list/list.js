@@ -3,9 +3,13 @@
 angular.module('fakiyaMainApp')
   .config(function ($stateProvider) {
     $stateProvider
-      .state('users.list', {
-        url: '/list',
-        template: '<al.users.list></al.users.list>',
+      .state('ap.al.users', {
+        url: '/users',
+         views:{
+          'crud':{
+            template: '<al.users.list></al.users.list>', 
+          }
+        },
          params: {
             message: null
          }

@@ -128,7 +128,7 @@
                                         text: 'User Created'
                                     };
                                     this.newUser = {}; //clean object                        
-                                    _state.go('users.list', { message: messageObj });
+                                    _state.go('ap.al.users', { message: messageObj });
                                     return response;
 
                                 } else {

@@ -3,8 +3,12 @@
 angular.module('fakiyaMainApp')
   .config(function ($stateProvider) {
     $stateProvider
-      .state('users.create', {
-        url: '/create',
-        template: '<al.users.create></al.users.create>'
+      .state('ap.al.usersCreate', {
+        url: '/users/create',
+        views:{
+          'crud':{
+            template: '<al.users.create></al.users.create>',
+          }
+        }
       });
   });

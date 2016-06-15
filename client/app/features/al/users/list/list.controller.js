@@ -104,7 +104,7 @@
 
         }
         getDetail(user) {
-            _state.go('users.edit', { name: user.userName });
+            _state.go('ap.al.usersEdit', { name: user.userName });
         }
 
         pageChanged() {

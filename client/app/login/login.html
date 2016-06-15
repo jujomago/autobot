@@ -1,16 +1,39 @@
-<div id="loginbox">
-<abx-message msg="$ctrl.message"></abx-message> 
-  <form ng-submit="$ctrl.autentichate()" novalidate autocomplete="off">
-      <div class="form-group">     
-          <input type="text" name="username" ng-model="$ctrl.username"  class="form-control" placeholder="autobox">     
+
+<div id="sign-in">
+  <form  ng-submit="$ctrl.autentichate()" novalidate autocomplete="off">
+    <abx-message msg="$ctrl.message"></abx-message>
+    <div id="logo" class="row">
+      <img class="center-block" src="assets/al/images/homepage/AB-App-SignInLogo.png">
+    </div>
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <input type="text" class="form-control autobox-textfield center-block" ng-model="$ctrl.username" placeholder="USERNAME">
+
       </div>
-      <div class="form-group">
-          <input type="password" name="password"  ng-model="$ctrl.password" class="form-control"  placeholder="autobox">    
-      </div> 
-      <div class="form-group">
-        <div>
-          <button type="submit" class="btn btn-black">Sign in</button>
-        </div>
+      <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <input type="password" class="form-control autobox-textfield center-block" ng-model="$ctrl.password" placeholder="PASSWORD">
       </div>
+      <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+      
+          <button id="sign-button" type="submit" class="btn btn-default center-block">Sign In</button>
+      
+      </div>
+      <div class="col-md-4"></div>
+    </div>
   </form>
 </div>
+<div id="autobox-footer">
+  <div id="footer-text">
+    <p>&copy; 2016 AutoBox. All Rights Reserved. <a href="#">Privacy</a>, <a href="#">Cookies</a> and <a href="#">Terms</a></p>
+  </div>
+</div>
+

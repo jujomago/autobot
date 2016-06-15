@@ -3,8 +3,12 @@
 angular.module('fakiyaMainApp')
   .config(function ($stateProvider) {
     $stateProvider
-      .state('skills.edit', {
-        url: '/edit?name',
-        template: '<al.skills.edit></al.skills.edit>'
+      .state('ap.al.skillsEdit', {
+        url: '/skills/edit?name',
+         views:{
+          'crud':{
+            template: '<al.skills.edit></al.skills.edit>',
+          }
+        }
       });
   });

@@ -17,9 +17,12 @@ class LoginController {
   }
 
   autentichate(){
+
+    console.log('asdfqwer qwpouiqweproi');
     if(this.username==='autobox' && this.password==='autobox'){
-      this.state.go('skills.list');
-      this.storage.logged=true;
+      this.state.go('ap.al.skills');
+      this.storage.logged=true; 
+
     }else{
       this.message={show:true,text:'INVALID CREDENTIALS',type:'danger',expires:4000};
     }

@@ -174,7 +174,7 @@ class InboundComponent {
       console.log(response);
       if(response.statusCode===200 && response.error===null){
          let messageObj={show:true,type:'success',text:'Campaign "'+this.campaign.name+'" Updated'};
-         _state.go('campaigns.list', { message: messageObj });
+         _state.go('ap.al.campaigns', { message: messageObj });
       }
       return response;
     })

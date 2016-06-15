@@ -3,9 +3,13 @@
 angular.module('fakiyaMainApp')
   .config(function ($stateProvider) {
     $stateProvider
-      .state('skills.create', {
-        url: '/create',
-        template: '<al.skills.create></al.skills.create>'
-
+      .state('ap.al.skillsCreate', {
+        url: '/skills/create',
+        views:{
+          'crud':{
+            template: '<al.skills.create></al.skills.create>',
+          }
+        }
+        
       });
   });

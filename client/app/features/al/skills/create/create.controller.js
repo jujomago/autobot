@@ -27,7 +27,7 @@
                             text: 'Skill Created SuccessFully'
                         };
 
-                        this.state.go('skills.list', { message: messageObj });
+                        this.state.go('ap.al.skills', { message: messageObj });
                     } else {
                         console.warn('there is an error');
                         this.message={show:true,type:'danger',text:_skillInfo.errorMessage};
@@ -40,7 +40,7 @@
                 });           
         }
         cancel() {
-            this.state.go('skills.list');
+            this.state.go('ap.al.skills');
         }
 
 }

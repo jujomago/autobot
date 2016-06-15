@@ -3,9 +3,13 @@
 angular.module('fakiyaMainApp')
   .config(function ($stateProvider) {
     $stateProvider
-      .state('campaigns.edit-inbound', {
-        url: '/edit-inbound',
-        template: '<al.campaigns.edit.inbound></al.campaigns.edit.inbound>',
+      .state('ap.al.campaignsEdit-inbound', {
+        url: '/campaigns/edit-inbound',
+        views:{
+          'crud':{
+            template: '<al.campaigns.edit.inbound></al.campaigns.edit.inbound>'
+          }
+        },
          params:{
           campaign:null
         }

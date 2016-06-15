@@ -3,8 +3,8 @@
 angular.module('fakiyaMainApp')
   .config(function ($stateProvider) {
     $stateProvider
-      .state('users', {
-        url: '/app/al/users',
-        template: '<al.users></al.users>'
+      .state('ap', {
+         url:'/ap',
+         templateUrl: 'app/templates/template-main/template-main.html'
       });
   });

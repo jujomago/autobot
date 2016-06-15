@@ -3,8 +3,8 @@
 angular.module('fakiyaMainApp')
   .config(function ($stateProvider) {
     $stateProvider
-      .state('campaigns', {
-        url: '/app/al/campaigns',
-        template: '<al.campaigns></al.campaigns>'
+      .state('ap.al', {  
+         url:'/al',   
+         templateUrl: 'app/templates/adminlite/adminlite.html'
       });
   });

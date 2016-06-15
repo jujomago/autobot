@@ -120,7 +120,7 @@
         }
 
         getDetail(item) {
-            this.state.go('skills.edit', { name: item.name });
+            this.state.go('ap.al.skillsEdit', { name: item.name });
         }
 
         filteringBySearch(){  

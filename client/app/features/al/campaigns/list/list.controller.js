@@ -155,7 +155,7 @@
 
     getDetail(item) {
       let typeEdit = item.type.toLowerCase();
-      _state.go('campaigns.edit-' + typeEdit, { campaign: item });
+      _state.go('ap.al.campaignsEdit-' + typeEdit, { campaign: item });
     }
     
   }

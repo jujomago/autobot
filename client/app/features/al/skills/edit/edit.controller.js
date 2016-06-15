@@ -62,7 +62,7 @@
                             text: 'Skill Updated SuccessFully'
                         };
 
-                        this.state.go('skills.list', { message: messageObj });
+                        this.state.go('ap.al.skills', { message: messageObj });
 
                         this.SubmitText = 'Saved';
                     } else {
@@ -74,7 +74,7 @@
                 });
         }
         cancel() {
-            this.state.go('skills.list');
+            this.state.go('ap.al.skills');
         }
         addUsertoSkill(userObj, i) {
 
