@@ -11,8 +11,11 @@
 
 import _ from 'lodash';
 import soap from 'soap';
-import service from '../../../infrastructure/servicecall'
-import cache from '../../../infrastructure/cachehandler'
+import service from '../../../infrastructure/servicecall';
+import cache from '../../../infrastructure/cachehandler';
+/* test-code */
+import util from 'util';
+/* end-test-code */
 
 function respondWithResult(res, statusCode) {
     console.log('respondWithResult');
@@ -27,11 +30,11 @@ function respondWithResult(res, statusCode) {
 }
 
 function handleError(res, statusCode) {
-       console.log('handleError');
+    console.log('handleError');
     statusCode = statusCode || 500;
     return function (err) {
         console.log('enter func handleError');
-      
+
         if (err.statusCode) {
             console.error("/////////// ERROR STATUS FROM SKILLS CONTROLLER //// ==>: " + err.statusCode);
             statusCode = err.statusCode;
@@ -44,7 +47,7 @@ function handleError(res, statusCode) {
 
         res.status(statusCode).send({
             from: 'Error from Skills Controller EndPoint',
-            body: err.body || err+"",
+            body: err.body || err + "",
             statusCode: statusCode
         });
         //  res.status(statusCode).send(err);
@@ -67,6 +70,14 @@ export function index(req, res) {
 // Gets a list of Skills Info
 export function skillsInfo(req, res) {
     var params = { skillNamePattern: '' };
+    /* test-code */
+    /*console.log('Value req : ' + util.inspect(req, { showHidden: false, depth: 2 }));
+    console.log('Value req.data : ' + util.inspect(req.data, { showHidden: false, depth: null }));
+    console.log('Value req.body : ' + util.inspect(req.body, { showHidden: false, depth: null }));
+    console.log('Value req.params : ' + util.inspect(req.params, { showHidden: false, depth: null }));
+    console.log('Value req.appName : ' + util.inspect(req.appName, { showHidden: false, depth: null }));
+    console.log('Value req.headers : ' + util.inspect(req.headers, { showHidden: false, depth: null }));*/
+    /* end-test-code */
     return cache.getCache('')
         .then(data => {
             if (data === null)
@@ -112,6 +123,6 @@ export function destroy(req, res) {
 
 
     return service.f9CallService('deleteSkill', params, '', req)
-        .then(respondWithResult(res,204))
+        .then(respondWithResult(res, 204))
         .catch(handleError(res));
 }

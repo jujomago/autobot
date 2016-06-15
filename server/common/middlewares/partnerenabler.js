@@ -1,7 +1,14 @@
 
+/* test-code */
+import util from 'util';
+/* end-test-code */
+
 module.exports = {
     partner: function (req, res, next) {
         //req.userId  && req.path
+        /* test-code */
+        console.log('req.headers value-> ' + util.inspect(req.headers, { showHidden: false, depth: 2 }));
+        /* end-test-code */
         req.partnerCretentials = {};
         req.partnerCretentials.typeService = 'soap'; //soap, rest
         req.partnerCretentials.typeAuth = 'userpass'; //userpass,oauth;
