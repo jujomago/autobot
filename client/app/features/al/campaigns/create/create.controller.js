@@ -67,7 +67,7 @@
                             type: 'success',
                             text: 'Campaign Created SuccessFully'
                         };
-                        _state.go('campaigns.list', { message: messageObj });   
+                        _state.go('ap.al.campaigns', { message: messageObj });   
                     }
                     return response;
                  })
