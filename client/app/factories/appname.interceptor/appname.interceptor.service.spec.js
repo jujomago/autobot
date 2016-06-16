@@ -6,13 +6,14 @@ describe('Service: appname.interceptor', function () {
   beforeEach(module('fakiyaMainApp'));
 
   // instantiate service
-  var appname.interceptor;
-  beforeEach(inject(function (_appname.interceptor_) {
-    appname.interceptor = _appname.interceptor_;
+  var appnameInterceptor;
+  beforeEach
+  (inject(function (_appnameInterceptor_) {
+    appnameInterceptor = _appnameInterceptor_;
   }));
 
   it('should do something', function () {
-    expect(!!appname.interceptor).to.be.true;
+    expect(!!appnameInterceptor).to.be.equal(true);
   });
 
 });

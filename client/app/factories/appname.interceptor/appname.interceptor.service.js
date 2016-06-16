@@ -8,11 +8,8 @@ angular.module('fakiyaMainApp')
                 let path =$location.path();
                 console.log('Current url path: ' + path);
                 if (config.url.indexOf('/api/') > -1) {
-                    let match = path.match(/app\/([^\/]+)\/?(.*)$/);
-                    if (match != null) {
-                        // matched text: match[0]
-                        // match start: match.index
-                        // capturing group n: match[n]
+                    let match = path.match(/ap\/([^\/]+)\/?(.*)$/);
+                    if (match !== null) {
                         config.headers.appName = match[1]; //The first group (0) is the enterily string
                     } else {
                         config.headers.appName = '';
