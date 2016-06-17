@@ -8,22 +8,16 @@
 
     
     <div class="mywell">
-
         <div class="searchbox_container">           
               <input type="search" ng-model="$ctrl.search.skill.name" class="searchbox" placeholder="Search" ng-change="$ctrl.filteringBySearch()">
               <span class="glyphicon glyphicon-search"></span> 
         </div>
-      
-
         <button ui-sref="ap.al.skillsCreate" class="btn btn-black pull-right">New</button>
-
     </div>
 
-<table class="table table-striped">
-
+<table class="table table-striped"  ng-show="$ctrl.filteredSkills.length">
     <thead>      
-
-        <th ng-click="$ctrl.sortColumn( 'id')" class="sortColumn">Id
+        <th ng-click="$ctrl.sortColumn( 'id')" class="sortColumn text-center" width="100">Id
             <span class="glyphicon " ng-show="$ctrl.sortKey=='id' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
 'glyphicon-chevron-down':!$ctrl.reverse} "></span>
         </th>
@@ -42,7 +36,7 @@
         <tr ng-repeat="item in ( $ctrl.filteredSkills=($ctrl.skills | filter:$ctrl.search |  limitTo:$ctrl.numPerPage:$ctrl.beginNext) | orderBy:$ctrl.sortKey:$ctrl.reverse  ) "
 
         ng-class="{ 'danger' : $ctrl.toggleSkillRow==$index}">            
-            <td>{{item.skill.id}}</td>
+            <td class="text-center">{{item.skill.id}}</td>
             <td> 
                 <a href ng-click="$ctrl.getDetail(item.skill)">{{item.skill.name}}</a></td>
 
@@ -81,7 +75,9 @@
     " boundary-links="true "
     ng-change="$ctrl.pageChanged()" >
     </uib-pagination>
-    <div class="pull-right results_per_page"><span>Show</span>
+
+    <div class="pull-right results_per_page" ng-show="$ctrl.filteredSkills.length"><span>Show</span>
+
         <select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities ">
         </select> <span>results per page</span> 
     </div>  
@@ -89,3 +85,4 @@
 
 </div>
 </div>
+ 

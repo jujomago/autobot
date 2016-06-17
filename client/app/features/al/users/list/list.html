@@ -18,11 +18,11 @@
     </div>
     
 
-    <table class="table table-striped">
+    <table class="table table-striped" ng-show="$ctrl.filteredUsers.length">
 
             <thead>
           
-                <th ng-click="$ctrl.sortColumn('id') " class="sortColumn">Id
+                <th ng-click="$ctrl.sortColumn('id') " class="sortColumn text-center">Id
                     <span class="glyphicon " ng-show="$ctrl.sortKey=='id' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
 'glyphicon-chevron-down':!$ctrl.reverse} "></span>
                 </th>
@@ -46,18 +46,18 @@
                     <span class="glyphicon " ng-show="$ctrl.sortKey=='startDate' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
 'glyphicon-chevron-down':!$ctrl.reverse} "></span>
                 </th>
-                 <th ng-click="$ctrl.sortColumn( 'active') " class="sortColumn">Active
+                 <th ng-click="$ctrl.sortColumn( 'active') " class="sortColumn text-center">Active
                     <span class="glyphicon " ng-show="$ctrl.sortKey=='active' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
 'glyphicon-chevron-down':!$ctrl.reverse} "></span>
                 </th>
-                <th>
+                <th class="text-center">
                     ACTIONS
                 </th>
             </thead>
             <tbody>              
                 <tr ng-repeat="item in ( $ctrl.filteredUsers=($ctrl.usersList | filter:$ctrl.search | limitTo:$ctrl.numPerPage:$ctrl.beginNext) | orderBy:$ctrl.sortKey:$ctrl.reverse)"
                            ng-class="{ 'danger' : $ctrl.toogleUserRow==$index} ">
-                    <td>{{item.id}}</td>
+                    <td class="text-center">{{item.id}}</td>
                     <td>
                         <a href ng-click="$ctrl.getDetail(item)">
                             {{item.userName}}
@@ -68,7 +68,7 @@
                     <td>{{item.fullName}}</td>       
              
                     <td>{{item.startDate | date:"MM/dd/yyyy" }}</td>
-                    <td>{{item.active}}</td>
+                    <td class="text-center">{{item.active}}</td>
                     <td  class="text-center">                        
                
                         <a href class="circle_delete" ng-click="$ctrl.deleteUser(item,$index)"  
@@ -95,7 +95,9 @@
         " boundary-links="true "
         ng-change="$ctrl.pageChanged()" >
         </uib-pagination>
-        <div class="pull-right results_per_page"><span>Show</span>
+
+        <div class="pull-right results_per_page" ng-show="$ctrl.filteredUsers.length"><span>Show</span>
+
             <select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities ">
             </select><span>results per page</span> 
         </div>  

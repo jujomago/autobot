@@ -6,10 +6,10 @@
 
 <div ng-show="$ctrl.campaigns.length>0" > 
   
-<div class="mywell">
+<div class="mywell"> 
 
     <div class="filter_select">
-        <span class="glyphicon glyphicon-filter"></span>
+        <span>Filter by</span>
         <select name="typeCampaignFilter" class="form-control" ng-model="$ctrl.typeCampaignFilter">
                 <option value="">All</option>
                 <option value="INBOUND">InBound</option>
@@ -48,7 +48,7 @@
             <span class="glyphicon " ng-show="$ctrl.sortKey=='state' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
 'glyphicon-chevron-down':!$ctrl.reverse} "></span>
         </th>
-        <th ng-click="$ctrl.sortColumn('trainingMode') " class=" sortColumn text-center"  width="220">Training
+        <th ng-click="$ctrl.sortColumn('trainingMode') " class=" sortColumn text-center"  width="120">Training
 
             <span class="glyphicon " ng-show="$ctrl.sortKey=='trainingMode' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
 'glyphicon-chevron-down':!$ctrl.reverse} "></span>
@@ -101,7 +101,7 @@
         <select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities ">
         </select><span>results per page</span> 
     </div>  
-</div>
+</div> 
 
 </div>
 </div>

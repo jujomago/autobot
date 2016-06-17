@@ -12,7 +12,7 @@
  <h4 ng-hide="$ctrl.found" class="text-center"><span class="label label-success">Loading ...</span></h4>
 <form name="userForm" class="custom_form form-horizontal" novalidate autocomplete="off"   ng-submit="userForm.$valid && $ctrl.update()" ng-show="$ctrl.found"> 
 <uib-tabset  justified="false">
-    <uib-tab index="0" heading="1. General">
+    <uib-tab index="0" heading="General">
        
             <div class="form-group input"  ng-class="{ 'has-error': userForm.firstName.$invalid && userForm.$submitted }">
                 <label for="firstName" class="control-label col-sm-2">FIRST NAME</label>
@@ -35,7 +35,7 @@
             <div class="form-group input" ng-class="{ 'has-error': userForm.extension.$invalid && userForm.$submitted }">
                 <label for="extension" class="control-label col-sm-2">EXTENSION</label>
                 <div class="col-sm-10">
-                    <input type="number" class="form-control"  name="extension" id="extension" required ng-model="$ctrl.userInfo.generalInfo.extension" ng-minlength="4" ng-maxlength="4">
+                    <input type="text" class="form-control"  name="extension" id="extension" required ng-model="$ctrl.userInfo.generalInfo.extension" ng-minlength="4" ng-maxlength="4">
                     <div ng-messages="userForm.extension.$error" ng-show="userForm.$submitted">                  
                         <p ng-message="required">This field is required</p>
                         <p ng-message="maxlength">This field is too long, just 4 digits</p> 
@@ -105,7 +105,7 @@
        
     </uib-tab>
 
-    <uib-tab index="1" heading="2. Roles" select="$ctrl.checkStepOne(userForm)">
+    <uib-tab index="1" heading="Roles" select="$ctrl.checkStepOne(userForm)">
         <div class="row">
             <div class="col col-xs-2" ng-show="$ctrl.allRoles.length>0">       
                     <h4>Roles Available</h4>
