@@ -470,15 +470,47 @@ pre{
     padding-left: 12px;
 
 }
+
+/*
 ui-view{
+    display: block;
+}*/
+sidebar{
     display: block;
 }
 .offsettop{
-    margin-top: 55px;
+  /*  margin-top: 55px;*/
+        padding-top: 55px;
+ /*   padding-bottom: 55px;*/
+
 }
 .fixed_bottom{
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
+
+}
+.results_per_page > *{
+    margin: 0 5px;
+}
+
+.col-equal-height{
+    overflow: hidden; 
+    min-height: 100%;
+}
+
+.col-equal-height [class*="col-"]{
+    margin-bottom: -99999px;
+    padding-bottom: 99999px;
+}
+html,body{
+    height: 100%;
+}
+#main-container{
+    height: 100%;
+}
+#main-container > .container-fluid{
+    height: 100%;
+
 }

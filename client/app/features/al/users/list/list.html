@@ -11,7 +11,7 @@
     <div class="mywell">
         <div class="searchbox_container">
              
-              <input type="search" ng-model="$ctrl.search.userName" class="searchbox" placeholder="Search User Name" ng-change="$ctrl.filteringBySearch()">
+              <input type="search" ng-model="$ctrl.search.userName" class="searchbox" placeholder="Search" ng-change="$ctrl.filteringBySearch()">
                <span class="glyphicon glyphicon-search"></span>  
         </div>
         <button ui-sref="ap.al.usersCreate " class="btn btn-black pull-right">New</button>
@@ -95,9 +95,9 @@
         " boundary-links="true "
         ng-change="$ctrl.pageChanged()" >
         </uib-pagination>
-        <div class="pull-right">Show
+        <div class="pull-right results_per_page"><span>Show</span>
             <select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities ">
-            </select> results per page
+            </select><span>results per page</span> 
         </div>  
     </div>
 </div>
