@@ -100,6 +100,8 @@ footer,
 }*/
 .rightside{
   background: #f7f7f7;
+  padding-left: 30px;
+  padding-right: 30px;
 }
 
 .title_section{
@@ -144,6 +146,15 @@ footer,
     position: absolute; 
     
 } 
+
+.searchbox:focus
+{
+	outline: none;
+
+	box-shadow: none;
+}
+
+
 /*.searchbox:focus ~ span.glyphicon,
 .searchbox:active ~ span.glyphicon{
   color: #36A3DC;
@@ -188,7 +199,7 @@ footer,
 .mywell.footer_table{
      font-family: BrandonRegular;
     margin-top: 50px;
-    margin-bottom: 30px;
+    margin-bottom: 60px;
 
     font-size: 14px;
 
@@ -374,17 +385,37 @@ footer,
     display: inline-block;
     height: 30px;
     width: auto;
-}
-.filter_select select{
-    display: inline-block;
+    background: #fff;
+    width: 290px;
+    display: inline-flex;
     margin-right: 20px;
-    padding: 4px 14px 4px 39px;
-    height: 30px;
-    width: 270px;
-    border: 1px solid #f2f2f2;
-    position: relative;
-    color:#000;
 }
+.filter_select > span{
+    color: #ccc;
+    display: inline-block;
+    margin: 0 12px;
+    line-height: 30px;
+}
+
+.filter_select select{
+    padding: 4px 0;
+    height: 30px;
+    border: 0;
+    background: transparent;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    position: relative;
+    color:#000; 
+    flex-grow: 1;
+    width: auto;
+}
+.filter_select select:focus{
+    outline: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+
 .filter_select .glyphicon-filter{
         z-index: 2;
     font-size: 16px;
@@ -462,11 +493,12 @@ pre{
 }
 
 .has-error  p[ng-message] { 
-    color: #AB1818;
-    background: #F3D6D6;
-    line-height: 30px;
+    color: #e64b3b;
+    line-height: 34px;
     padding-left: 12px;
-
+    margin: 0;
+    position: absolute;
+    top: 0;
 }
 
 /*
@@ -478,7 +510,7 @@ sidebar{
 }
 .offsettop{
   /*  margin-top: 55px;*/
-        padding-top: 55px;
+        padding-top: 60px;
  /*   padding-bottom: 55px;*/
 
 }
@@ -515,4 +547,34 @@ html,body{
 #main-container > .container-fluid{
     height: 100%;
 
+}
+
+.custom_form .inputminimal{
+    background: #fff;
+    max-width: 100%;
+    height: 35px;
+    margin-bottom: 10px;
+    position: relative;
+    
+}
+.custom_form .inputminimal > label{
+ text-align: left;
+ line-height:33px;
+ padding-top: 0px;
+}
+.custom_form .inputminimal > div{
+    
+    height: auto;
+    	flex-grow: 1;
+}
+.custom_form .inputminimal input{
+    line-height: 33px;
+    width: 100%;
+} 
+
+.custom_form div.checkbox label{
+
+}
+.custom_form div.checkbox label input{
+    width: auto;
 }

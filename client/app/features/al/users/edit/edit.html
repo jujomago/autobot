@@ -1,4 +1,4 @@
-<div class="extrappading">
+
       <h3 class="title_section">Users:<span> {{$ctrl.userInfo.generalInfo.firstName}}</span></h3>
 <div class="alert alert-warning" ng-show="$ctrl.showWarningRolMessage">
       You must select at least one rol
@@ -14,28 +14,28 @@
 <uib-tabset  justified="false">
     <uib-tab index="0" heading="General">
        
-            <div class="form-group input"  ng-class="{ 'has-error': userForm.firstName.$invalid && userForm.$submitted }">
-                <label for="firstName" class="control-label col-sm-2">FIRST NAME</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" name="firstName" id="firstName" required ng-model="$ctrl.userInfo.generalInfo.firstName">
+            <div class="inputminimal"  ng-class="{ 'has-error': userForm.firstName.$invalid && userForm.$submitted }">
+                <label for="firstName">First Name*</label>
+                <div>
+                    <input type="text" name="firstName" id="firstName" required ng-model="$ctrl.userInfo.generalInfo.firstName">
                      <div ng-messages="userForm.firstName.$error" ng-show="userForm.$submitted">                  
                         <p ng-message="required">This field is required</p>
                     </div>     
                 </div>
             </div>
-            <div class="form-group input" ng-class="{ 'has-error': userForm.lastName.$invalid && userForm.$submitted }">
-                <label for="lastName" class="control-label col-sm-2">LAST NAME</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control"  name="lastName" id="lastName"  required ng-model="$ctrl.userInfo.generalInfo.lastName">
+            <div class="inputminimal" ng-class="{ 'has-error': userForm.lastName.$invalid && userForm.$submitted }">
+                <label for="lastName" >Last Name*</label>
+                <div>
+                    <input type="text"  name="lastName" id="lastName"  required ng-model="$ctrl.userInfo.generalInfo.lastName">
                     <div ng-messages="userForm.lastName.$error" ng-show="userForm.$submitted">                  
                         <p ng-message="required">This field is required</p>
                     </div> 
                 </div>
             </div>
-            <div class="form-group input" ng-class="{ 'has-error': userForm.extension.$invalid && userForm.$submitted }">
-                <label for="extension" class="control-label col-sm-2">EXTENSION</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control"  name="extension" id="extension" required ng-model="$ctrl.userInfo.generalInfo.extension" ng-minlength="4" ng-maxlength="4">
+            <div class="inputminimal" ng-class="{ 'has-error': userForm.extension.$invalid && userForm.$submitted }">
+                <label for="extension" >Extension*</label>
+                <div>
+                    <input type="text"  name="extension" id="extension" required ng-model="$ctrl.userInfo.generalInfo.extension" ng-minlength="4" ng-maxlength="4">
                     <div ng-messages="userForm.extension.$error" ng-show="userForm.$submitted">                  
                         <p ng-message="required">This field is required</p>
                         <p ng-message="maxlength">This field is too long, just 4 digits</p> 
@@ -43,28 +43,28 @@
                     </div>    
                 </div>
             </div>
-            <div class="form-group input" ng-class="{ 'has-error': userForm.EMail.$invalid && userForm.$submitted }">
-                <label for="EMail" class="control-label col-sm-2">EMAIL</label>
-                <div class="col-sm-10">
-                    <input type="email" class="form-control"  name="EMail" id="EMail" required ng-model="$ctrl.userInfo.generalInfo.EMail" ng-minlength="5">
+            <div class="inputminimal" ng-class="{ 'has-error': userForm.EMail.$invalid && userForm.$submitted }">
+                <label for="EMail" >Email*</label>
+                <div>
+                    <input type="email"  name="EMail" id="EMail" required ng-model="$ctrl.userInfo.generalInfo.EMail" ng-minlength="5">
                      <div ng-messages="userForm.EMail.$error" ng-show="userForm.$submitted">    <p ng-message="required">This field is required</p>
                         <p ng-message="email">This needs to be a valid email</p>
                         <p ng-message="minlength">The email is too short</p>
                     </div> 
                 </div>
             </div>
-            <div class="form-group input"  ng-class="{ 'has-error': userForm.userName.$invalid && userForm.$submitted }">
-                <label for="userName" class="control-label col-sm-2">USERNAME</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" name="userName" id="userName" required ng-model="$ctrl.userInfo.generalInfo.userName" autocomplete="false" ng-minlength="6"> 
+            <div class="inputminimal"  ng-class="{ 'has-error': userForm.userName.$invalid && userForm.$submitted }">
+                <label for="userName" >Username*</label>
+                <div>
+                    <input type="text" name="userName" id="userName" required ng-model="$ctrl.userInfo.generalInfo.userName" autocomplete="false" ng-minlength="6"> 
                      <div ng-messages="userForm.userName.$error" ng-show="userForm.$submitted">                  
                         <p ng-message="required">This field is required</p>
                         <p ng-message="minlength">The field needs to be al least 6 characters</p>
                     </div>    
                 </div>
             </div>
-            <div class="form-group input"  ng-class="{ 'has-error': userForm.password.$invalid && userForm.$submitted }">
-                <label for="Password" class="control-label col-sm-2">PASSWORD</label>
+            <div class="inputminimal"  ng-class="{ 'has-error': userForm.password.$invalid && userForm.$submitted }">
+                <label for="Password">Password</label>
                 <div class="col-sm-7">
                     <input type="password" class="form-control" name="password" id="password" ng-required="changePass" ng-model="$ctrl.userInfo.generalInfo.password"  autocomplete="false"    ng-disabled="!changePass">
                     <div ng-messages="userForm.password.$error" ng-show="userForm.$submitted">
@@ -73,31 +73,30 @@
                     </div>            
                 </div>
                    <div class="checkbox">
-                         <label class="col-sm-3">
-                             <input type="checkbox" ng-model="changePass">WANT TO CHANGE PASSWORD?
+                         <label>
+                             <input type="checkbox" ng-model="changePass">Want to change Password?
                          </label>
-                   </div>
-              
+                   </div>              
             </div>
             <div class="form-group">
                 <div class="col-sm-2">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" ng-model="$ctrl.userInfo.generalInfo.active"> USER IS ACTIVE
+                            <input type="checkbox" ng-model="$ctrl.userInfo.generalInfo.active"> User is active
                         </label>
                     </div>
                 </div>
                 <div class="col-sm-4">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" ng-model="$ctrl.userInfo.generalInfo.canChangePassword"> USER CAN CHANGE PASSWORD
+                            <input type="checkbox" ng-model="$ctrl.userInfo.generalInfo.canChangePassword"> User can change password
                         </label>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" ng-model="$ctrl.userInfo.generalInfo.mustChangePassword"> USER MUST CHANGE PASSWORD ON NEXT LOGIN
+                            <input type="checkbox" ng-model="$ctrl.userInfo.generalInfo.mustChangePassword"> User must change password on next login
                         </label>
                     </div>
                 </div>
@@ -151,4 +150,3 @@
     <button type="button" class="btn btn-black" ui-sref="ap.al.users">Cancel</button>
 </div>
 </form>
-</div>
