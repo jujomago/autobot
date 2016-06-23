@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('fakiyaMainApp')
-    .factory('appname.interceptor', function($location) {
+    .factory('appnameInterceptor', function($location) {
 
         var sessionInjector = {
             request: function(config) {
@@ -25,7 +25,7 @@ angular.module('fakiyaMainApp')
     });
 angular.module('fakiyaMainApp')
     .config(['$httpProvider', function($httpProvider) {
-        $httpProvider.interceptors.push('appname.interceptor');
+        $httpProvider.interceptors.push('appnameInterceptor');
         /*$httpProvider.defaults.transformRequest = function (data) {
           if (data === undefined) {
             data = {};

@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Service: appname.interceptor', function () {
+describe('Service: appnameInterceptor', function () {
 
   // load the service's module
   beforeEach(module('fakiyaMainApp'));
