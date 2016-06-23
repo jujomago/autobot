@@ -8,6 +8,11 @@ describe('Component: CreateComponent', function () {
   var CreateComponent, scope;
   var endPointUrl,httpBackend;
 
+    /*  beforeEach(module(function($urlRouterProvider) {
+        console.log('in', $urlRouterProvider);
+        $urlRouterProvider.deferIntercept();
+      }));*/
+
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($componentController, $rootScope, $httpBackend, appConfig) {
     scope = $rootScope.$new();
@@ -71,6 +76,8 @@ describe('Component: CreateComponent', function () {
     
 
     describe('#getIVRScripts', () => {
+
+
 
          it('=> should return array of ivrscripts', () => {
             httpBackend.whenGET(endPointUrl+'/ivrscripts').respond({

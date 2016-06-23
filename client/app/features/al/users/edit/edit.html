@@ -10,7 +10,9 @@
 <abx-message msg="$ctrl.message"></abx-message> 
 
 
-<abx-load-indicator ng-hide="$ctrl.found" /> 
+
+<abx-load-indicator ng-hide="$ctrl.found"></abx-load-indicator> 
+
 
 
 <form name="userForm" class="custom_form form-horizontal" novalidate autocomplete="off"   ng-submit="userForm.$valid && $ctrl.update()" ng-show="$ctrl.found"> 

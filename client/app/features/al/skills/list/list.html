@@ -1,80 +1,76 @@
 <h3 class="title_section">Skills</h3>
-<abx-message msg="$ctrl.message"></abx-message> 
 
+<abx-message msg="$ctrl.message"></abx-message>
 
-<abx-load-indicator ng-show="$ctrl.skills.length==0 && !$ctrl.message.show" text="Loading Skills" /> 
+<abx-load-indicator ng-show="$ctrl.skills.length==0 && !$ctrl.message.show" text="Loading Skills"></abx-load-indicator>
 
+<div ng-show="$ctrl.skills.length>0">
 
-<div ng-show="$ctrl.skills.length>0" >    
     <div class="mywell">
-        <div class="searchbox_container">           
-              <input type="search" ng-model="$ctrl.search.skill.name" class="searchbox" placeholder="Search" ng-change="$ctrl.filteringBySearch()">
-              <span class="glyphicon glyphicon-search"></span> 
+        <div class="searchbox_container">
+            <input type="search" ng-model="$ctrl.search.skill.name" class="searchbox" placeholder="Search" ng-change="$ctrl.filteringBySearch()">
+            <span class="glyphicon glyphicon-search"></span>
         </div>
         <button ui-sref="ap.al.skillsCreate" class="btn btn-black pull-right">New</button>
     </div>
 
-<table class="table table-striped"  ng-show="$ctrl.filteredSkills.length">
-    <thead>      
-        <th ng-click="$ctrl.sortColumn( 'id')" class="sortColumn text-center" width="100">Id
-            <span class="glyphicon " ng-show="$ctrl.sortKey=='id' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
+    <table class="table table-striped" ng-show="$ctrl.filteredSkills.length">
+        <thead>
+            <th ng-click="$ctrl.sortColumn( 'id')" class="sortColumn text-center" width="100">Id
+                <span class="glyphicon " ng-show="$ctrl.sortKey=='id' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
 'glyphicon-chevron-down':!$ctrl.reverse} "></span>
-        </th>
-        <th ng-click="$ctrl.sortColumn('skill.name') " class="sortColumn">Name
-            <span class="glyphicon " ng-show="$ctrl.sortKey=='skill.name' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
+            </th>
+            <th ng-click="$ctrl.sortColumn('skill.name') " class="sortColumn">Name
+                <span class="glyphicon " ng-show="$ctrl.sortKey=='skill.name' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
 'glyphicon-chevron-down':!$ctrl.reverse} "></span>
-        </th>
-        <th>Description</th>
-        <th class="text-center">Users</th>
-        <th width="100"  class="text-center">
-            ACTIONS
-        </th>
-    </thead>
-    <tbody>
-        <tr ng-repeat="item in ( $ctrl.filteredSkills=($ctrl.skills | filter:$ctrl.search |  limitTo:$ctrl.numPerPage:$ctrl.beginNext) | orderBy:$ctrl.sortKey:$ctrl.reverse  ) "
 
-        ng-class="{ 'danger' : $ctrl.toggleSkillRow==$index}">            
-            <td class="text-center">{{item.skill.id}}</td>
-            <td> 
-                <a href ng-click="$ctrl.getDetail(item.skill)">{{item.skill.name}}</a></td>
+            </th>
+            <th>Description</th>
+            <th class="text-center">Users</th>
+            <th width="100" class="text-center">
+                ACTIONS
+            </th>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in ( $ctrl.filteredSkills=($ctrl.skills | filter:$ctrl.search |  limitTo:$ctrl.numPerPage:$ctrl.beginNext) | orderBy:$ctrl.sortKey:$ctrl.reverse  ) "
+                ng-class="{ 'danger' : $ctrl.toggleSkillRow==$index}">
+                <td class="text-center">{{item.skill.id}}</td>
+                <td>
+                    <a href ng-click="$ctrl.getDetail(item.skill)">{{item.skill.name}}</a></td>
 
-            <td>{{item.skill.description}}</td>
-            <td class="text-center">{{item.users.length}}</td>        
-            <td class="text-center">
+                <td>{{item.skill.description}}</td>
+                <td class="text-center">{{item.users.length}}</td>
+                <td class="text-center">
 
-                <a href class="circle_delete" ng-click="$ctrl.deleteSkill(item,$index)"  
-                ng-hide="$ctrl.toggleSkillRow==$index "></a>
-                            
-            </td>
-        </tr>
-    </tbody>
-</table>
+                    <a href class="circle_delete" ng-click="$ctrl.deleteSkill(item,$index)" ng-hide="$ctrl.toggleSkillRow==$index "></a>
 
-<div class="mywell footer_table text-center">
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-    <div class="noresults" ng-show="!$ctrl.filteredSkills.length"  ng-if="$ctrl.search.skill.name">
-        <img src="assets/al/images/NoResultsIcon.png" alt="lupa">
-        <p>We couldn't find what you are looking for</p>
+    <div class="mywell footer_table text-center">
+
+        <div class="noresults" ng-show="!$ctrl.filteredSkills.length" ng-if="$ctrl.search.skill.name">
+            <img src="assets/al/images/NoResultsIcon.png" alt="lupa">
+            <p>We couldn't find what you are looking for</p>
+        </div>
+
+
+        <label for="pull-left" ng-show="$ctrl.filteredSkills.length" ng-if="$ctrl.search.skill.name">Showing {{$ctrl.filteredSkills.length}} results</label>
+
+        <label class="pull-left" ng-if="!$ctrl.search.skill.name">Showing {{$ctrl.beginNext+1}}-{{$ctrl.currentPage*$ctrl.numPerPage}} of {{$ctrl.totalItems}}</label>
+
+
+
+        <uib-pagination ng-if="!$ctrl.search.skill.name" total-items="$ctrl.totalItems " ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
+    " boundary-links="true " ng-change="$ctrl.pageChanged()">
+        </uib-pagination>
+
+        <div class="pull-right results_per_page" ng-show="$ctrl.filteredSkills.length"><span>Show</span>
+
+            <select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities ">
+        </select> <span>results per page</span>
+        </div>
     </div>
-
-    <label for="pull-left" ng-show="$ctrl.filteredSkills.length"  ng-if="$ctrl.search.skill.name">Showing {{$ctrl.filteredSkills.length}} results</label>
-
-    <label class="pull-left" ng-if="!$ctrl.search.skill.name">Showing {{$ctrl.beginNext+1}}-{{$ctrl.currentPage*$ctrl.numPerPage}} of {{$ctrl.totalItems}}</label>    
-
-
-
-    <uib-pagination ng-if="!$ctrl.search.skill.name" total-items="$ctrl.totalItems " ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
-    " boundary-links="true "
-    ng-change="$ctrl.pageChanged()" >
-    </uib-pagination>
-
-    <div class="pull-right results_per_page" ng-show="$ctrl.filteredSkills.length"><span>Show</span>
-
-        <select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities ">
-        </select> <span>results per page</span> 
-    </div>  
 </div>
-
-</div>
-
-

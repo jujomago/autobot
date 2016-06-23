@@ -1,10 +1,12 @@
 
-    <h3 class="title_section">Campaigns</h3>
+<h3 class="title_section">Campaigns</h3>
 
 <abx-message msg="$ctrl.message"></abx-message> 
 
 
-<abx-load-indicator ng-show="$ctrl.campaigns.length==0 && !$ctrl.message.show" text="Loading Campaigns" /> 
+
+<abx-load-indicator ng-show="$ctrl.campaigns.length==0 && !$ctrl.message.show" text="Loading Campaigns"></abx-load-indicator> 
+
 
 
 <div ng-show="$ctrl.campaigns.length>0" > 
@@ -87,10 +89,7 @@
 </table>
 
 <div class="mywell footer_table text-center">
-<<<<<<< HEAD
 
-=======
->>>>>>> ac2d798b91edb1d3f8758daf761580f10c7f10fb
        <div class="noresults" ng-show="!$ctrl.filteredCampaigns.length"  ng-if="$ctrl.search.name">
              <img src="assets/al/images/NoResultsIcon.png" alt="lupa">
              <p>We couldn't find what you are looking for</p>

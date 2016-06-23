@@ -1,7 +1,9 @@
 <h3 class="title_section">Campaign: <span>{{$ctrl.campaign.name}}</span></h3>
 <abx-message msg="$ctrl.message"></abx-message> 
 
-<abx-load-indicator ng-hide="$ctrl.found" /> 
+
+<abx-load-indicator ng-hide="$ctrl.found"></abx-load-indicator> 
+
 
  
  <uib-tabset active="active1" justified="false" ng-hide="!$ctrl.found">

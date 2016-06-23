@@ -3,7 +3,7 @@
 
 <h3 class="title_section">Campaigns</h3>
 
-<abx-message msg="$ctrl.message"/>
+<abx-message msg="$ctrl.message"></abx-message>
 <form  name="formCampaign" novalidate class="custom_form form-horizontal" ng-submit="formCampaign.$valid && $ctrl.save()">
     <div class="inputminimal" ng-class="{ 'has-error': formCampaign.campaignName.$invalid && formCampaign.$submitted }">
         <label>Name *</label>
