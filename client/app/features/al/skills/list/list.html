@@ -1,12 +1,11 @@
-
-      <h3 class="title_section">Skills</h3>
+<h3 class="title_section">Skills</h3>
 <abx-message msg="$ctrl.message"></abx-message> 
- 
-<h4 ng-show="$ctrl.skills.length==0 && !$ctrl.message.show" class="text-center "><span class="label label-success ">Loading ...</span></h4>
 
-<div ng-show="$ctrl.skills.length>0" >
 
-    
+<abx-load-indicator ng-show="$ctrl.skills.length==0 && !$ctrl.message.show" text="Loading Skills" /> 
+
+
+<div ng-show="$ctrl.skills.length>0" >    
     <div class="mywell">
         <div class="searchbox_container">           
               <input type="search" ng-model="$ctrl.search.skill.name" class="searchbox" placeholder="Search" ng-change="$ctrl.filteringBySearch()">
@@ -32,7 +31,6 @@
         </th>
     </thead>
     <tbody>
-        <!--tr ng-repeat="item in $ctrl.filteredSkills|filter:search "-->
         <tr ng-repeat="item in ( $ctrl.filteredSkills=($ctrl.skills | filter:$ctrl.search |  limitTo:$ctrl.numPerPage:$ctrl.beginNext) | orderBy:$ctrl.sortKey:$ctrl.reverse  ) "
 
         ng-class="{ 'danger' : $ctrl.toggleSkillRow==$index}">            
@@ -44,26 +42,20 @@
             <td class="text-center">{{item.users.length}}</td>        
             <td class="text-center">
 
-                <a href class="circle_delete" ng-click="$ctrl.deleteSkill(item.skill,$index)"  
+                <a href class="circle_delete" ng-click="$ctrl.deleteSkill(item,$index)"  
                 ng-hide="$ctrl.toggleSkillRow==$index "></a>
-
-                <!--button class="btn btn-danger " ng-click="$ctrl.deleteSkill(item,$index) " ng-disabled="$ctrl.toggleSkillRow==$index ">
-                    {{($ctrl.toggleSkillRow == $index)?'Deleting ..':'Delete'}}
-                  
-                </button>
-
-                <!--button class="btn btn-info " ng-click="$ctrl.getDetail(item.skill) ">
-
-                    Edit
-                </button-->      
-                
+                            
             </td>
         </tr>
     </tbody>
 </table>
 
 <div class="mywell footer_table text-center">
-    <label ng-show="!$ctrl.filteredSkills.length"  ng-if="$ctrl.search.skill.name">NO RESULTS</label>
+
+    <div class="noresults" ng-show="!$ctrl.filteredSkills.length"  ng-if="$ctrl.search.skill.name">
+        <img src="assets/al/images/NoResultsIcon.png" alt="lupa">
+        <p>We couldn't find what you are looking for</p>
+    </div>
 
     <label for="pull-left" ng-show="$ctrl.filteredSkills.length"  ng-if="$ctrl.search.skill.name">Showing {{$ctrl.filteredSkills.length}} results</label>
 

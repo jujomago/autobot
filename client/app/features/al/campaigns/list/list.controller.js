@@ -21,6 +21,11 @@
       this.toggleStatusRow=-1;
       this.message = { show: false }; 
       this.typeCampaignFilter = '';   
+     
+      this.search={name:''};
+      this.filteredCampaigns=[];
+
+
       _state = $state;
       _stateParams = $stateParams;
       _timeout = $timeout;
@@ -71,8 +76,11 @@
       }
     }
     
+
+
+
     deleteCampaign(campaign, indexRow) {
-      return _ConfirmAsync('Are you sure to delete "' + campaign.name + '"?')
+      return _ConfirmAsync('Are you sure to delete "' + campaign.name + '"?')          
         .then(() => {
           this.toggleCampaignRow = indexRow;
           return _CampaignService.deleteCampaign(campaign.name);
@@ -101,9 +109,33 @@
         });
     }
 
+    verifyDependendies(campaign){
+          if(campaign.type==='INBOUND'){
+              // CHECK DNIS
+              return _CampaignService.getAttachedDnis(campaign.name);          
+              
+          }else{
+            //check lists
+             return _CampaignService.getAttachedLists(campaign.name);     
+          }
+    }
+
     updateState(item, indexRow){
-           
-       this.toggleStatusRow = indexRow;   
+     this.toggleStatusRow = indexRow;   
+
+     return this.verifyDependendies(item)
+      .then(response=>{
+         if(response.data===null && response.statusCode===200){ 
+            if(item.type==='INBOUND'){     
+             throw 'No DNIS numbers attached to the campain';
+            }else{
+             throw 'No Lists attrached to the campain';
+            }
+        }
+        return response;   
+      })
+     .then(()=>{
+     
         if(item.state==='RUNNING'){
         
           item.statusBtnText='Stopping...';
@@ -151,6 +183,14 @@
             return e;
           });          
        }
+     })
+      .catch(e =>{    
+           console.log('exterior catch');
+           this.message={ show: true, type: 'warning', text: e, expires:5000 };
+           return e;
+
+     });
+
     }   
 
     getDetail(item) {
@@ -158,6 +198,18 @@
       _state.go('ap.al.campaignsEdit-' + typeEdit, { campaign: item });
     }
     
+      filteringBySearch(){  
+          if(this.search.name || this.typeCampaignFilter){       
+               
+              this.beginNext=0;
+              this.currentPage = 1;
+              return true;
+            }
+            return false;
+      }
+
+
+
   }
   ListComponent.$inject = ['$state', '$stateParams', '$timeout', 'ConfirmAsync', 'CampaignService'];
   angular.module('fakiyaMainApp')

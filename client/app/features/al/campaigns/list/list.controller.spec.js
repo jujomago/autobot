@@ -134,6 +134,42 @@ describe('Component: al.campaigns.list', function () {
 
 
   });
+
+  describe('#verifyDependencies', () => {
+     it('Get attached DNIS, should return null, campaign inexistent', function () {
+
+        httpBackend.whenGET(endPointUrl+'/attached/dnis/SomeCampaignName').respond(200, null);
+
+        let item={name:'SomeCampaignName',type:'INBOUND'};
+        ListComponent.verifyDependencies(item)
+        then(response=>{
+          expect(response.statusCode).to.equal(200);
+          expect(response.data).to.equal(null);
+          expect(response.error).to.not.equal(null);
+        });
+
+     });
+
+     it('Get attached Lists, should return null, campaign inexistent', function () {
+
+        httpBackend.whenGET(endPointUrl+'/attached/lists/SomeCampaignName').respond(200, null);
+
+        let item={name:'SomeCampaignName',type:'AUTODIAL'};
+        ListComponent.verifyDependencies(item)
+        then(response=>{
+          expect(response.statusCode).to.equal(200);
+          expect(response.data).to.equal(null);
+          expect(response.error).to.not.equal(null);
+        });
+
+     });
+
+
+
+  });
+
+     
+
   
   describe('#updateState', () => {
     

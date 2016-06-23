@@ -24,7 +24,7 @@ class LoginController {
       this.storage.logged=true; 
 
     }else{
-      this.message={show:true,text:'INVALID CREDENTIALS',type:'danger',expires:4000};
+      this.message={show:true,text:'Invalid username and/or password. Please try again',type:'danger',expires:4000};
     }
   }
   

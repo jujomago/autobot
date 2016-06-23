@@ -10,13 +10,14 @@
             <div>
                  <input autofocus type="text" id="inputName" ng-model="$ctrl.newSkill.name" name="skillName" required ng-minlength="5" 
          />        
-                      <div ng-messages="formSkill.skillName.$error" ng-show="formSkill.$submitted">
-                        <p ng-message="minlength">This field is too short</p>
-                        <p ng-message="required">This field is required</p>
-                    </div>             
+                                
             </div>
      
     </div>
+     <div ng-messages="formSkill.skillName.$error" ng-show="formSkill.$submitted">
+                        <p ng-message="minlength">This field is too short</p>
+                        <p ng-message="required">This field is required</p>
+                    </div>  
     <div class="inputminimal">        
         <label for="inputDesc">Description</label>
         <div>

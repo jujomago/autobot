@@ -19,63 +19,68 @@
                 <label for="firstName" >First Name*</label>
                 <div>
                     <input autofocus type="text" name="firstName" id="firstName" required ng-model="$ctrl.newUser.firstName">
-                    <div ng-messages="userForm.firstName.$error" ng-show="userForm.$submitted">                  
+                 </div>
+            </div>
+             <div ng-messages="userForm.firstName.$error" ng-show="userForm.$submitted">                  
                         <p ng-message="required">This field is required</p>
                     </div>     
-                </div>
-            </div>
             <div  class="inputminimal"  ng-class="{ 'has-error': userForm.lastName.$invalid && userForm.$submitted }">
                 <label for="lastName" >Last Name*</label>
                 <div>
                     <input type="text"  name="lastName" id="lastName"  ng-model="$ctrl.newUser.lastName" required>
-                      <div ng-messages="userForm.lastName.$error" ng-show="userForm.$submitted">                  
-                        <p ng-message="required">This field is required</p>
-                    </div>     
+                        
                 </div>
             </div>
+             <div ng-messages="userForm.lastName.$error" ng-show="userForm.$submitted">                  
+                        <p ng-message="required">This field is required</p>
+                    </div>  
             <div class="inputminimal"  ng-class="{ 'has-error': userForm.extension.$invalid && userForm.$submitted }">
                 <label for="extension" >Extension*</label>
                 <div>
                     <input type="text"  name="extension" id="extension" required ng-model="$ctrl.newUser.extension"  ng-minlength="4" ng-maxlength="4">
-                    <div ng-messages="userForm.extension.$error" ng-show="userForm.$submitted">                  
-                        <p ng-message="required">This field is required</p>
-                        <p ng-message="maxlength">This field is too long, just 4 digits</p> 
-                        <p ng-message="minlength">This field is too short, 4 digits required</p>                         
-                    </div>             
+                     
                
                 </div>
             </div>
+               <div ng-messages="userForm.extension.$error" ng-show="userForm.$submitted">                  
+                        <p ng-message="required">This field is required</p>
+                        <p ng-message="maxlength">This field is too long, just 4 digits</p> 
+                        <p ng-message="minlength">This field is too short, 4 digits required</p>                         
+                    </div>         
             <div class="inputminimal"  ng-class="{ 'has-error': userForm.EMail.$invalid && userForm.$submitted }">
                 <label for="EMail" >Email*</label>
                 <div>
                     <input type="email"  name="EMail" id="EMail" required ng-model="$ctrl.newUser.EMail"  ng-minlength="5">
-                     <div ng-messages="userForm.EMail.$error" ng-show="userForm.$submitted">                  
+                    
+                </div>
+            </div>
+             <div ng-messages="userForm.EMail.$error" ng-show="userForm.$submitted">                  
                         <p ng-message="required">This field is required</p>
                         <p ng-message="email">This needs to be a valid email</p>
                         <p ng-message="minlength">The email is too short</p>
                     </div>       
-                </div>
-            </div>
             <div class="inputminimal" ng-class="{ 'has-error': userForm.userName.$invalid && userForm.$submitted }">
                 <label for="userName" >Username*</label>
                 <div>
                     <input type="text" name="userName" id="userName" required ng-model="$ctrl.newUser.userName" autocomplete="false"  ng-minlength="6" > 
-                    <div ng-messages="userForm.userName.$error" ng-show="userForm.$submitted">                  
-                        <p ng-message="required">This field is required</p>
-                        <p ng-message="minlength">The field needs to be al least 6 characters</p>
-                    </div>      
+                     
                 </div>
             </div>
+              <div ng-messages="userForm.userName.$error" ng-show="userForm.$submitted">                  
+                        <p ng-message="required">This field is required</p>
+                        <p ng-message="minlength">The field needs to be al least 6 characters</p>
+                    </div>   
             <div class="inputminimal" ng-class="{ 'has-error': userForm.password.$invalid && userForm.$submitted }">
                 <label for="Password" >Password*</label>
                 <div>
                     <input type="password" name="password" id="password" required ng-model="$ctrl.newUser.password"  autocomplete="off" ng-minlength="6">
-                    <div ng-messages="userForm.password.$error" ng-show="userForm.$submitted">                  
-                        <p ng-message="required">This field is required</p>
-                        <p ng-message="minlength">The field needs to be al least 6 characters</p>
-                    </div>     
+                     
                 </div>
             </div>
+            <div ng-messages="userForm.password.$error" ng-show="userForm.$submitted">                  
+                        <p ng-message="required">This field is required</p>
+                        <p ng-message="minlength">The field needs to be al least 6 characters</p>
+                    </div>    
             <div class="form-group">
               <div class="col-sm-2">
                    <div class="checkbox">

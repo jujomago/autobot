@@ -468,6 +468,7 @@ footer,
 .tab-content{
 /*  background: #F1F1F1;*/
    padding: 30px 0px;
+       margin-bottom: 30px;
 }
 
 pre{
@@ -492,13 +493,10 @@ pre{
 
 }
 
-.has-error  p[ng-message] { 
+.has-error ~  div[ng-messages]  p { 
     color: #e64b3b;
-    line-height: 34px;
+      line-height: 15px;
     padding-left: 12px;
-    margin: 0;
-    position: absolute;
-    top: 0;
 }
 
 /*
@@ -572,9 +570,47 @@ html,body{
     width: 100%;
 } 
 
+.custom_form .inputminimal select{
+        border: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+
+.custom_form .inputminimal .radio input{
+  width: auto;
+} 
+.custom_form .inputminimal input[type="number"]{
+  width: auto;
+} 
+
+
 .custom_form div.checkbox label{
 
 }
 .custom_form div.checkbox label input{
     width: auto;
+}
+.tab-pane .panel{
+        max-height: 520px;
+    overflow: auto;
+}
+.loader_indicator{
+    max-width: 270px;
+    text-align: center;
+    font-size: 24px;
+    margin-top: 200px;
+    color: #666;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    font-family: BrandonRegular;
+}
+.loader_indicator > img{
+    margin-bottom: 15px;
+}
+.noresults{
+    font-size: 24px;
+    color: #666;
+    line-height: 49px;
 }

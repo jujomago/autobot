@@ -83,18 +83,15 @@
             }
         }
 
-        deleteSkill(skill, indexRow) {
-            console.log(skill);
+        deleteSkill(item, indexRow) {
             return _ConfirmAsync('Are you sure to delete?')
-                .then(() => {
-
+                .then(() => {                 
+                 
                     this.toggleSkillRow = indexRow;
-                    return this.SkillsService.deleteSkill(skill)
-                        .then(response => {
-                   
+                    return this.SkillsService.deleteSkill(item.skill)
+                        .then(response => {                   
                             if (response.statusCode === 204 && response.data === null) {
-                                let index = this.skills.indexOf(skill);
-
+                                let index = this.skills.indexOf(item);
                                 this.skills.splice(index, 1);
 
                                 this.toggleSkillRow = -1;
