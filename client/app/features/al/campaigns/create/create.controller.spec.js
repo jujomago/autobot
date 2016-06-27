@@ -26,6 +26,9 @@ describe('Component: CreateComponent', function () {
     CreateComponent = $componentController('al.campaigns.create', {
       $scope: scope
     });
+    
+    httpBackend.whenGET(url=>(url.indexOf(".html") !== -1)).respond(200)
+    
   }));
    afterEach(function () {
     httpBackend.verifyNoOutstandingRequest();
@@ -75,9 +78,7 @@ describe('Component: CreateComponent', function () {
     });
     
 
-    describe('#getIVRScripts', () => {
-
-
+    describe('#getIVRScripts', () => {     
 
          it('=> should return array of ivrscripts', () => {
             httpBackend.whenGET(endPointUrl+'/ivrscripts').respond({

@@ -41,6 +41,10 @@ describe('Component: al.skills.list', function () {
       $timeout: timeout,
       SkillService: skillService
     });
+
+    httpBackend.whenGET(url=>(url.indexOf(".html") !== -1)).respond(200);
+  
+
   }));
 
   afterEach(function () {

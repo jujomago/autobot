@@ -19,6 +19,12 @@ describe('Component: al.campaigns.edit.autodial', function () {
     AutodialComponent = $componentController('al.campaigns.edit.autodial', {
       $scope: scope
     });
+
+
+             
+httpBackend.whenGET(url=>(url.indexOf(".html") !== -1)).respond(200)
+
+
   }));
  
   afterEach(function() {
