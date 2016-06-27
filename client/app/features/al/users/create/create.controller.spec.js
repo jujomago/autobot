@@ -32,6 +32,9 @@ describe('Component: al.users.create', function() {
             $q: q,
             UserService: userService
         });
+
+         httpBackend.whenGET(url=>(url.indexOf(".html") !== -1)).respond(200);
+  
     }));
 
     afterEach(function() {

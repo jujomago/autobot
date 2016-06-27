@@ -33,6 +33,10 @@ describe('Component: al.campaigns.list', function () {
       ConfirmAsync: confirmAsync,
       CampaignService: campaignService
     });
+
+    httpBackend.whenGET(url=>(url.indexOf(".html") !== -1)).respond(200);
+  
+
   }));
 
   afterEach(function () {
@@ -141,8 +145,8 @@ describe('Component: al.campaigns.list', function () {
         httpBackend.whenGET(endPointUrl+'/attached/dnis/SomeCampaignName').respond(200, null);
 
         let item={name:'SomeCampaignName',type:'INBOUND'};
-        ListComponent.verifyDependencies(item)
-        then(response=>{
+        ListComponent.verifyDependendies(item)
+        .then(response=>{
           expect(response.statusCode).to.equal(200);
           expect(response.data).to.equal(null);
           expect(response.error).to.not.equal(null);
@@ -155,8 +159,8 @@ describe('Component: al.campaigns.list', function () {
         httpBackend.whenGET(endPointUrl+'/attached/lists/SomeCampaignName').respond(200, null);
 
         let item={name:'SomeCampaignName',type:'AUTODIAL'};
-        ListComponent.verifyDependencies(item)
-        then(response=>{
+        ListComponent.verifyDependendies(item)
+        .then(response=>{
           expect(response.statusCode).to.equal(200);
           expect(response.data).to.equal(null);
           expect(response.error).to.not.equal(null);
@@ -172,6 +176,12 @@ describe('Component: al.campaigns.list', function () {
 
   
   describe('#updateState', () => {
+
+    beforeEach(inject(function ($httpBackend) {
+        expect(httpBackend.whenGET(endPointUrl+'/attached/lists/SomeCampaignName').respond(200)).to.throw('No Lists atacched');
+        
+    }));
+
     
     it('Stopping RUNNING state', function () {
       let item={name:'SomeCampaignName',state:'RUNNING'};

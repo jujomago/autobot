@@ -29,6 +29,9 @@ describe('Component: al.skills.edit', function() {
             SkillService: skillService,
             UserService: userService
         });
+
+         httpBackend.whenGET(url=>(url.indexOf(".html") !== -1)).respond(200);
+  
     }));
 
     afterEach(function() {
