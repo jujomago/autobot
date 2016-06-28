@@ -27,7 +27,7 @@ describe('Component: CreateComponent', function () {
       $scope: scope
     });
     
-    httpBackend.whenGET(url=>(url.indexOf(".html") !== -1)).respond(200)
+    httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
     
   }));
    afterEach(function () {

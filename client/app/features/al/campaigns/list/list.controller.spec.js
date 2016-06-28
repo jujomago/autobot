@@ -34,7 +34,7 @@ describe('Component: al.campaigns.list', function () {
       CampaignService: campaignService
     });
 
-    httpBackend.whenGET(url=>(url.indexOf(".html") !== -1)).respond(200);
+    httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
   
 
   }));
@@ -177,7 +177,7 @@ describe('Component: al.campaigns.list', function () {
   
   describe('#updateState', () => {
 
-    beforeEach(inject(function ($httpBackend) {
+    beforeEach(inject(function () {
         expect(httpBackend.whenGET(endPointUrl+'/attached/lists/SomeCampaignName').respond(200)).to.throw('No Lists atacched');
         
     }));

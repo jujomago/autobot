@@ -22,7 +22,7 @@ describe('Component: al.campaigns.edit.autodial', function () {
 
 
              
-httpBackend.whenGET(url=>(url.indexOf(".html") !== -1)).respond(200)
+httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
 
 
   }));

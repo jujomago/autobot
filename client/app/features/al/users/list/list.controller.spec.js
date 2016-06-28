@@ -35,7 +35,7 @@ describe('Component: al.users.list', function () {
 
     sandbox = sinon.sandbox.create();
 
-     httpBackend.whenGET(url=>(url.indexOf(".html") !== -1)).respond(200);
+     httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
   
 
   }));
