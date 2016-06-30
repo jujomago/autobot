@@ -65,7 +65,7 @@
 
         }
         updateSkill(skill) {
-            return http.put(this.endPointUrl + '/update', skill)
+            return http.put(this.endPointUrl , skill)
                 .then(response => {
                     if (response.data) {
                         return response.data.return;
@@ -76,7 +76,7 @@
         }
         createSkill(skill) {
             var result = { data: null, statusCode: 200, errorMessage: '' };
-            return http.post(this.endPointUrl + '/create', skill)
+            return http.post(this.endPointUrl , skill)
                 .then(response => {
                     console.log('response createSkill');
                     console.log(response);
@@ -100,7 +100,7 @@
             console.log(skill.name);
       
             var result = { data: null, statusCode: 204, errorMessage: '' };
-            return http.delete(this.endPointUrl + '/delete/' + skill.name)
+            return http.delete(this.endPointUrl + '/' + skill.name)
                 .then(response => {
                     console.log('response in service');
                     console.log(response);

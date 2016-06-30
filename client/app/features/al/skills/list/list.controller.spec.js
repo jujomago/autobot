@@ -58,14 +58,15 @@ describe('Component: al.skills.list', function () {
  
      it('skill deleted should return 204 statusCode',()=>{
        
-        httpBackend.whenDELETE(endPointUrl+'/delete/Demo2').respond(204,null);  
+        httpBackend.whenDELETE(endPointUrl+'/Demo2').respond(204,null);  
        
         sandbox.stub(window, 'confirm').returns(true);
-                                   
-        ListComponent.deleteSkill({name:'Demo2'},5)
+
+        let item={skill:{name:'Demo2'}};
+                                           
+        ListComponent.deleteSkill(item,5)
         .then(response=>{   
-            expect(ListComponent.toggleSkillRow).to.equal(-1);
-            
+            expect(ListComponent.toggleSkillRow).to.equal(-1);            
             expect(response.statusCode).to.equal(204);
             expect(response.data).to.equal(null);
  
