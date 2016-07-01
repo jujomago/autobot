@@ -33,7 +33,7 @@ describe('Component: al.users.create', function() {
             UserService: userService
         });
 
-         httpBackend.whenGET(url=>(url.indexOf(".html") !== -1)).respond(200);
+         httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
   
     }));
 

@@ -42,8 +42,8 @@ describe('Component: al.skills.list', function () {
       SkillService: skillService
     });
 
-    httpBackend.whenGET(url=>(url.indexOf(".html") !== -1)).respond(200);
-  
+    httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
+
 
   }));
 

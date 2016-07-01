@@ -18,8 +18,8 @@ describe('Component: al.campaigns.edit.outbound', function () {
     OutboundComponent = $componentController('al.campaigns.edit.outbound', {
       $scope: scope
     });
-    httpBackend.whenGET(url=>(url.indexOf(".html") !== -1)).respond(200);
-  
+    httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
+
   }));
   
   afterEach(function() {

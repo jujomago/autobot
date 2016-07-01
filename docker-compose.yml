@@ -1,0 +1,36 @@
+version: '2'
+services:
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+
+  redis:
+    image: redis
+    ports:
+        - "6379:6379"
+
+  autobox-auth:
+    image: 192.168.13.142/autobox-auth
+    ports:
+      - "3380"
+    environment:
+      NODE_ENV: production
+      MONGO_URL: mongodb://mongo/autobox-prod-db
+    links:
+      - mongo
+
+  autobox-api:
+    image: 192.168.13.142/autobox-api
+    ports:
+      - "9999:8080"
+    environment:
+      NODE_ENV: production
+      MONGO_URL: mongodb://mongo/autobox-prod-db
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      AUTH_SERVER_URL: http://autobox-auth:3380
+    links:
+      - mongo
+      - redis
+      - autobox-auth
