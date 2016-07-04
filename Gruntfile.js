@@ -84,6 +84,14 @@ module.exports = function (grunt) {
         files: ['<%= yeoman.client %>/{app,components}/**/*.{spec,mock}.js'],
         tasks: ['newer:jshint:all', 'wiredep:test', 'karma']
       },
+      injectLess: {
+        files: ['<%= yeoman.client %>/{app,components}/**/*.less'],
+        tasks: ['injector:less']
+      },
+      less: {
+        files: ['<%= yeoman.client %>/{app,components}/**/*.less'],
+        tasks: ['less', 'postcss']
+      },
       gruntfile: {
         files: ['Gruntfile.js']
       },
@@ -221,7 +229,10 @@ module.exports = function (grunt) {
         exclude: [
           /bootstrap.js/,
           '/json3/',
-          '/es5-shim/'
+          '/es5-shim/',
+          /font-awesome\.css/,
+          /bootstrap\.css/
+          
         ]
       },
       client: {
@@ -420,13 +431,16 @@ module.exports = function (grunt) {
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       pre: [
+        'injector:less',
         'ngconstant'
       ],
       server: [
         'newer:babel:client',
+        'less'
       ],
       test: [
         'newer:babel:client',
+         'less'
       ],
       debug: {
         tasks: [
@@ -439,6 +453,7 @@ module.exports = function (grunt) {
       },
       dist: [
         'newer:babel:client',
+        'less',
         'imagemin'
       ]
     },
@@ -556,6 +571,14 @@ module.exports = function (grunt) {
         }]
       }
     },
+    // Compiles Less to CSS
+    less: {
+      server: {
+        files: {
+          '.tmp/app/app.css' : '<%= yeoman.client %>/app/app.less'
+        }
+      }
+    },
 
     injector: {
       options: {},
@@ -584,6 +607,26 @@ module.exports = function (grunt) {
               '<%= yeoman.client %>/{app,components}/**/!(*.spec|*.mock).js',
               '!{.tmp,<%= yeoman.client %>}/app/app.{js,ts}'
             ]
+          ]
+        }
+      },
+
+            // Inject component less into app.less
+      less: {
+        options: {
+          transform: function(filePath) {
+            var yoClient = grunt.config.get('yeoman.client');
+            filePath = filePath.replace('/' + yoClient + '/app/', '');
+            filePath = filePath.replace('/' + yoClient + '/components/', '../components/');
+            return '@import \'' + filePath + '\';';
+          },
+          starttag: '// injector',
+          endtag: '// endinjector'
+        },
+        files: {
+          '<%= yeoman.client %>/app/app.less': [
+            '<%= yeoman.client %>/{app,components}/**/*.less',
+            '!<%= yeoman.client %>/app/app.less'
           ]
         }
       },

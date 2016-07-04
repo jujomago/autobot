@@ -1,3 +1,44 @@
+@import '../bower_components/bootstrap/less/bootstrap.less';
+@import '../bower_components/font-awesome/less/font-awesome.less';
+
+@icon-font-path: '../bower_components/bootstrap/fonts/';
+@fa-font-path: '../bower_components/font-awesome/fonts';
+
+/**
+ * App-wide Styles
+ */
+
+.browserupgrade {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+
+
+// injector
+@import 'features/al/campaigns/list/list.less';
+@import 'features/al/skills/create/create.less';
+@import 'features/al/skills/edit/edit.less';
+@import 'features/al/skills/list/list.less';
+@import 'features/al/users/create/create.less';
+@import 'homepage/homepage.less';
+@import 'login/login.less';
+@import '../components/footer/footer.less';
+@import '../components/modal/modal.less';
+@import '../components/navbar/navbar.less';
+@import '../components/sidebar/sidebar.less';
+// endinjector
+
+
+
+
+.with-scroll{
+    max-height: 300px;
+    overflow: auto;
+}
+
 
 /**
  * Bootstrap Fonts
@@ -618,6 +659,8 @@ html,body{
     line-height: 49px;
 }
 
+
 form[name='userForm'] .tab-content{
         margin-bottom: 30px;
 }
+
