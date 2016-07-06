@@ -11,7 +11,7 @@ services:
         - "6379:6379"
 
   autobox-auth:
-    image: 192.168.13.142/autobox-auth
+    image: 74.208.171.144/autobox-auth
     ports:
       - "3380"
     environment:
@@ -21,7 +21,7 @@ services:
       - mongo
 
   autobox-api:
-    image: 192.168.13.142/autobox-api
+    image: 74.208.171.144/autobox-api
     ports:
       - "9999:8080"
     environment:
@@ -34,3 +34,4 @@ services:
       - mongo
       - redis
       - autobox-auth
+

@@ -72,30 +72,32 @@ Running `npm test` will run the unit tests with karma.
 ## Instructions to enable the client machine to connect with the docker registry server (Only for the first time)
 1. Create the certificate directory:
     ~$ sudo mkdir /usr/local/share/ca-certificates/docker-dev-cert 
-2. Open the certificate file for editing:
+2. Open the certificate file for editing; If already exists, please remove it (sudo rm -rf /usr/local/share/ca-certificates/docker-dev-cert/devdockerCA.crt):
     ~$ sudo nano /usr/local/share/ca-certificates/docker-dev-cert/devdockerCA.crt
-3. Paste the following certificate content:
+3. Paste the following certificate content (including the BEGIN and END lines):
+
 -----BEGIN CERTIFICATE-----
-MIIDXTCCAkWgAwIBAgIJAMOxporcdafCMA0GCSqGSIb3DQEBCwUAMEUxCzAJBgNV
+MIIDXTCCAkWgAwIBAgIJAOpjeasqpKPxMA0GCSqGSIb3DQEBCwUAMEUxCzAJBgNV
 BAYTAkFVMRMwEQYDVQQIDApTb21lLVN0YXRlMSEwHwYDVQQKDBhJbnRlcm5ldCBX
-aWRnaXRzIFB0eSBMdGQwHhcNMTYwNjIxMTMzMDMyWhcNNDMxMTA3MTMzMDMyWjBF
+aWRnaXRzIFB0eSBMdGQwHhcNMTYwNzA2MTk0NDU0WhcNNDMxMTIyMTk0NDU0WjBF
 MQswCQYDVQQGEwJBVTETMBEGA1UECAwKU29tZS1TdGF0ZTEhMB8GA1UECgwYSW50
 ZXJuZXQgV2lkZ2l0cyBQdHkgTHRkMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB
-CgKCAQEAxd6OFK7RjbibM4OcHI98TJEjITXN8KLUseHH4SxXUm+83J4/lXXjwUmJ
-AiOgQJTZAgGuR29slBw/nFUShprKgQC39tuvDB06ALrbRcq+83FUOYMR1uKmJxwO
-aySOnC62ym63yrffaNymnmC6o6p5tNHpz0KmgKC5FFim0ZuhRsyKDcP98Rbizfg+
-MbPqwPApv87utWOuM/h6fb3c6FDKSO8z8pQZbzxGL7a1TRShvgMtUJWzc0ajh1Gt
-dgsgnXEjBZeaTm2BqvUPS7F/RcfCv32h60ud1+KEz8lQv1vOUtoHG6O1irbUU8Iq
-rzUlrvH8JkmHMcLOoMZOL9HJAMCcdwIDAQABo1AwTjAdBgNVHQ4EFgQUHxAq8Iq4
-/QU+6wzSNiYSLArz4HAwHwYDVR0jBBgwFoAUHxAq8Iq4/QU+6wzSNiYSLArz4HAw
-DAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEAUBM3RFZxAj8yEKvAEVLH
-dWraXEEiAFVOuCOw8niIo6dzZcJigOoojYiileW6qWIWavxcCOzuQbXDaXIAkp4B
-PctdjctyEv9vZua3pPi7AEVFxoc6UjxNL12iWP70PN7btV39JG8xf8XsHkbR3Cl6
-eDIPYNClgYp3pVgNL4iHZgKKumlJBVfR3frppxuBynTKqL0f/PDHoxFspBNdAws7
-QF1iuL41dnMwWNiLZxXCMeHzhK4VM3yXZWu2sbEOFiEWwra9BO4fqQ5MXVj5VOmd
-mue2RHaLfYB3lvZZ7FMEZMPRK8WOdZt0MBWG5HZ1khk1FazhgscJvtjrOmC3Wd+Z
-7w==
+CgKCAQEAtGSWiv5e5aSlu/2TTb5z33RjIX4AElXfCWiw9q1zfjvisKZyPxwip4MM
+slIzXaRE1+/oU8GMhC1bGsmBPPde26XmNzyTer5hp90uvkvpalKgbn9FGOWYCACW
+vuht5HcIgLPQbX2Nwg118tUJTlCYNs5Y5OsN+ULVwj0fhDUc4sls5C+8dwUXs8Y5
+5C4wT8kBcq1zDkOUy3Q/oJIkrg+AVS7M0SJKOQaAmxMwb2LZ36LckNFICSKxlTBR
+TsCc+2v0sqqD7U/J9tY0mNQWfaNp+3+u2zEgtF93DXR9aNEamRFOwypogiwQFA+u
+Z1es66KwO7tjgFBOoC0RRl4BDbc1FQIDAQABo1AwTjAdBgNVHQ4EFgQUL7InlD+3
+XKJ0rJz78JMnJ0c9lGgwHwYDVR0jBBgwFoAUL7InlD+3XKJ0rJz78JMnJ0c9lGgw
+DAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEADqa5jej6zdrFnCYAwH+e
+ppl481BqUC8zYlZJVCBXgtmVHwskd86UAnj34SI5S3LlFbDviRme6Xk8IqslRvlf
+YJuixEig7na16srmgZNbdy8AI688roQmI5yLI2ILfV5mLxj4l4gioma3Ki6d9w6g
+OcxN8auREiqi7fy5LNs0rcaIBh5Ih7Xg7deiEmih01nr94PDZZtlqzqwnU1kbyft
+Ywko1h6RFIEELL4Wic6AK+ZvQC9bP4ArlQDHQF1LxYjzqVSIPthcgbmGvVx7i1r6
+vH+STjDaEQcSGgM4E9+CeGC10gVDVNLlOHiAgN3lf9JLdOTjm2pueiDMej/Ch/bg
+Ew==
 -----END CERTIFICATE-----
+
 4. Verify that the file was saved correctly by viewing the file (If everything worked properly you'll see the same text from earlier):
     ~$ cat /usr/local/share/ca-certificates/docker-dev-cert/devdockerCA.crt
 5. Update the certificates:
@@ -104,14 +106,14 @@ mue2RHaLfYB3lvZZ7FMEZMPRK8WOdZt0MBWG5HZ1khk1FazhgscJvtjrOmC3Wd+Z
     ~$ sudo service docker restart
 
 ### Intructions to pull and run the project images:
-1. Login into the docker registry (Ask for the credentials to the registry administrator):
-    ~$ docker login https://192.168.13.142
-2. Put the docker-compose.yml into a directory of your preference.   
-2. Enter to the directory where you put the docker-compose.yml file and run the following command to pull the images:
+1. Login into the docker registry (Ask for credentials to the registry administrator):
+    ~$ docker login https://74.208.171.144
+2. Put the docker-compose.yml into a directory of your preference (It is a good idea to save it into the root directory of your project; in this way, you can track the file in GIT)   
+3. Enter to the directory where you put the docker-compose.yml file and run the following command to pull the images:
     ~$ docker-compose pull
-3. Starts the container services in the background:
+4. Starts the container services in the background:
     ~$ docker-compose up -d 
-4. Stop containers: 
+5. Stop containers: 
     ~$ docker-compose down
 
 ## Testing
@@ -120,13 +122,13 @@ mue2RHaLfYB3lvZZ7FMEZMPRK8WOdZt0MBWG5HZ1khk1FazhgscJvtjrOmC3Wd+Z
 2. You should see an output similar to the following:
 
 CONTAINER ID        IMAGE                         COMMAND                  CREATED             STATUS              PORTS                      NAMES
-728650beab2a        192.168.13.142/autobox-api    "npm start"              11 seconds ago      Up 10 seconds       0.0.0.0:9999->8080/tcp     projects_autobox-api_1
-0a92ea60a5f0        192.168.13.142/autobox-auth   "npm start"              11 seconds ago      Up 10 seconds       0.0.0.0:32769->3380/tcp    projects_autobox-auth_1
+728650beab2a        74.208.171.144/autobox-api    "npm start"              11 seconds ago      Up 10 seconds       0.0.0.0:9999->8080/tcp     projects_autobox-api_1
+0a92ea60a5f0        74.208.171.144/autobox-auth   "npm start"              11 seconds ago      Up 10 seconds       0.0.0.0:32769->3380/tcp    projects_autobox-auth_1
 b38abd8a1428        redis                         "docker-entrypoint.sh"   12 seconds ago      Up 10 seconds       0.0.0.0:6379->6379/tcp     projects_redis_1
 3f537f2e4cbb        mongo                         "/entrypoint.sh mongo"   12 seconds ago      Up 10 seconds       0.0.0.0:27017->27017/tcp   projects_mongo_1
 
-3. Get the ip of the API container, you will need to use the API CONTAINER ID (728650beab2a):
+3. You can get the ip of the API container, you will need to use the API CONTAINER ID (728650beab2a):
     ~$ docker inspect --format '{{ .NetworkSettings.Networks.projects_default.IPAddress }}' 728650beab2a
-4. With the API IP you can try to get the authentication token from the API:
-    ~$ curl -d '{"username" : "admin@autoboxcorp.com", "password" : "Password1"}' -X POST -H "Content-Type: application/json" 172.18.0.5:8080/api/auth/login
+4. Try to get the authentication token from the API:
+    ~$ curl -d '{"username" : "admin@autoboxcorp.com", "password" : "Password1"}' -X POST -H "Content-Type: application/json" localhost:9999/api/auth/login    
 
