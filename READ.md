@@ -129,4 +129,3 @@ b38abd8a1428        redis                         "docker-entrypoint.sh"   12 se
     ~$ docker inspect --format '{{ .NetworkSettings.Networks.projects_default.IPAddress }}' 728650beab2a
 4. With the API IP you can try to get the authentication token from the API:
     ~$ curl -d '{"username" : "admin@autoboxcorp.com", "password" : "Password1"}' -X POST -H "Content-Type: application/json" 172.18.0.5:8080/api/auth/login    
-

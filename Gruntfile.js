@@ -230,7 +230,7 @@ module.exports = function (grunt) {
           /bootstrap.js/,
           '/json3/',
           '/es5-shim/',
-            /font-awesome\.css/,
+          /font-awesome\.css/,
           /bootstrap\.css/
         ]
       },
@@ -439,7 +439,7 @@ module.exports = function (grunt) {
       ],
       test: [
         'newer:babel:client',
-        'less'
+         'less'
       ],
       debug: {
         tasks: [
@@ -452,6 +452,7 @@ module.exports = function (grunt) {
       },
       dist: [
         'newer:babel:client',
+        'less',
         'imagemin'
       ]
     },
@@ -609,7 +610,6 @@ module.exports = function (grunt) {
         }
       },
       
-      
       // Inject component less into app.less
       less: {
         options: {
@@ -629,6 +629,7 @@ module.exports = function (grunt) {
           ]
         }
       },
+
       // Inject component css into index.html
       css: {
         options: {
