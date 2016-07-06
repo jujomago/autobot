@@ -4,12 +4,7 @@
 
 class LoginController {
 
-  constructor($state,$sessionStorage) {
-    console.log('sesionStraoge login');
-    console.log($sessionStorage);
-
-
-    this.storage = $sessionStorage;   
+  constructor($state) {
     this.state=$state;
     this.username='';
     this.password='';   
@@ -17,25 +12,22 @@ class LoginController {
   }
 
   autentichate(){
-
-    console.log('asdfqwer qwpouiqweproi');
     if(this.username==='autobox' && this.password==='autobox'){
       this.state.go('ap.al.skills');
-      this.storage.logged=true; 
 
     }else{
       this.message={show:true,text:'Invalid username and/or password. Please try again',type:'danger',expires:4000};
     }
   }
-  
+    
 }
   
-LoginController.$inject = ['$state', '$sessionStorage'];
+LoginController.$inject = ['$state'];
 
 
 angular.module('fakiyaMainApp')
   .component('login', {
-    templateUrl: 'app/login/login.html',
+    templateUrl: 'app/site/login/login.html',
     controller: LoginController
   });
 

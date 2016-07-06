@@ -5,6 +5,6 @@ angular.module('fakiyaMainApp')
     $stateProvider
       .state('home', {  
         url: '/',
-        templateUrl: 'app/homepage/homepage.html'
+        templateUrl: 'app/site/homepage/homepage.html'
       });
   });

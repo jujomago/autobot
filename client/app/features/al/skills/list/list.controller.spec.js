@@ -61,8 +61,10 @@ describe('Component: al.skills.list', function () {
         httpBackend.whenDELETE(endPointUrl+'/delete/Demo2').respond(204,null);  
        
         sandbox.stub(window, 'confirm').returns(true);
+
+        let item={skill:{name:'Demo2'}};
                                    
-        ListComponent.deleteSkill({name:'Demo2'},5)
+        ListComponent.deleteSkill(item,5)
         .then(response=>{   
             expect(ListComponent.toggleSkillRow).to.equal(-1);
             

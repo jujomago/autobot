@@ -5,17 +5,23 @@ class NavbarController {
   menu = [{
     'title': 'Dashboard',
     'state': 'main',
-     'link':'#'
+
+     'link':'/underconstruction'
+
   },
   {
     'title': 'My Apps',
     'state': 'skills.list',
-     'link':'#'
+
+     'link':'/underconstruction'
+
   },
     {
     'title': 'Reports',
     'state': 'users.list',
-     'link':'#'
+
+     'link':'/underconstruction'
+
     
   }
   ];
