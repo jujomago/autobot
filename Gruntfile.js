@@ -232,6 +232,7 @@ module.exports = function (grunt) {
           '/es5-shim/',
           /font-awesome\.css/,
           /bootstrap\.css/
+          
         ]
       },
       client: {
@@ -611,6 +612,7 @@ module.exports = function (grunt) {
       },
       
       // Inject component less into app.less
+
       less: {
         options: {
           transform: function(filePath) {
