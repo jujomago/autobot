@@ -7,6 +7,7 @@ let _auth,_cookies;
 class LoginController {
 
   constructor($state,$cookies,AuthService) {
+
     this.state=$state;
     this.username='';
     this.password='';   
@@ -59,9 +60,10 @@ class LoginController {
 LoginController.$inject = ['$state','$cookies','AuthService'];
 
 
+
 angular.module('fakiyaMainApp')
   .component('login', {
-    templateUrl: 'app/login/login.html',
+    templateUrl: 'app/site/login/login.html',
     controller: LoginController
   });
 

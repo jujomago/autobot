@@ -609,8 +609,7 @@ module.exports = function (grunt) {
             ]
           ]
         }
-      },
-      
+      },          
       // Inject component less into app.less
 
       less: {
