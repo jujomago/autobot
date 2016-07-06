@@ -448,7 +448,8 @@ module.exports = function (grunt) {
           'node-inspector'
         ],
         options: {
-          logConcurrentOutput: true
+          logConcurrentOutput: true,
+          limit: 5
         }
       },
       dist: [
