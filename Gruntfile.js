@@ -449,14 +449,17 @@ module.exports = function (grunt) {
         ],
         options: {
           logConcurrentOutput: true,
-          limit: 5
+          limit: 2
         }
       },
       dist: [
         'newer:babel:client',
         'less',
         'imagemin'
-      ]
+      ],
+        options: {
+          limit: 3
+        }
     },
 
     // Test settings
