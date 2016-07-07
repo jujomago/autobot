@@ -14,6 +14,25 @@
 }
 .navbar ul.nav  > li  > a:active,
 .navbar ul.nav  > li  > a.active{
-  color:#36A3DC;
+  color:@blue;  
+}
+
+.nav-icons{
+  &.nav.navbar-nav{
+    margin-right: 0;
   
+  }
+  &>li{
+    &>a{
+        text-align: center;
+       padding: 15px 6px;
+       font-family: BrandonRegular;
+    }
+  }
+  .dropdown-toggle{
+    span{
+      margin-left: 10px;
+      font-size: 11px;
+    }
+  }
 }
