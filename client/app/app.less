@@ -14,6 +14,15 @@
     padding: 0.2em 0;
 }
 
+
+/*
+* COLORS ADMIN LITE
+*/
+
+@blue: #36A3DC;
+@blueforte: #0187D0;
+@gray: #e6e6e6;
+@images_al_path: '/assets/al/images';
 // injector
 @import 'features/al/campaigns/list/list.less';
 @import 'features/al/skills/create/create.less';
@@ -185,13 +194,13 @@ footer, .navbar, .navbar > .container-fluid {
     color: #D9534F;
     width: 50px;
     height: 20px;
-    background: url('/assets/al/images/DeleteIcon-Default.png') no-repeat center center;
+    background: url('@{images_al_path}/DeleteIcon-Default.png') no-repeat center center;
     display: inline-block;
     vertical-align: middle;
 }
 
 .circle_delete:hover, .circle_delete:active {
-    background: url('/assets/al/images/DeleteIcon-Active.png') no-repeat center center;
+    background: url('@{images_al_path}/DeleteIcon-Active.png') no-repeat center center;
 }
 
 
@@ -248,35 +257,35 @@ footer, .navbar, .navbar > .container-fluid {
 }
 
 .mywell .pagination li:first-child a {
-    background: url('/assets/al/images/PaginationArrows-FirstDefault.png') no-repeat center center;
+    background: url('@{images_al_path}/PaginationArrows-FirstDefault.png') no-repeat center center;
 }
 
 .mywell .pagination li:first-child a:hover {
-    background: url('/assets/al/images/PaginationArrows-FirstActive.png') no-repeat center center;
+    background: url('@{images_al_path}/PaginationArrows-FirstActive.png') no-repeat center center;
 }
 
 .mywell .pagination li:last-child a {
-    background: url('/assets/al/images/PaginationArrows-LastDefault.png') no-repeat center center;
+    background: url('@{images_al_path}/PaginationArrows-LastDefault.png') no-repeat center center;
 }
 
 .mywell .pagination li:last-child a:hover {
-    background: url('/assets/al/images/PaginationArrows-LastActive.png') no-repeat center center;
+    background: url('@{images_al_path}/PaginationArrows-LastActive.png') no-repeat center center;
 }
 
 .mywell .pagination li:nth-child(2) a {
-    background: url('/assets/al/images/PaginationArrows-PrevDefult.png') no-repeat center center;
+    background: url('@{images_al_path}/PaginationArrows-PrevDefult.png') no-repeat center center;
 }
 
 .mywell .pagination li:nth-child(2) a:hover {
-    background: url('/assets/al/images/PaginationArrows-PrevActive.png') no-repeat center center;
+    background: url('@{images_al_path}/PaginationArrows-PrevActive.png') no-repeat center center;
 }
 
 .mywell .pagination li:nth-last-child(2) a {
-    background: url('/assets/al/images/PaginationArrows-NextDefault.png') no-repeat center center;
+    background: url('@{images_al_path}/PaginationArrows-NextDefault.png') no-repeat center center;
 }
 
 .mywell .pagination li:nth-last-child(2) a:hover {
-    background: url('/assets/al/images/PaginationArrows-NextActive.png') no-repeat center center;
+    background: url('@{images_al_path}/PaginationArrows-NextActive.png') no-repeat center center;
 }
 
 .mywell {
@@ -298,7 +307,8 @@ footer, .navbar, .navbar > .container-fluid {
 .searchbox_container input {
     width: 290px;
     border: 1px solid #f2f2f2;
-    position: relative
+    position: relative;
+    height: 100%;
 }
 
 .searchbox_container .glyphicon-search {
@@ -504,7 +514,7 @@ sidebar {
 .offsettop {
     /*  margin-top: 55px;*/
     padding-top: 60px;
-    /*   padding-bottom: 55px;*/
+    /*   padding-botto;: 55px;*/
 }
 
 .fixed_bottom {
@@ -515,8 +525,13 @@ sidebar {
 }
 
 .results_per_page select {
-    background: white;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: white url('@{images_al_path}/dropdown.png') no-repeat 82% center;
     margin: 0 3px;
+    border: 1px solid @gray;
+    padding: 3px 18px 3px 5px;
 }
 
 .col-equal-height {
@@ -567,6 +582,7 @@ html, body {
 .custom_form .inputminimal input {
     line-height: 33px;
     width: 100%;
+    height: 100%;
 }
 
 .custom_form .inputminimal select {
