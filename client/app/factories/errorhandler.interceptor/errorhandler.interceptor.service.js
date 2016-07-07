@@ -11,8 +11,6 @@ angular.module('fakiyaMainApp')
 					case 404:	
 						$location.path('/404');
 						break;
-					default:
-						$location.path('/error');
 				}
 
 				return $q.reject(response);
