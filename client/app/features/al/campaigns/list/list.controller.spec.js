@@ -195,11 +195,7 @@ describe('Component: al.campaigns.list', function () {
           expect(item.statusBtnText).to.equal('Start');
           expect(ListComponent.toggleStatusRow).to.equal(-1);          
           expect(ListComponent.message).to.eql({show:true,type:'success',text:'Stopped Succesfully',expires:2000});
-        })
-        .catch(e=>{
-            console.log('========================= ENTRA AL CATCH==========');
-            console.log(e);
-        });
+        });        
         httpBackend.flush();
         
     });    
