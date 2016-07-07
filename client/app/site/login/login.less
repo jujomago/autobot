@@ -1,3 +1,32 @@
-#sign-in p{
-    color:red;
+#sign-in {
+    .inputminimal{
+      position: relative;
+      margin-bottom: 20px;      
+    }
+  &.has-error {
+   
+    p[ng-message] {
+      color: #d73030;
+      max-width: 400px;
+      margin: 0;
+      position: absolute;
+      left: 0;
+      top: 100%;
+      font-family: BrandonRegular;
+    }
+  }
+  p {
+    color: #d73030;
+  }
+}
+
+.visually-hidden {
+  margin: -1px;
+  padding: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip: rect(0, 0, 0, 0);
+  position: absolute;
 }
