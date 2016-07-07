@@ -178,7 +178,7 @@ describe('Component: al.campaigns.list', function () {
   describe('#updateState', () => {
 
     beforeEach(inject(function () {
-        expect(httpBackend.whenGET(endPointUrl+'/attached/lists/SomeCampaignName').respond(200)).to.throw('No Lists atacched');
+        httpBackend.whenGET(endPointUrl+'/attached/lists/SomeCampaignName').respond(200);
         
     }));
 
@@ -195,6 +195,10 @@ describe('Component: al.campaigns.list', function () {
           expect(item.statusBtnText).to.equal('Start');
           expect(ListComponent.toggleStatusRow).to.equal(-1);          
           expect(ListComponent.message).to.eql({show:true,type:'success',text:'Stopped Succesfully',expires:2000});
+        })
+        .catch(e=>{
+            console.log('========================= ENTRA AL CATCH==========');
+            console.log(e);
         });
         httpBackend.flush();
         
