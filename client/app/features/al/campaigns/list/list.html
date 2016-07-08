@@ -94,11 +94,11 @@
              <img src="assets/al/images/NoResultsIcon.png" alt="lupa">
              <p>We couldn't find what you are looking for</p>
        </div>
-       <label for="pull-left" ng-show="$ctrl.filteredCampaigns.length"  ng-if="$ctrl.search.name">Showing {{$ctrl.filteredCampaigns.length}} results</label>  
+       <label for="pull-left" ng-show="$ctrl.filteredCampaigns.length">Showing {{$ctrl.filteredCampaigns.length}} results</label>  
 
-    <label class="pull-left" ng-if="!$ctrl.search.name">Showing {{$ctrl.beginNext+1}}-{{$ctrl.currentPage*$ctrl.numPerPage}} of {{$ctrl.totalItems}}</label>    
+    <label class="pull-left" ng-show="$ctrl.filteredCampaigns.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.currentPage*$ctrl.numPerPage}} of {{$ctrl.totalItems}}</label>    
 
-    <uib-pagination ng-if="!$ctrl.search.name" total-items="$ctrl.totalItems " ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
+    <uib-pagination ng-show="$ctrl.filteredCampaigns.length" total-items="$ctrl.totalItems " ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
     " boundary-links="true "
     ng-change="$ctrl.pageChanged()" >
     </uib-pagination>

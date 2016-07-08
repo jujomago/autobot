@@ -5,7 +5,7 @@
 
     class ListComponent {   
 
-        constructor($state, $stateParams, $timeout, ConfirmAsync, SkillsService) {
+        constructor($state, $stateParams, $timeout, $filter, ConfirmAsync, SkillsService) {
 
             console.log('Component ListComponent - al.skills.list');
 
@@ -28,6 +28,7 @@
 
             this.search={skill:{name:''}};
             this.filteredSkills=[];
+            this.filter = $filter;
 
         }
 
@@ -77,6 +78,7 @@
                   console.log('sorting:' + columnName);
                 this.sortKey = columnName;
                 this.reverse = !this.reverse;
+                this.skills = this.filter('orderBy')(this.skills, this.search.skill.name, this.reverse);
                 return true;
             } else {
                 return false;
@@ -120,20 +122,24 @@
             this.state.go('ap.al.skillsEdit', { name: item.name });
         }
 
-        filteringBySearch(){  
-            if(this.search.skill.name){               
-                this.beginNext=0;
-                this.currentPage = 1;
+        filteringBySearch(){
+            this.beginNext = 0;
+            this.currentPage = 1;
+            if(this.search.skill.name){
+                let total = this.filter('filter')(this.skills, this.search.skill.name);
+                this.totalItems = total.length;
                 return true;
-             }
-             return false;
+            }else{
+                this.totalItems = this.skills.length;
+                return false;
+            }
         }
 
 
     }
 
 
-    ListComponent.$inject = ['$state', '$stateParams', '$timeout',  'ConfirmAsync' ,'SkillsService',];
+    ListComponent.$inject = ['$state', '$stateParams', '$timeout', '$filter', 'ConfirmAsync' ,'SkillsService',];
 
     angular.module('fakiyaMainApp')
         .component('al.skills.list', {
