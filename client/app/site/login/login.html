@@ -1,19 +1,29 @@
 
 <div id="sign-in">
-  <form  ng-submit="$ctrl.login()" novalidate autocomplete="off">
- 
+  <form  name="formSigIn"  ng-submit="formSigIn.$valid && $ctrl.login()" novalidate autocomplete="off">
+  <!-- work around chrome autofill -->
+    <input name="fake_email"    class="visually-hidden" type="text">
+    <input name="fake_password" class="visually-hidden" type="password">
+    <!-- end workaorund -->
     <div id="logo">
       <img class="center-block img-responsive" src="assets/al/images/homepage/AB-App-SignInLogo.png">
     </div>
        <abx-message msg="$ctrl.message"></abx-message>
     <div class="inputminimal center-block ">
-        <label>Username</label>
-        <input type="text"  ng-model="$ctrl.username" maxlength="50">
-    </div>    
+        <label>Username</label> 
+        <input type="text"  ng-model="$ctrl.username" name="userName" abx-char-limit="50" required elementautocomplete="off">
+        <div ng-messages="formSigIn.userName.$error"  ng-show="(formSigIn.userName.$touched || formSigIn.password.$dirty) || formSigIn.$submitted">
+        <p ng-message="required">This field is required</p>
+      </div> 
+    </div>
+       
     <div class="inputminimal center-block ">
         <label>Password</label>
-        <input type="password"" ng-model="$ctrl.password" maxlength="50">
-    </div>    
+        <input type="password"" ng-model="$ctrl.password" name="password" abx-char-limit="50" required autocomplete="off">
+           <div ng-messages="formSigIn.password.$error" ng-show="(formSigIn.password.$dirty && formSigIn.password.$touched) || (formSigIn.$submitted && formSigIn.password.$pristine) " >
+            <p ng-message="required">This field is required</p>
+          </div>    
+    </div>  
   
     <div class="row">
           <button id="sign-button" type="submit" class="btn btn-default center-block">Sign In</button>
