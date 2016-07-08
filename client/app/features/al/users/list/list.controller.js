@@ -7,7 +7,7 @@
 
     class ListComponent {
 
-        constructor($stateParams, $timeout, $state, ConfirmAsync, UsersService) { 
+        constructor($stateParams, $timeout, $state, ConfirmAsync, $filter, UsersService) { 
             //    console.log('constructor');            
 
 
@@ -39,6 +39,7 @@
             this.toogleUserRow = -1;
             this.search={userName:''};
             this.filteredUsers=[];
+            this.filter = $filter;
 
         }
 
@@ -116,20 +117,25 @@
             console.log('sorting:' + columnName);
             this.sortKey = columnName;
             this.reverse = !this.reverse;
+            this.usersList = this.filter('orderBy')(this.usersList, this.sortKey, this.reverse);
         }
 
-        filteringBySearch(){  
-            if(this.search.userName){               
-                this.beginNext=0;
-                this.currentPage = 1;
+        filteringBySearch(){
+            this.beginNext = 0;
+            this.currentPage = 1;  
+            if(this.search.userName){
+                let total = this.filter('filter')(this.usersList, this.search.userName);
+                this.totalItems = total.length;
                 return true;
-             }
-             return false;
+            }else{
+                this.totalItems = this.usersList.length;
+                return false;
+            }
         }
 
     }
 
-    ListComponent.$inject = ['$stateParams', '$timeout', '$state', 'ConfirmAsync', 'UsersService'];
+    ListComponent.$inject = ['$stateParams', '$timeout', '$state', 'ConfirmAsync', '$filter', 'UsersService'];
     angular.module('fakiyaMainApp')
         .component('al.users.list', {
             templateUrl: 'app/features/al/users/list/list.html',

@@ -6,7 +6,7 @@
 
 
   class ListComponent {
-    constructor($state, $stateParams, $timeout, ConfirmAsync, CampaignService) {
+    constructor($state, $stateParams, $timeout, $filter, ConfirmAsync, CampaignService) {
       console.log('contrusctor Campaign ListComponent');
 
       this.campaigns = [];
@@ -24,6 +24,7 @@
      
       this.search={name:''};
       this.filteredCampaigns=[];
+      this.filter = $filter;
 
 
       _state = $state;
@@ -70,6 +71,7 @@
         //   console.log('sorting:' + columnName);
         this.sortKey = columnName;
         this.reverse = !this.reverse;
+        this.campaigns = this.filter('orderBy')(this.campaigns, this.sortKey, this.reverse);
         return true;
       } else {
         return false;
@@ -198,20 +200,23 @@
       _state.go('ap.al.campaignsEdit-' + typeEdit, { campaign: item });
     }
     
-      filteringBySearch(){  
-          if(this.search.name || this.typeCampaignFilter){       
-               
-              this.beginNext=0;
-              this.currentPage = 1;
-              return true;
-            }
-            return false;
+    filteringBySearch(){
+      this.beginNext = 0;
+      this.currentPage = 1;
+      if(this.search.name || this.typeCampaignFilter){
+          let total = this.filter('filter')(this.campaigns, {name: this.search.name, type: this.typeCampaignFilter});
+          this.totalItems = total.length;
+          return true;
+      }else{
+          this.totalItems = this.campaigns.length;
+          return false;
       }
+    }
 
 
 
   }
-  ListComponent.$inject = ['$state', '$stateParams', '$timeout', 'ConfirmAsync', 'CampaignService'];
+  ListComponent.$inject = ['$state', '$stateParams', '$timeout', '$filter', 'ConfirmAsync', 'CampaignService'];
   angular.module('fakiyaMainApp')
     .component('al.campaigns.list', {
       templateUrl: 'app/features/al/campaigns/list/list.html',
