@@ -127,9 +127,9 @@
       .then(response=>{
          if(response.data===null && response.statusCode===200){ 
             if(item.type==='INBOUND'){     
-             throw 'No DNIS numbers attached to the campain';
+             this.message={ show: true, type: 'warning', text: 'No DNIS numbers attached to the campain', expires:5000 };
             }else{
-             throw 'No Lists attrached to the campain';
+             this.message={ show: true, type: 'warning', text: 'No Lists attrached to the campain', expires:5000 };
             }
         }
         return response;   

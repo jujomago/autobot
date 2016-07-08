@@ -174,7 +174,7 @@ describe('Component: al.campaigns.list', function () {
      
 
   
-  xdescribe('Describe #updateState', () => {
+  describe('#updateState', () => {
 
     beforeEach(inject(function ($httpBackend) {
         httpBackend.whenGET(endPointUrl+'/attached/lists/SomeCampaignName').respond(200);        
