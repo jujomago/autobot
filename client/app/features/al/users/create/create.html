@@ -62,7 +62,7 @@
             <div class="inputminimal" ng-class="{ 'has-error': userForm.userName.$invalid && userForm.$submitted }">
                 <label for="userName" >Username*</label>
                 <div>
-                    <input type="text" name="userName" id="userName" required ng-model="$ctrl.newUser.userName" autocomplete="false"  ng-minlength="6" > 
+                    <input type="text" name="userName" id="userName" required ng-model="$ctrl.newUser.userName" autocomplete="new-password" ng-minlength="6" > 
                      
                 </div>
             </div>
@@ -73,7 +73,7 @@
             <div class="inputminimal" ng-class="{ 'has-error': userForm.password.$invalid && userForm.$submitted }">
                 <label for="Password" >Password*</label>
                 <div>
-                    <input type="password" name="password" id="password" required ng-model="$ctrl.newUser.password"  autocomplete="off" ng-minlength="6">
+                    <input type="password" name="password" id="password" required ng-model="$ctrl.newUser.password" autocomplete="new-password" ng-minlength="6">
                      
                 </div>
             </div>
