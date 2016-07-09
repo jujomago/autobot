@@ -97,8 +97,8 @@
     <label for="pull-left" ng-show="$ctrl.filteredUsers.length"  ng-if="$ctrl.search.userName">Showing {{$ctrl.filteredUsers.length}} results</label>
 
 
-        <label class="pull-left" ng-if="!$ctrl.search.userName" >Showing {{$ctrl.beginNext+1}}-{{$ctrl.currentPage*$ctrl.numPerPage}} of {{$ctrl.totalItems}}</label>    
-        <uib-pagination  ng-if="!$ctrl.search.userName"  total-items="$ctrl.totalItems " ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
+        <label class="pull-left" ng-show="$ctrl.filteredUsers.length" >Showing {{$ctrl.beginNext+1}}-{{$ctrl.currentPage*$ctrl.numPerPage}} of {{$ctrl.totalItems}}</label>    
+        <uib-pagination ng-show="$ctrl.filteredUsers.length"  total-items="$ctrl.totalItems " ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
         " boundary-links="true "
         ng-change="$ctrl.pageChanged()" >
         </uib-pagination>
