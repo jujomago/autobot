@@ -1,10 +1,10 @@
-<h3 class="title_section">Lists</h3>
+<h3 class="title_section">Dispositions</h3>
 
 <abx-message msg="$ctrl.message"></abx-message>
 
-<abx-load-indicator ng-show="$ctrl.lists.length==0 && !$ctrl.message.show" text="Loading Lists"></abx-load-indicator>
+<abx-load-indicator ng-show="$ctrl.dispositions.length==0 && !$ctrl.message.show" text="Loading Dispositions"></abx-load-indicator>
 
-<div ng-show="$ctrl.lists.length>0">
+<div ng-show="$ctrl.dispositions.length>0">
 
     <div class="mywell">
         <div class="searchbox_container">
@@ -14,27 +14,27 @@
         <button class="btn btn-black pull-right" ui-sref="underconstruction">New</button>
     </div>
 
-    <table class="table table-striped" ng-show="$ctrl.filteredLists.length">
+    <table class="table table-striped" ng-show="$ctrl.filteredDispositions.length">
         <thead>
-            <th ng-click="$ctrl.sortColumn('name') " class="sortColumn">List Name
+            <th ng-click="$ctrl.sortColumn('name') " class="sortColumn">Name
                 <span class="glyphicon " ng-show="$ctrl.sortKey=='name' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
 'glyphicon-chevron-down':!$ctrl.reverse} "></span>
-
             </th>
-            <th ng-click="$ctrl.sortColumn('size') " class="sortColumn">Size <span class="glyphicon " ng-show="$ctrl.sortKey=='size'" ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,'glyphicon-chevron-down':!$ctrl.reverse} "></span></th>
+            <th ng-click="$ctrl.sortColumn('description') " class="sortColumn">Description<span class="glyphicon " ng-show="$ctrl.sortKey=='description' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
+'glyphicon-chevron-down':!$ctrl.reverse} "></th>
             <th width="100" class="text-center">
-                ACTIONS
+                Actions
             </th>
         </thead>
         <tbody>
-            <tr ng-repeat="item in ( $ctrl.filteredLists=($ctrl.lists | filter:$ctrl.search | orderBy:$ctrl.sortKey:$ctrl.reverse |  limitTo:$ctrl.numPerPage:$ctrl.beginNext)   ) "
-                ng-class="{ 'danger' : $ctrl.toggleListRow==$index}">
-                <td class="">{{item.name}}</td>
-                <td class="">{{item.size}} record(s)</td>
+            <tr ng-repeat="item in ( $ctrl.filteredDispositions=($ctrl.dispositions | filter:$ctrl.search | orderBy: $ctrl.sortKey:$ctrl.reverse |  limitTo:$ctrl.numPerPage:$ctrl.beginNext)) "
+                ng-class="{ 'danger' : $ctrl.toggleDispositionRow==$index}">
+                <td>{{item.name}}</td>
+                <td>
+                    {{item.description}}
+                </td>
                 <td class="text-center">
-
-                    <a href class="circle_delete" ng-click="$ctrl.deleteList(item,$index)" ng-hide="$ctrl.toggleListRow==$index "></a>
-
+                    <a href class="circle_delete" ng-click="$ctrl.deleteDisposition(item,$index)" ng-hide="$ctrl.toggleDispositionRow==$index "></a>
                 </td>
             </tr>
         </tbody>
@@ -42,13 +42,13 @@
 
     <div class="mywell footer_table text-center">
 
-        <div class="noresults" ng-show="!$ctrl.filteredLists.length" ng-if="$ctrl.search.name">
+        <div class="noresults" ng-show="!$ctrl.filteredDispositions.length" ng-if="$ctrl.search.name">
             <img src="assets/al/images/NoResultsIcon.png" alt="lupa">
             <p>We couldn't find what you are looking for</p>
         </div>
 
 
-        <label for="pull-left" ng-show="$ctrl.filteredLists.length" ng-if="$ctrl.search.name">Showing {{$ctrl.filteredLists.length}} results</label>
+        <label for="pull-left" ng-show="$ctrl.filteredDispositions.length" ng-if="$ctrl.search.name">Showing {{$ctrl.filteredDispositions.length}} results</label>
 
         <label class="pull-left" ng-if="!$ctrl.search.name">Showing {{$ctrl.beginNext+1}}-{{$ctrl.currentPage*$ctrl.numPerPage}} of {{$ctrl.totalItems}}</label>
 
@@ -58,7 +58,7 @@
     " boundary-links="true " ng-change="$ctrl.pageChanged()">
         </uib-pagination>
 
-        <div class="pull-right results_per_page" ng-show="$ctrl.filteredLists.length"><span>Show</span>
+        <div class="pull-right results_per_page" ng-show="$ctrl.filteredDispositions.length"><span>Show</span>
 
             <select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities ">
         </select> <span>results per page</span>
