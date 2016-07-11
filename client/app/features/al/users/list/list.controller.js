@@ -40,6 +40,7 @@
             this.search={userName:''};
             this.filteredUsers=[];
             this.filter = $filter;
+            this.totalMin = false;
 
         }
 
@@ -126,6 +127,7 @@
             if(this.search.userName){
                 let total = this.filter('filter')(this.usersList, this.search.userName);
                 this.totalItems = total.length;
+                this.totalMin = this.totalItems < this.numPerPage ? true : false;
                 return true;
             }else{
                 this.totalItems = this.usersList.length;

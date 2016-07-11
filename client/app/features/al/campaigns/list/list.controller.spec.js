@@ -239,6 +239,27 @@ describe('Component: al.campaigns.list', function () {
         
     });  
     
+    describe('#filteringBySearch', () => {
+
+      it('Should return true, when searching something', () => {
+        ListComponent.search.name='some text to search';
+        ListComponent.campaigns = [
+          {name:'some text to search', type: ListComponent.typeCampaignFilter},
+          {name:'Other campaign', type: ListComponent.typeCampaignFilte},
+          {name:'some text to search', type: ListComponent.typeCampaignFilter}
+        ];
+        expect(ListComponent.filteringBySearch()).to.equal (true);
+        expect(ListComponent.beginNext).to.equal(0);
+        expect(ListComponent.currentPage).to.equal(1);
+        expect(ListComponent.totalItems).to.equal(2);
+      });
+
+      it('Should return false, when input search is empty', () => {
+          ListComponent.search.name='';
+          expect(ListComponent.filteringBySearch()).to.equal (false);       
+      });
+
+    });
     
     
       

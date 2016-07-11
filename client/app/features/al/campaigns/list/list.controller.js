@@ -25,6 +25,7 @@
       this.search={name:''};
       this.filteredCampaigns=[];
       this.filter = $filter;
+      this.totalMin = false;
 
 
       _state = $state;
@@ -206,6 +207,7 @@
       if(this.search.name || this.typeCampaignFilter){
           let total = this.filter('filter')(this.campaigns, {name: this.search.name, type: this.typeCampaignFilter});
           this.totalItems = total.length;
+          this.totalMin = this.totalItems < this.numPerPage ? true : false;
           return true;
       }else{
           this.totalItems = this.campaigns.length;
