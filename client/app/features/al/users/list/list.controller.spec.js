@@ -116,9 +116,15 @@ describe('Component: al.users.list', function () {
 
     it('Should return true, when searching something', () => {
       ListComponent.search.userName='some text to search';
+      ListComponent.usersList = [
+        {userName:'some text to search'}, 
+        {userName:'Other userName'},
+        {userName:'some text to search'}
+      ];
       expect(ListComponent.filteringBySearch()).to.equal (true);
       expect(ListComponent.beginNext).to.equal(0);
       expect(ListComponent.currentPage).to.equal(1);
+      expect(ListComponent.totalItems).to.equal(2);
     });
 
     it('Should return false, when input search is empty', () => {

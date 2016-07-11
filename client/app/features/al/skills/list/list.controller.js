@@ -126,7 +126,7 @@
             this.beginNext = 0;
             this.currentPage = 1;
             if(this.search.skill.name){
-                let total = this.filter('filter')(this.skills, this.search.skill.name);
+                let total = this.filter('filter')(this.skills, {skill:{name: this.search.skill.name}});
                 this.totalItems = total.length;
                 return true;
             }else{

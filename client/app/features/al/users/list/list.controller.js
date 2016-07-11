@@ -124,7 +124,7 @@
             this.beginNext = 0;
             this.currentPage = 1;  
             if(this.search.userName){
-                let total = this.filter('filter')(this.usersList, this.search.userName);
+                let total = this.filter('filter')(this.usersList, {userName: this.search.userName});
                 this.totalItems = total.length;
                 return true;
             }else{

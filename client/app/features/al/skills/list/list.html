@@ -57,9 +57,7 @@
         </div>
 
 
-        <label for="pull-left" ng-show="$ctrl.filteredSkills.length">Showing {{$ctrl.filteredSkills.length}} results</label>
-
-        <label class="pull-left" ng-show="$ctrl.filteredSkills.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.currentPage*$ctrl.numPerPage}} of {{$ctrl.totalItems}}</label>
+        <label class="pull-left" ng-show="$ctrl.filteredSkills.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.totalItems < $ctrl.numPerPage ? $ctrl.totalItems : $ctrl.currentPage*$ctrl.numPerPage}} of {{$ctrl.totalItems}}</label>
 
 
 
