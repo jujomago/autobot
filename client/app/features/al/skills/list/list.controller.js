@@ -29,6 +29,7 @@
             this.search={skill:{name:''}};
             this.filteredSkills=[];
             this.filter = $filter;
+            this.totalMin = false;
 
         }
 
@@ -128,6 +129,7 @@
             if(this.search.skill.name){
                 let total = this.filter('filter')(this.skills, {skill:{name: this.search.skill.name}});
                 this.totalItems = total.length;
+                this.totalMin = this.totalItems < this.numPerPage ? true : false;
                 return true;
             }else{
                 this.totalItems = this.skills.length;

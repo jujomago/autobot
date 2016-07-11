@@ -95,7 +95,8 @@
    </div>
 
 
-        <label class="pull-left" ng-show="$ctrl.filteredUsers.length" >Showing {{$ctrl.beginNext+1}}-{{$ctrl.totalItems < $ctrl.numPerPage ? $ctrl.totalItems : $ctrl.currentPage*$ctrl.numPerPage}} of {{$ctrl.totalItems}}</label>    
+        <label class="pull-left" ng-show="$ctrl.filteredUsers.length" >Showing {{$ctrl.beginNext+1}}-{{$ctrl.totalMin ? $ctrl.totalItems : $ctrl.currentPage*$ctrl.numPerPage}} of {{$ctrl.totalItems}}</label>    
+
         <uib-pagination ng-show="$ctrl.filteredUsers.length"  total-items="$ctrl.totalItems " ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
         " boundary-links="true "
         ng-change="$ctrl.pageChanged()" >
