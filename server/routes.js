@@ -13,7 +13,9 @@ export default function (app) {
   app.use('/api', require('./common/middlewares/partnerenabler').partner);
 
   // Insert routes below
+  app.use('/api/f9/lists', require('./api/five9/list'));
   app.use('/api/f9/campaigns', require('./api/five9/campaign'));
+  app.use('/api/f9/dispositions', require('./api/five9/disposition'));
   app.use('/api/f9/skills', require('./api/five9/skill'));
   app.use('/api/f9/users', require('./api/five9/user'));
   // All undefined asset or api routes should return a 404

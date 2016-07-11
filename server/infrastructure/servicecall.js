@@ -30,8 +30,8 @@ var callService = function (options) {
                     return new Promise(function (resolve, reject) {
                         client[settings.soapMethod](settings.soapParams, (err, result) => {
                             if (err !== null) {
-                                console.log(settings.soapMethod + ' with error');
-                                reject(result)
+                                console.log(settings.soapMethod + ' with error' + err);
+                                reject(err)
                             } else {
                                 console.log(settings.soapMethod + ' without error');
                                 resolve(result);

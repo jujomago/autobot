@@ -1,0 +1,67 @@
+<h3 class="title_section">Dispositions</h3>
+
+<abx-message msg="$ctrl.message"></abx-message>
+
+<abx-load-indicator ng-show="$ctrl.dispositions.length==0 && !$ctrl.message.show" text="Loading Dispositions"></abx-load-indicator>
+
+<div ng-show="$ctrl.dispositions.length>0">
+
+    <div class="mywell">
+        <div class="searchbox_container">
+            <input type="search" ng-model="$ctrl.search.name" class="searchbox" placeholder="Search" ng-change="$ctrl.filteringBySearch()">
+            <span class="glyphicon glyphicon-search"></span>
+        </div>
+        <button class="btn btn-black pull-right" ui-sref="underconstruction">New</button>
+    </div>
+
+    <table class="table table-striped" ng-show="$ctrl.filteredDispositions.length">
+        <thead>
+            <th ng-click="$ctrl.sortColumn('name') " class="sortColumn">Name
+                <span class="glyphicon " ng-show="$ctrl.sortKey=='name' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
+'glyphicon-chevron-down':!$ctrl.reverse} "></span>
+            </th>
+            <th ng-click="$ctrl.sortColumn('description') " class="sortColumn">Description<span class="glyphicon " ng-show="$ctrl.sortKey=='description' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
+'glyphicon-chevron-down':!$ctrl.reverse} "></th>
+            <th width="100" class="text-center">
+                Actions
+            </th>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in ( $ctrl.filteredDispositions=($ctrl.dispositions | filter:$ctrl.search | orderBy: $ctrl.sortKey:$ctrl.reverse |  limitTo:$ctrl.numPerPage:$ctrl.beginNext)) "
+                ng-class="{ 'danger' : $ctrl.toggleDispositionRow==$index}">
+                <td>{{item.name}}</td>
+                <td>
+                    {{item.description}}
+                </td>
+                <td class="text-center">
+                    <a href class="circle_delete" ng-click="$ctrl.deleteDisposition(item,$index)" ng-hide="$ctrl.toggleDispositionRow==$index "></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="mywell footer_table text-center">
+
+        <div class="noresults" ng-show="!$ctrl.filteredDispositions.length" ng-if="$ctrl.search.name">
+            <img src="assets/al/images/NoResultsIcon.png" alt="lupa">
+            <p>We couldn't find what you are looking for</p>
+        </div>
+
+
+        <label for="pull-left" ng-show="$ctrl.filteredDispositions.length" ng-if="$ctrl.search.name">Showing {{$ctrl.filteredDispositions.length}} results</label>
+
+        <label class="pull-left" ng-if="!$ctrl.search.name">Showing {{$ctrl.beginNext+1}}-{{$ctrl.currentPage*$ctrl.numPerPage}} of {{$ctrl.totalItems}}</label>
+
+
+
+        <uib-pagination ng-if="!$ctrl.search.name" total-items="$ctrl.totalItems " ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
+    " boundary-links="true " ng-change="$ctrl.pageChanged()">
+        </uib-pagination>
+
+        <div class="pull-right results_per_page" ng-show="$ctrl.filteredDispositions.length"><span>Show</span>
+
+            <select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities ">
+        </select> <span>results per page</span>
+        </div>
+    </div>
+</div>

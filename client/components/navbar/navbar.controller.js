@@ -4,6 +4,7 @@ class NavbarController {
 
   constructor() {
 
+
     this.isCollapsed = true;
     this.userOptionsCollapsed = true;
 
@@ -24,6 +25,7 @@ class NavbarController {
         'link': '/underconstruction'
       }
     ];
+
 
   }
 }

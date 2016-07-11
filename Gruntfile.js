@@ -448,14 +448,18 @@ module.exports = function (grunt) {
           'node-inspector'
         ],
         options: {
-          logConcurrentOutput: true
+          logConcurrentOutput: true,
+          limit: 2
         }
       },
       dist: [
         'newer:babel:client',
         'less',
         'imagemin'
-      ]
+      ],
+        options: {
+          limit: 3
+        }
     },
 
     // Test settings
@@ -612,6 +616,26 @@ module.exports = function (grunt) {
       },          
       // Inject component less into app.less
 
+      less: {
+        options: {
+          transform: function(filePath) {
+            var yoClient = grunt.config.get('yeoman.client');
+            filePath = filePath.replace('/' + yoClient + '/app/', '');
+            filePath = filePath.replace('/' + yoClient + '/components/', '../components/');
+            return '@import \'' + filePath + '\';';
+          },
+          starttag: '// injector',
+          endtag: '// endinjector'
+        },
+        files: {
+          '<%= yeoman.client %>/app/app.less': [
+            '<%= yeoman.client %>/{app,components}/**/*.less',
+            '!<%= yeoman.client %>/app/app.less'
+          ]
+        }
+      },
+
+            // Inject component less into app.less
       less: {
         options: {
           transform: function(filePath) {

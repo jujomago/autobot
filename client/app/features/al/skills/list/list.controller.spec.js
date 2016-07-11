@@ -63,6 +63,7 @@ describe('Component: al.skills.list', function () {
         sandbox.stub(window, 'confirm').returns(true);
 
 
+
         let item={skill:{name:'Demo2'}};
                                            
 
