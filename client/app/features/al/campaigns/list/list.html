@@ -71,11 +71,11 @@
                 {{item.name}}
                </a>
             </td>
-            <td>{{item.type}}</td>
-            <td>{{item.mode}}</td>
+            <td class="to_capitalize">{{item.type}}</td>
+            <td class="to_capitalize">{{item.mode}}</td>
           
-            <td>{{item.state}}</td>
-            <td class="text-center">{{item.trainingMode}}</td>
+            <td class="to_capitalize">{{item.state | removeUnderscore}}</td>
+            <td class="text-center to_capitalize">{{item.trainingMode}}</td>
             <td class="text-center">
                 <button class="btn btn-row-campaign" ng-class="{'btn-primary':item.state==='NOT_RUNNING','btn-danger':item.state==='RUNNING'}" 
                  ng-click="$ctrl.updateState(item,$index)" ng-init="item.statusBtnText=(item.state==='RUNNING')?'Stop':'Start'" ng-disabled="(item.statusBtnText==='Starting...' || item.statusBtnText=='Stopping...')">
