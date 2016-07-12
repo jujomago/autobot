@@ -23,6 +23,7 @@
 @blueforte: #0187D0;
 @gray: #e6e6e6;
 @images_al_path: '/assets/al/images';
+@light_blue: #36a3dc;
 // injector
 @import 'features/al/campaigns/list/list.less';
 @import 'features/al/skills/create/create.less';
@@ -633,4 +634,15 @@ html, body {
 
 form[name='userForm'] .tab-content {
     margin-bottom: 30px;
+}
+
+.navbar-inverse {
+    .navbar-nav>li>a {
+        &:hover {
+            color: @light_blue;
+        }
+        &:focus {
+            color: @light_blue;
+        }
+    }
 }
