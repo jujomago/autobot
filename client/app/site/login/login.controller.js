@@ -12,10 +12,10 @@
     }
 
     autentichate() {
-      if (this.username === 'autobox' && this.password === 'autobox') {
+      if (this.username === 'admin@autoboxcorp.com' && this.password === 'Password1') {
         this.state.go('ap.al.skills');
       } else {
-        this.message = { show: true, text: 'Invalid username and/or password. Please try again', type: 'danger', expires: 3000 };
+        this.message = { show: true, text: 'Invalid username and/or password. Please try again', type: 'danger'};
         this.password = '';
       }
     }
