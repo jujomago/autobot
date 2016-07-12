@@ -59,7 +59,7 @@
     getCampaign(type, name) {
       let result = { data: null, statusCode: 200, error: null };
 
-      return _http.get(this.endPointUrl + '/show/' + type + '/' + name)
+      return _http.get(this.endPointUrl + '/' + type + '/' + name)
         .then(response => {
           if (response.data) {
             result.data = response.data.return;

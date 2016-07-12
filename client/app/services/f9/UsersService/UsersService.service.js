@@ -51,10 +51,10 @@
         }
 
         addSkilltoUser(userSkill) {
-            var result = { data: null, statusCode: 200, errorMessage: '' };
-            return http.post(this.endPointUrl + '/' + 'skills/add', userSkill)
+            var result = { data: null, statusCode: 201, errorMessage: '' };
+            return http.post(this.endPointUrl + '/' + userSkill.userName + '/skills', userSkill)
                 .then(response => {
-                    if (response.status !== 200) {
+                    if (response.status !== 201) {
                         result.statusCode = response.status;
                         result.data = response;
                     }
@@ -62,9 +62,14 @@
                 });
         }
 
-        deleteSkillfromUser(userSkill) {
+        deleteSkillfromUser(userSkill) {;
             var result = { data: null, statusCode: 204, errorMessage: '' };
-            return http.post(this.endPointUrl + '/' + 'skills/delete', userSkill)
+            return http({
+                url: this.endPointUrl + '/' + userSkill.userName + '/skills',
+                method: 'DELETE',
+                data: userSkill,
+                headers: { "Content-Type": "application/json;charset=utf-8" }
+                })
                 .then(response => {
                     if (response.status !== 204) {
                         result.statusCode = response.status;
@@ -98,8 +103,9 @@
         }
 
         updateUser(userInfo) {
+            let userName = userInfo.userGeneralInfo.userName;
             var result = { data: null, statusCode: 200, errorMessage: '' };
-            return http.put(this.endPointUrl, userInfo)
+            return http.put(this.endPointUrl + '/' + userName, userInfo)
                 .then(response => {
                     result.data = response.data.return;
                     return result;
@@ -137,7 +143,7 @@
         }
     }
 
-    UsersService.$inject = ['$http','appConfig'];
+    UsersService.$inject = ['$http', 'appConfig'];
     angular.module('fakiyaMainApp')
         .service('UsersService', UsersService);
 

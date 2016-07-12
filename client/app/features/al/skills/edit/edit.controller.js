@@ -86,26 +86,22 @@
                 skillName: this.selectedSkill.name,
                 userName: userObj.userName
             };
-
   
             return this.UsersService.addSkilltoUser(userSkillObj)
                 .then(response => {
                    // console.log('response');
                     console.log(response);
                     // response when creating new stuff, RETURNS NOTHING
-                    if (response.statusCode === 200 && response.data === null) {                        
+                    if (response.statusCode === 201 && response.data === null) {                        
                         console.log('added OK');
                         let index = this.filteredUsers.indexOf(userObj);
                         this.filteredUsers.splice(index, 1);
                         this.toggleUserItem.item = -1;
                         
-                        this.message={show:true,type:'success',text:'User Added Sucessfully'};
+                        this.message={show:true,type:'success',text:'User Added Sucessfully',expires:2000};
                      
                         this.UsersNamesSkills.push(userObj);
-
-                        this.timeout(() => {
-                            this.message.show = false;
-                        }, 2000);                        
+                                                
                         return true;
                     }
                     return false;
@@ -114,13 +110,16 @@
                     console.log('error in client');
                     console.error(err);
                      this.message={show:true,type:'danger',text:err.data.body};
+                     return false;
                 });
         }
         deleteUserfromSkill(user, i) {
 
             var userSkillObj = {
+                id: this.selectedSkill.id,
+                level:1,
                 skillName: this.selectedSkill.name,
-                userName: user.userName
+                userName: user.userName               
             };
 
             this.toggleUserNameItem = i;

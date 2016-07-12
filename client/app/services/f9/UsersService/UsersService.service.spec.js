@@ -122,7 +122,27 @@ describe('Service: UsersService', function () {
         });
     });
 
-    
+    describe('#addSkilltoUser', () => {
+        it('should add a user to skill correctly', function () {
+            let requestData={
+                id:3,
+                level: 1,
+                skillName: 'Marketing',
+                userName: 'josue2@autoboxcorp.com'  
+            };
+
+            httpBackend.whenPOST(endPointUrl + '/josue2@autoboxcorp.com/skills',).respond(201);
+
+            UsersService.addSkilltoUser(requestData).then(response => {
+                expect(response.data).to.equal(null);
+                expect(response.statusCode).to.equal(201);
+
+            });
+            httpBackend.flush();
+        });
+    });
+
+
      describe('#deleteUser', () => {
         it('should delete user correctly', function () {
             httpBackend.whenDELETE(endPointUrl + '/josue2@autoboxcorp.com').respond(204,null);
