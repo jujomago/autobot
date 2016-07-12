@@ -52,7 +52,7 @@ class LoginController {
         .catch(e=>{     
           console.log('error catch');
           console.log(e);     
-            this.message={show:true,text:e.data,type:'danger',expires:4000};
+            this.message={show:true,text:e.data,type:'danger'};
         }); 
   }  
 }
