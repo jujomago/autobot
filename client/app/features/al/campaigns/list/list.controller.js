@@ -141,7 +141,7 @@
      
         if(item.state==='RUNNING'){
         
-          item.statusBtnText='Stopping...';
+          item.statusBtnText='Stopping';
           return _CampaignService.stopCampaign(item.name)
           .then(response=>{
               if(response.statusCode===200){
@@ -166,7 +166,7 @@
            
        }else{
          
-          item.statusBtnText='Starting...';        
+          item.statusBtnText='Starting';        
           return _CampaignService.startCampaign(item.name)
           .then(response=>{
               if(response.statusCode===200){
