@@ -1,5 +1,5 @@
 
-      <h3 class="title_section">Users:<span> New user</span></h3>
+      <h3 class="title_section">User:<span> New user</span></h3>
 
 <div class="alert alert-warning" ng-show="$ctrl.showWarningRolMessage">
       You must select at least one rol
@@ -89,20 +89,22 @@
                         </label>
                     </div>
               </div>
-              <div class="col-sm-4">
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
                    <div class="checkbox">
                         <label>
                             <input type="checkbox" ng-model="$ctrl.newUser.canChangePassword"> User can change password
                         </label>
                     </div>
-              </div>
-              <div class="col-sm-6">                  
+                </div>
+                <div class="col-sm-6">                  
                     <div class="checkbox">
                         <label>
                             <input type="checkbox" ng-model="$ctrl.newUser.mustChangePassword"> User must change password on next login
                         </label>
                     </div>
-              </div>          
+                </div>
             </div>
           
       
