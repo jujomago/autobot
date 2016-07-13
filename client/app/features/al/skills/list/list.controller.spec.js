@@ -117,7 +117,29 @@ describe('Component: al.skills.list', function () {
     });
 
     it('param columnName send, should return true', () => {
-      expect (true).to.equal (ListComponent.sortColumn('somevalue'));
+      ListComponent.reverse = true;
+      ListComponent.skills = [
+        {skill:
+          {name: 'some text to search'}
+        }, 
+        {skill:
+          {name: 'another text out of search'}
+        }, 
+        {skill:
+          {name: 'some text to search'}
+        }];
+      let expected_array = [
+        {skill:
+          {name: 'another text out of search'}
+        },
+        {skill:
+          {name: 'some text to search'}
+        }, 
+        {skill:
+          {name: 'some text to search'}
+        }];
+      expect(ListComponent.sortColumn('skill.name')).to.equal (true);
+      expect(JSON.stringify(expected_array)).to.equal(JSON.stringify(ListComponent.skills));
     });
 
   });

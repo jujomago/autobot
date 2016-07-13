@@ -79,7 +79,7 @@
                 console.log('sorting:' + columnName);
                 this.sortKey = columnName;
                 this.reverse = !this.reverse;
-                this.skills = this.filter('orderBy')(this.skills, this.search.skill.name, this.reverse);
+                this.skills = this.filter('orderBy')(this.skills, this.sortKey, this.reverse);
                 return true;
             } else {
                 return false;
