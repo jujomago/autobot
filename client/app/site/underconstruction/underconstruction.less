@@ -1,8 +1,22 @@
-.under_construction {
-    max-width: 480px;
-    height: auto;
+
+.underconstruction_parent {
+    height: 100%;
     text-align: center;
-    margin: 15% auto 0;
+    &:before {
+        content: ' ';
+        display: inline-block;
+        height: 100%;
+        margin-right: -0.25em;
+        vertical-align: middle;
+    }
+}
+
+.under_construction {
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 480px;
+    text-align: center;
+    /*margin: 15% auto 0;*/
     h3 {
         font-size: 35px;
         font-family: BrandonBold;

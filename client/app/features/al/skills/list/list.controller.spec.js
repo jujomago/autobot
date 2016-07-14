@@ -130,18 +130,18 @@ describe('Component: al.skills.list', function () {
         {skill:
           {name: 'some text to search'}
         }];
-      let expected_array = [
-      {skill:
-        {name: 'another text out of search'}
-      },
-      {skill:
-        {name: 'some text to search'}
-      }, 
-      {skill:
-        {name: 'some text to search'}
-      }];
+      let expectedArray = [
+        {skill:
+          {name: 'another text out of search'}
+        },
+        {skill:
+          {name: 'some text to search'}
+        }, 
+        {skill:
+          {name: 'some text to search'}
+        }];
       expect(ListComponent.sortColumn('skill.name')).to.equal (true);
-      expect(JSON.stringify(expected_array)).to.equal(JSON.stringify(ListComponent.skills));
+      expect(JSON.stringify(expectedArray)).to.equal(JSON.stringify(ListComponent.skills));
     });
 
   });
