@@ -42,6 +42,32 @@
     overflow: auto;
 }
 
+/*IE remove x*/
+
+input[type=text] {
+    &::-ms-clear {
+        display: none;
+        height: 0;
+        width : 0;
+    }
+}
+
+input[type=password] {
+    &::-ms-clear {
+        display: none;
+        height: 0;
+        width : 0;
+    }
+}
+
+
+/*Firefox*/
+
+@-moz-document url-prefix() {
+    .col-equal-height > .rightside{
+        margin-bottom: -99980px;        
+    }
+}
 
 /**
  * Bootstrap Fonts
@@ -629,6 +655,8 @@ html, body {
     font-size: 24px;
     color: #666;
     line-height: 49px;
+    text-align: center;
+    margin-top: 10%;
 }
 
 form[name='userForm'] .tab-content {
@@ -645,6 +673,13 @@ form[name='userForm'] .tab-content {
     text-transform: lowercase;
     &:first-letter {
         text-transform: capitalize;
+    }
+}
+
+.footer_table {
+    .pull-left {
+        font-weight: normal;
+        margin-top: 5px;
     }
 }
 
