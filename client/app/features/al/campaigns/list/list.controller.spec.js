@@ -11,7 +11,7 @@ describe('Component: al.campaigns.list', function () {
   var httpBackend, sandbox, window, endPointUrl;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($componentController, $rootScope, $stateParams, $timeout, $window, $httpBackend, ConfirmAsync, CampaignService,appConfig) {
+  beforeEach(inject(function ($componentController, $rootScope, $stateParams, $timeout, $window, $httpBackend, ConfirmAsync, CampaignService, appConfig) {
     scope = $rootScope.$new();
     timeout = $timeout;
     campaignService = CampaignService;
@@ -19,8 +19,8 @@ describe('Component: al.campaigns.list', function () {
     httpBackend = $httpBackend;
     window = $window;
 
-    if(appConfig.apiUri){
-          endPointUrl=appConfig.apiUri+'/f9/campaigns';
+    if (appConfig.apiUri) {
+      endPointUrl = appConfig.apiUri + '/f9/campaigns';
     }
 
 
@@ -34,7 +34,7 @@ describe('Component: al.campaigns.list', function () {
       CampaignService: campaignService
     });
 
-    httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
+    httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
 
   }));
 
@@ -108,20 +108,20 @@ describe('Component: al.campaigns.list', function () {
   describe('#deleteCamapain', () => {
     it('user cancel promt message, should return null', function () {
 
-      httpBackend.whenDELETE(endPointUrl+'/somecampaign').respond(204, null);
+      httpBackend.whenDELETE(endPointUrl + '/somecampaign').respond(204, null);
 
       ListComponent.deleteCampaign({ name: 'somecampaign' }, 8)
         .then(response => {
           expect(response).to.equal(null);
         });
-     
+
 
     });
 
 
     it('user accepts promt message, should return true', function () {
 
-      httpBackend.whenDELETE(endPointUrl+'/somecampaign').respond(204, null);
+      httpBackend.whenDELETE(endPointUrl + '/somecampaign').respond(204, null);
 
       sandbox.stub(window, 'confirm').returns(true);
 
@@ -139,132 +139,124 @@ describe('Component: al.campaigns.list', function () {
   });
 
   describe('#verifyDependencies', () => {
-     it('Get attached DNIS, should return null, campaign inexistent', function () {
+    it('Get attached DNIS, should return null, campaign inexistent', function () {
 
-        httpBackend.whenGET(endPointUrl+'/attached/dnis/SomeCampaignName').respond(200, null);
+      httpBackend.whenGET(endPointUrl + '/attached/dnis/SomeCampaignName').respond(200, null);
 
-        let item={name:'SomeCampaignName',type:'INBOUND'};
-        ListComponent.verifyDependendies(item)
-        .then(response=>{
+      let item = { name: 'SomeCampaignName', type: 'INBOUND' };
+      ListComponent.verifyDependendies(item)
+        .then(response => {
           expect(response.statusCode).to.equal(200);
           expect(response.data).to.equal(null);
           expect(response.error).to.not.equal(null);
         });
 
-     });
+    });
 
-     it('Get attached Lists, should return null, campaign inexistent', function () {
+    it('Get attached Lists, should return null, campaign inexistent', function () {
 
-        httpBackend.whenGET(endPointUrl+'/attached/lists/SomeCampaignName').respond(200, null);
+      httpBackend.whenGET(endPointUrl + '/attached/lists/SomeCampaignName').respond(200, null);
 
-        let item={name:'SomeCampaignName',type:'AUTODIAL'};
-        ListComponent.verifyDependendies(item)
-        .then(response=>{
+      let item = { name: 'SomeCampaignName', type: 'AUTODIAL' };
+      ListComponent.verifyDependendies(item)
+        .then(response => {
           expect(response.statusCode).to.equal(200);
           expect(response.data).to.equal(null);
           expect(response.error).to.not.equal(null);
         });
 
-     });
-
-
-
+    });
   });
 
-     
 
-  
+
   describe('#updateState', () => {
 
     beforeEach(inject(function ($httpBackend) {
-        httpBackend.whenGET(endPointUrl+'/attached/lists/SomeCampaignName').respond(200);        
+      httpBackend.whenGET(endPointUrl + '/attached/lists/SomeCampaignName').respond(200, {
+        data: 'some lists' 
+      });
+      //httpBackend.flush();    
     }));
 
-    
     it('Stopping RUNNING state', function () {
-      let item={name:'SomeCampaignName',state:'RUNNING'};
-      
-      httpBackend.whenGET(endPointUrl+'/stop/SomeCampaignName').respond(200, null);
-      
-      ListComponent.updateState(item, 8) 
-        .then(response => {       
+      let item = { name: 'SomeCampaignName', state: 'RUNNING' };
+
+      httpBackend.whenGET(endPointUrl + '/stop/SomeCampaignName').respond(200, null);
+
+      ListComponent.updateState(item, 8)
+        .then(response => {
           expect(response.statusCode).to.equal(200);
           expect(item.state).to.equal('NOT_RUNNING');
           expect(item.statusBtnText).to.equal('Start');
-          expect(ListComponent.toggleStatusRow).to.equal(-1);          
-          expect(ListComponent.message).to.eql({show:true,type:'success',text:'Stopped Succesfully',expires:2000});
+          expect(ListComponent.toggleStatusRow).to.equal(-1);
+          expect(ListComponent.message).to.eql({ show: true, type: 'success', text: 'Stopped Succesfully', expires: 2000 });
         });
-        httpBackend.flush();        
-    });    
-    
+      httpBackend.flush();
+    });
 
-    
-    
     it('Starting NOT_RUNNING state', function () {
-      let item={name:'SomeCampaignName',state:'NOT_RUNNING'};
-      
-      httpBackend.whenGET(endPointUrl+'/start/SomeCampaignName').respond(200, null);
-      
-      ListComponent.updateState(item,3) 
-        .then(response => {       
+      let item = { name: 'SomeCampaignName', state: 'NOT_RUNNING' };
+
+      httpBackend.whenGET(endPointUrl + '/start/SomeCampaignName').respond(200, null);
+
+      ListComponent.updateState(item, 3)
+        .then(response => {
           expect(response.statusCode).to.equal(200);
           expect(item.state).to.equal('RUNNING');
           expect(item.statusBtnText).to.equal('Stop');
           expect(ListComponent.toggleStatusRow).to.equal(-1);
-          expect(ListComponent.message).to.eql({show:true,type:'success',text:'Started Succesfully',expires:2000});         
+          expect(ListComponent.message).to.eql({ show: true, type: 'success', text: 'Started Succesfully', expires: 2000 });
         });
-        httpBackend.flush();
-        
-    });  
-    
-    it('Starting NOT_RUNNING state with Error', function () {
-      let item={name:'SomeCampaignName',state:'NOT_RUNNING'};
-      
-      httpBackend.whenGET(endPointUrl+'/start/SomeCampaignName').respond(500, {
-    
-        from:'Error from Campaign Controller EndPoint',
-        body:'Error updating campaign state &quot;TestFinalOutbound&quot;: No dialing list assigned or dialing lists are empty',
-        statusCode:500      
+      httpBackend.flush();
+
     });
-      
-      ListComponent.updateState(item,3) 
-        .then(response => {       
+
+    it('Starting NOT_RUNNING state with Error', function () {
+      let item = { name: 'SomeCampaignName', state: 'NOT_RUNNING' };
+
+      httpBackend.whenGET(endPointUrl + '/start/SomeCampaignName').respond(500, {
+
+        from: 'Error from Campaign Controller EndPoint',
+        body: 'Error updating campaign state &quot;TestFinalOutbound&quot;: No dialing list assigned or dialing lists are empty',
+        statusCode: 500
+      });
+
+      ListComponent.updateState(item, 3)
+        .then(response => {
           expect(response.statusCode).to.equal(500);
           expect(response.data).to.equal(null);
           expect(response.error).to.not.equal(null);
           expect(ListComponent.toggleStatusRow).to.equal(-1);
-          expect(ListComponent.message).to.eql({show:true,type:'warning',text:response.error.body});          
+          expect(ListComponent.message).to.eql({ show: true, type: 'warning', text: response.error.body });
         });
-        httpBackend.flush();
-        
-    });  
-    
-    describe('#filteringBySearch', () => {
-
-      it('Should return true, when searching something', () => {
-        ListComponent.search.name='some text to search';
-        ListComponent.campaigns = [
-          {name:'some text to search', type: ListComponent.typeCampaignFilter},
-          {name:'Other campaign', type: ListComponent.typeCampaignFilte},
-          {name:'some text to search', type: ListComponent.typeCampaignFilter}
-        ];
-        expect(ListComponent.filteringBySearch()).to.equal (true);
-        expect(ListComponent.beginNext).to.equal(0);
-        expect(ListComponent.currentPage).to.equal(1);
-        expect(ListComponent.totalItems).to.equal(2);
-      });
-
-      it('Should return false, when input search is empty', () => {
-          ListComponent.search.name='';
-          expect(ListComponent.filteringBySearch()).to.equal (false);       
-      });
+      httpBackend.flush();
 
     });
-    
-    
-      
+
   });
-    
+
+  describe('#filteringBySearch', () => {
+
+    it('Should return true, when searching something', () => {
+      ListComponent.search.name = 'some text to search';
+      ListComponent.campaigns = [
+        { name: 'some text to search', type: ListComponent.typeCampaignFilter },
+        { name: 'Other campaign', type: ListComponent.typeCampaignFilte },
+        { name: 'some text to search', type: ListComponent.typeCampaignFilter }
+      ];
+      expect(ListComponent.filteringBySearch()).to.equal(true);
+      expect(ListComponent.beginNext).to.equal(0);
+      expect(ListComponent.currentPage).to.equal(1);
+      expect(ListComponent.totalItems).to.equal(2);
+    });
+
+    it('Should return false, when input search is empty', () => {
+      ListComponent.search.name = '';
+      expect(ListComponent.filteringBySearch()).to.equal(false);
+    });
+
+  });
 
 
 

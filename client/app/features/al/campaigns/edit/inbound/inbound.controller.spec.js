@@ -29,7 +29,7 @@ describe('Component: al.campaigns.edit.inbound', function () {
 
     describe('#getCampaign', () => {
         it('=> should return data of campaign', () => {            
-             httpBackend.whenGET(endPointUrl+'/show/inbound/BlueRubyDemo').respond(200,{
+             httpBackend.whenGET(endPointUrl+'/inbound/BlueRubyDemo').respond(200,{
                                 return: {
                                     'description': '',
                                     'mode': 'BASIC',
@@ -240,7 +240,7 @@ describe('Component: al.campaigns.edit.inbound', function () {
             expect(InboundComponent.dnisAssigned).to.include(55554444);
             expect(InboundComponent.dnisAvailable).to.not.include(55554444);
             
-            httpBackend.whenPOST(endPointUrl+'/remove/dnis').respond(200,'');             
+            httpBackend.whenDELETE(endPointUrl+'/dnis/SomeCampaignName').respond(200,'');             
           
              InboundComponent.removeDni(55554444)
             .then(response => {
@@ -268,7 +268,7 @@ describe('Component: al.campaigns.edit.inbound', function () {
             expect(InboundComponent.dnisAssigned).to.not.include(43434343);
             
 
-            httpBackend.whenPOST(endPointUrl+'/add/dnis').respond(200,'');             
+            httpBackend.whenPOST(endPointUrl+'/dnis').respond(200,'');             
           
              InboundComponent.addDnis(43434343)
             .then(response => {

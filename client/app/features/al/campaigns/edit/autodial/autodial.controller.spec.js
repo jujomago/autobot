@@ -89,7 +89,7 @@ httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
   
     describe('#getCampaign', () => {
         it('=> should return data of campaign', () => {            
-             httpBackend.whenGET(endPointUrl+'/show/autodial/AutoDailer').respond(200,{
+             httpBackend.whenGET(endPointUrl+'/autodial/AutoDailer').respond(200,{
                       'return': {
                         'description': '',
                         'mode': 'BASIC',
@@ -237,7 +237,7 @@ httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
             };
             let listItem={name:'AgentList',size:2};
             
-            httpBackend.whenPOST(endPointUrl+'/remove/lists').respond(200,'');             
+            httpBackend.whenDELETE(endPointUrl+'/lists/SomeCampaignName').respond(200,'');             
           
              AutodialComponent.removeList(listItem)
             .then(response => {
@@ -257,7 +257,7 @@ httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
                 name:'SomeCampaignName'
             };
             let listItem={name:'AgentList'};
-            httpBackend.whenPOST(endPointUrl+'/add/lists').respond(200,'');             
+            httpBackend.whenPOST(endPointUrl+'/lists').respond(200,'');             
           
              AutodialComponent.addList(listItem)
             .then(response => {

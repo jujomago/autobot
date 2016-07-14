@@ -129,11 +129,13 @@
      return this.verifyDependendies(item)
       .then(response=>{
          if(response.data===null && response.statusCode===200){ 
-            if(item.type==='INBOUND'){     
-             this.message={ show: true, type: 'warning', text: 'No DNIS numbers attached to the campain', expires:5000 };
-            }else{
-             this.message={ show: true, type: 'warning', text: 'No Lists attrached to the campain', expires:5000 };
+           let msgError='';
+            if(item.type==='INBOUND'){          
+                msgError='No DNIS numbers attached to the campain';
+            }else{          
+                msgError='No Lists attrached to the campain';
             }
+            throw new Error(msgError);
         }
         return response;   
       })
@@ -152,7 +154,7 @@
                            type: 'success', 
                            text: 'Stopped Succesfully', 
                            expires:2000};    
-               // this.showMessage('success','Stopped Succesfully',2000);              
+                             
               }      
               return response;
           })
@@ -174,7 +176,6 @@
                  item.statusBtnText='Stop';
                 this.toggleStatusRow = -1; 
                 this.message={ show: true, type: 'success', text: 'Started Succesfully', expires:2000 };
-          //      this.showMessage('success','Started Succesfully',2000);         
               }
             return response;
           })
@@ -188,8 +189,7 @@
        }
      })
       .catch(e =>{    
-           console.log('exterior catch');
-           this.message={ show: true, type: 'warning', text: e, expires:5000 };
+           this.message={ show: true, type: 'warning', text:(e.message||e), expires:5000 };
            return e;
 
      });
@@ -218,7 +218,7 @@
 
 
   }
-  ListComponent.$inject = ['$state', '$stateParams', '$timeout', '$filter','ConfirmAsync', 'CampaignService'];
+  ListComponent.$inject = ['$state', '$stateParams', '$timeout', '$filter', 'ConfirmAsync', 'CampaignService'];
   angular.module('fakiyaMainApp')
     .component('al.campaigns.list', {
       templateUrl: 'app/features/al/campaigns/list/list.html',

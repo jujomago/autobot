@@ -157,7 +157,7 @@
 
     addDNIS(dnisCampaign) {
       let result = { data: null, statusCode: 200, error: null };
-      return _http.post(this.endPointUrl + '/add/dnis', dnisCampaign)
+      return _http.post(this.endPointUrl + '/dnis', dnisCampaign)
         .then(() => result)
         .catch(err => handleError(err, result));
     }
@@ -165,26 +165,39 @@
 
     removeDnis(listCampaign) {
       let result = { data: null, statusCode: 200, error: null };
-      return _http.post(this.endPointUrl + '/remove/dnis', listCampaign)
-        .then(() => result)
-        .catch(err => handleError(err, result));
+      let dnisToRemove={DNISList:listCampaign.DNISList};
+      return _http({
+          url: this.endPointUrl + '/dnis/'+listCampaign.campaignName,
+          method: 'DELETE',
+          data:dnisToRemove,
+          headers: { 'Content-Type': 'application/json;charset=utf-8' }
+      })
+      .then(() => result)
+      .catch(err => handleError(err, result));
     }
-
 
 
     addLists(listCampaign) {
       let result = { data: null, statusCode: 200, error: null };
-      return _http.post(this.endPointUrl + '/add/lists', listCampaign)
+      return _http.post(this.endPointUrl + '/lists', listCampaign)
         .then(() => result)
         .catch(err => handleError(err, result));
     }
 
     removeLists(listCampaign) {
-      let result = { data: null, statusCode: 200, error: null };
-      return _http.post(this.endPointUrl + '/remove/lists', listCampaign)
-        .then(() => result)
-        .catch(err => handleError(err, result));
+      let result = { data: null, statusCode: 200, error: null };      
+      let listsToRemove={lists:listCampaign.lists};
+         
+      return _http({
+          url: this.endPointUrl + '/lists/'+listCampaign.campaignName,
+          method: 'DELETE',
+          data:listsToRemove,
+          headers: { 'Content-Type': 'application/json;charset=utf-8' }
+      })
+      .then(() => result)
+      .catch(err => handleError(err, result));
     }
+
     startCampaign(campaignName) {
       let result = { data: null, statusCode: 200, error: null };
 
@@ -192,6 +205,7 @@
         .then(() => result)
         .catch(err => handleError(err, result));
     }
+
     stopCampaign(campaignName) {
       let result = { data: null, statusCode: 200, error: null };
 

@@ -91,7 +91,7 @@ describe('Component: al.campaigns.edit.outbound', function () {
        describe('#getCampaign', () => {
 
         it('=> should return data of campaign', () => {            
-             httpBackend.whenGET(endPointUrl+'/show/outbound/BlueRubyOutbound').respond(200,{
+             httpBackend.whenGET(endPointUrl+'/outbound/BlueRubyOutbound').respond(200,{
                                 return: {
                                     'description': '',
                                     'mode': 'BASIC',
@@ -197,7 +197,7 @@ describe('Component: al.campaigns.edit.outbound', function () {
             };
             let listItem={name:'AgentList',size:2};
             
-            httpBackend.whenPOST(endPointUrl+'/remove/lists').respond(200,'');             
+            httpBackend.whenDELETE(endPointUrl+'/lists/SomeCampaignName').respond(200,'');             
           
              OutboundComponent.removeList(listItem)
             .then(response => {
@@ -218,7 +218,7 @@ describe('Component: al.campaigns.edit.outbound', function () {
                 name:'SomeCampaignName'
             };
             let listItem={name:'AgentList'};
-            httpBackend.whenPOST(endPointUrl+'/add/lists').respond(200,'');             
+            httpBackend.whenPOST(endPointUrl+'/lists').respond(200,'');             
           
              OutboundComponent.addList(listItem)
             .then(response => {

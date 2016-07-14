@@ -68,7 +68,7 @@
                 url: this.endPointUrl + '/' + userSkill.userName + '/skills',
                 method: 'DELETE',
                 data: userSkill,
-                headers: { "Content-Type": "application/json;charset=utf-8" }
+                headers: { 'Content-Type': 'application/json;charset=utf-8' }
                 })
                 .then(response => {
                     if (response.status !== 204) {
