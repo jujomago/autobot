@@ -538,6 +538,9 @@ module.exports = function (grunt) {
       test: {
         NODE_ENV: 'test'
       },
+      dev: {
+        NODE_ENV: 'development'
+      },
       prod: {
         NODE_ENV: 'production'
       },
