@@ -746,6 +746,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'env:all',
+      'env:dev',
       'concurrent:pre',
       'concurrent:server',
       'injector',
