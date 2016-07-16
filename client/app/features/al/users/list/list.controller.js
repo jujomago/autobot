@@ -27,8 +27,6 @@
             _ConfirmAsync = ConfirmAsync;
 
             this.usersList = [];
-
-            this.totalItems = 0;
             this.currentPage = 1;
             this.sortKey = '';
             this.reverse = true;
@@ -52,7 +50,6 @@
 
                     if (_users.statusCode === 200) {
                         this.usersList = _users.data;
-                        this.totalItems = _users.data.length;
                     } else {
                         this.message = { show: true, type: 'warning', text: _users.errorMessage };
                     }
@@ -108,7 +105,10 @@
         getDetail(user) {
             _state.go('ap.al.usersEdit', { name: user.userName });
         }
-
+        getMax(){
+            let total=this.currentPage*this.numPerPage;
+            return (total>this.filteredUsers.length)?this.filteredUsers.length+'':total;
+        }
         pageChanged() {
             console.log('Page changed to: ' + this.currentPage);
             this.beginNext = (this.currentPage - 1) * this.numPerPage;
@@ -122,15 +122,12 @@
         }
 
         filteringBySearch(){
-            this.beginNext = 0;
-            this.currentPage = 1;  
+              
             if(this.search.userName){
-                let total = this.filter('filter')(this.usersList, {userName: this.search.userName});
-                this.totalItems = total.length;
-                this.totalMin = this.totalItems < this.numPerPage ? true : false;
+                this.beginNext = 0;
+                this.currentPage = 1;
                 return true;
             }else{
-                this.totalItems = this.usersList.length;
                 return false;
             }
         }
