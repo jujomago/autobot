@@ -53,4 +53,29 @@ describe('Disposition API Router:', function() {
 
   });
 
+  describe('GET /api/dispositions/:dispositionName', function() {
+
+    it('should route to disposition.controller.show', function() {
+      expect(routerStub.get
+        .withArgs('/:dispositionName', 'dispositionCtrl.show')
+        ).to.have.been.calledOnce;
+    });
+  });
+  describe('POST /api/dispositions', function() {
+
+    it('should route to disposition.controller.create', function() {
+      expect(routerStub.post
+        .withArgs('/', 'dispositionCtrl.create')
+        ).to.have.been.calledOnce;
+    });
+
+  });
+  describe('PUT /api/dispositions', function() {
+
+    it('should route to disposition.controller.update', function() {
+      expect(routerStub.put
+        .withArgs('/', 'dispositionCtrl.update')
+        ).to.have.been.calledOnce;
+    });
+  });
 });

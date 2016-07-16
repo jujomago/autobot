@@ -1,0 +1,49 @@
+.abx-number-container{
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	text-align: left;
+}
+abx-number-updown{
+	.abx-number-container{
+		input.abx-number-disabled{
+			background-color: @gray;
+			cursor: not-allowed;	
+		}
+		div.abx-arrows-disabled i{
+			background-color: @gray;
+			cursor: not-allowed;
+			&:hover{
+				background-color: @gray;
+			}
+			&:active{
+				background-color: @gray;
+			}
+		}
+		input.abx-number-input{
+			width: 85%;
+			display: inline-block;
+			text-align: right;
+			vertical-align: middle;
+		}
+	}	
+}
+.abx-number-container > .abx-number-arrows{
+	width: 10%;
+	max-width: 18px;
+	min-width: 12px;
+	display: inline-block;
+	font-size: 10px;
+	vertical-align: middle;
+}
+.abx-number-arrows i{
+	display: block;
+	text-align: center;
+	height: 50%;
+	&:hover{
+		background-color: @blue;
+	}
+	&:active{
+		background-color: @blueforte;
+	}
+}

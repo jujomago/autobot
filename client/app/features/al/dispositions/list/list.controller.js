@@ -39,7 +39,6 @@
 			this.message = { show: false };
 			if ($stateParams.message !== null) {
 				this.message = { show: true, type: $stateParams.message.type, text: $stateParams.message.text,expires: 3000 };
-
 			}
 			this.DispositionsService = DispositionsService;
 			this.state = $state;
@@ -104,7 +103,7 @@
                     return this.DispositionsService.deleteDisposition(item)
                         .then(response => {              
                                    console.log('response in client');
-      console.log(response);
+                            console.log(response);
                             if (response.statusCode === 204 && response.data === null) {
                                 let index = this.dispositions.indexOf(item);
                                 this.dispositions.splice(index, 1);
@@ -124,6 +123,9 @@
                 .catch(() => {
                     return false;
                 });
+        }
+        getDetail(item) {
+            this.state.go('ap.al.dispositionsEdit', { dispositionName: item.name });
         }
         filteringBySearch(){  
             if(this.search.name){               
