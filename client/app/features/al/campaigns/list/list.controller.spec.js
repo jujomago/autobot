@@ -172,7 +172,8 @@ describe('Component: al.campaigns.list', function () {
 
   describe('#updateState', () => {
 
-    beforeEach(inject(function ($httpBackend) {
+
+    beforeEach(inject(function () {
       httpBackend.whenGET(endPointUrl + '/attached/lists/SomeCampaignName').respond(200, {
         data: 'some lists' 
       });

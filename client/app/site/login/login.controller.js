@@ -1,70 +1,77 @@
 'use strict';
 
-(function() {
+(function () {
 
-let _auth,_cookies; 
+  let _auth, _$location;
 
-class LoginController {
+  class LoginController {
 
-  constructor($state,$cookies,AuthService) {
+    constructor($location, AuthService) {
 
-    this.state=$state;
-    this.username='';
-    this.password='';   
-    this.message={show:false};
-    _auth=AuthService;
-    _cookies=$cookies;
-  }
+      this.username = '';
+      this.password = '';
+      this.message = { show: false };
+      _auth = AuthService;
+      _$location = $location;
+    }
 
-  login(){ 
+    login() {
       // {'username':'admin@autoboxcorp.com', 'password' : 'Password1'};
-        let credentials={
-          'username':this.username,
-          'password':this.password
-        };  
+      let credentials = {
+        'username': this.username,
+        'password': this.password
+      };
+      console.log(credentials);
+      return _auth.login(credentials)
+        .then(response => {
 
-        _auth.login(credentials)
-        .then(token=>{
-            console.log('== TOKEN RESPONSE ======');
-            console.log(token);
-            if(_cookies.get('auth_token')===undefined){
-              console.log('saving cookie'); 
-              _cookies.put('auth_token',token); 
-            }           
-          return token;
-        })
-        .then(()=>{
-
-            let userApp={
+          if (response.status === 200) {
+            let userApp = {
               'partnerId': 'f9',
               'appName': 'al',
               'username': 'rolandorojas@five.com',
               'password': '123456'
             };
+            _auth.loginApplication(userApp)
+              .then(res => {
+                console.log('==== AUTH RESPONSE ====');
+                console.log(res);
+                _$location.path('/ap/al/skills');
+              });
+            return response;
+          }
+          throw response;
+        })
+        .catch(e => {     
+          if (e.status && e.data) {
+            this.message = { show: true, text: e.data, type: 'danger' };
+          } else {
+            this.message = { show: true, text: e, type: 'danger' };
+          }
+          return e;
+        });
+    }
 
-          _auth.loginApplication(userApp)
-          .then(res=>{
-              console.log('==== AUTH RESPONSE ====');
-              console.log(res);             
-              this.state.go('ap.al.skills');
-           });
-        })        
-        .catch(e=>{     
-          console.log('error catch');
-          console.log(e);     
-            this.message={show:true,text:e.data,type:'danger'};
-        }); 
-  }  
-}
-  
-LoginController.$inject = ['$state','$cookies','AuthService'];
+    logout() {
+
+      return _auth.logout()
+        .then(response => {
+          if (response.status === 200) {
+            _$location.path('/login');
+          }
+          return response;
+        });
+    }
+  }
+
+  LoginController.$inject = ['$location', 'AuthService'];
 
 
 
-angular.module('fakiyaMainApp')
-  .component('login', {
-    templateUrl: 'app/site/login/login.html',
-    controller: LoginController
-  });
+  angular.module('fakiyaMainApp')
+    .component('login', {
+      templateUrl: 'app/site/login/login.html',
+      controller: LoginController
+    });
 
 })();

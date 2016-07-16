@@ -8,8 +8,7 @@ describe('Service: authInterceptor', function () {
   // instantiate service
   var authinterceptor;
 
-  beforeEach
-  (inject(function (_authInterceptor_) {
+  beforeEach(inject(function (_authInterceptor_) {
     authinterceptor = _authInterceptor_;
   }));
 

@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-    let http;
+    let _$http; 
     //let endPointUrl = 'http://localhost:9000/api/f9/users';
 
     class UsersService {
@@ -12,12 +12,12 @@
                 console.log('CONCATENATED VALUE=========>>>>>>> ' + appConfig.apiUri + '/f9/users');
                 this.endPointUrl = appConfig.apiUri + this.endPointUrl;
             }
-            http = $http;
+            _$http = $http;
         }
         getUsers() {
             var result = { data: null, statusCode: 200, errorMessage: '' };
 
-            return http.get(this.endPointUrl)
+            return _$http.get(this.endPointUrl)
                 .then(response => {
                     if (response.data) {
                         result.data = response.data.return;
@@ -31,7 +31,7 @@
                 });
         }
         getUser(userName) {
-            return http.get(this.endPointUrl + '/' + userName)
+            return _$http.get(this.endPointUrl + '/' + userName)
                 .then(response => {
                     if (response.data) {
                         return response.data.return[0];
@@ -41,7 +41,7 @@
         }
 
         getUserDetail(userName) {
-            return http.get(this.endPointUrl + '/detail/' + userName)
+            return _$http.get(this.endPointUrl + '/detail/' + userName)
                 .then(response => {
                     if (response.data) {
                         return response.data.return[0];
@@ -52,7 +52,7 @@
 
         addSkilltoUser(userSkill) {
             var result = { data: null, statusCode: 201, errorMessage: '' };
-            return http.post(this.endPointUrl + '/' + userSkill.userName + '/skills', userSkill)
+            return _$http.post(this.endPointUrl + '/' + userSkill.userName + '/skills', userSkill)
                 .then(response => {
                     if (response.status !== 201) {
                         result.statusCode = response.status;
@@ -62,9 +62,9 @@
                 });
         }
 
-        deleteSkillfromUser(userSkill) {;
+        deleteSkillfromUser(userSkill) {
             var result = { data: null, statusCode: 204, errorMessage: '' };
-            return http({
+            return _$http({
                 url: this.endPointUrl + '/' + userSkill.userName + '/skills',
                 method: 'DELETE',
                 data: userSkill,
@@ -81,7 +81,7 @@
 
         createUser(userInfo) {
             var result = { data: null, statusCode: 200, errorMessage: '' };
-            return http.post(this.endPointUrl, userInfo)
+            return _$http.post(this.endPointUrl, userInfo)
                 .then(r => {
                     if (r.data.response) { // some error generally in response
                         console.warn('Expected Error');
@@ -105,7 +105,7 @@
         updateUser(userInfo) {
             let userName = userInfo.userGeneralInfo.userName;
             var result = { data: null, statusCode: 200, errorMessage: '' };
-            return http.put(this.endPointUrl + '/' + userName, userInfo)
+            return _$http.put(this.endPointUrl + '/' + userName, userInfo)
                 .then(response => {
                     result.data = response.data.return;
                     return result;
@@ -121,7 +121,7 @@
 
         deleteUser(userName) {
             var result = { data: null, statusCode: 204, errorMessage: '' };
-            return http.delete(this.endPointUrl + '/' + userName)
+            return _$http.delete(this.endPointUrl + '/' + userName)
                 .then(response => {
                     if (response.status !== 204) {
                         result.statusCode = response.status;
@@ -133,7 +133,7 @@
         }
 
         getPermissions() {
-            return http.get('/assets/al/json/roles.json')
+            return _$http.get('/assets/al/json/roles.json')
                 .then(response => {
                     if (response.data) {
                         return response.data;

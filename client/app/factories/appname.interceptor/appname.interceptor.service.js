@@ -14,7 +14,6 @@ angular.module('fakiyaMainApp')
                     } else {
                         config.headers.appName = '';
                     }
-                    console.log('Interceptor value -> ' + config);
                     console.log(' url intercepted: ' + config.url);
                 }
 

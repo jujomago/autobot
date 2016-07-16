@@ -1,48 +1,56 @@
 'use strict';
 (() => {
-let http;
-class AuthService{
-    constructor($http, appConfig){
-       http=$http;
-      if (appConfig.apiUri) {
-         this.endPointUrl = appConfig.apiUri;
-      }
-    }
-    login(credentials){
+    let _$http, _$cookies;
+    class AuthService {
 
-        return http.post(this.endPointUrl+'/auth/login',credentials)
-              .then(response=>{
-                  if(response.status===200){
-                    return response.data;
-                  }
-              })
-              .catch(error=>{
-                  if(error.status===400){
-                   throw error;
-                  }
-                  else{
-                   console.error('Another Error');
-                  }
-              });
-    }
-    loginApplication(credentialsApp){
-      return http.post(this.endPointUrl+'/admin/users/auth',credentialsApp)
-            .then(response=>{
-                  if(response.status===200){
-                    return response.data;
-                  }
-              })
-              .catch(error=>{                 
-                   throw error;      
-              });
-    }
-    logout(){
-        return http.post(this.endPointUrl+'/auth/logout');
-    }    
-}
+        constructor($cookies, $http, appConfig) {
+            _$http = $http;
+            _$cookies = $cookies;
+            if (appConfig.apiUri) {
+                this.endPointUrl = appConfig.apiUri;
+            }
+        }
 
-AuthService.$inject=['$http','appConfig'];
+        login(credentials) {
+            return _$http.post(this.endPointUrl + '/auth/login', credentials)
+                .then(response => {
+                    if (response.status === 200) {
+                        if (_$cookies.get('auth_token') === undefined) {
+                            _$cookies.put('auth_token', response.data);
+                        }
+                        return response;
+                    }
+                    throw Error(response);
+                })
+                .catch(e => e);
+        }
+        loginApplication(credentialsApp) {
+            return _$http.post(this.endPointUrl + '/admin/users/auth', credentialsApp)
+                .then(response => {
+                    if (response.status === 200) {
+                        return response.data;
+                    }
+                })
+                .catch(error => {
+                    throw error;
+                });
+        }
+        logout() {
+            return _$http.get(this.endPointUrl + '/auth/logout')
+                .then(response => {
+                    if (response.status === 200) {
+                        console.log('cleaning cookie');
+                        _$cookies.remove('auth_token');
+                        return response;
+                    }
+                    return null;
+                });
 
-angular.module('fakiyaMainApp')
-  .service('AuthService', AuthService);
+        }
+    }
+
+    AuthService.$inject = ['$cookies', '$http', 'appConfig'];
+
+    angular.module('fakiyaMainApp')
+        .service('AuthService', AuthService);
 })();

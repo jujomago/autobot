@@ -131,7 +131,7 @@ describe('Service: UsersService', function () {
                 userName: 'josue2@autoboxcorp.com'  
             };
 
-            httpBackend.whenPOST(endPointUrl + '/josue2@autoboxcorp.com/skills',).respond(201);
+            httpBackend.whenPOST(endPointUrl + '/josue2@autoboxcorp.com/skills').respond(201);
 
             UsersService.addSkilltoUser(requestData).then(response => {
                 expect(response.data).to.equal(null);

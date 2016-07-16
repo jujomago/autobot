@@ -7,9 +7,10 @@ describe('Component: LoginController', function() {
   beforeEach(module('stateMock'));
 
   var scope;
-  var mainComponent;
+  var loginComponent;
   var state;
-  var $httpBackend;
+  var httpBackend;
+  var endPointUrl;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function(
@@ -17,25 +18,78 @@ describe('Component: LoginController', function() {
     $http,
     $componentController,
     $rootScope,
-    $state) {
-      $httpBackend = _$httpBackend_;
-      $httpBackend.expectGET('/api/things')
-        .respond(['HTML5 Boilerplate', 'AngularJS', 'Karma', 'Express']);
-
+    $state,
+    appConfig) {
+      httpBackend = _$httpBackend_;
+    
       scope = $rootScope.$new();
       state = $state;
-      mainComponent = $componentController('login', {
+      loginComponent = $componentController('login', {
         $http: $http,
         $scope: scope
       });
+
+      if(appConfig.apiUri){
+          endPointUrl=appConfig.apiUri;
+      }
+         
+
+      httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
+      
   }));
 
- /* it('should attach a list of things to the controller', function() {
-    mainComponent.$onInit();
 
-   $httpBackend.flush();
-    expect(mainComponent.awesomeThings.length).to.equal(4);
-  });*/
+  afterEach(function () {
+     httpBackend.verifyNoOutstandingRequest();
+  });
+  
 
+  describe('#controller login ',()=>{   
+      it('=> User logged in Successfully with credentials',()=>{       
+
+  
+          loginComponent.username='admin@autoboxcorp.com';
+          loginComponent.password='Password1';  
+
+          httpBackend.whenPOST(endPointUrl+'/auth/login',{
+            'username': loginComponent.username,
+            'password': loginComponent.password
+          }).respond('2032820asdfka0s0293ma002');
+
+          httpBackend.expectPOST(endPointUrl+'/admin/users/auth',{
+              'partnerId': 'f9',
+              'appName': 'al',
+              'username': 'rolandorojas@five.com',
+              'password': '123456'
+          }).respond(200);
+          
+
+          loginComponent.login()
+          .then(response=>{
+              expect(response.status).to.equal(200);
+              expect(response.data).to.equal('2032820asdfka0s0293ma002');
+          });
+
+          httpBackend.flush();
+      });    
+ 
+  });
+  describe('#controller logout',()=>{
+      it('=> User should logout successfully',()=>{
+         
+         httpBackend.whenGET(endPointUrl+'/auth/logout').respond(200,
+           'The user was logged out succesfully'
+         );
+
+          loginComponent.logout()
+          .then(response=>{
+              expect(response.status).to.equal(200);
+              expect(response.data).to.equal('The user was logged out succesfully');
+          });
+
+          httpBackend.flush();
+      });
+
+  });
 });
 

@@ -1,14 +1,19 @@
 'use strict';
 
+
+let _$location,_auth;
 class NavbarController {
 
-  constructor() {
+  constructor($location,AuthService) {
 
 
     this.isCollapsed = true;
+ 
+  
     this.userOptionsCollapsed = true;
-
-
+   
+    _$location=$location;
+    _auth=AuthService;
     this.menu = [{
       'title': 'Dashboard',
       'state': 'main',
@@ -25,11 +30,13 @@ class NavbarController {
         'link': '/underconstruction'
       }
     ];
-
-
+  }
+  logout(){
+    _auth.logout();
+    _$location.path('/login');  
   }
 }
 
-
+NavbarController.$inject=['$location','AuthService'];
 angular.module('fakiyaMainApp')
   .controller('NavbarController', NavbarController);
