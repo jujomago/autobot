@@ -11,21 +11,21 @@ services:
         - "6379:6379"
 
   autobox-auth:
-    image: 74.208.171.144/autobox-auth:latest
+    image: 74.208.171.144/autobox-auth:latest.dev
     ports:
       - "3380"
     environment:
-      NODE_ENV: production
+      NODE_ENV: development
       MONGO_URL: mongodb://mongo/autobox-prod-db
     links:
       - mongo
 
   autobox-api:
-    image: 74.208.171.144/autobox-api:latest
+    image: 74.208.171.144/autobox-api:latest.dev
     ports:
       - "9999:8080"
     environment:
-      NODE_ENV: production
+      NODE_ENV: development
       MONGO_URL: mongodb://mongo/autobox-prod-db
       REDIS_HOST: redis
       REDIS_PORT: 6379
