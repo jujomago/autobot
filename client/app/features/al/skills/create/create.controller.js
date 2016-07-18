@@ -1,21 +1,21 @@
 'use strict';
 (function () {
-
+    let _$state,_SkillsService;
     class CreateController {
         constructor($state, SkillsService) {
 
             console.log('Component CreateController - al.skills.create');
             this.newSkill = {};
-            this.state = $state;
+            _$state = $state;
+            _SkillsService = SkillsService;
             this.showSuccessMessage = false;
-            this.SkillsService = SkillsService;
             this.SubmitText = 'Save';
             this.message={show:false};
         }
 
         save() {              
                 this.SubmitText = 'Saving...';
-                this.SkillsService.createSkill(this.newSkill)
+                _SkillsService.createSkill(this.newSkill)
                 .then(_skillInfo => {
                     if(_skillInfo.statusCode===200){
                            console.log('ok, created');
@@ -27,7 +27,7 @@
                             text: 'Skill Created SuccessFully'
                         };
 
-                        this.state.go('ap.al.skills', { message: messageObj });
+                        _$state.go('ap.al.skills', { message: messageObj });
                     } else {
                         console.warn('there is an error');
                         this.message={show:true,type:'danger',text:_skillInfo.errorMessage};
@@ -40,7 +40,7 @@
                 });           
         }
         cancel() {
-            this.state.go('ap.al.skills');
+            _$state.go('ap.al.skills');
         }
 
 }
