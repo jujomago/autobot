@@ -1,17 +1,20 @@
 'use strict';
 (function () {
 
+     let _$state,_SkillsService,_UsersService;
+
     class EditComponent {
-        constructor($stateParams, $state, $timeout, SkillsService, UsersService) {
+        constructor($stateParams, $state, SkillsService, UsersService) {
 
             console.log('Component EditComponent - al.skills.edit');
+
+            _$state = $state;
+            _SkillsService = SkillsService;
+            _UsersService = UsersService;
 
             //   console.log($stateParams);
             this.selectedSkill = {};
             this.nameSkill = $stateParams.name;
-            this.state = $state;
-            this.SkillsService = SkillsService;
-            this.UsersService = UsersService;
 
             this.found = false;
             this.UsersNamesSkills = [];
@@ -27,7 +30,6 @@
             this.showPanelInfo = false;            
             this.message={show:false};
             
-            this.timeout = $timeout;
             this.SubmitText = 'Save';
         }
 
@@ -36,7 +38,7 @@
             var nameSkill = this.nameSkill;
             console.log('---------------');
 
-            this.SkillsService.getSkill(nameSkill)
+            _SkillsService.getSkill(nameSkill)
                 .then(_skillInfo => {
                     this.found = true;
                     console.log('showSkill');
@@ -52,7 +54,7 @@
             this.SubmitText = 'Saving...';
             console.log('before saving');
             console.log(this.selectedSkill);
-            this.SkillsService.updateSkill(this.selectedSkill)
+            _SkillsService.updateSkill(this.selectedSkill)
                 .then(_skillInfo => {
                     if (_skillInfo.hasOwnProperty('skill')) {
                         console.log('ok, updated');
@@ -62,7 +64,7 @@
                             text: 'Skill Updated SuccessFully'
                         };
 
-                        this.state.go('ap.al.skills', { message: messageObj });
+                        _$state.go('ap.al.skills', { message: messageObj });
 
                         this.SubmitText = 'Saved';
                     } else {
@@ -74,7 +76,7 @@
                 });
         }
         cancel() {
-            this.state.go('ap.al.skills');
+            _$state.go('ap.al.skills');
         }
         addUsertoSkill(userObj, i) {
 
@@ -88,7 +90,7 @@
             };
 
   
-            return this.UsersService.addSkilltoUser(userSkillObj)
+            return _UsersService.addSkilltoUser(userSkillObj)
                 .then(response => {
                    // console.log('response');
                     console.log(response);
@@ -99,13 +101,9 @@
                         this.filteredUsers.splice(index, 1);
                         this.toggleUserItem.item = -1;
                         
-                        this.message={show:true,type:'success',text:'User Added Sucessfully'};
+                        this.message={show:true,type:'success',text:'User Added Sucessfully',expires:2000};
                      
                         this.UsersNamesSkills.push(userObj);
-
-                        this.timeout(() => {
-                            this.message.show = false;
-                        }, 2000);                        
                         return true;
                     }
                     return false;
@@ -125,7 +123,7 @@
 
             this.toggleUserNameItem = i;
 
-            return this.UsersService.deleteSkillfromUser(userSkillObj)
+            return _UsersService.deleteSkillfromUser(userSkillObj)
                 .then(response => {
 
                     if (response.statusCode === 204 && response.data === null ){ 
@@ -137,15 +135,10 @@
                         this.UsersNamesSkills.splice(index, 1);
                         this.toggleUserNameItem = -1;
                         
-                        this.message={show:true,type:'success',text:'User Removed Sucessfully'};
+                        this.message={show:true,type:'success',text:'User Removed Sucessfully',expires:2000};
                     
                         this.listUsers();     
-
-                        this.timeout(() => {
-                             this.message.show = false;
-                        }, 2000);
-                        
-                       return response;
+                        return response;
                     }
                    return null;
                 })
@@ -158,7 +151,7 @@
             this.DetailUser = {};
             this.showPanelInfo = true;
             this.toggleUsernameLink = i;
-            return this.UsersService.getUser(username)
+            return _UsersService.getUser(username)
                 .then(_userInfo => {
                   ///  console.log(_userInfo);
                     this.DetailUser = _userInfo;
@@ -169,7 +162,7 @@
         }
         listUsers() {
             this.filteredUsers = [];
-            this.UsersService.getUsers()
+            _UsersService.getUsers()
                 .then(_users => {                   
                     if(_users.statusCode===200){                          
                           this.userslist = _users.data;
@@ -220,7 +213,7 @@
 
     }
 
-    EditComponent.$inject = ['$stateParams', '$state', '$timeout', 'SkillsService', 'UsersService'];
+    EditComponent.$inject = ['$stateParams', '$state', 'SkillsService', 'UsersService'];
     angular.module('fakiyaMainApp')
         .component('al.skills.edit', {
             templateUrl: 'app/features/al/skills/edit/edit.html',
