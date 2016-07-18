@@ -64,12 +64,12 @@ Run `grunt build` for building and `grunt serve` for preview.
 
 Running `npm test` will run the unit tests with karma.
 
-### How to configure access to private docker registry:
+## How to configure access to private docker registry:
 
-## Prerequisites
+### Prerequisites
 1. Docker and Docker Compose installed
 
-## Instructions to enable the client machine to connect with the docker registry server (Only for the first time)
+### Instructions to enable the client machine to connect with the docker registry server (Only for the first time)
 1. Create the certificate directory:
     ~$ sudo mkdir /usr/local/share/ca-certificates/docker-dev-cert 
 2. Open the certificate file for editing; If already exists, please remove it (sudo rm -rf /usr/local/share/ca-certificates/docker-dev-cert/devdockerCA.crt):
@@ -105,7 +105,7 @@ Ew==
 6. Restart Docker to make sure it reloads the system's CA certificates:
     ~$ sudo service docker restart
 
-### Intructions to pull and run the project images:
+## Intructions to pull and run the project images:
 1. Login into the docker registry (Ask for credentials to the registry administrator):
     ~$ docker login https://74.208.171.144
 2. Put the docker-compose.yml into a directory of your preference (It is a good idea to save it into the root directory of your project; in this way, you can track the file in GIT)   
@@ -113,10 +113,12 @@ Ew==
     ~$ docker-compose pull
 4. Starts the container services in the background:
     ~$ docker-compose up -d 
-5. Stop containers: 
+5. If you want
+
+6. Stop containers: 
     ~$ docker-compose down
 
-## Testing
+## Testing with docker
 1. List the running containers:
     ~$ docker ps
 2. You should see an output similar to the following:
