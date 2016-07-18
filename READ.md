@@ -120,7 +120,7 @@ Ew==
 
 ## Testing with docker
 1. List the running containers:
-    ~$ docker ps
+>~$ docker ps
 2. You should see an output similar to the following:
 
 CONTAINER ID        IMAGE                         COMMAND                  CREATED             STATUS              PORTS                      NAMES
@@ -130,6 +130,6 @@ b38abd8a1428        redis                         "docker-entrypoint.sh"   12 se
 3f537f2e4cbb        mongo                         "/entrypoint.sh mongo"   12 seconds ago      Up 10 seconds       0.0.0.0:27017->27017/tcp   projects_mongo_1
 
 3. You can get the ip of the API container, you will need to use the API CONTAINER ID (728650beab2a):
-    ~$ docker inspect --format '{{ .NetworkSettings.Networks.projects_default.IPAddress }}' 728650beab2a
+>~$ docker inspect --format '{{ .NetworkSettings.Networks.projects_default.IPAddress }}' 728650beab2a
 4. Try to get the authentication token from the API:
-    ~$ curl -d '{"username" : "admin@autoboxcorp.com", "password" : "Password1"}' -X POST -H "Content-Type: application/json" localhost:9999/api/auth/login
+>~$ curl -d '{"username" : "admin@autoboxcorp.com", "password" : "Password1"}' -X POST -H "Content-Type: application/json" localhost:9999/api/auth/login
