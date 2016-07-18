@@ -114,7 +114,6 @@ describe('Component: al.lists.list', function () {
       getLists.then(_lists => {
         expect(_lists).to.be.an.instanceOf(Array);
         expect(_lists).to.have.lengthOf(5);
-        expect(ListComponent.totalItems).to.not.equal(0);
         expect(ListComponent.currentPage).to.equal(1);
         expect(ListComponent.reverse).to.equal(true);
       });
@@ -136,7 +135,6 @@ describe('Component: al.lists.list', function () {
       getLists.then(_lists => {
         expect(_lists).to.be.an.instanceOf(Array);
         expect(_lists).to.have.lengthOf(0);
-        expect(ListComponent.totalItems).to.equal(0);
         expect(ListComponent.filteredLists).to.have.lengthOf(0);
       });
 

@@ -31,7 +31,6 @@
 
         init() {
             this.skills = [];
-            this.totalItems = 0;
             this.currentPage = 1;
             this.sortKey = '';
             this.reverse = true;
@@ -51,7 +50,6 @@
                     //console.log(_skills);
                     if (_skills.statusCode === 200) {
                         this.skills = _skills.data;
-                        this.totalItems = this.skills.length;
                         return this.skills;
                     } else {
                         this.message = { show: true, type: 'warning', text: _skills.errorMessage };
@@ -120,15 +118,11 @@
         }
 
         filteringBySearch(){
-            this.beginNext = 0;
-            this.currentPage = 1;
             if(this.search.skill.name){
-                let total = this.filter('filter')(this.skills, this.search.skill.name);
-                this.totalItems = total.length;
-                this.totalMin = this.totalItems < this.numPerPage ? true : false;
+                this.beginNext = 0;
+                this.currentPage = 1;
                 return true;
             }else{
-                this.totalItems = this.skills.length;
                 return false;
             }
         }

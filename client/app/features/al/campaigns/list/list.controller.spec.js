@@ -235,7 +235,9 @@ describe('Component: al.campaigns.list', function () {
 
     });
 
+
   });
+
 
   describe('#filteringBySearch', () => {
 
@@ -249,7 +251,6 @@ describe('Component: al.campaigns.list', function () {
       expect(ListComponent.filteringBySearch()).to.equal(true);
       expect(ListComponent.beginNext).to.equal(0);
       expect(ListComponent.currentPage).to.equal(1);
-      expect(ListComponent.totalItems).to.equal(2);
     });
 
     it('Should return false, when input search is empty', () => {
