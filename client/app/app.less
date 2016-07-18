@@ -24,7 +24,9 @@
 @gray: #e6e6e6;
 @images_al_path: '/assets/al/images';
 // injector
+@import 'directives/abxNumberUpdown/abxNumberUpdown.less';
 @import 'features/al/campaigns/list/list.less';
+@import 'features/al/dispositions/create/create.less';
 @import 'features/al/skills/create/create.less';
 @import 'features/al/skills/edit/edit.less';
 @import 'features/al/skills/list/list.less';
@@ -42,6 +44,23 @@
     overflow: auto;
 }
 
+/*IE remove x*/
+
+input[type=text] {
+    &::-ms-clear {
+        display: none;
+        height: 0;
+        width : 0;
+    }
+}
+
+input[type=password] {
+    &::-ms-clear {
+        display: none;
+        height: 0;
+        width : 0;
+    }
+}
 
 /**
  * Bootstrap Fonts
@@ -539,7 +558,7 @@ sidebar {
 }
 
 .col-equal-height > [class*="col-"] {
-    margin-bottom: -99999px;
+    margin-bottom: -99965px;
     padding-bottom: 99999px;
 }
 
@@ -600,6 +619,7 @@ html, body {
 
 .custom_form div.checkbox label {}
 
+
 .custom_form div.checkbox label input {
     width: auto;
 }
@@ -629,6 +649,8 @@ html, body {
     font-size: 24px;
     color: #666;
     line-height: 49px;
+    text-align: center;
+    margin-top: 10%;
 }
 
 form[name='userForm'] .tab-content {
@@ -645,6 +667,13 @@ form[name='userForm'] .tab-content {
     text-transform: lowercase;
     &:first-letter {
         text-transform: capitalize;
+    }
+}
+
+.footer_table {
+    .pull-left {
+        font-weight: normal;
+        margin-top: 5px;
     }
 }
 

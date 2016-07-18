@@ -1,16 +1,24 @@
 'use strict';
 (function () {
-    let http;
+    let http,_q;
 
     //let endPointUrl = 'http://localhost:9000/api/f9/skills';
-
+      function handleError(err, result) {
+        result.error = err.data;
+        result.statusCode = err.status;
+        //return result;
+        let defered = _q.defer();
+        let promise = defered.promise;
+        defered.reject(result);    
+        return promise;
+      }
     class DispositionsService {
-        constructor($http, appConfig) {
+        constructor($http, $q, appConfig) {
             this.endPointUrl = '/f9/dispositions';
             if (appConfig.apiUri) {
                 this.endPointUrl = appConfig.apiUri + this.endPointUrl;
             }
-
+            _q=$q;
             http = $http;
         }
 
@@ -20,27 +28,34 @@
 
             return http.get(this.endPointUrl)
                 .then(response => {
-                console.log('response in SERVICE');
-                console.log(response);
                     if (response.data) {
                         result.data = response.data.return;
                         return result;
                     }
                 })
                 .catch(error => {
-                    console.log('response in SERVICE ERROR');
-                    console.log(error);
                     result.statusCode = error.status;
                     result.errorMessage = error.data.body;
                     return result;
                 });
         }
+        getDisposition(dispositionName) {
+
+            var result = { data: null, statusCode: 200, errorMessage: '' };
+
+            return http.get(this.endPointUrl+'/'+dispositionName)
+                .then(response => {
+                    if (response.data) {
+                        result.data = response.data.return;
+                        return result;
+                    }
+                })
+                .catch(err => handleError(err, result));
+        }
         deleteDisposition(disposition) {
             var result = { data: null, statusCode: 204, errorMessage: '' };
             return http.delete(this.endPointUrl + '/' + disposition.name)
                 .then(response => {
-                    console.log('response in service');
-                    console.log(response);
                     if (response.status !== 204) {
                         result.statusCode = response.status;
                         result.data = response;
@@ -48,16 +63,27 @@
                     return result;
                 })
                 .catch(err => {
-                    console.log('response in SERVICE ERROR');
-                    console.log(err);
                     result.statusCode = err.status;
                     result.errorMessage = err.data.body;
                     return result;
                 });
         }
 
+        createDisposition(newDisposition) {
+          let result = { data: null, statusCode: 201, error: null };
+          return http.post(this.endPointUrl, newDisposition)
+            .then(() => result)
+            .catch(err => handleError(err, result));
+        }
+        updateDisposition(disposition) {
+          let result = { data: null, statusCode: 200, error: null };
+          return http.put(this.endPointUrl, disposition)
+            .then(() => result)
+            .catch(err => handleError(err, result));
+        }
+
     }
-    DispositionsService.$inject = ['$http','appConfig'];
+    DispositionsService.$inject = ['$http','$q','appConfig'];
 	angular.module('fakiyaMainApp')
 	  .service('DispositionsService',DispositionsService);
 })();

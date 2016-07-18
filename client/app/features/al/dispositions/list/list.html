@@ -11,7 +11,7 @@
             <input type="search" ng-model="$ctrl.search.name" class="searchbox" placeholder="Search" ng-change="$ctrl.filteringBySearch()">
             <span class="glyphicon glyphicon-search"></span>
         </div>
-        <button class="btn btn-black pull-right" ui-sref="underconstruction">New</button>
+        <button class="btn btn-black pull-right" ui-sref="ap.al.dispositionsCreate">New</button>
     </div>
 
     <table class="table table-striped" ng-show="$ctrl.filteredDispositions.length">
@@ -29,7 +29,9 @@
         <tbody>
             <tr ng-repeat="item in ( $ctrl.filteredDispositions=($ctrl.dispositions | filter:$ctrl.search | orderBy: $ctrl.sortKey:$ctrl.reverse) |  limitTo:$ctrl.numPerPage:$ctrl.beginNext) "
                 ng-class="{ 'danger' : $ctrl.toggleDispositionRow==$index}">
-                <td>{{item.name}}</td>
+                <td>
+                    <a href ng-click="$ctrl.getDetail(item)">{{item.name}}</a>
+                </td>
                 <td>
                     {{item.description}}
                 </td>
