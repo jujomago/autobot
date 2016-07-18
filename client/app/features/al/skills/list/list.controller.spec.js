@@ -128,7 +128,7 @@ describe('Component: al.skills.list', function () {
         {skill:
           {name: 'some text to search'}
         }];
-      let expected_array = [
+      let expectedArray = [
         {skill:
           {name: 'another text out of search'}
         },
@@ -139,7 +139,7 @@ describe('Component: al.skills.list', function () {
           {name: 'some text to search'}
         }];
       expect(ListComponent.sortColumn('skill.name')).to.equal (true);
-      expect(JSON.stringify(expected_array)).to.equal(JSON.stringify(ListComponent.skills));
+      expect(JSON.stringify(expectedArray)).to.equal(JSON.stringify(ListComponent.skills));
     });
 
   });
@@ -161,7 +161,6 @@ describe('Component: al.skills.list', function () {
       expect(ListComponent.filteringBySearch()).to.equal (true);
       expect(ListComponent.beginNext).to.equal(0);
       expect(ListComponent.currentPage).to.equal(1);
-      expect(ListComponent.totalItems).to.equal(2);
     });
 
     it('Should return false, when input search is empty', () => {

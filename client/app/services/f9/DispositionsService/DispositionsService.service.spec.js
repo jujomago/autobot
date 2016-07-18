@@ -83,5 +83,210 @@ describe('Service: DispositionsService', function () {
         });
         httpBackend.flush();
     });
+    describe('#createDisposition', () => {
 
+        it('=> should return statusCode 201, Created Ok', () => {
+          
+            let newDisposition = {
+                    agentMustCompleteWorksheet: false,
+                    agentMustConfirm: false,
+                    description: 'Agent session',
+                    name: 'Test insert a new disposition',
+                    resetAttemptsCounter: false,
+                    sendEmailNotification: false,
+                    sendIMNotification: false,
+                    trackAsFirstCallResolution: false,
+                    type: 'RedialNumber',
+                    typeParameters: {
+                    allowChangeTimer: false,
+                    attempts: '1',
+                    timer: {
+                      days: 0,
+                      hours: 0,
+                      minutes: 0,
+                      seconds: 0
+                    },
+                    useTimer: false
+                    }
+                };
+
+          httpBackend.whenPOST(endPointUrl).respond(201, null);
+
+          DispositionsService.createDisposition(newDisposition)
+            .then(response => {  
+              expect(response).to.be.property('statusCode');
+              expect(response.statusCode).to.equal(201);
+              expect(response.data).to.equal(null);
+              expect(response.error).to.equal(null);
+            });
+
+          httpBackend.flush();
+        });
+        it('=> should return error statusCode 500', () => {
+          
+            let newDisposition = {
+                    agentMustCompleteWorksheet: false,
+                    agentMustConfirm: false,
+                    description: 'Agent session',
+                    name: 'Test insert a new disposition',
+                    resetAttemptsCounter: false,
+                    sendEmailNotification: false,
+                    sendIMNotification: false,
+                    trackAsFirstCallResolution: false,
+                    type: 'RedialNumber',
+                    typeParameters: {
+                    allowChangeTimer: false,
+                    attempts: '1',
+                    timer: {
+                      days: 0,
+                      hours: 0,
+                      minutes: 0,
+                      seconds: 0
+                    },
+                    useTimer: false
+                    }
+                };
+
+          httpBackend.whenPOST(endPointUrl).respond(500, {data: 'Internal Server Error',status: 500});
+
+          DispositionsService.createDisposition(newDisposition)
+            .then(response => {  
+              expect(response.statusCode).to.equal(500);
+              expect(response.error).to.equal('Internal Server Error');
+            });
+
+          httpBackend.flush();
+        });
+
+    });
+    describe('#updateDisposition', () => {
+
+        it('=> should return statusCode 200, Updated Ok', () => {
+          
+            let disposition = {
+                    agentMustCompleteWorksheet: false,
+                    agentMustConfirm: false,
+                    description: 'Agent session',
+                    name: 'Test insert a new disposition',
+                    resetAttemptsCounter: false,
+                    sendEmailNotification: false,
+                    sendIMNotification: false,
+                    trackAsFirstCallResolution: false,
+                    type: 'RedialNumber',
+                    typeParameters: {
+                    allowChangeTimer: false,
+                    attempts: '1',
+                    timer: {
+                      days: 0,
+                      hours: 0,
+                      minutes: 0,
+                      seconds: 0
+                    },
+                    useTimer: false
+                    }
+                };
+
+          httpBackend.whenPUT(endPointUrl).respond(200, null);
+
+          DispositionsService.updateDisposition(disposition)
+            .then(response => {  
+              expect(response).to.be.property('statusCode');
+              expect(response.statusCode).to.equal(200);
+              expect(response.data).to.equal(null);
+              expect(response.error).to.equal(null);
+            });
+
+          httpBackend.flush();
+        });
+        it('=> should return error statusCode 500', () => {
+          
+            let newDisposition = {
+                    agentMustCompleteWorksheet: false,
+                    agentMustConfirm: false,
+                    description: 'Agent session',
+                    name: 'Test insert a new disposition',
+                    resetAttemptsCounter: false,
+                    sendEmailNotification: false,
+                    sendIMNotification: false,
+                    trackAsFirstCallResolution: false,
+                    type: 'RedialNumber',
+                    typeParameters: {
+                    allowChangeTimer: false,
+                    attempts: '1',
+                    timer: {
+                      days: 0,
+                      hours: 0,
+                      minutes: 0,
+                      seconds: 0
+                    },
+                    useTimer: false
+                    }
+                };
+
+          httpBackend.whenPUT(endPointUrl).respond(500, {data: 'Internal Server Error',status: 500});
+
+          DispositionsService.updateDisposition(newDisposition)
+            .then(response => {  
+              expect(response.statusCode).to.equal(500);
+              expect(response.error).to.equal('Internal Server Error');
+            });
+
+          httpBackend.flush();
+        });
+
+    });
+    describe('#getDisposition', () => {
+        it('=> should return statusCode 200, get disposition', () => {
+          
+            let disposition = {
+                    agentMustCompleteWorksheet: false,
+                    agentMustConfirm: false,
+                    description: 'Agent session',
+                    name: 'dispositionName',
+                    resetAttemptsCounter: false,
+                    sendEmailNotification: false,
+                    sendIMNotification: false,
+                    trackAsFirstCallResolution: false,
+                    type: 'RedialNumber',
+                    typeParameters: {
+                    allowChangeTimer: false,
+                    attempts: '1',
+                    timer: {
+                      days: 0,
+                      hours: 0,
+                      minutes: 0,
+                      seconds: 0
+                    },
+                    useTimer: false
+                    }
+                };
+
+          httpBackend.whenGET(endPointUrl+'/'+disposition.name).respond(200,{return: disposition});
+
+          DispositionsService.getDisposition(disposition.name)
+            .then(response => {  
+              expect(response).to.be.property('statusCode');
+              expect(response.statusCode).to.equal(200);
+              expect(response.data).to.not.equal(null);
+              expect(response.data.name).to.equal('dispositionName');
+              expect(response.data.description).to.equal('Agent session');
+              expect(response.data.typeParameters.timer).to.be.instanceOf(Object);
+            });
+
+          httpBackend.flush();
+        });
+        it('=> should return error statusCode 500', () => {
+          
+
+          httpBackend.whenGET(endPointUrl+'/undefinedDisposition').respond(500, {data: 'Internal Server Error',status: 500});
+
+          DispositionsService.getDisposition('undefinedDisposition')
+            .then(response => {  
+              expect(response.statusCode).to.equal(500);
+              expect(response.error).to.equal('Internal Server Error');
+            });
+
+          httpBackend.flush();
+        });
+    });
 });
