@@ -107,16 +107,16 @@ Ew==
 
 ## Intructions to pull and run the project images:
 1. Login into the docker registry (Ask for credentials to the registry administrator):
-    ~$ docker login https://74.208.171.144
+>~$ docker login https://74.208.171.144
 2. Put the docker-compose.yml into a directory of your preference (It is a good idea to save it into the root directory of your project; in this way, you can track the file in GIT)   
 3. Enter to the directory where you put the docker-compose.yml file and run the following command to pull the images:
-    ~$ docker-compose pull
+>~$ docker-compose pull
 4. Starts the container services in the background:
-    ~$ docker-compose up -d 
+>~$ docker-compose up -d 
 5. If you want to run development docker images, run the following command:
 >docker-compose -f docker-compose.dev.yml up 
 6. Stop containers: 
-    ~$ docker-compose down
+>~$ docker-compose down
 
 ## Testing with docker
 1. List the running containers:
