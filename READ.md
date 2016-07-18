@@ -113,8 +113,8 @@ Ew==
     ~$ docker-compose pull
 4. Starts the container services in the background:
     ~$ docker-compose up -d 
-5. If you want
-
+5. If you want to run development docker images, run the following command:
+>docker-compose -f docker-compose.dev.yml up 
 6. Stop containers: 
     ~$ docker-compose down
 
