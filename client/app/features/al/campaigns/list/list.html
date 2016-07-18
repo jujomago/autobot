@@ -97,8 +97,7 @@
 
     <label class="pull-left" ng-show="$ctrl.filteredCampaigns.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.getMax()}} of {{$ctrl.filteredCampaigns.length}}</label>    
 
-    <uib-pagination ng-show="$ctrl.filteredCampaigns.length" total-items="$ctrl.filteredCampaigns.length" ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
-    " boundary-links="true "
+    <uib-pagination ng-show="$ctrl.filteredCampaigns.length" total-items="$ctrl.filteredCampaigns.length" ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage" boundary-links="true "
     ng-change="$ctrl.pageChanged()" >
     </uib-pagination>
 

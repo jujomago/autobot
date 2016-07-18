@@ -1,0 +1,78 @@
+.regular-radio label{
+    color: #666;
+}
+.disposition-type-header{
+	padding-left: 20px;
+	margin-bottom: 5px;
+	@media (max-width: 768px) {
+      padding-left: 0px;
+    }
+    input{
+		margin-right: 5px;
+	}
+}
+.disposition-type-options{
+	display: block;
+}
+
+.disposition-type-body{
+	padding-left: 50px;
+	@media (max-width: 768px) {
+      padding-left: 0px;
+    }
+    label{
+		margin-bottom: 0px;
+		font-weight: 100;
+	}
+	.checkbox{
+		margin-bottom: 10px;
+	}
+}
+.timer-items{
+	display: inline-block;
+}
+.custom_form{
+	.inputminimal > div.timer-container{
+		height: 100%;
+		display: inline-block;
+		vertical-align: bottom;
+		text-align: left;
+		margin-right: 2%;
+		div{
+			height: 100%;
+		}
+	}
+	.disposition-type-body 
+	{
+		.inputminimal > label{
+			max-width: 180px; 
+			word-wrap: break-word;
+			@media (max-width: 500px) {
+				max-width: 100px; 
+				line-height: 17px;
+			}
+		}
+		.inputminimal{
+			max-width: 350px;
+			@media (max-width: 500px) {
+		      min-width: 300px;
+		    }
+		}
+		.inputminimal-disabled{
+			background-color: @gray;
+			cursor: not-allowed;
+		}
+		
+	}
+}
+
+.timer-container > .timer-items > abx-number-updown > .abx-number-container > .abx-number-input{
+	width: 35px;
+}
+
+
+.div-number-has-error{
+	color: #e64b3b;
+    line-height: 15px;
+    padding-left: 12px;
+}

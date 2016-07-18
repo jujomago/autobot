@@ -132,10 +132,4 @@ describe('Component: al.users.list', function () {
     });
 
   });
-
-
-
-
-
-
 });

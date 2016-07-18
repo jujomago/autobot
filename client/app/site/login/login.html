@@ -11,7 +11,7 @@
        <abx-message msg="$ctrl.message"></abx-message>
     <div class="inputminimal center-block ">
         <label>Username</label> 
-        <input type="text"  ng-model="$ctrl.username" name="userName"  required  autocomplete="off">
+        <input type="text"  ng-model="$ctrl.username" name="userName" maxlength="50"  required  autocomplete="off">
         <div ng-messages="formSigIn.userName.$error"  ng-show="(formSigIn.userName.$touched || formSigIn.userName.$dirty) || formSigIn.$submitted">
         <p ng-message="required">This field is required</p>
       </div> 
