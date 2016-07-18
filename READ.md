@@ -71,9 +71,9 @@ Running `npm test` will run the unit tests with karma.
 
 ### Instructions to enable the client machine to connect with the docker registry server (Only for the first time)
 1. Create the certificate directory:
-    ~$ sudo mkdir /usr/local/share/ca-certificates/docker-dev-cert 
+>~$ sudo mkdir /usr/local/share/ca-certificates/docker-dev-cert 
 2. Open the certificate file for editing; If already exists, please remove it (sudo rm -rf /usr/local/share/ca-certificates/docker-dev-cert/devdockerCA.crt):
-    ~$ sudo nano /usr/local/share/ca-certificates/docker-dev-cert/devdockerCA.crt
+>~$ sudo nano /usr/local/share/ca-certificates/docker-dev-cert/devdockerCA.crt
 3. Paste the following certificate content (including the BEGIN and END lines):
 
 -----BEGIN CERTIFICATE-----
@@ -99,11 +99,11 @@ Ew==
 -----END CERTIFICATE-----
 
 4. Verify that the file was saved correctly by viewing the file (If everything worked properly you'll see the same text from earlier):
-    ~$ cat /usr/local/share/ca-certificates/docker-dev-cert/devdockerCA.crt
+>~$ cat /usr/local/share/ca-certificates/docker-dev-cert/devdockerCA.crt
 5. Update the certificates:
-    ~$ sudo update-ca-certificates
+>~$ sudo update-ca-certificates
 6. Restart Docker to make sure it reloads the system's CA certificates:
-    ~$ sudo service docker restart
+>~$ sudo service docker restart
 
 ## Intructions to pull and run the project images:
 1. Login into the docker registry (Ask for credentials to the registry administrator):
