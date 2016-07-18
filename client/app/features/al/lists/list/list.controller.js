@@ -4,7 +4,6 @@ let _ConfirmAsync;
 class ListComponent {
   constructor(ListsService,ConfirmAsync) {
     this.lists = [];
-    this.totalItems = 0;
       this.currentPage = 1;
       this.sortKey = '';
       this.reverse = true;
@@ -22,6 +21,7 @@ class ListComponent {
   }
   $onInit() {
       this.getLists();
+      this.sortColumn('name');
     }
   sortColumn(columnName) {
       if (columnName !== undefined && columnName) {
@@ -33,12 +33,15 @@ class ListComponent {
           return false;
       }
   }
+  getMax(){
+      let total=this.currentPage*this.numPerPage;
+      return (total>this.filteredLists.length)?this.filteredLists.length+'':total;
+  }
   getLists() {
     return this.ListsService.getLists()
       .then(response => {         
         if (response.statusCode === 200) {
             this.lists = response.data;
-            this.totalItems = this.lists.length;
          } 
          return this.lists;
       })
@@ -86,10 +89,6 @@ class ListComponent {
       return response;
     })
     .catch(e =>{    
-      console.log('response in client if errors');
-      console.log(e);
-     let theMsg= (e.error)? e.error.body:e; 
-     this.message={ show: true, type: 'warning', text: theMsg };
      return e;
     });
   }

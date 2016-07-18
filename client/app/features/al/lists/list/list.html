@@ -27,7 +27,7 @@
             </th>
         </thead>
         <tbody>
-            <tr ng-repeat="item in ( $ctrl.filteredLists=($ctrl.lists | filter:$ctrl.search | orderBy:$ctrl.sortKey:$ctrl.reverse |  limitTo:$ctrl.numPerPage:$ctrl.beginNext)   ) "
+            <tr ng-repeat="item in ( $ctrl.filteredLists=($ctrl.lists | filter:$ctrl.search | orderBy:$ctrl.sortKey:$ctrl.reverse)|  limitTo:$ctrl.numPerPage:$ctrl.beginNext) "
                 ng-class="{ 'danger' : $ctrl.toggleListRow==$index}">
                 <td class="">{{item.name}}</td>
                 <td class="">{{item.size}} record(s)</td>
@@ -48,19 +48,17 @@
         </div>
 
 
-        <label for="pull-left" ng-show="$ctrl.filteredLists.length" ng-if="$ctrl.search.name">Showing {{$ctrl.filteredLists.length}} results</label>
-
-        <label class="pull-left" ng-if="!$ctrl.search.name">Showing {{$ctrl.beginNext+1}}-{{$ctrl.currentPage*$ctrl.numPerPage}} of {{$ctrl.totalItems}}</label>
+        <label class="pull-left" ng-if="$ctrl.filteredLists.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.getMax()}} of {{$ctrl.filteredLists.length}}</label>
 
 
 
-        <uib-pagination ng-if="!$ctrl.search.name" total-items="$ctrl.totalItems " ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
+        <uib-pagination ng-if="$ctrl.filteredLists.length" total-items="$ctrl.filteredLists.length" ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
     " boundary-links="true " ng-change="$ctrl.pageChanged()">
         </uib-pagination>
 
         <div class="pull-right results_per_page" ng-show="$ctrl.filteredLists.length"><span>Show</span>
 
-            <select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities ">
+            <select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities" ng-change="$ctrl.pageChanged()">
         </select> <span>results per page</span>
         </div>
     </div>
