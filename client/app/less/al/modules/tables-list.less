@@ -1,0 +1,60 @@
+// Color variables (appears count calculates by raw css)
+@color0: #e6e6e6; // Appears 2 times
+@color1: #cccccc; // Appears 2 times
+
+// table styles for main lists
+.al-theme {
+    .table-striped>tbody>tr.danger {
+        cursor: wait;
+    }
+    .table-striped>tbody>tr.danger>td {
+        color: @color1;
+        * {
+            color: @color1;
+        }
+    }
+    .table-striped>tbody>tr {
+        &:nth-child(even)>td {
+            background-color: @table_even_row;
+        }
+        &:nth-child(even)>th {
+            background-color: @table_even_row;
+        }
+        &:nth-child(odd)>td {
+            background-color: @table_odd_row;
+        }
+        &:nth-child(odd)>th {
+            background-color: @table_odd_row;
+        }
+    }
+    .table>tbody>tr>td {
+        transition: all .3s ease-out;       
+        border-top: 1px solid @color0;
+        color: #666666;
+        font-family: BrandonRegular;
+        font-size: 14px;
+        padding: 7px 8px;
+        vertical-align: middle;
+    }
+    .table>tbody>tr {
+        &:last-child {
+            td {
+                border-bottom: 1px solid @color0;
+            }
+        }
+    }
+    .table-striped {
+        thead {
+            th {
+                color: #000000;
+                font-family: BrandonMedium;
+                font-size: 12px;
+                text-transform: capitalize;
+            }
+        }
+    }
+    .table>thead>tr>th {
+        border-bottom: none;
+        vertical-align: bottom;
+    }
+}

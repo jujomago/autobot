@@ -1,0 +1,103 @@
+// here goes all helpers, can also be mixins
+
+
+// this hack is to make sidebar and rightside same height
+.col-equal-height {
+  overflow: hidden;
+  min-height: 100%;
+  > [class*="col-"] {
+    margin-bottom: -99965px;
+    padding-bottom: 99999px;
+  }
+}
+
+
+
+.extrappading {
+    padding: 0 15px 20px;
+}
+
+.with-scroll {
+    max-height: 300px;
+    overflow: auto;
+}
+
+
+.browserupgrade {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}
+
+sidebar {
+    display: block;
+}
+
+.fixed_bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.has-error ~ div[ng-messages] p {
+    color: #e64b3b;
+    line-height: 15px;
+    padding-left: 12px;
+}
+
+
+
+
+.offsettop {
+    /*  margin-top: 55px;*/
+    padding-top: 60px;
+    /*   padding-botto;: 55px;*/
+}
+
+
+
+//*IE remove x*
+
+input[type=text] {
+    &::-ms-clear {
+        display: none;
+        height: 0;
+        width : 0;
+    }
+}
+
+input[type=password] {
+    &::-ms-clear {
+        display: none;
+        height: 0;
+        width : 0;
+    }
+}
+
+// adjusments for tabs
+.tab-content {
+    /*  background: #F1F1F1;*/
+    padding: 15px 0px 0px;
+    margin-bottom: 45px;
+}
+
+.tab-pane .panel {
+    max-height: 520px;
+    overflow: auto;
+}
+
+form[name='userForm'] .tab-content {
+    margin-bottom: 30px;
+}
+//end adjusments for tabs
+
+
+.navbar-inverse {
+    .navbar-nav>li>a {
+        &:hover, &:focus {
+            color: @blue
+        }
+    }
+}
