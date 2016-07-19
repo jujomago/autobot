@@ -11,7 +11,7 @@
             <input type="search" ng-model="$ctrl.search.name" class="searchbox" placeholder="Search" ng-change="$ctrl.filteringBySearch()">
             <span class="glyphicon glyphicon-search"></span>
         </div>
-        <button class="btn btn-black pull-right" ui-sref="underconstruction">New</button>
+        <button class="btn btn-black pull-right" ui-sref="ap.al.dispositionsCreate">New</button>
     </div>
 
     <table class="table table-striped" ng-show="$ctrl.filteredDispositions.length">
@@ -27,9 +27,11 @@
             </th>
         </thead>
         <tbody>
-            <tr ng-repeat="item in ( $ctrl.filteredDispositions=($ctrl.dispositions | filter:$ctrl.search | orderBy: $ctrl.sortKey:$ctrl.reverse |  limitTo:$ctrl.numPerPage:$ctrl.beginNext)) "
+            <tr ng-repeat="item in ( $ctrl.filteredDispositions=($ctrl.dispositions | filter:$ctrl.search | orderBy: $ctrl.sortKey:$ctrl.reverse) |  limitTo:$ctrl.numPerPage:$ctrl.beginNext) "
                 ng-class="{ 'danger' : $ctrl.toggleDispositionRow==$index}">
-                <td>{{item.name}}</td>
+                <td>
+                    <a href ng-click="$ctrl.getDetail(item)">{{item.name}}</a>
+                </td>
                 <td>
                     {{item.description}}
                 </td>
@@ -48,19 +50,19 @@
         </div>
 
 
-        <label for="pull-left" ng-show="$ctrl.filteredDispositions.length" ng-if="$ctrl.search.name">Showing {{$ctrl.filteredDispositions.length}} results</label>
+        <!--<label for="pull-left" ng-show="$ctrl.filteredDispositions.length" ng-if="$ctrl.search.name">Showing {{$ctrl.filteredDispositions.length}} results</label> -->
 
-        <label class="pull-left" ng-if="!$ctrl.search.name">Showing {{$ctrl.beginNext+1}}-{{$ctrl.currentPage*$ctrl.numPerPage}} of {{$ctrl.totalItems}}</label>
+        <label ng-if="$ctrl.filteredDispositions.length" class="pull-left" >Showing {{$ctrl.beginNext+1}}-{{$ctrl.getMax()}} of {{$ctrl.filteredDispositions.length}}</label>
 
 
 
-        <uib-pagination ng-if="!$ctrl.search.name" total-items="$ctrl.totalItems " ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
-    " boundary-links="true " ng-change="$ctrl.pageChanged()">
+        <uib-pagination ng-if="$ctrl.filteredDispositions.length" total-items="$ctrl.filteredDispositions.length " ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
+    " boundary-links="true" ng-change="$ctrl.pageChanged()">
         </uib-pagination>
 
         <div class="pull-right results_per_page" ng-show="$ctrl.filteredDispositions.length"><span>Show</span>
 
-            <select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities ">
+            <select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities "  ng-change="$ctrl.pageChanged()">
         </select> <span>results per page</span>
         </div>
     </div>

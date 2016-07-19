@@ -63,7 +63,7 @@
         </th>
     </thead>
     <tbody>
-         <tr ng-repeat="item in ($ctrl.filteredCampaigns=($ctrl.campaigns  | filter:{type:$ctrl.typeCampaignFilter} | filter:$ctrl.search | limitTo:$ctrl.numPerPage:$ctrl.beginNext) | orderBy:$ctrl.sortKey:$ctrl.reverse)" 
+         <tr ng-repeat="item in ($ctrl.filteredCampaigns=($ctrl.campaigns  | filter:{type:$ctrl.typeCampaignFilter} | filter:$ctrl.search | orderBy:$ctrl.sortKey:$ctrl.reverse) | limitTo:$ctrl.numPerPage:$ctrl.beginNext )" 
 
        ng-class="{'danger' : $ctrl.toggleCampaignRow==$index, 'warning': $ctrl.toggleStatusRow==$index}">            
             <td>
@@ -95,16 +95,16 @@
              <p>We couldn't find what you are looking for</p>
        </div>
 
-    <label class="pull-left" ng-show="$ctrl.filteredCampaigns.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.totalMin ? $ctrl.totalItems : $ctrl.currentPage*$ctrl.numPerPage}} of {{$ctrl.totalItems}}</label>    
+    <label class="pull-left" ng-show="$ctrl.filteredCampaigns.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.getMax()}} of {{$ctrl.filteredCampaigns.length}}</label>    
 
 
-    <uib-pagination ng-show="$ctrl.filteredCampaigns.length" total-items="$ctrl.totalItems " ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
+    <uib-pagination ng-show="$ctrl.filteredCampaigns.length" total-items="$ctrl.filteredCampaigns.length" ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
     " boundary-links="true "
     ng-change="$ctrl.pageChanged()" >
     </uib-pagination>
 
     <div class="pull-right results_per_page"  ng-show="$ctrl.filteredCampaigns.length"><span>Show</span> 
-        <select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities ">
+        <select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities" ng-change="$ctrl.pageChanged()">
         </select><span>results per page</span> 
     </div>  
 </div> 

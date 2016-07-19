@@ -10,7 +10,6 @@
       console.log('contrusctor Campaign ListComponent');
 
       this.campaigns = [];
-      this.totalItems = 0;
       this.currentPage = 1;
       this.sortKey = '';
       this.reverse = true;
@@ -50,7 +49,6 @@
         .then(response => {         
           if (response.statusCode === 200) {
               this.campaigns = response.data;
-              this.totalItems = this.campaigns.length;
            } 
            return response;
         })
@@ -195,7 +193,10 @@
      });
 
     }   
-
+    getMax(){
+        let total=this.currentPage*this.numPerPage;
+        return (total>this.filteredCampaigns.length)?this.filteredCampaigns.length+'':total;
+    }
     getDetail(item) {
       let typeEdit = item.type.toLowerCase();
       _state.go('ap.al.campaignsEdit-' + typeEdit, { campaign: item });

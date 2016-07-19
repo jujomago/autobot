@@ -1,41 +1,36 @@
 'use strict';
 (function () {
 
-    let _ConfirmAsync;
+    let _ConfirmAsync,_SkillsService;
+    let _$state,_$filter;
 
     class ListComponent {   
 
-        constructor($state, $stateParams, $timeout, ConfirmAsync, $filter, SkillsService) {
+        constructor($state, $stateParams, $filter, ConfirmAsync, SkillsService) {
 
             console.log('Component ListComponent - al.skills.list');
+
+             _ConfirmAsync=ConfirmAsync;
+             _SkillsService=SkillsService;
+             _$state = $state;
+             _$filter = $filter;
 
             this.message = { show: false };
 
             if ($stateParams.message !== null) {
-                this.message = { show: true, type: $stateParams.message.type, text: $stateParams.message.text };
-                $timeout(() => {
-                    this.message.show = false;
-                }, 3000);
-            }
+                this.message = { show: true, type: $stateParams.message.type, text: $stateParams.message.text , expires:3000 };
+            }             
 
-            this.SkillsService = SkillsService;
-            this.state = $state;
-
-            this.init();
-            this.timeout = $timeout;
+            this.init();         
             this.toggleSkillRow = -1;
-            _ConfirmAsync=ConfirmAsync;
-
             this.search={skill:{name:''}};
-            this.filteredSkills=[];
-            this.filter = $filter;
+            this.filteredSkills=[];        
             this.totalMin = false;
 
         }
 
         init() {
             this.skills = [];
-            this.totalItems = 0;
             this.currentPage = 1;
             this.sortKey = '';
             this.reverse = true;
@@ -49,13 +44,12 @@
         }
 
         getSkills() {
-            return this.SkillsService.getSkillsInfo()
+            return _SkillsService.getSkillsInfo()
                 .then(_skills => {
                     // console.log('error comes in _skills');
                     //console.log(_skills);
                     if (_skills.statusCode === 200) {
                         this.skills = _skills.data;
-                        this.totalItems = this.skills.length;
                         return this.skills;
                     } else {
                         this.message = { show: true, type: 'warning', text: _skills.errorMessage };
@@ -79,7 +73,7 @@
                 console.log('sorting:' + columnName);
                 this.sortKey = columnName;
                 this.reverse = !this.reverse;
-                this.skills = this.filter('orderBy')(this.skills, this.sortKey, this.reverse);
+                this.skills = _$filter('orderBy')(this.skills, this.sortKey, this.reverse);
                 return true;
             } else {
                 return false;
@@ -91,18 +85,15 @@
                 .then(() => {                 
                  
                     this.toggleSkillRow = indexRow;
-                    return this.SkillsService.deleteSkill(item.skill)
+                    return _SkillsService.deleteSkill(item.skill)
                         .then(response => {                   
                             if (response.statusCode === 204 && response.data === null) {
                                 let index = this.skills.indexOf(item);
                                 this.skills.splice(index, 1);
 
                                 this.toggleSkillRow = -1;
-                                this.message = { show: true, type: 'success', text: 'Skill Deleted' };
+                                this.message = { show: true, type: 'success', text: 'Skill Deleted', expires:3000 };
 
-                                this.timeout(() => {
-                                    this.message.show = false;
-                                }, 3000);
                             }else{
 
                                   this.toggleSkillRow = -1;
@@ -118,21 +109,20 @@
                     return false;
                 });
         }
-
+        getMax(){
+            let total=this.currentPage*this.numPerPage;
+            return (total>this.filteredSkills.length)?this.filteredSkills.length+'':total;
+        }
         getDetail(item) {
-            this.state.go('ap.al.skillsEdit', { name: item.name });
+            _$state.go('ap.al.skillsEdit', { name: item.name });
         }
 
         filteringBySearch(){
-            this.beginNext = 0;
-            this.currentPage = 1;
             if(this.search.skill.name){
-                let total = this.filter('filter')(this.skills, {skill:{name: this.search.skill.name}});
-                this.totalItems = total.length;
-                this.totalMin = this.totalItems < this.numPerPage ? true : false;
+                this.beginNext = 0;
+                this.currentPage = 1;
                 return true;
             }else{
-                this.totalItems = this.skills.length;
                 return false;
             }
         }
@@ -141,7 +131,7 @@
     }
 
 
-    ListComponent.$inject = ['$state', '$stateParams', '$timeout',  'ConfirmAsync' , '$filter', 'SkillsService',];
+    ListComponent.$inject = ['$state', '$stateParams', '$filter', 'ConfirmAsync', 'SkillsService'];
 
     angular.module('fakiyaMainApp')
         .component('al.skills.list', {

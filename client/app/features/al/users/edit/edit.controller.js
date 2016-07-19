@@ -109,11 +109,9 @@
                 return true;
             }
             return false;
-        }
-        
+        }        
        update(){
- 
-           
+       
            if (this.userRoles.length === 0) {       
                 this.showWarningRolMessage = true;
                 console.warn('You must select at least one rol');

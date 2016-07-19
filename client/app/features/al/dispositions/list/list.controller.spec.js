@@ -112,7 +112,7 @@ describe('Component: al.dispositions.list', function () {
           expect(ListComponent.toggleDispositionRow).to.equal(-1);
           expect(response.statusCode).to.equal(403);
           expect(ListComponent.message.type).to.equal('danger');
-          expect(ListComponent.message.text).to.equal('Please verify it is not being used by any campaign');
+          expect(ListComponent.message.text).to.equal('The object cannot be deleted. Please verify it is not being used by any campaign.');
        
 
         });
@@ -176,7 +176,7 @@ describe('Component: al.dispositions.list', function () {
         getDispositions.then(_dispositions => {
           expect(_dispositions).to.be.an.instanceOf(Array);
           expect(_dispositions).to.have.lengthOf(0);
-          expect(ListComponent.totalItems).to.equal(0);
+          expect(ListComponent.filteredDispositions.length).to.equal(0);
           expect(ListComponent.filteredDispositions).to.have.lengthOf(0);
         });
 
