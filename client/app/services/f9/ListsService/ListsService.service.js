@@ -67,6 +67,21 @@
                     return result;
                 });
         }
+        createList(list) {
+
+            var result = { data: null, statusCode: 201, errorMessage: '' };
+
+            return _$http.post(this.endPointUrl, list)
+                .then(response => {
+                        result.data = response.data;
+                        return result;
+                })
+                .catch(error => {
+                    result.statusCode = error.status;
+                    result.errorMessage = error.data.body;
+                    return result;
+                });
+        }
         deleteList(list) {
             console.log('list name in service');
             console.log(list.name);

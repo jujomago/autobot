@@ -12,6 +12,41 @@ describe('Lists API:', function () {
     let listDeleteSettings = {fieldsMapping: [{columnNumber: 1, fieldName: 'number1', key: true}], listDeleteMode: 'DELETE_ALL'}
     describe('GET /api/f9/lists', function () {
         var lists, fields, identifier;
+        var uid = (new Date().getTime()).toString(36);
+        it('should create new list - timeout 25 seconds', function (done) {
+            this.timeout(25000);
+            request(app)
+                .post('/api/f9/lists')
+                .send({listName: 'TestList '+uid})
+                .expect(201)
+                .expect('Content-Type', /json/)
+                .end((err, res) => {
+
+                    if (err) {
+                        return done(err);
+                    }
+                    let list = res.body;
+                    assert.equal(201, res.status);
+                    assert.equal(list, null);
+                    done();
+                });
+        });
+        it('should delete created list - timeout 25 seconds', function (done) {
+            this.timeout(25000);
+            request(app)
+                .delete('/api/f9/lists/TestList '+uid)
+                .expect(204)
+                .end((err, res) => {
+
+                    if (err) {
+                        return done(err);
+                    }
+                    let list = res.body;
+                    assert.equal(204, res.status);
+                    expect(list).to.be.instanceOf(Object);
+                    done();
+                });
+        });
         it('should respond get all lists with JSON array - timeout 25 seconds', function (done) {
             this.timeout(25000);
             request(app)

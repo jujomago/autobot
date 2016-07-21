@@ -67,10 +67,10 @@ export function getContacts(req, res) {
 }
 //Create new List
 export function createList(req, res) {
-  var params = {criteria: [{field: 'listName', value: 'TestAutoboxList'}]};
-  return service.f9CallService('getContactRecords', params, '', req)
+  var params = {listName: req.body.listName};
+  return service.f9CallService('createList', params, '', req)
       .then(data => {
-          res.status(200).json(data);
+          res.status(201).json(data);
       })
       .catch(handleError(res));
 }

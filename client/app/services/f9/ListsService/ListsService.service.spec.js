@@ -21,7 +21,27 @@ describe('Service: ListsService', function () {
         //httpBackend.verifyNoOutstandingExpectation();
         httpBackend.verifyNoOutstandingRequest();
     });
-
+    it('should create a new list', function () {
+        httpBackend.whenPOST(endPointUrl).respond(201, null);
+        let list = {listName: 'test'};
+        ListsService.createList(list)
+        .then(result => {
+            expect(result.data).to.equal(null);
+            expect(result.statusCode).to.equal(201);
+            expect(result.errorMessage.length).to.equal(0);
+        });
+        httpBackend.flush();
+    });
+    it('should obtain error in create a new list', function () {
+        httpBackend.whenPOST(endPointUrl).respond(500, {body: 'Error in create list'});
+        let list = {listName: 'test'};
+        ListsService.createList(list).then(result => {
+            expect(result).to.not.equal(null);
+            expect(result.statusCode).to.equal(500);
+            expect(result.errorMessage).to.equal('Error in create list');
+        });
+        httpBackend.flush();
+    });
     it('should return lists', function () {
         httpBackend.whenGET(endPointUrl).respond({
             return: [{ 'name': 'List1', 'size': 10},

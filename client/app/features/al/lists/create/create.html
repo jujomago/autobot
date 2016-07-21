@@ -1,0 +1,14 @@
+<h3 class="title_section">List: <span>New list</span></h3>
+<abx-message msg="$ctrl.message"></abx-message> 
+<form name="listForm" class="custom_form form-horizontal" novalidate autocomplete="off"  ng-submit="listForm.$valid && $ctrl.save()">
+    <div class="inputminimal" ng-class="{ 'has-error': listForm.name.$invalid && listForm.$submitted }">
+        <label for="firstName" >Name*</label>
+        <div>
+            <input autofocus type="text" name="name" id="name" required ng-model="$ctrl.list.listName">
+         </div>
+    </div>
+    <div ng-messages="listForm.name.$error" ng-show="listForm.$submitted">                  
+                <p ng-message="required">This field is required</p>
+    </div>
+	<button type="submit" class="btn btn-black" ng-disabled="$ctrl.SubmitText=='Saving...'">{{$ctrl.SubmitText}}</button>
+</form>
