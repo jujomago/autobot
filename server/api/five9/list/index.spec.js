@@ -7,7 +7,11 @@ var listCtrlStub = {
   show: 'listCtrl.show',
   create: 'listCtrl.create',
   update: 'listCtrl.update',
-  destroy: 'listCtrl.destroy'
+  destroy: 'listCtrl.destroy',
+  deleteContactFromList: 'listCtrl.deleteContactFromList',
+  createContactForList: 'listCtrl.createContactForList',
+  getListImportResult: 'listCtrl.getListImportResult',
+  isImportRunning: 'listCtrl.isImportRunning'
 };
 
 var routerStub = {
@@ -52,5 +56,51 @@ describe('List API Router:', function() {
     });
 
   });
+  describe('DELETE /api/f9/lists/contacts', function() {
+
+    it('should route to list.controller.deleteContactFromList', function() {
+      expect(routerStub.delete
+        .withArgs('/contacts/delete', 'listCtrl.deleteContactFromList')
+        ).to.have.been.calledOnce;
+    });
+
+  });
+  describe('POST /api/f9/lists/contacts', function() {
+
+    it('should route to list.controller.createContactForList', function() {
+      expect(routerStub.post
+        .withArgs('/contacts', 'listCtrl.createContactForList')
+        ).to.have.been.calledOnce;
+    });
+
+  });
+  describe('GET /contacts/result/:identifier', function() {
+
+    it('should route to list.controller.getListImportResult', function() {
+      expect(routerStub.get
+        .withArgs('/contacts/result/:identifier', 'listCtrl.getListImportResult')
+        ).to.have.been.calledOnce;
+    });
+
+  });
+  describe('GET /contacts/result/running/:identifier', function() {
+
+    it('should route to list.controller.isImportRunning', function() {
+      expect(routerStub.get
+        .withArgs('/contacts/result/running/:identifier', 'listCtrl.isImportRunning')
+        ).to.have.been.calledOnce;
+    });
+
+  });
+  describe('GET /:listName', function() {
+
+    it('should route to list.controller.show', function() {
+      expect(routerStub.get
+        .withArgs('/:listName', 'listCtrl.show')
+        ).to.have.been.calledOnce;
+    });
+
+  });
+
 
 });

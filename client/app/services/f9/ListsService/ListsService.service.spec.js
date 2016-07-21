@@ -40,6 +40,37 @@ describe('Service: ListsService', function () {
         httpBackend.flush();
     });
 
+
+    it('should return one list', function () {
+        httpBackend.whenGET(endPointUrl+ '/AgentList').respond({
+            return: { 'name': 'AgentList', 'size': 6}
+        });
+
+        ListsService.getList('AgentList').then(list => {
+            expect(null).to.not.equal(list);
+            expect(undefined).to.not.equal(list);
+            expect(undefined).to.not.equal(list.data);
+            expect(list.statusCode).to.equal(200);
+            expect(list.data.name).to.equal('AgentList');
+            expect(list.data.size).to.equal(6);
+            expect(list.errorMessage.length).to.equal(0);
+        });
+        httpBackend.flush();
+    });
+    it('should return a file of list contacts', () => {
+      httpBackend.whenGET('data:text/csv;base64,77u/Zm9vLGJhcg0KYWFhLGJiYg==').respond(200, 'number1, number2, number3');
+      let data = 'data:text/csv;base64,77u/Zm9vLGJhcg0KYWFhLGJiYg==';
+      ListsService.getCSV(data)
+      .then(response => {
+            expect(null).to.not.equal(response);
+            expect(undefined).to.not.equal(response);
+            expect(undefined).to.not.equal(response.data);
+            expect(response.statusCode).to.equal(200);
+            expect(response.data).to.equal('number1, number2, number3');
+            expect(response.errorMessage.length).to.equal(0);
+       });
+      httpBackend.flush();
+    });
     it('should return empty list', function () {
         httpBackend.whenGET(endPointUrl).respond({
             return: []

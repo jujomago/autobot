@@ -29,7 +29,11 @@
         <tbody>
             <tr ng-repeat="item in ( $ctrl.filteredLists=($ctrl.lists | filter:$ctrl.search | orderBy:$ctrl.sortKey:$ctrl.reverse)|  limitTo:$ctrl.numPerPage:$ctrl.beginNext) "
                 ng-class="{ 'danger' : $ctrl.toggleListRow==$index}">
-                <td class="">{{item.name}}</td>
+                <td class="">
+                <a href ng-click="$ctrl.updateDeleteList(item.name)">
+                    {{item.name}}
+                </a>
+                </td>
                 <td class="">{{item.size}} record(s)</td>
                 <td class="text-center">
 

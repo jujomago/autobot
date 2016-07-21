@@ -1,8 +1,9 @@
 'use strict';
 (function(){
 let _ConfirmAsync;
+let _$state;
 class ListComponent {
-  constructor(ListsService,ConfirmAsync) {
+  constructor($state, ListsService,ConfirmAsync) {
     this.lists = [];
       this.currentPage = 1;
       this.sortKey = '';
@@ -16,6 +17,7 @@ class ListComponent {
       this.typeCampaignFilter = '';   
       this.search={name:''};
       this.filteredLists=[];
+      _$state = $state;
       _ConfirmAsync = ConfirmAsync;
     this.ListsService = ListsService;
   }
@@ -50,6 +52,10 @@ class ListComponent {
        this.message={ show: true, type: 'warning', text: theMsg};
         return e;
       });
+  }
+
+  updateDeleteList(list){
+    _$state.go('ap.al.listsEdit', { name: list});
   }
   filteringBySearch(){  
     if(this.search.name){               
@@ -98,7 +104,7 @@ class ListComponent {
     console.log('beginNext:' + this.beginNext);
   }
 }
-ListComponent.$inject = ['ListsService','ConfirmAsync'];
+ListComponent.$inject = ['$state', 'ListsService','ConfirmAsync'];
 angular.module('fakiyaMainApp')
   .component('al.lists.list', {
     templateUrl: 'app/features/al/lists/list/list.html',
