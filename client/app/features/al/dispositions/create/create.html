@@ -27,20 +27,13 @@
 	            </div>
 	        </div>         
             <div class="form-group">
-              <div class="col-sm-4">
+              <div class="col-sm-12">
                    <div class="checkbox">
                         <label>
                             <input type="checkbox" ng-model="$ctrl.disposition.agentMustConfirm"> Agent Must Confirm
                         </label>
                     </div>
-                   <div class="checkbox">
-                        <label>
-                            <input type="checkbox" ng-model="$ctrl.disposition.trackAsFirstCallResolution"> Track as First Call resolution
-                        </label>
-                    </div>
-              </div>
-              <div class="col-sm-4">
-                   <div class="radio regular-radio">
+                    <div class="radio regular-radio">
                         <label>
                             <input type="radio" ng-model="$ctrl.disposition.agentMustCompleteWorksheet" ng-value='true'> Agent Must Complete Worksheet
                         </label>
@@ -50,14 +43,17 @@
                             <input type="radio" ng-model="$ctrl.disposition.agentMustCompleteWorksheet" ng-value='false'> Worksheet Cannot Be Used With This Disposition
                         </label>
                     </div>
-              </div>
-              <div class="col-sm-4">                  
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="$ctrl.disposition.trackAsFirstCallResolution"> Track as First Call resolution
+                        </label>
+                    </div>
                     <div class="checkbox">
                         <label>
                             <input type="checkbox" ng-model="$ctrl.disposition.resetAttemptsCounter"> Reset Attempts Counter
                         </label>
                     </div>
-              </div>          
+              </div>       
             </div>
           
       
@@ -93,7 +89,7 @@
 	                   <label>Number of Attempts:</label>
 	                   <div class="timer-container">
 	                   	<div class="timer-items">
-	                   		<abx-number-updown ng-model='$ctrl.redial.attempts' min-value="1" max-length="2" ng-disabled="$ctrl.disposition.type!='RedialNumber' || !$ctrl.redial.useTimer" max=99></abx-number-updown>
+	                   		<abx-number-updown ng-model='$ctrl.redial.attempts' min-value="1" max-length="2" ng-disabled="$ctrl.disposition.type!='RedialNumber' || !$ctrl.redial.useTimer" max-value=99></abx-number-updown>
 	                   	</div>
 	                   </div>
                    </div>
