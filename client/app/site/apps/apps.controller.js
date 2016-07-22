@@ -1,17 +1,32 @@
 'use strict';
 (function(){
-
-class AppsComponent {
-  constructor() {
-    this.message = 'Hello';
-    this.partners = [{partnerName: 'Five9', partnerId: 'f9', apps: [{appName: 'al', appFullName: 'Admin Lite', description: 'This is the description', isInstalled: true},{appName: 'al', appFullName: 'Admin Lite', description: 'This is the description', isInstalled: true},{appName: 'al', appFullName: 'Admin Lite', description: 'This is the description', isInstalled: true},{appName: 'al', appFullName: 'Admin Lite', description: 'This is the description', isInstalled: true},{appName: 'al', appFullName: 'Admin Lite', description: 'This is the description', isInstalled: true}]},{partnerName: 'SalesForce', partnerId: 'sf', apps: [{appName: 'sf', appFullName: 'XYZ App', description: 'This is the description', isInstalled: false}]}]
-  }
+	class AppsComponent {
+	constructor($state, AppsService) {
+		this.partners = [];
+		this.message = {show: false};
+		this.AppsService = AppsService;
+	}
+	$onInit(){
+		this.getApps();
+	}
+	getApps(){
+		return this.AppsService.getApps()
+		.then(response => {
+			this.partners=response.data;
+			return response;
+		})
+		.catch(error => {
+			let theMsg= error.error; 
+            this.message={ show: true, type: 'danger', text: theMsg };
+            return error;
+		});
+	}
 }
-
-angular.module('fakiyaMainApp')
-  .component('apps', {
-    templateUrl: 'app/site/apps/apps.html',
-    controller: AppsComponent
-  });
+	AppsComponent.$inject = ['$state', 'AppsService'];
+	angular.module('fakiyaMainApp')
+	  .component('apps', {
+	    templateUrl: 'app/site/apps/apps.html',
+	    controller: AppsComponent
+	  });
 
 })();
