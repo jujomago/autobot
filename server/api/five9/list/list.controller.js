@@ -12,27 +12,6 @@
 import _ from 'lodash';
 import service from '../../../infrastructure/servicecall'
 
-function respondWithResult(res, statusCode) {
-    console.log('respondWithResult');
-    statusCode = statusCode || 200;
-    return function (entity) {
-        console.log('enter func respondWithResult');
-        //if (entity) {
-        console.log('enter if respondWithResult');
-        res.status(statusCode).json(entity);
-        // }
-    };
-}
-
-function handleError(res, statusCode) {
-    statusCode = statusCode || 500;
-    return function (err) {
-        if (err.statusCode) {
-            statusCode = err.statusCode;
-        }
-        res.status(statusCode).json(err);
-    };
-}
 
 // Gets a list of Lists
 export function index(req, res) {
@@ -41,7 +20,7 @@ export function index(req, res) {
       .then(data => {
           res.status(200).json(data);
       })
-      .catch(handleError(res));
+      .catch(service.handleError(res));
 }
 // Gets a list
 export function show(req, res) {
@@ -54,7 +33,7 @@ export function show(req, res) {
           }
           res.status(200).json(data);
       })
-      .catch(handleError(res));
+      .catch(service.handleError(res));
 }
 //Create new List
 export function getContacts(req, res) {
@@ -63,7 +42,7 @@ export function getContacts(req, res) {
       .then(data => {
           res.status(200).json(data);
       })
-      .catch(handleError(res));
+      .catch(service.handleError(res));
 }
 //Create new List
 export function createList(req, res) {
@@ -72,7 +51,7 @@ export function createList(req, res) {
       .then(data => {
           res.status(201).json(data);
       })
-      .catch(handleError(res));
+      .catch(service.handleError(res));
 }
 //Create contact for list
 export function createContactForList(req, res) {
@@ -81,7 +60,7 @@ export function createContactForList(req, res) {
       .then(data => {
           res.status(201).json(data);
       })
-      .catch(handleError(res));
+      .catch(service.handleError(res));
 }
 //Delete contacts from list
 export function deleteContactFromList(req, res) {
@@ -90,7 +69,7 @@ export function deleteContactFromList(req, res) {
       .then(data => {
           res.status(200).json(data);
       })
-      .catch(handleError(res));
+      .catch(service.handleError(res));
 }
 //Get List Import Result
 export function getListImportResult(req, res) {
@@ -99,7 +78,7 @@ export function getListImportResult(req, res) {
       .then(data => {
           res.status(200).json(data);
       })
-      .catch(handleError(res));
+      .catch(service.handleError(res));
 }
 //Get List Import state
 export function isImportRunning(req, res) {
@@ -111,7 +90,7 @@ export function isImportRunning(req, res) {
       .then(data => {
           res.status(200).json(data);
       })
-      .catch(handleError(res));
+      .catch(service.handleError(res));
 }
 //Get contact fields
 export function getContactFields(req, res) {
@@ -120,7 +99,7 @@ export function getContactFields(req, res) {
       .then(data => {
           res.status(200).json(data);
       })
-      .catch(handleError(res));
+      .catch(service.handleError(res));
 }
 //Delete a list by the listName
 export function destroy(req, res) {
@@ -129,5 +108,5 @@ export function destroy(req, res) {
       .then(data => {
           res.status(204).json(data);
       })
-      .catch(handleError(res));
+      .catch(service.handleError(res));
 }
