@@ -17,42 +17,6 @@ import cache from '../../../infrastructure/cachehandler';
 import util from 'util';
 /* end-test-code */
 
-function respondWithResult(res, statusCode) {
-    console.log('respondWithResult');
-    statusCode = statusCode || 200;
-    return function (entity) {
-        console.log('enter func respondWithResult');
-        //if (entity) {
-        console.log('enter if respondWithResult');
-        res.status(statusCode).json(entity);
-        // }
-    };
-}
-
-function handleError(res, statusCode) {
-    console.log('handleError');
-    statusCode = statusCode || 500;
-    return function (err) {
-        console.log('enter func handleError');
-
-        if (err.statusCode) {
-            console.error("/////////// ERROR STATUS FROM SKILLS CONTROLLER //// ==>: " + err.statusCode);
-            statusCode = err.statusCode;
-        }
-        if (err.body) {
-            console.error("///////////// ERROR BODY FROM SKILLS CONTROLLER ////////////////////////////");
-            console.error(err.body);
-            console.error("///////////////////////////////////////////////////////////////");
-        }
-
-        res.status(statusCode).send({
-            from: 'Error from Skills Controller EndPoint',
-            body: err.body || err + "",
-            statusCode: statusCode
-        });
-        //  res.status(statusCode).send(err);
-    };
-}
 
 // Gets a list of Skills
 export function index(req, res) {
@@ -63,29 +27,21 @@ export function index(req, res) {
                 return service.f9CallService('getSkills', params, 'in', req);
             throw new Error('Unnexpected result yet');
         })
-        .then(respondWithResult(res))
-        .catch(handleError(res));
+        .then(service.respondWithResult(res))
+        .catch(service.handleError(res));
 }
 
 // Gets a list of Skills Info
 export function skillsInfo(req, res) {
     var params = { skillNamePattern: '' };
-    /* test-code */
-    /*console.log('Value req : ' + util.inspect(req, { showHidden: false, depth: 2 }));
-    console.log('Value req.data : ' + util.inspect(req.data, { showHidden: false, depth: null }));
-    console.log('Value req.body : ' + util.inspect(req.body, { showHidden: false, depth: null }));
-    console.log('Value req.params : ' + util.inspect(req.params, { showHidden: false, depth: null }));
-    console.log('Value req.appName : ' + util.inspect(req.appName, { showHidden: false, depth: null }));
-    console.log('Value req.headers : ' + util.inspect(req.headers, { showHidden: false, depth: null }));*/
-    /* end-test-code */
     return cache.getCache('')
         .then(data => {
             if (data === null)
                 return service.f9CallService('getSkillsInfo', params, 'in', req);
             throw new Error('Unnexpected result yet');
         })
-        .then(respondWithResult(res))
-        .catch(handleError(res));
+        .then(service.respondWithResult(res))
+        .catch(service.handleError(res));
 }
 
 
@@ -93,8 +49,8 @@ export function skillsInfo(req, res) {
 export function show(req, res) {
     var params = { 'skillName': req.params.skillname };
     return service.f9CallService('getSkillInfo', params, '', req)
-        .then(respondWithResult(res))
-        .catch(handleError(res));
+        .then(service.respondWithResult(res))
+        .catch(service.handleError(res));
 }
 
 // Creates a new Skill
@@ -105,16 +61,16 @@ export function create(req, res) {
         }
     };
     return service.f9CallService('createSkill', params, '', req)
-        .then(respondWithResult(res))
-        .catch(handleError(res));
+        .then(service.respondWithResult(res))
+        .catch(service.handleError(res));
 }
 
 // Updates an existing Skill in the DB
 export function update(req, res) {
     var params = { skill: req.body };
     return service.f9CallService('modifySkill', params, '', req)
-        .then(respondWithResult(res))
-        .catch(handleError(res));
+        .then(service.respondWithResult(res))
+        .catch(service.handleError(res));
 }
 
 // Deletes a Skill from the DB
@@ -123,6 +79,6 @@ export function destroy(req, res) {
 
 
     return service.f9CallService('deleteSkill', params, '', req)
-        .then(respondWithResult(res, 204))
-        .catch(handleError(res));
+        .then(service.respondWithResult(res, 204))
+        .catch(service.handleError(res));
 }

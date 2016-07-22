@@ -21,7 +21,27 @@ describe('Service: ListsService', function () {
         //httpBackend.verifyNoOutstandingExpectation();
         httpBackend.verifyNoOutstandingRequest();
     });
-
+    it('should create a new list', function () {
+        httpBackend.whenPOST(endPointUrl).respond(201, null);
+        let list = {listName: 'test'};
+        ListsService.createList(list)
+        .then(result => {
+            expect(result.data).to.equal(null);
+            expect(result.statusCode).to.equal(201);
+            expect(result.errorMessage.length).to.equal(0);
+        });
+        httpBackend.flush();
+    });
+    it('should obtain error in create a new list', function () {
+        httpBackend.whenPOST(endPointUrl).respond(500, {body: 'Error in create list'});
+        let list = {listName: 'test'};
+        ListsService.createList(list).then(result => {
+            expect(result).to.not.equal(null);
+            expect(result.statusCode).to.equal(500);
+            expect(result.errorMessage).to.equal('Error in create list');
+        });
+        httpBackend.flush();
+    });
     it('should return lists', function () {
         httpBackend.whenGET(endPointUrl).respond({
             return: [{ 'name': 'List1', 'size': 10},
@@ -40,6 +60,37 @@ describe('Service: ListsService', function () {
         httpBackend.flush();
     });
 
+
+    it('should return one list', function () {
+        httpBackend.whenGET(endPointUrl+ '/AgentList').respond({
+            return: { 'name': 'AgentList', 'size': 6}
+        });
+
+        ListsService.getList('AgentList').then(list => {
+            expect(null).to.not.equal(list);
+            expect(undefined).to.not.equal(list);
+            expect(undefined).to.not.equal(list.data);
+            expect(list.statusCode).to.equal(200);
+            expect(list.data.name).to.equal('AgentList');
+            expect(list.data.size).to.equal(6);
+            expect(list.errorMessage.length).to.equal(0);
+        });
+        httpBackend.flush();
+    });
+    it('should return a file of list contacts', () => {
+      httpBackend.whenGET('data:text/csv;base64,77u/Zm9vLGJhcg0KYWFhLGJiYg==').respond(200, 'number1, number2, number3');
+      let data = 'data:text/csv;base64,77u/Zm9vLGJhcg0KYWFhLGJiYg==';
+      ListsService.getCSV(data)
+      .then(response => {
+            expect(null).to.not.equal(response);
+            expect(undefined).to.not.equal(response);
+            expect(undefined).to.not.equal(response.data);
+            expect(response.statusCode).to.equal(200);
+            expect(response.data).to.equal('number1, number2, number3');
+            expect(response.errorMessage.length).to.equal(0);
+       });
+      httpBackend.flush();
+    });
     it('should return empty list', function () {
         httpBackend.whenGET(endPointUrl).respond({
             return: []

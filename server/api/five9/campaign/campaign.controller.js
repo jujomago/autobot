@@ -11,50 +11,11 @@
 
 import _ from 'lodash';
 import soap from 'soap';
-//import {Campaign} from '../../../sqldb';
 import service from '../../../infrastructure/servicecall'
 import cache from '../../../infrastructure/cachehandler'
 
 
 
-
-function respondWithResult(res, statusCode) {
-    console.log('respondWithResult');
-    statusCode = statusCode || 200;
-    return function (entity) {
-        console.log('enter func respondWithResult');
-        //if (entity) {
-        console.log('enter if respondWithResult');
-        res.status(statusCode).json(entity);
-        // }
-    };
-}
-
-
-function handleError(res, statusCode) {
-    console.log('handleError');
-    statusCode = statusCode || 500;
-    return function (err) {
-        console.log('enter func handleError');
-      
-        if (err.statusCode) {
-            console.error("/////////// ERROR STATUS FROM CAMPAIGN CONTROLLER //// ==>: " + err.statusCode);
-            statusCode = err.statusCode;
-        }
-        if (err.body) {
-            console.error("///////////// ERROR BODY FROM CAMPAIGN CONTROLLER ////////////////////////////");
-            console.error(err.body);
-            console.error("///////////////////////////////////////////////////////////////");
-        }
-
-        res.status(statusCode).send({
-            from: 'Error from Campaign Controller EndPoint',
-            body: err.body || err+"",
-            statusCode: statusCode
-        });
-        //  res.status(statusCode).send(err);
-    };
-}
 
 // Gets a list of Campaigns
 export function index(req, res) {
@@ -66,8 +27,8 @@ export function index(req, res) {
                 return service.f9CallService('getCampaigns', {}, 'in', req);
             throw new Error('Unnexpected result yet');
         })
-        .then(respondWithResult(res))
-        .catch(handleError(res));
+        .then(service.respondWithResult(res))
+        .catch(service.handleError(res));
 }
 
 
@@ -89,8 +50,8 @@ export function show(req, res) {
     }
 
     return service.f9CallService(operation, params, '', req)
-        .then(respondWithResult(res))
-        .catch(handleError(res));
+        .then(service.respondWithResult(res))
+        .catch(service.handleError(res));
 }
 
 
@@ -117,8 +78,8 @@ export function create(req, res) {
     delete params.campaign.ivrscript;
 
     return service.f9CallService(operation, params, '', req)
-        .then(respondWithResult(res, 201))
-        .catch(handleError(res));
+        .then(service.respondWithResult(res, 201))
+        .catch(service.handleError(res));
 }
 
 
@@ -129,8 +90,8 @@ export function updateOutBound(req, res) {
    let params = { campaign: req.body };
  
  return service.f9CallService('modifyOutboundCampaign', params, '', req)    
-        .then(respondWithResult(res))
-        .catch(handleError(res));
+        .then(service.respondWithResult(res))
+        .catch(service.handleError(res));
 }
 
 
@@ -141,8 +102,8 @@ export function updateAutoDial(req, res) {
    delete params.campaign.ivrscript;
         
     return service.f9CallService('modifyAutodialCampaign', params, '', req)    
-    .then(respondWithResult(res))
-    .catch(handleError(res));
+    .then(service.respondWithResult(res))
+    .catch(service.handleError(res));
 }
 
 // Updates an existing Campaign in the DB
@@ -152,91 +113,91 @@ export function updateInBound(req, res) {
    delete params.campaign.ivrscript;
         
     return service.f9CallService('modifyInboundCampaign', params, '', req)    
-    .then(respondWithResult(res))
-    .catch(handleError(res));
+    .then(service.respondWithResult(res))
+    .catch(service.handleError(res));
 }
 
 // Deletes a Campaign 
 export function destroy(req, res) {
     let params = { campaignName: req.params.campaignName };
     return service.f9CallService('deleteCampaign', params, '', req)
-        .then(respondWithResult(res, 204))
-        .catch(handleError(res));
+        .then(service.respondWithResult(res, 204))
+        .catch(service.handleError(res));
 }
 
 // get IVR Scripts
 export function ivrscripts(req, res) {
     return service.f9CallService('getIVRScripts', {}, '', req)    
-    .then(respondWithResult(res))
-    .catch(handleError(res));
+    .then(service.respondWithResult(res))
+    .catch(service.handleError(res));
 }
 
 
 export function startCampaign(req, res) {
     let params = { campaignName: req.params.campaignName };
     return service.f9CallService('startCampaign',params , '', req)    
-    .then(respondWithResult(res))
-    .catch(handleError(res));
+    .then(service.respondWithResult(res))
+    .catch(service.handleError(res));
 }
 
 export function stopCampaign(req, res) {
     let params = { campaignName: req.params.campaignName };
     return service.f9CallService('stopCampaign',params , '', req)    
-    .then(respondWithResult(res))
-    .catch(handleError(res));
+    .then(service.respondWithResult(res))
+    .catch(service.handleError(res));
 }
 
 export function getLists(req, res) {
      return service.f9CallService('getListsInfo',{} , '', req)    
-    .then(respondWithResult(res)) 
-    .catch(handleError(res));
+    .then(service.respondWithResult(res)) 
+    .catch(service.handleError(res));
 }
 
 export function getDNISList(req, res) {
      return service.f9CallService('getDNISList',{selectUnassigned:true} , '', req)    
-    .then(respondWithResult(res)) 
-    .catch(handleError(res));
+    .then(service.respondWithResult(res)) 
+    .catch(service.handleError(res));
 }
 
 export function addDNIS(req, res) {
      let params =  req.body ;
      return service.f9CallService('addDNISToCampaign',params , '', req)    
 
-    .then(respondWithResult(res)) 
-    .catch(handleError(res));
+    .then(service.respondWithResult(res)) 
+    .catch(service.handleError(res));
 }
 
 export function addLists(req, res) {
      let params =  req.body ;
      return service.f9CallService('addListsToCampaign',params , '', req)    
-    .then(respondWithResult(res)) 
-    .catch(handleError(res));
+    .then(service.respondWithResult(res)) 
+    .catch(service.handleError(res));
 }
 
 export function getListsForCampaign(req, res) {
      let params = { campaignName: req.params.campaignName };
      return service.f9CallService('getListsForCampaign',params , '', req)    
-    .then(respondWithResult(res)) 
-    .catch(handleError(res));
+    .then(service.respondWithResult(res)) 
+    .catch(service.handleError(res));
 }
 
 export function getDNISForCampaign(req, res) {
      let params = { campaignName: req.params.campaignName };
      return service.f9CallService('getCampaignDNISList',params , '', req)    
-    .then(respondWithResult(res)) 
-    .catch(handleError(res));
+    .then(service.respondWithResult(res)) 
+    .catch(service.handleError(res));
 }
 
 export function removeListsFromCampaign(req, res) {
      let params =  req.body ;
      return service.f9CallService('removeListsFromCampaign',params , '', req)    
-    .then(respondWithResult(res)) 
-    .catch(handleError(res));
+    .then(service.respondWithResult(res)) 
+    .catch(service.handleError(res));
 }
 
 export function removeDNISFromCampaign(req, res) {
      let params =  req.body ;
      return service.f9CallService('removeDNISFromCampaign',params , '', req)    
-    .then(respondWithResult(res)) 
-    .catch(handleError(res));
+    .then(service.respondWithResult(res)) 
+    .catch(service.handleError(res));
 }
