@@ -7,12 +7,15 @@ describe('Service: lodash', function () {
 
   // instantiate service
   var lodash;
-  beforeEach(inject(function (_lodash_) {
+  var _window;
+  beforeEach(inject(function (_lodash_, $window) {
     lodash = _lodash_;
+    _window = $window
   }));
 
-  it('should do something', function () {
+  it('should do undefined lodash at window level', function () {
     expect(!!lodash).to.be.true;
+    expect(_window._).to.be.equal (undefined);
   });
 
 });

@@ -10,9 +10,11 @@ angular.module('fakiyaMainApp', [
   'ngStorage',
   'ngMessages'
 ])
-  .config(function($urlRouterProvider, $locationProvider) {
+  .config(function ($urlRouterProvider, $locationProvider) {
     $urlRouterProvider
       .otherwise('/');
 
     $locationProvider.html5Mode(true);
+  }).run(function (lodash) {
+    //this method is only for run the lodash deletion
   });
