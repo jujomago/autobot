@@ -7,9 +7,6 @@
 
 function ConfirmAsync( $window, $q ){
       // Define promise-based confirm() method.
-      
-      
-      
     function confirm( message ) {
         console.log('ejecuted confirmm....');
         let defer = $q.defer();
