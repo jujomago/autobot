@@ -11,7 +11,7 @@
 			this.SubmitText = 'Save';
 			this.found = true;
 			this.action='Dispositions';
-			this.actionName='Create Disposition';
+			this.actionName='New Disposition';
 			this.redial={useTimer: false, validAttempts: true, timer: {}, allowChangeTimer: false};
 			this.notDial={useTimer: false, timer: {}, allowChangeTimer: false};
 			this.redial.timer={minutes: 1, days: 0, hours: 0};
