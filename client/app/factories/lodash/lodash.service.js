@@ -13,4 +13,5 @@ angular.module('fakiyaMainApp')
     // ---
     // CUSTOM LODASH METHODS.
     // ---
+    return _;
   });
