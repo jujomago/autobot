@@ -58,23 +58,31 @@ sidebar {
 
 
 
-//*IE remove x*
+//*IE remove X from imput flieds
 
 input[type=text] {
     &::-ms-clear {
-        display: none;
-        height: 0;
-        width : 0;
+        display: none;       
     }
 }
 
 input[type=password] {
-    &::-ms-clear {
-        display: none;
-        height: 0;
-        width : 0;
+    &::-ms-reveal {
+        display: none;        
+    }
+     &::-ms-clear {
+        display: none;       
     }
 }
+
+// removes dotted outlines
+a,input,button{
+    &:focus{
+        outline: none;
+    } 
+}
+
+
 
 // adjusments for tabs
 .tab-content {
