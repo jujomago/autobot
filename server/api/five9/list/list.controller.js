@@ -25,29 +25,17 @@ function respondWithResult(res, statusCode) {
 }
 
 function handleError(res, statusCode) {
-    console.log('handleError');
     statusCode = statusCode || 500;
     return function (err) {
-        console.log('enter func handleError');
-
         if (err.statusCode) {
-            console.error("/////////// ERROR STATUS FROM LISTS CONTROLLER //// ==>: " + err.statusCode);
             statusCode = err.statusCode;
         }
-        if (err.body) {
-            console.error("///////////// ERROR BODY FROM LISTS CONTROLLER ////////////////////////////");
-            console.error(err.body);
-            console.error("///////////////////////////////////////////////////////////////");
-        }
-
-        
         res.status(statusCode).json(err);
     };
 }
 
 // Gets a list of Lists
 export function index(req, res) {
-  console.log('SERVER getListsInfo');
   var params = {};
   return service.f9CallService('getListsInfo', params, '', req)
       .then(data => {
@@ -55,11 +43,80 @@ export function index(req, res) {
       })
       .catch(handleError(res));
 }
+// Gets a list
+export function show(req, res) {
+  var params = {listNamePattern: req.params.listName};
+  return service.f9CallService('getListsInfo', params, '', req)
+      .then(data => {
+          data=(data!==null && data.return.length<2)? data : null;
+          if(data!==null){
+            data.return=data.return[0];
+          }
+          res.status(200).json(data);
+      })
+      .catch(handleError(res));
+}
+//Create new List
+export function getContacts(req, res) {
+  var params = {};
+  return service.f9CallService('getContactRecords', params, '', req)
+      .then(data => {
+          res.status(200).json(data);
+      })
+      .catch(handleError(res));
+}
 //Create new List
 export function createList(req, res) {
-  console.log('SERVER createList');
-  var params = {criteria: [{field: 'listName', value: 'TestAutoboxList'}]};
-  return service.f9CallService('getContactRecords', params, '', req)
+  var params = {listName: req.body.listName};
+  return service.f9CallService('createList', params, '', req)
+      .then(data => {
+          res.status(201).json(data);
+      })
+      .catch(handleError(res));
+}
+//Create contact for list
+export function createContactForList(req, res) {
+  var params = req.body;
+  return service.f9CallService('addToList', params, '', req)
+      .then(data => {
+          res.status(201).json(data);
+      })
+      .catch(handleError(res));
+}
+//Delete contacts from list
+export function deleteContactFromList(req, res) {
+  var params = req.body;
+  return service.f9CallService('deleteFromList', params, '', req)
+      .then(data => {
+          res.status(200).json(data);
+      })
+      .catch(handleError(res));
+}
+//Get List Import Result
+export function getListImportResult(req, res) {
+  var params = {identifier: {identifier: req.params.identifier}};
+  return service.f9CallService('getListImportResult', params, '', req)
+      .then(data => {
+          res.status(200).json(data);
+      })
+      .catch(handleError(res));
+}
+//Get List Import state
+export function isImportRunning(req, res) {
+  var params = {identifier: {identifier: req.params.identifier}};
+  if(req.query.waitTime){
+    params.waitTime = req.query.waitTime;
+  }
+  return service.f9CallService('isImportRunning', params, '', req)
+      .then(data => {
+          res.status(200).json(data);
+      })
+      .catch(handleError(res));
+}
+//Get contact fields
+export function getContactFields(req, res) {
+  var params = {};
+  return service.f9CallService('getContactFields', params, '', req)
       .then(data => {
           res.status(200).json(data);
       })
@@ -67,11 +124,10 @@ export function createList(req, res) {
 }
 //Delete a list by the listName
 export function destroy(req, res) {
-  console.log('SERVER deleteList');
   var params = { listName: req.params.listName };
   return service.f9CallService('deleteList', params, '', req)
       .then(data => {
           res.status(204).json(data);
       })
-      .catch(handleError(res,403));
+      .catch(handleError(res));
 }
