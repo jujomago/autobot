@@ -1,5 +1,5 @@
 
-<h3 class="title_section">{{$ctrl.action}}:<span> {{$ctrl.actionName}}</span></h3>
+<h3 class="title_section">{{$ctrl.action}}:<span>{{' '+$ctrl.actionName}}</span></h3>
 
 
  
@@ -75,7 +75,7 @@
 	                   <label>Redial After (DD:HH:MM):</label>
 	                   <div class="timer-container">
 	                   	<div class="timer-items">
-	                   		<abx-number-updown ng-model="$ctrl.redial.timer.days" ng-disabled="$ctrl.disposition.type!='RedialNumber' || !$ctrl.redial.useTimer" min-value="$ctrl.minOfDays($ctrl.redial.timer)" max-value=59></abx-number-updown>
+	                   		<abx-number-updown ng-model="$ctrl.redial.timer.days" ng-disabled="$ctrl.disposition.type!='RedialNumber' || !$ctrl.redial.useTimer" min-value="$ctrl.minOfDays($ctrl.redial.timer)" max-value="$ctrl.maxOfDays($ctrl.redial.timer)"></abx-number-updown>
 	                   	</div>
 	                   	<div class="timer-items">
 	                   		<abx-number-updown ng-model="$ctrl.redial.timer.hours" ng-disabled="$ctrl.disposition.type!='RedialNumber' || !$ctrl.redial.useTimer" min-value="$ctrl.minOfHours($ctrl.redial.timer)" max-value=23></abx-number-updown>
@@ -118,7 +118,7 @@
 	                   <label>Activate After (DD:HH:MM):</label>
 	                   <div class="timer-container">
 	                   	<div class="timer-items" >
-	                   		<abx-number-updown ng-model="$ctrl.notDial.timer.days" ng-disabled="$ctrl.disposition.type!='DoNotDial' || !$ctrl.notDial.useTimer" min-value="$ctrl.minOfDays($ctrl.notDial.timer)" max-value=59></abx-number-updown>
+	                   		<abx-number-updown ng-model="$ctrl.notDial.timer.days" ng-disabled="$ctrl.disposition.type!='DoNotDial' || !$ctrl.notDial.useTimer" min-value="$ctrl.minOfDays($ctrl.notDial.timer)" max-value="$ctrl.maxOfDays($ctrl.notDial.timer)"></abx-number-updown>
 	                   	</div>
 	                   	<div class="timer-items">
 	                   		<abx-number-updown ng-model="$ctrl.notDial.timer.hours" ng-disabled="$ctrl.disposition.type!='DoNotDial' || !$ctrl.notDial.useTimer" min-value="$ctrl.minOfHours($ctrl.notDial.timer)" max-value=23></abx-number-updown>
@@ -182,6 +182,6 @@
 </uib-tabset>
 <div class="form-group text-center">
   <button type="submit" class="btn btn-black" ng-disabled="$ctrl.SubmitText=='Saving...'">{{$ctrl.SubmitText}}</button>
-  <button type="button" class="btn btn-black" ui-sref="ap.al.users">Cancel</button>  
+  <button type="button" class="btn btn-black" ui-sref="ap.al.dispositions">Cancel</button>  
 </div>
 </form>

@@ -35,7 +35,12 @@ angular.module('fakiyaMainApp')
             if(!(numbers.test(newValue) && (scope.maxValue===-1 || (newValue*1)<=scope.maxValue) && ((newValue*1)>=scope.minValue))) {
               scope.ngModel = oldValue;
             }
-        });   
+        });
+        scope.$watch('maxValue', function(newValue) {
+            if(newValue!==-1 && (newValue)<=scope.ngModel) {
+              scope.ngModel = newValue;
+            }
+        }); 
       }
     };
   });
