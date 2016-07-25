@@ -20,7 +20,7 @@
 
     <div class="inputminimal center-block">
       <label>Password</label>
-      <input type="password" " ng-model="$ctrl.password" name="password" maxlength="50" required autocomplete="off">
+      <input type="password" ng-model="$ctrl.password" name="password" maxlength="50" required autocomplete="off">
            <div ng-messages="formSigIn.password.$error"  ng-show="formSigIn.$submitted && !$ctrl.cleanWrognPassword" >
             <p ng-message="required ">This field is required</p>
           </div>    

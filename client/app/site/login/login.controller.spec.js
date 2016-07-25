@@ -7,7 +7,7 @@ describe('Component: LoginController', function() {
   beforeEach(module('stateMock'));
 
   var scope;
-  var mainComponent;
+  var loginComponent;
   var state;
   var $httpBackend;
 
@@ -19,23 +19,35 @@ describe('Component: LoginController', function() {
     $rootScope,
     $state) {
       $httpBackend = _$httpBackend_;
-      $httpBackend.expectGET('/api/things')
-        .respond(['HTML5 Boilerplate', 'AngularJS', 'Karma', 'Express']);
 
       scope = $rootScope.$new();
       state = $state;
-      mainComponent = $componentController('login', {
-        $http: $http,
-        $scope: scope
+      loginComponent = $componentController('login', {     
+        $state: state
       });
+      
+
+
+
+
   }));
 
- /* it('should attach a list of things to the controller', function() {
-    mainComponent.$onInit();
+ it('should initialize variables', function() {  
+    expect(loginComponent.username).to.equal('');
+    expect(loginComponent.password).to.equal('');
+     expect(loginComponent.cleanWrognPassword).to.equal(false);
+    expect(loginComponent.message).to.eql({show:false});
+  });
 
-   $httpBackend.flush();
-    expect(mainComponent.awesomeThings.length).to.equal(4);
-  });*/
+ it('could not login, bad credentials', function() {  
+   loginComponent.username='admin@autoboxcofrp.com';
+   loginComponent.password='djf923';
+
+   loginComponent.autentichate();
+    expect(loginComponent.message).to.eql({ show: true, text: 'Invalid username and/or password. Please try again', type: 'danger'});
+    expect(loginComponent.password).to.equal('');
+    expect(loginComponent.cleanWrognPassword).to.equal(true);
+  });
+
 
 });
-
