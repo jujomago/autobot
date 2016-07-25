@@ -1,29 +1,6 @@
 'use strict';
 (function(){
 	let _ListService, _$state;
-    function _getFormatedMessage(message)
-    {
-        switch(message)
-        {
-            case ORIGINAL_CAMPAIGN_MESSAGE:
-                return CUSTOM_CAMPAIGN_MESSAGE;
-            case ORIGINAL_SYSTEM_MESSAGE:
-                return CUSTOM_SYSTEM_MESSAGE;
-        }
-        return message;
-    }
-    function _getErrorMessage(xmlMessage)
-    {
-        let firstStep=xmlMessage.split('<faultstring>');
-        if(firstStep.length<2){
-            return xmlMessage;
-        }
-        let secondStep=firstStep[1].split('</faultstring>');
-        if(secondStep.length>0){
-            return secondStep[0];
-        }
-        return xmlMessage;
-    }
 	class CreateComponent {
 	  constructor($state, ListsService) {
 	    this.message = {text: ''}; 
@@ -54,7 +31,7 @@
 	            }
 	            else{
 		            this.SubmitText='Save';
-		            let theMsg= _getErrorMessage(response.errorMessage); 
+		            let theMsg= response.errorMessage; 
 		            this.message={ show: true, type: 'danger', text: theMsg, expires: 5000 };
 	            }
 	            return response;
