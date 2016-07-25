@@ -15,6 +15,6 @@ angular.module('fakiyaMainApp', [
       .otherwise('/');
 
     $locationProvider.html5Mode(true);
-  }).run(function (lodash) {
+  }).run(function (lodash) { // jshint ignore:line
     //this method is only for run the lodash deletion
   });
