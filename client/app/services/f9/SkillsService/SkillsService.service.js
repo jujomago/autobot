@@ -8,8 +8,6 @@
         constructor($http, appConfig) {
             this.endPointUrl = '/f9/skills';
             if (appConfig.apiUri) {
-                console.log('APPCONFIG VALUE=========>>>>>>> ' + appConfig.apiUri);
-                console.log('CONCATENATED VALUE=========>>>>>>> ' + appConfig.apiUri + '/f9/skills');
                 this.endPointUrl = appConfig.apiUri + this.endPointUrl;
             }
 

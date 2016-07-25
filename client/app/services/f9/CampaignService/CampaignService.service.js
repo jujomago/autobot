@@ -22,8 +22,6 @@
 
       this.endPointUrl = '/f9/campaigns';
       if (appConfig.apiUri) {
-        console.log('APPCONFIG VALUE=========>>>>>>> ' + appConfig.apiUri);
-        console.log('CONCATENATED VALUE=========>>>>>>> ' + appConfig.apiUri + '/f9/campaigns');
         this.endPointUrl = appConfig.apiUri + this.endPointUrl;
       }
       _http = $http;
