@@ -9,14 +9,22 @@
       this.username = '';
       this.password = '';
       this.message = { show: false };
+      this.cleanWrognPassword=false;
     }
 
     autentichate() {
+       
       if (this.username === 'admin@autoboxcorp.com' && this.password === 'Password1') {
         this.state.go('ap.al.skills');
       } else {
         this.message = { show: true, text: 'Invalid username and/or password. Please try again', type: 'danger'};
-        this.password = '';
+  
+        if(this.password){
+            this.cleanWrognPassword=true;
+            this.password = '';
+        } else{
+           this.cleanWrognPassword=false;
+        }
       }
     }
 
