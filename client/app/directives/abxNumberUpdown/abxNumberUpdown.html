@@ -1,5 +1,5 @@
 <div class="abx-number-container">
-	<input ng-class="{'abx-number-disabled': disabled }" class="abx-number-input" ng-disabled="disabled" ng-model="ngModel"><!--
+	<input ng-class="{'abx-number-disabled': disabled }" ng-change="changeValue()" class="abx-number-input" ng-disabled="disabled" ng-model="ngModel"><!--
  --><div class="abx-number-arrows" ng-class="{'abx-arrows-disabled': disabled }" >
 	<i class="fa fa-chevron-up" aria-hidden="true" ng-click="incrementValue()"></i>
 		<i class="fa fa-chevron-down" aria-hidden="true" ng-click="decrementValue()"></i>
