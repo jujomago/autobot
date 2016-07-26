@@ -32,6 +32,12 @@
 			}
 			return 1;
 		}
+		maxOfDays(type){
+			if(type.hours===0 && type.minutes===0){
+				return 60;
+			}
+			return 59;
+		}
 		minOfDays(type){
 			if(type.hours!==0 || type.minutes!==0){
 				return 0;

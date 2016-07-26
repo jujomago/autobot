@@ -96,6 +96,9 @@ class ListComponent {
         this.message = { show: true, type: 'danger', text: 'The object cannot be deleted. Please verify it is not being used by any campaign.', expires:8000};
       } 
       return response;
+    })
+    .catch(e =>{    
+     return e;
     });
   }
   pageChanged() {

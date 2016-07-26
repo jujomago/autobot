@@ -174,10 +174,8 @@ describe('Component: al.campaigns.list', function () {
 
 
     beforeEach(inject(function () {
-      httpBackend.whenGET(endPointUrl + '/attached/lists/SomeCampaignName').respond(200, {
-        data: 'some lists' 
-      });
-      //httpBackend.flush();    
+        httpBackend.whenGET(endPointUrl+'/attached/lists/SomeCampaignName').respond(200);
+        
     }));
 
     it('Stopping RUNNING state', function () {
@@ -190,12 +188,13 @@ describe('Component: al.campaigns.list', function () {
           expect(response.statusCode).to.equal(200);
           expect(item.state).to.equal('NOT_RUNNING');
           expect(item.statusBtnText).to.equal('Start');
-          expect(ListComponent.toggleStatusRow).to.equal(-1);
-          expect(ListComponent.message).to.eql({ show: true, type: 'success', text: 'Stopped Succesfully', expires: 2000 });
-        });
-      httpBackend.flush();
-    });
-
+          expect(ListComponent.toggleStatusRow).to.equal(-1);          
+          expect(ListComponent.message).to.eql({show:true,type:'success',text:'Stopped Succesfully',expires:2000});
+        });        
+        httpBackend.flush();
+        
+    });    
+    
     it('Starting NOT_RUNNING state', function () {
       let item = { name: 'SomeCampaignName', state: 'NOT_RUNNING' };
 
@@ -231,11 +230,30 @@ describe('Component: al.campaigns.list', function () {
           expect(ListComponent.toggleStatusRow).to.equal(-1);
           expect(ListComponent.message).to.eql({ show: true, type: 'warning', text: response.error.body });
         });
-      httpBackend.flush();
-
+        httpBackend.flush();
+        
     });
 
+    describe('#filteringBySearch', () => {
 
+      it('Should return true, when searching something', () => {
+        ListComponent.search.name='some text to search';
+        ListComponent.campaigns = [
+          {name:'some text to search', type: ListComponent.typeCampaignFilter},
+          {name:'Other campaign', type: ListComponent.typeCampaignFilte},
+          {name:'some text to search', type: ListComponent.typeCampaignFilter}
+        ];
+        expect(ListComponent.filteringBySearch()).to.equal (true);
+        expect(ListComponent.beginNext).to.equal(0);
+        expect(ListComponent.currentPage).to.equal(1);
+      });
+
+      it('Should return false, when input search is empty', () => {
+          ListComponent.search.name='';
+          expect(ListComponent.filteringBySearch()).to.equal (false);       
+      });
+
+    });
   });
 
 

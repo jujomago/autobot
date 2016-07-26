@@ -64,8 +64,6 @@
 		getDispositions() {
 			return this.DispositionsService.getDispositions()
 			.then(_dispositions => {
-                console.log('response in client Dispositions');
-                console.log(_dispositions);
 				if (_dispositions.statusCode === 200) {
 					this.dispositions = _dispositions.data.map(replaceUndefined);
 					return this.dispositions;
@@ -122,6 +120,9 @@
                         }).catch(err => {
                               console.error(err);
                         });
+                })
+                .catch(() => {
+                    return false;
                 });
         }
         getDetail(item) {

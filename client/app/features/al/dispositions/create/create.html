@@ -75,7 +75,7 @@
 	                   <label>Redial After (DD:HH:MM):</label>
 	                   <div class="timer-container">
 	                   	<div class="timer-items">
-	                   		<abx-number-updown ng-model="$ctrl.redial.timer.days" ng-disabled="$ctrl.disposition.type!='RedialNumber' || !$ctrl.redial.useTimer" min-value="$ctrl.minOfDays($ctrl.redial.timer)" max-value=59></abx-number-updown>
+	                   		<abx-number-updown ng-model="$ctrl.redial.timer.days" ng-disabled="$ctrl.disposition.type!='RedialNumber' || !$ctrl.redial.useTimer" min-value="$ctrl.minOfDays($ctrl.redial.timer)" max-value="$ctrl.maxOfDays($ctrl.redial.timer)"></abx-number-updown>
 	                   	</div>
 	                   	<div class="timer-items">
 	                   		<abx-number-updown ng-model="$ctrl.redial.timer.hours" ng-disabled="$ctrl.disposition.type!='RedialNumber' || !$ctrl.redial.useTimer" min-value="$ctrl.minOfHours($ctrl.redial.timer)" max-value=23></abx-number-updown>
@@ -118,7 +118,7 @@
 	                   <label>Activate After (DD:HH:MM):</label>
 	                   <div class="timer-container">
 	                   	<div class="timer-items" >
-	                   		<abx-number-updown ng-model="$ctrl.notDial.timer.days" ng-disabled="$ctrl.disposition.type!='DoNotDial' || !$ctrl.notDial.useTimer" min-value="$ctrl.minOfDays($ctrl.notDial.timer)" max-value=59></abx-number-updown>
+	                   		<abx-number-updown ng-model="$ctrl.notDial.timer.days" ng-disabled="$ctrl.disposition.type!='DoNotDial' || !$ctrl.notDial.useTimer" min-value="$ctrl.minOfDays($ctrl.notDial.timer)" max-value="$ctrl.maxOfDays($ctrl.notDial.timer)"></abx-number-updown>
 	                   	</div>
 	                   	<div class="timer-items">
 	                   		<abx-number-updown ng-model="$ctrl.notDial.timer.hours" ng-disabled="$ctrl.disposition.type!='DoNotDial' || !$ctrl.notDial.useTimer" min-value="$ctrl.minOfHours($ctrl.notDial.timer)" max-value=23></abx-number-updown>

@@ -60,5 +60,28 @@ var f9CallService = function (methodName, params, direction, req) {
     return callService(options);
 };
 
+var respondWithResult = function respondWithResult(res, statusCode) {
+    statusCode = statusCode || 200;
+    return function (entity) {
+        res.status(statusCode).json(entity);
+    };
+}
+
+var handleError = function handleError(res, statusCode, errTitle) {
+    statusCode = statusCode || 500;
+    return function (err) {
+        if (err.statusCode) {
+            statusCode = err.statusCode;
+        }
+        res.status(statusCode).send({
+            from: errTitle? errTitle: 'Generic Handling Error ',
+            body: err.body || err + "",
+            statusCode: statusCode
+        });
+    };
+}
+
 exports.callService = callService;
 exports.f9CallService = f9CallService;
+exports.respondWithResult = respondWithResult;
+exports.handleError = handleError;

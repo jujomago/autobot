@@ -21,7 +21,7 @@
                 "NODE_ENV": "development"
             },
             "externalConsole": false,
-            "sourceMaps": false,
+            "sourceMaps": true,
             "outDir": null
         },
         {
@@ -31,7 +31,7 @@
             "port": 5858,
             "address": "localhost",
             "restart": false,
-            "sourceMaps": false,
+            "sourceMaps": true,
             "outDir": null,
             "localRoot": "${workspaceRoot}",
             "remoteRoot": null
@@ -39,8 +39,10 @@
         {
             "name": "Debug Mocha",
             "type": "node",
-            "program": "${workspaceRoot}/node_modules/.bin/_mocha",
+            "address": "localhost",
+            "program": "${workspaceRoot}/server/app.js",
             "stopOnEntry": false,
+            "port": 5858,
             "args": [
                 "--compilers",
                 "js:babel-register"
@@ -50,9 +52,6 @@
             "runtimeArgs": [
                 "--nolazy"
             ],
-            "env": {
-                "NODE_ENV": "development"
-            },
             "externalConsole": false,
             "sourceMaps": true,
             "outDir": null

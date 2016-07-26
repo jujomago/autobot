@@ -17,34 +17,6 @@ import cache from '../../../infrastructure/cachehandler'
 import util from 'util';
 /* end-test-code */
 
-function respondWithResult(res, statusCode) {
-    statusCode = statusCode || 200;
-    return function (entity) {
-        if (entity) {
-            res.status(statusCode).json(entity);
-        }
-    };
-}
-
-function handleError(res, statusCode) {
-    //   console.log('enter handle error');
-    //   console.log(res);
-    statusCode = statusCode || 500;
-    return function (err) {
-        if (err.statusCode) {
-            console.error("/////////// ERROR STATUSCODE FROM USER CONTROLLER //// ==>: " + err.statusCode);
-            statusCode = err.statusCode;
-        }
-        if (err.body) {
-            console.error("///////////// ERROR BODY FROM USER CONTROLLER ////////////////////////////");
-            console.error(err.body);
-            console.error("///////////////////////////////////////////////////////////////");
-        }
-
-        res.status(statusCode).send(err);
-    };
-}
-
 // Gets a list of Users
 export function index(req, res) {
     console.log('SERVER GET USERS');
@@ -67,7 +39,7 @@ export function index(req, res) {
         .then(data => {
             res.status(200).json(data);
         })
-        .catch(handleError(res));
+        .catch(service.handleError(res));
 }
 
 // Gets a list of Users
@@ -78,7 +50,7 @@ export function detail(req, res) {
         .then(data => {
             res.status(200).json(data);
         })
-        .catch(handleError(res));
+        .catch(service.handleError(res));
 
 
 }
@@ -90,7 +62,7 @@ export function addSkillUser(req, res) {
         .then(data => {
             res.status(200).json(data);
         })
-        .catch(handleError(res));
+        .catch(service.handleError(res));
 
 }
 
@@ -101,7 +73,7 @@ export function deleteSkillUser(req, res) {
         .then(data => {
             res.status(204).json(data);
         })
-        .catch(handleError(res));
+        .catch(service.handleError(res));
 
 }
 
@@ -112,7 +84,7 @@ export function create(req, res) {
         .then(data => {
             res.status(200).json(data);
         })
-        .catch(handleError(res));
+        .catch(service.handleError(res));
 }
 
 // Updates an existing User in the DB
@@ -122,7 +94,7 @@ export function update(req, res) {
         .then(data => {
             res.status(200).json(data);
         })
-        .catch(handleError(res));
+        .catch(service.handleError(res));
 }
 
 // Deletes a User from the DB
@@ -135,5 +107,5 @@ export function destroy(req, res) {
             /* end-test-code */
             res.status(204).json(data);
         })
-        .catch(handleError(res));
+        .catch(service.handleError(res));
 }

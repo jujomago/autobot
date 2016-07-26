@@ -127,13 +127,12 @@
      return this.verifyDependendies(item)
       .then(response=>{
          if(response.data===null && response.statusCode===200){ 
-           let msgError='';
-            if(item.type==='INBOUND'){          
-                msgError='No DNIS numbers attached to the campain';
-            }else{          
-                msgError='No Lists attrached to the campain';
+            if(item.type==='INBOUND'){     
+              this.message={ show: true, type: 'warning', text: 'No DNIS numbers attached to the campain', expires:5000 };
+            }else{
+              this.message={ show: true, type: 'warning', text: 'No Lists attrached to the campain', expires:5000 };
             }
-            throw new Error(msgError);
+
         }
         return response;   
       })

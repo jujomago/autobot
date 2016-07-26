@@ -62,11 +62,8 @@ describe('Component: al.skills.list', function () {
        
         sandbox.stub(window, 'confirm').returns(true);
 
-
-
         let item={skill:{name:'Demo2'}};
-                                           
-
+                                   
         ListComponent.deleteSkill(item,5)
         .then(response=>{   
             expect(ListComponent.toggleSkillRow).to.equal(-1);            
