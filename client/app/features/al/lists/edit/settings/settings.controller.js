@@ -87,7 +87,7 @@
             this.settingsParams.listUpdateSettings = this.listUpdateSettings;
           }
           //Should sent setting params to next view
-          console.log(this.settingsParams);
+           _$state.go('ap.al.mapping', {settings:this.settingsParams,name:_$stateParams.name});
         }
         sendFile()
         {
