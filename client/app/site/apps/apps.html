@@ -16,6 +16,8 @@
 					</div>
 					<div class="text-container">
 						<p>{{app.description}}</p>
+						<button type="button" ui-sref="underconstruction" class="btn btn-black" ng-show="app.isInstalled">Open app</button>
+						<button type="button" ui-sref="underconstruction" class="btn btn-black" ng-show="!app.isInstalled">Get app</button>
 					</div>
 				</div>
 			</div>

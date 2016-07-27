@@ -10,28 +10,28 @@
         "isInstalled": true
       },
       {
-        "appName": "al",
+        "appName": "qsc",
         "appFullName": "Admin QA Scoring",
         "description": "This is the description",
-        "isInstalled": true
+        "isInstalled": false
       },
       {
-        "appName": "al",
+        "appName": "cj",
         "appFullName": "Costumer Journey",
         "description": "This is the description",
-        "isInstalled": true
+        "isInstalled": false
       },
       {
-        "appName": "al",
+        "appName": "ra",
         "appFullName": "Reports & Analitics",
         "description": "This is the description",
-        "isInstalled": true
+        "isInstalled": false
       },
       {
-        "appName": "al",
+        "appName": "sc",
         "appFullName": "Supervisor Console",
         "description": "This is the description",
-        "isInstalled": true
+        "isInstalled": false
       }
     ]
   },
