@@ -60,13 +60,13 @@ sidebar {
 
 //*IE remove X from imput flieds
 
-input[type=text] {
+input[type=text],input[name=userName]  {
     &::-ms-clear {
         display: none;       
     }
 }
 
-input[type=password] {
+input[type=password], input[name=password]{
     &::-ms-reveal {
         display: none;        
     }
@@ -76,12 +76,14 @@ input[type=password] {
 }
 
 // removes dotted outlines
-a,input,button{
-    &:focus{
-        outline: none;
-    } 
+.autobox-theme{
+    a,input,button{
+      
+        &:focus, &:active:focus{
+            outline: none;
+        } 
+    }
 }
-
 
 
 // adjusments for tabs
@@ -107,5 +109,42 @@ form[name='userForm'] .tab-content {
         &:hover, &:focus {
             color: @blue
         }
+    }
+}
+
+//Bootstrap five columns
+.col-xs-2-5,
+.col-sm-2-5,
+.col-md-2-5,
+.col-lg-2-5 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.col-xs-2-5 {
+    width: 20%;
+    float: left;
+}
+
+@media (min-width: 768px) {
+    .col-sm-2-5 {
+        width: 20%;
+        float: left;
+    }
+}
+
+@media (min-width: 992px) {
+    .col-md-2-5 {
+        width: 20%;
+        float: left;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-lg-2-5 {
+        width: 20%;
+        float: left;
     }
 }

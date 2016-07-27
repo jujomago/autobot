@@ -88,7 +88,9 @@ describe('Component: al.skills.edit', function() {
                        
                        expect(true).to.equal(response); 
                        expect(EditComponent.toggleUserItem.item).to.equal(-1);
-                       expect(EditComponent.message).to.eql({show:true,type:'success',text:'User Added Sucessfully',expires:2000});     
+
+                       expect(EditComponent.message).to.eql({show:true,type:'success',text:'User Added Sucessfully',expires:2000});          
+
                        
                  });
                    
@@ -123,9 +125,8 @@ describe('Component: al.skills.edit', function() {
                        expect(response.statusCode).to.equal(204);
                        expect(EditComponent.toggleUserNameItem).to.equal(-1);                 
                        expect(EditComponent.showPanelInfo).to.equal(false);
-                       
-    
-                       expect(EditComponent.message).to.eql({show:true,type:'success',text:'User Removed Sucessfully',expires:2000});         
+                       expect(EditComponent.message).to.eql({show:true,type:'success',text:'User Removed Sucessfully',expires:2000});          
+
                        
                });
                    

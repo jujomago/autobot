@@ -1,14 +1,24 @@
-<h3 class="title_section">List: <span>New list</span></h3>
-<abx-message msg="$ctrl.message"></abx-message> 
-<form name="listForm" class="custom_form form-horizontal" novalidate autocomplete="off"  ng-submit="listForm.$valid && $ctrl.save()">
-    <div class="inputminimal" ng-class="{ 'has-error': listForm.name.$invalid && listForm.$submitted }">
+<div class="modal-header">
+    <button type="button" class="close" ng-click="$ctrl.close()">&times;</button>
+    <h3 class="title_section">List: New list</h3>
+    <div class="error-message">
+        <abx-message msg="$ctrl.message"></abx-message>
+    </div> 
+</div>
+<div class="modal-body al-theme">
+    <form name="listForm" class="custom_form form-horizontal" novalidate autocomplete="off"  ng-submit="listForm.$valid && $ctrl.save()">
+    <div class="inputminimal modal-input" ng-class="{ 'has-error': listForm.name.$invalid && listForm.$submitted }">
         <label for="firstName" >Name*</label>
         <div>
             <input autofocus type="text" name="name" id="name" required ng-model="$ctrl.list.listName">
          </div>
     </div>
     <div ng-messages="listForm.name.$error" ng-show="listForm.$submitted">                  
-                <p ng-message="required">This field is required</p>
-    </div>
-	<button type="submit" class="btn btn-black" ng-disabled="$ctrl.SubmitText=='Saving...'">{{$ctrl.SubmitText}}</button>
-</form>
+        <p ng-message="required">This field is required</p>
+    </div> 
+        <div class="modal-button-container">
+          <button class="btn btn-blue" ng-disabled="$ctrl.SubmitText=='Saving...'" href type="submit">{{$ctrl.SubmitText}}</button>
+          <a class="btn btn-blue" href ng-click="$ctrl.close()">Cancel</a>
+        </div>
+    </form>    
+</div>

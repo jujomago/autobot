@@ -20,10 +20,22 @@
         padding: 0 32px;
         height: 30px;
         line-height: 30px;
-        -webkit-transition: all .2s ease-out;
-        -moz-transition: all .2s ease-out;
         transition: all .2s ease-out;
-        &:hover, &:focus, &:active {
+        &:hover, &:active{
+            background: #666;
+            color: @white;
+        }
+    }
+    //buttons style blue in all aplication
+    .btn-blue {
+        background: @blue;
+        border-radius: 0;
+        color: @white;
+        padding: 0 32px;
+        height: 30px;
+        line-height: 30px;
+        transition: all .2s ease-out;
+        &:hover, &:active {
             background: #666;
             color: @white;
         }
@@ -60,7 +72,7 @@
     .logofive9 {
         max-width: 190px;
         width: 100%;
-        margin: 10% auto 0;
+        margin:16px auto 0;
     }
     .loader_indicator {
         max-width: 270px;
@@ -133,6 +145,29 @@
     h4 {
         font-weight: normal;
     }
+
+    
+    
+    .cell-select {
+        width: 100%;
+    }
+    .cell-checkbox {
+        width: 18px;
+        height: 18px;
+    }
+    .number-updown-width{
+        .abx-number-input{
+            width: 92%;
+            padding-right: 10px;
+        }
+        .abx-number-arrows{
+            width: 8%;
+            min-width: auto;
+        }
+
+    }
+
+
     //Add margin between settings components
     .settings-container{
         margin-top: 10px;
@@ -152,6 +187,49 @@
                 padding-right: 0;
                 height: 35px;
             }
+        }
+    }
+
+    //add Modal transparent
+    #list-container{
+        .modal-content{
+            text-align: left;
+            background: transparent;
+            box-shadow: none;
+            border: none;
+        }
+        .modal-input{
+            width: 60%;
+        }
+        .modal-dialog{
+            margin: 60px auto;
+            margin-right: 0;
+            width: 70%;
+
+        }
+        .modal-header{
+            border: none;
+            .title_section{
+                margin-top: 35px;
+                margin-bottom: 2px;
+            }
+        }
+        .modal-backdrop.in{
+            opacity: 0.9;
+        }
+        .modal-button-container{
+            text-align: center;
+            display: block;
+            width: 60%;
+            margin-top: 30px;
+            &>button{
+                margin-left: 5px;
+                margin-right: 5px;
+            }
+        }
+        .error-message{
+            width: 60%;
+            margin-top: 20px;
         }
     }
 }
