@@ -35,11 +35,11 @@ describe('Component: ChangePasswordComponent', function () {
                           template: '<al.users.changePassword></al.users.changePassword>',
                         });
     _ChangePasswordComponent.instance = modalInstance;
-    _ChangePasswordComponent.password = "newPass!";
-    _ChangePasswordComponent.confirm = "newPass!";
+    _ChangePasswordComponent.password = 'newPass!';
+    _ChangePasswordComponent.confirm = 'newPass!';
     modalInstance.result
     .then(password => {
-        expect(password).to.equal("newPass!");
+        expect(password).to.equal('newPass!');
     });
     _ChangePasswordComponent.save();
   });
@@ -50,8 +50,8 @@ describe('Component: ChangePasswordComponent', function () {
                           template: '<al.users.changePassword></al.users.changePassword>',
                         });
     _ChangePasswordComponent.instance = modalInstance;
-    _ChangePasswordComponent.password = "newPass!";
-    _ChangePasswordComponent.confirm = "diferentPass!";
+    _ChangePasswordComponent.password = 'newPass!';
+    _ChangePasswordComponent.confirm = 'diferentPass!';
     _ChangePasswordComponent.save();
     expect(_ChangePasswordComponent.message.show).to.equal(true);
     expect(_ChangePasswordComponent.message.type).to.equal('danger');

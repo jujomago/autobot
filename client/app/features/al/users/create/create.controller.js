@@ -32,7 +32,6 @@
 
         }
         openModal(){
-            let ctrl = this;
             this.modalInstance = _$uibModal.open({
                 animation: false,
                 size: 'md',

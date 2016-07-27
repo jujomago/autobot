@@ -1,6 +1,5 @@
 'use strict';
 (function(){
-let _$modalInstance;
 class ChangePasswordComponent {
   constructor() {
     this.message = {show: false};
