@@ -1,0 +1,77 @@
+<h3 class="title_section">Lists: {{$ctrl.importData.listName}}</h3>
+
+
+
+<abx-message msg="$ctrl.message"></abx-message>
+
+<abx-load-indicator ng-show="$ctrl.manual && ($ctrl.list.length==0 && !$ctrl.message.show)" text="Loading List"></abx-load-indicator>
+
+<div>
+
+    <div class="pull-left">
+        <div class="mywell">
+            <h4>List Update</h4>
+        </div>
+        <div class="mywell">
+            <div class="searchbox_container">
+                <input type="search" ng-model="$ctrl.search" class="searchbox" placeholder="Search" ng-change="$ctrl.filteringBySearch()">
+                <span class="glyphicon glyphicon-search"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="pull-right">
+        <div class="mywell text-right">
+            <a class="btn btn-black">Cancel</a>    
+        </div>
+        <div class="mywell">
+            <a class="btn btn-black" ng-click="$ctrl.insertContact()">Insert</a>
+            <a class="btn btn-black" ng-disabled="$ctrl.selectedArray.length === 0 || $ctrl.selectedArray.length > 1" ng-click="$ctrl.editContact($ctrl.selected)">Edit</a>
+            <button class="btn btn-black" ng-disabled="$ctrl.selectedArray.length < 1" ng-click="$ctrl.deleteContact()">Delete</button>
+            <button class="btn btn-black" ng-click="$ctrl.shuffleList()" ng-disabled="$ctrl.filteredList.length===0">Shuffle</button>
+        </div>
+    </div>
+
+    <div class="table-responsive" ng-show="$ctrl.list.length>0">
+        <table class="table table-striped contact_list" ng-show="$ctrl.filteredList.length">
+            <thead>
+                <th ng-click="$ctrl.sortColumn(header.name)" ng-repeat="header in $ctrl.formData" class="sortColumn">
+                    {{header.name}}
+                    <span class="glyphicon" ng-show="$ctrl.getSort(header.name)" ng-class="{'glyphicon-chevron-up':$ctrl.reverse,'glyphicon-chevron-down':!$ctrl.reverse}"></span>
+                </th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="(key, item) in ( $ctrl.filteredList=($ctrl.list | filter:$ctrl.search) |  limitTo:$ctrl.numPerPage:$ctrl.beginNext)" ng-click="$ctrl.selectedContact(key)" ng-dblClick="$ctrl.editContact(key)">
+                    <td ng-repeat="header in $ctrl.formData" ng-class="{'row-selected': $ctrl.selectedArray.indexOf(key) != -1}">
+                        <a>
+                            {{item[header.name]}}
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mywell footer_table text-center" ng-show="$ctrl.list.length>0">
+
+        <div class="noresults" ng-show="!$ctrl.filteredList.length" ng-if="$ctrl.search">
+            <img src="assets/al/images/NoResultsIcon.png" alt="lupa">
+            <p>We couldn't find what you are looking for</p>
+        </div>
+
+        <label class="pull-left" ng-if="$ctrl.filteredList.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.getMax()}} of {{$ctrl.filteredList.length}}</label>
+
+        <uib-pagination ng-if="$ctrl.filteredList.length" total-items="$ctrl.filteredList.length" ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
+    " boundary-links="true " ng-change="$ctrl.pageChanged()">
+        </uib-pagination>
+
+        <div class="pull-right results_per_page" ng-show="$ctrl.filteredList.length"><span>Show</span>
+
+            <select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities" ng-change="$ctrl.pageChanged()">
+        </select> <span>results per page</span>
+        </div>
+    </div>
+    <div class="text-center" ng-show="$ctrl.list.length>0">
+        <!--button class="btn btn-black" ng-click="$ctrl.uploadContacts()">Upload</button-->
+    </div>
+</div>
