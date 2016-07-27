@@ -14,6 +14,4 @@ router.post('/', controller.createList);
 router.post('/contacts', controller.createContactForList);
 router.delete('/contacts/delete', controller.deleteContactFromList);
 router.delete('/:listName', controller.destroy);
-router.get('/contacts/fields', controller.getContactFields);
-
 module.exports = router;

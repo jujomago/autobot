@@ -61,6 +61,12 @@
 		finalDispActive(){
 			this.disposition.type='FinalDisp';
 		}
+		maxOfDays(type){
+			if(type.hours===0 && type.minutes===0){
+				return 60;
+			}
+			return 59;
+		}
 		minOfHours(type){
 			if(type.days!==0 || type.minutes!==0){
 				return 0;

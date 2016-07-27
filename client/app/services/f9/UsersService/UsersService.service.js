@@ -8,8 +8,6 @@
 
             this.endPointUrl = '/f9/users';
             if (appConfig.apiUri) {
-                console.log('APPCONFIG VALUE=========>>>>>>> ' + appConfig.apiUri);
-                console.log('CONCATENATED VALUE=========>>>>>>> ' + appConfig.apiUri + '/f9/users');
                 this.endPointUrl = appConfig.apiUri + this.endPointUrl;
             }
             http = $http;

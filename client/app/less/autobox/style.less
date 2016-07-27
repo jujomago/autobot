@@ -9,18 +9,11 @@ html, body, #main-container,  #main-container > .container-fluid{
     a {
         color: @blue;
         text-decoration: none;
-        &:hover {
+        &:hover,&:focus,&:active {
             color: @blueforte;
             text-decoration: none;
         }
-        &:focus {
-            color: @blueforte;
-            text-decoration: none;
-        }
-        &:active {
-            color: @blueforte;
-            text-decoration: none;
-        }
+       
     }
     footer, .navbar, .navbar > .container-fluid {
         background:@black;

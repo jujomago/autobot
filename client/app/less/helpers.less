@@ -58,23 +58,33 @@ sidebar {
 
 
 
-//*IE remove x*
+//*IE remove X from imput flieds
 
-input[type=text] {
+input[type=text],input[name=userName]  {
     &::-ms-clear {
-        display: none;
-        height: 0;
-        width : 0;
+        display: none;       
     }
 }
 
-input[type=password] {
-    &::-ms-clear {
-        display: none;
-        height: 0;
-        width : 0;
+input[type=password], input[name=password]{
+    &::-ms-reveal {
+        display: none;        
+    }
+     &::-ms-clear {
+        display: none;       
     }
 }
+
+// removes dotted outlines
+.autobox-theme{
+    a,input,button{
+      
+        &:focus, &:active:focus{
+            outline: none;
+        } 
+    }
+}
+
 
 // adjusments for tabs
 .tab-content {

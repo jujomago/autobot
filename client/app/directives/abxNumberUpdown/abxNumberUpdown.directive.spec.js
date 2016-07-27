@@ -149,6 +149,16 @@ describe('Directive: abxNumberUpdown', function () {
       scope.$digest();
       expect(element.isolateScope().ngModel).to.equal(10);
     }));
+    it('should decrease the value if max number is changed to less value', inject(function ($compile) {
+      element = angular.element('<abx-number-updown max-value=10></abx-number-updown>');
+      element = $compile(element)(scope);
+      scope.$apply();
+      element.isolateScope().ngModel=10;
+      scope.$digest();
+      element.isolateScope().maxValue=7;
+      scope.$digest();
+      expect(element.isolateScope().ngModel).to.equal(7);
+    }));
   });
 
 });
