@@ -1,0 +1,74 @@
+[
+  {
+    "partnerName": "Five9",
+    "partnerId": "f9",
+    "apps": [
+      {
+        "appName": "al",
+        "appFullName": "Admin Lite",
+        "description": "This is the description",
+        "isInstalled": true
+      },
+      {
+        "appName": "qsc",
+        "appFullName": "Admin QA Scoring",
+        "description": "This is the description",
+        "isInstalled": false
+      },
+      {
+        "appName": "cj",
+        "appFullName": "Costumer Journey",
+        "description": "This is the description",
+        "isInstalled": false
+      },
+      {
+        "appName": "ra",
+        "appFullName": "Reports & Analitics",
+        "description": "This is the description",
+        "isInstalled": false
+      },
+      {
+        "appName": "sc",
+        "appFullName": "Supervisor Console",
+        "description": "This is the description",
+        "isInstalled": false
+      }
+    ]
+  },
+  {
+    "partnerName": "SalesForce",
+    "partnerId": "sf",
+    "apps": [
+      {
+        "appName": "sf",
+        "appFullName": "ABC App",
+        "description": "This is the description",
+        "isInstalled": false
+      },
+      {
+        "appName": "sf",
+        "appFullName": "CDE App",
+        "description": "This is the description",
+        "isInstalled": false
+      },
+      {
+        "appName": "sf",
+        "appFullName": "EFG App",
+        "description": "This is the description",
+        "isInstalled": false
+      },
+      {
+        "appName": "sf",
+        "appFullName": "HIJ App",
+        "description": "This is the description",
+        "isInstalled": false
+      },
+      {
+        "appName": "sf",
+        "appFullName": "XYZ App",
+        "description": "This is the description",
+        "isInstalled": false
+      }
+    ]
+  }
+]
