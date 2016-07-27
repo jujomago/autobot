@@ -92,15 +92,7 @@ export function isImportRunning(req, res) {
       })
       .catch(service.handleError(res));
 }
-//Get contact fields
-export function getContactFields(req, res) {
-  var params = {};
-  return service.f9CallService('getContactFields', params, '', req)
-      .then(data => {
-          res.status(200).json(data);
-      })
-      .catch(service.handleError(res));
-}
+
 //Delete a list by the listName
 export function destroy(req, res) {
   var params = { listName: req.params.listName };
