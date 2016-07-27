@@ -1,10 +1,10 @@
 'use strict';
 (function () {
-    let _$http,_q;
+    let _$http,_$q;
       function handleError(err, result) {
         result.error = err.data;
         result.statusCode = err.status;
-        let defered = _q.defer();
+        let defered = _$q.defer();
         let promise = defered.promise;
         defered.reject(result);    
         return promise;
@@ -12,7 +12,7 @@
     class AppsService {
         constructor($http, $q) {
             this.endPointUrl = '/assets/admin/json/apps.json';
-            _q=$q;
+            _$q=$q;
             _$http = $http;
         }
         getApps() {

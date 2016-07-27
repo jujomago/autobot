@@ -16,7 +16,7 @@
 			return response;
 		})
 		.catch(error => {
-			let theMsg= error.error; 
+			let theMsg= error.errorMessage; 
             this.message={ show: true, type: 'danger', text: theMsg };
             return error;
 		});

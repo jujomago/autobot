@@ -7,7 +7,7 @@
 		<div class="partner-container" ng-repeat="partner in $ctrl.partners">
 			<b>{{partner.partnerName}}</b>
 			<div class="row apps-container">
-				<div class="app-wrapper" ng-repeat="app in partner.apps">
+				<div class="col-md-2-5 col-sm-6 col-xs-12" ng-repeat="app in partner.apps">
 					<div class="image-container">
 						<img class="img-responsive" ng-src="assets/{{app.appName}}/images/logo.jpg">
 					</div>
