@@ -1,0 +1,30 @@
+<div class="contact-model">
+  <div class="modal-header">
+      <h3 class="modal-title">Add new contact</h3>
+  </div>
+  <div class="modal-body al-theme">
+      <form name="formList" novalidate ng-submit="formList.$valid && $ctrl.save(formList)" class="custom_form form-horizontal">
+          <div ng-repeat="form in $ctrl.formDataModal"> 
+            <div class="inputminimal" ng-class="{ 'has-error': formList[form.name].$invalid && formList.$submitted }">  
+                <label ng-if="!form.required" for="{{form.name}}">{{form.name}}</label>
+                <label ng-if="form.required" for="{{form.name}}">{{form.name}} *</label>     
+                <div>
+                     <input ng-if="!form.required" type="{{form.type}}" name="{{form.name}}" ng-minlength="{{form.minlength}}" ng-maxlength="{{form.maxlength}}" id="{{form.name}}" ng-model="$ctrl.contact[form.name]" abx-check-phone/>
+
+                     <input ng-if="form.required" type="{{form.type}}" name="{{form.name}}" ng-minlength="{{form.minlength}}" ng-maxlength="{{form.maxlength}}" id="{{form.name}}" ng-model="$ctrl.contact[form.name]" required="required" abx-check-phone/>
+                </div>
+            </div>
+            <div ng-messages="formList[form.name].$error" ng-show="formList.$submitted">
+                  <p ng-message="minlength">This field is too short</p>
+                  <p ng-message="required">This field is required</p>
+                  <p nf-if="form.type == 'email'" ng-message="email">This field must be an email address</p>
+                  <p ng-message="usphoneValidator">This field is not a valid Number</p>
+            </div>
+          </div>
+          <div>
+            <button class="btn btn-blue" href type="submit">Save</button>
+            <a class="btn btn-blue" href ng-click="$ctrl.cancel(formList)">Cancel</a>
+          </div>
+      </form>    
+  </div>
+</div>
