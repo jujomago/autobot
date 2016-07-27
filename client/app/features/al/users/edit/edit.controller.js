@@ -47,7 +47,7 @@
                 animation: false,
                 size: 'md',
                 controllerAs: '$ctrl',
-                appendTo: angular.element(document.querySelector('#list-container')),
+                appendTo: angular.element(document.querySelector('#modal-container')),
                 template: '<al.users.change-password></al.users.change-password>',
             });
             this.modalInstance.result

@@ -61,7 +61,7 @@ describe('Service: AppsService', function () {
         expect(null).to.not.equal(error);
         expect(undefined).to.not.equal(error);
         expect(error.statusCode).to.equal(500);
-        expect(error.error).to.equal('Internal Server Error');
+        expect(error.errorMessage).to.equal('Internal Server Error');
     });
     _$httpBackend.flush();
   });

@@ -20,7 +20,7 @@ class ChangePasswordComponent {
     }
     else{
       this.SubmitText = 'Save';
-      this.message = { show: true, type: 'danger', text: 'Passwords did not match' };
+      this.message = { show: true, type: 'danger', text: 'Passwords did not match', expires: 3000 };
     }
   }
   close(){
