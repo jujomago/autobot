@@ -15,7 +15,7 @@ angular.module('fakiyaMainApp')
               console.log(file);
               ReadFile.readAsDataUrl(file, scope)
               .then(function(result) {
-                  scope.abxReadFile = {data: result, size: file.size, type: file.type};
+                  scope.abxReadFile = {data: result, size: file.size, type: file.type, name: file.name};
               });
             }
             else{
