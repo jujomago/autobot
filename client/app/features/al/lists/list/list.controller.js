@@ -1,14 +1,15 @@
 'use strict';
 (function(){
 let _ConfirmAsync;
-let _$state;
+let _$state,_$uibModal;
 class ListComponent {
-  constructor(ListsService,$stateParams,$state,ConfirmAsync) {
+  constructor(ListsService,$stateParams,$state,$uibModal,ConfirmAsync) {
       this.lists = [];
       this.message = { show: false }; 
       if ($stateParams.message !== null) {
         this.message = { show: true, type: $stateParams.message.type, text: $stateParams.message.text,expires: 3000 };
       }
+      _$uibModal = $uibModal;
       this.currentPage = 1;
       this.sortKey = '';
       this.reverse = true;
@@ -68,6 +69,17 @@ class ListComponent {
      }
      return false;
   }
+  openModal(){
+    let ctrl = this;
+    this.modalInstance = _$uibModal.open({
+      animation: false,
+      template: '<al.lists.create></al.lists.create>',
+      size: 'md',
+      appendTo: angular.element(document.querySelector('#list-container')),
+      controllerAs: '$ctrl',
+    });
+
+  }
   deleteList(list, indexRow) {
   return _ConfirmAsync('Are you sure to delete "' + list.name + '"?')          
     .then(() => {
@@ -108,7 +120,7 @@ class ListComponent {
   }
 }
 
-ListComponent.$inject = ['ListsService','$stateParams','$state','ConfirmAsync'];
+ListComponent.$inject = ['ListsService','$stateParams','$state','$uibModal','ConfirmAsync'];
 
 angular.module('fakiyaMainApp')
   .component('al.lists.list', {

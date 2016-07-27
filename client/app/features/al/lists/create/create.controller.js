@@ -3,10 +3,18 @@
 	let _ListService, _$state;
 	class CreateComponent {
 	  constructor($state, ListsService) {
-	    this.message = { show: false }; 
+	    this.message = {text: ''}; 
 	    this.SubmitText = 'Save';
 	    _ListService = ListsService;
 	    _$state = $state;
+	  }
+	  $onInit(){
+	  	this.instance = this.parent.modalInstance;
+	  }
+	  close(){
+	  	if(this.instance){
+	  		this.instance.dismiss('cancel');
+	  	}
 	  }
 	  save(){
 	  	this.SubmitText = 'Saving...';
@@ -18,7 +26,8 @@
 	                    text: 'List Created SuccessFully',
 	                    expires: 3000
 	                };
-	                _$state.go('ap.al.lists', { message: this.message });   
+	                this.close();
+	                _$state.go('ap.al.lists', { message: this.message }, {reload: true});   
 	            }
 	            else{
 		            this.SubmitText='Save';
@@ -33,7 +42,10 @@
 	angular.module('fakiyaMainApp')
 	  .component('al.lists.create', {
 	    templateUrl: 'app/features/al/lists/create/create.html',
-	    controller: CreateComponent
+	    controller: CreateComponent,
+	    require: {
+            parent : '^al.lists.list'
+        }
 	  });
 
 })();
