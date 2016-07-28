@@ -13,9 +13,6 @@ describe('Component: LoginComponent', function () {
     LoginComponent = $componentController('LoginComponent', {
       $scope: scope
     });
+    //Actually is a Dummy html
   }));
-
-  it('should ...', function () {
-    expect(1).to.equal(1);
-  });
 });

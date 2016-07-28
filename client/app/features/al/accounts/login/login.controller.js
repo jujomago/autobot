@@ -3,7 +3,6 @@
 
 class LoginComponent {
   constructor() {
-    this.message = 'Hello';
   }
 }
 
