@@ -10,7 +10,7 @@ describe('Component: LoginComponent', function () {
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($componentController, $rootScope) {
     scope = $rootScope.$new();
-    LoginComponent = $componentController('LoginComponent', {
+    LoginComponent = $componentController('al.accounts.login', {
       $scope: scope
     });
     //Actually is a Dummy html
