@@ -70,12 +70,11 @@ class ListComponent {
      return false;
   }
   openModal(){
-    let ctrl = this;
     this.modalInstance = _$uibModal.open({
       animation: false,
       template: '<al.lists.create></al.lists.create>',
       size: 'md',
-      appendTo: angular.element(document.querySelector('#list-container')),
+      appendTo: angular.element(document.querySelector('#modal-container')),
       controllerAs: '$ctrl',
     });
 

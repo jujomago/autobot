@@ -2,7 +2,7 @@
 (function () {
     let _$http,_$q;
       function _handleError(err, result) {
-        result.error = err.data;
+        result.errorMessage = err.data;
         result.statusCode = err.status;
         let defered = _$q.defer();
         let promise = defered.promise;

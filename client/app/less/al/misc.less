@@ -35,7 +35,7 @@
         height: 30px;
         line-height: 30px;
         transition: all .2s ease-out;
-        &:hover, &:focus, &:active {
+        &:hover, &:active {
             background: #666;
             color: @white;
         }
@@ -175,46 +175,61 @@
     .file-empty-error{
         color: red;
     }
-    //add Modal transparent
-    #list-container{
-    .modal-content{
-        text-align: left;
-        background: transparent;
-        box-shadow: none;
-        border: none;
+    //change password column style
+    .no-margin{
+    margin: 0;
+        &>div{
+            padding-left: 5px;
+            padding-right: 0;
+            &>input.btn-black{
+                width: 100%;
+                padding-left: 0;
+                padding-right: 0;
+                height: 35px;
+            }
+        }
     }
-    .modal-input{
-        width: 60%;
-    }
-    .modal-dialog{
-        margin: 60px auto;
-        margin-right: 0;
-        width: 70%;
 
-    }
-    .modal-header{
-        border: none;
-        .title_section{
-            margin-top: 35px;
-            margin-bottom: 2px;
+    //add Modal transparent
+    #modal-container{
+        .modal-content{
+            text-align: left;
+            background: transparent;
+            box-shadow: none;
+            border: none;
+        }
+        .modal-input{
+            width: 60%;
+        }
+        .modal-dialog{
+            margin: 60px auto;
+            margin-right: 0;
+            width: 70%;
+
+        }
+        .modal-header{
+            border: none;
+            .title_section{
+                margin-top: 35px;
+                margin-bottom: 2px;
+            }
+        }
+        .modal-backdrop.in{
+            opacity: 0.9;
+        }
+        .modal-button-container{
+            text-align: center;
+            display: block;
+            width: 60%;
+            margin-top: 30px;
+            &>button{
+                margin-left: 5px;
+                margin-right: 5px;
+            }
+        }
+        .error-message{
+            width: 60%;
+            margin-top: 20px;
         }
     }
-    .modal-backdrop.in{
-        opacity: 0.9;
-    }
-    .modal-button-container{
-        text-align: center;
-        display: block;
-        width: 60%;
-        margin-top: 30px;
-        &>button{
-            margin-left: 5px;
-            margin-right: 5px;
-        }
-    }
-    .error-message{
-        width: 60%;
-        margin-top: 20px;
-    }
-}
 }
