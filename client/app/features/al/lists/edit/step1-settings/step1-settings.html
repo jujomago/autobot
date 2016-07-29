@@ -12,27 +12,28 @@
 <div ng-show="$ctrl.found && !$ctrl.confirm">
 	<div ng-show="$ctrl.homeSelected">
 	    <div class="pull-left">{{$ctrl.list.size}} records registered</div>
-	    <div class="pull-right">
-	        <button ng-click="$ctrl.selectUpdate()">Update</button>
-	        <button ng-click="$ctrl.selectDelete()">Remove</button>
+	    <div class="pull-right button-container">
+	        <button ng-click="$ctrl.selectUpdate()" class="btn btn-black">Update</button>
+	        <button ng-click="$ctrl.selectDelete()" class="btn btn-black">Remove</button>
 	    </div>
     </div>
-    <div class="pull-right" ng-hide="$ctrl.homeSelected">
-    	<button ng-click="$ctrl.selectHome()">Cancel</button>
+    <div class="pull-right button-container" ng-hide="$ctrl.homeSelected">
+    	<button ng-click="$ctrl.goBack()" class="btn btn-black">Back</button>
+    	<button ng-click="$ctrl.selectHome()" class="btn btn-black">Cancel</button>
     </div> 
-    <div ng-show="$ctrl.deleteSelected || $ctrl.updateSelected">
-		<div ng-show="$ctrl.deleteSelected">
-			<b>List Delete</b><br>
-			<p>Select how would you want to delete your list records</p>
+    <div ng-show="$ctrl.deleteSelected || $ctrl.updateSelected" class='settings-options-container'>
+		<div ng-show="$ctrl.deleteSelected" class="settings-text">
+			<h3>List Delete</h3>
+			<p>Select how would you want to delete your list records:</p>
 	  	</div>
-	  	<div ng-show="$ctrl.updateSelected">
-			<b>List update</b><br>
-			<p>Select how would you like to update the list</p>
+	  	<div ng-show="$ctrl.updateSelected" class="settings-text">
+			<h3>List update</h3>
+			<p>Select how would you like to update the list:</p>
 	  	</div>
-	  	<a ng-click="$ctrl.advancedOptions.isCollapsed = !$ctrl.advancedOptions.isCollapsed"><i class="pull-left glyphicon" ng-class="{'glyphicon-chevron-down': $ctrl.advancedOptions.isCollapsed, 'glyphicon-chevron-right': !$ctrl.advancedOptions.isCollapsed}"></i> Advanced Options</a>
-		<div uib-collapse="$ctrl.advancedOptions.isCollapsed">
-			<div class="well" ng-show="$ctrl.deleteSelected">
-				<b>Options for list delete:</b>
+	  	<a class="toggle-link" ng-click="$ctrl.advancedOptions.isCollapsed = !$ctrl.advancedOptions.isCollapsed"><i class="pull-left fa" ng-class="{'fa-angle-right': $ctrl.advancedOptions.isCollapsed, 'fa-angle-up': !$ctrl.advancedOptions.isCollapsed}" ></i> Advanced Options</a>
+		<div class='settings-advanced-container' uib-collapse="$ctrl.advancedOptions.isCollapsed">
+			<div class="well settings-well" ng-show="$ctrl.deleteSelected">
+				<h4>Options for list delete:</h4>
 	           	<div>
        				<input type="radio" ng-model="$ctrl.listDeleteSettings.listDeleteMode" value='DELETE_ALL'> Remove all matching records from list
 	            </div>
@@ -40,49 +41,54 @@
       				 <input type="radio" ng-model="$ctrl.listDeleteSettings.listDeleteMode" value='DELETE_EXCEPT_FIRST'> Remove all matching list records And Add first (oldest) matching Contact Record to list
 	            </div>
 			</div>
-			<div class="well" ng-show="$ctrl.updateSelected">
-				<b>Options for list update:</b>
-	           	<div>
+			<div class="well settings-well" ng-show="$ctrl.updateSelected">
+				<h4>Options for list update:</h4>
+	           	<div class="sub-option">
        				<input type="radio" ng-model="$ctrl.listUpdateSettings.listAddMode" value='ADD_FIRST'> Add first (oldest) matching Contact Record to the list
 	            </div>
-	            <div>
+	            <div class="sub-option">
       				 <input type="radio" ng-model="$ctrl.listUpdateSettings.listAddMode" value='ADD_ALL'> Add all matching Contact Records (in case of multiple records) to the list
 	            </div>
-	            <div>
+	            <div class="sub-option">
       				 <input type="radio" ng-model="$ctrl.listUpdateSettings.listAddMode" value='ADD_IF_SOLE_CRM_MATCH'> Skip list record if multiple matches are found in Contact
 	            </div>
 	            <div>
       				 <input type="checkbox" ng-model="$ctrl.listUpdateSettings.cleanListBeforeUpdate"> Delete all list records before update. Warning: some reporting data will be lost
 	            </div>
-	            <hr>
+	            <h4>Actions for Contact update</h4>
 	            <div>
       				 <input type="checkbox" ng-model="$ctrl.listUpdateSettings.crmAddMode" ng-false-value="'DONT_ADD'"  ng-true-value="'ADD_NEW'"> Add new record if matching key is not found in contacts
 	            </div>
 	            <div>
       				 <input type="checkbox" ng-model="$ctrl.updateRecords" ng-change="$ctrl.setUpdateValue()"> Update existing contact record(s) with matching key
 	            </div>
-	            <div>
+	            <div class="sub-option">
       				 <input type="radio" ng-disabled="!$ctrl.updateRecords" ng-model="$ctrl.listUpdateSettings.crmUpdateMode" value='UPDATE_FIRST'> First (oldest) matching record
 	            </div>
-	            <div>
+	            <div class="sub-option">
       				 <input type="radio" ng-disabled="!$ctrl.updateRecords" ng-model="$ctrl.listUpdateSettings.crmUpdateMode" value='UPDATE_ALL'> All matching records (in case of multiple matches)
 	            </div>
-	            <div>
+	            <div class="sub-option">
       				 <input type="radio" ng-disabled="!$ctrl.updateRecords" ng-model="$ctrl.listUpdateSettings.crmUpdateMode" value='UPDATE_SOLE_MATCHES'> Only if single match in contacts
 	            </div>
 			</div>
 		</div>
-		<div ng-show="$ctrl.optionButtons" class="settings-container">
-			<button ng-click="$ctrl.nextStep()">Import records manually</button>
+		<div ng-show="$ctrl.optionButtons" class="settings-button-container">
+			<button ng-click="$ctrl.nextStep()" class="btn btn-black">Import records manually</button>
 			<button ng-click="$ctrl.displayFileField()" 
-			>Import source file</button>
+			class="btn btn-black">Import source file</button>
 		</div>
 		<div ng-show="$ctrl.fileSelected" class="settings-container">
-			<input type="file" abx-read-file="$ctrl.csvFile">
+			<div class='settings-file-container'>
+				<label>Import source file:</label> <a href="" ng-click='$ctrl.browseFile()'>{{$ctrl.csvFile?$ctrl.csvFile.name:'Chose File...'}}</a>
+				<input type="file" id="csv-file" abx-read-file="$ctrl.csvFile">
+			</div>
 			<p ng-show="!$ctrl.csvFile && $ctrl.sent" class="file-empty-error">This field is required</p>
-			<div class="settings-container">
-				<button ng-click="$ctrl.displayButtons()">Back</button>
-				<button ng-click="$ctrl.sendFile()">Next</button>
+			<div class='upload-checkbox'>
+  				 <input type="checkbox" ng-model="$ctrl.settingsParams.skipPreview"> Skip preview of uploaded records (recommended for large files)
+            </div>
+			<div class="settings-button-container">
+				<button ng-click="$ctrl.sendFile()" class="btn btn-black">Import</button>
 			</div>
 		</div>
     </div>         

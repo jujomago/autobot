@@ -34,7 +34,7 @@
             this.message = { show: false };
             this.advancedOptions = {isCollapsed: true};
             this.updateRecords = true;
-            this.settingsParams = {};
+            this.settingsParams = {skipPreview: false};
             this.listUpdateSettings = {listAddMode: LIST_ADD_MODES.ADD_FIRST, crmAddMode: CRM_ADD_MODES.ADD_NEW,crmUpdateMode: CRM_UPDATE_MODES.UPDATE_FIRST, cleanListBeforeUpdate: false};
             this.listDeleteSettings = {listDeleteMode: LIST_DELETE_MODES.DELETE_ALL};
         }
@@ -61,6 +61,7 @@
             this.homeSelected=true;
             this.deleteSelected=false;
             this.updateSelected=false;
+            this.displayButtons();
         }
         displayButtons(){
             this.optionButtons = true;
@@ -69,6 +70,17 @@
         displayFileField(){
             this.optionButtons = false;
             this.fileSelected = true;
+        }
+        goBack(){
+          if(this.fileSelected){
+            this.displayButtons();
+          }
+          else{
+            this.selectHome();
+          }
+        }
+        browseFile(){
+          angular.element('#csv-file').trigger('click');
         }
         setUpdateValue(){
           if(this.updateRecords){
@@ -147,7 +159,7 @@
 
     angular.module('fakiyaMainApp')
         .component('al.lists.settings', {
-            templateUrl: 'app/features/al/lists/edit/settings/settings.html',
+            templateUrl: 'app/features/al/lists/edit/step1-settings/step1-settings.html',
             controller: SettingsComponent
         });
 

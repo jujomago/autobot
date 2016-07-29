@@ -168,12 +168,63 @@
     }
 
 
-    //Add margin between settings components
+    //settings components
     .settings-container{
         margin-top: 10px;
+        #csv-file{
+            display: none;
+        }
+        .settings-file-container{
+            font-size: 16px;
+            &>label{
+                color: black;
+                font-weight: normal;
+            }
+        }
+        &>div.upload-checkbox{
+            color: #666;
+        }
+    }
+    .settings-options-container{
+        a.toggle-link{
+            color: black;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+            &:hover{
+                color: black;
+            }
+        }
+        .settings-advanced-container{
+            margin-top: 20px;
+            input[type="radio"],input[type="checkbox"]{
+                margin-top: 10px;
+            } 
+            .sub-option{
+                padding-left: 20px;
+            }
+            .settings-well{
+                background-color: white;
+                &>div{
+                    color: #666;
+                }
+            }
+        }
+    }
+    .settings-text{
+        font-family: BrandonLight;
+    }
+    .settings-button-container{
+        text-align: center;
     }
     .file-empty-error{
         color: red;
+    }
+    .button-container{
+        &>button.btn-black{
+            margin-left: 5px;
+            margin-right: 5px;
+        }
     }
     //change password column style
     .no-margin{
@@ -243,5 +294,4 @@
         float: left;
         width: ~"calc(100% - 200px)"
     }
-
 }
