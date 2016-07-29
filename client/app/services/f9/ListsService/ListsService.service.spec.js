@@ -133,4 +133,32 @@ describe('Service: ListsService', function () {
         httpBackend.flush();
     });
 
+    it('should add a list of contacts to testAutobox list', function () {
+        let contact = {listName: 'testAutobox', importData: {values: [{item: ['202-555-0195']}]} };
+        let listUpdateSettings = {fieldsMapping: [{columnNumber: 1, fieldName: 'number1', key: true}],cleanListBeforeUpdate: false, crmAddMode: 'ADD_NEW', crmUpdateMode: 'DONT_UPDATE', listAddMode: 'ADD_FIRST'};
+        contact.listUpdateSettings = listUpdateSettings;
+        httpBackend.whenPOST(endPointUrl+'/contacts').respond(201, {return: {identifier: 'ad-fg-js'}});
+        ListsService.addContacts(contact)
+        .then(result => {
+            expect(result.statusCode).to.equal(201);
+            expect(result.errorMessage.length).to.equal(0);
+            expect(result.data.return.identifier).should.not.equal(null);
+        });
+        httpBackend.flush();
+    });
+
+    it('should delete a list of contacts from testAutobox list', function () {
+        let contact = {listName: 'testAutobox', importData: {values: [{item: ['202-555-0195']}]}};
+        let listDeleteSettings = {fieldsMapping: [{columnNumber: 1, fieldName: 'number1', key: true}], listDeleteMode: 'DELETE_ALL'};
+        contact.listDeleteSettings = listDeleteSettings;
+        httpBackend.whenDELETE(endPointUrl+'/contacts/delete').respond(200, {return: {identifier: 'ad-fg-js'}});
+        ListsService.deleteContacts(contact)
+        .then(result => {
+            expect(result.statusCode).to.equal(200);
+            expect(result.errorMessage.length).to.equal(0);
+            expect(result.data.return.identifier).should.not.equal(null);
+        });
+        httpBackend.flush();
+    });
+
 });
