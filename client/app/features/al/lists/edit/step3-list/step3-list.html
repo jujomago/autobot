@@ -1,6 +1,4 @@
-<h3 class="title_section">Lists: {{$ctrl.importData.listName}}</h3>
-
-
+<h3 class="title_section">Lists: {{$ctrl.sendContact.listName}}</h3>
 
 <abx-message msg="$ctrl.message"></abx-message>
 
@@ -22,7 +20,7 @@
 
     <div class="pull-right">
         <div class="mywell text-right">
-            <a class="btn btn-black">Cancel</a>    
+            <a class="btn btn-black" ng-click="$ctrl.cancelList">Cancel</a>    
         </div>
         <div class="mywell">
             <a class="btn btn-black" ng-click="$ctrl.insertContact()">Insert</a>
@@ -33,16 +31,16 @@
     </div>
 
     <div class="table-responsive" ng-show="$ctrl.list.length>0">
-        <table class="table table-striped contact_list" ng-show="$ctrl.filteredList.length">
+        <table class="table table-striped contact-list" ng-show="$ctrl.filteredList.length">
             <thead>
-                <th ng-click="$ctrl.sortColumn(header.name)" ng-repeat="header in $ctrl.formData" class="sortColumn">
-                    {{header.name}}
+                <th ng-click="$ctrl.sortColumn(header.name)" ng-repeat="header in $ctrl.importData.fields" class="sortColumn">
+                    {{header.name | removeUnderscore}}
                     <span class="glyphicon" ng-show="$ctrl.getSort(header.name)" ng-class="{'glyphicon-chevron-up':$ctrl.reverse,'glyphicon-chevron-down':!$ctrl.reverse}"></span>
                 </th>
             </thead>
             <tbody>
                 <tr ng-repeat="(key, item) in ( $ctrl.filteredList=($ctrl.list | filter:$ctrl.search) |  limitTo:$ctrl.numPerPage:$ctrl.beginNext)" ng-click="$ctrl.selectedContact(key)" ng-dblClick="$ctrl.editContact(key)">
-                    <td ng-repeat="header in $ctrl.formData" ng-class="{'row-selected': $ctrl.selectedArray.indexOf(key) != -1}">
+                    <td ng-repeat="header in $ctrl.importData.fields" ng-class="{'row-selected': $ctrl.selectedArray.indexOf(key) != -1}">
                         <a>
                             {{item[header.name]}}
                         </a>
@@ -72,6 +70,7 @@
         </div>
     </div>
     <div class="text-center" ng-show="$ctrl.list.length>0">
-        <!--button class="btn btn-black" ng-click="$ctrl.uploadContacts()">Upload</button-->
+        <button class="btn btn-black" ng-click="$ctrl.uploadContacts()">Upload</button>
     </div>
 </div>
+<div id="edit-list"></div>

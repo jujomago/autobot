@@ -15,6 +15,10 @@ describe('Component: al.lists.mapping', function () {
                 011555555555452,Brandon,Peto, none
                 6666666666,Jackie,Banda, none 
                 7777777777,Toto,Sullue, none`;
+  var mockDeleteSettigs={
+            fieldsMapping: [{columnNumber: 1, fieldName: 'number1', key: true}], 
+            listDeleteMode: 'DELETE_ALL'} ;
+
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($componentController, $rootScope, $httpBackend, $stateParams, $window, _ContactFieldsService_, appConfig,_lodash_) {
@@ -31,7 +35,12 @@ describe('Component: al.lists.mapping', function () {
 
 
     MappingComponent = $componentController('al.lists.mapping', {    
-      $stateParams: { settings: { csvData: mockCSV } },
+      $stateParams: { settings: 
+        { 
+          csvData: mockCSV, 
+          listDeleteSettings:mockDeleteSettigs 
+        } 
+      },
       $window: window,
       ContactFieldsService: contactFieldService,
       lodash:lodash
@@ -45,6 +54,9 @@ describe('Component: al.lists.mapping', function () {
   afterEach(function () {
     _$httpBackend.verifyNoOutstandingRequest();
   });
+
+
+  
 
   describe('#getContactFields', () => {
 
@@ -267,6 +279,39 @@ describe('Component: al.lists.mapping', function () {
 
   });
 
+
+ describe('#finishMap', () => {
+
+  it('contacts fields key valids and send delete settings', () => {
+
+      MappingComponent.contactFields = [       
+        {name: 'number2',mappedName: 'number2',isKey:true},
+        {name: 'number3',mappedName: null },
+        {name: 'first_name',mappedName: 'first_name'},
+        {name: 'last_name',mappedName: 'last_name'},
+        {name: 'company',mappedName: 'company'}
+      ];     
+      MappingComponent.finishMap();
+      expect(MappingComponent.dataToSend.listDeleteSettings).to.not.equal(null);
+      expect(undefined).to.equal(MappingComponent.dataToSend.listUpdateSettings); 
+      expect(MappingComponent.dataToSend.listDeleteSettings).to.not.eql(mockDeleteSettigs);     
+   });
+
+
+  it('contacts fields key invalid, return false', () => {
+
+      MappingComponent.contactFields = [       
+        {name: 'number2',mappedIndex:0,isKey:true},
+        {name: 'number3',mappedIndex: 0},
+        {name: 'first_name',mappedIndex:0, isKey:true},
+        {name: 'last_name',mappedIndex: 2},
+        {name: 'company',mappedIndex: 1}
+      ];     
+      expect(MappingComponent.finishMap()).to.equal(false);
+      
+   });
+
+  });
 
 
 

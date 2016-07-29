@@ -67,16 +67,17 @@
     }
 
 
-    let _$window, _$stateParams;
+    let _$window, _$stateParams, _$state;
     let _ContactFieldsService, _;
 
 
     class MapFieldsController {
-        constructor($stateParams, $window, ContactFieldsService, lodash) {
+        constructor($stateParams, $window, $state, ContactFieldsService, lodash) {
 
             _ = lodash;
             _$stateParams = $stateParams;
             _$window = $window;
+            _$state = $state;
             _ContactFieldsService = ContactFieldsService;
 
             this.hasHeader = true;
@@ -220,17 +221,28 @@
                 console.log('after validation');
                 console.log(keyNames);
 
-                let dataToSend = {
-                    listUpdateSettings: _$stateParams.settings.listUpdateSettings,
+                this.dataToSend = {
                     resultMapping: {
                         keys: keyNames,
                         rows: _getRowsData(this.hasHeader, this.contactFields, this.jsonCSV),
                         headerFields: this.getHeadersforTable()
                     }
                 };
+
+                if(_$stateParams.settings.listDeleteSettings){
+                     this.dataToSend.listDeleteSettings = _$stateParams.settings.listDeleteSettings;
+                }else{
+                     this.dataToSend.listUpdateSettings = _$stateParams.settings.listUpdateSettings;    
+                }
+
                 // this data goes to table (next step)
-                console.log('=== DATA FOR NEXT STEP===');
-                console.log(dataToSend);
+                console.log('=== DATA FOR NEXT STEPP===');
+                console.log(this.dataToSend);
+
+                _$state.go('ap.al.listsEdit-list', {settings: this.dataToSend, name: _$stateParams.name});
+                return true;
+            }else{
+                return false;
             }
         }
 
@@ -255,7 +267,7 @@
         }
     }
 
-    MapFieldsController.$inject = ['$stateParams', '$window', 'ContactFieldsService', 'lodash'];
+    MapFieldsController.$inject = ['$stateParams', '$window', '$state', 'ContactFieldsService', 'lodash'];
 
     angular.module('fakiyaMainApp')
         .component('al.lists.mapping', {

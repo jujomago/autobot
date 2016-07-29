@@ -105,9 +105,42 @@
                     return err;
                 });
         }
-        
-      
 
+        addContacts(contacts){
+            var result = { data: null, statusCode: 201, errorMessage: '' };
+
+            return _$http.post(this.endPointUrl+'/contacts', contacts)
+                .then(response => {
+                        result.data = response.data;
+                        return result;
+                })
+                .catch(error => {
+                    result.statusCode = error.status;
+                    result.errorMessage = error.data.body;
+                    return result;
+                });
+        }
+
+        deleteContacts(contacts) {
+            var result = { data: null, statusCode: 200, errorMessage: '' };
+            
+            return _$http({
+                method: 'DELETE',
+                url: this.endPointUrl +'/contacts/delete',
+                data: contacts,
+                headers: {'Content-Type': 'application/json;charset=utf-8'}
+            }).then(response => {
+                     result.data = response.data;
+                     return result;
+                })
+                 .catch(err => {
+                    console.log('ERROR IN DELETE LIST');
+                    console.log(err);
+                    err.statusCode = err.status;
+                    err.errorMessage = err.data.body;
+                    return err;
+                });
+        }
     }
 
     ListsService.$inject = ['$http','appConfig'];

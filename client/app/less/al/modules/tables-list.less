@@ -58,7 +58,7 @@
         vertical-align: bottom;
     }
 
-    .contact_list {
+    .contact-list {
         tbody {
             tr>td {
                 cursor: default;
@@ -67,5 +67,28 @@
                 background-color: #dff0d8;
             }
         }
+    }
+
+    #edit-list .contact-model-form{
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    #edit-list .modal .modal-dialog .modal-content{
+        background: transparent;
+        box-shadow: none;
+        border: none;
+    }
+
+    #edit-list .modal .modal-dialog .modal-content .modal-header{
+        border: 0;
+    }
+
+    #edit-list .modal .modal-dialog .modal-header .modal-title{
+        color: @blue;
+    }
+
+    #edit-list .modal-backdrop.in{
+        opacity: 0.9;
     }
 }
