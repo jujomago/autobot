@@ -2,22 +2,22 @@
 (function() {
 
 
-    let _UsersService,_stateParams,_state;
+    let _UsersService,_stateParams,_state,_$uibModal;
 
     class EditComponent {
 
-        constructor($stateParams, $state,  $sessionStorage , $q, UsersService) {
+        constructor($stateParams, $state,  $sessionStorage , $q, $uibModal, UsersService) {
 
             //  console.log('Component EditComponent - al.users.edit');
-
+            _$uibModal = $uibModal;
             _stateParams = $stateParams;
             _UsersService = UsersService;
             _state=$state;
             this.storage = $sessionStorage;
-            this.userInfo = {};
             this.qp = $q;
             this.SubmitText = 'Save';
             this.found = false;
+            this.changePass = false;
             this.allRoles = ['admin', 'agent', 'reporting', 'supervisor'];
             this.userRoles = [];
             this.showErrorMessage = { show: false, message: '' };   
@@ -42,7 +42,22 @@
                 });
             });       
         }
-        
+        openModal(){
+            this.modalInstance = _$uibModal.open({
+                animation: false,
+                size: 'md',
+                controllerAs: '$ctrl',
+                appendTo: angular.element(document.querySelector('#modal-container')),
+                template: '<al.users.change-password></al.users.change-password>',
+            });
+            this.modalInstance.result
+            .then(password => {
+                if(password!==null){
+                    this.changePass = true;
+                    this.userInfo.generalInfo.password = password;
+                }
+            });
+        }
         
         getAllPermissions(){
               return _UsersService.getPermissions()
@@ -62,6 +77,7 @@
                     console.log('loaded user detail');      
                     this.found = true;
                     this.userInfo = _users;
+                    this.userInfo.generalInfo.password = '**********';
                     this.userRoles = Object.keys(this.userInfo.roles);
                     
                     let rolesAvailable = this.allRoles.filter(function(value) {
@@ -171,7 +187,7 @@
     }
 
 
-    EditComponent.$inject = ['$stateParams', '$state',  '$sessionStorage','$q', 'UsersService'];
+    EditComponent.$inject = ['$stateParams', '$state',  '$sessionStorage','$q', '$uibModal', 'UsersService'];
 
     angular.module('fakiyaMainApp')
         .component('al.users.edit', {
