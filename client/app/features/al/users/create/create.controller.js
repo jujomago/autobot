@@ -2,11 +2,12 @@
 
 (function () {
 
-    let _UsersService,_state,_q;
+    let _UsersService,_state,_q,_$uibModal;
     
     class CreateComponent {
 
-        constructor($state, $sessionStorage, $q, UsersService) {
+        constructor($state, $sessionStorage, $q,$uibModal, UsersService) {
+            _$uibModal = $uibModal;
             this.storage = $sessionStorage;                  
             this.newUser = {
                 active: true,
@@ -30,7 +31,24 @@
          
 
         }
+        openModal(){
+            this.modalInstance = _$uibModal.open({
+                animation: false,
+                size: 'md',
+                controllerAs: '$ctrl',
+                appendTo: angular.element(document.querySelector('#modal-container')),
+                template: '<al.users.change-password></al.users.change-password>',
+            });
 
+            this.modalInstance.result
+            .then(password => {
+                if(password!==null){
+                    this.newUser.password = password;
+                }
+            });
+
+        }
+        
         $onInit() {
             console.log('loading roles'); 
 
@@ -156,7 +174,7 @@
 
 
 
-    CreateComponent.$inject = ['$state', '$sessionStorage', '$q', 'UsersService'];
+    CreateComponent.$inject = ['$state', '$sessionStorage', '$q', '$uibModal', 'UsersService'];
 
     angular.module('fakiyaMainApp')
         .component('al.users.create', {
