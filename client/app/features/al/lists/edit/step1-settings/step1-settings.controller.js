@@ -21,6 +21,14 @@
                 DELETE_ALL: 'DELETE_ALL',
                 DELETE_EXCEPT_FIRST: 'DELETE_EXCEPT_FIRST'
               };
+    function _setParams(settingsParams, listDeleteSettings, listUpdateSettings,deleteSelected, updateSelected){
+      if(deleteSelected){
+        settingsParams.listDeleteSettings = listDeleteSettings;
+      }
+      else if(updateSelected){
+        settingsParams.listUpdateSettings = listUpdateSettings;
+      }
+    }
     class SettingsComponent {   
 
         constructor($state, $stateParams, ListsService) {
@@ -92,15 +100,8 @@
         }
         nextStep()
         {
-          if(this.deleteSelected){
-            this.settingsParams.listDeleteSettings = this.listDeleteSettings;
-          }
-          else if(this.updateSelected){
-            this.settingsParams.listUpdateSettings = this.listUpdateSettings;
-          }
-          //Should sent setting params to next view
-          _$state.go('ap.al.mapping', {settings:this.settingsParams,name:_$stateParams.name});
-          //console.log(this.settingsParams);/
+          _setParams(this.settingsParams, this.listDeleteSettings, this.listUpdateSettings, this.deleteSelected, this.updateSelected);
+          _$state.go('ap.al.listsEdit-list', {settings:this.settingsParams,name:_$stateParams.name, manual: true});
         }
         sendFile()
         {
@@ -112,8 +113,9 @@
             .then(response => {
               this.confirm=false;
               if(response.statusCode === 200){
-                this.settingsParams.csvData = response.data;
-                this.nextStep();
+                this.settingsParams.csvData = response.data;  
+                 _setParams(this.settingsParams, this.listDeleteSettings, this.listUpdateSettings, this.deleteSelected, this.updateSelected);
+                _$state.go('ap.al.mapping', {settings:this.settingsParams,name:_$stateParams.name});
               }
               else{
                 let theMsg= response.errorMessage; 
