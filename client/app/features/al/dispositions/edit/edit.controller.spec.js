@@ -58,4 +58,16 @@ describe('Component: EditComponent', function () {
         httpBackend.flush();
     });    
   });
+  describe('#timeField',() => {
+    it('if Hours or Minutes are diferent to zero, max of days should be 59', function () {
+      EditComponent.redial.timer={minutes: 0, days: 0, hours: 1};
+      expect(EditComponent.maxOfDays(EditComponent.redial.timer)).to.equal(59);
+      EditComponent.redial.timer={minutes: 1, days: 0, hours: 0};
+      expect(EditComponent.maxOfDays(EditComponent.redial.timer)).to.equal(59);
+    });
+    it('if Hours and Minutes are equal to zero, max of days should be 60', function () {
+      EditComponent.redial.timer={minutes: 0, days: 0, hours: 0};
+      expect(EditComponent.maxOfDays(EditComponent.redial.timer)).to.equal(60);
+    });
+  });
 });

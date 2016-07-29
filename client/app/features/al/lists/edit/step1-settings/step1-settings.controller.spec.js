@@ -61,6 +61,7 @@ describe('Controller: SettingsComponent', function () {
       SettingsComponent.selectUpdate();
       SettingsComponent.nextStep();
       let settings=SettingsComponent.settingsParams.listUpdateSettings;
+      expect(SettingsComponent.settingsParams.skipPreview).to.equal(false);
       expect(settings.listAddMode).to.equal('ADD_FIRST');
       expect(settings.crmAddMode).to.equal('ADD_NEW');
       expect(settings.crmUpdateMode).to.equal('UPDATE_FIRST');
