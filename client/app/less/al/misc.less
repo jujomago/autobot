@@ -56,7 +56,7 @@
     }
     // logo five9
     .logofive9 {
-        max-width: 190px;
+        max-width: 140px;
         width: 100%;
         margin:16px auto 0;
     }
@@ -160,4 +160,15 @@
     .file-empty-error{
         color: red;
     }
+
+    // ommit bootstrap col-x, adding fixed with to sidebar and fluid to rightside
+    .sidebar{
+        width: 200px;
+        float: left;
+    }
+    .rightside{
+        float: left;
+        width: ~"calc(100% - 200px)"
+    }
+
 }
