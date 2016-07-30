@@ -4,16 +4,16 @@
 
 // table styles for main lists
 .al-theme {
-    .table-striped>tbody>tr.danger {
+    .table-striped tbody tr.danger {
         cursor: wait;
     }
-    .table-striped>tbody>tr.danger>td {
+    .table-striped tbody tr.danger>td {
         color: @color1;
         * {
             color: @color1;
         }
     }
-    .table-striped>tbody>tr {
+    .table-striped tbody tr {
         &:nth-child(even)>td {
             background-color: @table_even_row;
         }
@@ -27,7 +27,7 @@
             background-color: @table_odd_row;
         }
     }
-    .table>tbody>tr>td {
+    .table tbody tr td {
         transition: all .3s ease-out;       
         border-top: 1px solid @color0;
         color: #666666;
@@ -36,7 +36,7 @@
         padding: 7px 8px;
         vertical-align: middle;
     }
-    .table>tbody>tr {
+    .table tbody tr {
         &:last-child {
             td {
                 border-bottom: 1px solid @color0;
@@ -58,7 +58,24 @@
         vertical-align: bottom;
     }
 
+
+    .table.table-selectable{
+        tbody{
+            tr{
+                 cursor:pointer;
+            }
+            .rowselected {
+                 td{                
+                    background-color: #d4d4d4;
+                }
+            }
+        }
+    }
+
+
+
     .contact-list {
+
         tbody {
             tr>td {
                 cursor: default;
