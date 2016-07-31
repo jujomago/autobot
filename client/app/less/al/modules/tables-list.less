@@ -80,32 +80,47 @@
             tr>td {
                 cursor: default;
             }
-            tr>td.row-selected {
-                background-color: #dff0d8;
+            .rowselected {
+                 td{                
+                    background-color: #d4d4d4;
+                }
             }
         }
     }
+    .table-scrollable{
+        width: 100%;
+        border-spacing: 0;
+        thead, tbody, tr, th, td {
+            display: block;
+        }
+       thead tr {
+            /* fallback */
+            width: 97%;
+            /* minus scroll bar width */
+            width:~"calc(100% - 16px)";
+        }
 
-    #edit-list .contact-model-form{
-        max-height: 400px;
-        overflow-y: auto;
+        tr:after {  /* clearing float */
+            content: ' ';
+            display: block;
+            visibility: hidden;
+            clear: both;
+        }
+
+        tbody {
+            height: 280px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            td{
+                height: 39px;
+            }
+        }
+
+        tbody td, thead th {
+            width: 33.2%;  /* 33.2% is less than (100% / 3 cols) = 33.3% */
+            float: left;
+        }
+
     }
 
-    #edit-list .modal .modal-dialog .modal-content{
-        background: transparent;
-        box-shadow: none;
-        border: none;
-    }
-
-    #edit-list .modal .modal-dialog .modal-content .modal-header{
-        border: 0;
-    }
-
-    #edit-list .modal .modal-dialog .modal-header .modal-title{
-        color: @blue;
-    }
-
-    #edit-list .modal-backdrop.in{
-        opacity: 0.9;
-    }
 }

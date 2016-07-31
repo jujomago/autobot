@@ -146,7 +146,9 @@
         font-weight: normal;
     }
     .cell-select {
-        width: 100%;
+           width: 100%;
+            background: white;
+            border: 0;
     }
     .cell-checkbox {
         width: 18px;
@@ -304,6 +306,95 @@
     .rightside{
         float: left;
         width: ~"calc(100% - 200px)";
+    }
+
+
+    .header-table-mapping{
+          background: white;
+          border: 1px solid #ddd;
+          padding: 35px;
+          color:@grayforte;
+          margin-top: 20px;
+          .btn-primary{
+              border: 0;
+              border-radius: 0;
+              padding: 5px 18px;
+              margin-right: 13px;
+            //  margin-right: 7px;
+              &:disabled{
+                  color: white;
+              }
+          }
+        input,select{
+           background: white;
+           border: 1px solid @gray;
+           margin: 0 2px;
+           &:disabled{
+               background: @gray;
+           }
+        }
+    
+        label{
+            font-weight:normal;
+        }
+        span{
+                margin: 0 4px;
+        }
+        p{
+            margin:0;
+            display: flex; 
+            margin-bottom: 10px;
+                   
+        }
+        #contactSelect{
+            flex-grow: 1;
+        }
+    }
+
+    .contact-list {
+
+        tbody {
+            tr>td {
+                cursor: default;
+            }
+            tr>td.row-selected {
+                background-color: #dff0d8;
+            }
+        }
+    }
+
+    #edit-list .contact-model-form{
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    #edit-list .modal .modal-dialog .modal-content{
+        background: transparent;
+        box-shadow: none;
+        border: none;
+    }
+
+    #edit-list .modal .modal-dialog .modal-content .modal-header{
+        border: 0;
+    }
+
+    #edit-list .modal .modal-dialog .modal-header .modal-title{
+        color: @blue;
+    }
+
+    #edit-list .modal-backdrop.in{
+        opacity: 0.9;
+    }
+
+    .subtitle_section{
+        overflow: hidden;
+        margin-bottom: 20px;
+        h3{
+            font-weight: normal;
+            margin:0;
+            font-family: BrandonLight;
+        }
+
     }
 
 }
