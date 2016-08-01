@@ -7,16 +7,15 @@
 			this.appName = $stateParams.appName;		
 			this.message = { show: false };
 			_AppsService = AppsService;
-			this.appl={};
+			this.application = {};
 		}
 		$onInit() {
 			this.getApp();
-
 		}
 		getApp() {
 			return _AppsService.getApp(this.appName)
 				.then(response => {
-					this.appl=response.data;
+					this.application=response.data;
 				})
 				.catch(error => {
 					let theMsg = error.errorMessage;
@@ -30,7 +29,7 @@
 
 	angular.module('fakiyaMainApp')
 		.component('apppage', {
-			templateUrl: 'app/site/app-page/app-page.html',
+			templateUrl: 'app/site/apps/show/app-page.html',
 			controller: AppPageComponent
 		});
 
