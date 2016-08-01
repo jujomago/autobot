@@ -57,7 +57,7 @@
     // logo five9
     .logofive9 {
         width: 100%;
-        margin:0;
+        margin: 0;
     }
     .loader_indicator {
         max-width: 270px;
@@ -130,35 +130,157 @@
     h4 {
         font-weight: normal;
     }
-
-   .cell-select {
+    .cell-select {
         width: 100%;
+          background: white;
+            border: 0;
     }
     .cell-checkbox {
         width: 18px;
         height: 18px;
     }
-    .number-updown-width{
-        .abx-number-input{
+    .number-updown-width {
+        .abx-number-input {
             width: 92%;
             padding-right: 10px;
         }
-        .abx-number-arrows{
+        .abx-number-arrows {
             width: 8%;
             min-width: auto;
         }
-
     }
-
-
-
     //Add margin between settings components
-    .settings-container{
+    //Add margin between settings components
+    .settings-container {
+
         margin-top: 10px;
+        #csv-file{
+            display: none;
+        }
+        .settings-file-container{
+            font-size: 16px;
+            &>label{
+                color: black;
+                font-weight: normal;
+            }
+        }
+        &>div.upload-checkbox{
+            color: #666;
+        }
     }
-    .file-empty-error{
+
+    .settings-options-container{
+        a.toggle-link{
+            color: black;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+            &:hover{
+                color: black;
+            }
+        }
+        .settings-advanced-container{
+            margin-top: 20px;
+            input[type="radio"],input[type="checkbox"]{
+                margin-top: 10px;
+            } 
+            .sub-option{
+                padding-left: 20px;
+            }
+            .settings-well{
+                background-color: white;
+                &>div{
+                    color: #666;
+                }
+            }
+        }
+    }
+    .settings-text{
+        font-family: BrandonLight;
+    }
+    .settings-button-container{
+        text-align: center;
+    }
+    .file-empty-error {
         color: red;
     }
+    .button-container{
+        &>button.btn-black{
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+    }
+    //change password column style
+    .no-margin{
+    margin: 0;
+        &>div{
+            padding-left: 5px;
+            padding-right: 0;
+            &>input.btn-black{
+                width: 100%;
+                padding-left: 0;
+                padding-right: 0;
+                height: 35px;
+            }
+        }
+    }
+
+    //add Modal transparent
+    #modal-container{
+        .modal-content{
+            text-align: left;
+            background: transparent;
+            box-shadow: none;
+            border: none;
+        }
+        .modal-input{
+            width: 60%;
+        }
+        .modal-dialog{
+            margin: 60px auto;
+            margin-right: 0;
+            width: 70%;
+
+        }
+        .modal-header{
+            border: none;
+            .title_section{
+
+                margin-top: 35px;
+                margin-bottom: 2px;
+            }
+        }
+
+        .modal-backdrop.in {
+            opacity: 0.9;
+        }
+        .modal-button-container {
+
+            text-align: center;
+            display: block;
+            width: 60%;
+            margin-top: 30px;
+
+            &>button{
+
+                margin-left: 5px;
+                margin-right: 5px;
+            }
+        }
+
+        .error-message{
+
+            width: 60%;
+            margin-top: 20px;
+        }
+    }
+
+    input[disabled],button[disabled],select[disabled]{
+        color:#ccc;
+        cursor:not-allowed;
+    }
+
+
 
     // ommit bootstrap col-x, adding fixed with to sidebar and fluid to rightside
     .sidebar{
@@ -171,4 +293,93 @@
         width: ~"calc(100% - 200px)";
     }
 
+
+
+    .header-table-mapping{
+          background: white;
+          border: 1px solid #ddd;
+          padding: 35px;
+          color:@grayforte;
+          margin-top: 20px;
+          .btn-primary{
+              border: 0;
+              border-radius: 0;
+              padding: 5px 18px;
+              margin-right: 13px;
+            //  margin-right: 7px;
+              &:disabled{
+                  color: white;
+              }
+          }
+        input,select{
+           background: white;
+           border: 1px solid @gray;
+           margin: 0 2px;
+           &:disabled{
+               background: @gray;
+           }
+        }
+    
+        label{
+            font-weight:normal;
+        }
+        span{
+                margin: 0 4px;
+        }
+        p{
+            margin:0;
+            display: flex; 
+            margin-bottom: 10px;
+                   
+        }
+        #contactSelect{
+            flex-grow: 1;
+        }
+    }
+
+    .contact-list {
+
+        tbody {
+            tr>td {
+                cursor: default;
+            }
+            tr>td.row-selected {
+                background-color: #dff0d8;
+            }
+        }
+    }
+
+    #edit-list .contact-model-form{
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    #edit-list .modal .modal-dialog .modal-content{
+        background: transparent;
+        box-shadow: none;
+        border: none;
+    }
+
+    #edit-list .modal .modal-dialog .modal-content .modal-header{
+        border: 0;
+    }
+
+    #edit-list .modal .modal-dialog .modal-header .modal-title{
+        color: @blue;
+    }
+
+    #edit-list .modal-backdrop.in{
+        opacity: 0.9;
+    }
+
+    .subtitle_section{
+        overflow: hidden;
+        margin-bottom: 20px;
+        h3{
+            font-weight: normal;
+            margin:0;
+            font-family: BrandonLight;
+        }
+
+    }
 }

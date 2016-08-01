@@ -8,13 +8,23 @@ describe('Component: al.lists.mapping', function () {
   var MappingComponent, scope, _$httpBackend;
   var contactFieldService, window, endPointUrl,lodash;
 
-  var mockCSV = `llave,first_name,last_name,company
-                6643342368,Ken,Osborn,Five9
-                7777777777,Josue, Mancilla, Sinapsysit
-                3333333333,Boris,Bachas, ninguna
-                011555555555452,Brandon,Peto, none
-                6666666666,Jackie,Banda, none 
-                7777777777,Toto,Sullue, none`;
+  var mockCSV = `
+llave,llave2,first_name,last_name,company
+6643342368,44934,Ken,Osborn,Five9
+7777777777,,Josue, Mancilla, Sinapsysit
+3333333333,53,Boris,Bachas, ninguna
+664334368,5535632212,Ken,Osborn,Five9
+011555555555452,,Brandon,Peto, none
+6666666666,,Jackie,Banda, none 
+777777777798,,Toto,Sullue, non
+6643342368,,Ken,Osborn,Five9
+6666666,33,Jackie,Banda, other
+3222323233,,Jackie,Banda, other  
+`;
+  var mockDeleteSettigs={
+            fieldsMapping: [{columnNumber: 1, fieldName: 'number1', key: true}], 
+            listDeleteMode: 'DELETE_ALL'} ;
+
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($componentController, $rootScope, $httpBackend, $stateParams, $window, _ContactFieldsService_, appConfig,_lodash_) {
@@ -31,7 +41,12 @@ describe('Component: al.lists.mapping', function () {
 
 
     MappingComponent = $componentController('al.lists.mapping', {    
-      $stateParams: { settings: { csvData: mockCSV } },
+      $stateParams: { settings: 
+        { 
+          csvData: mockCSV, 
+          listDeleteSettings:mockDeleteSettigs 
+        } 
+      },
       $window: window,
       ContactFieldsService: contactFieldService,
       lodash:lodash
@@ -45,6 +60,8 @@ describe('Component: al.lists.mapping', function () {
   afterEach(function () {
     _$httpBackend.verifyNoOutstandingRequest();
   });
+
+
 
   describe('#getContactFields', () => {
 
@@ -61,6 +78,13 @@ describe('Component: al.lists.mapping', function () {
             'displayAs': 'Short',
             'mapTo': 'None',
             'name': 'first_name',
+            'system': true,
+            'type': 'STRING'
+          },
+          {
+            'displayAs': 'Short',
+            'mapTo': 'Something',
+            'name': 'last_name',
             'system': true,
             'type': 'STRING'
           }]
@@ -183,105 +207,69 @@ describe('Component: al.lists.mapping', function () {
     it('all sourceFields values should be null', () => {
       
       MappingComponent.contactFields = [
-        {'name': 'number1' },
-        {'name': 'number2' },
-        {'name': 'number3' },
-        {'name': 'first_name'},
-        {'name': 'last_name'},
-        {'name': 'company'}
+        {'name': 'number1' , mappedName:null , mappedIndex:0 },
+        {'name': 'number2' , mappedName:null , mappedIndex:0 },
+        {'name': 'number3' , mappedName:null , mappedIndex:0 },
+        {'name': 'first_name' , mappedName:null , mappedIndex:0 },
+        {'name': 'last_name' , mappedName:null , mappedIndex:0 },
+        {'name': 'company' , mappedName:null , mappedIndex:0 }
       ];
 
       MappingComponent.clearMapping();
-      let checkNullSources=MappingComponent.sourceFields.every(el=>(el===null));
+      let checkNullSources=MappingComponent.contactFields.every(el=>(el.mappedName===null && el.mappedIndex===0));
       expect(checkNullSources).to.equal(true);      
    });
 
 
   });
 
-  describe('#validateMappingKeyFields', () => {
 
-    it('2 keys selected but not mapped to source field', () => {
-
-      MappingComponent.contactFields = [
-        {'name': 'number1' },
-        {'name': 'number2' },
-        {'name': 'number3' },
-        {'name': 'first_name'},
-        {'name': 'last_name'},
-        {'name': 'company'}
-      ];
-      
-      let testKeyFiedls=['number2','last_name'];
-
-       MappingComponent.sourceFields = [
-        {'name': 'number1' },
-        null,
-        {'name': 'number3' },
-        {'name': 'first_name'},
-        null,
-        {'name': 'company'}
-      ];
- 
-
-      MappingComponent.hasHeader=true;
-
-      let resultV=MappingComponent.validateMappingKeyFields(testKeyFiedls);
-
-      expect(resultV).to.equal(false);
-  
-   });
-
-
-   it('3 keys selected but and mapped to source fields', () => {
-
-      MappingComponent.contactFields = [
-        {'name': 'number1' },
-        {'name': 'number2' },
-        {'name': 'number3' },
-        {'name': 'first_name'},
-        {'name': 'last_name'},
-        {'name': 'company'}
-      ];
-      
-      let testKeyFiedls=['number2','last_name','company'];
-
-       MappingComponent.sourceFields = [
-        null,
-        {'name': 'number2' },
-        {'name': 'number3' },
-        {'name': 'first_name'},
-        {'name': 'last_name'},
-        {'name': 'company'}
-      ];
- 
-
-      MappingComponent.hasHeader=true;
-
-      let resultV=MappingComponent.validateMappingKeyFields(testKeyFiedls);
-
-      expect(resultV).to.equal(true);
-  
-   });
-
-
-  });
 
  describe('#finishMap', () => {
 
   it('contacts fields key valids and send delete settings', () => {
 
       MappingComponent.contactFields = [       
-        {name: 'number2',mappedName: 'number2',isKey:true},
+        {name: 'number2',mappedName: 'llave2',isKey:true},
         {name: 'number3',mappedName: null },
         {name: 'first_name',mappedName: 'first_name'},
-        {name: 'last_name',mappedName: 'last_name'},
+        {name: 'last_name',mappedName: 'last_name',isKey:true},
         {name: 'company',mappedName: 'company'}
       ];     
-      MappingComponent.finishMap();
-      expect(MappingComponent.dataToSend.listDeleteSettings).to.not.equal(null);
-      expect(undefined).to.equal(MappingComponent.dataToSend.listUpdateSettings); 
-      expect(MappingComponent.dataToSend.listDeleteSettings).to.not.eql(mockDeleteSettigs);     
+      
+      let resultFinish=MappingComponent.finishMap();
+
+      let headerFields=resultFinish.resultMapping.headerFields;
+      let rows=resultFinish.resultMapping.rows;
+      let fieldsMapping=resultFinish.fieldsMapping;
+
+
+      expect(resultFinish.listDeleteSettings).to.not.equal(null);
+      expect(undefined).to.equal(resultFinish.listUpdateSettings); 
+      expect(resultFinish.listDeleteSettings).to.eql(mockDeleteSettigs);  
+
+      expect(headerFields).to.have.lengthOf(2);
+      expect(resultFinish.resultMapping.keys).to.eql(['number2','company']);
+     
+
+      expect(headerFields).to.have.lengthOf(4);
+      
+      expect(headerFields[0].name).to.equal('number2');
+      expect(headerFields[1].name).to.equal('first_name');
+      expect(headerFields[2].name).to.equal('last_name');
+      expect(headerFields[3].name).to.equal('company');
+
+      expect(fieldsMapping).to.have.lengthOf(4);
+      expect(fieldsMapping[0]).to.eql({columnNumber:2,fieldName:'number2',key:true});
+      expect(fieldsMapping[1]).to.eql({columnNumber:3,fieldName:'first_name',key:false});
+      expect(fieldsMapping[2]).to.eql({columnNumber:4,fieldName:'last_name',key:true});
+      expect(fieldsMapping[3]).to.eql({columnNumber:5,fieldName:'company',key:false});
+      
+      expect(rows).to.have.lengthOf(7);
+      expect(rows[0]).to.eql({number2:'',first_name:'Josue',last_name:'Mancilla',company:'Sinapsysit'});
+      expect(rows[1]).to.eql({number2:'5535632212',first_name:'Ken',last_name:'Osborn',company:'Five9'});
+      expect(rows[2]).to.eql({number2:'',first_name:'Brandon',last_name:'Peto',company:'none'});
+
    });
 
 
@@ -294,12 +282,53 @@ describe('Component: al.lists.mapping', function () {
         {name: 'last_name',mappedIndex: 2},
         {name: 'company',mappedIndex: 1}
       ];     
-      expect(MappingComponent.finishMap()).to.equal(false);
-      
+      expect(MappingComponent.finishMap()).to.equal(null);
+      expect(this.message.show).to.equal(true);
+      expect(this.message.expires).to.equal(8000);
    });
 
   });
 
+ describe('#removeSelectedItem', () => {
+
+    it('remove selected item from table', () => {
+
+      this.selectedRow=3;
+      
+      MappingComponent.contactFields = [
+        {'name': 'number1' , mappedName:null , mappedIndex:0 },
+        {'name': 'number2' , mappedName:null , mappedIndex:0 },
+        {'name': 'number3' , mappedName:null , mappedIndex:0 },
+        {'name': 'first_name' , mappedName:null , mappedIndex:0 },
+        {'name': 'last_name' , mappedName:null , mappedIndex:0 },
+        {'name': 'company' , mappedName:null , mappedIndex:0 }
+      ];
+
+      expect(MappingComponent.contactFields).to.have.lengthOf(6);    
+      expect(MappingComponent.removeSelectedItem()).to.equal(true);
+      expect(MappingComponent.contactFields).to.have.lengthOf(5);    
+ 
+   });
+   it('cat remove selected item from table', () => {
+
+      this.selectedRow=10;
+      
+      MappingComponent.contactFields = [
+        {'name': 'number1' , mappedName:null , mappedIndex:0 },
+        {'name': 'number2' , mappedName:null , mappedIndex:0 },
+        {'name': 'number3' , mappedName:null , mappedIndex:0 },
+        {'name': 'first_name' , mappedName:null , mappedIndex:0 },
+        {'name': 'last_name' , mappedName:null , mappedIndex:0 },
+        {'name': 'company' , mappedName:null , mappedIndex:0 }
+      ];
+
+      expect(MappingComponent.contactFields).to.have.lengthOf(6);    
+      expect(MappingComponent.removeSelectedItem()).to.equal(false);
+      expect(MappingComponent.contactFields).to.have.lengthOf(5);    
+ 
+   });
+
+  });
 
 
 });
