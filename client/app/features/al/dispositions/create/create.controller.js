@@ -20,6 +20,9 @@
 			_$state = $state;
 			_DispositionsService = DispositionsService;
 		}
+		$onInit(){
+			angular.element('#name').focus();
+		}
 		clearGroup(){
 			this.groupActive='';
 		}
