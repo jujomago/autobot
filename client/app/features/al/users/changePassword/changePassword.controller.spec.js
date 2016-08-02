@@ -55,7 +55,21 @@ describe('Component: ChangePasswordComponent', function () {
     _ChangePasswordComponent.save();
     expect(_ChangePasswordComponent.message.show).to.equal(true);
     expect(_ChangePasswordComponent.message.type).to.equal('danger');
-    expect(_ChangePasswordComponent.message.text).to.equal('Passwords did not match');
+    expect(_ChangePasswordComponent.message.text).to.equal('Passwords should match');
+  });
+  it('should show message error if password is equal to userName', function () {
+    let modalInstance = _$uibModal.open({
+                          controllerAs: '$ctrl',
+                          template: '<al.users.changePassword></al.users.changePassword>',
+                        });
+    _ChangePasswordComponent.instance = modalInstance;
+    _ChangePasswordComponent.userName = 'username';
+    _ChangePasswordComponent.password = 'username';
+    _ChangePasswordComponent.confirm = 'username';
+    _ChangePasswordComponent.save();
+    expect(_ChangePasswordComponent.message.show).to.equal(true);
+    expect(_ChangePasswordComponent.message.type).to.equal('danger');
+    expect(_ChangePasswordComponent.message.text).to.equal('Password cannot match customer name');
   });
 
 });
