@@ -13,7 +13,7 @@
             <div class="inputminimal" ng-class="{ 'has-error': dispositionForm.name.$invalid && dispositionForm.$submitted }">
                 <label for="firstName" >Name*</label>
                 <div>
-                    <input autofocus type="text" name="name" id="name" required ng-model="$ctrl.disposition.name">
+                    <input autofocus type="text" maxlength="250" name="name" id="name" required ng-model="$ctrl.disposition.name" abx-pattern-filter="/^[^\`~&%#,|()_':;?[/}=\]&quot;{*>!\\+<^]*$/">
                  </div>
             </div>
             <div ng-messages="dispositionForm.name.$error" ng-show="dispositionForm.$submitted">                  
