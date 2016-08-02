@@ -1,10 +1,14 @@
-<h3 class="title_section">Lists: {{$ctrl.sendContact.listName}}</h3>
+<h3 class="title_section">Lists: <span>{{$ctrl.sendContact.listName}}</span></h3>
 
 <abx-message msg="$ctrl.message"></abx-message>
 
-<abx-load-indicator ng-show="$ctrl.manual && ($ctrl.list.length==0 && !$ctrl.message.show)" text="Loading List"></abx-load-indicator>
+<abx-load-indicator ng-show="!$ctrl.manual && ($ctrl.list.length==0 && $ctrl.message.show)" text="Loading List"></abx-load-indicator>
 
-<div>
+<abx-load-indicator ng-show="$ctrl.manual && $ctrl.loadingContacts" text="Loading List"></abx-load-indicator>
+
+<abx-load-indicator ng-show="$ctrl.sending" text="Sending"></abx-load-indicator>
+
+<div ng-show="!$ctrl.sending && $ctrl.loaded">
 
     <div class="pull-left">
         <div class="mywell">
@@ -20,17 +24,18 @@
 
     <div class="pull-right">
         <div class="mywell text-right">
-            <a class="btn btn-black" ng-click="$ctrl.cancelList">Cancel</a>    
+            <a class="btn btn-black" ng-click="$ctrl.cancelList()">Cancel</a>    
         </div>
-        <div class="mywell">
-            <a class="btn btn-black" ng-click="$ctrl.insertContact()">Insert</a>
+        <div class="mywell" ng-show="!$ctrl.loadingContacts || !$ctrl.manual">
+            <a class="btn btn-black" ng-if="$ctrl.manual" ng-click="$ctrl.insertContact()">Insert</a>
+            <a class="btn btn-black" ng-if="!$ctrl.manual" ng-click="$ctrl.insertContact()" ng-disabled="$ctrl.error">Insert</a>
             <a class="btn btn-black" ng-disabled="$ctrl.selectedArray.length === 0 || $ctrl.selectedArray.length > 1" ng-click="$ctrl.editContact($ctrl.selected)">Edit</a>
             <button class="btn btn-black" ng-disabled="$ctrl.selectedArray.length < 1" ng-click="$ctrl.deleteContact()">Delete</button>
             <button class="btn btn-black" ng-click="$ctrl.shuffleList()" ng-disabled="$ctrl.filteredList.length===0">Shuffle</button>
         </div>
     </div>
 
-    <div class="table-responsive" ng-show="$ctrl.list.length>0">
+    <div class="table-responsive table-x-scroll" ng-show="$ctrl.list.length>0">
         <table class="table table-striped contact-list" ng-show="$ctrl.filteredList.length">
             <thead>
                 <th ng-click="$ctrl.sortColumn(header.name)" ng-repeat="header in $ctrl.importData.fields" class="sortColumn">
