@@ -58,21 +58,12 @@ sidebar {
 
 
 
-//*IE remove X from imput flieds
+//*IE remove X from alls
 
-input[type=text],input[name=userName]  {
-    &::-ms-clear {
-        display: none;       
-    }
-}
-
-input[type=password], input[name=password]{
-    &::-ms-reveal {
-        display: none;        
-    }
-     &::-ms-clear {
-        display: none;       
-    }
+::-ms-clear, ::-ms-reveal {
+   display: none;
+   width : 0;
+   height: 0;
 }
 
 // removes dotted outlines

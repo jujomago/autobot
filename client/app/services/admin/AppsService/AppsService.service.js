@@ -24,6 +24,16 @@
             })
             .catch(err => handleError(err, result));
         }
+        getApp(appName){
+        
+          let result = { data: null, statusCode: 200, errorMessage: null };
+          return _$http.get(`/api/admin/apps/${appName}`)
+            .then(response => {
+            	result.data = response.data;
+            	return result;
+            })
+            .catch(err => _handleError(err, result));
+        }
 
     }
     AppsService.$inject = ['$http','$q'];
