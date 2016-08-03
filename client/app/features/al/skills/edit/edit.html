@@ -7,7 +7,7 @@
 
 
 <uib-tabset active="active1" justified="false" ng-hide="!$ctrl.found">
-    <uib-tab index="0" heading="General" select="$ctrl.showSkill()">
+    <uib-tab index="0" heading="Details" select="$ctrl.showSkill()">
         <div ng-show="$ctrl.found">
 
             <form class="custom_form form-horizontal" ng-submit="$ctrl.save()">
@@ -51,13 +51,13 @@
     <uib-tab index="1" heading="Users" select="$ctrl.listUsers()">
 
         <p>
-            <label>Assign Users for this Skill:</label>{{::$ctrl.selectedSkill.name}}
+            <label>Assign Users for this Skill:</label> {{::$ctrl.selectedSkill.name}}
         </p>
         
         
           <abx-message msg="$ctrl.message"></abx-message>     
         <div class="row">
-            <div class="col-xs-3">
+            <div class="col-sm-12 col-md-4 ">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <strong>Users Assigned</strong>
@@ -80,7 +80,7 @@
                     </div>
                 </div>
             </div>
-            <div class="listaUsers col-xs-9">
+            <div class="listaUsers ol-sm-12 col-md-8">
                 <h4 ng-show="$ctrl.filteredUsers.length===0">
                     <label class="label label-info">Loading Users...</label>
                 </h4>

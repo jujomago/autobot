@@ -266,9 +266,9 @@ llave,llave2,first_name,last_name,company
       expect(fieldsMapping[3]).to.eql({columnNumber:5,fieldName:'company',key:false});
       
       expect(rows).to.have.lengthOf(7);
-      expect(rows[0]).to.eql({number2:'',first_name:'Josue',last_name:'Mancilla',company:'Sinapsysit'});
-      expect(rows[1]).to.eql({number2:'5535632212',first_name:'Ken',last_name:'Osborn',company:'Five9'});
-      expect(rows[2]).to.eql({number2:'',first_name:'Brandon',last_name:'Peto',company:'none'});
+      expect(rows[0]).to.eql({number2:'','first_name':'Josue','last_name':'Mancilla','company':'Sinapsysit'});
+      expect(rows[1]).to.eql({number2:'5535632212','first_name':'Ken','last_name':'Osborn','company':'Five9'});
+      expect(rows[2]).to.eql({number2:'','first_name':'Brandon','last_name':'Peto','company':'none'});
 
    });
 
