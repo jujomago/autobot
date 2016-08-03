@@ -17,7 +17,6 @@ class ListComponent {
       this.filteredList=[];
       this.list = [];
       this.contact = {};
-      this.hasMapping = false;
       this.selected = '';
       this.selectedOld = '';
       this.selectedArray = [];
@@ -27,6 +26,10 @@ class ListComponent {
       this.contactFields = [];
       this.fieldsMapping = [];
       this.loadingContacts = true;
+      this.listManual = {};
+      this.sending = false;
+      this.error = false;
+      this.loaded = false;
       _$state = $state;
       _$stateParams = $stateParams;
       _$filter = $filter;
@@ -36,20 +39,22 @@ class ListComponent {
       _ContactFieldsService = ContactFieldsService;
       _ = lodash;
       
-      if(_$stateParams.settings && _$stateParams.settings.resultMapping){
-        
-        if(_$stateParams.manual){
+      if(_$stateParams.settings){
+        if(_$stateParams.settings.resultMapping){
+          this.importData.fields = _$stateParams.settings.resultMapping.headerFields;
+          this.importData.keys = _$stateParams.settings.resultMapping.keys;
+          this.importData.rows = _$stateParams.settings.resultMapping.rows;
+          this.list = this.importData.rows;
+          this.loaded = true;
+        }else{
           this.manual = true;
-          this.getContactFiels();  
+          this.getContactFiels();
         }
 
-        this.importData.fields = _$stateParams.settings.resultMapping.headerFields;
-        this.importData.keys = _$stateParams.settings.resultMapping.keys;
-        this.importData.rows = _$stateParams.settings.resultMapping.rows;
-        this.list = this.importData.rows;
         this.sendContact.listName = _$stateParams.name;
       }else{
-        let theMsg = 'Bad params'; 
+        let theMsg = 'Bad params';
+        this.error = true;
         this.message={ show: true, type: 'warning', text: theMsg, expires: 3000};
       }
   }
@@ -103,8 +108,6 @@ class ListComponent {
       this.selected = contact;
       this.selectedOld = contact;
     }
-
-    console.log(this.selectedArray);
   }
 
   insertContact(){
@@ -155,9 +158,25 @@ class ListComponent {
     this.modalInstance.result.then(function (result) {
       if(typeof result !== 'undefined' && Object.keys(result).length > 0){
         if(ctrl.method === 'create'){
-          ctrl.importData.rows.push(result);
+          if(ctrl.manual){
+            let listManualCopy = angular.copy(ctrl.listManual);
+            _.map(result, (value, key)=>{
+              listManualCopy[key] = value;
+            }, ctrl);
+            ctrl.list.push(listManualCopy);
+          }else{
+            ctrl.list.push(result);
+          }
         }else{
-          ctrl.importData.rows[ctrl.selected] = result;
+          if(ctrl.manual){
+            let listManualCopy = angular.copy(ctrl.listManual);
+            _.map(result, (value, key)=>{
+              listManualCopy[key] = value;
+            }, ctrl);
+            ctrl.list[ctrl.selected] = listManualCopy;
+          }else{
+            ctrl.list[ctrl.selected] = result;
+          }
         }
       }
       ctrl.selected = '';
@@ -176,12 +195,14 @@ class ListComponent {
     let list = [];
     let items = [];
     let elements = [];
+    let listUpdateSettings;
+    let listDeleteSettings;
 
     let mainList = angular.copy(this.list);
 
     list = _.map(mainList, value => {
         elements = _.map(value, (elem) => {
-            return elem;
+              return elem;
         });
         return elements;
     });
@@ -194,22 +215,21 @@ class ListComponent {
 
     if(_$stateParams.settings.listUpdateSettings){
       //UPDATE
-      let listUpdateSettings = {fieldsMapping: [{columnNumber: 1, fieldName: 'number1', key: true}, {columnNumber: 2, fieldName: 'first_name', key: false}, {columnNumber: 3, fieldName: 'last_name', key: false}, {columnNumber: 4, fieldName: 'email', key: false}], cleanListBeforeUpdate: false, crmAddMode: 'ADD_NEW', crmUpdateMode: 'DONT_UPDATE', listAddMode: 'ADD_FIRST'};
-      if(this.manual){
-        listUpdateSettings = _$stateParams.settings.listUpdateSettings;
-        listUpdateSettings.fieldsMapping = this.fieldsMapping;
-      }else{
-        listUpdateSettings = listUpdateSettings;
-        listUpdateSettings.fieldsMapping = _$stateParams.settings.fieldsMapping;
-      }
-
+      listUpdateSettings = _$stateParams.settings.listUpdateSettings;
       this.sendContact.listUpdateSettings = listUpdateSettings;
-
+      if(this.manual){
+        this.sendContact.listUpdateSettings.fieldsMapping = this.fieldsMapping;
+      }else{
+        this.sendContact.listUpdateSettings.fieldsMapping = _$stateParams.settings.fieldsMapping;
+      }
+      console.log(this.sendContact);
+      this.sending= true;
       return _ListService.addContacts(this.sendContact)
           .then(response=>{  
               if(response.statusCode === 201){
                   if(response.data.return.identifier){
-                    _$state.go('ap.al.listsEdit', {identifier: response.data.return.identifier});     
+                    this.sending= false;
+                    _$state.go('ap.al.listsEdit', {name: this.sendContact.listName, identifier: response.data.return.identifier});     
                   }
               }
               else{
@@ -222,22 +242,21 @@ class ListComponent {
 
     }else{
       //DELETE
-      let listDeleteSettings = {fieldsMapping: [{columnNumber: 1, fieldName: 'number1', key: true}, {columnNumber: 2, fieldName: 'first_name', key: false}, {columnNumber: 3, fieldName: 'last_name', key: false}, {columnNumber: 4, fieldName: 'email', key: false}], listDeleteMode: 'DELETE_ALL'};
-      if(this.manual){
-        listDeleteSettings = _$stateParams.settings.listDeleteSettings;
-        listDeleteSettings.fieldsMapping = this.fieldsMapping;
-      }else{
-        listDeleteSettings = listDeleteSettings;
-        listDeleteSettings.fieldsMapping = _$stateParams.settings.fieldsMapping;
-      }
-
+      listDeleteSettings = _$stateParams.settings.listDeleteSettings;
       this.sendContact.listDeleteSettings = listDeleteSettings;
+      if(this.manual){
+        this.sendContact.listDeleteSettings.fieldsMapping = this.fieldsMapping;
+      }else{
+        this.sendContact.listDeleteSettings.fieldsMapping = _$stateParams.settings.fieldsMapping;
+      }
+      console.log(this.sendContact);
+      this.sending= true;
       return _ListService.deleteContacts(this.sendContact)
           .then(response=>{  
               if(response.statusCode === 200){
-                  console.log(response);
                   if(response.data.return.identifier){
-                    _$state.go('ap.al.listsEdit', {identifier: response.data.return.identifier});     
+                    this.sending= false;
+                    _$state.go('ap.al.listsEdit', {name: this.sendContact.listName, identifier: response.data.return.identifier});     
                   }
               }
               else{
@@ -248,26 +267,35 @@ class ListComponent {
               return response;
       });
     }
-    console.log(this.sendContact);
   }
 
   cancelList(){
-    _$state.go('ap.al.listsEdit', {});
+    if(_$stateParams.name){
+      _$state.go('ap.al.listsEdit', {name: _$stateParams.name});
+    }else{
+      _$state.go('ap.al.lists', {});
+    }
   }
 
   initArrays() {
       let cont = 1;
       let key = false;
+      let listManual = {};
       console.log('initialized arrays');
       if (this.contactFields) {
           _.map(this.contactFields, value=>{
             if(value.name === 'number1'){
               key = true;
+            }else{
+              key = false;
             }
+            listManual[value.name] = '';
             this.fieldsMapping.push({columnNumber: cont, fieldName: value.name, key: key});
             cont++;
           });
-          console.log(this.fieldsMapping);
+          this.importData.fields = this.contactFields;
+          this.listManual = listManual;
+          this.loaded = true;
       }
   }
 
