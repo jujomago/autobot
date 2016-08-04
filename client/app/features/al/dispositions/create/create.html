@@ -17,12 +17,12 @@
                  </div>
             </div>
             <div ng-messages="dispositionForm.name.$error" ng-show="dispositionForm.$submitted">                  
-                        <p ng-message="required">This field is required</p>
+                        <p class="no-padding-error" ng-message="required">This field is required</p>
             </div>
             <div class="inputminimal" ng-class="{ 'has-error': dispositionForm.name.$invalid && dispositionForm.$submitted }"> 
 	            <label for="description">Description</label>
 	            <div>
-	                <input type="text"  name="description" id="description"  ng-model="$ctrl.disposition.description">
+	                <input type="text"  name="description" maxlength="250" id="description"  ng-model="$ctrl.disposition.description">
 	                    
 	            </div>
 	        </div>         
@@ -180,8 +180,8 @@
         </div>
     </uib-tab> 
 </uib-tabset>
-<div class="form-group text-center">
+<div class="form-group text-center button-container">
   <button type="submit" class="btn btn-black" ng-disabled="$ctrl.SubmitText=='Saving...'">{{$ctrl.SubmitText}}</button>
-  <button type="button" class="btn btn-black" ui-sref="ap.al.dispositions">Cancel</button>  
+  <button type="button" class="btn btn-black" ui-sref="ap.al.dispositions">Cancel</button> 
 </div>
 </form>
