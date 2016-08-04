@@ -6,6 +6,7 @@ angular.module('fakiyaMainApp')
       templateUrl: 'app/directives/abxLoadIndicator/abxLoadIndicator.html',
       restrict: 'E',     
       link: function (scope, element, attrs) {
+
         if(attrs.text){
            element.find('p').html(attrs.text);
         }
