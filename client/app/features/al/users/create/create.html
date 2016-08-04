@@ -13,7 +13,7 @@
 
 <form name="userForm" class="custom_form form-horizontal" novalidate autocomplete="off"  ng-submit="userForm.$valid && $ctrl.save()">
 <uib-tabset  justified="false">
-    <uib-tab index="0" heading="General">
+    <uib-tab index="0" heading="Details">
        
              <div class="inputminimal" ng-class="{ 'has-error': userForm.firstName.$invalid && userForm.$submitted }">
                 <label for="firstName" >First Name*</label>
@@ -27,8 +27,7 @@
             <div  class="inputminimal"  ng-class="{ 'has-error': userForm.lastName.$invalid && userForm.$submitted }">
                 <label for="lastName" >Last Name*</label>
                 <div>
-                    <input type="text"  name="lastName" id="lastName"  ng-model="$ctrl.newUser.lastName" required>
-                        
+                    <input type="text"  name="lastName" id="lastName"  ng-model="$ctrl.newUser.lastName" required>                        
                 </div>
             </div>
              <div ng-messages="userForm.lastName.$error" ng-show="userForm.$submitted">                  
