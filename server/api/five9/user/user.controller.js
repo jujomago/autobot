@@ -77,6 +77,17 @@ export function deleteSkillUser(req, res) {
 
 }
 
+export function updateSkillUser(req, res) {
+    console.log('SERVER updateSkillUser')
+    var params = { userSkill: req.body }
+    return service.f9CallService('userSkillModify', params, '', req)
+        .then(data => {
+            res.status(200).json(data);
+        })
+        .catch(service.handleError(res));
+
+}
+
 // Creates a new User in the DB
 export function create(req, res) {
     var params = req.body;
