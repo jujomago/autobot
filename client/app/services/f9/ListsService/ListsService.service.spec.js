@@ -160,4 +160,55 @@ describe('Service: ListsService', function () {
         });
         httpBackend.flush();
     });
+    it('should return running status', function () {
+        httpBackend.whenGET(endPointUrl+'/contacts/result/running/123-abc-456').respond(200, {
+            return: false
+        });
+        ListsService.isImportRunning('123-abc-456').then(result => {
+            expect(null).to.not.equal(result);
+            expect(undefined).to.not.equal(result);
+            expect(undefined).to.not.equal(result.data);
+            expect(result.data).to.equal(false);
+            expect(result.statusCode).to.equal(200);
+            expect(result.errorMessage.length).to.equal(0);
+        });
+        httpBackend.flush();
+    });
+    it('should return running status after waitTime', function () {
+        httpBackend.whenGET(endPointUrl+'/contacts/result/running/123-abc-456?waitTime=5').respond(200, {
+            return: false
+        });
+        ListsService.isImportRunning('123-abc-456', 5).then(result => {
+            expect(null).to.not.equal(result);
+            expect(undefined).to.not.equal(result);
+            expect(undefined).to.not.equal(result.data);
+            expect(result.data).to.equal(false);
+            expect(result.statusCode).to.equal(200);
+            expect(result.errorMessage.length).to.equal(0);
+        });
+        httpBackend.flush();
+    });
+
+    it('should return result', function () {
+        httpBackend.whenGET(endPointUrl+'/contacts/result/123-abc-456').respond(200, {
+            return: {
+                        uploadDuplicatesCount: '0',
+                        uploadErrorsCount: '2',
+                        listRecordsDeleted: '5',
+                        listRecordsInserted: '0'
+                    }
+        });
+        ListsService.getResult('123-abc-456').then(result => {
+            expect(null).to.not.equal(result);
+            expect(undefined).to.not.equal(result);
+            expect(undefined).to.not.equal(result.data);
+            expect(result.data.uploadDuplicatesCount).to.equal('0');
+            expect(result.data.uploadErrorsCount).to.equal('2');
+            expect(result.data.listRecordsDeleted).to.equal('5');
+            expect(result.data.listRecordsInserted).to.equal('0');
+            expect(result.statusCode).to.equal(200);
+            expect(result.errorMessage.length).to.equal(0);
+        });
+        httpBackend.flush();
+    });
 });

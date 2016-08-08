@@ -6,6 +6,7 @@ describe('Controller: SettingsComponent', function () {
   beforeEach(module('fakiyaMainApp'));
 
   var SettingsComponent, listService,endPointUrl,_$httpBackend,_$scope, _$state;
+  var mockModal;
   beforeEach(inject(function ($componentController, $rootScope, $state, $httpBackend, $stateParams, _ListsService_, appConfig) {
     _$scope = $rootScope.$new();
     _$httpBackend = $httpBackend;
@@ -14,12 +15,16 @@ describe('Controller: SettingsComponent', function () {
       endPointUrl = appConfig.apiUri + '/f9/lists';
     }
     _$state = $state;
-
+    mockModal= {open: sinon.stub()};
+    var _AlertMessage = function(){
+      mockModal.open();
+    };
     SettingsComponent = $componentController('al.lists.settings', {
       $scope: _$scope,
       $stateParams: { message: null },
       $state: _$state,
-      ListsService: listService
+      ListsService: listService,
+      AlertMessage: _AlertMessage
     });
     _$httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
   }));
@@ -52,6 +57,95 @@ describe('Controller: SettingsComponent', function () {
           expect(SettingsComponent.found).to.equal(false);
           expect(response.statusCode).to.equal(404);
         });
+      _$httpBackend.flush();
+    });
+  });
+
+
+  describe('#getResult', () => {
+    beforeEach(function () {
+      _$httpBackend.whenGET(endPointUrl+'/contacts/result/running/123-abc-456?waitTime=300').respond(200, {
+            return:  false
+      }); 
+      _$httpBackend.whenGET(endPointUrl + '/testList').respond(200, {
+            return: { 'name': 'testList', 'size': 7}
+        });
+    });
+    it('get result nothing changed update', () => {
+      _$httpBackend.whenGET(endPointUrl+'/contacts/result/123-abc-456').respond(200, {
+            return: {
+                        uploadDuplicatesCount: '5',
+                        uploadErrorsCount: '0',
+                        listRecordsDeleted: '0',
+                        crmRecordsInserted: '0',
+                        crmRecordsUpdated: '0',
+                        listRecordsInserted: '0',
+                        warningsCount: null
+                    }
+      });
+      SettingsComponent.getResult('123-abc-456','testList', true)
+        .then(response => {
+          expect(response.summaryMessage.title).to.equal('Summary');
+          expect(response.summaryMessage.body).to.equal('Update for list "testList" has been succesfully completed.');
+          expect(response.summaryMessage.list[0]).to.equal('Nothing was changed during the update.');
+          expect(response.summaryMessage.list[1]).to.equal('5 lines with duplicate keys found');
+          expect(response.summaryMessage.list[2]).to.equal('5 ERRORS FOUND');
+          expect(response.summaryMessage.list[3]).to.equal('No warnings found');
+          expect(response.statusCode).to.equal(200);
+          expect(mockModal.open.calledOnce).to.equal(true);
+        });
+
+      _$httpBackend.flush();
+    });
+    it('get delete result with warnings', () => {
+      _$httpBackend.whenGET(endPointUrl+'/contacts/result/123-abc-456').respond(200, {
+            return: {
+                        uploadDuplicatesCount: '7',
+                        uploadErrorsCount: '0',
+                        listRecordsDeleted: '7',
+                        crmRecordsInserted: '0',
+                        crmRecordsUpdated: '0',
+                        listRecordsInserted: '0',
+                        warningsCount: {entry: [{value: 'warning 1'},{value: 'warning 2'}]}
+                    }
+      });
+      SettingsComponent.getResult('123-abc-456','testList', false)
+        .then(response => {
+          expect(response.summaryMessage.title).to.equal('Summary');
+          expect(response.summaryMessage.body).to.equal('Delete for list "testList" has been succesfully completed.');
+          expect(response.summaryMessage.list[0]).to.equal('Call List records deleted: 7');
+          expect(response.summaryMessage.list[1]).to.equal('7 lines with duplicate keys found');
+          expect(response.summaryMessage.list[2]).to.equal('7 ERRORS FOUND');
+          expect(response.summaryMessage.list[3]).to.equal('2 WARNINGS FOUND');
+          expect(response.statusCode).to.equal(200);
+          expect(mockModal.open.calledOnce).to.equal(true);
+        });
+
+      _$httpBackend.flush();
+    });
+    it('get update and delete result without warnings and errors', () => {
+      _$httpBackend.whenGET(endPointUrl+'/contacts/result/123-abc-456').respond(200, {
+            return: {
+                        uploadDuplicatesCount: '0',
+                        uploadErrorsCount: '0',
+                        listRecordsDeleted: '7',
+                        crmRecordsInserted: '0',
+                        crmRecordsUpdated: '5',
+                        listRecordsInserted: '3',
+                        warningsCount: null
+                    }
+      });
+      SettingsComponent.getResult('123-abc-456','testList', true)
+        .then(response => {
+          expect(response.summaryMessage.title).to.equal('Summary');
+          expect(response.summaryMessage.body).to.equal('Update for list "testList" has been succesfully completed.');
+          expect(response.summaryMessage.list[0]).to.equal('Contact Records updated: 5, Call List records deleted: 7, Call List records inserted: 3');
+          expect(response.summaryMessage.list[1]).to.equal('No errors found');
+          expect(response.summaryMessage.list[2]).to.equal('No warnings found');
+         expect(response.statusCode).to.equal(200);
+         expect(mockModal.open.calledOnce).to.equal(true);
+        });
+
       _$httpBackend.flush();
     });
   });

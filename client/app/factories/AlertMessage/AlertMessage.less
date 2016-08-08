@@ -1,0 +1,58 @@
+.modal-summary{
+    &.modal {
+      text-align: center;
+      padding: 0;
+    }
+    &.modal:before {
+      content: '';
+      display: inline-block;
+      height: 100%;
+      vertical-align: middle;
+      margin-right: -4px;
+    }
+    .modal-backdrop.in {
+        opacity: 0.5;
+    }
+    .modal-body{
+        padding: 0px;
+        padding-top: 5px;
+        font-family: BrandonRegular;
+        font-size: 18px;
+        &>div{
+            ul{
+                padding-left: 17px;
+            }
+        }
+    }
+    .modal-hs{
+        width: 500px;
+    }
+    .modal-content{
+        border-radius: 0px;
+        padding-left: 50px;
+        padding-bottom: 20px;
+        .modal-button-container{
+            text-align: center;
+        }
+    }
+    .modal-header{
+        padding: 0px;
+        padding-top: 10px;
+        border-bottom: 0px;
+        .modal-title{
+            text-align: center;
+            font-size: 21px;
+        }
+        .close-container{
+            text-align: right;
+            .close{
+                float: none;
+            }
+        }
+    }
+    .modal-dialog {
+      display: inline-block;
+      text-align: left;
+      vertical-align: middle;
+    }
+}
