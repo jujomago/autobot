@@ -1,10 +1,18 @@
 'use strict';
 (function () {
-    let _$http;
-
+    let _$http, _$q;
+    function _handleError(err, result) {
+        result.errorMessage = err.data;
+        result.statusCode = err.status;
+        let defered = _$q.defer();
+        let promise = defered.promise;
+        defered.reject(result);    
+        return promise;
+    }
     class ListsService {
-        constructor($http, appConfig) {
+        constructor($http, $q, appConfig) {
             this.endPointUrl = '/f9/lists';
+            _$q = $q;
             if (appConfig.apiUri) {
                 this.endPointUrl = appConfig.apiUri + this.endPointUrl;
             }
@@ -105,6 +113,31 @@
                     return err;
                 });
         }
+        isImportRunning(identifier, waitTime) {
+            var result = { data: null, statusCode: 200, errorMessage: '' };
+            let isRunningPath = this.endPointUrl +'/contacts/result/running/'+ identifier;
+            if(waitTime){
+                isRunningPath+='?waitTime='+waitTime;
+            }
+            return _$http.get(isRunningPath)
+                .then(response => {
+                    result.statusCode = response.status;
+                    result.data = response.data.return;
+                    return result;
+                })
+                .catch(err => _handleError(err, result));
+        }
+
+        getResult(identifier) {
+            var result = { data: null, statusCode: 200, errorMessage: '' };
+            return _$http.get(this.endPointUrl +'/contacts/result/'+ identifier)
+                .then(response => {
+                    result.statusCode = response.status;
+                    result.data = response.data.return;
+                    return result;
+                })
+                .catch(err => _handleError(err, result));
+        }
 
         addContacts(contacts){
             var result = { data: null, statusCode: 201, errorMessage: '' };
@@ -143,7 +176,7 @@
         }
     }
 
-    ListsService.$inject = ['$http','appConfig'];
+    ListsService.$inject = ['$http', '$q','appConfig'];
     angular.module('fakiyaMainApp')
         .service('ListsService', ListsService);
 
