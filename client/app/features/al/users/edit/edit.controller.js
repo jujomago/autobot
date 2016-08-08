@@ -1,7 +1,7 @@
 'use strict';
 (function() {
 
-    function getErrorMessage(xmlMessage){
+    function _getErrorMessage(xmlMessage){
         let message = xmlMessage.match('<faultstring>(.*)</faultstring>');
         return message[1];
     }
@@ -221,10 +221,6 @@
             }
        }
 
-       addSkill(){
-        this.skillModal(); 
-       }
-
        updateSkill(skill){
         this.skill = skill;
         this.skillUpdateModal();
@@ -244,9 +240,7 @@
                 if(typeof result !== 'undefined' && Object.keys(result).length > 0){
                     result.userName = this.userInfo.generalInfo.userName;
                     this.addSkillToUser(result).then(()=>{
-                        let theMsg = 'Skill added';
                         this.getUserDetailSkill(this.userInfo.generalInfo.userName);
-                        this.message={ show: true, type: 'success', text: theMsg, expires: 3000};
                     }).catch((theMsg)=>{
                         this.message={ show: true, type: 'warning', text: theMsg, expires: 3000}; 
                     });
@@ -293,13 +287,16 @@
         return _UsersService.addSkilltoUser(skill)
                 .then(response => {
                    console.log(response);
+                   let theMsg = 'Skill added';
+                   this.message={ show: true, type: 'success', text: theMsg, expires: 3000};
                    return response;
                 })
                 .catch(error => {
                     console.log('error');
                     console.error(error);
-                    let textError = getErrorMessage(error.data.body);
+                    let textError = _getErrorMessage(error.data.body);
                     this.message={ show: true, type: 'warning', text: textError, expires: 5000};
+                    return error;
         });    
       }
 
@@ -317,7 +314,7 @@
                                 this.message = { show: true, type: 'success', text: 'Skill Deleted', expires:3000 };
 
                             }else{
-
+                                console.log(response.statusCode);
                                 this.toggleSkillRow = -1;
 
                                 this.message = { show: true, type: 'danger', text: response.errorMessage, expires:8000};
@@ -325,6 +322,9 @@
                             return response;
                         }).catch(err => {
                               console.error(err);
+                              let textError = _getErrorMessage(err.data.body);
+                              this.message = { show: true, type: 'danger', text: textError, expires:8000};
+                              return err;
                         });
                 })
                 .catch(() => {
@@ -336,12 +336,14 @@
         return _UsersService.updateSkillfromUser(skill)
                 .then(response => {
                    console.log(response);
+                   let theMsg = 'Skill updated';
+                   this.message={ show: true, type: 'success', text: theMsg, expires: 3000};
                    return response;
                 })
                 .catch(error => {
                     console.log('error');
                     console.error(error);
-                    let textError = getErrorMessage(error.data.body);
+                    let textError = _getErrorMessage(error.data.body);
                     this.message={ show: true, type: 'warning', text: textError, expires: 5000};
         });  
       }
