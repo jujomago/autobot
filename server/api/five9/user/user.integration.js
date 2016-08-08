@@ -4,6 +4,7 @@ var app = require('../../..');
 import request from 'supertest';
 
 var newUser;
+var updatedSkill;
 
 describe('User API:', function() {
 
@@ -30,6 +31,31 @@ describe('User API:', function() {
         expect(users.return).to.be.instanceOf(Array);
     });
 
+  });
+
+  describe('POST /api/f9/users/skills/update', function() {
+    beforeEach(function(done) {
+      request(app)
+        .post('/api/f9/users/skills/update')
+        .send({
+          userName: 'daniel.c@autoboxcorp.com',
+          level: 2,
+          skillName: 'Sales'
+        })
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          updatedSkill = res.body;
+          done();
+        });
+    });
+
+    it('should respond with the updated skill', function() {
+      expect(updatedSkill).to.be.equal(null);
+    });
   });
 /*
   describe('POST /api/f9/users', function() {

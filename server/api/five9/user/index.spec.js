@@ -8,7 +8,8 @@ var userCtrlStub = {
   create: 'userCtrl.create',
   destroy: 'userCtrl.destroy',
   addSkillUser: 'userCtrl.addSkillUser',
-  deleteSkillUser: 'userCtrl.deleteSkillUser'
+  deleteSkillUser: 'userCtrl.deleteSkillUser',
+  updateSkillUser: 'userCtrl.updateSkillUser'
 };
 
 var routerStub = {
@@ -91,6 +92,18 @@ describe('User API Router:', function() {
     it('should route to user.controller.addSkillUser', function() {
       routerStub.post
         .withArgs('/skills/add', 'userCtrl.addSkillUser')
+
+        .should.have.been.calledOnce;
+    });
+
+  
+    });
+
+    describe('PUT /api/f9/users/skills/update', function() {
+
+    it('should route to user.controller.updateSkillUser', function() {
+      routerStub.post
+        .withArgs('/skills/update', 'userCtrl.updateSkillUser')
 
         .should.have.been.calledOnce;
     });
