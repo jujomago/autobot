@@ -73,10 +73,10 @@
         }
 
         updateSkillfromUser(userSkill) {
-            var result = { data: null, statusCode: 204, errorMessage: '' };
+            var result = { data: null, statusCode: 200, errorMessage: '' };
             return http.post(this.endPointUrl + '/' + 'skills/update', userSkill)
                 .then(response => {
-                    if (response.status !== 204) {
+                    if (response.status !== 200) {
                         result.statusCode = response.status;
                         result.data = response;
                     }
