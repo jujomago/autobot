@@ -51,24 +51,38 @@
           
             this.getAllPermissions()
             .then(()=>{
-                this.getUserDetail(userName)
-                .then(()=>{
-                    for (var key in this.userInfo.roles) {
-                        console.log('enter');            
-                        var rolValue = this.userInfo.roles[key];  
-                        this.storage.rolesPermissions[key]=rolValue;                       
-                    }
-                    console.log(this.storage.rolesPermissions);
-                    this.getAllSkills()
-                    .then((skills)=>{
-                        this.storage.skills = skills.data;
-                    });
-                });
+                return this.getUserDetail(userName);
+            })
+            .then(()=>{
+                for (var key in this.userInfo.roles) {
+                    console.log('enter');            
+                    var rolValue = this.userInfo.roles[key];  
+                    this.storage.rolesPermissions[key]=rolValue;                       
+                }
+                console.log(this.storage.rolesPermissions);
+                return this.getAllSkills();
+            })
+            .then((skills)=>{
+                this.storage.skills = skills.data;
             });
-
-                 
         }
-        
+
+        openModal(){
+            this.modalInstance = _$uibModal.open({
+                animation: false,
+                size: 'md',
+                controllerAs: '$ctrl',
+                appendTo: angular.element(document.querySelector('#modal-container')),
+                template: '<al.users.change-password></al.users.change-password>',
+            });
+            this.modalInstance.result
+            .then(password => {
+                if(password!==null){
+                    this.changePass = true;
+                    this.userInfo.generalInfo.password = password;
+                }
+            });
+        }
         
         getAllPermissions(){
               return _UsersService.getPermissions()
