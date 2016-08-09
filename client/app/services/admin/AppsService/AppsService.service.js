@@ -1,8 +1,8 @@
 'use strict';
 (function () {
     let _$http,_$q;
-      function handleError(err, result) {
-        result.error = err.data;
+      function _handleError(err, result) {
+        result.errorMessage = err.data;
         result.statusCode = err.status;
         let defered = _$q.defer();
         let promise = defered.promise;
@@ -22,7 +22,7 @@
             	result.data = response.data;
             	return result;
             })
-            .catch(err => handleError(err, result));
+            .catch(err => _handleError(err, result));
         }
         getApp(appName){
         

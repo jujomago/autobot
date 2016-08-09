@@ -62,10 +62,10 @@
 			this.disposition.type='FinalDisp';
 		}
 		maxOfDays(type){
-			if(type.hours===0 && type.minutes===0){
-				return 60;
+			if(type.hours>0 || type.minutes>0){
+				return 59;
 			}
-			return 59;
+			return 60;
 		}
 		minOfHours(type){
 			if(type.days!==0 || type.minutes!==0){

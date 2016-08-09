@@ -1,4 +1,4 @@
-
+<div id="modal-container"></div>
       <h3 class="title_section">User: <span>{{$ctrl.userInfo.generalInfo.firstName}}</span></h3>
 <div class="alert alert-warning" ng-show="$ctrl.showWarningRolMessage">
       You must select at least one rol
@@ -17,7 +17,7 @@
 
 <form name="userForm" class="custom_form form-horizontal" novalidate autocomplete="off"   ng-submit="userForm.$valid && $ctrl.update()" ng-show="$ctrl.found"> 
 <uib-tabset  justified="false">
-    <uib-tab index="0" heading="Details">
+    <uib-tab index="0" heading="General">
        
             <div class="inputminimal"  ng-class="{ 'has-error': userForm.firstName.$invalid && userForm.$submitted }">
                 <label for="firstName">First Name*</label>
@@ -73,21 +73,24 @@
                         <p ng-message="required">This field is required</p>
                         <p ng-message="minlength">The field needs to be al least 6 characters</p>
                     </div>   
-            <div class="inputminimal"  ng-class="{ 'has-error': userForm.password.$invalid && userForm.$submitted }">
-                <label for="Password">Password</label>
-                <div class="col-sm-7">
-                    <input type="password" class="form-control" name="password" id="password" ng-required="changePass" ng-model="$ctrl.userInfo.generalInfo.password"  autocomplete="false"    ng-disabled="!changePass">
-                    <div ng-messages="userForm.password.$error" ng-show="userForm.$submitted">
-                        <p ng-message="required">This field is required</p>
-                        <p ng-message="minlength">The field needs to be al least 6 characters</p>
-                    </div>            
+
+
+            <div class="row no-margin">
+                <div class="col-xs-9 col-md-10 col-lg-11">
+                    <div class="inputminimal"  ng-class="{ 'has-error': userForm.password.$invalid && userForm.$submitted }">
+                        <label for="Password">Password*</label>
+                        
+                            <input type="password" class="form-control" name="password" id="password" ng-required="$ctrl.changePass" ng-model="$ctrl.userInfo.generalInfo.password" autocomplete="false" disabled>           
+                    </div>
                 </div>
-                   <div class="checkbox">
-                         <label>
-                             <input type="checkbox" ng-model="changePass">Want to change Password?
-                         </label>
-                   </div>              
+                <div class="col-xs-3 col-md-2 col-lg-1">
+                     <input type="button" class='btn-black' value="Change" ng-click="$ctrl.openModal()">
+                </div>
             </div>
+
+            <div ng-messages="userForm.password.$error" ng-show="userForm.$submitted">
+                <p ng-message="required">This field is required</p>
+            </div>   
             <div class="form-group">
                 <div class="col-sm-2">
                     <div class="checkbox">
