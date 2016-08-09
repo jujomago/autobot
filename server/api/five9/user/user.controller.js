@@ -66,8 +66,8 @@ export function addSkillUser(req, res) {
 
 }
 
-export function deleteSkillUser(req, res) {
-    console.log('SERVER deleteSkillUser')
+export function destroySkillUser(req, res) {
+    console.log('SERVER destroySkillUser')
     var params = { userSkill: req.body };
     return service.f9CallService('userSkillRemove', params, '', req)
         .then(data => {

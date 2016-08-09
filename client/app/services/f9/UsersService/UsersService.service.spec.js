@@ -154,4 +154,60 @@ describe('Service: UsersService', function () {
             httpBackend.flush();
         });
     });
+
+    describe('Skills on users', ()=>{
+        it('#addSkilltoUser', function(){
+            httpBackend.whenPOST(endPointUrl+'/skills/add', {
+                userName: 'daniel.c@autoboxcorp.com',
+                skillName: 'Marketing',
+                level: 1
+            }).respond(null);
+
+            UsersService.addSkilltoUser({
+              userName: 'daniel.c@autoboxcorp.com',
+              skillName: 'Marketing',
+              level: 1
+            }).then(r=>{
+              expect(r.statusCode).to.equal(200);
+              expect(r.data).to.equal(null);
+            });
+            httpBackend.flush();
+        });
+
+        it('#deleteSkillfromUser', function(){
+            httpBackend.whenPOST(endPointUrl+'/skills/delete', {
+                userName: 'daniel.c@autoboxcorp.com',
+                skillName: 'Marketing',
+                level: 1
+            }).respond(204, null);
+
+            UsersService.deleteSkillfromUser({
+              userName: 'daniel.c@autoboxcorp.com',
+              skillName: 'Marketing',
+              level: 1
+            }).then(r=>{
+              expect(r.statusCode).to.equal(204);
+              expect(r.data).to.equal(null);
+            });
+            httpBackend.flush();
+        });
+        
+        it('#updateSkillfromUser', function(){
+           httpBackend.whenPOST(endPointUrl+'/skills/update', {
+                userName: 'daniel.c@autoboxcorp.com',
+                skillName: 'Marketing',
+                level: 3
+            }).respond(200, null);
+
+            UsersService.updateSkillfromUser({
+              userName: 'daniel.c@autoboxcorp.com',
+              skillName: 'Marketing',
+              level: 3
+            }).then(r=>{
+              expect(r.statusCode).to.equal(200);
+              expect(r.data).to.equal(null);
+            });
+            httpBackend.flush(); 
+        });
+    });
 });

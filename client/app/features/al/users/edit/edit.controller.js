@@ -59,13 +59,14 @@
                         this.storage.rolesPermissions[key]=rolValue;                       
                     }
                     console.log(this.storage.rolesPermissions);
+                    this.getAllSkills()
+                    .then((skills)=>{
+                        this.storage.skills = skills.data;
+                    });
                 });
             });
 
-            this.getAllSkills()
-            .then((skills)=>{
-                this.storage.skills = skills.data;
-            });     
+                 
         }
         
         
@@ -205,9 +206,15 @@
             }
        }
 
+       addSkill(){
+        this.methodSkills = 'create';
+        this.skillModal();
+       }
+
        updateSkill(skill){
+        this.methodSkills = 'update';
         this.skill = skill;
-        this.skillUpdateModal();
+        this.skillModal();
        }
 
        skillModal(){
@@ -216,18 +223,26 @@
             size: 'md',
             controllerAs: '$ctrl',
             appendTo: angular.element(document.querySelector('#modal-container')),
-            template: '<al.users.add-skill></al.users.add-skill>'
+            template: '<al.users.skill-modal></al.users.skill-modal>'
         });
 
         this.modalInstance.result
             .then(result => {
                 if(typeof result !== 'undefined' && Object.keys(result).length > 0){
                     result.userName = this.userInfo.generalInfo.userName;
-                    this.addSkillToUser(result).then(()=>{
-                        this.getUserDetailSkill(this.userInfo.generalInfo.userName);
-                    }).catch((theMsg)=>{
-                        this.message={ show: true, type: 'warning', text: theMsg, expires: 3000}; 
-                    });
+                    if(this.methodSkills === 'create'){
+                        this.addSkillToUser(result).then(()=>{
+                            this.getUserDetailSkill(this.userInfo.generalInfo.userName);
+                        }).catch((theMsg)=>{
+                            this.message={ show: true, type: 'warning', text: theMsg, expires: 3000}; 
+                        });   
+                    }else{
+                        this.updateSkillFromUser(result).then(()=>{
+                            this.getUserDetailSkill(this.userInfo.generalInfo.userName);
+                        }).catch((theMsg)=>{
+                            this.message={ show: true, type: 'warning', text: theMsg, expires: 3000}; 
+                        });   
+                    }
                 }
             });
       }
@@ -245,9 +260,7 @@
             .then(result => {
                 if(typeof result !== 'undefined' && Object.keys(result).length > 0){
                     this.updateSkillFromUser(result).then(()=>{
-                        let theMsg = 'Skill updated';
                         this.getUserDetailSkill(this.userInfo.generalInfo.userName);
-                        this.message={ show: true, type: 'success', text: theMsg, expires: 3000};
                     }).catch((theMsg)=>{
                         this.message={ show: true, type: 'warning', text: theMsg, expires: 3000}; 
                     });
@@ -329,6 +342,7 @@
                     console.error(error);
                     let textError = _getErrorMessage(error.data.body);
                     this.message={ show: true, type: 'warning', text: textError, expires: 5000};
+                    return error;
         });  
       }
 

@@ -81,7 +81,7 @@
             var result = { data: null, statusCode: 204, errorMessage: '' };
             return _$http.post(this.endPointUrl + '/' + 'skills/update', userSkill)
                 .then(response => {
-                    if (response.status !== 204) {
+                    if (response.status !== 200) {
                         result.statusCode = response.status;
                         result.data = response;
                     }

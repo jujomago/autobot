@@ -1,15 +1,21 @@
 'use strict';
 (function(){
-class AddSkillComponent {
+class SkillModalComponent {
   constructor() {
     this.message = {show: false};
   }
 
   $onInit(){
+    this.method = this.edit.methodSkills;
     this.instance = this.edit.modalInstance;
-    this.skills = this.edit.storage.skills;
-    this.level = 1;
-    this.skill = (this.skills[0]) ? this.skills[0].name : '';
+    if(this.method === 'create'){
+      this.skills = this.edit.storage.skills;
+      this.level = 1;
+      this.skill = (this.skills[0]) ? this.skills[0].name : '';
+    }else{
+      this.skill = this.edit.skill.skillName;
+      this.level = this.edit.skill.level;
+    }
   }
 
   save(){
@@ -24,9 +30,9 @@ class AddSkillComponent {
   }
 }
 angular.module('fakiyaMainApp')
-  .component('al.users.addSkill', {
+  .component('al.users.skillModal', {
     templateUrl: 'app/features/al/users/edit/skillModal/skillModal.html',
-    controller: AddSkillComponent,
+    controller: SkillModalComponent,
     require: {
       edit: '?^al.users.edit',
     }

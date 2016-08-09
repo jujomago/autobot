@@ -3,11 +3,11 @@
 angular.module('fakiyaMainApp')
   .config(function ($stateProvider) {
     $stateProvider
-      .state('ap.al.addSkill', {
-        url: '/users/addSkill',
+      .state('ap.al.skillModal', {
+        url: '/users/skillModal',
         views: {
         	'crud': {
-        		template: '<al.users.addSkill></al.users.addSkill>'
+        		template: '<al.users.skillModal></al.users.skillModal>'
         	}
     	}
       });
