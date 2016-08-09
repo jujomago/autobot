@@ -162,7 +162,7 @@
     <uib-tab index="2" heading="Skills" select="$ctrl.checkTab('skills')">
         <div class="row">
             <div class="mywell">
-                    <a ng-click="$ctrl.addSkill()" class="btn btn-black pull-right">Add</a>
+                    <a ng-click="$ctrl.addSkill()" ng-disabled="$ctrl.storage.skills==0" class="btn btn-black pull-right">Add</a>
             </div>
             <div ng-show="$ctrl.userSkills.length>0">
                 <table class="table table-striped" ng-show="$ctrl.userSkills.length">

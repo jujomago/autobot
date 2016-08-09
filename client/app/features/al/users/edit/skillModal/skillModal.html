@@ -34,10 +34,11 @@
     <div ng-messages="formSkill.level.$error.pattern" ng-show="formSkill.$submitted">
         <p>Not a valid level</p>
     </div>
-    
-    <div class="text-center">     
+    <div class="skillmodal-buttons">
+      <div class="text-center">     
         <button type="submit" class="btn btn-blue">Save</button>
         <button type="button" class="btn btn-blue" ng-click="$ctrl.cancel()">Cancel</button>
+      </div> 
     </div>
   </form>    
 </div>
