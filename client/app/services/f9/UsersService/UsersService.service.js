@@ -79,7 +79,7 @@
 
         updateSkillfromUser(userSkill) {
             var result = { data: null, statusCode: 200, errorMessage: '' };
-            return _$http.put(tthis.endPointUrl + '/' + userSkill.userName + '/skills', userSkill)
+            return _$http.post(this.endPointUrl + '/' + 'skills/update', userSkill)
                 .then(response => {
                     if (response.status !== 200) {
                         result.statusCode = response.status;
