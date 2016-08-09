@@ -3,7 +3,7 @@
 class ChangePasswordComponent {
   constructor() {
     this.message = {show: false};
-    this.SubmitText ='Save';
+    this.SubmitText ='OK';
   }
   $onInit(){
      if(this.create){
@@ -20,12 +20,12 @@ class ChangePasswordComponent {
         this.instance.close(this.password);
       }
       else{
-        this.SubmitText = 'Save';
+        this.SubmitText = 'OK';
         this.message = { show: true, type: 'danger', text: 'Password cannot match customer name', expires: 3000 };
       }
     }
     else{
-      this.SubmitText = 'Save';
+      this.SubmitText = 'OK';
       this.message = { show: true, type: 'danger', text: 'Passwords should match', expires: 3000 };
     }
   }
