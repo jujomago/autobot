@@ -247,27 +247,6 @@
             });
       }
 
-      skillUpdateModal(){
-        this.modalInstance = _$uibModal.open({
-            animation: false,
-            size: 'md',
-            controllerAs: '$ctrl',
-            appendTo: angular.element(document.querySelector('#modal-container')),
-            template: '<al.users.update-skill></al.users.update-skill>'
-        });
-
-        this.modalInstance.result
-            .then(result => {
-                if(typeof result !== 'undefined' && Object.keys(result).length > 0){
-                    this.updateSkillFromUser(result).then(()=>{
-                        this.getUserDetailSkill(this.userInfo.generalInfo.userName);
-                    }).catch((theMsg)=>{
-                        this.message={ show: true, type: 'warning', text: theMsg, expires: 3000}; 
-                    });
-                }
-            });
-      }
-
       getUserDetailSkill(userName){
              return _UsersService.getUserDetail(userName)
                 .then(_users => {                                  
