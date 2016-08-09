@@ -66,12 +66,23 @@ export function addSkillUser(req, res) {
 
 }
 
-export function deleteSkillUser(req, res) {
-    console.log('SERVER deleteSkillUser')
+export function destroySkillUser(req, res) {
+    console.log('SERVER destroySkillUser')
     var params = { userSkill: req.body };
     return service.f9CallService('userSkillRemove', params, '', req)
         .then(data => {
             res.status(204).json(data);
+        })
+        .catch(service.handleError(res));
+
+}
+
+export function updateSkillUser(req, res) {
+    console.log('SERVER updateSkillUser')
+    var params = { userSkill: req.body }
+    return service.f9CallService('userSkillModify', params, '', req)
+        .then(data => {
+            res.status(200).json(data);
         })
         .catch(service.handleError(res));
 
