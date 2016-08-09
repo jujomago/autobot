@@ -21,6 +21,14 @@
                 DELETE_ALL: 'DELETE_ALL',
                 DELETE_EXCEPT_FIRST: 'DELETE_EXCEPT_FIRST'
               };
+    function _setParams(settingsParams, listDeleteSettings, listUpdateSettings,deleteSelected, updateSelected){
+      if(deleteSelected){
+        settingsParams.listDeleteSettings = listDeleteSettings;
+      }
+      else if(updateSelected){
+        settingsParams.listUpdateSettings = listUpdateSettings;
+      }
+    }
     class SettingsComponent {   
 
         constructor($state, $stateParams, ListsService) {
@@ -34,7 +42,7 @@
             this.message = { show: false };
             this.advancedOptions = {isCollapsed: true};
             this.updateRecords = true;
-            this.settingsParams = {};
+            this.settingsParams = {skipPreview: false};
             this.listUpdateSettings = {listAddMode: LIST_ADD_MODES.ADD_FIRST, crmAddMode: CRM_ADD_MODES.ADD_NEW,crmUpdateMode: CRM_UPDATE_MODES.UPDATE_FIRST, cleanListBeforeUpdate: false};
             this.listDeleteSettings = {listDeleteMode: LIST_DELETE_MODES.DELETE_ALL};
         }
@@ -61,6 +69,7 @@
             this.homeSelected=true;
             this.deleteSelected=false;
             this.updateSelected=false;
+            this.displayButtons();
         }
         displayButtons(){
             this.optionButtons = true;
@@ -69,6 +78,17 @@
         displayFileField(){
             this.optionButtons = false;
             this.fileSelected = true;
+        }
+        goBack(){
+          if(this.fileSelected){
+            this.displayButtons();
+          }
+          else{
+            this.selectHome();
+          }
+        }
+        browseFile(){
+          angular.element('#csv-file').trigger('click');
         }
         setUpdateValue(){
           if(this.updateRecords){
@@ -80,14 +100,8 @@
         }
         nextStep()
         {
-          if(this.deleteSelected){
-            this.settingsParams.listDeleteSettings = this.listDeleteSettings;
-          }
-          else if(this.updateSelected){
-            this.settingsParams.listUpdateSettings = this.listUpdateSettings;
-          }
-          //Should sent setting params to next view
-           _$state.go('ap.al.mapping', {settings:this.settingsParams,name:_$stateParams.name});
+          _setParams(this.settingsParams, this.listDeleteSettings, this.listUpdateSettings, this.deleteSelected, this.updateSelected);
+          _$state.go('ap.al.listsEdit-list', {settings:this.settingsParams,name:_$stateParams.name, manual: true});
         }
         sendFile()
         {
@@ -100,7 +114,8 @@
               this.confirm=false;
               if(response.statusCode === 200){
                 this.settingsParams.csvData = response.data;
-                this.nextStep();
+                _setParams(this.settingsParams, this.listDeleteSettings, this.listUpdateSettings, this.deleteSelected, this.updateSelected);
+                _$state.go('ap.al.mapping', {settings:this.settingsParams,name:_$stateParams.name});
               }
               else{
                 let theMsg= response.errorMessage; 
@@ -146,7 +161,7 @@
 
     angular.module('fakiyaMainApp')
         .component('al.lists.settings', {
-            templateUrl: 'app/features/al/lists/edit/settings/settings.html',
+            templateUrl: 'app/features/al/lists/edit/step1-settings/step1-settings.html',
             controller: SettingsComponent
         });
 

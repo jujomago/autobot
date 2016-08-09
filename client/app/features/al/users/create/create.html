@@ -1,5 +1,5 @@
-
-      <h3 class="title_section">User: <span>New user</span></h3>
+<div id="modal-container"></div>
+<h3 class="title_section">User: <span>New user</span></h3>
 
 <div class="alert alert-warning" ng-show="$ctrl.showWarningRolMessage">
       You must select at least one rol
@@ -69,16 +69,20 @@
                         <p ng-message="required">This field is required</p>
                         <p ng-message="minlength">The field needs to be al least 6 characters</p>
                     </div>   
-            <div class="inputminimal" ng-class="{ 'has-error': userForm.password.$invalid && userForm.$submitted }">
-                <label for="Password" >Password*</label>
-                <div>
-                    <input type="password" name="password" id="password" required ng-model="$ctrl.newUser.password" autocomplete="new-password" ng-minlength="6">
-                     
+            <div class="row no-margin">
+                <div class="col-xs-9 col-md-10 col-lg-11">
+                    <div class="inputminimal"  ng-class="{ 'has-error': userForm.password.$invalid && userForm.$submitted }">
+                        <label for="Password">Password*</label>
+                        
+                            <input type="password" class="form-control" name="password" id="password" required="" ng-model="$ctrl.newUser.password" autocomplete="false" disabled>           
+                    </div>
+                </div>
+                <div class="col-xs-3 col-md-2 col-lg-1">
+                     <input type="button" class='btn-black' value="Change" ng-click="$ctrl.openModal()">
                 </div>
             </div>
             <div ng-messages="userForm.password.$error" ng-show="userForm.$submitted">                  
                         <p ng-message="required">This field is required</p>
-                        <p ng-message="minlength">The field needs to be al least 6 characters</p>
                     </div>    
             <div class="form-group">
               <div class="col-sm-2">

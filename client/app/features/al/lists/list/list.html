@@ -1,3 +1,4 @@
+<div id="modal-container"></div>
 <h3 class="title_section">Lists</h3>
 
 <abx-message msg="$ctrl.message"></abx-message>
@@ -11,7 +12,7 @@
             <input type="search" ng-model="$ctrl.search.name" class="searchbox" placeholder="Search" ng-change="$ctrl.filteringBySearch()">
             <span class="glyphicon glyphicon-search"></span>
         </div>
-        <button class="btn btn-black pull-right" ui-sref="ap.al.listsCreate">New</button>
+        <button class="btn btn-black pull-right" ng-click="$ctrl.openModal()">New</button>
     </div>
 
     <table class="table table-striped" ng-show="$ctrl.filteredLists.length">
@@ -23,7 +24,7 @@
             </th>
             <th ng-click="$ctrl.sortColumn('size') " class="sortColumn">Size <span class="glyphicon " ng-show="$ctrl.sortKey=='size'" ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,'glyphicon-chevron-down':!$ctrl.reverse} "></span></th>
             <th width="100" class="text-center">
-                ACTIONS
+                Actions
             </th>
         </thead>
         <tbody>

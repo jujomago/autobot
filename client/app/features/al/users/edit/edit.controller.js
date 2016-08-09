@@ -13,14 +13,13 @@
         constructor($stateParams, $state,  $sessionStorage , $q, $uibModal, UsersService, SkillsService, ConfirmAsync) {
 
             //  console.log('Component EditComponent - al.users.edit');
-
+            _$uibModal = $uibModal;
             _stateParams = $stateParams;
             _UsersService = UsersService;
             _SkillsService = SkillsService;
             _ConfirmAsync = ConfirmAsync;
             _state=$state;
             this.storage = $sessionStorage;
-            this.userInfo = {};
             this.qp = $q;
             this.SubmitText = 'Save';
             this.found = false;
@@ -83,7 +82,7 @@
                 }
             });
         }
-        
+
         getAllPermissions(){
               return _UsersService.getPermissions()
                 .then(response => {
@@ -115,6 +114,7 @@
                     console.log('loaded user detail');      
                     this.found = true;
                     this.userInfo = _users;
+                    this.userInfo.generalInfo.password = '**********';
                     this.userRoles = Object.keys(this.userInfo.roles);
                     this.userSkills = this.userInfo.skills;
                     
@@ -371,7 +371,6 @@
           }
         }
     }
-
 
     EditComponent.$inject = ['$stateParams', '$state',  '$sessionStorage','$q', '$uibModal', 'UsersService', 'SkillsService', 'ConfirmAsync'];
 
