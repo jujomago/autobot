@@ -7,11 +7,18 @@ angular.module('fakiyaMainApp')
         url: '/lists/edit/mapping/:name',
         views:{
           'crud':{
-            template:'<al.lists.mapping></al.lists.mapping>', 
-          	}
+              templateProvider:function($stateParams){
+                if($stateParams.manual===true){
+                   return '<al.lists.mapping manual="true"></al.lists.mapping>';
+                }else{
+                   return '<al.lists.mapping manual="false"></al.lists.mapping>';
+                }
+              }
+           	}
           },
          params: {
-            settings: null
+            settings: null,
+            manual:null
          } 
       });
   });

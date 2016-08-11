@@ -10,16 +10,9 @@
 <abx-load-indicator ng-hide="$ctrl.found"></abx-load-indicator> 
 <abx-load-indicator ng-show="$ctrl.confirm"></abx-load-indicator> 
 <div ng-show="$ctrl.found && !$ctrl.confirm">
-	<div ng-show="$ctrl.homeSelected">
-	    <div class="pull-left">{{$ctrl.list.size}} records registered</div>
-	    <div class="pull-right button-container">
-	        <button ng-click="$ctrl.selectUpdate()" class="btn btn-black">Update</button>
-	        <button ng-click="$ctrl.selectDelete()" class="btn btn-black">Remove</button>
-	    </div>
-    </div>
     <div class="pull-right button-container" ng-hide="$ctrl.homeSelected">
-    	<button ng-click="$ctrl.goBack()" class="btn btn-black">Back</button>
-    	<button ng-click="$ctrl.selectHome()" class="btn btn-black">Cancel</button>
+    	<button ng-show="$ctrl.fileSelected" ng-click="$ctrl.goBack()" class="btn btn-black">Back</button>
+    	<button ng-click="$ctrl.cancelAction()" class="btn btn-black">Cancel</button>
     </div> 
     <div ng-show="$ctrl.deleteSelected || $ctrl.updateSelected" class='settings-options-container'>
 		<div ng-show="$ctrl.deleteSelected" class="settings-text">
