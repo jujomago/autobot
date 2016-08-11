@@ -14,7 +14,7 @@ describe('Controller: SettingsComponent', function () {
       endPointUrl = appConfig.apiUri + '/f9/lists';
     }
     _$state = $state;
-
+    
     SettingsComponent = $componentController('al.lists.settings', {
       $scope: _$scope,
       $stateParams: { message: null },

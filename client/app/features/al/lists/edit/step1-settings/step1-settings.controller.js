@@ -15,7 +15,8 @@
     const CRM_UPDATE_MODES={
                 UPDATE_FIRST: 'UPDATE_FIRST',
                 UPDATE_ALL: 'UPDATE_ALL',
-                UPDATE_SOLE_MATCHES: 'UPDATE_SOLE_MATCHES'
+                UPDATE_SOLE_MATCHES: 'UPDATE_SOLE_MATCHES',
+                DONT_UPDATE: 'DONT_UPDATE'
               };
     const LIST_DELETE_MODES={
                 DELETE_ALL: 'DELETE_ALL',
@@ -48,12 +49,19 @@
         }
 
         $onInit() {
-        	if(_$stateParams.name!==null){
-                this.selectHome();
-                this.displayButtons();
-        		let listName = _$stateParams.name;
+
+            if(_$stateParams.name){  
+              if(_$stateParams.isUpdate){
+                this.selectUpdate();
+              }
+              else{
+                this.selectDelete();
+              }
+        		  let listName = _$stateParams.name;
+              this.displayButtons();
 	            this.getList(listName);
-        	}
+            }
+
         }
         selectDelete(){
             this.homeSelected=false;
@@ -65,11 +73,8 @@
             this.deleteSelected=false;
             this.updateSelected=true;
         }
-        selectHome(){
-            this.homeSelected=true;
-            this.deleteSelected=false;
-            this.updateSelected=false;
-            this.displayButtons();
+        cancelAction(){
+          _$state.go('ap.al.lists');
         }
         displayButtons(){
             this.optionButtons = true;
@@ -80,12 +85,7 @@
             this.fileSelected = true;
         }
         goBack(){
-          if(this.fileSelected){
             this.displayButtons();
-          }
-          else{
-            this.selectHome();
-          }
         }
         browseFile(){
           angular.element('#csv-file').trigger('click');
@@ -116,6 +116,7 @@
               if(response.statusCode === 200){
                 this.settingsParams.csvData = response.data;  
                  _setParams(this.settingsParams, this.listDeleteSettings, this.listUpdateSettings, this.deleteSelected, this.updateSelected);
+                console.log(this.settingsParams);
                 _$state.go('ap.al.mapping', {settings:this.settingsParams,name:_$stateParams.name});
               }
               else{
@@ -129,31 +130,26 @@
         }
 
         getList(name) {
-            
-            if(name){
-                return _ListsService.getList(name)
-                .then(response=>{
-
-                  if(response.statusCode===200){
-                     this.list={
-                       name:response.data.name,
-                       size:response.data.size,          
-                     };
-                     this.found=true;
-                  }
-                  return response;
-                })
-               .catch(e =>{    
-                        let theMsg= (e.error)? e.error.body:e; 
-                        this.message={ show: true, type: 'danger', text: theMsg};
-                        this.found=false;
-                        return e;
-                });    
-           }else{
-                this.message={ show: true, type: 'danger', text: 'Bad params'};
-                this.found=false;
-           }
-            
+          return _ListsService.getList(name)
+          .then(response=>{
+            if(response.statusCode===200){
+               this.list={
+                 name:response.data.name,
+                 size:response.data.size,          
+               };
+               this.found=true;
+            }
+            else{
+              this.message={ show: true, type: 'danger', text: response.data};
+            }
+            return response;
+          })
+         .catch(e =>{    
+                  let theMsg= e.errorMessage; 
+                  this.message={ show: true, type: 'danger', text: theMsg};
+                  this.found=false;
+                  return e;
+          });    
         }
     }
 

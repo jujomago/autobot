@@ -1,11 +1,11 @@
 <div id="modal-container"></div>
+<div class="modal-summary"></div>
 <h3 class="title_section">Lists</h3>
-
 <abx-message msg="$ctrl.message"></abx-message>
 
-<abx-load-indicator ng-show="$ctrl.lists.length==0 && !$ctrl.message.show" text="Loading Lists"></abx-load-indicator>
+<abx-load-indicator ng-show="$ctrl.originalLists.length===0 && !$ctrl.message.show" text="Loading Lists"></abx-load-indicator>
 
-<div ng-show="$ctrl.lists.length>0">
+<div ng-show="$ctrl.originalLists.length>0">
 
     <div class="mywell">
         <div class="searchbox_container">
@@ -15,30 +15,40 @@
         <button class="btn btn-black pull-right" ng-click="$ctrl.openModal()">New</button>
     </div>
 
-    <table class="table table-striped" ng-show="$ctrl.filteredLists.length">
+    <table class="table table-striped" ng-show="$ctrl.lists.length">
         <thead>
-            <th ng-click="$ctrl.sortColumn('name') " class="sortColumn">List Name
+            <th width="20%" ng-click="$ctrl.sortColumn('name') " class="sortColumn">List Name
                 <span class="glyphicon " ng-show="$ctrl.sortKey=='name' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
 'glyphicon-chevron-down':!$ctrl.reverse} "></span>
 
             </th>
-            <th ng-click="$ctrl.sortColumn('size') " class="sortColumn">Size <span class="glyphicon " ng-show="$ctrl.sortKey=='size'" ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,'glyphicon-chevron-down':!$ctrl.reverse} "></span></th>
+            <th width="15%" ng-click="$ctrl.sortColumn('size') " class="sortColumn">Size <span class="glyphicon " ng-show="$ctrl.sortKey=='size'" ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,'glyphicon-chevron-down':!$ctrl.reverse} "></span></th>
+            <th width="150" class="text-center">
+               Record actions 
+            </th>
             <th width="100" class="text-center">
                 Actions
             </th>
         </thead>
         <tbody>
-            <tr ng-repeat="item in ( $ctrl.filteredLists=($ctrl.lists | filter:$ctrl.search | orderBy:$ctrl.sortKey:$ctrl.reverse)|  limitTo:$ctrl.numPerPage:$ctrl.beginNext) "
-                ng-class="{ 'danger' : $ctrl.toggleListRow==$index}">
+            <tr ng-repeat="item in ($ctrl.lists |  limitTo:$ctrl.numPerPage:$ctrl.beginNext) "
+                ng-class="{ 'danger' : $ctrl.toggleListRow===$index || $ctrl.processedRow === item.name}">
                 <td class="">
-                <a href ng-click="$ctrl.updateDeleteList(item.name)">
                     {{item.name}}
-                </a>
                 </td>
-                <td class="">{{item.size}} record(s)</td>
+                <td class="" href ng-click="$ctrl.myIndex(item.name)">{{item.size}} record(s)</td>
+                <td class="text-center">
+                    <div ng-hide="$ctrl.processedRow === item.name">
+                        <button class="btn-row btn-primary btn-shared-row" ng-click="$ctrl.updateListRecord(item.name)">Update</button> 
+                        <button class="btn-row btn-danger btn-shared-row" ng-click="$ctrl.deleteListRecord(item.name)">Remove</button>
+                    </div>
+                    <div ng-show="$ctrl.processedRow === item.name">
+                        <i class="progress-icon"></i> Processing
+                    </div>
+                </td>
                 <td class="text-center">
 
-                    <a href class="circle_delete" ng-click="$ctrl.deleteList(item,$index)" ng-hide="$ctrl.toggleListRow==$index "></a>
+                    <a href ng-click="$ctrl.deleteList(item,$index)" ng-class="{'disabled-x-circle': $ctrl.processedRow === item.name, 'circle_delete': $ctrl.processedRow !== item.name}" ng-hide="$ctrl.toggleListRow==$index " ng-disabled="$ctrl.processedRow === item.name"></a>
 
                 </td>
             </tr>
@@ -47,21 +57,21 @@
 
     <div class="mywell footer_table text-center">
 
-        <div class="noresults" ng-show="!$ctrl.filteredLists.length" ng-if="$ctrl.search.name">
+        <div class="noresults" ng-show="!$ctrl.lists.length" ng-if="$ctrl.search.name">
             <img src="assets/al/images/NoResultsIcon.png" alt="lupa">
             <p>We couldn't find what you are looking for</p>
         </div>
 
 
-        <label class="pull-left" ng-if="$ctrl.filteredLists.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.getMax()}} of {{$ctrl.filteredLists.length}}</label>
+        <label class="pull-left" ng-if="$ctrl.lists.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.getMax()}} of {{$ctrl.lists.length}}</label>
 
 
 
-        <uib-pagination ng-if="$ctrl.filteredLists.length" total-items="$ctrl.filteredLists.length" ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
+        <uib-pagination ng-if="$ctrl.lists.length" total-items="$ctrl.lists.length" ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
     " boundary-links="true " ng-change="$ctrl.pageChanged()">
         </uib-pagination>
 
-        <div class="pull-right results_per_page" ng-show="$ctrl.filteredLists.length"><span>Show</span>
+        <div class="pull-right results_per_page" ng-show="$ctrl.lists.length"><span>Show</span>
 
             <select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities" ng-change="$ctrl.pageChanged()">
         </select> <span>results per page</span>

@@ -1,0 +1,19 @@
+<div class="al-theme">
+    <div class="modal-header">
+    	<div class="close-container">
+        	<button type="button" class="close circle_close_alert" ng-click="close()"></button>
+        </div>
+        <h4 class="modal-title">{{content.title}}</h4>
+    </div>
+	<div class="modal-body al-theme">
+        <div>
+            <p>{{content.body}}</p>
+        	<ul>
+        		<li ng-repeat="item in content.list">{{item}}</li>
+        	</ul>
+        </div>
+        <div class="modal-button-container">
+          <button class="btn btn-blue" ng-click="close()">OK</button>
+        </div>  
+    </div>
+</div>
