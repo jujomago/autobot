@@ -14,31 +14,31 @@
     }
 
 
-    function _validRowNumber(csvObjectRow){
-        let validRowNumber=true; 
+    function _validRowNumber(csvObjectRow) {
+        let validRowNumber = true;
         let number;
         for (var prop in csvObjectRow) {
-            if(prop==='number1' || prop==='number2' || prop==='number3'){
-               let numberPhone = csvObjectRow[prop];
-                if(numberPhone===''){ // if number is empty should pass
-                    validRowNumber=true;
+            if (prop === 'number1' || prop === 'number2' || prop === 'number3') {
+                let numberPhone = csvObjectRow[prop];
+                if (numberPhone === '') { // if number is empty should pass
+                    validRowNumber = true;
                     break;
                 }
-                if(numberPhone.length<=10){ // phone us number
-                    number=new RegExp(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im);
-                }else{ // international numbers
-                    number=new RegExp(/^(?:\+|00|011)(?:[. ()-]*\d){11,12}[. ()-]*$/g);
-                }            
-               console.log(`testing numberPhone ${numberPhone}`);
-                if(number.test(numberPhone)===false){
-                       validRowNumber=false;
-                        break;
+                if (numberPhone.length <= 10) { // phone us number
+                    number = new RegExp(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im);
+                } else { // international numbers
+                    number = new RegExp(/^(?:\+|00|011)(?:[. ()-]*\d){11,12}[. ()-]*$/g);
                 }
-            }            
+                console.log(`testing numberPhone ${numberPhone}`);
+                if (number.test(numberPhone) === false) {
+                    validRowNumber = false;
+                    break;
+                }
+            }
         }
         return validRowNumber;
     }
-    
+
     function _formatGroupedKeyRows(rowsGrouped) {
 
         let fieldsName = Object.keys(rowsGrouped);
@@ -47,29 +47,29 @@
 
         let numRecords = rowsGrouped[fieldsName[0]].length;
         let rowsUnGrouped = [];
-        let invalidRows=[];
+        let invalidRows = [];
 
         for (var i = 0; i < numRecords; i++) {
             let tempObj = {};
-            for (var k = 0; k < fieldsName.length;k++) {
+            for (var k = 0; k < fieldsName.length; k++) {
                 var fieldName = fieldsName[k];
                 tempObj[fieldName] = rowsGrouped[fieldName][i];
             }
-         
-            if(_validRowNumber(tempObj)){          
+
+            if (_validRowNumber(tempObj)) {
                 rowsUnGrouped.push(tempObj);
-            }else{
-                let errorField=JSON.stringify(tempObj).replace(/"/g,'');
-                invalidRows.push({line:i+1,record: errorField});    
-            }          
-           
+            } else {
+                let errorField = JSON.stringify(tempObj).replace(/"/g, '');
+                invalidRows.push({ line: i + 1, record: errorField });
+            }
+
         }
 
-        if(invalidRows.length>0){
-            let fe='';
+        if (invalidRows.length > 0) {
+            let fe = '';
             for (var r = 0; r < invalidRows.length; r++) {
-                 fe += JSON.stringify(invalidRows[r]).replace(/"/g,'')+'\n';                
-                 console.log(invalidRows[r]);
+                fe += JSON.stringify(invalidRows[r]).replace(/"/g, '') + '\n';
+                console.log(invalidRows[r]);
             }
 
             window.alert(`Only ${rowsUnGrouped.length} of ${numRecords} records have been successfully read from file. ${rowsUnGrouped.length} valid Record(s) will be added to the list`);
@@ -78,22 +78,22 @@
 
         return rowsUnGrouped;
     }
-    function _checkSelectedFieldKeys(hasHeader,contactFields,lodash) {
-            let keysNotMapped = [];
-             let _=lodash;
-            if (hasHeader) {
-                keysNotMapped = _.filter(contactFields, { mappedName: null, isKey: true });
-            } else {
-                keysNotMapped = _.filter(contactFields, { mappedIndex: 0, isKey: true });
-            }          
-            console.log('restul check fields key');
-            console.log(keysNotMapped);
-            return keysNotMapped;
+    function _checkSelectedFieldKeys(hasHeader, contactFields, lodash) {
+        let keysNotMapped = [];
+        let _ = lodash;
+        if (hasHeader) {
+            keysNotMapped = _.filter(contactFields, { mappedName: null, isKey: true });
+        } else {
+            keysNotMapped = _.filter(contactFields, { mappedIndex: 0, isKey: true });
+        }
+        console.log('restul check fields key');
+        console.log(keysNotMapped);
+        return keysNotMapped;
     }
 
-    function  _getMappedFiels(hasHeader,contactFields,lodash) {
+    function _getMappedFiels(hasHeader, contactFields, lodash) {
         let headerFieldsforTAble = [];
-        let _=lodash;
+        let _ = lodash;
         if (hasHeader === true) {
             headerFieldsforTAble = _.filter(contactFields, e => (e.mappedName !== null));
         } else {
@@ -103,21 +103,21 @@
     }
 
     function _getRowsData(hasHeader, contactFields, jsonCSV, lodash) {
-        let _=lodash;
+        let _ = lodash;
         let resultGroupedRows = {};
         let headersCSV;
-        let jsonCSVTemp=jsonCSV.slice();
+        let jsonCSVTemp = jsonCSV.slice();
         if (hasHeader === true) {
             headersCSV = jsonCSV[0]; // first row is for headers
             jsonCSVTemp.shift(); //delete the header for just work with data
         }
-        let mappedFiedls = _getMappedFiels(hasHeader,contactFields,_);
+        let mappedFiedls = _getMappedFiels(hasHeader, contactFields, _);
         mappedFiedls.forEach((el) => {
-            if (hasHeader) {               
+            if (hasHeader) {
                 let indexFieldHeader = headersCSV.indexOf(el.mappedName);
-                resultGroupedRows[el.name] = jsonCSVTemp.map((elem) => elem[indexFieldHeader]);                
-            } else {           
-                resultGroupedRows[el.name] = jsonCSV.map((elem) => elem[el.mappedIndex-1]);                
+                resultGroupedRows[el.name] = jsonCSVTemp.map((elem) => elem[indexFieldHeader]);
+            } else {
+                resultGroupedRows[el.name] = jsonCSV.map((elem) => elem[el.mappedIndex - 1]);
             }
         });
 
@@ -133,22 +133,22 @@
 
 
 
-    function  _getFieldsEntries(hasHeader,contactFields,jsonCSV,lodash) {
-        let fieldsEntries=[];
-        let mappedFiedls = _getMappedFiels(hasHeader,contactFields,lodash);
-        let _=lodash;
-       
-        fieldsEntries= _.map(mappedFiedls,el=>{
+    function _getFieldsEntries(hasHeader, contactFields, jsonCSV, lodash) {
+        let fieldsEntries = [];
+        let mappedFiedls = _getMappedFiels(hasHeader, contactFields, lodash);
+        let _ = lodash;
+
+        fieldsEntries = _.map(mappedFiedls, el => {
             let cn;
-            if(hasHeader){
-                cn=jsonCSV[0].indexOf(el.mappedName)+1;
-            }else{
-                cn=el.mappedIndex;
+            if (hasHeader) {
+                cn = jsonCSV[0].indexOf(el.mappedName) + 1;
+            } else {
+                cn = el.mappedIndex;
             }
-            let fieldEntry={
-                fieldName:el.name,
-                key:el.isKey,
-                columnNumber:cn
+            let fieldEntry = {
+                fieldName: el.name,
+                key: el.isKey,
+                columnNumber: cn
             };
             return fieldEntry;
         });
@@ -192,30 +192,40 @@
 
             this.message = { show: false };
             this.loadingContacts = true;
+            this.canMapping = false;
 
-            if (_$stateParams.settings && _$stateParams.settings.csvData) {
-                this.canMapping = true;
-                this.rawCSV = _$stateParams.settings.csvData;
-                this.jsonCSV = _csvToJSON(this.rawCSV);
-                this.maxIndexFields = this.jsonCSV[0].length;
+            console.log('satate params');
+            console.log(_$stateParams);
+
+            if (_$stateParams.manual === true) {
                 this.getContactFiels();
-                this.listName=$stateParams.name;
+                this.listName = $stateParams.name;
             } else {
-                this.canMapping = false;
-                this.message = { show: true, type: 'warning', text: 'no csv file arrived' };
+                if (_$stateParams.settings && _$stateParams.settings.csvData) {
+                    this.canMapping = true;
+                    this.rawCSV = _$stateParams.settings.csvData;
+                    this.jsonCSV = _csvToJSON(this.rawCSV);
+                    this.maxIndexFields = this.jsonCSV[0].length;
+                    this.getContactFiels();
+                    this.listName = $stateParams.name;
+                } else {
+                  
+                    this.message = { show: true, type: 'warning', text: 'no csv file arrived' };
+                }
             }
+
 
         }
         $onInit() {
             this.changeHeaderValue();
             this.changeDelimiter();
-
         }
+
         showState() {
             console.log('state array');
             console.log(this.contactFields);
-
         }
+
         initArrays() {
             // TODO: Research _.fill() does not work;
             console.log('initialized arrays');
@@ -229,12 +239,12 @@
                         el.isKey = false;
                     }
                 });
-                this.contactFieldsNames=_.map(this.contactFields,el=>{
-                    return _.omit(el,['isKey']);                    
-                });   
+                this.contactFieldsNames = _.map(this.contactFields, el => {
+                    return _.omit(el, ['isKey']);
+                });
 
-                this.contactFieldSelectedName=this.contactFieldsNames[0];
-            }           
+                this.contactFieldSelectedName = this.contactFieldsNames[0];
+            }
         }
 
         getContactFiels() {
@@ -305,42 +315,46 @@
             }
         }
 
-        finishMap() {
-            let checkSelectedKeys=_checkSelectedFieldKeys(this.hasHeader,this.contactFields,_);
+        nextStep(){
+            console.log('next Step');
+            console.log(this.contactFields);
+            _$state.go('ap.al.listsEdit-list', {settings:this.contactFields, manual: true});           
+        }
 
-            if(checkSelectedKeys.length===0){
+        finishMap() {
+            let checkSelectedKeys = _checkSelectedFieldKeys(this.hasHeader, this.contactFields, _);
+
+            if (checkSelectedKeys.length === 0) {
                 let contactKeys = _.filter(this.contactFields, { isKey: true });
                 let keyNames = _.map(contactKeys, 'name');
-                
-               let dataToSend = {                   
+
+                let dataToSend = {
                     resultMapping: {
                         keys: keyNames,
-                        rows: _getRowsData(this.hasHeader, this.contactFields, this.jsonCSV,_),
-                        headerFields: _getMappedFiels(this.hasHeader,this.contactFields,_)
+                        rows: _getRowsData(this.hasHeader, this.contactFields, this.jsonCSV, _),
+                        headerFields: _getMappedFiels(this.hasHeader, this.contactFields, _)
                     },
                     fieldsMapping: _getFieldsEntries(this.hasHeader, this.contactFields, this.jsonCSV, _)
                 };
-                
-                if(_$stateParams.settings.listDeleteSettings){
-                     dataToSend.listDeleteSettings = _$stateParams.settings.listDeleteSettings;
-                }else{
-                     dataToSend.listUpdateSettings = _$stateParams.settings.listUpdateSettings;    
+
+                if (_$stateParams.settings.listDeleteSettings) {
+                    dataToSend.listDeleteSettings = _$stateParams.settings.listDeleteSettings;
+                } else {
+                    dataToSend.listUpdateSettings = _$stateParams.settings.listUpdateSettings;
                 }
 
                 // this data goes to table (next step)
                 console.log('=== DATA FOR NEXT STEPP===');
                 console.log(dataToSend);
 
-                _$state.go('ap.al.listsEdit-list', {settings: dataToSend, name: _$stateParams.name});
-                 return dataToSend;           
-             }else{
-                let keyNamesNotMapped = _.map(checkSelectedKeys, 'name');    
-                this.message={ show: true, type: 'warning', text: `Contact Fiedls \"${keyNamesNotMapped}\" are marked as keys but has no mapped source field/index`,expires:8000};            
+                _$state.go('ap.al.listsEdit-list', { settings: dataToSend, name: _$stateParams.name });
+                return dataToSend;
+            } else {
+                let keyNamesNotMapped = _.map(checkSelectedKeys, 'name');
+                this.message = { show: true, type: 'warning', text: `Contact Fiedls \"${keyNamesNotMapped}\" are marked as keys but has no mapped source field/index`, expires: 8000 };
                 return null;
-             }
-        }
-
- 
+            }
+        }        
         // TODO:addMapping Item
         /*addMappingItem(){
             console.log(`selected item ${this.contactFieldSelectedName.name}`);
@@ -354,17 +368,17 @@
             }
             console.log(`the index found is ${idx}`);
         }*/
-        removeSelectedItem(){
+        removeSelectedItem() {
             console.log(this.contactFields);
             console.log(`the selected row is ${this.selectedRow}`);
-            console.log('goint to delete'); 
+            console.log('goint to delete');
             console.log(this.contactFields[this.selectedRow]);
 
-            if(this.contactFields[this.selectedRow]){
-                 this.contactFields.splice(this.selectedRow,1);
-                 return true;
-            }else{
-                  _$window.alert('no more fields to delete');
+            if (this.contactFields[this.selectedRow]) {
+                this.contactFields.splice(this.selectedRow, 1);
+                return true;
+            } else {
+                _$window.alert('no more fields to delete');
                 return false;
             }
         }
@@ -374,7 +388,14 @@
 
     angular.module('fakiyaMainApp')
         .component('al.lists.mapping', {
-            templateUrl: 'app/features/al/lists/edit/step2-mapping/step2-mapping.html',
+            templateUrl: function ($element, $attrs) {
+                let manual = JSON.parse($attrs.manual);
+                if (manual) {
+                    return 'app/features/al/lists/edit/step2-mapping/step2-keys.html';
+                } else {
+                    return 'app/features/al/lists/edit/step2-mapping/step2-mapping.html';
+                }
+            },
             controller: MapFieldsController
         });
 
