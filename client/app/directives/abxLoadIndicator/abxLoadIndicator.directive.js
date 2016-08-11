@@ -15,12 +15,16 @@ angular.module('fakiyaMainApp')
         function centerMessage() {  
 
           let widthRightSide=rightSide.innerWidth();
-          let rightOffset=Math.trunc((widthRightSide-200)/2);
+
+          let rightOffset=Math.ceil((widthRightSide-200)/2);
+
           loaderIndicator.css('right',rightOffset);
 
 
           let heightViewPort=mainContainer.innerHeight();
-          let topOffset=Math.trunc((heightViewPort/2)-50);
+
+          let topOffset=Math.ceil((heightViewPort/2)-50);
+
           loaderIndicator.css('top',topOffset);
 
        }
