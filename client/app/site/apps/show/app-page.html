@@ -1,11 +1,12 @@
-<div class="row apps-container app-page">
-    <h3 class="title_section col-md-12 col-sm-12"">Five9 <span>{{$ctrl.application.appFullName}}</span></h3>
+
+<div class="row app-page">
+    <h3 class="title_section col-md-12 col-sm-12">Five9 <span>{{$ctrl.application.appFullName}}</span></h3>
     <div class="row">
         <div class="col-md-2 col-sm-3">
             <div class="app-page-img-container">
                 <img class="img-responsive" src="assets/al/images/logo.jpg" alt="logo five9" />                
-                <button class="btn btn-black" ng-show="$ctrl.application.isInstalled">Open App</button>
-                <button class="btn btn-black" ng-show="!$ctrl.application.isInstalled">Get App</button>
+                <button class="btn btn-black" ng-show="$ctrl.application.isInstalled" ui-sref="underconstruction">Open app</button>
+                <button class="btn btn-black" ng-show="!$ctrl.application.isInstalled" ui-sref="underconstruction">Get app</button>
                 <p>Five9 admin account required</p>
             </div>
 
