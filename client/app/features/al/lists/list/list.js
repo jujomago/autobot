@@ -11,7 +11,10 @@ angular.module('fakiyaMainApp')
           	}
           },
          params: {
-            message: null
+            message: null,
+            name: null,
+            identifier: null,
+            isUpdate: null
          } 
       });
   });

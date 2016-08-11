@@ -51,6 +51,19 @@
             color: @white;
         }
     }
+    //button template for list
+    .btn-row {
+        border-radius: 0;
+        font-family: BrandonMedium;
+        padding: 2px 6px;
+        border: 0;
+        width: 60px;
+    }
+    .btn-shared-row{
+        display: inline-block;
+        margin-left: 3px;
+        margin-right: 3px;
+    }
     // circle for delete in lists
     .circle_delete {
         font-size: 25px;
@@ -426,6 +439,23 @@
             font-family: BrandonLight;
         }
 
+    }
+    .progress-icon {
+        font-size: 25px;
+        width: 40px;
+        height: 20px;
+        background: url('@{images_al_path}/AB-App-ProcessingIcon.png') no-repeat center center;
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .disabled-x-circle{
+        font-size: 25px;
+        width: 50px;
+        height: 20px;
+        background: url('@{images_al_path}/CloseIcon-Default.png') no-repeat center center;
+        display: inline-block;
+        vertical-align: middle;
+        pointer-events: none;
     }
 
     .right-select{
