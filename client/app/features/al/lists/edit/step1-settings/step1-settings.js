@@ -11,7 +11,6 @@ angular.module('fakiyaMainApp')
           }
         }, 
         params:{
-          identifier:null,
           isUpdate: null
         }
                

@@ -23,13 +23,16 @@
         getList(name) {
 
             var result = { data: null, statusCode: 200, errorMessage: '' };
-            console.log(this.endPointUrl + '/' + name);
             return _$http.get(this.endPointUrl + '/' + name)
                 .then(response => {
                     if (response.data) {
                         result.data = response.data.return;
-                        return result;
                     }
+                    else{
+                        result.data = 'error getting list';
+                        result.statusCode = 404;
+                    }
+                    return result;
                 })
                 .catch(error => {
                     result.statusCode = error.status;

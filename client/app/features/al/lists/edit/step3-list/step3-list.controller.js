@@ -229,7 +229,7 @@ class ListComponent {
               if(response.statusCode === 201){
                   if(response.data.return.identifier){
                     this.sending= false;
-                    _$state.go('ap.al.listsEdit', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: true});     
+                    _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: true});     
                   }
               }
               else{
@@ -256,7 +256,7 @@ class ListComponent {
               if(response.statusCode === 200){
                   if(response.data.return.identifier){
                     this.sending= false;
-                    _$state.go('ap.al.listsEdit', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: false});     
+                    _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: false});     
                   }
               }
               else{
