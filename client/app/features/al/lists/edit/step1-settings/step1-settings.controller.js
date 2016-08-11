@@ -101,8 +101,9 @@
         nextStep()
         {
           _setParams(this.settingsParams, this.listDeleteSettings, this.listUpdateSettings, this.deleteSelected, this.updateSelected);
-          _$state.go('ap.al.listsEdit-list', {settings:this.settingsParams,name:_$stateParams.name, manual: true});
-        }
+         // _$state.go('ap.al.listsEdit-list', {settings:this.settingsParams,name:_$stateParams.name, manual: true});
+          _$state.go('ap.al.mapping', {settings:this.settingsParams,name:_$stateParams.name, manual: true});
+        } 
         sendFile()
         {
           this.sent = true;

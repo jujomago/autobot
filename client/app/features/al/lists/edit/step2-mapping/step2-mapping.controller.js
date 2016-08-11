@@ -69,7 +69,6 @@
             let fe = '';
             for (var r = 0; r < invalidRows.length; r++) {
                 fe += JSON.stringify(invalidRows[r]).replace(/"/g, '') + '\n';
-                console.log(invalidRows[r]);
             }
 
             window.alert(`Only ${rowsUnGrouped.length} of ${numRecords} records have been successfully read from file. ${rowsUnGrouped.length} valid Record(s) will be added to the list`);
@@ -81,26 +80,50 @@
     function _checkSelectedFieldKeys(hasHeader, contactFields, lodash) {
         let keysNotMapped = [];
         let _ = lodash;
+
+        let allKeysFields = _.filter(contactFields,{'isKey':true});
+        let allRepeatedKeyFields=_.filter(contactFields,el=>{
+               let idxFound=_.findIndex(allKeysFields, {'name':el.name});
+               return idxFound>=0;              
+        });
+        
         if (hasHeader) {
-            keysNotMapped = _.filter(contactFields, { mappedName: null, isKey: true });
+            keysNotMapped = _.chain(allRepeatedKeyFields).filter({'mappedName':null}).uniq('name').value();
         } else {
-            keysNotMapped = _.filter(contactFields, { mappedIndex: 0, isKey: true });
+            keysNotMapped = _.chain(allRepeatedKeyFields).filter({'mappedIndex':0}).uniq('name').value();
         }
-        console.log('restul check fields key');
-        console.log(keysNotMapped);
+
+     /*   console.log('restul check fields key');
+        console.log(keysNotMapped);*/
         return keysNotMapped;
     }
 
-    function _getMappedFiels(hasHeader, contactFields, lodash) {
+    function _getMappedFiels(hasHeader, contactFields, uniq ,lodash) {
         let headerFieldsforTAble = [];
         let _ = lodash;
+    
+
         if (hasHeader === true) {
-            headerFieldsforTAble = _.filter(contactFields, e => (e.mappedName !== null));
+            if(uniq==='uniq'){
+                headerFieldsforTAble = _.chain(contactFields)
+                                  .reject({'mappedName':null})
+                                  .uniq('name').value();
+            }else{
+                headerFieldsforTAble = _.reject(contactFields,{'mappedName':null});                 
+            }                                 
         } else {
-            headerFieldsforTAble = _.filter(contactFields, e => (e.mappedIndex !== 0));
+             if(uniq==='uniq'){
+                headerFieldsforTAble = _.chain(contactFields)
+                                  .reject({'mappedIndex':0})
+                                  .uniq('name').value();
+             }else{
+                headerFieldsforTAble = _.filter(contactFields,{'mappedIndex':0});
+             }
         }
+
         return headerFieldsforTAble;
     }
+
 
     function _getRowsData(hasHeader, contactFields, jsonCSV, lodash) {
         let _ = lodash;
@@ -111,13 +134,53 @@
             headersCSV = jsonCSV[0]; // first row is for headers
             jsonCSVTemp.shift(); //delete the header for just work with data
         }
-        let mappedFiedls = _getMappedFiels(hasHeader, contactFields, _);
-        mappedFiedls.forEach((el) => {
-            if (hasHeader) {
-                let indexFieldHeader = headersCSV.indexOf(el.mappedName);
-                resultGroupedRows[el.name] = jsonCSVTemp.map((elem) => elem[indexFieldHeader]);
+
+    //    console.log('attackin json');
+    //    console.log(jsonCSV);
+
+        let mappedFiedls = _getMappedFiels(hasHeader, contactFields, 'uniq', _);
+
+        _.each(mappedFiedls,el=>{
+            let typeField=el.type;
+            let mappedSourcesByFieldName=_.filter(contactFields,{'name':el.name});
+
+            if (hasHeader) {   
+                let mappedFieldsNames=_.map(mappedSourcesByFieldName,'mappedName');
+                let mappedFiedlsNamesIndexes=_.map(mappedFieldsNames,el=>_.indexOf(headersCSV,el));                              
+
+                resultGroupedRows[el.name] = jsonCSVTemp.map(elem => {
+                        if(typeField==='PHONE'){
+                            return _.chain(mappedFiedlsNamesIndexes)
+                                    .map(ind=>{                                 
+                                            if(!isNaN(elem[ind])){
+                                                return elem[ind];
+                                            }
+                                    }).join('').value();
+
+                        }else{
+                            return _.chain(mappedFiedlsNamesIndexes)
+                                   .map(ind=>elem[ind]).join(' ').value();
+                        }
+                });
+                
             } else {
-                resultGroupedRows[el.name] = jsonCSV.map((elem) => elem[el.mappedIndex - 1]);
+                let mappedFiedlsIndexes=_.map(mappedSourcesByFieldName,'mappedIndex');
+
+                resultGroupedRows[el.name] = jsonCSV.map(elem => {
+                     if(typeField==='PHONE'){
+                         return _.chain(mappedFiedlsIndexes)
+                                    .map(ind=>{                                 
+                                            if(!isNaN(elem[ind-1])){
+                                                return elem[ind-1];
+                                            }
+                                    }).join('').value();
+                     }else{
+                        return _.chain(mappedFiedlsIndexes)
+                               .map(ind=>elem[ind-1])
+                               .join(' ').value();                  
+                     }
+                });
+
             }
         });
 
@@ -131,11 +194,9 @@
     }
 
 
-
-
     function _getFieldsEntries(hasHeader, contactFields, jsonCSV, lodash) {
         let fieldsEntries = [];
-        let mappedFiedls = _getMappedFiels(hasHeader, contactFields, lodash);
+        let mappedFiedls = _getMappedFiels(hasHeader, contactFields, 'uniq' ,lodash);
         let _ = lodash;
 
         fieldsEntries = _.map(mappedFiedls, el => {
@@ -194,9 +255,6 @@
             this.loadingContacts = true;
             this.canMapping = false;
 
-            console.log('satate params');
-            console.log(_$stateParams);
-
             if (_$stateParams.manual === true) {
                 this.getContactFiels();
                 this.listName = $stateParams.name;
@@ -209,7 +267,6 @@
                     this.getContactFiels();
                     this.listName = $stateParams.name;
                 } else {
-                  
                     this.message = { show: true, type: 'warning', text: 'no csv file arrived' };
                 }
             }
@@ -325,14 +382,16 @@
             let checkSelectedKeys = _checkSelectedFieldKeys(this.hasHeader, this.contactFields, _);
 
             if (checkSelectedKeys.length === 0) {
-                let contactKeys = _.filter(this.contactFields, { isKey: true });
-                let keyNames = _.map(contactKeys, 'name');
 
-                let dataToSend = {
+                let keyNames = _.chain(this.contactFields)
+                                    .filter({isKey:true})
+                                    .map('name').value();
+                 let dataToSend = {
                     resultMapping: {
                         keys: keyNames,
                         rows: _getRowsData(this.hasHeader, this.contactFields, this.jsonCSV, _),
-                        headerFields: _getMappedFiels(this.hasHeader, this.contactFields, _)
+                        headerFields: _getMappedFiels(this.hasHeader, this.contactFields, 'uniq', _)
+
                     },
                     fieldsMapping: _getFieldsEntries(this.hasHeader, this.contactFields, this.jsonCSV, _)
                 };
@@ -342,6 +401,7 @@
                 } else {
                     dataToSend.listUpdateSettings = _$stateParams.settings.listUpdateSettings;
                 }
+              
 
                 // this data goes to table (next step)
                 console.log('=== DATA FOR NEXT STEPP===');
@@ -351,23 +411,28 @@
                 return dataToSend;
             } else {
                 let keyNamesNotMapped = _.map(checkSelectedKeys, 'name');
-                this.message = { show: true, type: 'warning', text: `Contact Fiedls \"${keyNamesNotMapped}\" are marked as keys but has no mapped source field/index`, expires: 8000 };
+                this.message = { show: true, type: 'warning', text: `Contact Fields \"${keyNamesNotMapped.join(' , ')}\" are marked as keys but has no mapped source field/index`, expires: 8000 };
                 return null;
             }
-        }        
-        // TODO:addMapping Item
-        /*addMappingItem(){
-            console.log(`selected item ${this.contactFieldSelectedName.name}`);
-            let idx=_.findIndex(this.contactFields,{'name': this.contactFieldSelectedName.name});
-            if(idx>=0){
-               this.contactFields.splice(idx,0,this.contactFieldSelectedName);
-            }else{
+        }
+
+        addMappingItem() {
+            console.log(`selected item ${angular.toJson(this.contactFieldSelectedName)}`);
+
+            let clonedItem = angular.copy(this.contactFieldSelectedName);
+
+            let idx = _.findIndex(this.contactFields, { 'name': this.contactFieldSelectedName.name });
+            if (idx >= 0) {
+                this.contactFields.splice((idx + 1), 0, clonedItem);                
+            } else {
                 console.log('not found field, inserted first');
                 this.contactFields.unshift(this.contactFieldSelectedName);
                 // push first
             }
             console.log(`the index found is ${idx}`);
-        }*/
+            return idx;         
+        }
+        
         removeSelectedItem() {
             console.log(this.contactFields);
             console.log(`the selected row is ${this.selectedRow}`);
