@@ -24,7 +24,7 @@
             this.SubmitText = 'Save';
             this.found = false;
             this.changePass = false;
-            this.allRoles = ['admin', 'agent', 'reporting', 'supervisor'];
+            this.allRoles = ['agent', 'supervisor' , 'admin', 'reporting', ];
             this.userRoles = [];
             this.userSkills = [];
             this.showErrorMessage = { show: false, message: '' };   
@@ -126,7 +126,7 @@
                         return true;               
                     }, this);
                     
-                    this.allRoles = rolesAvailable;
+                    this.allRoles = rolesAvailable; 
                     return _users;
                 })
                 .catch(error => console.log(error));
