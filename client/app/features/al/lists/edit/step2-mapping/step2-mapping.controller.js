@@ -250,7 +250,7 @@
 
             this.message = { show: false };
             this.loadingContacts = true;
-
+            this.canMapping = false;
 
             console.log('satate params');
             console.log(_$stateParams);
@@ -267,7 +267,7 @@
                     this.getContactFiels();
                     this.listName = $stateParams.name;
                 } else {
-                    this.canMapping = false;
+              
                     this.message = { show: true, type: 'warning', text: 'no csv file arrived' };
                 }
             }
@@ -410,11 +410,11 @@
                 return dataToSend;
             } else {
                 let keyNamesNotMapped = _.map(checkSelectedKeys, 'name');
-                this.message = { show: true, type: 'warning', text: `Contact Fiedls \"${keyNamesNotMapped.join(' , ')}\" are marked as keys but has no mapped source field/index`, expires: 8000 };
+                this.message = { show: true, type: 'warning', text: `Contact Fields \"${keyNamesNotMapped.join(' , ')}\" are marked as keys but has no mapped source field/index`, expires: 8000 };
                 return null;
             }
         }
-        // TODO:addMapping Item
+
         addMappingItem() {
             console.log(`selected item ${angular.toJson(this.contactFieldSelectedName)}`);
 
@@ -422,13 +422,14 @@
 
             let idx = _.findIndex(this.contactFields, { 'name': this.contactFieldSelectedName.name });
             if (idx >= 0) {
-                this.contactFields.splice((idx + 1), 0, clonedItem);
+                this.contactFields.splice((idx + 1), 0, clonedItem);                
             } else {
                 console.log('not found field, inserted first');
                 this.contactFields.unshift(this.contactFieldSelectedName);
                 // push first
             }
             console.log(`the index found is ${idx}`);
+            return idx;         
         }
 
         removeSelectedItem() {
