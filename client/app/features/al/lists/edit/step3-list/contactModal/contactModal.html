@@ -1,31 +1,42 @@
 <div class="modal-header">
-    <button type="button" class="close" ng-click="$ctrl.close()">&times;</button>
+    <button type="button" class="close circle_close edit-modal-x" ng-click="$ctrl.cancel()"></button>
     <h3 class="modal-title">Add new contact</h3>
 </div>
-<div class="modal-body al-theme">
-    <form name="formList" novalidate ng-submit="formList.$valid && $ctrl.save(formList)" class="custom_form form-horizontal">
+<div class="modal-body">
+    <form name="formList" novalidate ng-submit="formList.$valid && $ctrl.save()" class="custom_form form-horizontal">
         <div class="contact-model-form">
           <div ng-repeat="form in $ctrl.formDataModal" > 
             <div class="inputminimal" ng-class="{ 'has-error': formList[form.name].$invalid && formList.$submitted }">  
-                <label ng-if="!form.required" for="{{form.name}}">{{form.name | removeUnderscore}}</label>
-                <label ng-if="form.required" for="{{form.name}}">{{form.name | removeUnderscore}} *</label>     
+                <label for="{{form.name}}">{{form.name | removeUnderscore}}<span ng-if="form.required"> (key)</span></label>     
                 <div>
-                     <input ng-if="!form.required" type="{{form.type}}" name="{{form.name}}" ng-minlength="{{form.minlength}}" ng-maxlength="{{form.maxlength}}" id="{{form.name}}" ng-model="$ctrl.contact[form.name]" abx-check-phone/>
-
-                     <input ng-if="form.required" type="{{form.type}}" name="{{form.name}}" ng-minlength="{{form.minlength}}" ng-maxlength="{{form.maxlength}}" id="{{form.name}}" ng-model="$ctrl.contact[form.name]" required="required" abx-check-phone/>
+                     <input type="{{form.type}}" ng-if="form.type != 'date-text' && form.type != 'tel'" name="{{form.name}}" ng-minlength="{{form.minlength}}" ng-maxlength="{{form.maxlength}}" id="{{form.name}}" ng-model="$ctrl.contact[form.name]" ng-required="form.required" ng-change="$ctrl.phoneChanged()"/>
+                     <input type="{{form.type}}" ng-if="form.type == 'tel' " name="{{form.name}}" ng-minlength="{{form.minlength}}" ng-maxlength="{{form.maxlength}}" id="{{form.name}}" ng-model="$ctrl.contact[form.name]" ng-required="$ctrl.phoneRequired" ng-change="$ctrl.phoneChanged()" abx-check-phone/>
+                     <input ng-if="form.type == 'date-text'" type="{{form.type}}" name="{{form.name}}" ng-minlength="{{form.minlength}}" ng-maxlength="{{form.maxlength}}" id="{{form.name}}" ng-model="$ctrl.dates[$index].date" ng-required="form.required" uib-datepicker-popup="MM-dd-yyyy" datepicker-options="$ctrl.dateOptions" is-open="$ctrl.dates[$index].opened" readonly="" ng-change="$ctrl.phoneChanged()"/>
+                     <div ng-if="form.type == 'date-text'" class="datetime-button">
+                      <span class="timepicker-input">
+                        <input type="time" name="$ctrl.dates[$index].time" id="$ctrl.dates[$index].time" ng-model="$ctrl.dates[$index].time" placeholder="HH:mm:ss" min="00:00:00" max="23:00:00"/>
+                      </span>
+                      <span class="datepicker-button">
+                        <button type="button" class="btn btn-default" ng-click="$ctrl.openDatePicker($index)"><i class="glyphicon glyphicon-calendar"></i></button>
+                      </span>
+                     </div>
                 </div>
             </div>
             <div ng-messages="formList[form.name].$error" ng-show="formList.$submitted">
                   <p ng-message="minlength">This field is too short</p>
-                  <p ng-message="required">This field is required</p>
+                  <p ng-message="required" ng-if="!$ctrl.phoneRequired">This field is required</p>
                   <p nf-if="form.type == 'email'" ng-message="email">This field must be an email address</p>
-                  <p ng-message="usphoneValidator">This field is not a valid Number</p>
+                  <p ng-message="required" nf-if="$ctrl.phoneRequired">The contacts record does not have any number</p>
+                  <p ng-message="usphoneValidator">This field has a invalid value. Number must either be 10 digits for dialing within North America, or begin with "011" for International number.</p>
             </div>
           </div>
         </div>
-        <div class="text-center">
-          <button class="btn btn-blue" href type="submit">Save</button>
-          <a class="btn btn-blue" href ng-click="$ctrl.cancel(formList)">Cancel</a>
+        <div class="form-group contact-buttons">
+          <div class="text-center">
+            <button ng-if="$ctrl.method == 'create'" class="btn btn-blue" type="submit">Insert</button>
+            <button ng-if="$ctrl.method == 'update'" class="btn btn-blue" type="submit">Edit</button>
+            <a class="btn btn-blue" ng-click="$ctrl.cancel()">Cancel</a>
+          </div>
         </div>
     </form>    
 </div>

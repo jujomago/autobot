@@ -387,7 +387,7 @@
                 dataToSend.listUpdateSettings = _$stateParams.settings.listUpdateSettings;
             }
 
-            _$state.go('ap.al.listsEdit-list', {settings:dataToSend, manual: true});           
+            _$state.go('ap.al.listsEdit-list', {settings:dataToSend, name: _$stateParams.name, manual: true});           
         }
 
         finishMap() {
