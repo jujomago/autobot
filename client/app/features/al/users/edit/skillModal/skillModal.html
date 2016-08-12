@@ -1,9 +1,9 @@
 <div class="modal-header">
     <button type="button" class="close circle_close" ng-click="$ctrl.cancel()"></button>
-    <h3 class="title_section" ng-if="$ctrl.method == 'create'">Add new Skill</h3>
-    <h3 class="title_section" ng-if="$ctrl.method == 'update'">Update a Skill</h3>
+    <h3 class="title_section" ng-if="$ctrl.method == 'create'">Add new skill</h3>
+    <h3 class="title_section" ng-if="$ctrl.method == 'update'">Update a skill</h3>
 </div>
-<div class="modal-body">
+<div class="modal-body skillU-modal">
   <form class="form-horizontal" name="formSkill" novalidate ng-submit="formSkill.$valid && $ctrl.save()">
 
     <div ng-if="$ctrl.skills" class="inputminimal" ng-class="{ 'has-error': formSkill.skill.$invalid && formSkill.$submitted }">
