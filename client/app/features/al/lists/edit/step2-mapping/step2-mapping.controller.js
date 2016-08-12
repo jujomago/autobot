@@ -375,7 +375,19 @@
         nextStep(){
             console.log('next Step');
             console.log(this.contactFields);
-            _$state.go('ap.al.listsEdit-list', {settings:this.contactFields, manual: true});           
+
+
+            let dataToSend = {
+                    fields: this.contactFields
+            };
+
+            if (_$stateParams.settings.listDeleteSettings) {
+                dataToSend.listDeleteSettings = _$stateParams.settings.listDeleteSettings;
+            } else {
+                dataToSend.listUpdateSettings = _$stateParams.settings.listUpdateSettings;
+            }
+
+            _$state.go('ap.al.listsEdit-list', {settings:dataToSend, manual: true});           
         }
 
         finishMap() {
