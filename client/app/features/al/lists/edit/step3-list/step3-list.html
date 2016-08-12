@@ -2,20 +2,25 @@
 
 <abx-message msg="$ctrl.message"></abx-message>
 
+<div class="mywell text-right" ng-if="$ctrl.error">
+    <a class="btn btn-black" ng-click="$ctrl.cancelList()">Cancel</a>    
+</div>
+
 <abx-load-indicator ng-show="!$ctrl.manual && ($ctrl.list.length==0 && $ctrl.message.show)" text="Loading List"></abx-load-indicator>
 
 <abx-load-indicator ng-show="$ctrl.manual && $ctrl.loadingContacts" text="Loading List"></abx-load-indicator>
 
 <abx-load-indicator ng-show="$ctrl.sending" text="Sending"></abx-load-indicator>
 
-<div ng-show="!$ctrl.sending && $ctrl.loaded">
+<div ng-show="!$ctrl.sending && $ctrl.loaded" class="edit-list">
 
     <div class="pull-left">
         <div class="mywell">
-            <h4>List Update</h4>
+            <h3 ng-if="$ctrl.typeUpdate">List Update</h3>
+            <h3 ng-if="!$ctrl.typeUpdate">List Delete</h3>
         </div>
         <div class="mywell">
-            <div class="searchbox_container">
+            <div class="searchbox_container search">
                 <input type="search" ng-model="$ctrl.search" class="searchbox" placeholder="Search" ng-change="$ctrl.filteringBySearch()">
                 <span class="glyphicon glyphicon-search"></span>
             </div>
@@ -27,16 +32,16 @@
             <a class="btn btn-black" ng-click="$ctrl.cancelList()">Cancel</a>    
         </div>
         <div class="mywell" ng-show="!$ctrl.loadingContacts || !$ctrl.manual">
-            <a class="btn btn-black" ng-if="$ctrl.manual" ng-click="$ctrl.insertContact()">Insert</a>
-            <a class="btn btn-black" ng-if="!$ctrl.manual" ng-click="$ctrl.insertContact()" ng-disabled="$ctrl.error">Insert</a>
-            <a class="btn btn-black" ng-disabled="$ctrl.selectedArray.length === 0 || $ctrl.selectedArray.length > 1" ng-click="$ctrl.editContact($ctrl.selected)">Edit</a>
+            <a class="btn btn-black" ng-if="$ctrl.manual" ng-click="$ctrl.insertContact()" ng-disabled="$ctrl.selectedArray.length > 0">Insert</a>
+            <a class="btn btn-black" ng-if="!$ctrl.manual" ng-click="$ctrl.insertContact()" ng-disabled="$ctrl.error || $ctrl.selectedArray.length > 0">Insert</a>
+            <a class="btn btn-black" ng-disabled="$ctrl.selectedArray.length === 0 || $ctrl.selectedArray.length > 1" ng-click="$ctrl.editContact()">Edit</a>
             <button class="btn btn-black" ng-disabled="$ctrl.selectedArray.length < 1" ng-click="$ctrl.deleteContact()">Delete</button>
-            <button class="btn btn-black" ng-click="$ctrl.shuffleList()" ng-disabled="$ctrl.filteredList.length===0">Shuffle</button>
+            <button class="btn btn-black" ng-click="$ctrl.shuffleList()" ng-disabled="$ctrl.filteredList.length <= 1">Shuffle</button>
         </div>
     </div>
 
     <div class="table-responsive table-x-scroll" ng-show="$ctrl.list.length>0">
-        <table class="table table-striped contact-list" ng-show="$ctrl.filteredList.length">
+        <table class="table table-striped contact-list" ng-class="{'width-manual': $ctrl.manual}" ng-show="$ctrl.filteredList.length">
             <thead>
                 <th ng-click="$ctrl.sortColumn(header.name)" ng-repeat="header in $ctrl.importData.fields" class="sortColumn">
                     {{header.name | removeUnderscore}}
@@ -44,9 +49,12 @@
                 </th>
             </thead>
             <tbody>
-                <tr ng-repeat="(key, item) in ( $ctrl.filteredList=($ctrl.list | filter:$ctrl.search) |  limitTo:$ctrl.numPerPage:$ctrl.beginNext)" ng-click="$ctrl.selectedContact(key)" ng-dblClick="$ctrl.editContact(key)">
-                    <td ng-repeat="header in $ctrl.importData.fields" ng-class="{'row-selected': $ctrl.selectedArray.indexOf(key) != -1}">
-                        <a>
+                <tr ng-repeat="(key, item) in ( $ctrl.filteredList=($ctrl.list | filter:$ctrl.search) |  limitTo:$ctrl.numPerPage:$ctrl.beginNext) track by $index" ng-click="$ctrl.selectedContact($index+$ctrl.beginNext, item)" ng-dblClick="$ctrl.editContact()">
+                    <td ng-repeat="header in $ctrl.importData.fields" ng-class="{'row-selected': $ctrl.selectedArray.indexOf(key+$ctrl.beginNext) != -1}">
+                        <a ng-if="header.type == 'DATE_TIME'">
+                            {{item[header.name] | date:'MM-dd-yyyy HH:mm:ss'}}
+                        </a>
+                        <a ng-if="header.name != 'last_sms'">
                             {{item[header.name]}}
                         </a>
                     </td>

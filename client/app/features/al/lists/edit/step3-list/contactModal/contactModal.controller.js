@@ -1,64 +1,162 @@
 'use strict';
-
-let _$modalInstance;
-class modalCtrl{
-    constructor($uibModalInstance, contactModal, fields){
-        
-        _$modalInstance = $uibModalInstance;
-
-	  	this.data = contactModal;
-	  	
-		this.contact = angular.copy(this.data);
-	  		
-	  	this.formDataModal = this.getValidation(fields);
+(function(){
+  function _parseDate(d, t){
+    let time = {h:'', m:'', s:''};
+    let date = {d:'', m:'', y:''};
+    let dateTime = new Date();
+    date.d = d.getDate();
+    date.m = d.getMonth();
+    date.y = d.getFullYear();
+    
+    if(!d && !t){
+      return dateTime;
     }
 
-    getValidation(fields){
+    if(t){
+      time.h = t.getHours();
+      time.m = t.getMinutes();
+      time.s = t.getSeconds();
+      dateTime = new Date(date.y, date.m, date.d, time.h, time.m, time.s);
+    }else{
+      dateTime = new Date(date.y, date.m, date.d, '00', '00', '00');
+    }
+    return dateTime;
+  }
 
-		    let validation = [];
-		    let typeInput;
-		    let required;
+  function _getTime(dates, contact){
+    let hours;
+    let minutes; 
+    let seconds;
+    dates.map((value, key)=>{
+      if(contact[value.name] !== '' && contact[value.name] !== null){
+        hours = contact[value.name].getHours();
+        minutes = contact[value.name].getMinutes();
+        seconds = contact[value.name].getSeconds();
+        dates[key].date = contact[value.name];
+        dates[key].time = new Date(new Date(1970, 0, 1, hours, minutes, seconds));
+      }
+    });
+    return dates;
+  }
+class ContactModalComponent {
+  constructor() {
+  	  
+  }
 
-		    //I have changed this because I just use lodash once time
-		    fields.map(function(value){
-		      
-		      switch(value.type){
-		        case 'PHONE': typeInput = 'tel';
-		          break;
-		        case 'STRING': typeInput = 'text';
-		          break;
-		        case 'EMAIL': typeInput = 'email';
-		          break;
-		        default:
-		          typeInput = 'text';
-		          break;
-		      }
+  $onInit(){
 
-		      required = (value.isKey) ? true : false;
+  	this.instance = this.edit.modalInstance;
 
-		      if(typeInput === 'tel'){
-		      	validation.push({'name': value.name, 'type': typeInput, 'required': required, 'min-length': 10, 'max-lentgh': 20});	
-		      }else{
-		      	validation.push({'name': value.name, 'type': typeInput, 'required': required, 'min-length': 5, 'max-lentgh': 50});	
-		      }
+    this.numbers = [];
 
-		    });
-		    return validation;
-	}
+    this.dates = [];
 
-    save(form){
-    	if(form.$valid && form.$submitted){
-			_$modalInstance.close(this.contact);
+    this.manual = this.edit.manual;
+
+    this.fields = this.edit.importData.fields;
+
+    this.method = this.edit.method;
+
+    this.phoneRequired = (this.manual && this.method === 'create') ? true : false;
+
+    this.contactModal = angular.copy(this.edit.contact);
+
+    this.formDataModal = this.getValidation(this.fields);
+
+    if(Object.keys(this.contactModal).length > 0){
+    	if(this.dates.lentgh>0){
+    		this.dates = _getTime(this.dates, this.contactModal);
     	}
-	}
-
-    cancel(form){
-    	form.$setPristine();
-        _$modalInstance.dismiss('cancel');
     }
+
+    this.contact = this.contactModal;
+
+    this.dateOptions = {
+      formatYear: 'yy',
+      startingDay: 1
+    };
+  }
+
+  getValidation(fields){
+
+    let validation = [];
+    let typeInput;
+
+    fields.map((value, key)=>{
+      
+      switch(value.type){
+        case 'PHONE': typeInput = 'tel';
+          break;
+        case 'STRING': typeInput = 'text';
+          break;
+        case 'EMAIL': typeInput = 'email';
+          break;
+        case 'DATE_TIME': typeInput = 'date-text';
+          break;
+        default:
+          typeInput = 'text';
+          break;
+      }
+
+		let required = (value.isKey) ? value.isKey: false;
+
+		if(typeInput === 'date-text'){
+		  this.dates[key] = {opened: false, name: value.name, time: '', date: ''};
+		}
+
+		if(typeInput === 'tel'){
+		  validation.push({'name': value.name, 'type': typeInput, 'required': required, 'min-length': 10, 'max-lentgh': 20});
+		}else{
+		  validation.push({'name': value.name, 'type': typeInput, 'required': required, 'min-length': 5, 'max-lentgh': 50});  
+		}
+    });
+    return validation;
+  }
+
+  save(){
+  	if(this.dates.length>0){
+  		this.dates.map((value)=>{
+			if(value.date !== '' && value.date !== null){
+				this.contact[value.name] = _parseDate(value.date, value.time);  
+			}
+		});	
+  	}
+    this.instance.close(this.contact);
+  }
+
+  cancel(){
+	this.instance.dismiss('cancel');
+  }
+
+  openDatePicker(index) {
+    this.dates[index].opened = true;
+  }
+
+  phoneChanged(){
+    let numbers;
+    let data = [];
+    numbers = angular.element('input[type="tel"]');
+    numbers.map((key, value)=>{
+      if(angular.element(value).val()){
+        data.push(angular.element(value).val());  
+      }
+    });
+
+    if(data.length > 0){
+      this.phoneRequired = false;
+    }else{
+      this.phoneRequired = true;
+    }
+  }
 }
-
-modalCtrl.$inject = ['$uibModalInstance', 'contactModal', 'fields'];
-
 angular.module('fakiyaMainApp')
-    .controller('ContactModalCtrl', modalCtrl);
+  .component('al.lists.contactModal', {
+    templateUrl: 'app/features/al/lists/edit/step3-list/contactModal/contactModal.html',
+    controller: ContactModalComponent,
+    require: {
+      edit: '?^al.lists.edit.list',
+    }
+    
+});
+
+})();
