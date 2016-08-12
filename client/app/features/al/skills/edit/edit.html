@@ -45,18 +45,18 @@
                         <button type="submit" class="btn btn-black" ng-click="$ctrl.cancel()">Cancel</button>
                 </div>
             </form>        
-              </div>          
         </div>
     </uib-tab>
     <uib-tab index="1" heading="Users" select="$ctrl.listUsers()">
 
         <p>
-            <label>Assign Users for this Skill:</label> {{::$ctrl.selectedSkill.name}}
-        </p>
+            <label>Assign Users for this Skill:&nbsp;</label> {{::$ctrl.selectedSkill.name}}
+        </p>        
         
-        
-          <abx-message msg="$ctrl.message"></abx-message>     
-        <div class="row">
+        <abx-message msg="$ctrl.message"></abx-message>     
+
+        <div class="row panel-full-height">
+
             <div class="col-sm-12 col-md-4 ">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
@@ -80,7 +80,7 @@
                     </div>
                 </div>
             </div>
-            <div class="listaUsers ol-sm-12 col-md-8">
+            <div class="listaUsers col-sm-12 col-md-8">
                 <h4 ng-show="$ctrl.filteredUsers.length===0">
                     <label class="label label-info">Loading Users...</label>
                 </h4>

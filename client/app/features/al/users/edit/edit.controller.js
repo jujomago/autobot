@@ -118,7 +118,6 @@
                     this.userInfo.generalInfo.password = '**********';
                     this.userRoles = Object.keys(this.userInfo.roles);
                     this.userSkills = this.userInfo.skills;
-                    console.log(this.userSkills);
                     
                     let rolesAvailable = this.allRoles.filter(function(value) {
                         if(this.userRoles.indexOf(value) > -1){
