@@ -105,15 +105,19 @@ describe('Component: al.skills.edit', function() {
            it('=> should return object when delete',()=>{
                
                 EditComponent.selectedSkill.name='Marketing';
+         
                              
-                               
-                httpBackend.whenPOST(endPointUrl+'/skills/delete',{
+             let headerRequiredForDelete={'Content-Type':'application/json;charset=utf-8','Accept':'application/json, text/plain, */*','appName':''};
+    
+             httpBackend.when('DELETE',endPointUrl+'/testName/skills', {
                     skillName:EditComponent.selectedSkill.name,
-                    userName:'testName'}
-                ).respond(204,'');
+                    userName:'testName'
+                },headerRequiredForDelete).respond(204,'');
+
+
+                 httpBackend.expectGET(endPointUrl).respond({});      
                
-               httpBackend.expectGET(endPointUrl).respond({});
-                                                             
+             
                let deleteUserfromSkillPromise=EditComponent.deleteUserfromSkill({userName:'testName'},8);     
                  
                expect(EditComponent.toggleUserNameItem).to.equal(8);
@@ -126,7 +130,8 @@ describe('Component: al.skills.edit', function() {
                        expect(EditComponent.toggleUserNameItem).to.equal(-1);                 
                        expect(EditComponent.showPanelInfo).to.equal(false);
                        expect(EditComponent.message).to.eql({show:true,type:'success',text:'User Removed Sucessfully',expires:2000});          
-
+                        
+                                                            
                        
                });
                    

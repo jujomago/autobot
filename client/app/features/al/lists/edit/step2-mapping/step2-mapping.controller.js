@@ -465,14 +465,14 @@
 
     angular.module('fakiyaMainApp')
         .component('al.lists.mapping', {
-            templateUrl: function ($element, $attrs) {
+            templateUrl:['$element','$attrs', function ($element, $attrs) {
                 let manual = JSON.parse($attrs.manual);
                 if (manual) {
                     return 'app/features/al/lists/edit/step2-mapping/step2-keys.html';
                 } else {
                     return 'app/features/al/lists/edit/step2-mapping/step2-mapping.html';
                 }
-            },
+            }],
             controller: MapFieldsController
         });
 

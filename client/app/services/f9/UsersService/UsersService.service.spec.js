@@ -154,12 +154,15 @@ describe('Service: UsersService', function () {
             httpBackend.flush();
         });
 
-        it('#deleteSkillfromUser', function(){
-            httpBackend.whenPOST(endPointUrl+'/skills/delete', {
+        it('#deleteSkillfromUser', function(){ 
+
+            let headerRequiredForDelete={'Content-Type':'application/json;charset=utf-8','Accept':'application/json, text/plain, */*','appName':''};
+    
+             httpBackend.when('DELETE',endPointUrl+'/daniel.c@autoboxcorp.com/skills', {
                 userName: 'daniel.c@autoboxcorp.com',
                 skillName: 'Marketing',
                 level: 1
-            }).respond(204, null);
+            },headerRequiredForDelete).respond(204, null);
 
             UsersService.deleteSkillfromUser({
               userName: 'daniel.c@autoboxcorp.com',
