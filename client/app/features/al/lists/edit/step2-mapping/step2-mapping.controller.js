@@ -249,7 +249,7 @@
 
             this.customDelimiterEnabled = false;
 
-            this.contactFields = [];
+            this.contactFields = [];          
 
             this.message = { show: false };
             this.loadingContacts = true;
@@ -391,40 +391,47 @@
         }
 
         finishMap() {
+
+            let fieldsKeys = _.filter(this.contactFields,{'isKey':true});
+
             let checkSelectedKeys = _checkSelectedFieldKeys(this.hasHeader, this.contactFields, _);
 
-            if (checkSelectedKeys.length === 0) {
+           
+            if(fieldsKeys.length>0){
+                if (checkSelectedKeys.length === 0) {
+                    let keyNames = _.chain(this.contactFields)
+                                        .filter({isKey:true})
+                                        .map('name').value();
+                    let dataToSend = {
+                        resultMapping: {
+                            keys: keyNames,
+                            rows: _getRowsData(this.hasHeader, this.contactFields, this.jsonCSV, _),
+                            headerFields: _getMappedFiels(this.hasHeader, this.contactFields, 'uniq', _)
 
-                let keyNames = _.chain(this.contactFields)
-                                    .filter({isKey:true})
-                                    .map('name').value();
-                 let dataToSend = {
-                    resultMapping: {
-                        keys: keyNames,
-                        rows: _getRowsData(this.hasHeader, this.contactFields, this.jsonCSV, _),
-                        headerFields: _getMappedFiels(this.hasHeader, this.contactFields, 'uniq', _)
+                        },
+                        fieldsMapping: _getFieldsEntries(this.hasHeader, this.contactFields, this.jsonCSV, _)
+                    };
 
-                    },
-                    fieldsMapping: _getFieldsEntries(this.hasHeader, this.contactFields, this.jsonCSV, _)
-                };
+                    if (_$stateParams.settings.listDeleteSettings) {
+                        dataToSend.listDeleteSettings = _$stateParams.settings.listDeleteSettings;
+                    } else {
+                        dataToSend.listUpdateSettings = _$stateParams.settings.listUpdateSettings;
+                    }
+                
 
-                if (_$stateParams.settings.listDeleteSettings) {
-                    dataToSend.listDeleteSettings = _$stateParams.settings.listDeleteSettings;
+                    // this data goes to table (next step)
+                    console.log('=== DATA FOR NEXT STEPP===');
+                    console.log(dataToSend);
+
+                    _$state.go('ap.al.listsEdit-list', { settings: dataToSend, name: _$stateParams.name });
+                    return dataToSend;
                 } else {
-                    dataToSend.listUpdateSettings = _$stateParams.settings.listUpdateSettings;
+                    let keyNamesNotMapped = _.map(checkSelectedKeys, 'name');
+                    this.message = { show: true, type: 'warning', text: `Contact Fields \"${keyNamesNotMapped.join(' , ')}\" are marked as keys but has no mapped source field/index`, expires: 8000 };
+                    return null;
                 }
-              
-
-                // this data goes to table (next step)
-                console.log('=== DATA FOR NEXT STEPP===');
-                console.log(dataToSend);
-
-                _$state.go('ap.al.listsEdit-list', { settings: dataToSend, name: _$stateParams.name });
-                return dataToSend;
-            } else {
-                let keyNamesNotMapped = _.map(checkSelectedKeys, 'name');
-                this.message = { show: true, type: 'warning', text: `Contact Fields \"${keyNamesNotMapped.join(' , ')}\" are marked as keys but has no mapped source field/index`, expires: 8000 };
-                return null;
+            }else{
+                _$window.alert('At least one source fields should be mapped to Contact Field');
             }
         }
 
@@ -435,10 +442,12 @@
 
             let idx = _.findIndex(this.contactFields, { 'name': this.contactFieldSelectedName.name });
             if (idx >= 0) {
+                                
                 this.contactFields.splice((idx + 1), 0, clonedItem);                
             } else {
                 console.log('not found field, inserted first');
-                this.contactFields.unshift(this.contactFieldSelectedName);
+                clonedItem.isKey=false;
+                this.contactFields.unshift(clonedItem);
                 // push first
             }
             console.log(`the index found is ${idx}`);
