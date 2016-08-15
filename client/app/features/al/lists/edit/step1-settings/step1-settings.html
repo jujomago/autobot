@@ -11,8 +11,8 @@
 <abx-load-indicator ng-show="$ctrl.confirm"></abx-load-indicator> 
 <div ng-show="$ctrl.found && !$ctrl.confirm">
     <div class="pull-right button-container" ng-hide="$ctrl.homeSelected">
-    	<button ng-show="$ctrl.fileSelected" ng-click="$ctrl.goBack()" class="btn btn-black btn-sm">Back</button>
-    	<button ng-click="$ctrl.cancelAction()" class="btn btn-black btn-sm">Cancel</button>
+    	<button ng-show="$ctrl.fileSelected" ng-click="$ctrl.goBack()" class="btn btn-black">Back</button>
+    	<button ng-click="$ctrl.cancelAction()" class="btn btn-black">Cancel</button>
     </div> 
     <div ng-show="$ctrl.deleteSelected || $ctrl.updateSelected" class='settings-options-container'>
 		<div ng-show="$ctrl.deleteSelected" class="settings-text">
