@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="inputminimal" ng-class="{ 'has-error': (formCampaign.QuequeTimeMinutes.$invalid || formCampaign.QuequeTimeSeconds.$invalid) && formCampaign.$submitted }">
-                <label  class="col-xs-3">Max Queue Time (mm:ss) (*)</label>
+                <label  class="col-xs-5">Max Queue Time (mm:ss) (*)</label>
                 <div class="col-xs-9">
                     <input  type="number" name="QuequeTimeMinutes" min="0" max="59" ng-model="$ctrl.campaign.maxQueueTime.minutes" required>
                     
@@ -54,7 +54,7 @@
      
         
         <div class="row">
-            <div class="col col-xs-6">
+            <div class="col-sm-12 col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <strong>Lists Assigned</strong>
@@ -64,7 +64,7 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Action</th>
-                            </td>
+                            </tr>
                         </thead>
                         <tbody  ng-repeat="listItemAssigned in $ctrl.listsAssigned ">
                             <tr>
@@ -75,7 +75,7 @@
                     </table>
                 </div>
             </div>
-            <div class="col col-xs-6">
+            <div class="col-sm-12 col-md-6">
                 <div class="panel panel-default">
                         <div class="panel-heading">
                             <strong>Lists Available</strong>
