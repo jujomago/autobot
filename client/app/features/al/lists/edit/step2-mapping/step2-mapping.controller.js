@@ -387,7 +387,7 @@
                 dataToSend.listUpdateSettings = _$stateParams.settings.listUpdateSettings;
             }
 
-            _$state.go('ap.al.listsEdit-list', {settings:dataToSend, manual: true});           
+            _$state.go('ap.al.listsEdit-list', {settings:dataToSend, name: _$stateParams.name, manual: true});           
         }
 
         finishMap() {
@@ -465,14 +465,14 @@
 
     angular.module('fakiyaMainApp')
         .component('al.lists.mapping', {
-            templateUrl: function ($element, $attrs) {
+            templateUrl:['$element','$attrs', function ($element, $attrs) {
                 let manual = JSON.parse($attrs.manual);
                 if (manual) {
                     return 'app/features/al/lists/edit/step2-mapping/step2-keys.html';
                 } else {
                     return 'app/features/al/lists/edit/step2-mapping/step2-mapping.html';
                 }
-            },
+            }],
             controller: MapFieldsController
         });
 
