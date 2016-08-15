@@ -1,7 +1,7 @@
 'use strict';
 (function(){
-  let _ConfirmAsync, _ListsService, _AlertMessage, _Global;
-  let _$state,_$stateParams,_$uibModal, _$filter;
+  let _ConfirmAsync, _ListsService, _AlertMessage, _Global, _ModalManager;
+  let _$state,_$stateParams, _$filter;
   function _myIndex(lists ,name){
     //TODO: replace with return _lodash.findIndex(lists, function(list) { return list.name === name });
     return lists.map(e=>e.name).indexOf(name);
@@ -68,16 +68,16 @@
     return content;
   }
   class ListComponent {
-    constructor(ListsService,$stateParams,$state,$uibModal, $filter,ConfirmAsync, AlertMessage, Global) {
+    constructor(ListsService,$stateParams,$state, $filter, ModalManager,ConfirmAsync, AlertMessage, Global) {
         this.lists = [];
         _$stateParams = $stateParams;
         this.message = { show: false }; 
         if (_$stateParams.message !== null) {
           this.message = { show: true, type: _$stateParams.message.type, text: _$stateParams.message.text,expires: 3000 };
         }
-        _$uibModal = $uibModal;
         _$filter = $filter;
         _AlertMessage = AlertMessage;
+        _ModalManager = ModalManager;
         _Global = Global;
         this.currentPage = 1;
         this.sortKey = '';
@@ -162,11 +162,12 @@
        return false;
     }
     openModal(){
-      this.modalInstance = _$uibModal.open({
+      this.modalInstance = _ModalManager.open({
         animation: true,
         template: '<al.lists.create></al.lists.create>',
         size: 'md',
         appendTo: angular.element(document.querySelector('#modal-container')),
+        backdropClass: 'dark-backdrop',
         controllerAs: '$ctrl',
       });
 
@@ -210,6 +211,11 @@
       this.beginNext = (this.currentPage - 1) * this.numPerPage;
       console.log('beginNext:' + this.beginNext);
     }
+    updateRowSize(index, result){
+      if(index>-1){
+        this.lists[index].size+= result.listRecordsInserted - result.listRecordsDeleted;
+      }
+    }
     getResult(identifier, listName, isUpdate) {
       _Global.proccessIsRunning = true;       
       return _ListsService.isImportRunning(identifier,300)
@@ -223,7 +229,7 @@
           response.summaryMessage = _formatMessage(response.data, isUpdate, listName);
           _AlertMessage(response.summaryMessage);
           let index = _myIndex(this.lists, _$stateParams.name);
-          this.lists[index].size+= response.data.listRecordsInserted - response.data.listRecordsDeleted;
+          this.updateRowSize(index, response.data);
           this.processedRow = null;
           _Global.proccessIsRunning = false;
           return response;
@@ -236,7 +242,7 @@
     }
   }
 
-  ListComponent.$inject = ['ListsService','$stateParams','$state','$uibModal', '$filter', 'ConfirmAsync', 'AlertMessage', 'Global'];
+  ListComponent.$inject = ['ListsService','$stateParams','$state', '$filter', 'ModalManager', 'ConfirmAsync', 'AlertMessage', 'Global'];
 
   angular.module('fakiyaMainApp')
     .component('al.lists.list', {

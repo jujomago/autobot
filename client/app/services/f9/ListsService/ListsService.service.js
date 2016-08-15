@@ -40,27 +40,6 @@
                     return result;
                 });
         }
-        getCSV(path) {
-            var result = { data: null, statusCode: 200, errorMessage: '' };
-            return _$http.get(path)
-                .then(response => {
-                    if (response) {
-                        if(typeof response.data !== 'string'){
-                            result.data = JSON.stringify(response.data);
-                        }
-                        else{
-                            result.data = response.data;                            
-                        }
-
-                        return result;
-                    }
-                })
-                .catch(() => {
-                    result.statusCode = 403;
-                    result.errorMessage = 'Couldn\'t open csv file';
-                    return result;
-                });
-        }
         getLists() {
 
             var result = { data: null, statusCode: 200, errorMessage: '' };

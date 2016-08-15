@@ -1,5 +1,11 @@
-.regular-radio label{
-    color: #666;
+.regular-radio{
+	margin-right: 10px;
+	label{
+    	color: #666;
+	}
+}
+.inline-radio{
+	display: inline-block;
 }
 .disposition-type-header{
 	padding-left: 20px;
@@ -37,7 +43,6 @@
 		display: inline-block;
 		vertical-align: bottom;
 		text-align: left;
-		margin-right: 2%;
 		div{
 			height: 100%;
 		}
@@ -47,16 +52,15 @@
 		.inputminimal > label{
 			max-width: 180px; 
 			word-wrap: break-word;
-			@media (max-width: 500px) {
+			@media (max-width: 600px) {
 				max-width: 100px; 
 				line-height: 17px;
 			}
 		}
 		.inputminimal{
 			max-width: 350px;
-			@media (max-width: 500px) {
-		      min-width: 300px;
-		    }
+			display: inline-flex;
+			padding-right: 9px;
 		}
 		.inputminimal-disabled{
 			background-color: @gray;

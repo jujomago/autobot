@@ -227,6 +227,7 @@
             &>label{
                 color: black;
                 font-weight: normal;
+                margin-right: 5px;
             }
         }
         &>div.upload-checkbox{
@@ -265,6 +266,11 @@
     }
     .settings-button-container{
         text-align: center;
+        button.btn-black{
+            width: 185px;
+            margin-left: 7px;
+            margin-right: 7px;
+        }
     }
     .file-empty-error{
         color: red;
@@ -289,9 +295,17 @@
             }
         }
     }
-
+    //small fixed style for some buttons
+    .btn-sm-fixed{
+        width: 90px;
+        padding: 0;
+    }
+    
     //add Modal transparent
     #modal-container{
+        .modal{
+            overflow-y: hidden;
+        }
         .modal-content{
             text-align: left;
             background: transparent;
@@ -300,7 +314,6 @@
         }
         .modal-input{
             width: 60%;
-            
         }
         .medium-input{
             margin-top: 20px;
@@ -338,6 +351,10 @@
         }
         p{
             padding-left: 0;
+            
+        }
+        .error-modal{
+            color: #e64b3b;
         }
         .error-message{
 
@@ -350,8 +367,14 @@
         color:#ccc;
         cursor:not-allowed;
     }
-
-
+    //inline input with label
+    .custom_form{
+        .inputminimal{
+            &>input.inline-input{
+                width: auto;
+            }
+        }
+    }
 
     // ommit bootstrap col-x, adding fixed with to sidebar and fluid to rightside
     .sidebar{

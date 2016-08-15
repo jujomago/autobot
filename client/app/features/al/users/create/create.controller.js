@@ -2,12 +2,12 @@
 
 (function () {
 
-    let _UsersService,_state,_q,_$uibModal;
+    let _UsersService,_state,_$q,_ModalManager;
     
     class CreateComponent {
 
-        constructor($state, $sessionStorage, $q,$uibModal, UsersService) {
-            _$uibModal = $uibModal;
+        constructor($state, $sessionStorage, $q, UsersService, ModalManager) {
+            _ModalManager = ModalManager;
             this.storage = $sessionStorage;                  
             this.newUser = {
                 active: true,
@@ -26,14 +26,15 @@
             this.message = { show: false };
             
             _UsersService = UsersService;
-            _q = $q;
+            _$q = $q;
             _state = $state;
          
 
         }
         openModal(){
-            this.modalInstance = _$uibModal.open({
-                animation: false,
+            this.modalInstance = _ModalManager.open({
+                animation: true,
+                backdrop: 'static',
                 size: 'md',
                 controllerAs: '$ctrl',
                 appendTo: angular.element(document.querySelector('#modal-container')),
@@ -110,7 +111,7 @@
                     this.showWarningRolMessage = true;
                     console.warn('You must select at least one rol');
 
-                    let deferred = _q.defer();
+                    let deferred = _$q.defer();
                     console.log('Deferred value -->' + deferred);
                     deferred.resolve(null);
                     return deferred.promise;
@@ -174,7 +175,7 @@
 
 
 
-    CreateComponent.$inject = ['$state', '$sessionStorage', '$q', '$uibModal', 'UsersService'];
+    CreateComponent.$inject = ['$state', '$sessionStorage', '$q', 'UsersService', 'ModalManager'];
 
     angular.module('fakiyaMainApp')
         .component('al.users.create', {

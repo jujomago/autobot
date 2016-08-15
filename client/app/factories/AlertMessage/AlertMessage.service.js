@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('fakiyaMainApp')
-  .factory('AlertMessage', function ($uibModal) {
-    function openAlert(content){
-      $uibModal.open({
+  .factory('AlertMessage', function (ModalManager) {
+    function getOptions(content){
+      return {
         animation: false,
         templateUrl: 'app/factories/AlertMessage/AlertMessage.html',
         size: 'hs',
@@ -19,7 +19,15 @@ angular.module('fakiyaMainApp')
           }
         },
         windowTopClass: 'modal-summary'
-      });
-  }
-  return openAlert;
+      };
+    }
+    function openAlert(content){
+      let container = document.querySelector('#alert-container');
+      let options = getOptions(content);
+      if(container){
+        options.appendTo = angular.element(container);
+      }
+      ModalManager.open(options, false);
+    }
+   return openAlert;
   });

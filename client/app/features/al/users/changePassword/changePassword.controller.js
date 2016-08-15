@@ -1,8 +1,11 @@
 'use strict';
 (function(){
+  const STRING_EMPTY = '';
 class ChangePasswordComponent {
   constructor() {
     this.message = {show: false};
+    this.password = STRING_EMPTY;
+    this.confirm = STRING_EMPTY;
   }
   $onInit(){
      if(this.create){
