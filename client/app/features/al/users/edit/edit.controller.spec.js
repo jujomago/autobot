@@ -5,17 +5,18 @@ describe('Component: al.users.edit', function () {
   // load the controller's module
   beforeEach(module('fakiyaMainApp'));
 
-  var EditComponent, scope, _$httpBackend;
+  var EditComponent, scope, _$httpBackend, _$uibModal;
   var _SkillsService, _UsersService, endPointUrl, _ConfirmAsync, sandbox;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($componentController, $rootScope, $httpBackend, $window, appConfig, UsersService, SkillsService, ConfirmAsync) {
+  beforeEach(inject(function ($componentController, $rootScope, $httpBackend, $window, $uibModal, appConfig, UsersService, SkillsService, ConfirmAsync) {
     scope = $rootScope.$new();
 
     _ConfirmAsync = ConfirmAsync;
     _SkillsService = SkillsService;
     _UsersService = UsersService;
     _$httpBackend = $httpBackend;
+    _$uibModal = $uibModal;
 
     sandbox = sinon.sandbox.create();
 
@@ -313,6 +314,72 @@ describe('Component: al.users.edit', function () {
               expect(EditComponent.message).to.eql({ show: true, type: 'warning', text: textError, expires: 5000});
           });
         _$httpBackend.flush();
+      });
+
+      it('should return a skill to be added and check the userSkills list', function () {
+        let skillList = {skillName: 'Sales', level: 1};
+        let modalInstance = _$uibModal.open({
+                              controllerAs: '$ctrl',
+                              template: '<al.users.skill-modal></al.users.skill-modal>',
+                            });
+        EditComponent.userSkills = [
+          {
+            userName: 'daniel.c@autoboxcorp.com',
+            skillName: 'Marketing',
+            level: 3
+          }
+        ];
+        EditComponent.userInfo = {
+          generalInfo:{
+            userName: ''  
+          },
+          skills:[]
+        };
+
+        EditComponent.userInfo.generalInfo.userName = 'daniel.c@autoboxcorp.com';
+        
+        EditComponent.instance = modalInstance;
+        
+        modalInstance.result
+        .then(result => {
+            expect(result).to.eql(skillList);
+            expect(EditComponent.userSkills).to.have.lengthOf(2);
+        });
+      });
+
+      it('should return a skill updated and check the userSkills list', function () {
+        let skillList = {
+            userName: 'daniel.c@autoboxcorp.com',
+            skillName: 'Marketing',
+            level: 5
+        };
+        EditComponent.userSkills = [
+          {
+            userName: 'daniel.c@autoboxcorp.com',
+            skillName: 'Marketing',
+            level: 3
+          }
+        ];
+        
+        EditComponent.userInfo = {
+          generalInfo:{
+            userName: ''  
+          },
+          skills:[]
+        };
+
+        EditComponent.userInfo.generalInfo.userName = 'daniel.c@autoboxcorp.com';
+        let modalInstance = _$uibModal.open({
+                              controllerAs: '$ctrl',
+                              template: '<al.users.skill-modal></al.users.skill-modal>',
+                            });
+        EditComponent.instance = modalInstance;
+        EditComponent.methodSkills = 'update';
+        modalInstance.result
+        .then(result => {
+            expect(result).to.eql(skillList);
+            expect(EditComponent.userSkills).to.have.lengthOf(1);
+        });
       });
   });
 

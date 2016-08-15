@@ -23,7 +23,8 @@
             this.qp = $q;
             this.SubmitText = 'Save';
             this.found = false;
-            this.allRoles = ['admin', 'agent', 'reporting', 'supervisor'];
+            this.changePass = false;
+            this.allRoles = ['agent', 'supervisor' , 'admin', 'reporting', ];
             this.userRoles = [];
             this.userSkills = [];
             this.showErrorMessage = { show: false, message: '' };   
@@ -82,7 +83,7 @@
                 }
             });
         }
-
+        
         getAllPermissions(){
               return _UsersService.getPermissions()
                 .then(response => {
@@ -125,7 +126,7 @@
                         return true;               
                     }, this);
                     
-                    this.allRoles = rolesAvailable;
+                    this.allRoles = rolesAvailable; 
                     return _users;
                 })
                 .catch(error => console.log(error));
@@ -234,7 +235,7 @@
        skillModal(){
         this.modalInstance = _$uibModal.open({
             animation: false,
-            size: 'md',
+            size: 'sm',
             controllerAs: '$ctrl',
             appendTo: angular.element(document.querySelector('#modal-container')),
             template: '<al.users.skill-modal></al.users.skill-modal>'
@@ -371,6 +372,7 @@
           }
         }
     }
+
 
     EditComponent.$inject = ['$stateParams', '$state',  '$sessionStorage','$q', '$uibModal', 'UsersService', 'SkillsService', 'ConfirmAsync'];
 
