@@ -41,6 +41,7 @@
             this.sent = false;
             this.confirm = false;
             this.message = { show: false };
+            this.csvMessage = {show: true, type: 'warning', text: 'Imported file should contain text with comma-separated values. Such files usually have "csv" extension and can be read by a text editor like notepad'};
             this.advancedOptions = {isCollapsed: true};
             this.updateRecords = true;
             this.settingsParams = {skipPreview: false};
@@ -86,6 +87,7 @@
         }
         goBack(){
             this.displayButtons();
+            this.sent = false;
         }
         browseFile(){
           angular.element('#csv-file').trigger('click');
@@ -109,24 +111,10 @@
           this.sent = true;
           if(this.csvFile)
           {
-            this.confirm = true;
-            return _ListsService.getCSV(this.csvFile.data)
-            .then(response => {
-              this.confirm=false;
-              if(response.statusCode === 200){
-                this.settingsParams.csvData = response.data;  
-                 _setParams(this.settingsParams, this.listDeleteSettings, this.listUpdateSettings, this.deleteSelected, this.updateSelected);
-                console.log(this.settingsParams);
-                _$state.go('ap.al.mapping', {settings:this.settingsParams,name:_$stateParams.name});
-              }
-              else{
-                let theMsg= response.errorMessage; 
-                this.message={ show: true, type: 'danger', text: theMsg};             
-              }
-              return response;
-            });
+            this.settingsParams.csvData = this.csvFile.data;  
+            _setParams(this.settingsParams, this.listDeleteSettings, this.listUpdateSettings, this.deleteSelected, this.updateSelected);
+            _$state.go('ap.al.mapping', {settings:this.settingsParams,name:_$stateParams.name});
           }
-
         }
 
         getList(name) {

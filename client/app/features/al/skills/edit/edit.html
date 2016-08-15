@@ -103,7 +103,7 @@
                             <th>Assign</th>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="useritem  in $ctrl.filteredUsers  | filter:search | limitTo:$ctrl.numPerPage:$ctrl.beginNext" ng-class="{'success' : $ctrl.toggleUserItem.item == $index}">
+                            <tr ng-repeat="useritem  in $ctrl.tableUsers = ($ctrl.filteredUsers  | filter:search) | limitTo:$ctrl.numPerPage:$ctrl.beginNext" ng-class="{'success' : $ctrl.toggleUserItem.item == $index}">
                                 <td>{{useritem.userName}}</td>
                                 <td>{{useritem.firstName}}</td>
                                 <td>{{useritem.lastName}}</td>
@@ -119,7 +119,7 @@
                     </table>
                 </div>
                 <div class="mywell skills_center footer_table">
-                    <uib-pagination ng-show="$ctrl.filteredUsers.length>0" total-items="$ctrl.filteredUsers.length" ng-model="$ctrl.currentPage"
+                    <uib-pagination ng-show="$ctrl.tableUsers.length>0" total-items="$ctrl.tableUsers.length" ng-model="$ctrl.currentPage"
                     items-per-page="$ctrl.numPerPage" boundary-links="true" ng-change="$ctrl.pageChanged()" ng-class="pagination_edit_skills">
                     </uib-pagination>
                 </div>

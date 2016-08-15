@@ -224,6 +224,8 @@ describe('Component: al.users.edit', function () {
       });
 
       it('=>#deleteSkillFromUser delete should return 204 statusCode', function() {
+          let headerRequiredForDelete={'Content-Type':'application/json;charset=utf-8','Accept':'application/json, text/plain, */*','appName':''};
+
           EditComponent.userSkills = [{
             id: '266184', 
             level: 1,
@@ -231,7 +233,12 @@ describe('Component: al.users.edit', function () {
             userName: 'daniel.c@autoboxcorp.com'
           }];
 
-          _$httpBackend.whenPOST(endPointUrl + '/users/skills/delete').respond(204, null);
+          _$httpBackend.when('DELETE', endPointUrl + '/users/daniel.c@autoboxcorp.com/skills', {
+            id: '266184', 
+            level: 1,
+            skillName: 'Sales', 
+            userName: 'daniel.c@autoboxcorp.com'
+          }, headerRequiredForDelete).respond(204, null);
 
           sandbox.stub(window, 'confirm').returns(true);
           
@@ -252,6 +259,7 @@ describe('Component: al.users.edit', function () {
 
 
       it('=>#deleteSkillFromUser delete should return 500 statusCode', function() {
+          let headerRequiredForDelete={'Content-Type':'application/json;charset=utf-8','Accept':'application/json, text/plain, */*','appName':''};
           EditComponent.userSkills = [{
             id: '266184', 
             level: 1,
@@ -259,11 +267,15 @@ describe('Component: al.users.edit', function () {
             userName: 'daniel.c@autoboxcorp.com'
           }];
 
-          _$httpBackend.whenPOST(endPointUrl + '/users/skills/delete').respond(500,{
+          _$httpBackend.when('DELETE', endPointUrl + '/users/daniel.c@autoboxcorp.com/skills', {
+            id: '266184', 
+            level: 1,
+            userName: 'daniel.c@autoboxcorp.com'
+          }, headerRequiredForDelete).respond(500,{
                 statusCode: 500,
                 from: 'error from controller endpoint',
                 body: '<faultstring>Skill "null" doesn&apos;t exist.</faultstring>'
-            });
+          });
 
           sandbox.stub(window, 'confirm').returns(true);
           

@@ -76,31 +76,11 @@ describe('Controller: SettingsComponent', function () {
   });
   describe('#sendFile', () => {
     it('should load a csv file', () => {
-      _$httpBackend.whenGET('data:text/csv;base64,77u/Zm9vLGJhcg0KYWFhLGJiYg==').respond(200, 'demo, csv, text');
-      SettingsComponent.csvFile = {data: 'data:text/csv;base64,77u/Zm9vLGJhcg0KYWFhLGJiYg=='};
-      let promise = SettingsComponent.sendFile();
-      expect(SettingsComponent.confirm).to.equal(true);
-      promise
-      .then(() => {
-          expect(SettingsComponent.confirm).to.equal(false);
-          expect(SettingsComponent.settingsParams.csvData).to.equal('demo, csv, text');
-          
-        });
-      _$httpBackend.flush();
-    });
-    it('should receive an error from csv file', () => {
-      _$httpBackend.whenGET('data:text/csv;base64,77u/Zm9vLGJhcg0KYWFhLGJiYg==').respond(403, 'Couldn\'t open csv file');
-      SettingsComponent.csvFile = {data: 'data:text/csv;base64,77u/Zm9vLGJhcg0KYWFhLGJiYg=='};
-      let promise = SettingsComponent.sendFile();
-      expect(SettingsComponent.confirm).to.equal(true);
-      promise
-      .then(() => {
-          expect(SettingsComponent.confirm).to.equal(false);
-          expect(SettingsComponent.message.show).to.equal(true); 
-          expect(SettingsComponent.message.type).to.equal('danger');
-          expect(SettingsComponent.message.text).to.equal('Couldn\'t open csv file');         
-        });
-      _$httpBackend.flush();
+      SettingsComponent.csvFile = {data: 'demo, csv, text'};
+      expect(SettingsComponent.sent).to.equal(false);
+      SettingsComponent.sendFile();
+      expect(SettingsComponent.sent).to.equal(true);
+      expect(SettingsComponent.settingsParams.csvData).to.equal('demo, csv, text');
     });
   });
 });

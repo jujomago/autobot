@@ -6,18 +6,18 @@
         return message[1];
     }
 
-    let _UsersService,_stateParams,_state,_$uibModal, _SkillsService, _ConfirmAsync;
+    let _UsersService,_stateParams,_state, _SkillsService, _ConfirmAsync, _ModalManager;
 
     class EditComponent {
 
-        constructor($stateParams, $state,  $sessionStorage , $q, $uibModal, UsersService, SkillsService, ConfirmAsync) {
+        constructor($stateParams, $state,  $sessionStorage , $q, UsersService, SkillsService, ConfirmAsync, ModalManager) {
 
             //  console.log('Component EditComponent - al.users.edit');
-            _$uibModal = $uibModal;
             _stateParams = $stateParams;
             _UsersService = UsersService;
             _SkillsService = SkillsService;
             _ConfirmAsync = ConfirmAsync;
+            _ModalManager = ModalManager;
             _state=$state;
             this.storage = $sessionStorage;
             this.qp = $q;
@@ -68,8 +68,8 @@
         }
 
         openModal(){
-            this.modalInstance = _$uibModal.open({
-                animation: false,
+            this.modalInstance = _ModalManager.open({
+                animation: true,
                 size: 'md',
                 controllerAs: '$ctrl',
                 appendTo: angular.element(document.querySelector('#modal-container')),
@@ -233,7 +233,7 @@
        }
 
        skillModal(){
-        this.modalInstance = _$uibModal.open({
+        this.modalInstance = _ModalManager.open({
             animation: false,
             size: 'sm',
             controllerAs: '$ctrl',
@@ -374,7 +374,7 @@
     }
 
 
-    EditComponent.$inject = ['$stateParams', '$state',  '$sessionStorage','$q', '$uibModal', 'UsersService', 'SkillsService', 'ConfirmAsync'];
+    EditComponent.$inject = ['$stateParams', '$state',  '$sessionStorage','$q', 'UsersService', 'SkillsService', 'ConfirmAsync', 'ModalManager'];
 
     angular.module('fakiyaMainApp')
         .component('al.users.edit', {

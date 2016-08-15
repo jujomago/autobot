@@ -13,8 +13,9 @@ angular.module('fakiyaMainApp')
             file=changeEvent.target.files[0];
             if(file){
               console.log(file);
-              ReadFile.readAsDataUrl(file, scope)
+              ReadFile.readAsText(file, scope)
               .then(function(result) {
+                console.log(result);
                   scope.abxReadFile = {data: result, size: file.size, type: file.type, name: file.name};
               });
             }

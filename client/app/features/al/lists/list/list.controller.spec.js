@@ -282,6 +282,7 @@ describe('Component: al.lists.list', function () {
       mockListData.return[5].size = 20;
       ListComponent.lists = mockListData.return;
       let promise =ListComponent.getResult('123-abc-456','testList', true);
+      ListComponent.lists[5].name = 'NewList';
       expect(_Global.proccessIsRunning).to.equal(true);
       expect(ListComponent.lists[5].size).to.equal(20);
       promise
@@ -295,7 +296,9 @@ describe('Component: al.lists.list', function () {
          expect(mockModal.open.calledOnce).to.equal(true);
          expect(_Global.proccessIsRunning).to.equal(false);
          expect(ListComponent.processedRow).to.equal(null);
-         expect(ListComponent.lists[5].size).to.equal(16);
+         //the index will be -1
+         expect(ListComponent.lists[5].size).to.equal(20);
+         ListComponent.lists[5].name = 'List6';
         });
 
       _$httpBackend.flush();
