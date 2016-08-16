@@ -68,7 +68,7 @@
                 });
         }
         createList(list) {
-            
+
             var result = { data: null, statusCode: 201, errorMessage: '' };
 
             return _$http.post(this.endPointUrl, list)
