@@ -7,12 +7,12 @@ angular.module('fakiyaMainApp')
         animation: false,
         templateUrl: 'app/factories/AlertMessage/AlertMessage.html',
         size: 'hs',
-        controller: function ($scope, $uibModalInstance, content) {
+        controller: ['$scope', '$uibModalInstance', 'content', function ($scope, $uibModalInstance, content) {
           $scope.content = content;
           $scope.close = function(){
             $uibModalInstance.dismiss('cancel');
           };
-        },
+        }],
         resolve: {
           content: function () {
             return content;
