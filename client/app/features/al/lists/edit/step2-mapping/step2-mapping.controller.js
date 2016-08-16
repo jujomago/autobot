@@ -460,12 +460,12 @@
             console.log(`the selected row is ${this.selectedRow}`);
             console.log('goint to delete');
             console.log(this.contactFields[this.selectedRow]);
+            
 
             if (this.contactFields[this.selectedRow]) {
                 this.contactFields.splice(this.selectedRow, 1);
                 return true;
             } else {
-                _$window.alert('no more fields to delete');
                 return false;
             }
         }
