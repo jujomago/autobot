@@ -431,7 +431,8 @@
                     return null;
                 }
             }else{
-                _$window.alert('At least one source fields should be mapped to Contact Field');
+                   this.message = { show: true, type: 'warning', text: 'At least one source fields should be mapped to Contact Field', expires: 8000 };
+                   return null;
             }
         }
 
