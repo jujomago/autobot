@@ -62,13 +62,13 @@
                 let errorField = JSON.stringify(tempObj).replace(/"/g, '');
                 invalidRows.push({ line: i + 1, record: errorField });
             }
+
         }
 
         if (invalidRows.length > 0) {
             let fe = '';
             for (var r = 0; r < invalidRows.length; r++) {
                 fe += JSON.stringify(invalidRows[r]).replace(/"/g, '') + '\n';
-             //   console.log(invalidRows[r]);
             }
 
             window.alert(`Only ${rowsUnGrouped.length} of ${numRecords} records have been successfully read from file. ${rowsUnGrouped.length} valid Record(s) will be added to the list`);
@@ -102,6 +102,7 @@
         let headerFieldsforTAble = [];
         let _ = lodash;
     
+
         if (hasHeader === true) {
             if(uniq==='uniq'){
                 headerFieldsforTAble = _.chain(contactFields)
@@ -133,6 +134,7 @@
             headersCSV = jsonCSV[0]; // first row is for headers
             jsonCSVTemp.shift(); //delete the header for just work with data
         }
+
     //    console.log('attackin json');
     //    console.log(jsonCSV);
 
@@ -178,6 +180,7 @@
                                .join(' ').value();                  
                      }
                 });
+
             }
         });
 
@@ -250,10 +253,7 @@
 
             this.message = { show: false };
             this.loadingContacts = true;
-
-
-            console.log('satate params');
-            console.log(_$stateParams);
+            this.canMapping = false;
 
             if (_$stateParams.manual === true) {
                 this.getContactFiels();
@@ -267,7 +267,6 @@
                     this.getContactFiels();
                     this.listName = $stateParams.name;
                 } else {
-                    this.canMapping = false;
                     this.message = { show: true, type: 'warning', text: 'no csv file arrived' };
                 }
             }
@@ -277,13 +276,13 @@
         $onInit() {
             this.changeHeaderValue();
             this.changeDelimiter();
-
         }
+
         showState() {
             console.log('state array');
             console.log(this.contactFields);
-
         }
+
         initArrays() {
             // TODO: Research _.fill() does not work;
             console.log('initialized arrays');
@@ -388,13 +387,14 @@
                 dataToSend.listUpdateSettings = _$stateParams.settings.listUpdateSettings;
             }
 
-            _$state.go('ap.al.listsEdit-list', {settings:dataToSend, name: _$stateParams.name, manual: true});
+            _$state.go('ap.al.listsEdit-list', {settings:dataToSend, name: _$stateParams.name, manual: true});           
         }
 
         finishMap() {
             let checkSelectedKeys = _checkSelectedFieldKeys(this.hasHeader, this.contactFields, _);
 
             if (checkSelectedKeys.length === 0) {
+
                 let keyNames = _.chain(this.contactFields)
                                     .filter({isKey:true})
                                     .map('name').value();
@@ -403,6 +403,7 @@
                         keys: keyNames,
                         rows: _getRowsData(this.hasHeader, this.contactFields, this.jsonCSV, _),
                         headerFields: _getMappedFiels(this.hasHeader, this.contactFields, 'uniq', _)
+
                     },
                     fieldsMapping: _getFieldsEntries(this.hasHeader, this.contactFields, this.jsonCSV, _)
                 };
@@ -422,11 +423,11 @@
                 return dataToSend;
             } else {
                 let keyNamesNotMapped = _.map(checkSelectedKeys, 'name');
-                this.message = { show: true, type: 'warning', text: `Contact Fiedls \"${keyNamesNotMapped.join(' , ')}\" are marked as keys but has no mapped source field/index`, expires: 8000 };
+                this.message = { show: true, type: 'warning', text: `Contact Fields \"${keyNamesNotMapped.join(' , ')}\" are marked as keys but has no mapped source field/index`, expires: 8000 };
                 return null;
             }
         }
-        // TODO:addMapping Item
+
         addMappingItem() {
             console.log(`selected item ${angular.toJson(this.contactFieldSelectedName)}`);
 
@@ -434,15 +435,16 @@
 
             let idx = _.findIndex(this.contactFields, { 'name': this.contactFieldSelectedName.name });
             if (idx >= 0) {
-                this.contactFields.splice((idx + 1), 0, clonedItem);
+                this.contactFields.splice((idx + 1), 0, clonedItem);                
             } else {
                 console.log('not found field, inserted first');
                 this.contactFields.unshift(this.contactFieldSelectedName);
                 // push first
             }
             console.log(`the index found is ${idx}`);
+            return idx;         
         }
-
+        
         removeSelectedItem() {
             console.log(this.contactFields);
             console.log(`the selected row is ${this.selectedRow}`);
@@ -463,14 +465,14 @@
 
     angular.module('fakiyaMainApp')
         .component('al.lists.mapping', {
-            templateUrl: function ($element, $attrs) {
+            templateUrl:['$element','$attrs', function ($element, $attrs) {
                 let manual = JSON.parse($attrs.manual);
                 if (manual) {
                     return 'app/features/al/lists/edit/step2-mapping/step2-keys.html';
                 } else {
                     return 'app/features/al/lists/edit/step2-mapping/step2-mapping.html';
                 }
-            },
+            }],
             controller: MapFieldsController
         });
 

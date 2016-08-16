@@ -180,39 +180,43 @@ describe('Component: al.skills.edit', function () {
     
         describe('#deleteUserfromSkill',()=>{
         
-           it('=> should return object when delete',()=>{
-               
-                EditComponent.selectedSkill.name='Marketing';
-                             
-                               
-                httpBackend.whenPOST(endPointUrl+'/skills/delete',{
-                    skillName:EditComponent.selectedSkill.name,
-                    userName:'testName'}
-                ).respond(204,'');
-               
-               httpBackend.expectGET(endPointUrl).respond({});
-                                                             
-               let deleteUserfromSkillPromise=EditComponent.deleteUserfromSkill({userName:'testName'},8);     
-                 
-               expect(EditComponent.toggleUserNameItem).to.equal(8);
-                  
+            it('=> should return object when delete',()=>{
+                
+                    EditComponent.selectedSkill.name='Marketing';
+            
+                                
+                let headerRequiredForDelete={'Content-Type':'application/json;charset=utf-8','Accept':'application/json, text/plain, */*','appName':''};
+        
+                httpBackend.when('DELETE',endPointUrl+'/testName/skills', {
+                        skillName:EditComponent.selectedSkill.name,
+                        userName:'testName'
+                    },headerRequiredForDelete).respond(204,'');
+
+
+                    httpBackend.expectGET(endPointUrl).respond({});      
+                
+                
+                let deleteUserfromSkillPromise=EditComponent.deleteUserfromSkill({userName:'testName'},8);     
                     
-               deleteUserfromSkillPromise.then(response=>{
-                       
-    
-                       expect(response.statusCode).to.equal(204);
-                       expect(EditComponent.toggleUserNameItem).to.equal(-1);                 
-                       expect(EditComponent.showPanelInfo).to.equal(false);
-                       
-    
-                       expect(EditComponent.message).to.eql({show:true,type:'success',text:'User Removed Sucessfully',expires:2000});         
-                       
-               });
-                   
-              httpBackend.flush();                
+                expect(EditComponent.toggleUserNameItem).to.equal(8);
                     
-           });
-    });
+                        
+                deleteUserfromSkillPromise.then(response=>{
+                        
+        
+                        expect(response.statusCode).to.equal(204);
+                        expect(EditComponent.toggleUserNameItem).to.equal(-1);                 
+                        expect(EditComponent.showPanelInfo).to.equal(false);
+                        expect(EditComponent.message).to.eql({show:true,type:'success',text:'User Removed Sucessfully',expires:2000});          
+                            
+                                                                
+                        
+                });
+                    
+                httpBackend.flush();                
+                        
+            });
+      });
 
 
 

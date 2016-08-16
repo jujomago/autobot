@@ -115,7 +115,7 @@
 
     <uib-tab index="1" heading="Roles" select="$ctrl.checkStepOne(userForm)">
         <div class="row">
-            <div class="col col-xs-2" ng-show="$ctrl.allRoles.length>0">       
+            <div class="col col-md-2" ng-show="$ctrl.allRoles.length>0">       
                     <h4>Roles Available</h4>
                     <div class="list-group">
                         <a href="#"  class="list-group-item" ng-repeat="rol in $ctrl.allRoles" ng-click="$ctrl.addRol(rol)">
@@ -123,7 +123,7 @@
                         </a>                                               
                     </div>                    
             </div>
-            <div class="col col-xs-2">
+            <div class="col col-md-2">
                 <div class="well well-sm">
                     <h4>Roles Assigned</h4>                    
                     <div class="list-group">
@@ -134,7 +134,7 @@
                     <button type="button" class="btn btn-danger" ng-show="$ctrl.userRolSelectedIndex>=0 && $ctrl.userRoles.length>0" ng-click="$ctrl.deleteSelectedRol()">Delete</button>
                 </div>    
             </div>
-            <div class="col" ng-class="{'col-xs-10':($ctrl.allRoles.length==0),'col-xs-8':($ctrl.allRoles.length>0)}" >
+            <div class="col" ng-class="{'col-md-10':($ctrl.allRoles.length==0),'col-md-8':($ctrl.allRoles.length>0)}" >
                 <div class="well  well-sm twocolumnpermission">
                     <h4>Permissions:</h4>
                     <div class="checkbox" ng-repeat="(per,val) in $ctrl.rolSelectedPermissions" ng-if="per!=='permissions'">

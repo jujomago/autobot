@@ -1,17 +1,8 @@
 
-
-
 <h3 class="title_section">Campaign: <span>{{::$ctrl.campaign.name}}</span></h3>
-
-
 <abx-message msg="$ctrl.message"></abx-message> 
+<abx-load-indicator ng-hide="$ctrl.found"></abx-load-indicator>  
 
-
-
-<abx-load-indicator ng-hide="$ctrl.found"></abx-load-indicator> 
-
-
- 
  <uib-tabset active="active1" justified="false" ng-hide="!$ctrl.found">
     <uib-tab index="0" heading="Details">  
         <form name="formCampaign" novalidate class="custom_form form-horizontal" ng-submit="formCampaign.$valid && $ctrl.update()">
@@ -24,8 +15,7 @@
             <div class="inputminimal" ng-class="{ 'has-error': (formCampaign.numberLines.$invalid||formCampaign.campaignIVR.$invalid) && formCampaign.$submitted }">
                 <label >Max Number of Lines</label>
                 <div>
-                    <input  type="number" class="form-control" name="numberLines" min="0" ng-model="$ctrl.campaign.maxNumOfLines" required>
-                         
+                    <input  type="number" class="form-control" name="numberLines" min="0" ng-model="$ctrl.campaign.maxNumOfLines" required>                         
                 </div>
             </div>
              <div ng-messages="formCampaign.numberLines.$error" ng-show="formCampaign.$submitted">                  
@@ -66,8 +56,9 @@
     </uib-tab>
     <uib-tab index="1" heading="Lists">
 
-      <div class="row">
-            <div class="col col-xs-6">
+      <div class="row  panel-full-height">
+            <div class="col-sm-12 col-md-6">
+
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <strong>Lists Assigned</strong>

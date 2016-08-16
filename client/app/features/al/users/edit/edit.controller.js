@@ -24,7 +24,7 @@
             this.SubmitText = 'Save';
             this.found = false;
             this.changePass = false;
-            this.allRoles = ['agent', 'supervisor' , 'admin', 'reporting', ];
+            this.allRoles = ['agent', 'supervisor' , 'admin', 'reporting'];
             this.userRoles = [];
             this.userSkills = [];
             this.showErrorMessage = { show: false, message: '' };   

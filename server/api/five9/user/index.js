@@ -11,7 +11,7 @@ router.post('/',controller.create);
 router.put('/', controller.update);
 router.delete('/:username', controller.destroy);
 router.post('/skills/add',controller.addSkillUser);
-router.post('/skills/delete',controller.destroySkillUser);
+router.delete('/:username/skills',controller.destroySkillUser);
 router.post('/skills/update',controller.updateSkillUser);
 
 module.exports = router;

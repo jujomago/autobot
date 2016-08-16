@@ -45,7 +45,7 @@ describe('Component: al.users.edit', function () {
        
             expect(EditComponent.message).to.eql({show:false});
             expect(EditComponent.rolSelectedPermissions).to.have.lengthOf(0);
-            expect(EditComponent.allRoles).to.eql( ['admin', 'agent', 'reporting', 'supervisor']);
+            expect(EditComponent.allRoles).to.eql(['agent', 'supervisor' , 'admin', 'reporting']);
         });
    });
 
