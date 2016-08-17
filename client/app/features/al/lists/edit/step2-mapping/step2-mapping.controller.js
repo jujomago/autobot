@@ -262,8 +262,7 @@
                 if (_$stateParams.settings && _$stateParams.settings.csvData) {
                     this.canMapping = true;
                     this.rawCSV = _$stateParams.settings.csvData;
-                    this.jsonCSV = _csvToJSON(this.rawCSV);
-                    this.maxIndexFields = this.jsonCSV[0].length;
+                    this.jsonCSV = _csvToJSON(this.rawCSV);                  
                     this.getContactFiels();
                     this.listName = $stateParams.name;
                 } else {
