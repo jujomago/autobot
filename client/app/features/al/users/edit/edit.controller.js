@@ -69,7 +69,7 @@
 
         openModal(){
             this.modalInstance = _ModalManager.open({
-                animation: true,
+                animation: false,
                 size: 'md',
                 controllerAs: '$ctrl',
                 appendTo: angular.element(document.querySelector('#modal-container')),
