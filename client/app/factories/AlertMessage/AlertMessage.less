@@ -11,32 +11,40 @@
       vertical-align: middle;
       margin-right: -4px;
     }
+
     .modal-backdrop.in {
         opacity: 0.5;
         z-index: 1045;
     }
+
     .modal-body{
         padding: 0px;
         padding-top: 5px;
         font-family: BrandonRegular;
         font-size: 18px;
         &>div{
+            p{
+                12px 20px
+            }
             ul{
                 padding-left: 17px;
             }
         }
     }
+
     .modal-hs{
-        width: 500px;
+       // width: 500px;
     }
+
     .modal-content{
         border-radius: 0px;
-        padding-left: 50px;
-        padding-bottom: 20px;
+        padding: 30px 60px;
+        box-shadow: none;
         .modal-button-container{
             text-align: center;
         }
     }
+
     .modal-header{
         padding: 0px;
         padding-top: 10px;
@@ -46,7 +54,9 @@
             font-size: 21px;
         }
         .close-container{
-            text-align: right;
+            position: absolute;
+            right: 0px;
+            top: 15px;
             .close{
                 float: none;
             }
@@ -56,5 +66,25 @@
       display: inline-block;
       text-align: left;
       vertical-align: middle;
+    }
+    .table-summary{
+        border: 1px solid @gray; 
+        border-top:0;
+        caption,thead th{
+            background: @lightgray; 
+            font-family: BrandonRegular;
+            padding-top: 15px;
+            padding-left: 18px;             
+        }
+        caption{
+            text-align: left;
+            font-weight: bold;
+            padding-top: 15px;
+            padding-left: 18px;
+        }
+        thead  tr th{
+            font-size: 14px; 
+        }
+        
     }
 }

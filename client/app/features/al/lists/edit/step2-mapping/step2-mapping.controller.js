@@ -38,6 +38,8 @@
         }
         return validRowNumber;
     }
+   
+    let _AlertMessage;
 
     function _formatGroupedKeyRows(rowsGrouped) {
 
@@ -66,13 +68,27 @@
         }
 
         if (invalidRows.length > 0) {
+          
+            let contentModal={
+                title:'Summary',
+                textCloseBtn:'Close',
+                listDetail:{
+                    headerList:'Invalid records',
+                    cols:['Line','Error'],
+                    rows:[]
+                }                
+            };
+          
             let fe = '';
             for (var r = 0; r < invalidRows.length; r++) {
+                contentModal.listDetail.rows.push({'line':invalidRows[r].line,'error':'Record Number is not valid'});
                 fe += JSON.stringify(invalidRows[r]).replace(/"/g, '') + '\n';
             }
+            
+            contentModal.body=`Only ${rowsUnGrouped.length} of ${numRecords} records have been successfully read from file. ${rowsUnGrouped.length} valid Record(s) will be added to the list`;
 
-            window.alert(`Only ${rowsUnGrouped.length} of ${numRecords} records have been successfully read from file. ${rowsUnGrouped.length} valid Record(s) will be added to the list`);
-            window.alert(`Invalid Numbers Records \n ${fe}`);
+            _AlertMessage(contentModal);
+
         }
 
         return rowsUnGrouped;
@@ -93,8 +109,6 @@
             keysNotMapped = _.chain(allRepeatedKeyFields).filter({'mappedIndex':0}).uniq('name').value();
         }
 
-     /*   console.log('restul check fields key');
-        console.log(keysNotMapped);*/
         return keysNotMapped;
     }
 
@@ -222,16 +236,16 @@
 
 
 
-    let _$window, _$stateParams, _$state;
+    let  _$stateParams, _$state;
     let _ContactFieldsService, _;
 
 
     class MapFieldsController {
-        constructor($stateParams, $window, $state, ContactFieldsService, lodash) {
+        constructor($stateParams, AlertMessage, $state, ContactFieldsService, lodash) {
 
             _ = lodash;
             _$stateParams = $stateParams;
-            _$window = $window;
+            _AlertMessage = AlertMessage;
             _$state = $state;
             _ContactFieldsService = ContactFieldsService;
 
@@ -471,7 +485,7 @@
         }
     }
 
-    MapFieldsController.$inject = ['$stateParams', '$window', '$state', 'ContactFieldsService', 'lodash'];
+    MapFieldsController.$inject = ['$stateParams', 'AlertMessage', '$state', 'ContactFieldsService', 'lodash'];
 
     angular.module('fakiyaMainApp')
         .component('al.lists.mapping', {
