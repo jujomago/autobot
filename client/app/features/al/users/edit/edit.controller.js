@@ -24,7 +24,7 @@
             this.SubmitText = 'Save';
             this.found = false;
             this.changePass = false;
-            this.allRoles = ['agent', 'supervisor' , 'admin', 'reporting', ];
+            this.allRoles = ['agent', 'supervisor' , 'admin', 'reporting'];
             this.userRoles = [];
             this.userSkills = [];
             this.showErrorMessage = { show: false, message: '' };   
@@ -69,7 +69,7 @@
 
         openModal(){
             this.modalInstance = _ModalManager.open({
-                animation: true,
+                animation: false,
                 size: 'md',
                 controllerAs: '$ctrl',
                 appendTo: angular.element(document.querySelector('#modal-container')),

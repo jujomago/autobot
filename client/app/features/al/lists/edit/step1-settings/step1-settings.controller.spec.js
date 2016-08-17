@@ -83,4 +83,18 @@ describe('Controller: SettingsComponent', function () {
       expect(SettingsComponent.settingsParams.csvData).to.equal('demo, csv, text');
     });
   });
+  describe('#isCsv', () => {
+    it('should return csv', () => {
+      SettingsComponent.csvFile = {name: 'test.csv'};
+      expect(SettingsComponent.isCsv()).to.equal('csv');
+    });
+    it('should return js', () => {
+      SettingsComponent.csvFile = {name: 'test.controller.spec.js'};
+      expect(SettingsComponent.isCsv()).to.equal('js');
+    });
+    it('should return null', () => {
+      SettingsComponent.csvFile = {name: 'file'};
+      expect(SettingsComponent.isCsv()).to.equal(null);
+    });
+  });
 });

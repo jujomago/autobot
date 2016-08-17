@@ -5,7 +5,7 @@
 
 
 <abx-message msg="$ctrl.message"></abx-message> 
-<div ng-show="$ctrl.csvFile && $ctrl.csvFile.type !== 'text/csv'">
+<div ng-show="$ctrl.csvFile && $ctrl.isCsv() !== 'csv'">
 	<abx-message msg="$ctrl.csvMessage"></abx-message> 
 </div>
 <abx-load-indicator ng-hide="$ctrl.found"></abx-load-indicator> 
@@ -74,7 +74,7 @@
 		</div>
 		<div ng-show="$ctrl.fileSelected" class="settings-container">
 			<div class='settings-file-container'>
-				<label>Import source file:</label><a href="" ng-click='$ctrl.browseFile()'>{{$ctrl.csvFile?$ctrl.csvFile.name:'Chose File...'}}</a>
+				<label>Import source file:</label><a href="" ng-click='$ctrl.browseFile()'>{{$ctrl.csvFile?$ctrl.csvFile.name:'Choose File...'}}</a>
 				<input type="file" id="csv-file" abx-read-file="$ctrl.csvFile">
 			</div>
 			<p ng-show="!$ctrl.csvFile && $ctrl.sent" class="file-empty-error">This field is required</p>

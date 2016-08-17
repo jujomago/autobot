@@ -163,7 +163,7 @@
     }
     openModal(){
       this.modalInstance = _ModalManager.open({
-        animation: true,
+        animation: false,
         template: '<al.lists.create></al.lists.create>',
         size: 'md',
         appendTo: angular.element(document.querySelector('#modal-container')),

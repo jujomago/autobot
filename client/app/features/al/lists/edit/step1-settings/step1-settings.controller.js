@@ -100,6 +100,14 @@
             this.listUpdateSettings.crmUpdateMode = CRM_UPDATE_MODES.DONT_UPDATE;
           }
         }
+        isCsv(){
+          let type = null;
+          let name = this.csvFile.name.split('.');
+          if(name.length>1){
+            type = name.pop();
+          }
+          return type;
+        }
         nextStep()
         {
           _setParams(this.settingsParams, this.listDeleteSettings, this.listUpdateSettings, this.deleteSelected, this.updateSelected);
