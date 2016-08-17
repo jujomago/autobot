@@ -33,7 +33,7 @@
         }
         openModal(){
             this.modalInstance = _ModalManager.open({
-                animation: true,
+                animation: false,
                 backdrop: 'static',
                 size: 'md',
                 controllerAs: '$ctrl',
