@@ -34,15 +34,14 @@ function ReadFile( $q ){
             reader.onprogress = onProgress(reader, scope);
             return reader;
         };
- 
-        var readAsDataURL = function (file, scope) {
+        var readAsText = function (file, scope) {
             var deferred = $q.defer();  
             var reader = getReader(deferred, scope);         
-            reader.readAsDataURL(file);
+            reader.readAsText(file);
             return deferred.promise;
         };
         return {
-            readAsDataUrl: readAsDataURL  
+            readAsText: readAsText
         };
 }
 angular.module('fakiyaMainApp')

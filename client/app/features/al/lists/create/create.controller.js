@@ -3,7 +3,7 @@
 	let _ListService, _$state;
 	class CreateComponent {
 	  constructor($state, ListsService) {
-	    this.message = { show: false }; 
+	    this.message = {text: ''};
 	    this.SubmitText = 'Save';
 	    _ListService = ListsService;
 	    _$state = $state;

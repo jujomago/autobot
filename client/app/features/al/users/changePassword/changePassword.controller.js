@@ -1,9 +1,11 @@
 'use strict';
 (function(){
+  const STRING_EMPTY = '';
 class ChangePasswordComponent {
   constructor() {
     this.message = {show: false};
-    this.SubmitText ='Save';
+    this.password = STRING_EMPTY;
+    this.confirm = STRING_EMPTY;
   }
   $onInit(){
      if(this.create){
@@ -14,18 +16,15 @@ class ChangePasswordComponent {
      }
   }
   save(){
-    this.SubmitText = 'Saving...';
     if(this.password === this.confirm){
       if(this.userName !== this.password){
         this.instance.close(this.password);
       }
       else{
-        this.SubmitText = 'Save';
         this.message = { show: true, type: 'danger', text: 'Password cannot match customer name', expires: 3000 };
       }
     }
     else{
-      this.SubmitText = 'Save';
       this.message = { show: true, type: 'danger', text: 'Passwords should match', expires: 3000 };
     }
   }

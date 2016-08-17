@@ -23,6 +23,12 @@ angular.module('fakiyaMainApp')
           	$scope.ngModel=(numToReduce-1);
           }
         };
+        $scope.changeValue=function(){
+          if(!$scope.disabled){
+            let numToChange=1*($scope.ngModel);
+            $scope.ngModel=(numToChange);
+          }
+        };
       },
       link: function (scope) {
       	var numbers = new RegExp(/^[0-9]+$/);
@@ -33,7 +39,7 @@ angular.module('fakiyaMainApp')
         scope.ngModel=scope.ngModel?scope.ngModel*1:scope.minValue;
       	scope.$watch('ngModel', function(newValue,oldValue) {
             if(!(numbers.test(newValue) && (scope.maxValue===-1 || (newValue*1)<=scope.maxValue) && ((newValue*1)>=scope.minValue))) {
-              scope.ngModel = oldValue;
+              scope.ngModel = oldValue*1;
             }
         });
         scope.$watch('maxValue', function(newValue) {

@@ -4,51 +4,52 @@ describe('Component: al.lists.list', function () {
 
   // load the controller's module
   beforeEach(module('fakiyaMainApp'));
-
-  var ListComponent, scope, httpBackend;
-  var state, timeout, listService, sandbox, window, endPointUrl;
+  var mockModal;
+  var ListComponent, _Global, _$httpBackend;
+  var state, listService, sandbox, window, endPointUrl;
 
   var mockListData = {
     'return': [
-      { 'name': 'List1', 'size': '0' },
-      { 'name': 'List2', 'size': '10' },
-      { 'name': 'List3', 'size': '0' },
-      { 'name': 'List4', 'size': '26' },
-      { 'name': 'List5', 'size': '5' }]
+      { 'name': 'List1', 'size': 0 },
+      { 'name': 'List2', 'size': 10 },
+      { 'name': 'List3', 'size': 0 },
+      { 'name': 'List4', 'size': 26 },
+      { 'name': 'List5', 'size': 5 },
+      { 'name': 'List6', 'size': 20 }]
   };
 
 
-  // Initialize the controller and a mock scope
-  beforeEach(inject(function ($componentController, $rootScope, $httpBackend, $state, $stateParams, $timeout, $window, _ListsService_, ConfirmAsync, appConfig) {
-    scope = $rootScope.$new();
-    httpBackend = $httpBackend;
+  // Initialize the controller
+  beforeEach(inject(function ($componentController, $httpBackend, $state, $stateParams, $window, _ListsService_, ConfirmAsync, Global, appConfig) {
+    _$httpBackend = $httpBackend;
     state = $state;
-    timeout = $timeout;
+    _Global = Global;
     listService = _ListsService_;
     window = $window;
-
+    
     sandbox = sinon.sandbox.create();
-
+    mockModal= {open: sinon.stub()};
+    var _AlertMessage = function(){
+      mockModal.open();
+    };
     if (appConfig.apiUri) {
       endPointUrl = appConfig.apiUri + '/f9/lists';
     }
 
 
     ListComponent = $componentController('al.lists.list', {
-      $scope: scope,
-      $stateParams: { message: null },
+      Global: _Global,
+      $stateParams: { message: null, name: 'List6' },
       $state: state,
-      $timeout: timeout,
-      ListsService: listService
+      ListsService: listService,
+      AlertMessage: _AlertMessage
     });
 
-    httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
-
-
+    _$httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
   }));
 
   afterEach(function () {
-    httpBackend.verifyNoOutstandingRequest();
+    _$httpBackend.verifyNoOutstandingRequest();
     sandbox.restore();
   });
 
@@ -57,8 +58,7 @@ describe('Component: al.lists.list', function () {
   describe('#deleteList', () => {
     it('list deleted should return 204 statusCode', () => {
 
-      httpBackend.whenDELETE(endPointUrl + '/List1').respond(204, null);
-
+      _$httpBackend.whenDELETE(endPointUrl + '/List1').respond(204, null);
       sandbox.stub(window, 'confirm').returns(true);
 
       let item = { name: 'List1' };
@@ -72,11 +72,11 @@ describe('Component: al.lists.list', function () {
 
       expect(window.confirm.calledOnce).to.equal(true);
 
-      httpBackend.flush();
+      _$httpBackend.flush();
     });
 
     it('list should not be deleted return 403 statusCode', () => {
-      httpBackend.whenDELETE(endPointUrl + '/List2').respond(403, {
+      _$httpBackend.whenDELETE(endPointUrl + '/List2').respond(403, {
           statusCode: 403,
           from: 'error from controller endpoint',
           body: 'the explicit error'
@@ -95,7 +95,7 @@ describe('Component: al.lists.list', function () {
         });
 
       expect(window.confirm.calledOnce).to.equal(true);
-      httpBackend.flush();
+      _$httpBackend.flush();
     });
 
   });
@@ -103,29 +103,24 @@ describe('Component: al.lists.list', function () {
   describe('#getLists', () => {
 
     it('List of Lists Returned', () => {
-      httpBackend.whenGET(endPointUrl).respond(mockListData);
-
+      _$httpBackend.whenGET(endPointUrl).respond(mockListData);
       expect(ListComponent.message.show).to.equal(false);
       expect(ListComponent.lists).to.have.lengthOf(0);
-
       var getLists = ListComponent.getLists();
-
-
       getLists.then(_lists => {
         expect(_lists).to.be.an.instanceOf(Array);
-        expect(_lists).to.have.lengthOf(5);
+        expect(_lists).to.have.lengthOf(6);
         expect(ListComponent.currentPage).to.equal(1);
-        expect(ListComponent.reverse).to.equal(true);
+        expect(ListComponent.reverse).to.equal(false);
       });
 
-      httpBackend.flush();
+      _$httpBackend.flush();
     });
 
   });
 
   it('List of Lists Returned but empty', () => {
-      httpBackend.whenGET(endPointUrl).respond({'return':[]});
-
+      _$httpBackend.whenGET(endPointUrl).respond({'return':[]});
       expect(ListComponent.message.show).to.equal(false);
       expect(ListComponent.lists).to.have.lengthOf(0);
 
@@ -135,10 +130,10 @@ describe('Component: al.lists.list', function () {
       getLists.then(_lists => {
         expect(_lists).to.be.an.instanceOf(Array);
         expect(_lists).to.have.lengthOf(0);
-        expect(ListComponent.filteredLists).to.have.lengthOf(0);
+        expect(ListComponent.lists).to.have.lengthOf(0);
       });
 
-      httpBackend.flush();
+      _$httpBackend.flush();
     });
 
   describe('#sortColumn', () => {
@@ -148,7 +143,14 @@ describe('Component: al.lists.list', function () {
     });
 
     it('param columnName send, should return true', () => {
-      expect(true).to.equal(ListComponent.sortColumn('somevalue'));
+      ListComponent.originalLists = mockListData.return;
+      expect(true).to.equal(ListComponent.sortColumn('name'));
+      expect(ListComponent.reverse).to.equal(false);
+      expect(ListComponent.lists.length).to.equal(6);
+      expect(ListComponent.lists[0].name).to.equal('List1');
+      ListComponent.sortColumn('name');
+      expect(ListComponent.reverse).to.equal(true);
+      expect(ListComponent.lists[0].name).to.equal('List6');
     });
 
   });
@@ -156,8 +158,20 @@ describe('Component: al.lists.list', function () {
   describe('#filteringBySearch', () => {
 
     it('Should return true, when searching something', () => {
-      ListComponent.search.name = 'some text to search';
+      ListComponent.originalLists = mockListData.return;
+      ListComponent.search.name = 'List1';
       expect(ListComponent.filteringBySearch()).to.equal(true);
+      expect(ListComponent.lists.length).to.equal(1);
+      expect(ListComponent.lists[0].name).to.equal('List1');
+      expect(ListComponent.beginNext).to.equal(0);
+      expect(ListComponent.currentPage).to.equal(1);
+    });
+
+    it('Should return true, when searching something but empty list', () => {
+      ListComponent.lists = mockListData.return;
+      ListComponent.search.name = 'not exist';
+      expect(ListComponent.filteringBySearch()).to.equal(true);
+      expect(ListComponent.lists.length).to.equal(0);
       expect(ListComponent.beginNext).to.equal(0);
       expect(ListComponent.currentPage).to.equal(1);
     });
@@ -170,7 +184,137 @@ describe('Component: al.lists.list', function () {
   });
 
 
+  describe('#getResult', () => {
+    beforeEach(function () {
+      _$httpBackend.whenGET(endPointUrl+'/contacts/result/running/123-abc-456?waitTime=300').respond(200, {
+            return:  false
+      });
+    }); 
+    it('get result nothing changed update', () => {
+      _$httpBackend.whenGET(endPointUrl+'/contacts/result/123-abc-456').respond(200, {
+            return: {
+                        uploadDuplicatesCount: '5',
+                        uploadErrorsCount: '0',
+                        listRecordsDeleted: '0',
+                        crmRecordsInserted: '0',
+                        crmRecordsUpdated: '0',
+                        listRecordsInserted: '0',
+                        warningsCount: null
+                    }
+      });
+      mockListData.return[5].size = 20;
+      ListComponent.lists = mockListData.return;
+      let promise = ListComponent.getResult('123-abc-456','testList', true);
+      expect(_Global.proccessIsRunning).to.equal(true);
+      expect(ListComponent.lists[5].size).to.equal(20);
+      promise
+        .then(response => {
+          expect(response.summaryMessage.title).to.equal('Summary');
+          expect(response.summaryMessage.body).to.equal('Update for list "testList" has been succesfully completed.');
+          expect(response.summaryMessage.list[0]).to.equal('Nothing was changed during the update.');
+          expect(response.summaryMessage.list[1]).to.equal('5 lines with duplicate keys found');
+          expect(response.summaryMessage.list[2]).to.equal('5 ERRORS FOUND');
+          expect(response.summaryMessage.list[3]).to.equal('No warnings found');
+          expect(response.statusCode).to.equal(200);
+          expect(mockModal.open.calledOnce).to.equal(true);
+          expect(_Global.proccessIsRunning).to.equal(false);
+          expect(ListComponent.processedRow).to.equal(null);
+          expect(ListComponent.processedRow).to.equal(null);
+          expect(ListComponent.lists[5].size).to.equal(20);
+        });
 
+      _$httpBackend.flush();
+    });
+    it('get delete result with warnings', () => {
+      _$httpBackend.whenGET(endPointUrl+'/contacts/result/123-abc-456').respond(200, {
+            return: {
+                        uploadDuplicatesCount: '7',
+                        uploadErrorsCount: '0',
+                        listRecordsDeleted: '7',
+                        crmRecordsInserted: '0',
+                        crmRecordsUpdated: '0',
+                        listRecordsInserted: '0',
+                        warningsCount: {entry: [{value: 'warning 1'},{value: 'warning 2'}]}
+                    }
+      });
+      mockListData.return[5].size = 20;
+      ListComponent.lists = mockListData.return;
+      let promise = ListComponent.getResult('123-abc-456','testList', false);
+      expect(_Global.proccessIsRunning).to.equal(true);
+      expect(ListComponent.lists[5].size).to.equal(20);
+      promise
+        .then(response => {
+          expect(response.summaryMessage.title).to.equal('Summary');
+          expect(response.summaryMessage.body).to.equal('Delete for list "testList" has been succesfully completed.');
+          expect(response.summaryMessage.list[0]).to.equal('Call List records deleted: 7');
+          expect(response.summaryMessage.list[1]).to.equal('7 lines with duplicate keys found');
+          expect(response.summaryMessage.list[2]).to.equal('7 ERRORS FOUND');
+          expect(response.summaryMessage.list[3]).to.equal('2 WARNINGS FOUND');
+          expect(response.statusCode).to.equal(200);
+          expect(mockModal.open.calledOnce).to.equal(true);
+          expect(_Global.proccessIsRunning).to.equal(false);
+          expect(ListComponent.processedRow).to.equal(null);
+          expect(ListComponent.lists[5].size).to.equal(13);
+        });
+
+      _$httpBackend.flush();
+    });
+    it('get update and delete result without warnings and errors', () => {
+      _$httpBackend.whenGET(endPointUrl+'/contacts/result/123-abc-456').respond(200, {
+            return: {
+                        uploadDuplicatesCount: '0',
+                        uploadErrorsCount: '0',
+                        listRecordsDeleted: '7',
+                        crmRecordsInserted: '0',
+                        crmRecordsUpdated: '5',
+                        listRecordsInserted: '3',
+                        warningsCount: null
+                    }
+      });
+      mockListData.return[5].size = 20;
+      ListComponent.lists = mockListData.return;
+      let promise =ListComponent.getResult('123-abc-456','testList', true);
+      ListComponent.lists[5].name = 'NewList';
+      expect(_Global.proccessIsRunning).to.equal(true);
+      expect(ListComponent.lists[5].size).to.equal(20);
+      promise
+        .then(response => {
+          expect(response.summaryMessage.title).to.equal('Summary');
+          expect(response.summaryMessage.body).to.equal('Update for list "testList" has been succesfully completed.');
+          expect(response.summaryMessage.list[0]).to.equal('Contact Records updated: 5, Call List records deleted: 7, Call List records inserted: 3');
+          expect(response.summaryMessage.list[1]).to.equal('No errors found');
+          expect(response.summaryMessage.list[2]).to.equal('No warnings found');
+         expect(response.statusCode).to.equal(200);
+         expect(mockModal.open.calledOnce).to.equal(true);
+         expect(_Global.proccessIsRunning).to.equal(false);
+         expect(ListComponent.processedRow).to.equal(null);
+         //the index will be -1
+         expect(ListComponent.lists[5].size).to.equal(20);
+         ListComponent.lists[5].name = 'List6';
+        });
+
+      _$httpBackend.flush();
+    });
+  });
+
+
+  describe('#changePage', () => {
+    it('should change to page 2', () => {
+      ListComponent.numPerPage = 5;
+      ListComponent.lists = mockListData.return;
+      ListComponent.goToProcessedRow();
+      expect(ListComponent.currentPage).to.equal(2);
+      expect(ListComponent.processedRow).to.equal('List6');
+    });
+    it('should stay in page 1', () => {
+      ListComponent.numPerPage = 10;
+      ListComponent.lists = mockListData.return;
+      ListComponent.goToProcessedRow();
+      expect(ListComponent.currentPage).to.equal(1);
+      expect(ListComponent.processedRow).to.equal('List6');
+    });
+
+  });
 
 
 });

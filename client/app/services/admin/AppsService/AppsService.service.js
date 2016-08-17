@@ -16,7 +16,7 @@
             _$http = $http;
         }
         getApps() {
-          let result = { data: null, statusCode: 200, error: null };
+          let result = { data: null, statusCode: 200, errorMessage: null };
           return _$http.get(this.endPointUrl)
             .then(response => {
             	result.data = response.data;

@@ -5,11 +5,11 @@ describe('Component: ChangePasswordComponent', function () {
   // load the controller's module
   beforeEach(module('fakiyaMainApp'));
 
-  var _ChangePasswordComponent, _$uibModal;
+  var _ChangePasswordComponent, _ModalManager;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($componentController, $uibModal) {
-    _$uibModal = $uibModal;
+  beforeEach(inject(function ($componentController, ModalManager) {
+    _ModalManager = ModalManager;
     _ChangePasswordComponent = $componentController('al.users.changePassword', {
 
         });
@@ -17,7 +17,7 @@ describe('Component: ChangePasswordComponent', function () {
   }));
 
   it('should return null if close modal', function () {
-    let modalInstance = _$uibModal.open({
+    let modalInstance = _ModalManager.open({
                           controllerAs: '$ctrl',
                           template: '<al.users.changePassword></al.users.changePassword>',
                         });
@@ -30,7 +30,7 @@ describe('Component: ChangePasswordComponent', function () {
   });
 
   it('should return new password if passwords match', function () {
-    let modalInstance = _$uibModal.open({
+    let modalInstance = _ModalManager.open({
                           controllerAs: '$ctrl',
                           template: '<al.users.changePassword></al.users.changePassword>',
                         });
@@ -45,7 +45,7 @@ describe('Component: ChangePasswordComponent', function () {
   });
 
   it('should show message error if passwords did not match', function () {
-    let modalInstance = _$uibModal.open({
+    let modalInstance = _ModalManager.open({
                           controllerAs: '$ctrl',
                           template: '<al.users.changePassword></al.users.changePassword>',
                         });
@@ -58,7 +58,7 @@ describe('Component: ChangePasswordComponent', function () {
     expect(_ChangePasswordComponent.message.text).to.equal('Passwords should match');
   });
   it('should show message error if password is equal to userName', function () {
-    let modalInstance = _$uibModal.open({
+    let modalInstance = _ModalManager.open({
                           controllerAs: '$ctrl',
                           template: '<al.users.changePassword></al.users.changePassword>',
                         });
