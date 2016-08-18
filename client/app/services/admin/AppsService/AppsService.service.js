@@ -34,6 +34,24 @@
             })
             .catch(err => _handleError(err, result));
         }
+        getInstalled(){
+            let result = { data: null, statusCode: 200, errorMessage: null };
+            return _$http.get('/assets/admin/json/installed.json')
+            .then(response => {
+                result.data = response.data;
+                return result;
+            })
+            .catch(err => _handleError(err, result));
+        }
+        getNews(){
+            let result = { data: null, statusCode: 200, errorMessage: null };
+            return _$http.get('/assets/admin/json/newapps.json')
+            .then(response => {
+                result.data = response.data;
+                return result;
+            })
+            .catch(err => _handleError(err, result));
+        }
 
     }
     AppsService.$inject = ['$http','$q'];
