@@ -105,6 +105,6 @@ class NavbarController {
   }
 }
 
-
+NavbarController.$inject=['lodash', 'AppsService'];
 angular.module('fakiyaMainApp')
   .controller('NavbarController', NavbarController);
