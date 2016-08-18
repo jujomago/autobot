@@ -11,9 +11,64 @@
     </div>
     <div uib-collapse="nav.isCollapsed" class="navbar-collapse collapse" id="navbar-main">
       <ul class="nav navbar-nav">
-        <li ng-repeat="item in nav.menu" ui-sref-active="active">
-          <a href="{{item.link}}">{{item.title}}</a>
+        <li ui-sref-active="active"><a href="/underconstruction">Dashboard</a></li>
+        <li class="dropdown sub-menu-dropdown" ng-mouseenter="nav.myAppsCollapsed = false" ng-mouseleave="nav.myAppsCollapsed = true">
+          <a class="dropdown-toggle" role="button">My apps</a>
+          <ul class="dropdown-menu submenu" uib-collapse="nav.myAppsCollapsed" ng-class="{'full-menu': nav.fullMenu, 'min-menu': nav.minMenu}">
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="col-lg-7 col-md-7 col-sm-7 my-apps" ng-class="{'border-right': nav.myApps.length > nav.newApps.length}">
+              <div class="col-lg-12 col-md-12 col-sm-12" ng-show="nav.myAppsFromService.length > 0">
+                <div class="col-lg-12 col-md-12 col-sm-12 myapps-title">
+                  <div class="pull-left">
+                    <h4>My apps <span class="underline"></span></h4>
+                  </div>
+                  <div class="pull-right">
+                    <input id="submenu-search" type="text" name="search" ng-model="nav.search.app.appFullName" placeholder="Filter" ng-change="nav.filteringBySearch()">    
+                  </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="cols">
+                    <div ng-repeat="value in (nav.myApps = (nav.myAppsSearch | filter:nav.search:strict))" class="apps-list" ng-class="{'apps-title' : value.index}">
+                    <span ng-if="value.index" class="span-title">{{value.partner.partnerFullName}}</span>
+                    <a>
+                      <img src="/assets/al/images/logo.jpg" alt=""/>
+                      <span>{{value.app.appFullName}}</span>
+                    </a>
+                    </div>
+                  </div>  
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 empty-search" ng-show="nav.myApps.length == 0">
+                <p>We couldn't find what you are looking for</p>
+              </div>
+              <div ng-show="nav.myAppsFromService.length == 0">
+                <p>Still haven't tried any app?</p>
+                <p>We Have many apps you can review</p>
+                <p class="link"><a ui-sref="apps">See all apps</a></p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 new-apps" ng-class="{'border-left': nav.newApps.length >= nav.myApps.length}">
+              <h4>New apps<span class="underline"></span></h4>
+              <ul>
+                <li ng-repeat="app in nav.newApps | limitTo:nav.quantity">
+                  <a class="new-img">
+                    <img src="/assets/sf/images/logo.jpg" alt=""/>
+                  </a>
+                  <a class="new-link">
+                    <span class="app-full">{{app.app.appFullName}}</span>
+                    <span class="partner-full">{{app.partner.partnerFullName}}</span>
+                  </a>  
+                </li>
+              </ul>
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-1 link-see-all">
+              <h6><a ui-sref="apps">View all</a></h6>
+            </div>
+          </div>
+          
+          </ul>
         </li>
+        <li><a href="/underconstruction">Reports</a></li>
       </ul>
       <ul class="nav navbar-nav nav-icons navbar-right">
         <li>
