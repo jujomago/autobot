@@ -18,5 +18,8 @@ describe('Service:Base64Manager', function () {
   it('should decode a simple string', function () {
     expect(Base64Manager.decode('L2FwL2FsL2xpc3Rz')).to.be.equal('/ap/al/lists');
   });
+  it('should return null if string is corrupted', function () {
+    expect(Base64Manager.decode('CORRUPTED')).to.be.equal(null);
+  });
 
 });

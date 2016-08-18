@@ -57,16 +57,6 @@
         });
     }
 
-    logout() {
-      //alert(_$location.path());
-      return _auth.logout()
-        .then(response => {
-          if (response.status === 200) {
-            _$location.path('/login');
-          }
-          return response;
-        });
-    }
   }
 
   LoginController.$inject = ['$location', '$stateParams', 'AuthService', 'Base64Manager'];
