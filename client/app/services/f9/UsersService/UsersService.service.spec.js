@@ -134,4 +134,63 @@ describe('Service: UsersService', function () {
             httpBackend.flush();
         });
     });
+
+    describe('Skills on users', ()=>{
+        it('#addSkilltoUser', function(){
+            httpBackend.whenPOST(endPointUrl+'/skills/add', {
+                userName: 'daniel.c@autoboxcorp.com',
+                skillName: 'Marketing',
+                level: 1
+            }).respond(null);
+
+            UsersService.addSkilltoUser({
+              userName: 'daniel.c@autoboxcorp.com',
+              skillName: 'Marketing',
+              level: 1
+            }).then(r=>{
+              expect(r.statusCode).to.equal(200);
+              expect(r.data).to.equal(null);
+            });
+            httpBackend.flush();
+        });
+
+        it('#deleteSkillfromUser', function(){ 
+
+            let headerRequiredForDelete={'Content-Type':'application/json;charset=utf-8','Accept':'application/json, text/plain, */*','appName':''};
+    
+             httpBackend.when('DELETE',endPointUrl+'/daniel.c@autoboxcorp.com/skills', {
+                userName: 'daniel.c@autoboxcorp.com',
+                skillName: 'Marketing',
+                level: 1
+            },headerRequiredForDelete).respond(204, null);
+
+            UsersService.deleteSkillfromUser({
+              userName: 'daniel.c@autoboxcorp.com',
+              skillName: 'Marketing',
+              level: 1
+            }).then(r=>{
+              expect(r.statusCode).to.equal(204);
+              expect(r.data).to.equal(null);
+            });
+            httpBackend.flush();
+        });
+        
+        it('#updateSkillfromUser', function(){
+           httpBackend.whenPOST(endPointUrl+'/skills/update', {
+                userName: 'daniel.c@autoboxcorp.com',
+                skillName: 'Marketing',
+                level: 3
+            }).respond(200, null);
+
+            UsersService.updateSkillfromUser({
+              userName: 'daniel.c@autoboxcorp.com',
+              skillName: 'Marketing',
+              level: 3
+            }).then(r=>{
+              expect(r.statusCode).to.equal(200);
+              expect(r.data).to.equal(null);
+            });
+            httpBackend.flush(); 
+        });
+    });
 });

@@ -68,24 +68,6 @@ describe('Lists API:', function () {
                     done();
                 });
         });
-        it('should respond get all contact fields with JSON array - timeout 25 seconds', function (done) {
-            this.timeout(25000);
-            request(app)
-                .get('/api/f9/lists/contacts/fields')
-                .expect(200)
-                .expect('Content-Type', /json/)
-                .end((err, res) => {
-
-                    if (err) {
-                        return done(err);
-                    }
-                    fields = res.body.return;
-                    assert.equal(200, res.status);
-                    fields.should.be.instanceOf(Array);
-                    assert.equal(fields[0].name,'number1');
-                    done();
-                });
-        });
         it('should create new contact record - timeout 25 seconds', function (done) {
             contact.listUpdateSettings = listUpdateSettings;
             this.timeout(25000);
@@ -101,7 +83,6 @@ describe('Lists API:', function () {
                     }
                     identifier = res.body.return.identifier;
                     assert.equal(201, res.status);
-                    fields.should.be.instanceOf(Object);
                     identifier.should.not.equal(null);
                     delete contact.listUpdateSettings;
                     done();
@@ -122,7 +103,6 @@ describe('Lists API:', function () {
                     }
                     identifier = res.body.return.identifier;
                     assert.equal(200, res.status);
-                    fields.should.be.instanceOf(Object);
                     identifier.should.not.equal(null);
                     done();
                 });
@@ -131,7 +111,7 @@ describe('Lists API:', function () {
            console.log('IDENTIFIER: '+identifier);
            this.timeout(25000);
             request(app)
-                .get('/api/f9/lists/contacts/result/running/'+identifier+'?waitTime=10')
+                .get('/api/f9/lists/contacts/result/running/'+identifier+'?waitTime=300')
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .end((err, res) => {
@@ -141,7 +121,6 @@ describe('Lists API:', function () {
                     }
                     let result = res.body.return;
                     assert.equal(200, res.status);
-                    fields.should.be.instanceOf(Object);
                     result.should.not.equal(null);
                     result.should.equal(false);
                     
@@ -161,7 +140,7 @@ describe('Lists API:', function () {
                     }
                     let result = res.body.return;
                     assert.equal(200, res.status);
-                    fields.should.be.instanceOf(Object);
+                    result.should.be.instanceOf(Object);
                     result.should.not.equal(null);
                     result.listRecordsDeleted.should.equal('1');
                     done();

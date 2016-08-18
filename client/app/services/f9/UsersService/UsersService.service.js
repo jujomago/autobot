@@ -62,9 +62,26 @@
 
         deleteSkillfromUser(userSkill) {
             var result = { data: null, statusCode: 204, errorMessage: '' };
-            return http.post(this.endPointUrl + '/' + 'skills/delete', userSkill)
+            return http({
+                url: this.endPointUrl + '/' + userSkill.userName + '/skills',
+                method: 'DELETE',
+                data: userSkill,
+                headers: { 'Content-Type': 'application/json;charset=utf-8' }
+                })
                 .then(response => {
                     if (response.status !== 204) {
+                        result.statusCode = response.status;
+                        result.data = response;
+                    }
+                    return result;
+                });
+        } 
+
+        updateSkillfromUser(userSkill) {
+            var result = { data: null, statusCode: 200, errorMessage: '' };
+            return http.post(this.endPointUrl + '/' + 'skills/update', userSkill)
+                .then(response => {
+                    if (response.status !== 200) {
                         result.statusCode = response.status;
                         result.data = response;
                     }

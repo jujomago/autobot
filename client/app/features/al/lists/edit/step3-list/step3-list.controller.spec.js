@@ -132,74 +132,42 @@ describe('Component: al.lists.edit', function () {
 
   });
 
-  describe('#getContactFields', () => {
-    //TODO
-    //This method uses lodash and we have issues with it, this test will be 
-    //fix in another user story
-     
-    /*it('should return all contact fields', () => {
-      _$httpBackend.whenGET(endPointUrl).respond(200, {
-        return: [{
-          'displayAs': 'Long',
-          'mapTo': 'None',
-          'name': 'number3',
-          'system': true,
-          'type': 'PHONE'
-        },
-          {
-            'displayAs': 'Short',
-            'mapTo': 'None',
-            'name': 'first_name',
-            'system': true,
-            'type': 'STRING'
-          }]
-      });
-      
-      expect(ListComponent.loadingContacts).to.equal(true);
-
-      ListComponent.getContactFiels()
-        .then(response => {
-          expect(response.statusCode).to.equal(200);
-          expect(response.errorMessage).to.equal(null);
-          expect(ListComponent.loadingContacts).to.equal(false);
-          expect(ListComponent.listManual).to.have.lengthOf(2);
-        });
-      _$httpBackend.flush();
-    });*/
-
-    it('should show error message when error', () => {
-      _$httpBackend.whenGET(endPointUrl).respond(500, {
-        data: null, statusCode: 500, errorMessage: 'Some Error front Endpoint'
-      });
-
-      expect(ListComponent.loadingContacts).to.equal(true);
-
-      ListComponent.getContactFiels()
-        .then(response => {
-          expect(response.statusCode).to.equal(500);
-          expect(response.errorMessage).to.not.equal(null);
-          expect(response.data).to.equal(null);
-          expect(ListComponent.loadingContacts).to.equal(true);
-          expect(ListComponent.listManual).to.deep.equal({});
-        });
-      _$httpBackend.flush();
-    });
-
-  });
-
   //TODO
   //This method uses lodash and we have issues with it, this test will be 
   //fix in another user story
     
   /*describe('#uploadContacts', ()=>{
     
-    it('add contacts to list', () => {
-      ListComponent.fieldsMapping = [{columnNumber: 1, fieldName: 'number1', key: true}];
+    it('add contacts to list with a input datetime MM-dd-yyyy HH:mm:ss', () => {
+      ListComponent.fieldsMapping = [{columnNumber: 1, fieldName: 'number1', key: true}, {columnNumber: 2, fieldName: 'last_sms', key: false}];
       let listUpdateSettings = {fieldsMapping: [{columnNumber: 1, fieldName: 'number1', key: true}],cleanListBeforeUpdate: false, crmAddMode: 'ADD_NEW', crmUpdateMode: 'DONT_UPDATE', listAddMode: 'ADD_FIRST'};
       let listUpdateSettingsManual = {cleanListBeforeUpdate: false, crmAddMode: 'ADD_NEW', crmUpdateMode: 'DONT_UPDATE', listAddMode: 'ADD_FIRST'};
       _$httpBackend.whenGET(endPointUrl).respond(201, {return: {identifier: 'ad-fg-js'}});
       ListComponent.sendContact.listName = 'testAutobox';
-      ListComponent.sendContact.importData = {values: [{item: ['9874563217']}]};
+      ListComponent.sendContact.importData = {values: [{item: ['9874563217', '02-12-2016 22:00:00']}]};
+      if(ListComponent.manual){
+        ListComponent.sendContact.listUpdateSettings = listUpdateSettingsManual;
+        ListComponent.sendContact.listUpdateSettings.fieldsMapping = ListComponent.fieldsMapping;
+      }else{
+        ListComponent.sendContact.listUpdateSettings = listUpdateSettings;
+      }
+      
+      ListComponent.uploadContacts()
+        .then(response => {
+          expect(response.statusCode).to.equal(201);
+          expect(response.errorMessage).to.equal(null);
+          expect(response.data.return.identifier).should.not.equal(null);
+        });
+      _$httpBackend.flush();
+    });
+
+    it('add contacts to list with a input datetime MM/dd/yyyy HH:mm:ss', () => {
+      ListComponent.fieldsMapping = [{columnNumber: 1, fieldName: 'number1', key: true}, {columnNumber: 2, fieldName: 'last_sms', key: false}];
+      let listUpdateSettings = {fieldsMapping: [{columnNumber: 1, fieldName: 'number1', key: true}],cleanListBeforeUpdate: false, crmAddMode: 'ADD_NEW', crmUpdateMode: 'DONT_UPDATE', listAddMode: 'ADD_FIRST'};
+      let listUpdateSettingsManual = {cleanListBeforeUpdate: false, crmAddMode: 'ADD_NEW', crmUpdateMode: 'DONT_UPDATE', listAddMode: 'ADD_FIRST'};
+      _$httpBackend.whenGET(endPointUrl).respond(201, {return: {identifier: 'ad-fg-js'}});
+      ListComponent.sendContact.listName = 'testAutobox';
+      ListComponent.sendContact.importData = {values: [{item: ['9874563217', '02/12/2016 22:00:00']}]};
       if(ListComponent.manual){
         ListComponent.sendContact.listUpdateSettings = listUpdateSettingsManual;
         ListComponent.sendContact.listUpdateSettings.fieldsMapping = ListComponent.fieldsMapping;

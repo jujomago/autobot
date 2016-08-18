@@ -12,19 +12,14 @@
        
             <div class="inputminimal" ng-class="{ 'has-error': dispositionForm.name.$invalid && dispositionForm.$submitted }">
                 <label for="firstName" >Name*</label>
-                <div>
-                    <input autofocus type="text" maxlength="250" name="name" id="name" required ng-model="$ctrl.disposition.name" abx-pattern-filter="/^[^\`~&%#,|()_':;?[/}=\]&quot;{*>!\\+<^]*$/">
-                 </div>
+                <input autofocus type="text" maxlength="250" name="name" id="name" required ng-model="$ctrl.disposition.name" class="inline-input" abx-pattern-filter="/^[^\`~&%#,|()_':;?[/}=\]&quot;{*>!\\+<^]*$/">
             </div>
             <div ng-messages="dispositionForm.name.$error" ng-show="dispositionForm.$submitted">                  
-                        <p ng-message="required">This field is required</p>
+                        <p class="no-padding-error" ng-message="required">This field is required</p>
             </div>
             <div class="inputminimal" ng-class="{ 'has-error': dispositionForm.name.$invalid && dispositionForm.$submitted }"> 
 	            <label for="description">Description</label>
-	            <div>
-	                <input type="text"  name="description" id="description"  ng-model="$ctrl.disposition.description">
-	                    
-	            </div>
+                <input type="text"  name="description" maxlength="250" id="description" class="inline-input" ng-model="$ctrl.disposition.description">
 	        </div>         
             <div class="form-group">
               <div class="col-sm-12">
@@ -33,12 +28,12 @@
                             <input type="checkbox" ng-model="$ctrl.disposition.agentMustConfirm"> Agent Must Confirm
                         </label>
                     </div>
-                    <div class="radio regular-radio">
+                    <div class="radio regular-radio inline-radio">
                         <label>
                             <input type="radio" ng-model="$ctrl.disposition.agentMustCompleteWorksheet" ng-value='true'> Agent Must Complete Worksheet
                         </label>
                     </div>
-                    <div class="radio regular-radio">
+                    <div class="radio regular-radio inline-radio">
                         <label>
                             <input type="radio" ng-model="$ctrl.disposition.agentMustCompleteWorksheet" ng-value='false'> Worksheet Cannot Be Used With This Disposition
                         </label>
@@ -85,13 +80,15 @@
 	                   	</div>
 	                   </div>
 	                </div>
-                   <div ng-class="{'inputminimal-disabled': $ctrl.disposition.type!='RedialNumber' || !$ctrl.redial.useTimer  }" class="inputminimal">     
-	                   <label>Number of Attempts:</label>
-	                   <div class="timer-container">
-	                   	<div class="timer-items">
-	                   		<abx-number-updown ng-model='$ctrl.redial.attempts' min-value="1" max-length="2" ng-disabled="$ctrl.disposition.type!='RedialNumber' || !$ctrl.redial.useTimer" max-value=99></abx-number-updown>
-	                   	</div>
-	                   </div>
+                    <div>
+                       <div ng-class="{'inputminimal-disabled': $ctrl.disposition.type!='RedialNumber' || !$ctrl.redial.useTimer  }" class="inputminimal">     
+    	                   <label>Number of Attempts:</label>
+    	                   <div class="timer-container">
+    	                   	<div class="timer-items">
+    	                   		<abx-number-updown ng-model='$ctrl.redial.attempts' min-value="1" max-length="2" ng-disabled="$ctrl.disposition.type!='RedialNumber' || !$ctrl.redial.useTimer" max-value=99></abx-number-updown>
+    	                   	</div>
+    	                   </div>
+                       </div>
                    </div>
 					<div class="checkbox">
                         <label>
@@ -180,8 +177,8 @@
         </div>
     </uib-tab> 
 </uib-tabset>
-<div class="form-group text-center">
+<div class="form-group text-center button-container">
   <button type="submit" class="btn btn-black" ng-disabled="$ctrl.SubmitText=='Saving...'">{{$ctrl.SubmitText}}</button>
-  <button type="button" class="btn btn-black" ui-sref="ap.al.dispositions">Cancel</button>  
+  <button type="button" class="btn btn-black" ui-sref="ap.al.dispositions">Cancel</button> 
 </div>
 </form>

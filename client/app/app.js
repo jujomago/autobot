@@ -15,6 +15,12 @@ angular.module('fakiyaMainApp', [
       .otherwise('/');
 
     $locationProvider.html5Mode(true);
-  }).run(function (lodash) { // jshint ignore:line
+  }).run(function (lodash, $window, Global) { // jshint ignore:line
     //this method is only for run the lodash deletion
+    //TODO: Remove or Evaluate this block after Event Bus is implemented
+    $window.onbeforeunload = function () {
+      if(Global.proccessIsRunning){
+        return 'You have updating processes in progress';
+      }
+    };
   });

@@ -92,7 +92,6 @@ export function isImportRunning(req, res) {
       })
       .catch(service.handleError(res));
 }
-
 //Delete a list by the listName
 export function destroy(req, res) {
   var params = { listName: req.params.listName };

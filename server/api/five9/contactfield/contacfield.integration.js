@@ -20,7 +20,7 @@ describe('ContactField API:', function() {
           if (err) {
             return done(err);
           }
-          contactFields = res.body;
+          contactFields = res.body.return;
           done();
         });
     });

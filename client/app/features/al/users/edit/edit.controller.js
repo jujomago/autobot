@@ -1,28 +1,48 @@
 'use strict';
 (function() {
 
+    function _getErrorMessage(xmlMessage){
+        let message = xmlMessage.match('<faultstring>(.*)</faultstring>');
+        return message[1];
+    }
 
-    let _UsersService,_stateParams,_state,_$uibModal;
+    let _UsersService,_stateParams,_state, _SkillsService, _ConfirmAsync, _ModalManager;
 
     class EditComponent {
 
-        constructor($stateParams, $state,  $sessionStorage , $q, $uibModal, UsersService) {
+        constructor($stateParams, $state,  $sessionStorage , $q, UsersService, SkillsService, ConfirmAsync, ModalManager) {
 
             //  console.log('Component EditComponent - al.users.edit');
-            _$uibModal = $uibModal;
             _stateParams = $stateParams;
             _UsersService = UsersService;
+            _SkillsService = SkillsService;
+            _ConfirmAsync = ConfirmAsync;
+            _ModalManager = ModalManager;
             _state=$state;
             this.storage = $sessionStorage;
             this.qp = $q;
             this.SubmitText = 'Save';
             this.found = false;
             this.changePass = false;
-            this.allRoles = ['admin', 'agent', 'reporting', 'supervisor'];
+            this.allRoles = ['agent', 'supervisor' , 'admin', 'reporting'];
             this.userRoles = [];
+            this.userSkills = [];
             this.showErrorMessage = { show: false, message: '' };   
             this.message = { show: false };
-            this.rolSelectedPermissions = [];  
+            this.rolSelectedPermissions = [];
+
+            this.filteredSkills=[];
+            this.skills = [];
+            this.currentPage = 1;
+            this.sortKey = '';
+            this.reverse = true;
+            this.numPerPage = 10;
+            this.beginNext = 0;
+            this.quantities = [5, 10, 15, 20];
+            this.toggleSkillRow = -1;
+            this.search={skillName:''};
+            this.methodSkills = 'create';
+            this.tab = false;
         }
 
         $onInit() {      
@@ -31,19 +51,24 @@
           
             this.getAllPermissions()
             .then(()=>{
-                this.getUserDetail(userName)
-                .then(()=>{
-                    for (var key in this.userInfo.roles) {
-                        console.log('enter');            
-                        var rolValue = this.userInfo.roles[key];  
-                        this.storage.rolesPermissions[key]=rolValue;                       
-                    }
-                    console.log(this.storage.rolesPermissions);
-                });
-            });       
+                return this.getUserDetail(userName);
+            })
+            .then(()=>{
+                for (var key in this.userInfo.roles) {
+                    console.log('enter');            
+                    var rolValue = this.userInfo.roles[key];  
+                    this.storage.rolesPermissions[key]=rolValue;                       
+                }
+                console.log(this.storage.rolesPermissions);
+                return this.getAllSkills();
+            })
+            .then((skills)=>{
+                this.storage.skills = skills.data;
+            });
         }
+
         openModal(){
-            this.modalInstance = _$uibModal.open({
+            this.modalInstance = _ModalManager.open({
                 animation: false,
                 size: 'md',
                 controllerAs: '$ctrl',
@@ -62,7 +87,7 @@
         getAllPermissions(){
               return _UsersService.getPermissions()
                 .then(response => {
-                    console.log('loaded permissions');
+                console.log('loaded permissions');
                    this.storage.rolesPermissions = response;
                    return response;
                 })
@@ -71,6 +96,19 @@
                     console.error(error);
                 });    
         }
+
+        getAllSkills(){
+             return _SkillsService.getSkills()
+                .then(response => {
+                    console.log('loaded skills');
+                    return response;
+                })
+                .catch(error => {
+                    console.log('error');
+                    console.error(error);
+                });   
+        }
+
         getUserDetail(userName){
              return _UsersService.getUserDetail(userName)
                 .then(_users => {                                  
@@ -79,6 +117,7 @@
                     this.userInfo = _users;
                     this.userInfo.generalInfo.password = '**********';
                     this.userRoles = Object.keys(this.userInfo.roles);
+                    this.userSkills = this.userInfo.skills;
                     
                     let rolesAvailable = this.allRoles.filter(function(value) {
                         if(this.userRoles.indexOf(value) > -1){
@@ -87,7 +126,7 @@
                         return true;               
                     }, this);
                     
-                    this.allRoles = rolesAvailable;
+                    this.allRoles = rolesAvailable; 
                     return _users;
                 })
                 .catch(error => console.log(error));
@@ -182,12 +221,160 @@
             }
        }
 
+       addSkill(){
+        this.methodSkills = 'create';
+        this.skillModal();
+       }
 
+       updateSkill(skill){
+        this.methodSkills = 'update';
+        this.skill = skill;
+        this.skillModal();
+       }
 
+       skillModal(){
+        this.modalInstance = _ModalManager.open({
+            animation: false,
+            size: 'sm',
+            controllerAs: '$ctrl',
+            appendTo: angular.element(document.querySelector('#modal-container')),
+            template: '<al.users.skill-modal></al.users.skill-modal>'
+        });
+
+        this.modalInstance.result
+            .then(result => {
+                if(typeof result !== 'undefined' && Object.keys(result).length > 0){
+                    result.userName = this.userInfo.generalInfo.userName;
+                    if(this.methodSkills === 'create'){
+                        this.addSkillToUser(result).then(()=>{
+                            this.getUserDetailSkill(this.userInfo.generalInfo.userName);
+                        }).catch((theMsg)=>{
+                            this.message={ show: true, type: 'warning', text: theMsg, expires: 3000}; 
+                        });   
+                    }else{
+                        this.updateSkillFromUser(result).then(()=>{
+                            this.getUserDetailSkill(this.userInfo.generalInfo.userName);
+                        }).catch((theMsg)=>{
+                            this.message={ show: true, type: 'warning', text: theMsg, expires: 3000}; 
+                        });   
+                    }
+                }
+            });
+      }
+
+      getUserDetailSkill(userName){
+             return _UsersService.getUserDetail(userName)
+                .then(_users => {                                  
+                    console.log('loaded user detail');
+                    this.found = true;
+                    this.userInfo.skills = _users.skills;
+                    this.userSkills = _users.skills;
+                    return _users;
+                })
+                .catch(error => console.log(error));
+      }
+
+      addSkillToUser(skill){
+        return _UsersService.addSkilltoUser(skill)
+                .then(response => {
+                   console.log(response);
+                   let theMsg = 'Skill added';
+                   this.message={ show: true, type: 'success', text: theMsg, expires: 3000};
+                   return response;
+                })
+                .catch(error => {
+                    console.log('error');
+                    console.error(error);
+                    let textError = _getErrorMessage(error.data.body);
+                    this.message={ show: true, type: 'warning', text: textError, expires: 5000};
+                    return error;
+        });    
+      }
+
+      deleteSkillFromUser(item, indexRow){
+        return _ConfirmAsync('Are you sure to delete?')
+                .then(() => {
+                    this.toggleSkillRow = indexRow;
+                    return _UsersService.deleteSkillfromUser(item)
+                        .then(response => {
+                            if (response.statusCode === 204 && response.data === null) {
+                                let index = this.userSkills.indexOf(item);
+                                this.userSkills.splice(index, 1);
+
+                                this.toggleSkillRow = -1;
+                                this.message = { show: true, type: 'success', text: 'Skill Deleted', expires:3000 };
+
+                            }else{
+                                console.log(response.statusCode);
+                                this.toggleSkillRow = -1;
+
+                                this.message = { show: true, type: 'danger', text: response.errorMessage, expires:8000};
+                            }
+                            return response;
+                        }).catch(err => {
+                              console.error(err);
+                              let textError = _getErrorMessage(err.data.body);
+                              this.message = { show: true, type: 'danger', text: textError, expires:8000};
+                              return err;
+                        });
+                })
+                .catch(() => {
+                    return false;
+                });
+      }
+
+      updateSkillFromUser(skill){
+        return _UsersService.updateSkillfromUser(skill)
+                .then(response => {
+                   console.log(response);
+                   let theMsg = 'Skill updated';
+                   this.message={ show: true, type: 'success', text: theMsg, expires: 3000};
+                   return response;
+                })
+                .catch(error => {
+                    console.log('error');
+                    console.error(error);
+                    let textError = _getErrorMessage(error.data.body);
+                    this.message={ show: true, type: 'warning', text: textError, expires: 5000};
+                    return error;
+        });  
+      }
+
+      checkTab(tab){
+        if(tab === 'skills'){
+            this.tab = true;
+        }else{
+            this.tab = false;    
+        }
+      }
+
+       pageChanged() {
+        console.log('Page changed to: ' + this.currentPage);
+        this.beginNext = (this.currentPage - 1) * this.numPerPage;
+        console.log('beginNext:' + this.beginNext);
+       }
+
+        getMax(){
+            if(this.userSkills){
+                let total=this.currentPage*this.numPerPage;
+                return (total>this.filteredSkills.length)?this.filteredSkills.length+'':total;
+            }
+        }
+
+        sortColumn(columnName) {
+          if (columnName !== undefined && columnName) {
+                console.log('sorting:' + columnName);
+              this.sortKey = columnName;
+              this.reverse = !this.reverse;
+              return true;
+          } else {
+              return false;
+          }
+        }
     }
 
 
-    EditComponent.$inject = ['$stateParams', '$state',  '$sessionStorage','$q', '$uibModal', 'UsersService'];
+    EditComponent.$inject = ['$stateParams', '$state',  '$sessionStorage','$q', 'UsersService', 'SkillsService', 'ConfirmAsync', 'ModalManager'];
 
     angular.module('fakiyaMainApp')
         .component('al.users.edit', {

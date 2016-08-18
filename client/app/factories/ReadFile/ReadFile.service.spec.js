@@ -15,7 +15,7 @@ describe('Service: ReadFile', function () {
   it('should upload a file', function () {
     let file={lastModified: '1469039889125', name: 'a.csv', size: 4500, type: 'text/csv'};
    
-    ReadFile.readAsDataUrl(file, _$scope)
+    ReadFile.readAsText(file, _$scope)
     //.then(response => { comented for jshint
     .then(() => {
        // expect(response).to.be.equal("file content");

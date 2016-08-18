@@ -9,6 +9,9 @@ angular.module('fakiyaMainApp')
           'crud':{
             template: '<al.lists.settings></al.lists.settings>',
           }
+        }, 
+        params:{
+          isUpdate: null
         }
                
       });
