@@ -2,17 +2,18 @@
 
 (function () {
 
-  let _auth, _$location;
-
+  let _auth,_Base64Manager, _$location, _$stateParams;
   class LoginController {
 
-    constructor($location, AuthService) {
+    constructor($location, $stateParams, AuthService, Base64Manager) {
 
       this.username = '';
       this.password = '';
       this.message = { show: false };
       _auth = AuthService;
       _$location = $location;
+      _$stateParams = $stateParams;
+      _Base64Manager = Base64Manager;
     }
 
     login() {
@@ -32,15 +33,19 @@
               'username': 'rolandorojas@five.com',
               'password': '123456'
             };
-            _auth.loginApplication(userApp)
-              .then(res => {
-                console.log('==== AUTH RESPONSE ====');
-                console.log(res);
-                _$location.path('/ap/al/skills');
-              });
-            return response;
+            return _auth.loginApplication(userApp);
           }
-          throw response;
+        })
+        .then(response => {
+          console.log('==== AUTH RESPONSE ====');
+          console.log(response);
+          let decoded;
+          if(_$stateParams.url && (decoded = _Base64Manager.decode(_$stateParams.url))){
+            _$location.path(decoded);
+          }else{
+            _$location.path('/ap/al/skills');
+          }
+          return response;
         })
         .catch(e => {     
           if (e.status && e.data) {
@@ -53,7 +58,7 @@
     }
 
     logout() {
-
+      //alert(_$location.path());
       return _auth.logout()
         .then(response => {
           if (response.status === 200) {
@@ -64,7 +69,7 @@
     }
   }
 
-  LoginController.$inject = ['$location', 'AuthService'];
+  LoginController.$inject = ['$location', '$stateParams', 'AuthService', 'Base64Manager'];
 
 
 

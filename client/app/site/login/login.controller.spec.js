@@ -9,6 +9,7 @@ describe('Component: LoginController', function() {
   var scope;
   var loginComponent;
   var state;
+  var _mockStateParams, _mockLocation;
   var httpBackend;
   var endPointUrl;
 
@@ -21,12 +22,20 @@ describe('Component: LoginController', function() {
     $state,
     appConfig) {
       httpBackend = _$httpBackend_;
-    
+      _mockStateParams = {url: 'L2FwL2FsL2xpc3Rz'};
+      _mockLocation = {
+        url: '',
+        path: function(url){
+          this.url = url;
+        }
+      };
       scope = $rootScope.$new();
       state = $state;
       loginComponent = $componentController('login', {
         $http: $http,
-        $scope: scope
+        $scope: scope,
+        $stateParams: _mockStateParams,
+        $location: _mockLocation
       });
 
       if(appConfig.apiUri){
@@ -44,8 +53,8 @@ describe('Component: LoginController', function() {
   });
   
 
-  describe('#controller login ',()=>{   
-      it('=> User logged in Successfully with credentials',()=>{       
+  describe('#controllerlogin',()=>{   
+      it('=> User logged in Successfully with credentials and redirected to /ap/al/lists',()=>{       
 
   
           loginComponent.username='admin@autoboxcorp.com';
@@ -68,6 +77,7 @@ describe('Component: LoginController', function() {
           .then(response=>{
               expect(response.status).to.equal(200);
               expect(response.data).to.equal('2032820asdfka0s0293ma002');
+              expect(_mockLocation.url).to.equal('/ap/al/lists');
           });
 
           httpBackend.flush();

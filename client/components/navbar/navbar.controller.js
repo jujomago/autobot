@@ -1,14 +1,14 @@
 'use strict';
 
 
-let _$location,_auth;
+let _$location,_auth, _Base64Manager;
 class NavbarController {
 
-  constructor($location,AuthService) {
+  constructor($location,AuthService, Base64Manager) {
 
 
     this.isCollapsed = true;
- 
+    _Base64Manager = Base64Manager;
   
     this.userOptionsCollapsed = true;
    
@@ -32,11 +32,17 @@ class NavbarController {
     ];
   }
   logout(){
-    _auth.logout();
-    _$location.path('/login');  
+   let encodedURL=_Base64Manager.encode(_$location.path());
+    _auth.logout()
+    .then(response => {
+      if (response.status === 200) {
+        _$location.path('/login').search({url: encodedURL}); 
+      }
+      return response;
+    });
   }
 }
 
-NavbarController.$inject=['$location','AuthService'];
+NavbarController.$inject=['$location','AuthService', 'Base64Manager'];
 angular.module('fakiyaMainApp')
   .controller('NavbarController', NavbarController);

@@ -28,7 +28,7 @@
             return _$http.post(this.endPointUrl + '/admin/users/auth', credentialsApp)
                 .then(response => {
                     if (response.status === 200) {
-                        return response.data;
+                        return response;
                     }
                 })
                 .catch(error => {
