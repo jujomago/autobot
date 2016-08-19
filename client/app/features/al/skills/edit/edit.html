@@ -1,5 +1,5 @@
 
-<h3 class="title_section">Skill: <span>{{$ctrl.selectedSkill.name}} </span></h3> 
+<h3 class="title_section">Skill: <span>{{::$ctrl.selectedSkill.name}}</span></h3> 
 
 
 <abx-load-indicator ng-hide="$ctrl.found"> </abx-load-indicator> 
@@ -14,7 +14,7 @@
                 <div class="inputminimal"> 
                         <label for="inputName">Name *</label>    
                         <div> 
-                    <input autofocus  type="text" id="inputName" ng-model="$ctrl.selectedSkill.name"/>
+                            <input autofocus  type="text" id="inputName" ng-model="$ctrl.selectedSkill.name" maxlength="32" />
                         </div>
                </div> 
                <div class="inputminimal">  
@@ -26,7 +26,7 @@
                 <div class="inputminimal"> 
                       <label for="inputMessage">Message of the Day</label>    
                     <div>              
-                    <input type="text" id="inputMessage" ng-model="$ctrl.selectedSkill.messageOfTheDay"/>        </div>             
+                    <input type="text" id="inputMessage" ng-model="$ctrl.selectedSkill.messageOfTheDay"  maxlength="255" />        </div>             
                 </div>
                     <div class="form-group ">
 
