@@ -447,31 +447,35 @@
         }
     }
 
-    #edit-list .contact-model-form{
-        max-height: 400px;
-        overflow-y: auto;
-    }
-
-    #edit-list .modal .modal-dialog .modal-content{
-        background: transparent;
-        box-shadow: none;
-        border: none;
-    }
-
-    #edit-list .modal .modal-dialog .modal-content .modal-header{
-        border: 0;
-    }
-
-    #edit-list .modal .modal-dialog .modal-header .modal-title{
-        color: @blue;
-    }
-
-    #edit-list .modal-backdrop.in{
-        opacity: 0.9;
-    }
-
-    #edit-list .btn-blue{
-        margin-right: 10px;
+    #edit-list {
+        .modal {
+            overflow-y: hidden;
+            .modal-dialog {
+                .modal-content {
+                    background: transparent;
+                    border: none;
+                    box-shadow: none;
+                    .modal-header {
+                        border: 0;
+                    }
+                }
+                .modal-header {
+                    .modal-title {
+                        color: @blue;
+                    }
+                }
+            }
+        }
+        .contact-model-form {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .modal-backdrop.in {
+            opacity: 0.9;
+        }
+        .btn-blue {
+            margin-right: 10px;
+        }
     }
 
     .subtitle_section{
