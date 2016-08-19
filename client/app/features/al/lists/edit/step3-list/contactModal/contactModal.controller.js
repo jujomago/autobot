@@ -73,7 +73,8 @@ class ContactModalComponent {
 
     this.dateOptions = {
       formatYear: 'yy',
-      startingDay: 1
+      startingDay: 1,
+      showWeeks: false
     };
   }
 
