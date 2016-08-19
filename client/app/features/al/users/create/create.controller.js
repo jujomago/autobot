@@ -3,12 +3,12 @@
 (function () {
 
     let _UsersService,_state,_$q,_ModalManager;
-    
+
     class CreateComponent {
 
         constructor($state, $sessionStorage, $q, UsersService, ModalManager) {
             _ModalManager = ModalManager;
-            this.storage = $sessionStorage;                  
+            this.storage = $sessionStorage;
             this.newUser = {
                 active: true,
                 mustChangePassword: true,
@@ -24,11 +24,11 @@
 
             this.rolSelectedPermissions = [];
             this.message = { show: false };
-            
+
             _UsersService = UsersService;
             _$q = $q;
             _state = $state;
-         
+
 
         }
         openModal(){
@@ -49,9 +49,9 @@
             });
 
         }
-        
+
         $onInit() {
-            console.log('loading roles'); 
+            console.log('loading roles');
 
             return _UsersService.getPermissions()
                 .then(response => {
@@ -66,6 +66,16 @@
             //   console.log(this.newUser);
 
         }
+        fillUsrPass(){
+          let val = this.newUser.EMail;
+          this.newUser.userName = val;
+          this.newUser.password = val;
+        }
+        fillPass(){
+          let val = this.newUser.userName;
+          this.newUser.password = val;
+        }
+
         checkStepOne(form) {
             //    console.log(form);
             this.showWarningUserMessage = (!form.$valid) ? true : false;
@@ -106,7 +116,7 @@
         }
 
         save() {
-                       
+
                 if (this.userRoles.length === 0) {
                     this.showWarningRolMessage = true;
                     console.warn('You must select at least one rol');
@@ -121,14 +131,14 @@
                     this.showWarningRolMessage = false;
                     this.SubmitText = 'Saving...';
 
-                                        
-                    let _rolesToSet={};                
-                    this.userRoles.forEach((selectedRol)=>{      
-                        let selRol=selectedRol.toLowerCase();             
+
+                    let _rolesToSet={};
+                    this.userRoles.forEach((selectedRol)=>{
+                        let selRol=selectedRol.toLowerCase();
                         _rolesToSet[selRol]=this.storage.rolesPermissions[selRol];
-                    }, this); 
-                
-                    
+                    }, this);
+
+
                     var reqFormat = {
                         userInfo: {
                             generalInfo: this.newUser,
@@ -146,7 +156,7 @@
                                         type: 'success',
                                         text: 'User Created'
                                     };
-                                    this.newUser = {}; //clean object                        
+                                    this.newUser = {}; //clean object
                                     _state.go('ap.al.users', { message: messageObj });
                                     return response;
 
@@ -161,11 +171,11 @@
                             }
 
                         })
-                        .catch(error => {                      
+                        .catch(error => {
 
                             console.error('error in client');
                             console.log(error);
-                            
+
                             this.SubmitText = 'Save';
                             this.message = { show: true, type: 'danger', text: error.errorMessage };
                         });
