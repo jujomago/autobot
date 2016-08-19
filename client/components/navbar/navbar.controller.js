@@ -16,12 +16,13 @@ class NavbarController {
     _auth=AuthService;
     this.myAppsCollapsed = true;
     this.quantity = 4;
-    this.search = {'app': {appFullName: ''}};
+    this.search = {app: {appFullName: ''}};
     this.appsLoaded = false;
     _lodash = lodash;
     _appsService = AppsService;
     this.fullMenu = false;
     this.minMenu = false;
+    this.partners = [];
 
     this.menu = [{
       'title': 'Dashboard',
@@ -32,7 +33,6 @@ class NavbarController {
         'title': 'My Apps',
         'state': 'skills.list',
         'link': '/underconstruction',
-        'menu': 'abxSubmenu'
       },
       {
         'title': 'Reports',
@@ -43,14 +43,16 @@ class NavbarController {
 
     this.myAppsFromService = [];
 
-    this.newApps = [];
+    this.myAppsSearch = {};
 
-    this.myAppsSearch = [];
+    this.total = 0;
 
     this.myApps = [];
-  }
 
-  logout(){
+    this.newApps = [];
+ }
+
+ logout(){
     _auth.logout();
     _$location.path('/login');  
   }
@@ -62,31 +64,9 @@ class NavbarController {
  
   getInstalled(){
     return _appsService.getInstalled().then(response => {
-      let cont = 0;
-      let myApps = [];
       this.myAppsFromService = response.data;
-      
-      myApps = _lodash.groupBy(this.myAppsFromService, (value)=>{
-        return value.partner.partnerFullName;
-      });
-
-      Object.keys(myApps).map((value)=>{
-        myApps[value].map((val)=>{
-          if(cont === 0){
-            val.index = true;
-          }else{
-            val.index = false;
-          }
-          this.myAppsSearch.push(val);
-          cont++;
-        });
-        cont = 0;
-      });
-
       this.fullMenu = (this.myAppsFromService.length > 4) ? true : false;
-      this.minMenu = (this.myAppsFromService.length <= 4) ? true : false;
-      console.log(this.myApps);
-      console.log(this.myAppsSearch);
+      this.total = this.myAppsFromService.length;
       return response;
     })
     .catch(error => {
@@ -96,8 +76,8 @@ class NavbarController {
     });
   }
 
-  getNews(){
-    return _appsService.getNews().then(response => {
+  getNewest(){
+    return _appsService.getNewest().then(response => {
       this.newApps = response.data;
       return response;
     })
@@ -108,12 +88,16 @@ class NavbarController {
     });
   }
 
-  filteringBySearch(){ 
+  filteringBySearch(){
     if(this.search.app.appFullName){
+      this.total = Object.keys(this.myAppsSearch).length;
       return true;
+    }else{
+      this.total = this.myAppsFromService.length;
+      return false;
     }
-    return false;
   }
+
 }
 
 NavbarController.$inject=['lodash', 'AppsService', '$location','AuthService'];

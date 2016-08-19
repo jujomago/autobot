@@ -136,7 +136,7 @@ describe('Service: AppsService', function () {
       }
     ];
     _$httpBackend.whenGET('/assets/admin/json/newapps.json').respond(newApps);
-    _AppsService.getNews().then(apps => {
+    _AppsService.getNewest().then(apps => {
         expect(null).to.not.equal(apps);
         expect(undefined).to.not.equal(apps);
         expect(apps.data.length).to.equal(2);
@@ -147,7 +147,7 @@ describe('Service: AppsService', function () {
 
   it('should return submenu new apps error', function () {
     _$httpBackend.whenGET('/assets/admin/json/newapps.json').respond(500, 'Internal Server Error');
-    _AppsService.getNews().catch(error => {
+    _AppsService.getNewest().catch(error => {
         expect(null).to.not.equal(error);
         expect(undefined).to.not.equal(error);
         expect(error.statusCode).to.equal(500);

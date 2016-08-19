@@ -14,11 +14,11 @@
         <li ui-sref-active="active"><a href="/underconstruction">Dashboard</a></li>
         <li class="dropdown sub-menu-dropdown" ng-mouseenter="nav.myAppsCollapsed = false" ng-mouseleave="nav.myAppsCollapsed = true">
           <a class="dropdown-toggle" role="button">My apps</a>
-          <ul class="dropdown-menu submenu" uib-collapse="nav.myAppsCollapsed" ng-class="{'full-menu': nav.fullMenu, 'min-menu': nav.minMenu}">
-          <div class="col-lg-12 col-md-12 col-sm-12">
-            <div class="col-lg-7 col-md-7 col-sm-7 my-apps" ng-class="{'border-right': nav.myApps.length > nav.newApps.length}">
-              <div class="col-lg-12 col-md-12 col-sm-12" ng-show="nav.myAppsFromService.length > 0">
-                <div class="col-lg-12 col-md-12 col-sm-12 myapps-title">
+          <ul class="dropdown-menu submenu" uib-collapse="nav.myAppsCollapsed" ng-class="{'full-menu': nav.fullMenu, 'min-menu': !nav.fullMenu}">
+          <div class="col-sm-12">
+            <div class="col-sm-7 my-apps" ng-class="{'border-right': nav.total > nav.newApps.length}">
+              <div class="col-sm-12" ng-show="nav.myAppsFromService.length > 0">
+                <div class="col-sm-12 myapps-title">
                   <div class="pull-left">
                     <h4>My apps <span class="underline"></span></h4>
                   </div>
@@ -26,20 +26,22 @@
                     <input id="submenu-search" type="text" name="search" ng-model="nav.search.app.appFullName" placeholder="Filter" ng-change="nav.filteringBySearch()">    
                   </div>
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="col-sm-12">
                   <div class="cols">
-                    <div ng-repeat="value in (nav.myApps = (nav.myAppsSearch | filter:nav.search:strict))" class="apps-list" ng-class="{'apps-title' : value.index}">
-                    <span ng-if="value.index" class="span-title">{{value.partner.partnerFullName}}</span>
-                    <a>
-                      <img src="/assets/al/images/logo.jpg" alt=""/>
-                      <span>{{value.app.appFullName}}</span>
-                    </a>
+                    <div ng-repeat="(key, value) in (nav.myAppsSearch = (nav.myAppsFromService | groupBy:'partner.partnerFullName'))" class="apps-list">
+                      <div class="partner-title" ng-if="value.filtered.length > 0">
+                        <span>{{key}}</span>
+                      </div>
+                      <div ng-repeat="app in (value.filtered = (value | filter:nav.search))" class="app-container">
+                        <a>
+                          <img src="/assets/al/images/logo.jpg" alt=""/>
+                          <span>{{app.app.appFullName}}</span>
+                        </a>
+                      </div>
+                      
                     </div>
                   </div>  
                 </div>
-              </div>
-              <div class="col-lg-12 col-md-12 col-sm-12 empty-search" ng-show="nav.myApps.length == 0">
-                <p>We couldn't find what you are looking for</p>
               </div>
               <div ng-show="nav.myAppsFromService.length == 0">
                 <p>Still haven't tried any app?</p>
@@ -47,7 +49,7 @@
                 <p class="link"><a ui-sref="apps">See all apps</a></p>
               </div>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 new-apps" ng-class="{'border-left': nav.newApps.length >= nav.myApps.length}">
+            <div class="col-sm-4 new-apps" ng-class="{'border-left': nav.total <= nav.newApps.length}">
               <h4>New apps<span class="underline"></span></h4>
               <ul>
                 <li ng-repeat="app in nav.newApps | limitTo:nav.quantity">
@@ -61,7 +63,7 @@
                 </li>
               </ul>
             </div>
-            <div class="col-lg-1 col-md-1 col-sm-1 link-see-all">
+            <div class="col-sm-1 link-see-all">
               <h6><a ui-sref="apps">View all</a></h6>
             </div>
           </div>

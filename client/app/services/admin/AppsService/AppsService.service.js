@@ -12,8 +12,11 @@
     class AppsService {
         constructor($http, $q) {
             this.endPointUrl = '/assets/admin/json/apps.json';
+            this.installedEndPoint = '/assets/admin/json/installed.json';
+            this.newestEndPoint = '/assets/admin/json/newapps.json';
             _$q=$q;
             _$http = $http;
+
         }
         getApps() {
           let result = { data: null, statusCode: 200, errorMessage: null };
@@ -36,16 +39,16 @@
         }
         getInstalled(){
             let result = { data: null, statusCode: 200, errorMessage: null };
-            return _$http.get('/assets/admin/json/installed.json')
+            return _$http.get(this.installedEndPoint)
             .then(response => {
                 result.data = response.data;
                 return result;
             })
             .catch(err => _handleError(err, result));
         }
-        getNews(){
+        getNewest(){
             let result = { data: null, statusCode: 200, errorMessage: null };
-            return _$http.get('/assets/admin/json/newapps.json')
+            return _$http.get(this.newestEndPoint)
             .then(response => {
                 result.data = response.data;
                 return result;
