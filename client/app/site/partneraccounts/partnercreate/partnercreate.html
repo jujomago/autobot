@@ -7,7 +7,7 @@
       <input name="fake_password" class="visually-hidden" type="password">
       <!-- end workaorund -->
       <div id="logo">
-        <img class="center-block img-responsive" src="assets/al/images/logo-150.png">
+        <img class="center-block img-responsive" src="assets/al/images/logo-sm.jpg">
       </div>
 
       <abx-message msg="$ctrl.message"></abx-message>
@@ -29,8 +29,8 @@
         <input type="password" ng-model="$ctrl.password" name="password" maxlength="50" required autocomplete="off">
              <div ng-messages="formSigIn.password.$error"  ng-show="formSigIn.$submitted && !$ctrl.cleanWrongPassword" >
               <p ng-message="required ">This field is required</p>
-            </div>    
-      </div>   
+            </div>
+      </div>
       <div class="row ">
             <button id="sign-button" type="submit " class="btn btn-default center-block">Add account</button>
       </div>
