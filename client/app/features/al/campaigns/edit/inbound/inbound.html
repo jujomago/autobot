@@ -81,7 +81,7 @@
                         <tbody  ng-repeat="dniItemAssigned in $ctrl.dnisAssigned">
                             <tr>
                                 <td>{{dniItemAssigned}}</td>
-                                <td><button class="btn btn-danger btn-sm" ng-click="$ctrl.removeDni(dniItemAssigned)">Remove from Campaign</button></td>
+                                <td><button class="btn btn-danger" ng-click="$ctrl.removeDni(dniItemAssigned)">Remove from Campaign</button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -102,7 +102,7 @@
                             <tbody ng-repeat="dnisItem in $ctrl.dnisAvailable">
                                 <tr>
                                     <td>{{dnisItem}}</td>
-                                    <td><button class="btn btn-primary btn-sm" ng-click="$ctrl.addDnis(dnisItem)">Add to Campaign</button></td>
+                                    <td><button class="btn btn-primary" ng-click="$ctrl.addDnis(dnisItem)">Add to Campaign</button></td>
                                 </tr>
                             </tbody>
                         </table>
