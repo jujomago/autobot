@@ -389,6 +389,32 @@ llave,llave2,first_name,last_name,company
   });
 
 
+
+  it('When there is no keys selected in mapping, should show a message warning', () => {
+     
+      MappingComponent.contactFields = [       
+        {name: 'number2',mappedName: 'llave',isKey:false},
+        {name: 'number2',mappedName: 'llave2',isKey:false},
+        {name: 'number3',mappedName: null ,isKey:false},
+        {name: 'first_name',mappedName: 'first_name',isKey:false},
+        {name: 'last_name',mappedName: 'last_name',isKey:false},
+        {name: 'last_name',mappedName: 'company'},
+        {name: 'last_name',mappedName: 'first_name'},
+        {name: 'company',mappedName: 'company',isKey:false}
+      ];     
+     
+      let resultFinish=MappingComponent.finishMap();
+      
+      expect(resultFinish).to.equal(null);
+
+      expect(this.message.expires).to.equal(8000);
+      expect(this.message.text).to.equal('At least one source fields should be mapped to Contact Field');
+      expect(this.message.type).to.equal('warning');
+
+  });
+
+
+
  describe('#addMappingItem',()=>{
     it('A contact field that exists should be added to list',()=>{
         MappingComponent.contactFields = [

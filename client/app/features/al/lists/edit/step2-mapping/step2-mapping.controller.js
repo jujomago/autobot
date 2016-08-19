@@ -38,6 +38,8 @@
         }
         return validRowNumber;
     }
+   
+    let _AlertMessage;
 
     function _formatGroupedKeyRows(rowsGrouped) {
 
@@ -66,13 +68,27 @@
         }
 
         if (invalidRows.length > 0) {
+          
+            let contentModal={
+                title:'Summary',
+                textCloseBtn:'Close',
+                listDetail:{
+                    headerList:'Invalid records',
+                    cols:['Line','Error'],
+                    rows:[]
+                }                
+            };
+          
             let fe = '';
             for (var r = 0; r < invalidRows.length; r++) {
+                contentModal.listDetail.rows.push({'line':invalidRows[r].line,'error':'Record Number is not valid'});
                 fe += JSON.stringify(invalidRows[r]).replace(/"/g, '') + '\n';
             }
+            
+            contentModal.body=`Only ${rowsUnGrouped.length} of ${numRecords} records have been successfully read from file. ${rowsUnGrouped.length} valid Record(s) will be added to the list`;
 
-            window.alert(`Only ${rowsUnGrouped.length} of ${numRecords} records have been successfully read from file. ${rowsUnGrouped.length} valid Record(s) will be added to the list`);
-            window.alert(`Invalid Numbers Records \n ${fe}`);
+            _AlertMessage(contentModal);
+
         }
 
         return rowsUnGrouped;
@@ -93,8 +109,6 @@
             keysNotMapped = _.chain(allRepeatedKeyFields).filter({'mappedIndex':0}).uniq('name').value();
         }
 
-     /*   console.log('restul check fields key');
-        console.log(keysNotMapped);*/
         return keysNotMapped;
     }
 
@@ -222,16 +236,16 @@
 
 
 
-    let _$window, _$stateParams, _$state;
+    let  _$stateParams, _$state;
     let _ContactFieldsService, _;
 
 
     class MapFieldsController {
-        constructor($stateParams, $window, $state, ContactFieldsService, lodash) {
+        constructor($stateParams, AlertMessage, $state, ContactFieldsService, lodash) {
 
             _ = lodash;
             _$stateParams = $stateParams;
-            _$window = $window;
+            _AlertMessage = AlertMessage;
             _$state = $state;
             _ContactFieldsService = ContactFieldsService;
 
@@ -249,7 +263,7 @@
 
             this.customDelimiterEnabled = false;
 
-            this.contactFields = [];
+            this.contactFields = [];          
 
             this.message = { show: false };
             this.loadingContacts = true;
@@ -391,40 +405,48 @@
         }
 
         finishMap() {
+
+            let fieldsKeys = _.filter(this.contactFields,{'isKey':true});
+
             let checkSelectedKeys = _checkSelectedFieldKeys(this.hasHeader, this.contactFields, _);
 
-            if (checkSelectedKeys.length === 0) {
+           
+            if(fieldsKeys.length>0){
+                if (checkSelectedKeys.length === 0) {
+                    let keyNames = _.chain(this.contactFields)
+                                        .filter({isKey:true})
+                                        .map('name').value();
+                    let dataToSend = {
+                        resultMapping: {
+                            keys: keyNames,
+                            rows: _getRowsData(this.hasHeader, this.contactFields, this.jsonCSV, _),
+                            headerFields: _getMappedFiels(this.hasHeader, this.contactFields, 'uniq', _)
 
-                let keyNames = _.chain(this.contactFields)
-                                    .filter({isKey:true})
-                                    .map('name').value();
-                 let dataToSend = {
-                    resultMapping: {
-                        keys: keyNames,
-                        rows: _getRowsData(this.hasHeader, this.contactFields, this.jsonCSV, _),
-                        headerFields: _getMappedFiels(this.hasHeader, this.contactFields, 'uniq', _)
+                        },
+                        fieldsMapping: _getFieldsEntries(this.hasHeader, this.contactFields, this.jsonCSV, _)
+                    };
 
-                    },
-                    fieldsMapping: _getFieldsEntries(this.hasHeader, this.contactFields, this.jsonCSV, _)
-                };
+                    if (_$stateParams.settings.listDeleteSettings) {
+                        dataToSend.listDeleteSettings = _$stateParams.settings.listDeleteSettings;
+                    } else {
+                        dataToSend.listUpdateSettings = _$stateParams.settings.listUpdateSettings;
+                    }
+                
 
-                if (_$stateParams.settings.listDeleteSettings) {
-                    dataToSend.listDeleteSettings = _$stateParams.settings.listDeleteSettings;
+                    // this data goes to table (next step)
+                    console.log('=== DATA FOR NEXT STEPP===');
+                    console.log(dataToSend);
+
+                    _$state.go('ap.al.listsEdit-list', { settings: dataToSend, name: _$stateParams.name });
+                    return dataToSend;
                 } else {
-                    dataToSend.listUpdateSettings = _$stateParams.settings.listUpdateSettings;
+                    let keyNamesNotMapped = _.map(checkSelectedKeys, 'name');
+                    this.message = { show: true, type: 'warning', text: `Contact Fields \"${keyNamesNotMapped.join(' , ')}\" are marked as keys but has no mapped source field/index`, expires: 8000 };
+                    return null;
                 }
-              
-
-                // this data goes to table (next step)
-                console.log('=== DATA FOR NEXT STEPP===');
-                console.log(dataToSend);
-
-                _$state.go('ap.al.listsEdit-list', { settings: dataToSend, name: _$stateParams.name });
-                return dataToSend;
-            } else {
-                let keyNamesNotMapped = _.map(checkSelectedKeys, 'name');
-                this.message = { show: true, type: 'warning', text: `Contact Fields \"${keyNamesNotMapped.join(' , ')}\" are marked as keys but has no mapped source field/index`, expires: 8000 };
-                return null;
+            }else{
+                   this.message = { show: true, type: 'warning', text: 'At least one source fields should be mapped to Contact Field', expires: 8000 };
+                   return null;
             }
         }
 
@@ -435,10 +457,12 @@
 
             let idx = _.findIndex(this.contactFields, { 'name': this.contactFieldSelectedName.name });
             if (idx >= 0) {
+                                
                 this.contactFields.splice((idx + 1), 0, clonedItem);                
             } else {
                 console.log('not found field, inserted first');
-                this.contactFields.unshift(this.contactFieldSelectedName);
+                clonedItem.isKey=false;
+                this.contactFields.unshift(clonedItem);
                 // push first
             }
             console.log(`the index found is ${idx}`);
@@ -450,19 +474,19 @@
             console.log(`the selected row is ${this.selectedRow}`);
             console.log('goint to delete');
             console.log(this.contactFields[this.selectedRow]);
+            
 
             if (this.contactFields[this.selectedRow]) {
                 this.contactFields.splice(this.selectedRow, 1);
                 this.selectedRow=-1;
                 return true;
             } else {
-                _$window.alert('no more fields to delete');
                 return false;
             }
         }
     }
 
-    MapFieldsController.$inject = ['$stateParams', '$window', '$state', 'ContactFieldsService', 'lodash'];
+    MapFieldsController.$inject = ['$stateParams', 'AlertMessage', '$state', 'ContactFieldsService', 'lodash'];
 
     angular.module('fakiyaMainApp')
         .component('al.lists.mapping', {
