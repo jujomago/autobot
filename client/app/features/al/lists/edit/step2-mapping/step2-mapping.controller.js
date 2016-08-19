@@ -254,6 +254,7 @@
             this.message = { show: false };
             this.loadingContacts = true;
             this.canMapping = false;
+            this.selectedRow=-1;
 
             if (_$stateParams.manual === true) {
                 this.getContactFiels();
@@ -452,6 +453,7 @@
 
             if (this.contactFields[this.selectedRow]) {
                 this.contactFields.splice(this.selectedRow, 1);
+                this.selectedRow=-1;
                 return true;
             } else {
                 _$window.alert('no more fields to delete');
