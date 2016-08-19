@@ -25,7 +25,7 @@
                         Has header</label>
                     </p>
                     <p>
-                        <button class="btn btn-primary" ng-click="$ctrl.matchSmart()" ng-disabled="!$ctrl.hasHeader">Smart Mapping</button>
+                        <button class="btn btn-primary" ng-click="$ctrl.matchSmart()" ng-disabled="!$ctrl.hasHeader">Smart mapping</button>
                         <button class="btn btn-primary" ng-click="$ctrl.clearMapping()">Clear mapping</button>
                     </p>
                 </div>
@@ -36,7 +36,7 @@
                     </p>
                     <p>
                         <button class="btn btn-primary" ng-click="$ctrl.addMappingItem()">Add mapping item</button>
-                        <button class="btn btn-primary" ng-click="$ctrl.removeSelectedItem()">Remove selected items</button>
+                        <button class="btn btn-primary" ng-click="$ctrl.removeSelectedItem()"  ng-disabled="$ctrl.selectedRow==-1">Remove selected items</button>
                     </p>
                 </div>
             </div>

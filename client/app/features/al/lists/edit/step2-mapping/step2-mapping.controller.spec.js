@@ -467,7 +467,9 @@ llave,llave2,first_name,last_name,company
 
       expect(MappingComponent.contactFields).to.have.lengthOf(6);    
       expect(MappingComponent.removeSelectedItem()).to.equal(true);
-      expect(MappingComponent.contactFields).to.have.lengthOf(5);    
+      expect(MappingComponent.selectedRow).to.equal(-1);
+      expect(MappingComponent.contactFields).to.have.lengthOf(5);  
+
  
    });
 
@@ -485,7 +487,7 @@ llave,llave2,first_name,last_name,company
       ];
 
       expect(MappingComponent.contactFields).to.have.lengthOf(6);    
-      expect(MappingComponent.removeSelectedItem()).to.equal(false);
+      expect(MappingComponent.removeSelectedItem()).to.equal(false);      
       expect(MappingComponent.contactFields).to.have.lengthOf(6);    
  
    });
