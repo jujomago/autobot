@@ -12,9 +12,9 @@
   },
   {
     "app":{
-      "appName": "myapp2", 
-      "appFullName": "My App2",
-      "description": "My app 2 description"
+      "appName": "ra", 
+      "appFullName": "Reporting & Analytics",
+      "description": "Reporting & Analytics"
     },
     "partner":{
       "partnerName": "f9",

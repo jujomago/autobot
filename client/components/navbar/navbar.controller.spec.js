@@ -46,9 +46,8 @@ describe('Controller: NavbarController', function () {
 
     _$httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
   }));
-  //TODO
-  //This method uses lodash groupby and doesn't work properly
-  /*describe('#get Installed', () => {
+  
+  describe('#get Installed', () => {
     it('=> should get installed apps', () => {
       _$httpBackend.whenGET('/assets/admin/json/installed.json').respond(mockAppsData);
        NavbarController.getInstalled()
@@ -70,12 +69,12 @@ describe('Controller: NavbarController', function () {
        });
         _$httpBackend.flush();
     }); 
-  });*/
+  });
 
   describe('#get new Apps', () => {
     it('=> should get new apps', () => {
       _$httpBackend.whenGET('/assets/admin/json/newapps.json').respond(mockAppsData);
-       NavbarController.getNews()
+       NavbarController.getNewest()
             .then(response => {
                 expect(response).to.not.equal(null);
                 expect(null).to.not.equal(NavbarController.newApps);
@@ -88,7 +87,7 @@ describe('Controller: NavbarController', function () {
     });
     it('=> should return Status 500, error in update', () => {
       _$httpBackend.whenGET('/assets/admin/json/newapps.json').respond(500, 'Internal Server Error');
-      NavbarController.getNews()
+      NavbarController.getNewest()
        .then(() =>{
           expect(NavbarController.newApps.length).to.equal(0);
        });
