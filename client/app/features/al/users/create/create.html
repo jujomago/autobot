@@ -50,7 +50,7 @@
             <div class="inputminimal"  ng-class="{ 'has-error': userForm.EMail.$invalid && userForm.$submitted }">
                 <label for="EMail" >Email*</label>
                 <div>
-                    <input type="email"  name="EMail" id="EMail" required ng-model="$ctrl.newUser.EMail"  ng-minlength="5">
+                    <input type="email"  name="EMail" maxlength="50" id="EMail" required ng-model="$ctrl.newUser.EMail"  ng-minlength="5">
                     
                 </div>
             </div>
