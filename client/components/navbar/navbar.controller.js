@@ -1,9 +1,10 @@
 'use strict';
 let _lodash;
 let _appsService;
+let _$filter, _$parse;
 class NavbarController {
 
-  constructor(lodash, AppsService) {
+  constructor($filter, $parse, lodash, AppsService) {
 
     this.isCollapsed = true;
     this.userOptionsCollapsed = true;
@@ -12,10 +13,13 @@ class NavbarController {
     this.search = {app: {appFullName: ''}};
     this.appsLoaded = false;
     _lodash = lodash;
+    _$filter = $filter;
+    _$parse = $parse;
     _appsService = AppsService;
     this.fullMenu = false;
     this.minMenu = false;
     this.partners = [];
+    this.getter = 'partner.partnerFullName';
 
 
     this.menu = [{
@@ -55,6 +59,8 @@ class NavbarController {
   getInstalled(){
     return _appsService.getInstalled().then(response => {
       this.myAppsFromService = response.data;
+      this.myAppsSearch = this.myAppsFromService;
+      this.myAppsSearch = this.groupBy(this.myAppsSearch);
       this.fullMenu = (this.myAppsFromService.length > 4) ? true : false;
       this.total = this.myAppsFromService.length;
       return response;
@@ -79,6 +85,11 @@ class NavbarController {
   }
 
   filteringBySearch(){
+    
+    this.myAppsSearch = _$filter('filter')(this.myAppsFromService, this.search.app.appFullName);
+    
+    this.myAppsSearch = this.groupBy(this.myAppsSearch);
+
     if(this.search.app.appFullName){
       this.total = Object.keys(this.myAppsSearch).length;
       return true;
@@ -88,8 +99,15 @@ class NavbarController {
     }
   }
 
+  groupBy(list){
+    let getter = _$parse(this.getter);
+    return _lodash.groupBy(list, function(item) {
+        return getter(item);
+    });  
+  }
+
 }
 
-NavbarController.$inject=['lodash', 'AppsService'];
+NavbarController.$inject=['$filter', '$parse' ,'lodash', 'AppsService'];
 angular.module('fakiyaMainApp')
   .controller('NavbarController', NavbarController);
