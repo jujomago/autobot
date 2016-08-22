@@ -245,7 +245,7 @@
             ];
 
             this.selectedDelimiter = this.delimiters[0];
-            this.selectedSymbolDelimiter = '';
+            this.selectedSymbolDelimiter = this.delimiters[0].symbol;
 
             this.customDelimiterEnabled = false;
 
