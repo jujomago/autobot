@@ -78,7 +78,7 @@
             <td class="text-center to_capitalize">{{item.trainingMode}}</td>
             <td class="text-center">
                 <button class="btn btn-row-campaign" ng-class="{'btn-primary':item.state==='NOT_RUNNING','btn-danger':item.state==='RUNNING'}" 
-                 ng-click="$ctrl.updateState(item,$index)" ng-init="item.statusBtnText=(item.state==='RUNNING')?'Stop':'Start'" ng-disabled="(item.statusBtnText==='Starting...' || item.statusBtnText=='Stopping...')">
+                 ng-click="$ctrl.updateState(item,$index)" ng-init="item.statusBtnText=(item.state==='RUNNING')?'Stop':'Start'" ng-disabled="(item.statusBtnText==='Starting' || item.statusBtnText=='Stopping')">
                     {{ item.statusBtnText }}
                 </button>               
                 <a href class="circle_delete" ng-click="$ctrl.deleteCampaign(item,$index)"  
