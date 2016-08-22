@@ -28,7 +28,7 @@
                 </div>
                 <div class="col-sm-12">
                   <div class="cols">
-                    <div ng-repeat="(key, value) in (nav.myAppsSearch = (nav.myAppsFromService | groupBy:'partner.partnerFullName'))" class="apps-list">
+                    <div ng-repeat="(key, value) in nav.myAppsSearch" class="apps-list">
                       <div class="partner-title" ng-if="value.filtered.length > 0">
                         <span>{{key}}</span>
                       </div>
