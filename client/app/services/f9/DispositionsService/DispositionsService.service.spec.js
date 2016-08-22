@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Service: DispositionsService', function () {
+describe('Service:DispositionsService', function () {
 
     // load the service's module
     beforeEach(module('fakiyaMainApp'));
@@ -69,9 +69,7 @@ describe('Service: DispositionsService', function () {
     });
     it('should not remove a disposition asociated with campaigns or system disposition', function () {
         httpBackend.whenDELETE(endPointUrl+'/Disposition1').respond(403,{
-          statusCode: 403,
-          from: 'error from controller endpoint',
-          body: 'the explicit error'
+          error: 'the explicit error'
         });
         let disposition = {name: 'Disposition1'};
         DispositionsService.deleteDisposition(disposition).then(result => {
@@ -117,7 +115,7 @@ describe('Service: DispositionsService', function () {
               expect(response).to.be.property('statusCode');
               expect(response.statusCode).to.equal(201);
               expect(response.data).to.equal(null);
-              expect(response.error).to.equal(null);
+              expect(response.errorMessage).to.equal(null);
             });
 
           httpBackend.flush();
@@ -152,7 +150,7 @@ describe('Service: DispositionsService', function () {
           DispositionsService.createDisposition(newDisposition)
             .then(response => {  
               expect(response.statusCode).to.equal(500);
-              expect(response.error).to.equal('Internal Server Error');
+              expect(response.errorMessage).to.equal('Internal Server Error');
             });
 
           httpBackend.flush();
@@ -168,6 +166,7 @@ describe('Service: DispositionsService', function () {
                     agentMustConfirm: false,
                     description: 'Agent session',
                     name: 'Test insert a new disposition',
+                    oldName: 'OldName',
                     resetAttemptsCounter: false,
                     sendEmailNotification: false,
                     sendIMNotification: false,
@@ -186,14 +185,14 @@ describe('Service: DispositionsService', function () {
                     }
                 };
 
-          httpBackend.whenPUT(endPointUrl).respond(200, null);
+          httpBackend.whenPUT(endPointUrl+'/OldName').respond(200, null);
 
           DispositionsService.updateDisposition(disposition)
             .then(response => {  
               expect(response).to.be.property('statusCode');
               expect(response.statusCode).to.equal(200);
               expect(response.data).to.equal(null);
-              expect(response.error).to.equal(null);
+              expect(response.errorMessage).to.equal(null);
             });
 
           httpBackend.flush();
@@ -205,6 +204,7 @@ describe('Service: DispositionsService', function () {
                     agentMustConfirm: false,
                     description: 'Agent session',
                     name: 'Test insert a new disposition',
+                    oldName: 'OldName',
                     resetAttemptsCounter: false,
                     sendEmailNotification: false,
                     sendIMNotification: false,
@@ -223,12 +223,13 @@ describe('Service: DispositionsService', function () {
                     }
                 };
 
-          httpBackend.whenPUT(endPointUrl).respond(500, {data: 'Internal Server Error',status: 500});
+          httpBackend.whenPUT(endPointUrl+'/OldName')
+          .respond(500, {error: 'Internal Server Error',status: 500});
 
           DispositionsService.updateDisposition(newDisposition)
             .then(response => {  
               expect(response.statusCode).to.equal(500);
-              expect(response.error).to.equal('Internal Server Error');
+              expect(response.errorMessage).to.equal('Internal Server Error');
             });
 
           httpBackend.flush();

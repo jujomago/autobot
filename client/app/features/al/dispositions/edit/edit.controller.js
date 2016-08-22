@@ -49,8 +49,7 @@
 	              return response;                   
 	          })
 	          .catch(e =>{    
-	            let theMsg= (e.error)? e.error.body:e; 
-	            this.message={ show: true, type: 'danger', text: theMsg};
+	            this.message={ show: true, type: 'danger', text: e.errorMessage};
 	            return e;
 	          });
 	          
@@ -114,8 +113,7 @@
 		         })
 		          .catch(e =>{    
 		            this.SubmitText='Save';
-		            let theMsg= (e.error)? e.error.body:e; 
-		            this.message={ show: true, type: 'danger', text: theMsg };
+		            this.message={ show: true, type: 'danger', text: e.errorMessage };
 		            return e;
 		        });            
 		}
