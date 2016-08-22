@@ -4,12 +4,12 @@
     <h3 class="title_section" ng-if="$ctrl.method == 'update'">Update a skill</h3>
 </div>
 <div class="modal-body skillU-modal">
-  <form class="form-horizontal" name="formSkill" novalidate ng-submit="formSkill.$valid && $ctrl.save()">
+  <form class="custom_form form-horizontal" name="formSkill" novalidate ng-submit="formSkill.$valid && $ctrl.save()" id="formSkill">
 
     <div ng-if="$ctrl.skills" class="inputminimal" ng-class="{ 'has-error': formSkill.skill.$invalid && formSkill.$submitted }">
             <label for="skill">Skills</label>     
-            <div class="right-select">
-                 <select ng-model="$ctrl.skill" name="skill" ng-options="v.name as v.name for (k, v) in $ctrl.skills" required>
+            <div>
+                 <select ng-model="$ctrl.skill" name="skill" ng-options="v.name as v.name for (k, v) in $ctrl.skills" required class="form-control">
                  </select>
             </div>
     </div>
@@ -18,10 +18,12 @@
             <label>{{$ctrl.skill}}</label>     
     </div>
 
-    <div class="inputminimal" ng-class="{ 'has-error': formSkill.level.$invalid && formSkill.$submitted }">
+    <div class="inputminimal level-input" ng-class="{ 'has-error': formSkill.level.$invalid && formSkill.$submitted }">
       <label for="level">Level</label>     
-      <div>
-           <input type="number" id="level" ng-model="$ctrl.level" name="level" required ng-pattern="/^(?:[1-9]|0[1-9]|10)$/" />        
+      <div class="timer-container">
+        <div class="timer-items">
+          <abx-number-updown ng-model="$ctrl.level" min-value="1" max-value="11"></abx-number-updown>
+        </div>
       </div>
     </div>
     <div ng-if="$ctrl.skills" ng-messages="formSkill.skill.$error.required" ng-show="formSkill.$submitted">
