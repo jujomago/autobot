@@ -32,11 +32,11 @@ class NavbarController {
     ];
   }
   logout(){
-   let encodedURL=_Base64Manager.encode(_$location.path());
+   let encodedURL=_Base64Manager.encode(_$location.url());
     return _auth.logout()
     .then(response => {
       if (response.status === 200) {
-        _$location.path('/login').search({url: encodedURL}); 
+        _$location.url('/login').search({url: encodedURL}); 
       }
       return response;
     });

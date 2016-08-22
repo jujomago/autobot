@@ -35,15 +35,16 @@
             };
             return _auth.loginApplication(userApp);
           }
+          throw response;
         })
         .then(response => {
           console.log('==== AUTH RESPONSE ====');
           console.log(response);
           let decoded;
           if(_$stateParams.url && (decoded = _Base64Manager.decode(_$stateParams.url))){
-            _$location.path(decoded);
+            _$location.url(decoded).search('url', null);
           }else{
-            _$location.path('/ap/al/skills');
+            _$location.url('/ap/al/skills').search('url', null);
           }
           return response;
         })

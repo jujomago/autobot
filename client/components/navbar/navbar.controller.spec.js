@@ -21,9 +21,8 @@ describe('Component: NavbarController', function() {
     AuthService) {
       _$httpBackend = _$httpBackend_;
       _mockLocation = {
-        url: '',
         params: {},
-        path: function(url){
+        url: function(url){
           if(!url){
             return '/ap/al/lists';
           }

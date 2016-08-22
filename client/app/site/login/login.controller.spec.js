@@ -26,9 +26,14 @@ describe('Component: LoginController', function() {
       httpBackend = _$httpBackend_;
       _mockStateParams = {url: 'L2FwL2FsL2xpc3Rz'};
       _mockLocation = {
-        url: '',
-        path: function(url){
-          this.url = url;
+        url: function(url){
+          if(!url){
+            return this.url;
+          }
+          else{
+            this.url = url;
+            return {search: function(){}}
+          }
         }
       };
       _$cookies = $cookies;
