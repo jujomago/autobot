@@ -23,12 +23,12 @@ angular.module('fakiyaMainApp')
 	            		number = new RegExp(/^\d+(-\d+)*$/);
 	            		valid = (number.test(numberParsed)) ? true: false;
 	              		ctrl.$setValidity('usphoneValidator', valid);
-	              		//value = numberParsed;
+	              		value = numberParsed;
 	            	}else{
 	            		number = new RegExp(/^(011)(?:[0-9] ?){6,14}[0-9]$/);
 	            		valid = (number.test(numberParsed)) ? true: false;
 	              		ctrl.$setValidity('usphoneValidator', valid);
-	              		//value = numberParsed;
+	              		value = numberParsed;
 	            	}
 	            	return valid ? value : undefined;
 	            }else{

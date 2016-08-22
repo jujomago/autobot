@@ -8,7 +8,7 @@
     <div class="inputminimal" ng-class="{ 'has-error': formSkill.skillName.$invalid && formSkill.$submitted }">  
             <label for="inputName">Name *</label>     
             <div>
-                 <input autofocus type="text" id="inputName" ng-model="$ctrl.newSkill.name" name="skillName" required ng-minlength="5" 
+                 <input autofocus type="text" id="inputName" ng-model="$ctrl.newSkill.name" name="skillName" required ng-minlength="5" maxlength="32" 
          />        
                                 
             </div>
@@ -21,13 +21,13 @@
     <div class="inputminimal">        
         <label for="inputDesc">Description</label>
         <div>
-            <input type="text" id="inputDesc" ng-model="$ctrl.newSkill.description"/>
+            <input type="text" id="inputDesc" ng-model="$ctrl.newSkill.description" />
         </div>
     </div>
     <div class="inputminimal">
          <label for="inputMessage" >Message of the Day</label>
           <div>
-            <input type="text" id="inputMessage" ng-model="$ctrl.newSkill.messageOfTheDay"/>
+            <input type="text" id="inputMessage" ng-model="$ctrl.newSkill.messageOfTheDay"  maxlength="255" />
           </div>
     </div>
 
