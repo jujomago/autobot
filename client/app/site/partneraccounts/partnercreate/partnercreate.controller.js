@@ -1,16 +1,21 @@
 'use strict';
-
+let _$state;
 (function () {
 
   class CreateController {
 
     constructor($state) {
-      this.state = $state;
+      _$state = $state;
       this.username = '';
       this.password = '';
       this.message = { show: false };
       this.cleanWrongPassword=false;
     }
+
+    addAccount(){
+      _$state.go('underconstruction');
+    }
+
   }
 
   CreateController.$inject = ['$state'];
