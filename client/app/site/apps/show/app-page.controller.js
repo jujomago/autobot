@@ -16,7 +16,6 @@
 		getApp() {
 			return _AppsService.getApp(this.appName)
 				.then(response => {
-					console.log(response.data);
 					this.application=response.data;
 				})
 				.catch(error => {
