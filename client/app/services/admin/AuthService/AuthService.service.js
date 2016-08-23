@@ -31,9 +31,7 @@
                         return response;
                     }
                 })
-                .catch(error => {
-                    throw error;
-                });
+                .catch(error=>error);
         }
         logout() {
             return _$http.get(this.endPointUrl + '/auth/logout')

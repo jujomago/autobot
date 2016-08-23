@@ -76,7 +76,7 @@ describe('Component: LoginController', function() {
           httpBackend.expectPOST(endPointUrl+'/admin/users/auth',{
               'partnerId': 'f9',
               'appName': 'al',
-              'username': 'rolandorojas@five.com',
+              'username': 'five9_1@five.com',
               'password': '123456'
           }).respond(200);
           
@@ -105,7 +105,7 @@ describe('Component: LoginController', function() {
           httpBackend.expectPOST(endPointUrl+'/admin/users/auth',{
               'partnerId': 'f9',
               'appName': 'al',
-              'username': 'rolandorojas@five.com',
+              'username': 'five9_1@five.com',
               'password': '123456'
           }).respond(200);
           
@@ -133,7 +133,7 @@ describe('Component: LoginController', function() {
           httpBackend.expectPOST(endPointUrl+'/admin/users/auth',{
               'partnerId': 'f9',
               'appName': 'al',
-              'username': 'rolandorojas@five.com',
+              'username': 'five9_1@five.com',
               'password': '123456'
           }).respond(200);
           
