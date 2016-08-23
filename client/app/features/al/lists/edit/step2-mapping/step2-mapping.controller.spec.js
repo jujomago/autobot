@@ -9,17 +9,17 @@ describe('Component: al.lists.mapping', function () {
   var contactFieldService, window, endPointUrl,lodash;
 
   var mockCSV = `
-llave,llave2,first_name,last_name,company
-6643342368,44934,Ken,Osborn,Five9
-7777777777,,Josue, Mancilla, Sinapsysit
-3333333333,53,Boris,Bachas, ninguna
-664334368,5535632212,Ken,Osborn,Five9
-011555555555452,,Brandon,Peto, none
-6666666666,,Jackie,Banda, none 
-777777777798,,Toto,Sullue, non
-6643342368,,Ken,Osborn,Five9
-6666666,33,Jackie,Banda, other
-3222323233,,Jackie,Banda, other  
+    llave,llave2,first_name,last_name,company
+    6643342368,44934,Ken,Osborn,Five9
+    7777777777,,Josue, Mancilla, Sinapsysit
+    3333333333,53,Boris,Bachas, ninguna
+    664334368,5535632212,Ken,Osborn,Five9
+    011555555555452,,Brandon,Peto, none
+    6666666666,,Jackie,Banda, none 
+    777777777798,,Toto,Sullue, non
+    6643342368,,Ken,Osborn,Five9
+    6666666,33,Jackie,Banda, other
+    3222323233,,Jackie,Banda, other  
 `;
   var mockDeleteSettigs={
             fieldsMapping: [{columnNumber: 1, fieldName: 'number1', key: true}], 
@@ -92,55 +92,16 @@ llave,llave2,first_name,last_name,company
        }));
 
        it('should cant mapping', () => {
-             expect(MappingComponent.listName).to.equal('testListName');
-             expect(MappingComponent.canMapping).to.equal(false);
+             MappingComponent.setStateParams({
+              manual:true,
+              name:'testListName'              
+            });
+            
+            expect(MappingComponent.listName).to.equal('testListName');
+            expect(MappingComponent.canMapping).to.equal(false);
        });
 
   });
-
-
-  describe('When mode is not manual in stateParams',()=>{
-      beforeEach(
-          inject(function ($componentController, $rootScope, $httpBackend, $stateParams, $window, _ContactFieldsService_, appConfig,_lodash_) {
-
-          scope = $rootScope.$new();
-          _$httpBackend = $httpBackend;
-          contactFieldService = _ContactFieldsService_;
-          window = $window;
-          lodash=_lodash_; 
-
-          if (appConfig.apiUri) {
-            endPointUrl = appConfig.apiUri + '/f9/contactfields';
-          } 
-
-          MappingComponent = $componentController('al.lists.mapping', {    
-            $stateParams: {
-              manual:false,
-              name:'testListName',
-              settings:{ 
-                csvData: mockCSV, 
-                listDeleteSettings:mockDeleteSettigs 
-              }               
-            },
-            $window: window,
-            ContactFieldsService: contactFieldService,
-            lodash:lodash
-          });
-
-          _$httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
-       }));
-
-       it('should can mapping', () => {
-             expect(MappingComponent.listName).to.equal('testListdName');
-             expect(MappingComponent.canMapping).to.equal(true);
-             expect(MappingComponent.rawCSV).to.equal(mockCSV);
-       });
-  });
-
-
-
-
-
 
 // TODO: Solve problem with lodash(_.forEach)
 /*
@@ -214,8 +175,14 @@ llave,llave2,first_name,last_name,company
 
     it('Custom delimiter Unserscore', () => {
 
+      MappingComponent.setStateParams({settings: {
+          csvData: mockCSV, 
+          listDeleteSettings:mockDeleteSettigs 
+      }});
+
+
       MappingComponent.selectedDelimiter.title = 'Custom';
-      MappingComponent.selectedSymbolDelimiter = '_';
+      MappingComponent.selectedDelimiter.symbol = '_';
 
       MappingComponent.changeDelimiter();
 
@@ -229,6 +196,11 @@ llave,llave2,first_name,last_name,company
     });
 
     it('Default delimiter Comma', () => {
+      
+      MappingComponent.setStateParams({settings: {
+          csvData: mockCSV, 
+          listDeleteSettings:mockDeleteSettigs 
+      }});
 
       MappingComponent.selectedDelimiter.title = 'Comma';
       expect(MappingComponent.selectedDelimiter.title).to.not.equal('Custom');
@@ -433,6 +405,32 @@ llave,llave2,first_name,last_name,company
   });
 
 
+
+  it('When there is no keys selected in mapping, should show a message warning', () => {
+     
+      MappingComponent.contactFields = [       
+        {name: 'number2',mappedName: 'llave',isKey:false},
+        {name: 'number2',mappedName: 'llave2',isKey:false},
+        {name: 'number3',mappedName: null ,isKey:false},
+        {name: 'first_name',mappedName: 'first_name',isKey:false},
+        {name: 'last_name',mappedName: 'last_name',isKey:false},
+        {name: 'last_name',mappedName: 'company'},
+        {name: 'last_name',mappedName: 'first_name'},
+        {name: 'company',mappedName: 'company',isKey:false}
+      ];     
+     
+      let resultFinish=MappingComponent.finishMap();
+      
+      expect(resultFinish).to.equal(null);
+
+      expect(this.message.expires).to.equal(8000);
+      expect(this.message.text).to.equal('At least one source fields should be mapped to Contact Field');
+      expect(this.message.type).to.equal('warning');
+
+  });
+
+
+
  describe('#addMappingItem',()=>{
     it('A contact field that exists should be added to list',()=>{
         MappingComponent.contactFields = [
@@ -491,7 +489,7 @@ llave,llave2,first_name,last_name,company
  
    });
 
-   it('cant remove selected item from table', () => {
+   it('cat remove selected item from table', () => {
 
       MappingComponent.selectedRow=10;
       
