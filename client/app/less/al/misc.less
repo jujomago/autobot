@@ -376,6 +376,74 @@
         }
     }
 
+    #modal-skill-container{
+        .modal{
+            overflow-y: hidden;
+        }
+        .modal-input{
+            width: 60%;
+        }
+        .medium-input{
+            margin-top: 20px;
+        }
+        .modal-dialog{
+            width: 100%;
+        }
+        .modal-content{
+            background: transparent;
+            box-shadow: none;
+            border: none;
+            width: 400px;
+            margin: 0 auto;
+        }
+        .modal-header{
+            border: none;
+            .title_section{
+
+                margin-top: 35px;
+                margin-bottom: 2px;
+            }
+        }
+
+        .modal-backdrop.in {
+            opacity: 0.9;
+        }
+        .modal-button-container {
+
+            text-align: center;
+            display: block;
+            width: 60%;
+            margin-top: 30px;
+
+            &>.btn-blue{
+                margin-left: 10px;
+                margin-right: 10px;
+                width: 100px;
+            }
+        }
+        p{
+            padding-left: 0;
+            
+        }
+        .error-modal{
+            color: #e64b3b;
+        }
+        .error-message{
+
+            width: 60%;
+            margin-top: 20px;
+        }
+        .circle_close{
+            position: fixed;
+            top: 18px;
+            right: 3%;
+        }
+    }
+
+    .user-skills-tab #skills-table, .user-skills-tab .add-button{
+        padding: 0 30px;
+    }
+    
     input[disabled],button[disabled],select[disabled]{
         color:#ccc;
         cursor:not-allowed;
@@ -550,13 +618,25 @@
             max-width: 370px;
             .inputminimal {
                 margin-bottom: 20px;
+                label{
+                    line-height: 35px;
+                }
+                select{
+                    width: 99%;
+                }
+                .abx-number-input{
+                    font-size: 14px;
+                    font-weight: normal;
+                    padding-left: 15px;
+                    width: 37px;
+                }
             }
             .skillmodal-buttons {
-                margin-top: 25px;
+                margin-top: 30px;
                 button {
                     width: 105px;
                     &:first-child {
-                        margin-right: 15px;
+                        margin-right: 20px;
                     }
                 }
             }

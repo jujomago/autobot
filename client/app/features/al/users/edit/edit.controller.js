@@ -237,7 +237,7 @@
             animation: false,
             size: 'sm',
             controllerAs: '$ctrl',
-            appendTo: angular.element(document.querySelector('#modal-container')),
+            appendTo: angular.element(document.querySelector('#modal-skill-container')),
             template: '<al.users.skill-modal></al.users.skill-modal>'
         });
 
