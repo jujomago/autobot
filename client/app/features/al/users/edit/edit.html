@@ -162,7 +162,7 @@
         </div>
     </uib-tab>
     <uib-tab index="2" heading="Skills" select="$ctrl.checkTab('skills')">
-        <div class="row user-skills-tab">
+        <div class="user-skills-tab">
             <div class="mywell add-button">
                     <a ng-click="$ctrl.addSkill()" ng-disabled="$ctrl.storage.skills==0" class="btn btn-black pull-right">Add</a>
             </div>
@@ -174,7 +174,7 @@
             'glyphicon-chevron-down':!$ctrl.reverse} "></span>
 
                         </th>
-                        <th>Level</th>
+                        <th class="text-center">Level</th>
                         <th width="100" class="text-center">
                             Actions
                         </th>
@@ -185,7 +185,7 @@
                             <td>
                                 <a href ng-click="$ctrl.updateSkill(item)">{{item.skillName}}</a></td>
 
-                            <td>{{item.level}}</td>
+                            <td class="text-center">{{item.level}}</td>
                             <td class="text-center">
                                 <a href class="circle_delete" ng-click="$ctrl.deleteSkillFromUser(item, $index)" ng-hide="$ctrl.toggleSkillRow==$index "></a>
                             </td>
