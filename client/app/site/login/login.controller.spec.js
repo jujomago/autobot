@@ -32,7 +32,7 @@ describe('Component: LoginController', function() {
           }
           else{
             this.url = url;
-            return {search: function(){}}
+            return {search: function(){}};
           }
         }
       };
