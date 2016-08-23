@@ -241,16 +241,14 @@
 
 
     class MapFieldsController {
-        constructor($stateParams, AlertMessage, $state, ContactFieldsService, lodash) {
 
+        constructor($stateParams, AlertMessage, $state, ContactFieldsService, lodash) {
             _ = lodash;
             _$stateParams = $stateParams;
             _AlertMessage = AlertMessage;
             _$state = $state;
             _ContactFieldsService = ContactFieldsService;
-
-            this.hasHeader = true;
-
+             this.hasHeader = true;
             this.delimiters = [
                 { title: 'Comma', symbol: ',' },
                 { title: 'Colon', symbol: ':' },
@@ -259,43 +257,40 @@
             ];
 
             this.selectedDelimiter = this.delimiters[0];
-            this.selectedSymbolDelimiter = '';
 
             this.customDelimiterEnabled = false;
-
             this.contactFields = [];          
 
             this.message = { show: false };
             this.loadingContacts = true;
             this.canMapping = false;
             this.selectedRow=-1;
+            this.jsonCSV=[];
+        }
 
-            if (_$stateParams.manual === true) {
+        $onInit() {
+            this.changeHeaderValue();
+            this.changeDelimiter();
+            this.setStateParams(_$stateParams);
+        }
+
+        setStateParams(stateParams){
+            if (stateParams.manual === true) {             
                 this.getContactFiels();
-                this.listName = $stateParams.name;
-            } else {
-                if (_$stateParams.settings && _$stateParams.settings.csvData) {
+                this.listName = stateParams.name;
+            } else {              
+                if (stateParams.settings && stateParams.settings.csvData) {
                     this.canMapping = true;
-                    this.rawCSV = _$stateParams.settings.csvData;
+                    this.rawCSV = stateParams.settings.csvData;
                     this.jsonCSV = _csvToJSON(this.rawCSV);                  
                     this.getContactFiels();
-                    this.listName = $stateParams.name;
+                    this.listName = stateParams.name;
                 } else {
                     this.message = { show: true, type: 'warning', text: 'no csv file arrived' };
                 }
             }
-
-
         }
-        $onInit() {
-            this.changeHeaderValue();
-            this.changeDelimiter();
-        }
-
-        showState() {
-            console.log('state array');
-            console.log(this.contactFields);
-        }
+  
 
         initArrays() {
             // TODO: Research _.fill() does not work;
@@ -344,19 +339,14 @@
 
         aplyDemiliterCSV(delimiter) {
             if (this.rawCSV) {
-                this.jsonCSV = _csvToJSON(this.rawCSV, delimiter);
+                this.jsonCSV = _csvToJSON(this.rawCSV, delimiter);              
                 console.log(this.jsonCSV);
             }
         }
 
         changeDelimiter() {
-            if (this.selectedDelimiter.title === 'Custom') {
-                this.customDelimiterEnabled = true;
-                this.aplyDemiliterCSV(this.selectedSymbolDelimiter);
-            } else {
-                this.customDelimiterEnabled = false;
-                this.aplyDemiliterCSV(this.selectedDelimiter.symbol);
-            }
+              this.customDelimiterEnabled = (this.selectedDelimiter.title === 'Custom');
+             this.aplyDemiliterCSV(this.selectedDelimiter.symbol);
         }
 
         matchSmart() {
