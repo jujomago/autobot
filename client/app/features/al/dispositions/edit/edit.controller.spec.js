@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Component: EditComponent', function () {
+describe('Component:DispositionEditComponent', function () {
 
   // load the controller's module
   beforeEach(module('fakiyaMainApp'));
@@ -29,29 +29,29 @@ describe('Component: EditComponent', function () {
   }));
   describe('#save', () => {
     it('=> should return Status 200, updated OK"', () => {
-     httpBackend.whenPUT(endPointUrl).respond(200,null);
+     EditComponent.nameDisposition = 'oldName';
+     httpBackend.whenPUT(endPointUrl+'/oldName').respond(200,null);
      let saveDisposition=EditComponent.save();
      expect(EditComponent.SubmitText).to.equal('Saving...'); 
      saveDisposition
      .then(response=>{
          expect(response.statusCode).to.equal(200);
          expect(response.data).to.equal(null);
-         expect(response.error).to.equal(null);
+         expect(response.errorMessage).to.equal(null);
          expect(EditComponent.message.text).to.equal('Disposition Updated SuccessFully');
       });
       httpBackend.flush();
     });
     it('=> should return Status 500, error in update', () => {
-        httpBackend.whenPUT(endPointUrl).respond(500,{
-            statusCode: 500,
-            from: 'error from controller endpoint',
-            body: 'Error message'
+        EditComponent.nameDisposition = 'oldName';
+        httpBackend.whenPUT(endPointUrl+'/oldName').respond(500,{
+            error: 'Error message'
         });
        EditComponent.save()
         .then(response=>{           
            expect(response.statusCode).to.equal(500);
            expect(response.data).to.equal(null);
-           expect(response.error).to.not.equal(null);   
+           expect(response.errorMessage).to.not.equal(null);   
            expect(EditComponent.SubmitText).to.equal('Save');
            expect(EditComponent.message.text).to.equal('Error message');
         });

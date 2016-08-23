@@ -1,38 +1,11 @@
 'use strict';
 (function(){
     let _ConfirmAsync;
-    const ORIGINAL_CAMPAIGN_MESSAGE='Can&apos;t remove disposition which is in use';
-    const ORIGINAL_SYSTEM_MESSAGE='Cannot remove system disposition';
-    const CUSTOM_CAMPAIGN_MESSAGE='The object cannot be deleted. Please verify it is not being used by any campaign.';
-    const CUSTOM_SYSTEM_MESSAGE='The object is a system disposition and it cannot be deleted';
     function replaceUndefined(disposition){
         if(!angular.isDefined(disposition.description)){
             disposition.description='';
         }
         return disposition;
-    }
-    function getFormatedMessage(message)
-    {
-        switch(message)
-        {
-            case ORIGINAL_CAMPAIGN_MESSAGE:
-                return CUSTOM_CAMPAIGN_MESSAGE;
-            case ORIGINAL_SYSTEM_MESSAGE:
-                return CUSTOM_SYSTEM_MESSAGE;
-        }
-        return message;
-    }
-    function getErrorMessage(xmlMessage)
-    {
-        let firstStep=xmlMessage.split('<faultstring>');
-        if(firstStep.length<2){
-            return xmlMessage;
-        }
-        let secondStep=firstStep[1].split('</faultstring>');
-        if(secondStep.length>0){
-            return getFormatedMessage(secondStep[0]);
-        }
-        return xmlMessage;
     }
 	class ListComponent {
 		constructor($state, $stateParams, ConfirmAsync, DispositionsService) {
@@ -113,7 +86,7 @@
                             }else{
 
                                 this.toggleDispositionRow = -1;
-                                this.message = { show: true, type: 'danger', text: getErrorMessage(response.errorMessage), expires:8000};
+                                this.message = { show: true, type: 'danger', text: response.errorMessage, expires:8000};
                             }
                             
                             return response;
