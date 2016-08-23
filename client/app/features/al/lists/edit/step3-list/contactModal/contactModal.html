@@ -10,7 +10,7 @@
                 <label for="{{form.name}}">{{form.name | removeUnderscore}}<span ng-if="form.required"> (key)</span></label>     
                 <div>
                      <input type="{{form.type}}" ng-if="form.type != 'date-text' && form.type != 'tel'" name="{{form.name}}" ng-minlength="{{form.minlength}}" ng-maxlength="{{form.maxlength}}" id="{{form.name}}" ng-model="$ctrl.contact[form.name]" ng-required="form.required" ng-change="$ctrl.phoneChanged()"/>
-                     <input type="{{form.type}}" ng-if="form.type == 'tel' " name="{{form.name}}" ng-minlength="{{form.minlength}}" ng-maxlength="{{form.maxlength}}" id="{{form.name}}" ng-model="$ctrl.contact[form.name]" ng-required="$ctrl.phoneRequired" ng-change="$ctrl.phoneChanged()" abx-check-phone/>
+                     <input type="{{form.type}}" ng-if="form.type == 'tel' " name="{{form.name}}" ng-minlength="{{form.minlength}}" ng-maxlength="{{form.maxlength}}" id="{{form.name}}" ng-model="$ctrl.contact[form.name]" ng-required="$ctrl.phoneRequired" ng-change="$ctrl.phoneChanged()" abx-check-phone="/^[^a-zñ´ç`_.,\¿¡*~&%#,|_':;?[/}=\]&quot;{*>!\\<^]*$/"/>
                      <input ng-if="form.type == 'date-text'" type="{{form.type}}" name="{{form.name}}" ng-minlength="{{form.minlength}}" ng-maxlength="{{form.maxlength}}" id="{{form.name}}" ng-model="$ctrl.dates[$index].date" ng-required="form.required" uib-datepicker-popup="MM-dd-yyyy" datepicker-options="$ctrl.dateOptions" is-open="$ctrl.dates[$index].opened" readonly="" ng-change="$ctrl.phoneChanged()"/>
                      <div ng-if="form.type == 'date-text'" class="datetime-button">
                       <span class="timepicker-input">
