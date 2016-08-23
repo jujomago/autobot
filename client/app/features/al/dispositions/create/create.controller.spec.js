@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Component: CreateComponent', function () {
+describe('Component:DispositionCreateComponent', function () {
 
   // load the controller's module
   beforeEach(module('fakiyaMainApp'));
@@ -77,22 +77,20 @@ describe('Component: CreateComponent', function () {
      .then(response=>{
          expect(response.statusCode).to.equal(201);
          expect(response.data).to.equal(null);
-         expect(response.error).to.equal(null);
+         expect(response.errorMessage).to.equal(null);
          expect(CreateComponent.message.text).to.equal('Disposition Created SuccessFully');
       });
       httpBackend.flush();
     });
     it('=> should return Status 500, created error', () => {
         httpBackend.whenPOST(endPointUrl).respond(500,{
-            statusCode: 500,
-            from: 'error from controller endpoint',
-            body: 'Error message'
+            error: 'Error message'
         });
        CreateComponent.save()
-        .then(response=>{           
+        .then(response=>{       
            expect(response.statusCode).to.equal(500);
            expect(response.data).to.equal(null);
-           expect(response.error).to.not.equal(null);   
+           expect(response.errorMessage).to.not.equal(null);   
            expect(CreateComponent.SubmitText).to.equal('Save');
            expect(CreateComponent.message.text).to.equal('Error message');
         });
