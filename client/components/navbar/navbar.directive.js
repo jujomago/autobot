@@ -6,4 +6,4 @@ angular.module('fakiyaMainApp')
     restrict: 'E',
     controller: 'NavbarController',
     controllerAs: 'nav'
-  }));
+}));

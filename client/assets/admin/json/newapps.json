@@ -1,0 +1,57 @@
+[
+  {
+    "app":{
+      "appName": "al", 
+      "appFullName": "Admin console",
+      "description": "My app 1 description"
+    },
+    "partner":{
+      "partnerName": "f9",
+      "partnerFullName": "Five9"
+    }
+  },
+  {
+    "app":{
+      "appName": "myapp2", 
+      "appFullName": "My App2",
+      "description": "My app 2 description"
+    },
+    "partner":{
+      "partnerName": "f9",
+      "partnerFullName": "Five9"
+    }
+  },
+  {
+    "app":{
+      "appName": "myapp3", 
+      "appFullName": "My App3",
+      "description": "My app 3 description"
+    },
+    "partner":{
+      "partnerName": "f9",
+      "partnerFullName": "Five9"
+    }
+  },
+  {
+    "app":{
+      "appName": "myapp4", 
+      "appFullName": "My App4",
+      "description": "My app 4 description"
+    },
+    "partner":{
+      "partnerName": "f9",
+      "partnerFullName": "Five9"
+    }
+  },
+  {
+    "app":{
+      "appName": "myapp5", 
+      "appFullName": "My App5",
+      "description": "My app 5 description"
+    },
+    "partner":{
+      "partnerName": "sf",
+      "partnerFullName": "SalesForce"
+    }
+  }
+]

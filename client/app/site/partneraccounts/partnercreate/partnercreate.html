@@ -1,7 +1,8 @@
 <div class="partnercreate-page">
   <navbar></navbar>
   <div id="sign-up" ng-class="{'has-error': formSigIn.$invalid}">
-    <form name="formSigIn" ng-submit="" novalidate autocomplete="off">
+    <form name="formSigIn" ng-submit="formSigIn.$valid && $ctrl.addAccount()" novalidate autocomplete="off">
+
       <!-- work around chrome autofill -->
       <input name="fake_email" class="visually-hidden" type="text">
       <input name="fake_password" class="visually-hidden" type="password">
@@ -12,13 +13,14 @@
 
       <abx-message msg="$ctrl.message"></abx-message>
       <div class="row">
-        <div class="center-block partner-title">
-          <span class="bold">Five9</span> account
-        </div>
+        <h3 class="text-center">Add new account</h3>
+        <h3 class="center-block partner-title">
+          <span>Five9</span> account
+        </h3>
       </div>
       <div class="inputminimal center-block">
         <label>Username</label>
-        <input type="text" ng-model="$ctrl.username" name="userName" maxlength="50" required autocomplete="off">
+        <input type="text" ng-model="$ctrl.username" name="userName" maxlength="255" required autocomplete="off">
         <div ng-messages="formSigIn.userName.$error" ng-show="formSigIn.$submitted">
           <p ng-message="required">This field is required</p>
         </div>
@@ -47,3 +49,4 @@
     </div>
   </div>
 </div>
+
