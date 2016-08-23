@@ -1,7 +1,7 @@
 'use strict';
 
 
-let _$location,_auth, _Base64Manager;
+let _$location,_authService, _Base64Manager;
 class NavbarController {
 
   constructor($location,AuthService, Base64Manager) {
@@ -13,7 +13,7 @@ class NavbarController {
     this.userOptionsCollapsed = true;
    
     _$location=$location;
-    _auth=AuthService;
+    _authService=AuthService;
     this.menu = [{
       'title': 'Dashboard',
       'state': 'main',
@@ -33,7 +33,7 @@ class NavbarController {
   }
   logout(){
    let encodedURL=_Base64Manager.encode(_$location.url());
-    return _auth.logout()
+    return _authService.logout()
     .then(response => {
       if (response.status === 200) {
         _$location.url('/login').search({url: encodedURL}); 
