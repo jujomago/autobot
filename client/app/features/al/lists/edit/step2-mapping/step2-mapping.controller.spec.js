@@ -64,42 +64,86 @@ describe('Component: al.lists.mapping', function () {
  
  
 
-  describe('When mode is manual in stateParams',()=>{
-      beforeEach(
-          inject(function ($componentController, $rootScope, $httpBackend, $stateParams, $window, _ContactFieldsService_, appConfig,_lodash_) {
+  describe('#setStateParams',()=>{
 
-          scope = $rootScope.$new();
-          _$httpBackend = $httpBackend;
-          contactFieldService = _ContactFieldsService_;
-          window = $window;
-          lodash=_lodash_; 
+       describe('When mode is manual in stateParams',()=>{
+            beforeEach(
+                inject(function ($componentController, $rootScope, $httpBackend, $stateParams, $window, _ContactFieldsService_, appConfig,_lodash_) {
 
-          if (appConfig.apiUri) {
-            endPointUrl = appConfig.apiUri + '/f9/contactfields';
-          } 
+                scope = $rootScope.$new();
+                _$httpBackend = $httpBackend;
+                contactFieldService = _ContactFieldsService_;
+                window = $window;
+                lodash=_lodash_; 
 
-          MappingComponent = $componentController('al.lists.mapping', {    
-            $stateParams: {
-              manual:true,
-              name:'testListName'              
-            },
-            $window: window,
-            ContactFieldsService: contactFieldService,
-            lodash:lodash
-          });
+                if (appConfig.apiUri) {
+                  endPointUrl = appConfig.apiUri + '/f9/contactfields';
+                } 
 
-          _$httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
-       }));
+                MappingComponent = $componentController('al.lists.mapping', {    
+                  $stateParams: {
+                    manual:true,
+                    name:'testListName'              
+                  },
+                  $window: window,
+                  ContactFieldsService: contactFieldService,
+                  lodash:lodash
+                });
+                _$httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
+            }));
 
-       it('should cant mapping', () => {
-             MappingComponent.setStateParams({
-              manual:true,
-              name:'testListName'              
+            it('should cant mapping', () => {
+                MappingComponent.setStateParams({
+                    manual:true,
+                    name:'testListName'              
+                });                
+                expect(MappingComponent.listName).to.equal('testListName');
+                expect(MappingComponent.canMapping).to.equal(false);
             });
-            
-            expect(MappingComponent.listName).to.equal('testListName');
-            expect(MappingComponent.canMapping).to.equal(false);
        });
+       describe('When mode is not manual in stateParams',()=>{
+            beforeEach(
+                inject(function ($componentController, $rootScope, $httpBackend, $stateParams, $window, _ContactFieldsService_, appConfig,_lodash_) {
+
+                scope = $rootScope.$new();
+                _$httpBackend = $httpBackend;
+                contactFieldService = _ContactFieldsService_;
+                window = $window;
+                lodash=_lodash_; 
+
+                if (appConfig.apiUri) {
+                  endPointUrl = appConfig.apiUri + '/f9/contactfields';
+                } 
+
+                MappingComponent = $componentController('al.lists.mapping', {    
+                  $stateParams: {
+                    name:'testListName',     
+                    settings:{ 
+                        csvData: mockCSV, 
+                        listDeleteSettings:mockDeleteSettigs 
+                    }              
+                  },
+                  $window: window,
+                  ContactFieldsService: contactFieldService,
+                  lodash:lodash
+                });
+                _$httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
+            }));
+
+            it('should can mapping', () => {
+                MappingComponent.setStateParams({  
+                    name:'testListName',   
+                    settings:{ 
+                        csvData: mockCSV, 
+                        listDeleteSettings:mockDeleteSettigs 
+                    }                
+                });                
+                expect(MappingComponent.listName).to.equal('testListName');
+                expect(MappingComponent.canMapping).to.equal(true);
+                expect(MappingComponent.rawCSV).to.equal(mockCSV);
+            });
+       });
+
 
   });
 
