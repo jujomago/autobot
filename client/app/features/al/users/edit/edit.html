@@ -1,4 +1,5 @@
 <div id="modal-container"></div>
+<div id="modal-skill-container"></div>
 <div id="alert-container"></div>
       <h3 class="title_section">User: <span>{{$ctrl.userInfo.generalInfo.firstName}}</span></h3>
 <div class="alert alert-warning" ng-show="$ctrl.showWarningRolMessage">
@@ -161,11 +162,11 @@
         </div>
     </uib-tab>
     <uib-tab index="2" heading="Skills" select="$ctrl.checkTab('skills')">
-        <div class="row">
-            <div class="mywell">
+        <div class="row user-skills-tab">
+            <div class="mywell add-button">
                     <a ng-click="$ctrl.addSkill()" ng-disabled="$ctrl.storage.skills==0" class="btn btn-black pull-right">Add</a>
             </div>
-            <div ng-show="$ctrl.userSkills.length>0">
+            <div ng-show="$ctrl.userSkills.length>0" id="skills-table">
                 <table class="table table-striped" ng-show="$ctrl.userSkills.length">
                     <thead>
                         <th ng-click="$ctrl.sortColumn('skill.name') " class="sortColumn">Name
