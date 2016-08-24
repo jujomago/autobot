@@ -183,7 +183,9 @@ describe('Component: al.campaigns.list', function () {
 
       httpBackend.whenGET(endPointUrl + '/stop/SomeCampaignName').respond(200, null);
 
-      ListComponent.updateState(item, 8)
+      let promise = ListComponent.updateState(item, 8) ;
+      expect(item.statusBtnText).to.equal('Stopping');
+      promise
         .then(response => {
           expect(response.statusCode).to.equal(200);
           expect(item.state).to.equal('NOT_RUNNING');
@@ -200,7 +202,9 @@ describe('Component: al.campaigns.list', function () {
 
       httpBackend.whenGET(endPointUrl + '/start/SomeCampaignName').respond(200, null);
 
-      ListComponent.updateState(item, 3)
+      let promise = ListComponent.updateState(item,3);
+      expect(item.statusBtnText).to.equal('Starting');
+      promise 
         .then(response => {
           expect(response.statusCode).to.equal(200);
           expect(item.state).to.equal('RUNNING');
