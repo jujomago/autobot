@@ -151,7 +151,7 @@ describe('Component: al.lists.list', function () {
     });
 
     it('param columnName send, should return true', () => {
-      ListComponent.originalLists = mockListData.return;
+      ListComponent.lists = mockListData.return;
       expect(true).to.equal(ListComponent.sortColumn('name'));
       expect(ListComponent.reverse).to.equal(false);
       expect(ListComponent.lists.length).to.equal(6);

@@ -9,17 +9,17 @@ describe('Component: al.lists.mapping', function () {
   var contactFieldService, window, endPointUrl,lodash;
 
   var mockCSV = `
-llave,llave2,first_name,last_name,company
-6643342368,44934,Ken,Osborn,Five9
-7777777777,,Josue, Mancilla, Sinapsysit
-3333333333,53,Boris,Bachas, ninguna
-664334368,5535632212,Ken,Osborn,Five9
-011555555555452,,Brandon,Peto, none
-6666666666,,Jackie,Banda, none 
-777777777798,,Toto,Sullue, non
-6643342368,,Ken,Osborn,Five9
-6666666,33,Jackie,Banda, other
-3222323233,,Jackie,Banda, other  
+    llave,llave2,first_name,last_name,company
+    6643342368,44934,Ken,Osborn,Five9
+    7777777777,,Josue, Mancilla, Sinapsysit
+    3333333333,53,Boris,Bachas, ninguna
+    664334368,5535632212,Ken,Osborn,Five9
+    011555555555452,,Brandon,Peto, none
+    6666666666,,Jackie,Banda, none 
+    777777777798,,Toto,Sullue, non
+    6643342368,,Ken,Osborn,Five9
+    6666666,33,Jackie,Banda, other
+    3222323233,,Jackie,Banda, other  
 `;
   var mockDeleteSettigs={
             fieldsMapping: [{columnNumber: 1, fieldName: 'number1', key: true}], 
@@ -64,37 +64,86 @@ llave,llave2,first_name,last_name,company
  
  
 
-  describe('When mode is manual in stateParams',()=>{
-      beforeEach(
-          inject(function ($componentController, $rootScope, $httpBackend, $stateParams, $window, _ContactFieldsService_, appConfig,_lodash_) {
+  describe('#setStateParams',()=>{
 
-          scope = $rootScope.$new();
-          _$httpBackend = $httpBackend;
-          contactFieldService = _ContactFieldsService_;
-          window = $window;
-          lodash=_lodash_; 
+       describe('When mode is manual in stateParams',()=>{
+            beforeEach(
+                inject(function ($componentController, $rootScope, $httpBackend, $stateParams, $window, _ContactFieldsService_, appConfig,_lodash_) {
 
-          if (appConfig.apiUri) {
-            endPointUrl = appConfig.apiUri + '/f9/contactfields';
-          } 
+                scope = $rootScope.$new();
+                _$httpBackend = $httpBackend;
+                contactFieldService = _ContactFieldsService_;
+                window = $window;
+                lodash=_lodash_; 
 
-          MappingComponent = $componentController('al.lists.mapping', {    
-            $stateParams: {
-              manual:true,
-              name:'testListName'              
-            },
-            $window: window,
-            ContactFieldsService: contactFieldService,
-            lodash:lodash
-          });
+                if (appConfig.apiUri) {
+                  endPointUrl = appConfig.apiUri + '/f9/contactfields';
+                } 
 
-          _$httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
-       }));
+                MappingComponent = $componentController('al.lists.mapping', {    
+                  $stateParams: {
+                    manual:true,
+                    name:'testListName'              
+                  },
+                  $window: window,
+                  ContactFieldsService: contactFieldService,
+                  lodash:lodash
+                });
+                _$httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
+            }));
 
-       it('should cant mapping', () => {
-             expect(MappingComponent.listName).to.equal('testListName');
-             expect(MappingComponent.canMapping).to.equal(false);
+            it('should cant mapping', () => {
+                MappingComponent.setStateParams({
+                    manual:true,
+                    name:'testListName'              
+                });                
+                expect(MappingComponent.listName).to.equal('testListName');
+                expect(MappingComponent.canMapping).to.equal(false);
+            });
        });
+       describe('When mode is not manual in stateParams',()=>{
+            beforeEach(
+                inject(function ($componentController, $rootScope, $httpBackend, $stateParams, $window, _ContactFieldsService_, appConfig,_lodash_) {
+
+                scope = $rootScope.$new();
+                _$httpBackend = $httpBackend;
+                contactFieldService = _ContactFieldsService_;
+                window = $window;
+                lodash=_lodash_; 
+
+                if (appConfig.apiUri) {
+                  endPointUrl = appConfig.apiUri + '/f9/contactfields';
+                } 
+
+                MappingComponent = $componentController('al.lists.mapping', {    
+                  $stateParams: {
+                    name:'testListName',     
+                    settings:{ 
+                        csvData: mockCSV, 
+                        listDeleteSettings:mockDeleteSettigs 
+                    }              
+                  },
+                  $window: window,
+                  ContactFieldsService: contactFieldService,
+                  lodash:lodash
+                });
+                _$httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
+            }));
+
+            it('should can mapping', () => {
+                MappingComponent.setStateParams({  
+                    name:'testListName',   
+                    settings:{ 
+                        csvData: mockCSV, 
+                        listDeleteSettings:mockDeleteSettigs 
+                    }                
+                });                
+                expect(MappingComponent.listName).to.equal('testListName');
+                expect(MappingComponent.canMapping).to.equal(true);
+                expect(MappingComponent.rawCSV).to.equal(mockCSV);
+            });
+       });
+
 
   });
 
@@ -170,8 +219,14 @@ llave,llave2,first_name,last_name,company
 
     it('Custom delimiter Unserscore', () => {
 
+      MappingComponent.setStateParams({settings: {
+          csvData: mockCSV, 
+          listDeleteSettings:mockDeleteSettigs 
+      }});
+
+
       MappingComponent.selectedDelimiter.title = 'Custom';
-      MappingComponent.selectedSymbolDelimiter = '_';
+      MappingComponent.selectedDelimiter.symbol = '_';
 
       MappingComponent.changeDelimiter();
 
@@ -185,6 +240,11 @@ llave,llave2,first_name,last_name,company
     });
 
     it('Default delimiter Comma', () => {
+      
+      MappingComponent.setStateParams({settings: {
+          csvData: mockCSV, 
+          listDeleteSettings:mockDeleteSettigs 
+      }});
 
       MappingComponent.selectedDelimiter.title = 'Comma';
       expect(MappingComponent.selectedDelimiter.title).to.not.equal('Custom');
