@@ -394,7 +394,8 @@ module.exports = function (grunt) {
             src: [
               'package.json',
               '<%= yeoman.server %>/**/*',
-              '!<%= yeoman.server %>/config/local.env.sample.js'
+              '!<%= yeoman.server %>/config/local.env.sample.js',
+              '!<%= yeoman.server %>/api'
             ]
           }]
       },
@@ -661,7 +662,7 @@ module.exports = function (grunt) {
       your_target: {
         files: [
           { src: '<%= yeoman.dist %>/<%= yeoman.client %>/app/**/*.js' },
-          { src: '<%= yeoman.dist %>/<%= yeoman.server %>/**/*.js' }
+          { src: ['<%= yeoman.dist %>/<%= yeoman.server %>/**/*.js', '!<%= yeoman.server %>/**/api/**/*' ] }
         ]
       }
     },
@@ -888,7 +889,7 @@ module.exports = function (grunt) {
     'ngAnnotate',
     'copy:dist',
     'babel:server',
-    'strip_code',
+    //'strip_code',
     'cdnify',
     'cssmin',
     'uglify',

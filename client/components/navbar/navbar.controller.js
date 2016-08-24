@@ -1,19 +1,32 @@
 'use strict';
 
-
-let _$location,_auth;
+let _$location,_authService, _Base64Manager;
+let _lodash;
+let _appsService;
+let _$filter, _$parse;
 class NavbarController {
 
-  constructor($location,AuthService) {
-
+  constructor($filter, $parse, $location, lodash, AuthService, AppsService, Base64Manager) {
 
     this.isCollapsed = true;
- 
+    _Base64Manager = Base64Manager;
   
     this.userOptionsCollapsed = true;
    
     _$location=$location;
-    _auth=AuthService;
+    _authService=AuthService;
+    this.myAppsCollapsed = true;
+    this.quantity = 4;
+    this.search = {app: {appFullName: ''}};
+    this.appsLoaded = false;
+    _lodash = lodash;
+    _$filter = $filter;
+    _$parse = $parse;
+    _appsService = AppsService;
+    this.fullMenu = false;
+    this.minMenu = false;
+    this.partners = [];
+    this.getter = 'partner.partnerFullName';
     this.menu = [{
       'title': 'Dashboard',
       'state': 'main',
@@ -22,7 +35,7 @@ class NavbarController {
       {
         'title': 'My Apps',
         'state': 'skills.list',
-        'link': '/underconstruction'
+        'link': '/underconstruction',
       },
       {
         'title': 'Reports',
@@ -30,13 +43,87 @@ class NavbarController {
         'link': '/underconstruction'
       }
     ];
-  }
+
+    this.myAppsFromService = [];
+
+    this.myAppsSearch = {};
+
+    this.total = 0;
+
+    this.myApps = [];
+
+    this.newApps = [];
+ }
+
+  
   logout(){
-    _auth.logout();
-    _$location.path('/login');  
+   let encodedURL=_Base64Manager.encode(_$location.url());
+    return _authService.logout()
+    .then(response => {
+      if (response.status === 200) {
+        _$location.url('/login').search({url: encodedURL}); 
+      }
+      return response;
+    });
   }
+  $onInit(){
+    this.getInstalled();
+    this.getNewest();
+  }
+ 
+  getInstalled(){
+    return _appsService.getInstalled().then(response => {
+      this.myAppsFromService = response.data;
+      this.myAppsSearch = this.myAppsFromService;
+      this.myAppsSearch = this.groupBy(this.myAppsSearch);
+      this.fullMenu = (this.myAppsFromService.length > 4) ? true : false;
+      this.total = this.myAppsFromService.length;
+      return response;
+    })
+    .catch(error => {
+      let theMsg= error.errorMessage; 
+      this.message={ show: true, type: 'danger', text: theMsg };
+      return error;
+    });
+  }
+
+  getNewest(){
+    return _appsService.getNewest().then(response => {
+      this.newApps = response.data;
+      return response;
+    })
+    .catch(error => {
+      let theMsg= error.errorMessage; 
+      this.message={ show: true, type: 'danger', text: theMsg };
+      return error;
+    });
+  }
+
+  filteringBySearch(){
+    
+    this.myAppsSearch = _$filter('filter')(this.myAppsFromService, this.search.app.appFullName);
+    
+    this.myAppsSearch = this.groupBy(this.myAppsSearch);
+
+    if(this.search.app.appFullName){
+      this.total = Object.keys(this.myAppsSearch).length;
+      return true;
+    }else{
+      this.total = this.myAppsFromService.length;
+      return false;
+    }
+  }
+
+  groupBy(list){
+    let getter = _$parse(this.getter);
+    return _lodash.groupBy(list, function(item) {
+        return getter(item);
+    });  
+  }
+
 }
 
-NavbarController.$inject=['$location','AuthService'];
+NavbarController.$inject=['$filter', '$parse' , '$location', 'lodash', 'AuthService', 'AppsService', 'Base64Manager'];
+
 angular.module('fakiyaMainApp')
   .controller('NavbarController', NavbarController);

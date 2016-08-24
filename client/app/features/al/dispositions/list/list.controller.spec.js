@@ -1,38 +1,9 @@
 'use strict';
 
-describe('Component: al.dispositions.list', function () {
+describe('Component:al.dispositions.list', function () {
 
   // load the controller's module
   beforeEach(module('fakiyaMainApp'));
-  const CAMPAIGN_ERROR_XML = '<env:Envelope xmlns:env=\'http://schemas.xmlsoap.org/soap/envelope/\'>'+
-                                '<env:Header></env:Header>'+
-                                '<env:Body>'+
-                                  '<env:Fault xmlns:env=\'http://schemas.xmlsoap.org/soap/envelope/\'>'+
-                                    '<faultcode>env:Server</faultcode>'+
-                                    '<faultstring>Can&apos;t remove disposition which is in use</faultstring>'+
-                                    '<detail>'+
-                                      '<ns2:IncorrectArgumentFault xmlns:ns2=\'http://service.admin.ws.five9.com/\'>'+
-                                        '<message>Can&apos;t remove disposition which is in use</message>'+
-                                      '</ns2:IncorrectArgumentFault>'+
-                                    '</detail>'+
-                                  '</env:Fault>'+
-                                '</env:Body>'+
-                              '</env:Envelope>';
-
-  const SYSTEM_ERROR_XML = '<env:Envelope xmlns:env=\'http://schemas.xmlsoap.org/soap/envelope/\'>'+
-                                '<env:Header></env:Header>'+
-                                '<env:Body>'+
-                                  '<env:Fault xmlns:env=\'http://schemas.xmlsoap.org/soap/envelope/\'>'+
-                                    '<faultcode>env:Server</faultcode>'+
-                                    '<faultstring>Cannot remove system disposition</faultstring>'+
-                                    '<detail>'+
-                                      '<ns2:IncorrectArgumentFault xmlns:ns2=\'http://service.admin.ws.five9.com/\'>'+
-                                        '<message>Cannot remove system disposition</message>'+
-                                      '</ns2:IncorrectArgumentFault>'+
-                                    '</detail>'+
-                                  '</env:Fault>'+
-                                '</env:Body>'+
-                              '</env:Envelope>';
   var ListComponent, scope, httpBackend;
   var state, timeout, dispositionsService, sandbox, window, endPointUrl;
 
@@ -98,8 +69,7 @@ describe('Component: al.dispositions.list', function () {
 
     it('list should not be deleted (if associated with campaign) return 403 statusCode', () => {
       httpBackend.whenDELETE(endPointUrl + '/Disposition1').respond(403, {
-          statusCode: 403,
-          body: CAMPAIGN_ERROR_XML
+          error: 'The object cannot be deleted. Please verify it is not being used by any campaign.'
         });
 
       sandbox.stub(window, 'confirm').returns(true);
@@ -108,7 +78,6 @@ describe('Component: al.dispositions.list', function () {
 
       ListComponent.deleteDisposition(item, 5)
         .then(response => {
-
           expect(ListComponent.toggleDispositionRow).to.equal(-1);
           expect(response.statusCode).to.equal(403);
           expect(ListComponent.message.type).to.equal('danger');
@@ -123,8 +92,7 @@ describe('Component: al.dispositions.list', function () {
 
     it('list should not be deleted (if  is a system disposition) return 403 statusCode', () => {
       httpBackend.whenDELETE(endPointUrl + '/Disposition1').respond(403, {
-          statusCode: 403,
-          body: SYSTEM_ERROR_XML
+          error: 'The object is a system disposition and it cannot be deleted'
         });
 
       sandbox.stub(window, 'confirm').returns(true);
