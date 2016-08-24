@@ -28,13 +28,13 @@ angular.module('fakiyaMainApp')
 	            	}
 			    	if(numberParsed.length === 10){
 						number = new RegExp(/^\d+(-\d+)*$/);
-						valid = (number.test(numberParsed)) ? true: false;
-						ctrl.$setValidity('usphoneValidator', valid);
 					}else{
 						number = new RegExp(/^(011)(?:[0-9] ?){6,14}[0-9]$/);
-						valid = (number.test(numberParsed)) ? true: false;
-						ctrl.$setValidity('usphoneValidator', valid);
 					}
+					
+					valid = (number.test(numberParsed)) ? true: false;
+					ctrl.$setValidity('usphoneValidator', valid);
+					
 					if(filter.test(value)){
 						value = numberParsed;
 						lastValid = value;
