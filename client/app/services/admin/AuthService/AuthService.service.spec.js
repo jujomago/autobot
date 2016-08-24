@@ -13,7 +13,7 @@ describe('Service: AuthService', function () {
     httpBackend=$httpBackend;
 
     if(appConfig.apiUri){
-        endPointUrl=appConfig.apiUri+'/auth';
+        endPointUrl=appConfig.apiUri;
     }
 
 
@@ -35,7 +35,7 @@ describe('Service: AuthService', function () {
               'password': 'Password1'
           };
 
-         httpBackend.whenPOST(endPointUrl+'/login',credentials).respond(200,
+         httpBackend.whenPOST(endPointUrl+'/auth/login',credentials).respond(200,
            '2032820asdfka0s0293ma002'
          );
 
@@ -54,7 +54,7 @@ describe('Service: AuthService', function () {
               'password': 'antoherpass'
           };
 
-         httpBackend.whenPOST(endPointUrl+'/login',credentials).respond(400,
+         httpBackend.whenPOST(endPointUrl+'/auth/login',credentials).respond(400,
            'Login or password is incorrect or user is not active'
          );
 
@@ -69,11 +69,55 @@ describe('Service: AuthService', function () {
 
   });
 
+  describe('#loginApplication',()=>{
+      it('=> User logged in Successfully with credentials F9',()=>{
+          let credentials = {
+            'partnerId': 'f9',
+            'appName': 'al',
+            'username': 'rolandorojas@five.com',
+            'password': '123456'
+          };
 
+         httpBackend.whenPOST(endPointUrl+'/admin/users/auth',credentials).respond(200,
+           null
+         );
+
+          AuthService.loginApplication(credentials)
+          .then(response=>{
+              expect(response.status).to.equal(200);
+              expect(response.data).to.equal(null);
+          });
+
+          httpBackend.flush();
+      });
+
+      it('=> User cant login with error credentials F9',()=>{
+          let credentials = {
+            'partnerId': 'f9',
+            'appName': 'al',
+            'username': 'rolandorojas@five.com',
+            'password': '123456'
+          };
+
+         httpBackend.whenPOST(endPointUrl+'/admin/users/auth',credentials).respond(500,
+           {statusText: 'Internal server error'}
+         );
+
+        AuthService.loginApplication(credentials)
+          .then(response => {
+            expect(response.data.statusText).to.equal('Internal server error');
+            expect(response.status).to.equal(500);
+          });
+         
+
+          httpBackend.flush();
+      });
+
+  });
   describe('#logout',()=>{
       it('=> User should logout successfully',()=>{
          
-         httpBackend.whenGET(endPointUrl+'/logout').respond(200,
+         httpBackend.whenGET(endPointUrl+'/auth/logout').respond(200,
            'The user was logged out succesfully'
          );
 

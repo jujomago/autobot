@@ -4,7 +4,7 @@
 
     //let endPointUrl = 'http://localhost:9000/api/f9/skills';
       function handleError(err, result) {
-        result.error = err.data;
+        result.errorMessage = err.data.error;
         result.statusCode = err.status;
         //return result;
         let defered = _q.defer();
@@ -64,20 +64,20 @@
                 })
                 .catch(err => {
                     result.statusCode = err.status;
-                    result.errorMessage = err.data.body;
+                    result.errorMessage = err.data.error;
                     return result;
                 });
         }
 
         createDisposition(newDisposition) {
-          let result = { data: null, statusCode: 201, error: null };
-          return http.post(this.endPointUrl, newDisposition)
+          let result = { data: null, statusCode: 201, errorMessage: null };
+          return http.post(this.endPointUrl, {disposition: newDisposition})
             .then(() => result)
             .catch(err => handleError(err, result));
         }
         updateDisposition(disposition) {
-          let result = { data: null, statusCode: 200, error: null };
-          return http.put(this.endPointUrl, disposition)
+          let result = { data: null, statusCode: 200, errorMessage: null };
+          return http.put(this.endPointUrl+'/'+disposition.oldName,{disposition:  disposition})
             .then(() => result)
             .catch(err => handleError(err, result));
         }

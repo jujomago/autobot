@@ -1,20 +1,20 @@
 'use strict';
 
-let _$location,_auth;
+let _$location,_authService, _Base64Manager;
 let _lodash;
 let _appsService;
 let _$filter, _$parse;
 class NavbarController {
 
-  constructor($filter, $parse, $location, lodash, AuthService, AppsService) {
+  constructor($filter, $parse, $location, lodash, AuthService, AppsService, Base64Manager) {
 
     this.isCollapsed = true;
- 
+    _Base64Manager = Base64Manager;
   
     this.userOptionsCollapsed = true;
    
     _$location=$location;
-    _auth=AuthService;
+    _authService=AuthService;
     this.myAppsCollapsed = true;
     this.quantity = 4;
     this.search = {app: {appFullName: ''}};
@@ -27,7 +27,6 @@ class NavbarController {
     this.minMenu = false;
     this.partners = [];
     this.getter = 'partner.partnerFullName';
-
     this.menu = [{
       'title': 'Dashboard',
       'state': 'main',
@@ -56,11 +55,17 @@ class NavbarController {
     this.newApps = [];
  }
 
- logout(){
-    _auth.logout();
-    _$location.path('/login');  
+  
+  logout(){
+   let encodedURL=_Base64Manager.encode(_$location.url());
+    return _authService.logout()
+    .then(response => {
+      if (response.status === 200) {
+        _$location.url('/login').search({url: encodedURL}); 
+      }
+      return response;
+    });
   }
-
   $onInit(){
     this.getInstalled();
     this.getNewest();
@@ -118,7 +123,7 @@ class NavbarController {
 
 }
 
-NavbarController.$inject=['$filter', '$parse' , '$location', 'lodash', 'AuthService', 'AppsService'];
+NavbarController.$inject=['$filter', '$parse' , '$location', 'lodash', 'AuthService', 'AppsService', 'Base64Manager'];
 
 angular.module('fakiyaMainApp')
   .controller('NavbarController', NavbarController);
