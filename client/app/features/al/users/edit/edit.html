@@ -131,8 +131,7 @@
                         </a>                                               
                     </div>                    
             </div>
-            <div class="col col-md-2">
-                <div class="well well-sm">
+            <div class="col col-md-2">                
                     <h4>Roles Assigned</h4>                    
                     <div class="list-group list-group-roles">
                         <a href="#"  class="list-group-item" ng-repeat="userRol in $ctrl.userRoles" ng-click="$ctrl.getPermissions(userRol)" ng-class="{'active':($index==$ctrl.userRolSelectedIndex)}">
@@ -140,11 +139,9 @@
                         </a>                                               
                     </div>
                     <button type="button" class="btn btn-danger" ng-show="$ctrl.userRolSelectedIndex>=0 && $ctrl.userRoles.length>0" ng-click="$ctrl.deleteSelectedRol()">Delete</button>
-                </div>    
             </div>
             <div class="col" ng-class="{'col-md-10':($ctrl.allRoles.length==0),'col-md-8':($ctrl.allRoles.length>0)}" >
-                <div class="well  well-sm twocolumnpermission">
-                    <h4>Permissions:</h4>
+                 <h4>Permissions:</h4>
                     <div class="checkbox" ng-repeat="(per,val) in $ctrl.rolSelectedPermissions" ng-if="per!=='permissions'">
                         <label>
                             <input type="checkbox" ng-model="$ctrl.rolSelectedPermissions[per]">{{per | camelToHuman}}
@@ -155,10 +152,8 @@
                         <label>
                             <input type="checkbox" ng-model="permission.value">{{permission.type | camelToHuman}}
                         </label>
-                    </div>
-                </div>                   
+                    </div>                           
             </div>
-
         </div>
     </uib-tab>
     <uib-tab index="2" heading="Skills" select="$ctrl.checkTab('skills')">
