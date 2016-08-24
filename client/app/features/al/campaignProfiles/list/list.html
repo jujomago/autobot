@@ -1,0 +1,65 @@
+<h3 class="title_section">Campaign Profiles</h3>
+<abx-message msg="$ctrl.message"></abx-message>
+<abx-load-indicator ng-show="$ctrl.originalCampaignProfiles.length===0 && !$ctrl.message.show" text="Loading Campaign Profiles"></abx-load-indicator>
+
+<div ng-show="$ctrl.originalCampaignProfiles.length>0">
+
+    <div class="mywell">
+        <div class="searchbox_container">
+            <input type="search" ng-model="$ctrl.search.name" class="searchbox" placeholder="Search" ng-change="$ctrl.filteringBySearch()">
+            <span class="glyphicon glyphicon-search"></span>
+        </div>
+        <button class="btn btn-black pull-right" ui-sref="underconstruction">New</button>
+    </div>
+
+    <table class="table table-striped" ng-show="$ctrl.campaignProfiles.length">
+        <thead>
+            <th ng-click="$ctrl.sortColumn('name') " class="sortColumn">Profile Name
+                <span class="glyphicon " ng-show="$ctrl.sortKey=='name' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
+'glyphicon-chevron-down':!$ctrl.reverse} "></span>
+
+            </th>
+            <th ng-click="$ctrl.sortColumn('description') " class="sortColumn">Description <span class="glyphicon " ng-show="$ctrl.sortKey=='description'" ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,'glyphicon-chevron-down':!$ctrl.reverse} "></span></th>
+            <th width="100" class="text-center">
+                Actions
+            </th>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in ($ctrl.campaignProfiles |  limitTo:$ctrl.numPerPage:$ctrl.beginNext) "
+                ng-class="{ 'danger' : $ctrl.deletedRow === item.name}">
+                <td class="">
+                    {{item.name}}
+                </td>
+                <td class="" href ng-click="$ctrl.myIndex(item.name)">{{item.description}}</td>
+                <td class="text-center">
+
+                    <a href ng-click="$ctrl.deleteCampaignProfile(item,$index)" ng-class="{'disabled-x-circle': $ctrl.deletedRow === item.name, 'circle_delete': $ctrl.deletedRow !== item.name}" ng-disabled="$ctrl.deletedRow === item.name"></a>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="mywell footer_table text-center">
+
+        <div class="noresults" ng-show="!$ctrl.campaignProfiles.length" ng-if="$ctrl.search.name">
+            <img src="assets/al/images/NoResultsIcon.png" alt="lupa">
+            <p>We couldn't find what you are looking for</p>
+        </div>
+
+
+        <label class="pull-left" ng-if="$ctrl.campaignProfiles.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.getMax()}} of {{$ctrl.campaignProfiles.length}}</label>
+
+
+
+        <uib-pagination ng-if="$ctrl.campaignProfiles.length" total-items="$ctrl.campaignProfiles.length" ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
+    " boundary-links="true " ng-change="$ctrl.pageChanged()">
+        </uib-pagination>
+
+        <div class="pull-right results_per_page" ng-show="$ctrl.campaignProfiles.length"><span>Show</span>
+
+            <select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities" ng-change="$ctrl.pageChanged()">
+        </select> <span>results per page</span>
+        </div>
+    </div>
+</div>
