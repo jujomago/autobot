@@ -55,6 +55,16 @@ describe('Directive: abxPatternFilter', function () {
       scope.$digest();
       expect(element.isolateScope().ngModel).to.equal('test with valid text');
     }));
+    it('should return the last valid value with underscore if not match with the regex', inject(function ($compile) {
+      element = angular.element('<input type="text" abx-pattern-filter="/^[^\\`~&%#,|()\':;?[/}=\\]&quot;{*>!\\+<^]*$/" ng-model="model">');
+      element = $compile(element)(scope);
+      scope.$apply();
+      element.isolateScope().ngModel='test_with_valid_text';
+      scope.$digest();
+      element.isolateScope().ngModel='test with invalid especial char: %^*&()<>';
+      scope.$digest();
+      expect(element.isolateScope().ngModel).to.equal('test_with_valid_text');
+    }));
     it('should return the last valid value if the new value not match with the regex', inject(function ($compile) {
       element = angular.element('<input type="text" abx-pattern-filter="/^[0-9]+$/" ng-model="model">');
       element = $compile(element)(scope);

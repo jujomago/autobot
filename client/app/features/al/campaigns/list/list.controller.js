@@ -123,7 +123,12 @@
 
     updateState(item, indexRow){
      this.toggleStatusRow = indexRow;   
-
+     if(item.state==='RUNNING'){
+        item.statusBtnText='Stopping';
+     }
+     else{
+        item.statusBtnText='Starting'; 
+     }
      return this.verifyDependendies(item)
       .then(response=>{
          if(response.data===null && response.statusCode===200){ 
@@ -139,8 +144,6 @@
      .then(()=>{
      
         if(item.state==='RUNNING'){
-        
-          item.statusBtnText='Stopping';
           return _CampaignService.stopCampaign(item.name)
           .then(response=>{
               if(response.statusCode===200){
@@ -163,9 +166,7 @@
             return e;
           });
            
-       }else{
-         
-          item.statusBtnText='Starting';        
+       }else{  
           return _CampaignService.startCampaign(item.name)
           .then(response=>{
               if(response.statusCode===200){

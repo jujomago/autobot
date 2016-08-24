@@ -13,6 +13,7 @@ export default function (app) {
   app.use('/api', require('./common/middlewares/partnerenabler').partner);
 
   // Insert routes below
+  app.use('/api/f9/campaignProfiles', require('./api/five9/campaignProfile'));
 
   app.use('/api/admin/apps', require('./api/admin/app'));
   app.use('/api/f9/contactfields', require('./api/five9/contactfield'));

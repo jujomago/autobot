@@ -9,7 +9,7 @@
     <form name="listForm" class="custom_form form-horizontal" novalidate autocomplete="off"  ng-submit="listForm.$valid && $ctrl.save()">
     <div class="inputminimal modal-input" ng-class="{ 'has-error': listForm.name.$invalid && listForm.$submitted }">
         <label for="firstName" >Name*</label>
-            <input autofocus type="text" name="name" id="name" required ng-model="$ctrl.list.listName" maxlength="250" abx-pattern-filter="/^[^\`~&%#,|()_':;?[/}=\]&quot;{*>!\\+<^]*$/"
+            <input autofocus type="text" name="name" id="name" required ng-model="$ctrl.list.listName" maxlength="250" abx-pattern-filter="/^[^\`~&%#,|()':;?[/}=\]&quot;{*>!\\+<^]*$/"
             class="inline-input">
     </div>
     <div ng-messages="listForm.name.$error" ng-show="listForm.$submitted">                  
