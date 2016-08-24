@@ -50,11 +50,11 @@
 
         addSkilltoUser(userSkill) {
             var result = { data: null, statusCode: 201, errorMessage: '' };
-            return _$http.post(this.endPointUrl + '/skills/add', userSkill)
+            return _$http.post(this.endPointUrl + '/' + userSkill.userName + '/skills', userSkill)
                 .then(response => {
                     if (response.status !== 201) {
                         result.statusCode = response.status;
-                        result.data = response;
+                        result.data = response.data;
                     }
                     return result;
                 });

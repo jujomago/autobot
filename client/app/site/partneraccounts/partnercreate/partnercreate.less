@@ -1,69 +1,73 @@
-.partnercreate-page #sign-up {
+@width0: 400px;
+.partnercreate-page {
+  #sign-up {
     .inputminimal{
       position: relative;
       margin-bottom: 20px;      
     }
-  &.has-error {
-   
-    p[ng-message] {
+    &.has-error {
+     
+      p[ng-message] {
+        color: #d73030;
+        max-width: 400px;
+        margin: 0;
+        position: absolute;
+        left: 0;
+        top: 100%;
+        font-family: BrandonRegular;
+      }
+    }
+    p {
       color: #d73030;
-      max-width: 400px;
-      margin: 0;
-      position: absolute;
-      left: 0;
-      top: 100%;
+    }
+
+    .alert{
+      margin: 0 auto 22px;
+      display: block;
+      text-align: center;
+      background: none;
+      color: red;
+      border: 0;
+      font-size: 20px;
+      padding: 0;
       font-family: BrandonRegular;
     }
   }
-  p {
-    color: #d73030;
-  }
 
-  .alert{
-    margin: 0 auto 22px;
-    display: block;
-    text-align: center;
-    background: none;
-    color: red;
-    border: 0;
-    font-size: 20px;
+  .visually-hidden {
+    clip: rect(0 0 0 0);
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
     padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+  .partner-title {
+    margin-bottom: 20px;
+    width: @width0;
+    span{
+      font-family: BrandonBold;
+      font-size: 24px;
+    }
+  }
+  .partner-signin {
+    margin-top: 20px;
+    text-align: center;
+    width: @width0;
+    a {
+      cursor: pointer;
+    }
+  }
+  #logo {
+    margin-bottom: 5px;
+    margin-top: 105px;
+  }
+  .text-center {
+    margin-bottom: 15px;
+  }
+  h3{
     font-family: BrandonRegular;
   }
-}
-
-.partnercreate-page .visually-hidden {
-  margin: -1px;
-  padding: 0;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  clip: rect(0, 0, 0, 0);
-  position: absolute;
-}
-
-.partnercreate-page .partner-title{
-  width: 400px;
-  margin-bottom: 20px;
-}
-
-.partnercreate-page .partner-title .bold{
-  font-weight: bold;
-  font-size: 24px;
-}
-
-.partnercreate-page .partner-signin{
-  width: 400px;
-  text-align: center;
-  margin-top: 20px;
-}
-
-.partnercreate-page .partner-signin a{
-  cursor: pointer;
-}
-
-.partnercreate-page #logo{
-  margin-bottom: 35px;
-  margin-top: 105px;
 }

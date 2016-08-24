@@ -157,11 +157,11 @@ describe('Service: UsersService', function () {
 
     describe('Skills on users', ()=>{
         it('#addSkilltoUser', function(){
-            httpBackend.whenPOST(endPointUrl+'/skills/add', {
+            httpBackend.whenPOST(endPointUrl+'/daniel.c@autoboxcorp.com/skills', {
                 userName: 'daniel.c@autoboxcorp.com',
                 skillName: 'Marketing',
                 level: 1
-            }).respond(null);
+            }).respond(200, null);
 
             UsersService.addSkilltoUser({
               userName: 'daniel.c@autoboxcorp.com',

@@ -192,7 +192,7 @@ describe('Component: al.users.edit', function () {
       });
 
       it('=>#addSkillToUser adds a skill to user', function() {
-          _$httpBackend.whenPOST(endPointUrl + '/users/skills/add', {
+          _$httpBackend.whenPOST(endPointUrl + '/users/daniel.c@autoboxcorp.com/skills', {
             userName: 'daniel.c@autoboxcorp.com',
             skillName: 'Marketing',
             level: 1
@@ -209,7 +209,7 @@ describe('Component: al.users.edit', function () {
       });
 
       it('=>#addSkillToUser returns a error 500', function() {
-          _$httpBackend.whenPOST(endPointUrl + '/users/skills/add').respond(500,{
+          _$httpBackend.whenPOST(endPointUrl + '/users//skills').respond(500,{
                 statusCode: 500,
                 from: 'error from controller endpoint',
                 body: '<faultstring>Value 0 of "UserSkill.level" is out of range [1 - 10]</faultstring>'
