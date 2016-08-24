@@ -468,12 +468,35 @@ describe('Component: al.lists.mapping', function () {
       expect(resultFinish).to.equal(null);
 
       expect(this.message.expires).to.equal(8000);
-      expect(this.message.text).to.equal('At least one source fields should be mapped to Contact Field');
+      expect(this.message.text).to.equal('At least one field must be marked as key');
       expect(this.message.type).to.equal('warning');
 
   });
 
 
+
+  it('When there is is a mapped field but none key is selected ', () => {
+     
+      MappingComponent.contactFields = [       
+        {name: 'number2',mappedName: null,isKey:false},
+        {name: 'number2',mappedName: 'llave2',isKey:false},
+        {name: 'number3',mappedName: null ,isKey:false},
+        {name: 'first_name',mappedName: null,isKey:false},
+        {name: 'last_name',mappedName: null,isKey:false},
+        {name: 'last_name',mappedName: null},
+        {name: 'last_name',mappedName:null},
+        {name: 'company',mappedName:null,isKey:false}
+      ];     
+     
+      let resultFinish=MappingComponent.finishMap();
+      
+      expect(resultFinish).to.equal(null);
+
+      expect(this.message.expires).to.equal(8000);
+      expect(this.message.text).to.equal('At least one source fields should be mapped to Contact Field');
+      expect(this.message.type).to.equal('warning');
+
+  });
 
  describe('#addMappingItem',()=>{
     it('A contact field that exists should be added to list',()=>{
