@@ -42,7 +42,8 @@
                         return response;
                     }
                     return null;
-                });
+                })
+                .catch(e => e);
 
         }
     }

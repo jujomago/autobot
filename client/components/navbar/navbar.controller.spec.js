@@ -4,7 +4,9 @@ describe('Component: NavbarController', function() {
 
   // load the controller's module
   beforeEach(module('fakiyaMainApp'));
-  var NavbarController, _$scope,_$state, _$httpBackend, _AppsService, _$cookies, _mockLocation, endPointUrl;
+  
+  var NavbarController, _$scope,_$state, _$httpBackend, _AppsService, _$cookies, _mockLocation, endPointUrl, _AuthService;
+
   var mockAppsData = [
                       {
                         'app':{
@@ -31,9 +33,11 @@ describe('Component: NavbarController', function() {
                     ];
 
   beforeEach(inject(function ($controller, $rootScope, $httpBackend, $cookies, $state, _AppsService_, _AuthService_,appConfig) {
+
     _$scope = $rootScope.$new();
     _$httpBackend = $httpBackend;
     _AppsService = _AppsService_;
+    _AuthService = _AuthService_;
     _$state = $state;
     _mockLocation = {
       params: {},
@@ -56,13 +60,14 @@ describe('Component: NavbarController', function() {
       $location: _mockLocation,
       $stateParams: { message: null },
       $state: _$state,
-      _appsService: _AppsService
+      _appsService: _AppsService,
     });
     if(appConfig.apiUri){
           endPointUrl=appConfig.apiUri;
       }
     _$httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
   }));
+
   //TODO
   //This test doesn't work because a related method uses lodash
   /*describe('#get Installed', () => {
@@ -144,6 +149,21 @@ describe('Component: NavbarController', function() {
               expect(_mockLocation.url).to.equal('/login');
               expect(_mockLocation.params.url).to.equal('L2FwL2FsL2xpc3Rz');
               expect(_$cookies.get('auth_token')).to.equal(undefined);
+          });
+
+          _$httpBackend.flush();
+      });
+
+      it('=> User should get a logout error',()=>{
+         _$cookies.put('auth_token','a345fc56786b7b4545');
+         _$httpBackend.whenGET(endPointUrl+'/auth/logout').respond(500,
+           {statusText: 'Internal server error'}
+         );
+          NavbarController.logout()
+          .then(response=>{
+              expect(response.status).to.equal(500);
+              expect(_$cookies.get('auth_token')).to.equal('a345fc56786b7b4545');
+              expect(response.data.statusText).to.equal('Internal server error');
           });
 
           _$httpBackend.flush();
