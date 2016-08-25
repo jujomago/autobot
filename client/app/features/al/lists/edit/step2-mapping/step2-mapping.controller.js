@@ -435,7 +435,23 @@
                     return null;
                 }
             }else{
-                   this.message = { show: true, type: 'warning', text: 'At least one source fields should be mapped to Contact Field', expires: 8000 };
+                    let noneMapped;
+                    if(this.hasHeader){
+                         noneMapped=_.reject(this.contactFields,{'mappedName':null});                         
+                    }else{
+                         noneMapped=_.reject(this.contactFields,{'mappedIndex':0});                                   
+                    }
+
+                    if(noneMapped.length!==0){
+                         this.message.text= 'At least one field must be marked as key';                      
+                    }else{
+                         this.message.text= 'At least one source fields should be mapped to Contact Field';                      
+                    }
+                     
+                    this.message.show=true;
+                    this.message.type='warning';
+                    this.message.expires=8000;                    
+                 
                    return null;
             }
         }
