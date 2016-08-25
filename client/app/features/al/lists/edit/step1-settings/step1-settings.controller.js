@@ -124,6 +124,8 @@
         }
 
         getList(name) {
+          //inactive while API complete this endpoint
+          /*
           return _ListsService.getList(name)
           .then(response=>{
             if(response.statusCode===200){
@@ -143,8 +145,11 @@
                   this.message={ show: true, type: 'danger', text: theMsg};
                   this.found=false;
                   return e;
-          });    
+          });*/    
+          this.found=true;
+          this.list = {name: name, size: 5};
         }
+        
     }
 
 
