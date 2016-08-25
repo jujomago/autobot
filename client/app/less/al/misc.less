@@ -140,7 +140,7 @@
         display: block;
         margin-right: auto; 
         margin-left: auto;
-        position: absolute;
+        padding: 20px 0;
         font-family: BrandonRegular;
         > img {
             margin-bottom: 15px;
@@ -204,13 +204,21 @@
         font-weight: normal;
     }
     .cell-select {
-           width: 100%;
-            background: white;
-            border: 0;
-            height: 100%;
-            vertical-align: middle;
+        width: 100%;
+        border: 0;
+        height: 100%;
+        vertical-align: top;
+        appearance: none;
+        border:0;
+        outline:0;       
+        background: transparent;
 
+        
     }
+    .withArrow{
+            background:url('@{images_al_path}/dropdown.png') no-repeat center center;   
+    }
+
     .cell-checkbox {
         width: 18px;
         height: 18px;
@@ -502,8 +510,8 @@
         }
         p{
             margin:0;
-         //   display: flex; 
-            margin-bottom: 10px;
+            //display: flex; 
+            margin-bottom: 20px;
             >*{
                 display: inline-block;
                 //vertical-align: bottom;
@@ -670,5 +678,9 @@
     .edit-modal-x{
         right: -195px;
         position: absolute;
+    }
+    .capitalize{
+        text-transform: capitalize;
+        padding-left: 0px;
     }
 }
