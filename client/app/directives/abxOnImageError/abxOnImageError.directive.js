@@ -13,6 +13,8 @@ angular.module('fakiyaMainApp')
 	        	scope.$apply(function () {
 	        		scope.abxOnImageError=false;
 	        	});
+	        	alert('a');
+	        	return true;
 	      	});
 	    }
 	};
