@@ -8,6 +8,7 @@
 			this.message = { show: false };
 			_AppsService = AppsService;
 			this.application = {};
+			this.imageExists = true;
 		}
 		$onInit() {
 			this.getApp();
