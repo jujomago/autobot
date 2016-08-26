@@ -151,17 +151,18 @@ httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
               description:'campaign test',
               dnisAsAni:true,
               noOutOfNumbersAlert:true,
-              name:'Campaign Test',
+              name:'Test',
               ivrscript:{                
                   name: 'Main.Oracle'
               }             
             };
             
-             httpBackend.whenPUT(endPointUrl+'/autodial', AutodialComponent.campaign)
+             httpBackend.whenPUT(endPointUrl+'/autodial/Test', AutodialComponent.campaign)
             .respond(200,null);
 
              AutodialComponent.update()
             .then(response => {
+                 expect(AutodialComponent.campaign.defaultIvrSchedule.scriptName).to.equal('Main.Oracle');
                  expect(response.statusCode).to.equal(200);
                  expect(response.data).to.equal(null);
                  expect(response.error).to.equal(null);             
@@ -176,13 +177,13 @@ httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
               description:'campaign test',
               dnisAsAni:true,
               noOutOfNumbersAlert:true,
-              name:'Campaign Test',
+              name:'Test',
               ivrscript:{                
                   name: 'Main.Oracle'
               }             
             };
             
-             httpBackend.whenPUT(endPointUrl+'/autodial', AutodialComponent.campaign)
+             httpBackend.whenPUT(endPointUrl+'/autodial/Test', AutodialComponent.campaign)
             .respond(500,{                        
                         from: 'Error from Campaign Controller EndPoint',
                         body: 'some error message',

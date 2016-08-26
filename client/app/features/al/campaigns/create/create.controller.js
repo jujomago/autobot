@@ -56,6 +56,9 @@
         }
         
         save() {
+            if(this.newCampaign.type !== 'outbound'){
+                this.newCampaign.defaultIvrSchedule={scriptName: this.newCampaign.ivrscript.name};
+            }
             this.SubmitText = 'Saving...';
             return _CampaignService.createCampaign(this.newCampaign)
                 .then(response=>{

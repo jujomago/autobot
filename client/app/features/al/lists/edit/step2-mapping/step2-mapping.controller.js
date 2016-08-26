@@ -2,7 +2,7 @@
 (() => {
 
     function _csvToJSON(rawFile, delimiter) {
-        let delimiterSympol = delimiter || ',';
+        let delimiterSympol = delimiter;
 
         let lines = rawFile.trim().split('\n');
 
@@ -265,9 +265,9 @@
         }
 
         $onInit() {
-            this.changeHeaderValue();
-            this.changeDelimiter();
+            this.changeHeaderValue();            
             this.setStateParams(_$stateParams);
+            this.changeDelimiter();
         }
 
         setStateParams(stateParams){
@@ -335,8 +335,8 @@
 
         aplyDemiliterCSV(delimiter) {
             if (this.rawCSV) {
-                this.jsonCSV = _csvToJSON(this.rawCSV, delimiter);              
-                console.log(this.jsonCSV);
+                delimiter = delimiter || '\n';
+                this.jsonCSV = _csvToJSON(this.rawCSV, delimiter);          
             }
         }
 
@@ -393,9 +393,7 @@
         finishMap() {
 
             let fieldsKeys = _.filter(this.contactFields,{'isKey':true});
-
             let checkSelectedKeys = _checkSelectedFieldKeys(this.hasHeader, this.contactFields, _);
-
            
             if(fieldsKeys.length>0){
                 if (checkSelectedKeys.length === 0) {

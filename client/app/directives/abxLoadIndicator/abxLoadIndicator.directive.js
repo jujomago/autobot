@@ -7,10 +7,14 @@ angular.module('fakiyaMainApp')
       restrict: 'E',     
       link: function (scope, element, attrs) {
 
-
         let loaderIndicator= element.find('.loader_indicator');
         let rightSide=angular.element('.rightside');
         let mainContainer=$('#main-container');
+
+        if(!attrs.absolute){
+            loaderIndicator.css('position','absolute');
+        }
+
 
         function centerMessage() {  
 

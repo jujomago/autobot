@@ -143,7 +143,7 @@ describe('Component: al.lists.list', function () {
     });
 
     it('param columnName send, should return true', () => {
-      ListComponent.originalLists = mockListData.return;
+      ListComponent.lists = mockListData.return;
       expect(true).to.equal(ListComponent.sortColumn('name'));
       expect(ListComponent.reverse).to.equal(false);
       expect(ListComponent.lists.length).to.equal(6);
@@ -186,12 +186,12 @@ describe('Component: al.lists.list', function () {
 
   describe('#getResult', () => {
     beforeEach(function () {
-      _$httpBackend.whenGET(endPointUrl+'/contacts/result/running/123-abc-456?waitTime=300').respond(200, {
+      _$httpBackend.whenGET(endPointUrl+'/importrunning/123-abc-456?waitTime=300').respond(200, {
             return:  false
       });
     }); 
     it('get result nothing changed update', () => {
-      _$httpBackend.whenGET(endPointUrl+'/contacts/result/123-abc-456').respond(200, {
+      _$httpBackend.whenGET(endPointUrl+'/importresults/123-abc-456').respond(200, {
             return: {
                         uploadDuplicatesCount: '5',
                         uploadErrorsCount: '0',
@@ -226,7 +226,7 @@ describe('Component: al.lists.list', function () {
       _$httpBackend.flush();
     });
     it('get delete result with warnings', () => {
-      _$httpBackend.whenGET(endPointUrl+'/contacts/result/123-abc-456').respond(200, {
+      _$httpBackend.whenGET(endPointUrl+'/importresults/123-abc-456').respond(200, {
             return: {
                         uploadDuplicatesCount: '7',
                         uploadErrorsCount: '0',
@@ -260,7 +260,7 @@ describe('Component: al.lists.list', function () {
       _$httpBackend.flush();
     });
     it('get update and delete result without warnings and errors', () => {
-      _$httpBackend.whenGET(endPointUrl+'/contacts/result/123-abc-456').respond(200, {
+      _$httpBackend.whenGET(endPointUrl+'/importresults/123-abc-456').respond(200, {
             return: {
                         uploadDuplicatesCount: '0',
                         uploadErrorsCount: '0',

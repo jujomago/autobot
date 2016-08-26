@@ -1,4 +1,5 @@
 <div id="modal-container"></div>
+<div id="modal-skill-container"></div>
 <div id="alert-container"></div>
       <h3 class="title_section">User: <span>{{$ctrl.userInfo.generalInfo.firstName}}</span></h3>
 <div class="alert alert-warning" ng-show="$ctrl.showWarningRolMessage">
@@ -55,7 +56,7 @@
             <div class="inputminimal" ng-class="{ 'has-error': userForm.EMail.$invalid && userForm.$submitted }">
                 <label for="EMail" >Email*</label>
                 <div>
-                    <input type="email"  name="EMail" id="EMail" required ng-model="$ctrl.userInfo.generalInfo.EMail" ng-minlength="5">
+                    <input type="email"  name="EMail" id="EMail" maxlength="50" required ng-model="$ctrl.userInfo.generalInfo.EMail" ng-minlength="5">
                      
                 </div>
             </div>
@@ -122,7 +123,7 @@
 
     <uib-tab index="1" heading="Roles" select="$ctrl.checkTab('roles')">
         <div class="row">
-            <div class="col col-md-2" ng-show="$ctrl.allRoles.length>0">       
+            <div class="col col-md-3" ng-show="$ctrl.allRoles.length>0">       
                     <h4>Roles Available</h4>
                     <div class="list-group list-group-roles">
                         <a href="#"  class="list-group-item" ng-repeat="rol in $ctrl.allRoles" ng-click="$ctrl.addRol(rol)">
@@ -130,7 +131,7 @@
                         </a>                                               
                     </div>                    
             </div>
-            <div class="col col-md-2">                
+            <div class="col col-md-3">                
                     <h4>Roles Assigned</h4>                    
                     <div class="list-group list-group-roles">
                         <a href="#"  class="list-group-item" ng-repeat="userRol in $ctrl.userRoles" ng-click="$ctrl.getPermissions(userRol)" ng-class="{'active':($index==$ctrl.userRolSelectedIndex)}">
@@ -139,7 +140,7 @@
                     </div>
                     <button type="button" class="btn btn-danger" ng-show="$ctrl.userRolSelectedIndex>=0 && $ctrl.userRoles.length>0" ng-click="$ctrl.deleteSelectedRol()">Delete</button>
             </div>
-            <div class="col" ng-class="{'col-md-10':($ctrl.allRoles.length==0),'col-md-8':($ctrl.allRoles.length>0)}" >
+            <div class="col" ng-class="{'col-md-9':($ctrl.allRoles.length==0),'col-md-6':($ctrl.allRoles.length>0)}" >
                  <h4>Permissions:</h4>
                     <div class="checkbox" ng-repeat="(per,val) in $ctrl.rolSelectedPermissions" ng-if="per!=='permissions'">
                         <label>
@@ -156,11 +157,11 @@
         </div>
     </uib-tab>
     <uib-tab index="2" heading="Skills" select="$ctrl.checkTab('skills')">
-        <div class="row">
-            <div class="mywell">
+        <div class="user-skills-tab">
+            <div class="mywell add-button">
                     <a ng-click="$ctrl.addSkill()" ng-disabled="$ctrl.storage.skills==0" class="btn btn-black pull-right">Add</a>
             </div>
-            <div ng-show="$ctrl.userSkills.length>0">
+            <div ng-show="$ctrl.userSkills.length>0" id="skills-table">
                 <table class="table table-striped" ng-show="$ctrl.userSkills.length">
                     <thead>
                         <th ng-click="$ctrl.sortColumn('skill.name') " class="sortColumn">Name
@@ -168,7 +169,7 @@
             'glyphicon-chevron-down':!$ctrl.reverse} "></span>
 
                         </th>
-                        <th>Level</th>
+                        <th class="text-center">Level</th>
                         <th width="100" class="text-center">
                             Actions
                         </th>
@@ -179,7 +180,7 @@
                             <td>
                                 <a href ng-click="$ctrl.updateSkill(item)">{{item.skillName}}</a></td>
 
-                            <td>{{item.level}}</td>
+                            <td class="text-center">{{item.level}}</td>
                             <td class="text-center">
                                 <a href class="circle_delete" ng-click="$ctrl.deleteSkillFromUser(item, $index)" ng-hide="$ctrl.toggleSkillRow==$index "></a>
                             </td>

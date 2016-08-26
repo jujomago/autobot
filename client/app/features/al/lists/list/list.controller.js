@@ -97,10 +97,12 @@
     }
     $onInit() {
         let promiseLists = this.getLists();
-        if(_$stateParams.identifier){  
+        let identifier = _$stateParams.identifier;
+        _$stateParams.identifier=null;
+        if(identifier){  
           promiseLists.then(() =>{
             this.goToProcessedRow();
-            this.getResult(_$stateParams.identifier, _$stateParams.name, _$stateParams.isUpdate);
+            this.getResult(identifier, _$stateParams.name, _$stateParams.isUpdate);
           });
         }
     }
@@ -119,7 +121,7 @@
         if (columnName !== undefined && columnName) {
             this.sortKey = columnName;
             this.reverse = !this.reverse;
-            this.orderList(this.originalLists);
+            this.orderList(this.lists);
             return true;
         } else {
             return false;
@@ -134,6 +136,7 @@
         .then(response => {         
           if (response.statusCode === 200) {
               this.originalLists = response.data;
+              this.lists = this.originalLists;
               this.sortColumn('name');
            } 
            return this.lists;
@@ -166,7 +169,7 @@
         animation: false,
         template: '<al.lists.create></al.lists.create>',
         size: 'md',
-        appendTo: angular.element(document.querySelector('#modal-container')),
+        appendTo: angular.element('#modal-container'),
         backdropClass: 'dark-backdrop',
         controllerAs: '$ctrl',
       });

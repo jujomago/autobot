@@ -69,10 +69,10 @@
 
         openModal(){
             this.modalInstance = _ModalManager.open({
-                animation: true,
+                animation: false,
                 size: 'md',
                 controllerAs: '$ctrl',
-                appendTo: angular.element(document.querySelector('#modal-container')),
+                appendTo: angular.element('#modal-container'),
                 template: '<al.users.change-password></al.users.change-password>',
             });
             this.modalInstance.result
@@ -237,7 +237,7 @@
             animation: false,
             size: 'sm',
             controllerAs: '$ctrl',
-            appendTo: angular.element(document.querySelector('#modal-container')),
+            appendTo: angular.element('#modal-skill-container'),
             template: '<al.users.skill-modal></al.users.skill-modal>'
         });
 

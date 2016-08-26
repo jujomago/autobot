@@ -10,8 +10,11 @@
         return promise;
       }
     class AppsService {
-        constructor($http, $q) {
-            this.endPointUrl = '/assets/admin/json/apps.json';
+        constructor($http, $q, appConfig) {
+            this.endPointUrl = '/admin/apps';
+            if (appConfig.apiUri) {
+                this.endPointUrl = appConfig.apiUri + this.endPointUrl;
+            }
             this.installedEndPoint = '/assets/admin/json/installed.json';
             this.newestEndPoint = '/assets/admin/json/newapps.json';
             _$q=$q;
@@ -20,7 +23,7 @@
         }
         getApps() {
           let result = { data: null, statusCode: 200, errorMessage: null };
-          return _$http.get(this.endPointUrl)
+          return _$http.get('/assets/admin/json/apps.json')
             .then(response => {
             	result.data = response.data;
             	return result;
@@ -30,7 +33,7 @@
         getApp(appName){
         
           let result = { data: null, statusCode: 200, errorMessage: null };
-          return _$http.get(`/api/admin/apps/${appName}`)
+          return _$http.get(this.endPointUrl+'/'+appName)
             .then(response => {
             	result.data = response.data;
             	return result;
@@ -57,7 +60,7 @@
         }
 
     }
-    AppsService.$inject = ['$http','$q'];
+    AppsService.$inject = ['$http','$q', 'appConfig'];
 	angular.module('fakiyaMainApp')
 	  .service('AppsService',AppsService);
 })();
