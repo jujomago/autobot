@@ -31,7 +31,7 @@ describe('Component: al.campaigns.edit.outbound', function () {
 
         it('=> update status 200', () => {
             OutboundComponent.campaign = {
-                name:'Name of Camapaign',
+                name:'Test',
                 description:'Some description',
                 trainingMode:false,
                 autoRecord:true,
@@ -42,7 +42,7 @@ describe('Component: al.campaigns.edit.outbound', function () {
                 }
             };
             
-             httpBackend.whenPUT(endPointUrl+'/outbound', OutboundComponent.campaign)
+             httpBackend.whenPUT(endPointUrl+'/outbound/Test', OutboundComponent.campaign)
             .respond(200,'null');
 
              OutboundComponent.update()
@@ -57,7 +57,7 @@ describe('Component: al.campaigns.edit.outbound', function () {
         
         it('=> update return error', () => {
             OutboundComponent.campaign = {
-                name:'Name of Camapai5gn',
+                name:'Test',
                 description:'Some description',
                 trainingMode:false,
                 autoRecord:true,
@@ -68,7 +68,7 @@ describe('Component: al.campaigns.edit.outbound', function () {
                 }
             };
             
-             httpBackend.whenPUT(endPointUrl+'/outbound', OutboundComponent.campaign)
+             httpBackend.whenPUT(endPointUrl+'/outbound/Test', OutboundComponent.campaign)
             .respond(500,{
                         from: 'Error from Campaign Controller EndPoint',
                         body: 'some error message',

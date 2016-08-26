@@ -170,7 +170,7 @@ class AutodialComponent {
   
   update(){  
     this.SubmitText='Saving...';
-    console.log(this.campaign);
+    this.campaign.defaultIvrSchedule={scriptName: this.campaign.ivrscript.name};
     
     return _CampaignService.updateAutoDialCampaign(this.campaign)
     .then(response=>{
