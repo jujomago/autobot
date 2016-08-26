@@ -161,9 +161,10 @@ describe('Component: NavbarController', function() {
          );
           NavbarController.logout()
           .then(response=>{
-              expect(response.status).to.equal(500);
+              expect(response.statusCode).to.equal(500);
               expect(_$cookies.get('auth_token')).to.equal('a345fc56786b7b4545');
-              expect(response.data.statusText).to.equal('Internal server error');
+              expect(response.errorMessage.statusText).to.equal('Internal server error');
+              expect(NavbarController.message.text.errorMessage.statusText).to.equal('Internal server error');
           });
 
           _$httpBackend.flush();

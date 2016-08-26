@@ -68,7 +68,7 @@ class NavbarController {
         })
         .catch(e => {
           if (e.status && e.data) {
-            this.message = { show: true, text: e.data, type: 'danger' };
+            this.message = { show: true, text: e.data.statusText, type: 'danger' };
           } else {
             this.message = { show: true, text: e, type: 'danger' };
           }

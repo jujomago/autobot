@@ -1,11 +1,20 @@
 'use strict';
 (() => {
-    let _$http, _$cookies;
+    let _$http, _$cookies, _$q;
+    function _handleError(err, result) {
+        result.errorMessage = err.data;
+        result.statusCode = err.status;
+        let defered = _$q.defer();
+        let promise = defered.promise;
+        defered.reject(result);    
+        return promise;
+    }
     class AuthService {
 
-        constructor($cookies, $http, appConfig) {
+        constructor($cookies, $http, $q, appConfig) {
             _$http = $http;
             _$cookies = $cookies;
+            _$q=$q;
             if (appConfig.apiUri) {
                 this.endPointUrl = appConfig.apiUri;
             }
@@ -34,21 +43,18 @@
                 .catch(error=>error);
         }
         logout() {
+            let result = { data: null, statusCode: 200, errorMessage: null };
             return _$http.get(this.endPointUrl + '/auth/logout')
                 .then(response => {
-                    if (response.status === 200) {
-                        console.log('cleaning cookie');
-                        _$cookies.remove('auth_token');
-                        return response;
-                    }
-                    return null;
+                    console.log('cleaning cookie');
+                    _$cookies.remove('auth_token');
+                    return response;
                 })
-                .catch(e => e);
-
+                .catch(e => _handleError(e, result));
         }
     }
 
-    AuthService.$inject = ['$cookies', '$http', 'appConfig'];
+    AuthService.$inject = ['$cookies', '$http', '$q', 'appConfig'];
 
     angular.module('fakiyaMainApp')
         .service('AuthService', AuthService);
