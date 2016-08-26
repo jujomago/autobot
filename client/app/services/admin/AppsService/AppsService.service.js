@@ -6,13 +6,17 @@
         result.statusCode = err.status;
         let defered = _$q.defer();
         let promise = defered.promise;
-        defered.reject(result);    
+        defered.reject(result);
         return promise;
       }
     class AppsService {
-        constructor($http, $q) {
-            this.endPointUrl = '/assets/admin/json/apps.json';
-            this.installedEndPoint = '/assets/admin/json/installed.json';
+        constructor($http, $q, appConfig) {
+            this.endPointUrl = '/assets/admin/json/apps.json  '
+            // this.endPointUrl = '/admin/apps';
+            // if (appConfig.apiUri) {
+            //     this.endPointUrl = appConfig.apiUri + this.endPointUrl;
+            // }
+            this.installedEndPoint = '/api/admin/apps/installed';
             this.newestEndPoint = '/assets/admin/json/newapps.json';
             _$q=$q;
             _$http = $http;
@@ -23,12 +27,13 @@
           return _$http.get(this.endPointUrl)
             .then(response => {
             	result.data = response.data;
+              console.log(result.data);
             	return result;
             })
             .catch(err => _handleError(err, result));
         }
         getApp(appName){
-        
+
           let result = { data: null, statusCode: 200, errorMessage: null };
           return _$http.get(`/api/admin/apps/${appName}`)
             .then(response => {
@@ -57,7 +62,7 @@
         }
 
     }
-    AppsService.$inject = ['$http','$q'];
+    AppsService.$inject = ['$http','$q','appConfig'];
 	angular.module('fakiyaMainApp')
 	  .service('AppsService',AppsService);
 })();
