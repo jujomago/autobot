@@ -130,6 +130,21 @@ describe('Service: AuthService', function () {
           httpBackend.flush();
       });
 
+      it('=> User should get a logout error',()=>{
+         
+         httpBackend.whenGET(endPointUrl+'/auth/logout').respond(500,
+           {statusText: 'Internal server error'}
+         );
+
+          AuthService.logout()
+          .then(response=>{
+              expect(response.status).to.equal(500);
+              expect(response.data.statusText).to.equal('Internal server error');
+          });
+
+          httpBackend.flush();
+      });
+
   });
 
 

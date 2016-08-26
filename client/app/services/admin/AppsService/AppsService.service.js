@@ -1,14 +1,14 @@
 'use strict';
 (function () {
     let _$http,_$q;
-      function _handleError(err, result) {
+    function _handleError(err, result) {
         result.errorMessage = err.data;
         result.statusCode = err.status;
         let defered = _$q.defer();
         let promise = defered.promise;
         defered.reject(result);    
         return promise;
-      }
+    }
     class AppsService {
         constructor($http, $q, appConfig) {
             this.endPointUrl = '/admin/apps';
