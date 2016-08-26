@@ -394,8 +394,8 @@ module.exports = function (grunt) {
             src: [
               'package.json',
               '<%= yeoman.server %>/**/*',
-              '!<%= yeoman.server %>/config/local.env.sample.js',
-              '!<%= yeoman.server %>/api'
+              '!<%= yeoman.server %>**/api/**',
+              '!<%= yeoman.server %>/config/local.env.sample.js'
             ]
           }]
       },

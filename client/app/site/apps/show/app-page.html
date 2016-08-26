@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-md-2 col-sm-3">
             <div class="app-page-img-container">
-                <img class="img-responsive" src="assets/al/images/logo-sm.jpg" alt="logo five9" />
+                <img class="img-responsive" src="assets/{{$ctrl.application.appName}}/images/logo-sm.jpg" alt="logo {{$ctrl.application.appFullName}}" />
                 <button class="btn btn-black" ng-show="$ctrl.application.isInstalled" ui-sref="underconstruction">Open app</button>
                 <button class="btn btn-black" ng-show="!$ctrl.application.isInstalled" ui-sref="underconstruction">Get app</button>
                 <p>Five9 admin account required</p>
@@ -12,18 +12,20 @@
         </div>
         <div class="col-md-10 col-sm-9 app-page-detail">
             {{$ctrl.application.description}}
-            <h4 class="app-page-subtitle">Screenshots</h4>
-            <div class="app-screens-container row">
-                <div class="app-screen-img col-sm-4">
-                    <img class="img-responsive" src="assets/al/images/app-f9-screen1.jpg" alt="screen1">
-                </div>
-                 <div class="app-screen-img col-sm-4">
-                    <img class="img-responsive" src="assets/al/images/app-f9-screen2.jpg" alt="screen2">
-                </div>
-                 <div class="app-screen-img col-sm-4">
-                    <img  class="img-responsive" src="assets/al/images/app-f9-screen3.jpg" alt="screen3">
-                </div>    
-                           
+            <div ng-if="$ctrl.imageExists">
+                <h4 class="app-page-subtitle">Screenshots</h4>
+                <div class="app-screens-container row">
+                    <div class="app-screen-img col-sm-4">
+                        <img class="img-responsive" ng-src="assets/{{$ctrl.application.appName}}/images/screenshots/app-screen1.jpg" alt="screen1" abx-on-image-error="$ctrl.imageExists">
+                    </div>
+                     <div class="app-screen-img col-sm-4">
+                        <img class="img-responsive" ng-src="assets/{{$ctrl.application.appName}}/images/screenshots/app-screen2.jpg" alt="screen2">
+                    </div>
+                     <div class="app-screen-img col-sm-4">
+                        <img  class="img-responsive" ng-src="assets/{{$ctrl.application.appName}}/images/screenshots/app-screen3.jpg" alt="screen3">
+                    </div>    
+                               
+                </div>  
             </div>            
         </div>
     </div>

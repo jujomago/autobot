@@ -97,10 +97,12 @@
     }
     $onInit() {
         let promiseLists = this.getLists();
-        if(_$stateParams.identifier){  
+        let identifier = _$stateParams.identifier;
+        _$stateParams.identifier=null;
+        if(identifier){  
           promiseLists.then(() =>{
             this.goToProcessedRow();
-            this.getResult(_$stateParams.identifier, _$stateParams.name, _$stateParams.isUpdate);
+            this.getResult(identifier, _$stateParams.name, _$stateParams.isUpdate);
           });
         }
     }

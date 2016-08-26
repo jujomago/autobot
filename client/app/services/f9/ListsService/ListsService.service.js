@@ -96,7 +96,7 @@
         }
         isImportRunning(identifier, waitTime) {
             var result = { data: null, statusCode: 200, errorMessage: '' };
-            let isRunningPath = this.endPointUrl +'/contacts/result/running/'+ identifier;
+            let isRunningPath = this.endPointUrl +'/importrunning/'+ identifier;
             if(waitTime){
                 isRunningPath+='?waitTime='+waitTime;
             }
@@ -111,7 +111,7 @@
 
         getResult(identifier) {
             var result = { data: null, statusCode: 200, errorMessage: '' };
-            return _$http.get(this.endPointUrl +'/contacts/result/'+ identifier)
+            return _$http.get(this.endPointUrl +'/importresults/'+ identifier)
                 .then(response => {
                     result.statusCode = response.status;
                     result.data = response.data.return;
@@ -123,7 +123,7 @@
         addContacts(contacts){
             var result = { data: null, statusCode: 201, errorMessage: '' };
 
-            return _$http.post(this.endPointUrl+'/contacts', contacts)
+            return _$http.post(this.endPointUrl+'/'+contacts.listName+'/records', contacts)
                 .then(response => {
                         result.data = response.data;
                         return result;
@@ -140,7 +140,7 @@
             
             return _$http({
                 method: 'DELETE',
-                url: this.endPointUrl +'/contacts/delete',
+                url: this.endPointUrl +'/'+contacts.listName+'/records',
                 data: contacts,
                 headers: {'Content-Type': 'application/json;charset=utf-8'}
             }).then(response => {

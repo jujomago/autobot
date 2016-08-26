@@ -149,7 +149,7 @@ describe('Service: CampaignService', function () {
   
   describe('#createCampaign', () => {
 
-    it('=> should return error statusCode 201, Created Ok', () => {
+    it('=> should return error statusCode 201, Created Ok (inbound)', () => {
       
       let newCampaign = {
         autoRecord:true,
@@ -157,12 +157,63 @@ describe('Service: CampaignService', function () {
         dnisAsAni:true,
         noOutOfNumbersAlert:true,
         name:'Campaign Test',
+        type: 'inbound',
         ivrscript:{                
             name: 'Main.Oracle'
         }             
       };
 
-      httpBackend.whenPOST(endPointUrl).respond(201, null);
+      httpBackend.whenPOST(endPointUrl+'/inbound').respond(201, null);
+
+      CampaignService.createCampaign(newCampaign)
+        .then(response => {  
+          expect(response).to.be.property('statusCode');
+          expect(response.statusCode).to.equal(201);
+          expect(response.data).to.equal(null);
+          expect(response.error).to.equal(null);
+        });
+
+      httpBackend.flush();
+    });
+    it('=> should return error statusCode 201, Created Ok (outbound)', () => {
+      
+      let newCampaign = {
+        autoRecord:true,
+        description:'campaign test',
+        dnisAsAni:true,
+        noOutOfNumbersAlert:true,
+        name:'Campaign Test',
+        type: 'outbound',            
+      };
+
+      httpBackend.whenPOST(endPointUrl+'/outbound').respond(201, null);
+
+      CampaignService.createCampaign(newCampaign)
+        .then(response => {  
+          expect(response).to.be.property('statusCode');
+          expect(response.statusCode).to.equal(201);
+          expect(response.data).to.equal(null);
+          expect(response.error).to.equal(null);
+        });
+
+      httpBackend.flush();
+    });
+
+    it('=> should return error statusCode 201, Created Ok (autodial)', () => {
+      
+      let newCampaign = {
+        autoRecord:true,
+        description:'campaign test',
+        dnisAsAni:true,
+        noOutOfNumbersAlert:true,
+        name:'Campaign Test',
+        type: 'autodial',
+        ivrscript:{                
+            name: 'Main.Oracle'
+        }             
+      };
+
+      httpBackend.whenPOST(endPointUrl+'/autodial').respond(201, null);
 
       CampaignService.createCampaign(newCampaign)
         .then(response => {  
@@ -182,7 +233,7 @@ describe('Service: CampaignService', function () {
     it('=> should return error statusCode 200, Updated Ok', () => {
       
       let Campaign = {
-          name:'Name of Camapaign',
+          name:'Name',
           description:'Some description',
           trainingMode:false,
           autoRecord:true,
@@ -193,7 +244,7 @@ describe('Service: CampaignService', function () {
           }         
       };
 
-      httpBackend.whenPUT(endPointUrl+'/outbound').respond(200, null);
+      httpBackend.whenPUT(endPointUrl+'/outbound/Name').respond(200, null);
 
       CampaignService.updateOutBoundCampaign(Campaign)
         .then(response => {  
@@ -217,13 +268,13 @@ describe('Service: CampaignService', function () {
           description:'campaign test',
           dnisAsAni:true,
           noOutOfNumbersAlert:true,
-          name:'Campaign Test',
+          name:'Test',
           ivrscript:{                
               name: 'Main.Oracle'
           }               
       };
 
-      httpBackend.whenPUT(endPointUrl+'/autodial').respond(200, null);
+      httpBackend.whenPUT(endPointUrl+'/autodial/Test').respond(200, null);
 
       CampaignService.updateAutoDialCampaign(Campaign)
         .then(response => {  
@@ -249,10 +300,10 @@ describe('Service: CampaignService', function () {
               name: 'Main.Oracle'
           },
           maxNumOfLines:23,
-          name:'Campaign Test'
+          name:'Test'
       };
 
-      httpBackend.whenPUT(endPointUrl+'/inbound').respond(200, null);
+      httpBackend.whenPUT(endPointUrl+'/inbound/Test').respond(200, null);
 
       CampaignService.updateInBoundCampaign(Campaign)
         .then(response => {  

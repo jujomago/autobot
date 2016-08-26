@@ -69,7 +69,7 @@
 
     createCampaign(newCampaign) {
       let result = { data: null, statusCode: 201, error: null };
-      return _http.post(this.endPointUrl, newCampaign)
+      return _http.post(this.endPointUrl+'/'+ newCampaign.type, newCampaign)
         .then(() => result)
         .catch(err => handleError(err, result));
     }
@@ -78,7 +78,7 @@
     updateOutBoundCampaign(newCampaign) {
       let result = { data: null, statusCode: 200, error: null };
 
-      return _http.put(this.endPointUrl + '/outbound', newCampaign)
+      return _http.put(this.endPointUrl + '/outbound/'+newCampaign.name, newCampaign)
         .then(() => result)
         .catch(err => handleError(err, result));
     }
@@ -87,7 +87,7 @@
     updateAutoDialCampaign(newCampaign) {
       let result = { data: null, statusCode: 200, error: null };
 
-      return _http.put(this.endPointUrl + '/autodial', newCampaign)
+      return _http.put(this.endPointUrl + '/autodial/'+newCampaign.name, newCampaign)
         .then(() => result)
         .catch(err => handleError(err, result));
     }
@@ -95,7 +95,7 @@
     updateInBoundCampaign(newCampaign) {
       let result = { data: null, statusCode: 200, error: null };
 
-      return _http.put(this.endPointUrl + '/inbound', newCampaign)
+      return _http.put(this.endPointUrl + '/inbound/'+newCampaign.name, newCampaign)
         .then(() => result)
         .catch(err => handleError(err, result));
     }

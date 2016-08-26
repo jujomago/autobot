@@ -123,7 +123,7 @@ describe('Service: ListsService', function () {
         let contact = {listName: 'testAutobox', importData: {values: [{item: ['202-555-0195']}]} };
         let listUpdateSettings = {fieldsMapping: [{columnNumber: 1, fieldName: 'number1', key: true}],cleanListBeforeUpdate: false, crmAddMode: 'ADD_NEW', crmUpdateMode: 'DONT_UPDATE', listAddMode: 'ADD_FIRST'};
         contact.listUpdateSettings = listUpdateSettings;
-        httpBackend.whenPOST(endPointUrl+'/contacts').respond(201, {return: {identifier: 'ad-fg-js'}});
+        httpBackend.whenPOST(endPointUrl+'/'+contact.listName+'/records').respond(201, {return: {identifier: 'ad-fg-js'}});
         ListsService.addContacts(contact)
         .then(result => {
             expect(result.statusCode).to.equal(201);
@@ -137,7 +137,7 @@ describe('Service: ListsService', function () {
         let contact = {listName: 'testAutobox', importData: {values: [{item: ['202-555-0195']}]}};
         let listDeleteSettings = {fieldsMapping: [{columnNumber: 1, fieldName: 'number1', key: true}], listDeleteMode: 'DELETE_ALL'};
         contact.listDeleteSettings = listDeleteSettings;
-        httpBackend.whenDELETE(endPointUrl+'/contacts/delete').respond(200, {return: {identifier: 'ad-fg-js'}});
+        httpBackend.whenDELETE(endPointUrl+'/'+contact.listName+'/records').respond(200, {return: {identifier: 'ad-fg-js'}});
         ListsService.deleteContacts(contact)
         .then(result => {
             expect(result.statusCode).to.equal(200);
@@ -147,7 +147,7 @@ describe('Service: ListsService', function () {
         httpBackend.flush();
     });
     it('should return running status', function () {
-        httpBackend.whenGET(endPointUrl+'/contacts/result/running/123-abc-456').respond(200, {
+        httpBackend.whenGET(endPointUrl+'/importrunning/123-abc-456').respond(200, {
             return: false
         });
         ListsService.isImportRunning('123-abc-456').then(result => {
@@ -161,7 +161,7 @@ describe('Service: ListsService', function () {
         httpBackend.flush();
     });
     it('should return running status after waitTime', function () {
-        httpBackend.whenGET(endPointUrl+'/contacts/result/running/123-abc-456?waitTime=5').respond(200, {
+        httpBackend.whenGET(endPointUrl+'/importrunning/123-abc-456?waitTime=5').respond(200, {
             return: false
         });
         ListsService.isImportRunning('123-abc-456', 5).then(result => {
@@ -176,7 +176,7 @@ describe('Service: ListsService', function () {
     });
 
     it('should return result', function () {
-        httpBackend.whenGET(endPointUrl+'/contacts/result/123-abc-456').respond(200, {
+        httpBackend.whenGET(endPointUrl+'/importresults/123-abc-456').respond(200, {
             return: {
                         uploadDuplicatesCount: '0',
                         uploadErrorsCount: '2',

@@ -13,7 +13,7 @@ describe('Service: ContactFieldsService', function () {
         ContactFieldsService = _ContactFieldsService_;
         httpBackend = $httpBackend;
         if (appConfig.apiUri) {
-            endPointUrl = appConfig.apiUri + '/f9/contactfields';
+            endPointUrl = appConfig.apiUri + '/f9/contacts/fields';
         }
     }));
 

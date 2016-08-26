@@ -179,14 +179,15 @@ describe('Component: al.campaigns.edit.inbound', function () {
                   name: 'Main.Oracle'
               },
               maxNumOfLines:23,
-              name:'Campaign Test'
+              name:'Test'
             };
             
-             httpBackend.whenPUT(endPointUrl+'/inbound', InboundComponent.campaign)
+             httpBackend.whenPUT(endPointUrl+'/inbound/Test', InboundComponent.campaign)
             .respond(200,null);
 
              InboundComponent.update()
             .then(response => {
+                 expect(InboundComponent.campaign.defaultIvrSchedule.scriptName).to.equal('Main.Oracle');
                  expect(response.statusCode).to.equal(200);
                  expect(response.data).to.equal(null);
                  expect(response.error).to.equal(null);             
@@ -204,10 +205,10 @@ describe('Component: al.campaigns.edit.inbound', function () {
                   name: 'Main.Oracle'
               },
               maxNumOfLines:23,
-              name:'Campaign Test'
+              name:'Test'
             };
             
-             httpBackend.whenPUT(endPointUrl+'/inbound', InboundComponent.campaign)
+             httpBackend.whenPUT(endPointUrl+'/inbound/Test', InboundComponent.campaign)
             .respond(500,{
                         from: 'Error from Campaign Controller EndPoint',
                         body: 'some error message',

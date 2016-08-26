@@ -4,7 +4,7 @@
 
     class ContactFieldsService {
         constructor($http, appConfig) {
-            this.endPointUrl = '/f9/contactfields';
+            this.endPointUrl = '/f9/contacts/fields';
             if (appConfig.apiUri) {
                 this.endPointUrl = appConfig.apiUri + this.endPointUrl;
             }
