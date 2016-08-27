@@ -11,6 +11,10 @@ angular.module('fakiyaMainApp')
         let rightSide=angular.element('.rightside');
         let mainContainer=$('#main-container');
 
+        if(!attrs.absolute){
+            loaderIndicator.css('position','absolute');
+        }
+
         function centerMessage() {  
 
           let widthRightSide=rightSide.innerWidth();

@@ -57,13 +57,11 @@ sidebar {
 
 // removes dotted outlines
 .autobox-theme{
-    a,input,button{
-
         &:focus, &:active:focus{
             outline: none;
         }
-    }
 }
+
 
 // adjusments for tabs
 .tab-content {
@@ -72,9 +70,10 @@ sidebar {
     margin-bottom: 45px;
 }
 
+
 .tab-pane .panel {
     max-height: 520px;
- //   overflow: auto;
+     // overflow: auto;
 }
 
 form[name='userForm'] .tab-content {
@@ -105,6 +104,12 @@ form[name='userForm'] .tab-content {
 .col-xs-2-5 {
     width: 20%;
     float: left;
+}
+
+.al-theme .nav.nav-tabs{
+    margin-left: -30px;
+    padding-left: 30px;
+    margin-right: -30px;
 }
 
 @media (min-width: 768px) {

@@ -2,8 +2,7 @@
 (() => {
 
     function _csvToJSON(rawFile, delimiter) {
-        let delimiterSympol = delimiter || ',';
-
+        let delimiterSympol = delimiter;
         let lines = rawFile.trim().split('\n');
 
         let jsonCSV = lines.map(el => {
@@ -269,9 +268,9 @@
         }
 
         $onInit() {
-            this.changeHeaderValue();
-            this.changeDelimiter();
+            this.changeHeaderValue();         
             this.setStateParams(_$stateParams);
+            this.changeDelimiter();
         }
 
         setStateParams(stateParams){
@@ -337,20 +336,20 @@
             }
         }
 
-        aplyDemiliterCSV(delimiter) {
-            if (this.rawCSV) {
-                this.jsonCSV = _csvToJSON(this.rawCSV, delimiter);              
-                console.log(this.jsonCSV);
+        aplyDemiliterCSV(delimiter) {  
+            if (this.rawCSV) {              
+                delimiter = delimiter || '\n';
+                this.jsonCSV = _csvToJSON(this.rawCSV, delimiter);         
+                console.log(this.jsonCSV); 
             }
         }
 
         changeDelimiter() {
-              this.customDelimiterEnabled = (this.selectedDelimiter.title === 'Custom');
+             this.customDelimiterEnabled = (this.selectedDelimiter.title === 'Custom');
              this.aplyDemiliterCSV(this.selectedDelimiter.symbol);
         }
 
         matchSmart() {
-
             if (this.hasHeader === true) {
                 this.changeDelimiter();
                 let posibleHeaders = this.jsonCSV[0];
@@ -380,7 +379,6 @@
             console.log('next Step');
             console.log(this.contactFields);
 
-
             let dataToSend = {
                     fields: this.contactFields
             };
@@ -397,9 +395,7 @@
         finishMap() {
 
             let fieldsKeys = _.filter(this.contactFields,{'isKey':true});
-
             let checkSelectedKeys = _checkSelectedFieldKeys(this.hasHeader, this.contactFields, _);
-
            
             if(fieldsKeys.length>0){
                 if (checkSelectedKeys.length === 0) {
@@ -434,25 +430,25 @@
                     this.message = { show: true, type: 'warning', text: `Contact Fields \"${keyNamesNotMapped.join(' , ')}\" are marked as keys but has no mapped source field/index`, expires: 8000 };
                     return null;
                 }
-            }else{
-                    let noneMapped;
-                    if(this.hasHeader){
-                         noneMapped=_.reject(this.contactFields,{'mappedName':null});                         
-                    }else{
-                         noneMapped=_.reject(this.contactFields,{'mappedIndex':0});                                   
-                    }
+            }else{                 
+                let noneMapped;
+                if(this.hasHeader){
+                    noneMapped=_.reject(this.contactFields,{'mappedName':null});
+                }else{
+                    noneMapped=_.reject(this.contactFields,{'mappedIndex':0});
+                }
 
-                    if(noneMapped.length!==0){
-                         this.message.text= 'At least one field must be marked as key';                      
-                    }else{
-                         this.message.text= 'At least one source fields should be mapped to Contact Field';                      
-                    }
-                     
-                    this.message.show=true;
-                    this.message.type='warning';
-                    this.message.expires=8000;                    
-                 
-                   return null;
+                if(noneMapped.length!==0){
+                    this.message.text= 'At least one field must be marked as key';                      
+                }else{
+                    this.message.text= 'At least one source fields should be mapped to Contact Field';                      
+                }
+
+                this.message.show=true;
+                this.message.type='warning';
+                this.message.expires=8000;                    
+                
+                return null;
             }
         }
 
