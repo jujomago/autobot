@@ -234,7 +234,6 @@
 
 
 
-
     let  _$stateParams, _$state;
     let _ContactFieldsService, _;
 
