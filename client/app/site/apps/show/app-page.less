@@ -1,43 +1,74 @@
 .app-page{
-    color: #989898;
+    color: #666666;
     margin-bottom: 40px;
-    padding-left: 50px;
-    padding-right: 50px;
+    padding-left: 35px;
+    padding-right: 35px;
 
     .app-page-img-container{
-        text-align: center;
+        margin-left:33px;
         img{
-             margin: 0 auto 20px;
+              margin: 0 -5px 20px;
               transform: translateZ(0);
+              min-width:140px;
         }
         p{
             margin-top: 16px;
-            font-size: 12px;
+            font-size: 11px;
+        }
+        .btn-black{
+          padding: 0;
+          height: 30px;
+          line-height: 17px;
+          width: 130px;
         }
     }
-}
-
-.app-page-detail{
-    p{      
-        margin-bottom: 16px;
+    .col-md-2{
+      padding-left:0;
+      padding-right:20px;
+      min-width:193px;
     }
-}
-
-.app-page-subtitle{
-    font-family: BrandonBold;
-    font-size: 16px;
-    margin: 40px 0;
-    color:@black;
-}
-
-.app-screens-container{
-    .app-screen-img{
-        margin-bottom: 30px;      
-      
+    @media (min-width: 768px){
+      .col-sm-3{
+        width:20%;
+      }
+      .col-sm-9{
+        width:74%;
+      }
     }
-    img{
-        background:#e8e8e8;
-        width: 100%;
-       
+    @media (min-width: 992px){
+      .col-md-2{
+        width:15%;
+      }
+      .col-sm-9{
+        width:78%;
+        padding-left:0;
+        margin-left:20px;
+      }
+    }
+    @media (min-width: 1217px){
+      .col-sm-9{
+        width:82%;
+      }
+    }
+    .app-screens-container{
+        .app-screen-img{
+            margin-bottom: 30px;
+        }
+        img{
+            background:#e8e8e8;
+            width: 100%;
+        }
+    }
+    .app-page-detail{
+        p{
+            margin-bottom: 16px;
+        }
+    }
+
+    .app-page-subtitle{
+        font-family: BrandonBold;
+        font-size: 16px;
+        margin: 40px 0;
+        color:@black;
     }
 }
