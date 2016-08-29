@@ -159,6 +159,14 @@ describe('Directive: abxNumberUpdown', function () {
       scope.$digest();
       expect(element.isolateScope().ngModel).to.equal(7);
     }));
+    it('should retrieve the ngModel value', inject(function ($compile) {
+      element = angular.element('<abx-number-updown min-value=10></abx-number-updown>');
+      element = $compile(element)(scope);
+      scope.$apply();
+      element.isolateScope().ngModel=10;
+      scope.$digest();
+      expect(element.isolateScope().ngModel).to.equal(10);
+    }));
   });
 
 });

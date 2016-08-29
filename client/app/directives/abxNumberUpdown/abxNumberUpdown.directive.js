@@ -35,7 +35,6 @@ angular.module('fakiyaMainApp')
       	
         scope.minValue=scope.minValue?scope.minValue:0;
         scope.maxValue=scope.maxValue?scope.maxValue:-1;
-        scope.ngModel=scope.minValue;
         scope.ngModel=scope.ngModel?scope.ngModel*1:scope.minValue;
       	scope.$watch('ngModel', function(newValue,oldValue) {
             if(!(numbers.test(newValue) && (scope.maxValue===-1 || (newValue*1)<=scope.maxValue) && ((newValue*1)>=scope.minValue))) {
