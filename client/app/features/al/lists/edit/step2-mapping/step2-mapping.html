@@ -29,7 +29,7 @@
                       <span>Contact Field</span>
                       <select id="contactSelect" ng-model="$ctrl.contactFieldSelectedName" ng-options="str.name for str in $ctrl.contactFieldsNames"></select>
                     </div>
-                   
+                    <br/>
                     <button class="btn btn-primary" ng-click="$ctrl.matchSmart()" ng-disabled="!$ctrl.hasHeader">Smart mapping</button>
                     <button class="btn btn-primary" ng-click="$ctrl.clearMapping()">Clear mapping</button>
                     <button class="btn btn-primary" ng-click="$ctrl.addMappingItem()">Add mapping item</button>
