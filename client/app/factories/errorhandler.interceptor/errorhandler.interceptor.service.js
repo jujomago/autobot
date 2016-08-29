@@ -1,5 +1,5 @@
 'use strict';
-
+/*
 angular.module('fakiyaMainApp')
 	.factory('ErrorHandlerInterceptor', ['$q', '$location', function ($q, $location) {
 		return {
@@ -23,4 +23,4 @@ angular.module('fakiyaMainApp')
 	.config(['$httpProvider', function ($httpProvider) {
 		$httpProvider.interceptors.push('ErrorHandlerInterceptor');
 	}]);
-
+*/
