@@ -138,6 +138,63 @@ describe('Component: al.users.edit', function () {
       });
    });
 
+   describe('#sortColumn', () => {
+
+    let skills = [
+                      {
+                        'id': '266184',
+                        'level': 2,
+                        'skillName': 'Sales',
+                        'userName': 'daniel.c@autoboxcorp.com'
+                      },
+                      {
+                        'id': '266185',
+                        'level': 2,
+                        'skillName': 'CustomerService',
+                        'userName': 'daniel.c@autoboxcorp.com'
+                      },
+                      {
+                        'id': '266196',
+                        'level': 1,
+                        'skillName': 'Authority',
+                        'userName': 'daniel.c@autoboxcorp.com'
+                      }
+                    ];
+        let skillsOrdered = [
+                      {
+                        'id': '266196',
+                        'level': 1,
+                        'skillName': 'Authority',
+                        'userName': 'daniel.c@autoboxcorp.com'
+                      },
+                      {
+                        'id': '266185',
+                        'level': 2,
+                        'skillName': 'CustomerService',
+                        'userName': 'daniel.c@autoboxcorp.com'
+                      },
+                      {
+                        'id': '266184',
+                        'level': 2,
+                        'skillName': 'Sales',
+                        'userName': 'daniel.c@autoboxcorp.com'
+                      }
+                    ]; 
+
+    it('param columnName not send, should return false', () => {
+      expect(false).to.equal(EditComponent.sortColumn(''));
+    });
+
+    it('param columnName send, should return true', () => {
+      EditComponent.filteredSkills = skills;
+      expect(true).to.equal(EditComponent.sortColumn('skillName'));
+      expect(EditComponent.reverse).to.equal(false);
+      expect(EditComponent.filteredSkills.length).to.equal(3);
+      expect(EditComponent.filteredSkills).to.eql(skillsOrdered);
+    });
+
+  });
+
    describe('User Skills',()=>{
 
       it('=>getAllSkills should return a lists of skills', function(){

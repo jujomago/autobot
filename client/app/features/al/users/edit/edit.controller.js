@@ -7,10 +7,11 @@
     }
 
     let _UsersService,_stateParams,_state, _SkillsService, _ConfirmAsync, _ModalManager;
+    let _$filter;
 
     class EditComponent {
 
-        constructor($stateParams, $state,  $sessionStorage , $q, UsersService, SkillsService, ConfirmAsync, ModalManager) {
+        constructor($stateParams, $state,  $sessionStorage , $q, $filter, UsersService, SkillsService, ConfirmAsync, ModalManager) {
 
             //  console.log('Component EditComponent - al.users.edit');
             _stateParams = $stateParams;
@@ -19,6 +20,7 @@
             _ConfirmAsync = ConfirmAsync;
             _ModalManager = ModalManager;
             _state=$state;
+            _$filter = $filter;
             this.storage = $sessionStorage;
             this.qp = $q;
             this.SubmitText = 'Save';
@@ -363,18 +365,25 @@
 
         sortColumn(columnName) {
           if (columnName !== undefined && columnName) {
-                console.log('sorting:' + columnName);
-              this.sortKey = columnName;
-              this.reverse = !this.reverse;
-              return true;
+            console.log('sorting:' + columnName);
+            this.sortKey = columnName;
+            this.reverse = !this.reverse;
+            this.orderList(this.filteredSkills);
+            return true;
           } else {
               return false;
           }
         }
+
+        orderList(list){
+            if(this.sortKey){
+                this.filteredSkills = _$filter('orderBy')(list, this.sortKey, this.reverse);
+            }
+        }
     }
 
 
-    EditComponent.$inject = ['$stateParams', '$state',  '$sessionStorage','$q', 'UsersService', 'SkillsService', 'ConfirmAsync', 'ModalManager'];
+    EditComponent.$inject = ['$stateParams', '$state',  '$sessionStorage','$q', '$filter', 'UsersService', 'SkillsService', 'ConfirmAsync', 'ModalManager'];
 
     angular.module('fakiyaMainApp')
         .component('al.users.edit', {
