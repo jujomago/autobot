@@ -13,17 +13,23 @@
         <p>Set mapping from source fields to Contact fields:</p>
         <div class="header-table-mapping">
             <div class="row">             
-                <p>
-                    <span>Delimiter </span>
-                    <select name="del" ng-model="$ctrl.selectedDelimiter" ng-change="$ctrl.changeDelimiter()" ng-options="delimiter.title for delimiter in $ctrl.delimiters"></select>
-                    <span>Custom </span>
-                    <input type="text" ng-model="$ctrl.selectedDelimiter.symbol" maxlength="1" ng-change="$ctrl.changeDelimiter()" ng-disabled="!$ctrl.customDelimiterEnabled">
-                    <label><input type="checkbox" ng-model="$ctrl.hasHeader" ng-change="$ctrl.changeHeaderValue()">
-                    Has header</label>
-                     <span>Contact Field</span>
-                    <select id="contactSelect" ng-model="$ctrl.contactFieldSelectedName" ng-options="str.name for str in $ctrl.contactFieldsNames"></select>
-                </p>
-              
+            
+                    <div class="separator">
+                        <span>Delimiter </span>
+                        <select name="del" ng-model="$ctrl.selectedDelimiter" ng-change="$ctrl.changeDelimiter()" ng-options="delimiter.title for delimiter in $ctrl.delimiters"></select>
+                    </div>
+                    <div class="separator">
+                        <span>Custom </span>
+                        <input type="text" ng-model="$ctrl.selectedDelimiter.symbol" maxlength="1" ng-change="$ctrl.changeDelimiter()" ng-disabled="!$ctrl.customDelimiterEnabled">
+                    </div>
+                    <label class="separator">
+                        <input type="checkbox" ng-model="$ctrl.hasHeader" ng-change="$ctrl.changeHeaderValue()">Has header
+                    </label>
+                    <div class="separator">
+                      <span>Contact Field</span>
+                      <select id="contactSelect" ng-model="$ctrl.contactFieldSelectedName" ng-options="str.name for str in $ctrl.contactFieldsNames"></select>
+                    </div>
+                   
                     <button class="btn btn-primary" ng-click="$ctrl.matchSmart()" ng-disabled="!$ctrl.hasHeader">Smart mapping</button>
                     <button class="btn btn-primary" ng-click="$ctrl.clearMapping()">Clear mapping</button>
                     <button class="btn btn-primary" ng-click="$ctrl.addMappingItem()">Add mapping item</button>
