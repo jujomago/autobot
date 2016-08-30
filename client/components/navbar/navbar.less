@@ -139,7 +139,7 @@
         padding: 0;
         input {
           color: #000000;
-          margin-bottom: 30px;
+          margin: 5px 0 25px 0; 
         }
       }
       .new-apps {
@@ -148,10 +148,6 @@
           margin-bottom: 25px;
         }
         .underline {
-          border-top: 1px solid @blue;
-          display: block;
-          height: 1px;
-          margin-top: 2px;
           width: 68px;
         }
         ul {
@@ -191,11 +187,22 @@
           }
         }
       }
+      .underline {
+        border-top: px solid @blue;
+        display: block;
+        height: 2px;
+        margin-top: 3px;
+        box-shadow: 0 -2px 1px @blue;
+      }
     }
     .full-menu {
       left: -175px;
       min-width: 850px;
       padding: 0 20px 40px 20px;
+      @media (max-width: 768px) {
+        left: -250px;
+        min-width: 700px;
+      }
     }
     .min-menu {
       padding: 0 20px 30px 20px;
@@ -214,10 +221,6 @@
     }
     .my-apps {
       .underline {
-        border-top: 1px solid @blue;
-        display: block;
-        height: 1px;
-        margin-top: 2px;
         width: 60px;
       }
     }
