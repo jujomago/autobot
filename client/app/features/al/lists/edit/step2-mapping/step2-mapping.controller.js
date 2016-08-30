@@ -288,8 +288,6 @@
                 }
             }
         }
-  
-
         initArrays() {
             // TODO: Research _.fill() does not work;
             console.log('initialized arrays');
@@ -491,6 +489,7 @@
                 }
                 this.contactFields.splice(this.selectedRow, 1);
                 this.selectedRow=-1;
+                return true;
             }else{
                 if (goingToDelete) {
                     this.contactFields.splice(this.selectedRow, 1);
