@@ -110,15 +110,16 @@ class NavbarController {
   }
 
   filteringBySearch(){
-    
-    this.myAppsSearch = _$filter('filter')(this.myAppsFromService, this.search.app.appFullName);
-    
-    this.myAppsSearch = this.groupBy(this.myAppsSearch);
-
-    if(this.search.app.appFullName){
+    let regex = angular.element('#submenu-search').attr('abx-pattern-filter');
+    let filter = new RegExp(regex.substr(1, regex.length -2));
+    if(this.search.app.appFullName && filter.test(this.search.app.appFullName)){
+      this.myAppsSearch = _$filter('filter')(this.myAppsFromService, this.search.app.appFullName);
+      this.myAppsSearch = this.groupBy(this.myAppsSearch);
       this.total = Object.keys(this.myAppsSearch).length;
       return true;
     }else{
+      this.myAppsSearch = _$filter('filter')(this.myAppsFromService, '');
+      this.myAppsSearch = this.groupBy(this.myAppsSearch);
       this.total = this.myAppsFromService.length;
       return false;
     }
