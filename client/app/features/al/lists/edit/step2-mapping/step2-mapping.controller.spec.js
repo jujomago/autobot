@@ -226,7 +226,7 @@ describe('Component: al.lists.mapping', function () {
 
 
       MappingComponent.selectedDelimiter.title = 'Custom';
-      MappingComponent.selectedDelimiter.symbol = '_';
+      MappingComponent.customDelimiterDefaultSymbol = '_';
 
       MappingComponent.changeDelimiter();
 
@@ -555,6 +555,41 @@ describe('Component: al.lists.mapping', function () {
 
  
    });
+
+
+    it('remove selected item, that is repeated', () => {
+      MappingComponent.selectedRow=0;
+      MappingComponent.contactFields = [
+        {'name': 'number1' , mappedName:null , mappedIndex:0 , isKey:false},
+        {'name': 'number1' , mappedName:null , mappedIndex:0},
+        {'name': 'number1' , mappedName:null , mappedIndex:0},
+        {'name': 'number1' , mappedName:null , mappedIndex:0},
+        {'name': 'number1' , mappedName:null , mappedIndex:0}
+      ];
+
+      expect(MappingComponent.contactFields).to.have.lengthOf(5);    
+      expect(MappingComponent.removeSelectedItem()).to.equal(true);
+      expect(MappingComponent.selectedRow).to.equal(-1);
+      expect(MappingComponent.contactFields).to.have.lengthOf(4);  
+      expect(MappingComponent.contactFields).to.eql([
+        {'name': 'number1' , mappedName:null , mappedIndex:0, isKey:false},
+        {'name': 'number1' , mappedName:null , mappedIndex:0},
+        {'name': 'number1' , mappedName:null , mappedIndex:0},
+        {'name': 'number1' , mappedName:null , mappedIndex:0}
+      ]); 
+
+
+      MappingComponent.selectedRow=2;
+      expect(MappingComponent.removeSelectedItem()).to.equal(true);
+        expect(MappingComponent.contactFields).to.eql([
+        {'name': 'number1' , mappedName:null , mappedIndex:0, isKey:false},
+        {'name': 'number1' , mappedName:null , mappedIndex:0},
+        {'name': 'number1' , mappedName:null , mappedIndex:0}
+      ]); 
+      expect(MappingComponent.contactFields).to.have.lengthOf(3);  
+
+   });
+
 
    it('cat remove selected item from table', () => {
 

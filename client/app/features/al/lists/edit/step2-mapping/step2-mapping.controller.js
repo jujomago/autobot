@@ -234,7 +234,6 @@
 
 
 
-
     let  _$stateParams, _$state;
     let _ContactFieldsService, _;
 
@@ -247,7 +246,7 @@
             _AlertMessage = AlertMessage;
             _$state = $state;
             _ContactFieldsService = ContactFieldsService;
-             this.hasHeader = true;
+            this.hasHeader = true;
             this.delimiters = [
                 { title: 'Comma', symbol: ',' },
                 { title: 'Colon', symbol: ':' },
@@ -256,7 +255,7 @@
             ];
 
             this.selectedDelimiter = this.delimiters[0];
-
+            this.customDelimiterDefaultSymbol=','; 
             this.customDelimiterEnabled = false;
             this.contactFields = [];          
 
@@ -289,8 +288,6 @@
                 }
             }
         }
-  
-
         initArrays() {
             // TODO: Research _.fill() does not work;
             console.log('initialized arrays');
@@ -346,7 +343,11 @@
 
         changeDelimiter() {
              this.customDelimiterEnabled = (this.selectedDelimiter.title === 'Custom');
-             this.aplyDemiliterCSV(this.selectedDelimiter.symbol);
+             if(this.customDelimiterEnabled){
+                  this.aplyDemiliterCSV(this.customDelimiterDefaultSymbol);
+             }else{
+                  this.aplyDemiliterCSV(this.selectedDelimiter.symbol);
+             }            
         }
 
         matchSmart() {
@@ -475,16 +476,29 @@
             console.log(this.contactFields);
             console.log(`the selected row is ${this.selectedRow}`);
             console.log('goint to delete');
-            console.log(this.contactFields[this.selectedRow]);
-            
+            let goingToDelete=this.contactFields[this.selectedRow];
 
-            if (this.contactFields[this.selectedRow]) {
+            if(goingToDelete && goingToDelete.hasOwnProperty('isKey')){
+                let posibleNext=this.selectedRow+1;
+                 if(this.contactFields[posibleNext]){
+                    let nameNext=this.contactFields[posibleNext].name;
+                    let nameCurrent=goingToDelete.name;
+                    if(nameCurrent===nameNext){
+                        this.contactFields[posibleNext].isKey=false;
+                   }
+                }
                 this.contactFields.splice(this.selectedRow, 1);
                 this.selectedRow=-1;
                 return true;
-            } else {
-                return false;
-            }
+            }else{
+                if (goingToDelete) {
+                    this.contactFields.splice(this.selectedRow, 1);
+                    this.selectedRow=-1;
+                    return true;
+                } else {
+                    return false;
+                }
+            }          
         }
     }
 
