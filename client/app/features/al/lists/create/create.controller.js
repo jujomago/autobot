@@ -3,8 +3,9 @@
 	let _ListService, _$state;
 	class CreateComponent {
 	  constructor($state, ListsService) {
-	    this.message = {text: ''}; 
+	    this.message = {text: ''};
 	    this.SubmitText = 'Save';
+			this.selectedRow = null;
 	    _ListService = ListsService;
 	    _$state = $state;
 	  }
@@ -19,7 +20,7 @@
 	  save(){
 	  	this.SubmitText = 'Saving...';
 		    return _ListService.createList(this.list)
-	        .then(response=>{  
+	        .then(response=>{
 	            if(response.statusCode===201){
 	                this.message = {
 	                    type: 'success',
@@ -27,14 +28,14 @@
 	                    expires: 3000
 	                };
 	                this.close();
-	                _$state.go('ap.al.lists', { message: this.message }, {reload: true});   
-	            }
+									_$state.go('ap.al.lists', { message: this.message, list:this.list }, {reload: true});
+							}
 	            else{
 		            this.SubmitText='Save';
-		            let theMsg= response.errorMessage; 
+		            let theMsg= response.errorMessage;
 		            this.message={ show: true, type: 'danger', text: theMsg, expires: 5000 };
 	            }
-	            return response;
+							return response;
 	         });
 	  }
 	}

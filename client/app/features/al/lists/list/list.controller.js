@@ -63,7 +63,7 @@
       body = 'Delete'+body;
     }
     content.body = body;
-    
+
     content.list = _getListItems(result);
     return content;
   }
@@ -71,9 +71,11 @@
     constructor(ListsService,$stateParams,$state, $filter, ModalManager,ConfirmAsync, AlertMessage, Global) {
         this.lists = [];
         _$stateParams = $stateParams;
-        this.message = { show: false }; 
+        this.message = { show: false };
+        this.selectedRow = null;
         if (_$stateParams.message !== null) {
           this.message = { show: true, type: _$stateParams.message.type, text: _$stateParams.message.text,expires: 3000 };
+          this.selectedRow = _$stateParams.list;
         }
         _$filter = $filter;
         _AlertMessage = AlertMessage;
@@ -88,7 +90,7 @@
         this.toggleListRow = -1;
         this.toggleStatusRow=-1;
         this.processedRow = null;
-        this.typeCampaignFilter = '';   
+        this.typeCampaignFilter = '';
         this.search={name:''};
         this.originalLists=[];
         _$state = $state;
@@ -97,18 +99,25 @@
     }
     $onInit() {
         let promiseLists = this.getLists();
-        if(_$stateParams.identifier){  
+        if(_$stateParams.identifier){
           promiseLists.then(() =>{
             this.goToProcessedRow();
             this.getResult(_$stateParams.identifier, _$stateParams.name, _$stateParams.isUpdate);
           });
         }
+
     }
     goToProcessedRow(){
       let index =  _myIndex(this.lists, _$stateParams.name);
       this.currentPage = _myPage(index, this.numPerPage);
       this.pageChanged();
       this.processedRow = _$stateParams.name;
+    }
+    goToSelectedRow(){
+      let index =  _myIndex(this.lists, this.selectedRow.listName);
+      this.currentPage = _myPage(index, this.numPerPage);
+      this.pageChanged();
+      this.selectedRow = this.selectedRow.listName;
     }
     orderList(list){
       if(this.sortKey){
@@ -131,16 +140,19 @@
     }
     getLists() {
       return _ListsService.getLists()
-        .then(response => {         
+        .then(response => {
           if (response.statusCode === 200) {
               this.originalLists = response.data;
               this.lists = this.originalLists;
               this.sortColumn('name');
-           } 
+           }
+           if(this.selectedRow){
+             this.goToSelectedRow();
+           }
            return this.lists;
         })
-       .catch(e =>{    
-          let theMsg= (e.error)? e.error.body:e; 
+       .catch(e =>{
+          let theMsg= (e.error)? e.error.body:e;
           this.message={ show: true, type: 'warning', text: theMsg};
           return e;
         });
@@ -152,10 +164,10 @@
     deleteListRecord(list){
       _$state.go('ap.al.listsEdit', {name: list, isUpdate: false});
     }
-    filteringBySearch(){  
+    filteringBySearch(){
       this.lists = _$filter('filter')(this.originalLists, this.search);
       this.orderList(this.lists);
-      if(this.search.name){               
+      if(this.search.name){
           this.beginNext=0;
           this.currentPage = 1;
           return true;
@@ -174,43 +186,36 @@
 
     }
     deleteList(list, indexRow) {
-    return _ConfirmAsync('Are you sure to delete "' + list.name + '"?')          
+    return _ConfirmAsync('Are you sure to delete "' + list.name + '"?')
       .then(() => {
-        console.log ('ACCEPTED!');
         this.toggleListRow = indexRow;
         return _ListsService.deleteList(list);
       })
       .then(response => {
-        console.log('response in client');
-        console.log(response);
         this.toggleListRow = -1;
         if (response.statusCode === 204) {
           let index = this.lists.indexOf(list);
 
           this.lists.splice(index, 1);
-          
-          this.message={ show: true, 
-                         type: 'success', 
-                         text: 'List "' + list.name + '" Deleted"', 
+
+          this.message={ show: true,
+                         type: 'success',
+                         text: 'List "' + list.name + '" Deleted"',
                          expires:3000};
         }
         else
         {
-          console.log('response in client if failed');
-          console.log(response);
           this.message = { show: true, type: 'danger', text: 'The object cannot be deleted. Please verify it is not being used by any campaign.', expires:8000};
-        } 
+        }
         return response;
       })
-      .catch(e =>{    
+      .catch(e =>{
        return e;
       });
     }
-    
+
     pageChanged() {
-      console.log('Page changed to: ' + this.currentPage);
       this.beginNext = (this.currentPage - 1) * this.numPerPage;
-      console.log('beginNext:' + this.beginNext);
     }
     updateRowSize(index, result){
       if(index>-1){
@@ -218,10 +223,9 @@
       }
     }
     getResult(identifier, listName, isUpdate) {
-      _Global.proccessIsRunning = true;       
+      _Global.proccessIsRunning = true;
       return _ListsService.isImportRunning(identifier,300)
         .then(response=>{
-          console.log(response);
           if(!response.data){
             return _ListsService.getResult(identifier);
           }
@@ -233,13 +237,14 @@
           this.updateRowSize(index, response.data);
           this.processedRow = null;
           _Global.proccessIsRunning = false;
+          this.selectedRow = listName;
           return response;
         })
-       .catch(e =>{    
+       .catch(e =>{
           let theMsg= e.errorMessage;
           this.message={ show: true, type: 'danger', text: theMsg};
           return e;
-        });    
+        });
     }
   }
 
