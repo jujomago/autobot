@@ -10,7 +10,7 @@
 </div>
 <abx-load-indicator ng-hide="$ctrl.found"></abx-load-indicator> 
 <abx-load-indicator ng-show="$ctrl.confirm"></abx-load-indicator> 
-<div ng-show="$ctrl.found && !$ctrl.confirm">
+<div ng-show="$ctrl.found && !$ctrl.confirm" class="margin-with-footer">
     <div class="pull-right button-container" ng-hide="$ctrl.homeSelected">
     	<button ng-show="$ctrl.fileSelected" ng-click="$ctrl.goBack()" class="btn btn-black btn-sm-fixed">Back</button>
     	<button ng-click="$ctrl.cancelAction()" class="btn btn-black btn-sm-fixed">Cancel</button>
