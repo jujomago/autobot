@@ -5,7 +5,7 @@
     "apps": [
       {
         "appName": "al",
-        "appFullName": "Admin Lite",
+        "appFullName": "Admin Console",
         "description": "This is the description",
         "isInstalled": true
       },
