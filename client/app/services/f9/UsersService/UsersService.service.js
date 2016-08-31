@@ -2,10 +2,10 @@
 (function () {
     let _$http; 
     //let endPointUrl = 'http://localhost:9000/api/f9/users';
-
+    let _HandleError;
     class UsersService {
-        constructor($http, appConfig) {
-
+        constructor($http, appConfig, HandleError) {
+            _HandleError = HandleError;
             this.endPointUrl = '/f9/users';
             if (appConfig.apiUri) {
                 this.endPointUrl = appConfig.apiUri + this.endPointUrl;
@@ -22,42 +22,44 @@
                         return result;
                     }
                 })
-                .catch(error => {
-                    result.statusCode = error.status;
-                    result.errorMessage = error.data.body;
-                    return result;
-                });
+                .catch(err => _HandleError(err, result));
         }
         getUser(userName) {
+            var result = { data: null, statusCode: 200, errorMessage: '' };
             return _$http.get(this.endPointUrl + '/' + userName)
                 .then(response => {
                     if (response.data) {
                         return response.data.return[0];
                     }
                     return null;
-                });
+                })
+                .catch(err => _HandleError(err, result));
         }
 
         getUserDetail(userName) {
+            var result = { data: null, statusCode: 200, errorMessage: '' };
             return _$http.get(this.endPointUrl + '/detail/' + userName)
                 .then(response => {
                     if (response.data) {
                         return response.data.return[0];
                     }
                     return null;
-                });
+                })
+                .catch(err => _HandleError(err, result));
         }
 
         addSkilltoUser(userSkill) {
             var result = { data: null, statusCode: 201, errorMessage: '' };
             return _$http.post(this.endPointUrl + '/' + userSkill.userName + '/skills', userSkill)
                 .then(response => {
+                    console.log(response);
                     if (response.status !== 201) {
                         result.statusCode = response.status;
                         result.data = response.data;
                     }
                     return result;
-                });
+                })
+                .catch(err => _HandleError(err, result));
         }
 
         deleteSkillfromUser(userSkill) {
@@ -74,19 +76,21 @@
                         result.data = response;
                     }
                     return result;
-                });
+                })
+                .catch(err => _HandleError(err, result));
         }
 
         updateSkillfromUser(userSkill) {
             var result = { data: null, statusCode: 200, errorMessage: '' };
-            return _$http.post(this.endPointUrl + '/' + 'skills/update', userSkill)
+            return _$http.put(this.endPointUrl + '/' + userSkill.userName +'/skills', userSkill)
                 .then(response => {
                     if (response.status !== 200) {
                         result.statusCode = response.status;
                         result.data = response;
                     }
                     return result;
-                });
+                })
+                .catch(err => _HandleError(err, result));
         }
 
         createUser(userInfo) {
@@ -102,14 +106,8 @@
                         result.data = r.data.return;
                     }
                     return result;
-                }).
-                catch(err => {
-                    console.log('error in userservice');
-                    console.log(err);
-                    result.statusCode = err.data.statusCode;
-                    result.errorMessage = err.data.body;
-                    return result;
-                });
+                })
+                .catch(err => _HandleError(err, result));
         }
 
         updateUser(userInfo) {
@@ -120,12 +118,7 @@
                     result.data = response.data.return;
                     return result;
                 })
-                .catch(err => {
-                    console.log('error catch updateUser');
-                    result.statusCode = err.status;
-                    result.errorMessage = err.data.body;
-                    return result;
-                });
+                .catch(err => _HandleError(err, result));
         }
 
 
@@ -139,21 +132,24 @@
                     }
                     console.log('show response from delete user ' + result.data);
                     return result;
-                });
+                })
+                .catch(err => _HandleError(err, result));
         }
 
         getPermissions() {
+            var result = { data: null, statusCode: 200, errorMessage: '' };
             return _$http.get('/assets/al/json/roles.json')
                 .then(response => {
                     if (response.data) {
                         return response.data;
                     }
                     return null;
-                });
+                })
+                .catch(err => _HandleError(err, result));
         }
     }
 
-    UsersService.$inject = ['$http', 'appConfig'];
+    UsersService.$inject = ['$http', 'appConfig', 'HandleError'];
     angular.module('fakiyaMainApp')
         .service('UsersService', UsersService);
 

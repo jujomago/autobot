@@ -40,13 +40,11 @@
 				if (_dispositions.statusCode === 200) {
 					this.dispositions = _dispositions.data.map(replaceUndefined);
 					return this.dispositions;
-				} else {
-					this.message = { show: true, type: 'warning', text: _dispositions.errorMessage };
-					return null;
 				}
-		    }).catch(err => {
-			    console.log('====ERROR====');
-			    console.log(err);
+		    })
+            .catch(error => {
+			    this.message = { show: true, type: 'danger', text: error.errorMessage };
+                return error;
 		    });
 	    }
 	    pageChanged() {
@@ -76,22 +74,16 @@
                  
                     this.toggleDispositionRow = indexRow;
                     return this.DispositionsService.deleteDisposition(item)
-                        .then(response => {              
-                            console.log(response);
-                            if (response.statusCode === 204 && response.data === null) {
-                                let index = this.dispositions.indexOf(item);
-                                this.dispositions.splice(index, 1);
-                                this.toggleDispositionRow = -1;
-                                this.message = { show: true, type: 'success', text: 'Disposition Deleted', expires: 3000 };
-                            }else{
-
-                                this.toggleDispositionRow = -1;
-                                this.message = { show: true, type: 'danger', text: response.errorMessage, expires:8000};
-                            }
-                            
+                        .then(response => {       
+                            let index = this.dispositions.indexOf(item);
+                            this.dispositions.splice(index, 1);
+                            this.toggleDispositionRow = -1;
+                            this.message = { show: true, type: 'success', text: 'Disposition Deleted', expires: 3000 };
                             return response;
-                        }).catch(err => {
-                              console.error(err);
+                        }).catch(error => {
+                            this.toggleDispositionRow = -1;
+                            this.message = { show: true, type: 'danger', text: error.errorMessage, expires:8000};
+                            return error;
                         });
                 })
                 .catch(() => {

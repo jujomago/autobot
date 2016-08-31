@@ -267,15 +267,15 @@ describe('Component: al.users.edit', function () {
 
       it('=>#addSkillToUser returns a error 500', function() {
           _$httpBackend.whenPOST(endPointUrl + '/users//skills').respond(500,{
-                statusCode: 500,
-                from: 'error from controller endpoint',
-                body: '<faultstring>Value 0 of "UserSkill.level" is out of range [1 - 10]</faultstring>'
+                error: 'Value 0 of "UserSkill.level" is out of range [1 - 10]'
             }
           );
           EditComponent.addSkillToUser({userName: ''}).then(r=>{
               let textError = 'Value 0 of "UserSkill.level" is out of range [1 - 10]';
-              expect(r.data.statusCode).to.equal(500);
-              expect(EditComponent.message).to.eql({ show: true, type: 'warning', text: textError, expires: 5000});
+              expect(r.statusCode).to.equal(500);
+              expect(EditComponent.message.show).to.equal(true);
+              expect(EditComponent.message.type).to.equal('danger');
+              expect(EditComponent.message.text).to.equal(textError);
           });
         _$httpBackend.flush();
       });
@@ -341,14 +341,14 @@ describe('Component: al.users.edit', function () {
             level: 1,
             userName: 'daniel.c@autoboxcorp.com'
           }, 1).then(r=>{
-              expect(r.data.statusCode).to.equal(500);
+              expect(r.statusCode).to.equal(500);
           });
         expect(window.confirm.calledOnce).to.equal(true);
         _$httpBackend.flush();
       });
 
       it('=>#updateSkillFromUser update a skill from user', function() {
-          _$httpBackend.whenPOST(endPointUrl + '/users/skills/update', {
+          _$httpBackend.whenPUT(endPointUrl + '/users/daniel.c@autoboxcorp.com/skills', {
             userName: 'daniel.c@autoboxcorp.com',
             skillName: 'Marketing',
             level: 3
@@ -365,13 +365,11 @@ describe('Component: al.users.edit', function () {
       });
 
       it('=>#updateSkillFromUser returns a error 500', function() {
-          _$httpBackend.whenPOST(endPointUrl + '/users/skills/update', {
+          _$httpBackend.whenPUT(endPointUrl + '/users/daniel.c@autoboxcorp.com/skills', {
             userName: 'daniel.c@autoboxcorp.com',
             skillName: 'Marketing'
           }).respond(500, {
-                statusCode: 500,
-                from: 'error from controller endpoint',
-                body: '<faultstring>Value 0 of "UserSkill.level" is out of range [1 - 10]</faultstring>'
+              error: 'Value 0 of "UserSkill.level" is out of range [1 - 10]'
             }
           );
           EditComponent.updateSkillFromUser({
@@ -379,8 +377,10 @@ describe('Component: al.users.edit', function () {
             skillName: 'Marketing'
           }).then(r=>{
               let textError = 'Value 0 of "UserSkill.level" is out of range [1 - 10]';
-              expect(r.status).to.equal(500);
-              expect(EditComponent.message).to.eql({ show: true, type: 'warning', text: textError, expires: 5000});
+              expect(r.statusCode).to.equal(500);
+              expect(EditComponent.message.show).to.equal(true);
+              expect(EditComponent.message.type).to.equal('danger');
+              expect(EditComponent.message.text).to.equal(textError);
           });
         _$httpBackend.flush();
       });

@@ -71,7 +71,7 @@ describe('Component: al.campaigns.list', function () {
       ListComponent.getCampaigns()
         .then(response => {
           expect(response.data).to.not.equal(null);
-          expect(response.error).to.equal(null);
+          expect(response.errorMessage).to.equal(null);
           expect(response.statusCode).to.equal(200);
           expect(ListComponent.campaigns).to.have.lengthOf(2);
           expect(ListComponent.campaigns).to.be.instanceof(Array);
@@ -92,11 +92,11 @@ describe('Component: al.campaigns.list', function () {
         .then(response => {
           //expect(response).to.equal(null);
           expect(ListComponent.message.show).to.equal(true);
-          expect(ListComponent.message.type).to.equal('warning');
+          expect(ListComponent.message.type).to.equal('danger');
           expect(response.statusCode).to.not.equal(200);
           expect(response.statusCode).to.equal(401);
           expect(response.data).to.equal(null);
-          expect(response.error).to.not.equal(null);
+          expect(response.errorMessage).to.not.equal(null);
         });
 
       httpBackend.flush();
@@ -126,8 +126,10 @@ describe('Component: al.campaigns.list', function () {
       sandbox.stub(window, 'confirm').returns(true);
 
       ListComponent.deleteCampaign({ name: 'somecampaign' }, 8)
-        .then(response => {
-          expect(response).to.equal(true);
+        .then(() => {
+          expect(ListComponent.message.show).to.equal(true);
+          expect(ListComponent.message.type).to.equal('success');
+          expect(ListComponent.message.text).to.equal('Campaign "somecampaign" Deleted');
         });
 
       expect(window.confirm.calledOnce).to.equal(true);
@@ -148,7 +150,7 @@ describe('Component: al.campaigns.list', function () {
         .then(response => {
           expect(response.statusCode).to.equal(200);
           expect(response.data).to.equal(null);
-          expect(response.error).to.not.equal(null);
+          expect(response.errorMessage).to.not.equal(null);
         });
 
     });
@@ -162,7 +164,7 @@ describe('Component: al.campaigns.list', function () {
         .then(response => {
           expect(response.statusCode).to.equal(200);
           expect(response.data).to.equal(null);
-          expect(response.error).to.not.equal(null);
+          expect(response.errorMessage).to.not.equal(null);
         });
 
     });
@@ -181,7 +183,7 @@ describe('Component: al.campaigns.list', function () {
     it('Stopping RUNNING state', function () {
       let item = { name: 'SomeCampaignName', state: 'RUNNING' };
 
-      httpBackend.whenGET(endPointUrl + '/stop/SomeCampaignName').respond(200, null);
+      httpBackend.whenPUT(endPointUrl + '/stop/SomeCampaignName').respond(200, null);
 
       let promise = ListComponent.updateState(item, 8) ;
       expect(item.statusBtnText).to.equal('Stopping');
@@ -200,7 +202,7 @@ describe('Component: al.campaigns.list', function () {
     it('Starting NOT_RUNNING state', function () {
       let item = { name: 'SomeCampaignName', state: 'NOT_RUNNING' };
 
-      httpBackend.whenGET(endPointUrl + '/start/SomeCampaignName').respond(200, null);
+      httpBackend.whenPUT(endPointUrl + '/start/SomeCampaignName').respond(200, null);
 
       let promise = ListComponent.updateState(item,3);
       expect(item.statusBtnText).to.equal('Starting');
@@ -219,20 +221,14 @@ describe('Component: al.campaigns.list', function () {
     it('Starting NOT_RUNNING state with Error', function () {
       let item = { name: 'SomeCampaignName', state: 'NOT_RUNNING' };
 
-      httpBackend.whenGET(endPointUrl + '/start/SomeCampaignName').respond(500, {
-
-        from: 'Error from Campaign Controller EndPoint',
-        body: 'Error updating campaign state &quot;TestFinalOutbound&quot;: No dialing list assigned or dialing lists are empty',
-        statusCode: 500
+      httpBackend.whenPUT(endPointUrl + '/start/SomeCampaignName').respond(500, {
+        error: 'Error updating campaign state &quot;TestFinalOutbound&quot;: No dialing list assigned or dialing lists are empty'
       });
 
       ListComponent.updateState(item, 3)
         .then(response => {
-          expect(response.statusCode).to.equal(500);
-          expect(response.data).to.equal(null);
-          expect(response.error).to.not.equal(null);
           expect(ListComponent.toggleStatusRow).to.equal(-1);
-          expect(ListComponent.message).to.eql({ show: true, type: 'warning', text: response.error.body });
+          expect(ListComponent.message).to.deep.equal({ show: true, type: 'danger', text: response.errorMessage });
         });
         httpBackend.flush();
         

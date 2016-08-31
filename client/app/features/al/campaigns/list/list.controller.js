@@ -52,11 +52,10 @@
            } 
            return response;
         })
-       .catch(e =>{    
-         let theMsg= (e.error)? e.error.body:e; 
-         this.message={ show: true, type: 'warning', text: theMsg};
-          return e;
-        });
+       .catch(error =>{    
+          this.message={ show: true, type: 'danger', text: error.errorMessage };
+          return error;
+      });
     }
 
     pageChanged() {
@@ -90,23 +89,22 @@
           console.log('response in client');
           console.log(response);
 
-          if (response.statusCode === 204 && response.error === null) {
+          if (response.statusCode === 204) {
             let index = this.campaigns.indexOf(campaign);
 
             this.campaigns.splice(index, 1);
             this.toggleCampaignRow = -1;
             this.message={ show: true, 
                            type: 'success', 
-                           text: 'Campaign "' + campaign.name + '" Deleted"', 
+                           text: 'Campaign "' + campaign.name + '" Deleted', 
                            expires:3000};
            // this.showMessage('success','Campaign "' + campaign.name + '" Deleted',3000);    
-            return true;
+            return response;
           } 
         })
-        .catch(e =>{    
-         let theMsg= (e.error)? e.error.body:e; 
-         this.message={ show: true, type: 'warning', text: theMsg };
-         return e;
+        .catch(error =>{    
+            this.message={ show: true, type: 'danger', text: error.errorMessage };
+            return error;
         });
     }
 
@@ -158,12 +156,11 @@
               }      
               return response;
           })
-         .catch(e =>{    
-            item.statusBtnText='Stop'; 
-            this.toggleStatusRow = -1;  
-            let theMsg= (e.error)? e.error.body:e; 
-            this.message={ show: true, type: 'warning', text: theMsg };
-            return e;
+          .catch(error =>{    
+              item.statusBtnText='Stop'; 
+              this.toggleStatusRow = -1; 
+              this.message={ show: true, type: 'danger', text: error.errorMessage };
+              return error;
           });
            
        }else{  
@@ -177,20 +174,18 @@
               }
             return response;
           })
-          .catch(e =>{    
-            item.statusBtnText='Start'; 
-            this.toggleStatusRow = -1;  
-            let theMsg= (e.error)? e.error.body:e; 
-            this.message={ show: true, type: 'warning', text: theMsg };
-            return e;
-          });          
+          .catch(error =>{    
+              item.statusBtnText='Start'; 
+              this.toggleStatusRow = -1; 
+              this.message={ show: true, type: 'danger', text: error.errorMessage };
+              return error;
+          });       
        }
      })
-      .catch(e =>{    
-           this.message={ show: true, type: 'warning', text:(e.message||e), expires:5000 };
-           return e;
-
-     });
+      .catch(error =>{    
+          this.message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
+          return error;
+      });
 
     }   
     getMax(){

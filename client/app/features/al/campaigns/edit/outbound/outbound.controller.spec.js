@@ -49,7 +49,7 @@ describe('Component: al.campaigns.edit.outbound', function () {
             .then(response => {
                  expect(response.statusCode).to.equal(200);
                  expect(response.data).to.equal(null);
-                 expect(response.error).to.equal(null);
+                 expect(response.errorMessage).to.equal(null);
              });
 
              httpBackend.flush();
@@ -80,8 +80,8 @@ describe('Component: al.campaigns.edit.outbound', function () {
             .then(response => {
                  expect(response.statusCode).to.equal(500);
                  expect(response.data).to.equal(null);
-                 expect(response.error).to.not.equal(null);
-                 expect(OutboundComponent.message).to.eql({ show: true, type: 'danger', text: response.error.body });
+                 expect(response.errorMessage).to.not.equal(null);
+                 expect(OutboundComponent.message).to.eql({ show: true, type: 'danger', text: response.errorMessage });
              });
 
              httpBackend.flush();
@@ -116,7 +116,7 @@ describe('Component: al.campaigns.edit.outbound', function () {
                  expect(response.data).to.not.equal(null);
                  expect(response.data).to.have.property('name','BlueRubyOutbound');
                  expect(response.data).to.have.property('maxQueueTime');
-                 expect(response.error).to.equal(null);
+                 expect(response.errorMessage).to.equal(null);
                  expect(OutboundComponent.found).to.equal(true);
                  expect(OutboundComponent.campaign).to.not.equal(null);
              });
@@ -156,7 +156,7 @@ describe('Component: al.campaigns.edit.outbound', function () {
             .then(response => {
                  expect(response.statusCode).to.equal(200);
                  expect(response.data).to.not.equal(null); 
-                 expect(response.error).to.equal(null);
+                 expect(response.errorMessage).to.equal(null);
                  expect(OutboundComponent.listsAssigned).to.have.lengthOf(2);  
                  
              });
@@ -179,7 +179,7 @@ describe('Component: al.campaigns.edit.outbound', function () {
             .then(response => {
                  expect(response.statusCode).to.equal(200);
                  expect(response.data).to.not.equal(null); 
-                 expect(response.error).to.equal(null);
+                 expect(response.errorMessage).to.equal(null);
                  expect(OutboundComponent.listsAvailable).to.have.lengthOf(4);  
                  
              });
@@ -203,7 +203,7 @@ describe('Component: al.campaigns.edit.outbound', function () {
             .then(response => {
                  expect(response.statusCode).to.equal(200);
                  expect(response.data).to.equal(null); 
-                 expect(response.error).to.equal(null);        
+                 expect(response.errorMessage).to.equal(null);        
                  expect(OutboundComponent.message).to.eql({ show: true, type: 'success', text: 'List Removed Correctly', expires:1500});                    
                  
              });
@@ -224,7 +224,7 @@ describe('Component: al.campaigns.edit.outbound', function () {
             .then(response => {
                  expect(response.statusCode).to.equal(200);
                  expect(response.data).to.equal(null); 
-                 expect(response.error).to.equal(null);           
+                 expect(response.errorMessage).to.equal(null);           
                  
              });
 

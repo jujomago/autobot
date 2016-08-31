@@ -76,10 +76,10 @@
 		            }
 		            return response;
 		         })
-		          .catch(e =>{    
+		          .catch(error =>{    
 		            this.SubmitText='Save';
-		            this.message={ show: true, type: 'danger', text: e.errorMessage };
-		            return e;
+		            this.message={ show: true, type: 'danger', text: error.errorMessage };
+		            return error;
 		        });            
 		}
 	}

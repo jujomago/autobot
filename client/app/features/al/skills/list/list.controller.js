@@ -46,19 +46,11 @@
         getSkills() {
             return _SkillsService.getSkillsInfo()
                 .then(_skills => {
-                    // console.log('error comes in _skills');
-                    //console.log(_skills);
-                    if (_skills.statusCode === 200) {
-                        this.skills = _skills.data;
-                        return this.skills;
-                    } else {
-                        this.message = { show: true, type: 'warning', text: _skills.errorMessage };
-                        return null;
-                    }
-
-                }).catch(err => {
-                    console.log('====ERROR====');
-                    console.log(err);
+                    this.skills = _skills.data;
+                    return this.skills;
+                }).catch(error => {
+                    this.message = { show: true, type: 'danger', text: error.errorMessage };
+                    return error;  
                 });
         }
 
@@ -87,22 +79,15 @@
                     this.toggleSkillRow = indexRow;
                     return _SkillsService.deleteSkill(item.skill)
                         .then(response => {                   
-                            if (response.statusCode === 204 && response.data === null) {
-                                let index = this.skills.indexOf(item);
-                                this.skills.splice(index, 1);
-
-                                this.toggleSkillRow = -1;
-                                this.message = { show: true, type: 'success', text: 'Skill Deleted', expires:3000 };
-
-                            }else{
-
-                                  this.toggleSkillRow = -1;
-
-                                   this.message = { show: true, type: 'danger', text: response.errorMessage, expires:8000};
-                            }
+                            let index = this.skills.indexOf(item);
+                            this.skills.splice(index, 1);
+                            this.toggleSkillRow = -1;
+                            this.message = { show: true, type: 'success', text: 'Skill Deleted', expires:3000 };
                             return response;
-                        }).catch(err => {
-                              console.error(err);
+                        }).catch(error => {
+                            this.toggleSkillRow = -1;
+                            this.message = { show: true, type: 'danger', text: error.errorMessage, expires:8000};
+                            return error;  
                         });
                 })
                 .catch(() => {

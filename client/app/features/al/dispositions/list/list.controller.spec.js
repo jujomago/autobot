@@ -82,8 +82,6 @@ describe('Component:al.dispositions.list', function () {
           expect(response.statusCode).to.equal(403);
           expect(ListComponent.message.type).to.equal('danger');
           expect(ListComponent.message.text).to.equal('The object cannot be deleted. Please verify it is not being used by any campaign.');
-       
-
         });
 
       expect(window.confirm.calledOnce).to.equal(true);
@@ -150,6 +148,20 @@ describe('Component:al.dispositions.list', function () {
 
         httpBackend.flush();
       });
+
+    it('Error in get List of Dispositions', () => {
+      httpBackend.whenGET(endPointUrl).respond(500, {error: 'Internal Server Error'});
+      expect(ListComponent.message.show).to.equal(false);
+      var getDispositions = ListComponent.getDispositions();
+      getDispositions.then(() => {
+        expect(ListComponent.message.show).to.equal(true);
+        expect(ListComponent.message.type).to.equal('danger');
+        expect(ListComponent.message.text).to.equal('Internal Server Error');
+      });
+
+      httpBackend.flush();
+    });
+
   });
 
   describe('#sortColumn', () => {

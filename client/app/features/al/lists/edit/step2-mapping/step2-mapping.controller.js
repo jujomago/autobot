@@ -312,19 +312,15 @@
         getContactFiels() {
             return _ContactFieldsService.getContactFields()
                 .then(response => {
-                    if (response.statusCode === 200) {
-                        this.contactFields = response.data.filter(e => (e.mapTo === 'None'));
-                        this.initArrays();
+                    this.contactFields = response.data.filter(e => (e.mapTo === 'None'));
+                    this.initArrays();
 
-                        this.loadingContacts = false;
-                    } else {
-                        this.message = { show: true, type: 'warning', text: response.errorMessage };
-                    }
+                    this.loadingContacts = false;
                     return response;
                 })
-                .catch(e => {
-                    this.message = { show: true, type: 'warning', text: e };
-                    return e;
+                .catch(error =>{    
+                    this.message={ show: true, type: 'danger', text: error.errorMessage };
+                    return error;
                 });
         }
         changeHeaderValue() {
