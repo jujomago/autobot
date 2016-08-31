@@ -11,8 +11,6 @@
             _$state = $state;
             _SkillsService = SkillsService;
             _UsersService = UsersService;
-
-            //   console.log($stateParams);
             this.selectedSkill = {};
             this.nameSkill = $stateParams.name;
 
@@ -27,9 +25,8 @@
             this.toggleUserItem = { item: -1 };
             this.toggleUserNameItem = -1;
 
-            this.showPanelInfo = false;            
-            this.message={show:false};
-            
+            this.showPanelInfo = false;  
+            this.message={show:false};             
             this.SubmitText = 'Save';
         }
 
@@ -41,13 +38,12 @@
             _SkillsService.getSkill(nameSkill)
                 .then(_skillInfo => {
                     this.found = true;
-                    console.log('showSkill');
-                    console.log(_skillInfo);
-                    this.selectedSkill = _skillInfo.skill;
-                    this.UsersNamesSkills = (_skillInfo.hasOwnProperty('users')) ? _skillInfo.users : [];
-
-                }).catch(err => {
-                    console.error(err);
+                    this.selectedSkill = _skillInfo.data.skill;
+                    this.UsersNamesSkills = (_skillInfo.data.hasOwnProperty('users')) ? _skillInfo.data.users : [];
+                })
+                .catch(error => {
+                    this.message={show:true,type:'danger',text: error.errorMessage};
+                    return error;  
                 });
         }
         save() {
@@ -55,24 +51,17 @@
             console.log('before saving');
             console.log(this.selectedSkill);
             _SkillsService.updateSkill(this.selectedSkill)
-                .then(_skillInfo => {
-                    if (_skillInfo.hasOwnProperty('skill')) {
-                        console.log('ok, updated');
-
-                        var messageObj = {
-                            type: 'success',
-                            text: 'Skill Updated SuccessFully'
-                        };
-
-                        _$state.go('ap.al.skills', { message: messageObj });
-
-                        this.SubmitText = 'Saved';
-                    } else {
-                        console.warn('there is an error');
-                        console.log(_skillInfo);
-                    }
-                }).catch(err => {
-                    console.error(err);
+                .then(() => {
+                    var messageObj = {
+                        type: 'success',
+                        text: 'Skill Updated SuccessFully'
+                    };
+                    _$state.go('ap.al.skills', { message: messageObj });
+                    this.SubmitText = 'Saved';
+                }).catch(error => {
+                    this.message={show:true,type:'danger',text: error.errorMessage};
+                    this.SubmitText = 'Save';  
+                    return error;  
                 });
         }
         cancel() {
@@ -93,7 +82,6 @@
             return _UsersService.addSkilltoUser(userSkillObj)
                 .then(response => {
                    // console.log('response');
-                    console.log(response);
                     // response when creating new stuff, RETURNS NOTHING
                     if (response.statusCode === 201 && response.data === null) {                        
                         console.log('added OK');
@@ -108,10 +96,9 @@
                     }
                     return false;
                 })
-                .catch(err => {
-                    console.log('error in client');
-                    console.error(err);
-                     this.message={show:true,type:'danger',text:err.data.body};
+                .catch(error => {
+                    this.message={show:true,type:'danger',text: error.errorMessage};
+                    return error;  
                 });
         }
         deleteUserfromSkill(user, i) {
@@ -144,8 +131,9 @@
                     }
                    return null;
                 })
-                .catch(err => {
-                    console.error(err);
+                .catch(error => {
+                    this.message={show:true,type:'danger',text: error.errorMessage};
+                    return error;  
                 });
         }
 
@@ -158,28 +146,24 @@
                   ///  console.log(_userInfo);
                     this.DetailUser = _userInfo;
                     return this.DetailUser;
-                }).catch(err => {
-                    console.error(err);
+                })
+                .catch(error => {
+                    this.message={show:true,type:'danger',text: error.errorMessage};
+                    return error;  
                 });
         }
         listUsers() {
             this.filteredUsers = [];
             _UsersService.getUsers()
-                .then(_users => {                   
-                    if(_users.statusCode===200){                          
-                          this.userslist = _users.data;
-                          this.filterUsersBounded(this.userslist);
-                    }else{
-                         console.error(_users);       
-                         this.message={show:true,type:'warning',text:_users.errorMessage};    
-                    }
-                }).catch(err => {
-                    console.error(err);
-                });          
+                .then(_users => {                                           
+                    this.userslist = _users.data;
+                    this.filterUsersBounded(this.userslist);
+                })
+                .catch(error => {
+                    this.message={show:true,type:'danger',text: error.errorMessage};
+                });         
         }
         filterUsersBounded(rawUserList) {
-          //  console.log('filtering');
-
             if (this.UsersNamesSkills.length === 0) {
                 this.filteredUsers = rawUserList;
             } else {

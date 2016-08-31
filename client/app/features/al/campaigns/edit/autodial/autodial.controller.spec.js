@@ -77,8 +77,8 @@ httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
             expect(response.statusCode).to.not.equal(200);
             expect(response.statusCode).to.equal(401);
             expect(response.data).to.equal(null);
-            expect(response.error).to.not.equal(null);
-            expect(AutodialComponent.message).to.eql({ show: true, type: 'danger', text: response.error.body });
+            expect(response.errorMessage).to.not.equal(null);
+            expect(AutodialComponent.message).to.eql({ show: true, type: 'danger', text: response.errorMessage });
         });
         
       httpBackend.flush();
@@ -133,7 +133,7 @@ httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
                  expect(response.statusCode).to.equal(200);
                  expect(response.data).to.not.equal(null);
                  expect(response.data).to.have.property('name','AutoDailer');
-                 expect(response.error).to.equal(null);
+                 expect(response.errorMessage).to.equal(null);
                  expect(AutodialComponent.found).to.equal(true);
                  expect(AutodialComponent.campaign).to.not.equal(null);
              });
@@ -151,20 +151,21 @@ httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
               description:'campaign test',
               dnisAsAni:true,
               noOutOfNumbersAlert:true,
-              name:'Campaign Test',
+              name:'Test',
               ivrscript:{                
                   name: 'Main.Oracle'
               }             
             };
             
-             httpBackend.whenPUT(endPointUrl+'/autodial', AutodialComponent.campaign)
+             httpBackend.whenPUT(endPointUrl+'/autodial/Test', AutodialComponent.campaign)
             .respond(200,null);
 
              AutodialComponent.update()
             .then(response => {
+                 expect(AutodialComponent.campaign.defaultIvrSchedule.scriptName).to.equal('Main.Oracle');
                  expect(response.statusCode).to.equal(200);
                  expect(response.data).to.equal(null);
-                 expect(response.error).to.equal(null);             
+                 expect(response.errorMessage).to.equal(null);             
              });
 
              httpBackend.flush();
@@ -176,13 +177,13 @@ httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
               description:'campaign test',
               dnisAsAni:true,
               noOutOfNumbersAlert:true,
-              name:'Campaign Test',
+              name:'Test',
               ivrscript:{                
                   name: 'Main.Oracle'
               }             
             };
             
-             httpBackend.whenPUT(endPointUrl+'/autodial', AutodialComponent.campaign)
+             httpBackend.whenPUT(endPointUrl+'/autodial/Test', AutodialComponent.campaign)
             .respond(500,{                        
                         from: 'Error from Campaign Controller EndPoint',
                         body: 'some error message',
@@ -194,8 +195,8 @@ httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
             .then(response => {             
                  expect(response.statusCode).to.equal(500);
                  expect(response.data).to.equal(null);
-                 expect(response.error).to.not.equal(null);
-                 expect(AutodialComponent.message).to.eql({ show: true, type: 'danger', text: response.error.body });
+                 expect(response.errorMessage).to.not.equal(null);
+                 expect(AutodialComponent.message).to.eql({ show: true, type: 'danger', text: response.errorMessage });
                  expect(AutodialComponent.SubmitText).to.equal('Save');
              });
 
@@ -219,7 +220,7 @@ httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
             .then(response => {
                  expect(response.statusCode).to.equal(200);
                  expect(response.data).to.not.equal(null); 
-                 expect(response.error).to.equal(null);
+                 expect(response.errorMessage).to.equal(null);
                  expect(AutodialComponent.listsAvailable).to.have.lengthOf(4);  
                  
              });
@@ -243,7 +244,7 @@ httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
             .then(response => {
                  expect(response.statusCode).to.equal(200);
                  expect(response.data).to.equal(null); 
-                 expect(response.error).to.equal(null);           
+                 expect(response.errorMessage).to.equal(null);           
                  
              });
 
@@ -263,7 +264,7 @@ httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
             .then(response => {
                  expect(response.statusCode).to.equal(200);
                  expect(response.data).to.equal(null); 
-                 expect(response.error).to.equal(null);           
+                 expect(response.errorMessage).to.equal(null);           
                  expect(AutodialComponent.message).to.eql({ show: true, type: 'success', text: 'List Added Correctly', expires:1500});
              });
 
@@ -301,7 +302,7 @@ httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
             .then(response => {
                  expect(response.statusCode).to.equal(200);
                  expect(response.data).to.not.equal(null); 
-                 expect(response.error).to.equal(null);
+                 expect(response.errorMessage).to.equal(null);
                  expect(AutodialComponent.listsAssigned).to.have.lengthOf(2);  
                  
              });

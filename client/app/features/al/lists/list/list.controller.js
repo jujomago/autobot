@@ -141,11 +141,10 @@
            } 
            return this.lists;
         })
-       .catch(e =>{    
-          let theMsg= (e.error)? e.error.body:e; 
-          this.message={ show: true, type: 'warning', text: theMsg};
-          return e;
-        });
+       .catch(error =>{    
+          this.message={ show: true, type: 'danger', text: error.errorMessage};
+          return error;
+        });  
     }
 
     updateListRecord(list){
@@ -183,29 +182,21 @@
         return _ListsService.deleteList(list);
       })
       .then(response => {
-        console.log('response in client');
-        console.log(response);
         this.toggleListRow = -1;
-        if (response.statusCode === 204) {
-          let index = this.lists.indexOf(list);
-
-          this.lists.splice(index, 1);
-          
-          this.message={ show: true, 
-                         type: 'success', 
-                         text: 'List "' + list.name + '" Deleted"', 
-                         expires:3000};
-        }
-        else
-        {
-          console.log('response in client if failed');
-          console.log(response);
-          this.message = { show: true, type: 'danger', text: 'The object cannot be deleted. Please verify it is not being used by any campaign.', expires:8000};
-        } 
+        let index = this.lists.indexOf(list);
+        this.lists.splice(index, 1);
+        this.message={ show: true, 
+                       type: 'success', 
+                       text: 'List "' + list.name + '" Deleted"', 
+                       expires:3000};
         return response;
       })
-      .catch(e =>{    
-       return e;
+      .catch(error =>{
+        if(error){    
+          this.toggleListRow = -1;
+          this.message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
+          return error;
+        }
       });
     }
     
@@ -237,10 +228,9 @@
           _Global.proccessIsRunning = false;
           return response;
         })
-       .catch(e =>{    
-          let theMsg= e.errorMessage;
-          this.message={ show: true, type: 'danger', text: theMsg};
-          return e;
+       .catch(error =>{    
+          this.message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
+          return error;
         });    
     }
   }

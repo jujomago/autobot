@@ -44,10 +44,9 @@ class InboundComponent {
             } 
             return response;                   
         })
-        .catch(e =>{    
-           let theMsg= (e.error)? e.error.body:e; 
-           this.message={ show: true, type: 'danger', text: theMsg };
-           return e;
+        .catch(error =>{    
+            this.message={ show: true, type: 'danger', text: error.errorMessage };
+            return error;
         });
   }  
   
@@ -66,11 +65,10 @@ class InboundComponent {
               }
               return response;                   
           })
-         .catch(e =>{    
-            let theMsg= (e.error)? e.error.body:e; 
-            this.message={ show: true, type: 'danger', text: theMsg };
-            return e;
-          });     
+         .catch(error =>{    
+            this.message={ show: true, type: 'danger', text: error.errorMessage };
+            return error;
+         });    
    }
    getDnis(){
          return _CampaignService.getDNIS()
@@ -82,11 +80,10 @@ class InboundComponent {
               }
               return response;                   
           })
-         .catch(e =>{    
-            let theMsg= (e.error)? e.error.body:e; 
-            this.message={ show: true, type: 'danger', text: theMsg };
-            return e;
-          });        
+         .catch(error =>{    
+            this.message={ show: true, type: 'danger', text: error.errorMessage };
+            return error;
+         });        
    } 
     
   getCampaign(type,name){    
@@ -108,10 +105,9 @@ class InboundComponent {
       }
        return response;
     })
-    .catch(e =>{    
-        let theMsg= (e.error)? e.error.body:e; 
-        this.message={ show: true, type: 'danger', text: theMsg };
-        return e;
+    .catch(error =>{    
+        this.message={ show: true, type: 'danger', text: error.errorMessage };
+        return error;
     });
  }
   
@@ -131,10 +127,9 @@ class InboundComponent {
         }
         return response;
      })
-    .catch(e =>{    
-        let theMsg= (e.error)? e.error.body:e; 
-        this.message={ show: true, type: 'danger', text: theMsg };
-        return e;
+    .catch(error =>{    
+        this.message={ show: true, type: 'danger', text: error.errorMessage };
+        return error;
     });
   }
   
@@ -156,17 +151,16 @@ class InboundComponent {
         }
         return response;
      })
-    .catch(e =>{    
-        let theMsg= (e.error)? e.error.body:e; 
-        this.message={ show: true, type: 'danger', text: theMsg };
-        return e;
+    .catch(error =>{    
+        this.message={ show: true, type: 'danger', text: error.errorMessage };
+        return error;
     });
   } 
    
   
   update(){  
     this.SubmitText='Saving...';
-    console.log(this.campaign);
+    this.campaign.defaultIvrSchedule={scriptName: this.campaign.ivrscript.name};
     
     return _CampaignService.updateInBoundCampaign(this.campaign)
     .then(response=>{
@@ -178,11 +172,10 @@ class InboundComponent {
       }
       return response;
     })
-    .catch(e =>{    
-       this.SubmitText='Save';
-        let theMsg= (e.error)? e.error.body:e; 
-        this.message={ show: true, type: 'danger', text: theMsg , expires:3000};
-        return e;
+    .catch(error =>{    
+          this.SubmitText='Save';
+          this.message={ show: true, type: 'danger', text: error.errorMessage, expires: 3000 };
+          return error;
     });
  }  
 }

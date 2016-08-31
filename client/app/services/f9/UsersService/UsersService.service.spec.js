@@ -195,7 +195,7 @@ describe('Service: UsersService', function () {
         });
         
         it('#updateSkillfromUser', function(){
-           httpBackend.whenPOST(endPointUrl+'/skills/update', {
+           httpBackend.whenPUT(endPointUrl+'/daniel.c@autoboxcorp.com/skills', {
                 userName: 'daniel.c@autoboxcorp.com',
                 skillName: 'Marketing',
                 level: 3

@@ -121,30 +121,50 @@ describe('Component: CreateComponent', function () {
     describe('#save', () => {
 
          it('=> should return Status 201, created OK"', () => {
-            httpBackend.whenPOST(endPointUrl).respond(201,null);
+            httpBackend.whenPOST(endPointUrl+'/outbound').respond(201,null);
         
             CreateComponent.newCampaign={
               name:'TestNameCampaign',
               description:'Description for the campaign',
-              type:'outbound'              
+              type:'outbound'       
             };
             
             
             let proms=CreateComponent.save();
            expect(CreateComponent.SubmitText).to.equal('Saving...'); 
            proms.then(response=>{
+               expect(CreateComponent.newCampaign.defaultIvrSchedule).to.equal(undefined);
                expect(response.statusCode).to.equal(201);
                expect(response.data).to.equal(null);
-               expect(response.error).to.equal(null);
+               expect(response.errorMessage).to.equal(null);
             });
             httpBackend.flush();
-        });        
+        });   
+        it('=> should return Status 201, created OK with ivrscript', () => {
+            httpBackend.whenPOST(endPointUrl+'/inbound').respond(201,null);
+        
+            CreateComponent.newCampaign={
+              name:'TestNameCampaign',
+              description:'Description for the campaign',
+              type:'inbound',
+              ivrscript: {name: 'test'}              
+            };
+            
+            
+            let proms=CreateComponent.save();
+           expect(CreateComponent.SubmitText).to.equal('Saving...'); 
+           proms.then(response=>{
+               expect(CreateComponent.newCampaign.defaultIvrSchedule.scriptName).to.equal('test');
+               expect(response.statusCode).to.equal(201);
+               expect(response.data).to.equal(null);
+               expect(response.errorMessage).to.equal(null);
+            });
+            httpBackend.flush();
+        });      
         
         it('=> should return Status 500, created error', () => {
-            httpBackend.whenPOST(endPointUrl).respond(500,{
-                statusCode: 500,
-                from: 'error from controller endpoint',
-                body: 'the explicit first error'
+            httpBackend.whenPOST(endPointUrl+'/outbound').respond(500,{
+                error: 'the explicit first error'
             });
             
             CreateComponent.newCampaign={
@@ -157,7 +177,7 @@ describe('Component: CreateComponent', function () {
             .then(response=>{           
                expect(response.statusCode).to.equal(500);
                expect(response.data).to.equal(null);
-               expect(response.error).to.not.equal(null);   
+               expect(response.errorMessage).to.not.equal(null);   
                expect(CreateComponent.SubmitText).to.equal('Save');
             });
             httpBackend.flush();

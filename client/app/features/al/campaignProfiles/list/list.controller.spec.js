@@ -18,7 +18,7 @@ describe('Component: al.campaignProfiles.list', function () {
   beforeEach(inject(function ($componentController, $httpBackend, appConfig) {
     _$httpBackend = $httpBackend;
     if (appConfig.apiUri) {
-      _endPointUrl = appConfig.apiUri + '/f9/campaignProfiles';
+      _endPointUrl = appConfig.apiUri + '/f9/campaigns/profiles';
     }
     _sandbox = sinon.sandbox.create();
     _ListComponent = $componentController('al.campaignProfiles.list', {});
@@ -77,7 +77,7 @@ describe('Component: al.campaignProfiles.list', function () {
     });
 
     it('list should not be deleted return 500 error', () => {
-      _$httpBackend.whenDELETE(_endPointUrl + '/CampaignProfile1').respond(500, 'Internal Server Error');
+      _$httpBackend.whenDELETE(_endPointUrl + '/CampaignProfile1').respond(500,{error: 'Internal Server Error'});
 
       _sandbox.stub(window, 'confirm').returns(true);
 

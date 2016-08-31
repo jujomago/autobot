@@ -23,7 +23,7 @@
                     <h4>My apps <span class="underline"></span></h4>
                   </div>
                   <div class="pull-right">
-                    <input id="submenu-search" type="text" name="search" ng-model="nav.search.app.appFullName" placeholder="Filter" ng-change="nav.filteringBySearch()">    
+                    <input id="submenu-search" type="text" name="search" ng-model="nav.search.app.appFullName" placeholder="Filter" ng-change="nav.filteringBySearch()" abx-pattern-filter="/^[^\`~&%#,|()':;?¿¡[/}=\]&quot;{*>!\\+<^]*$/">
                   </div>
                 </div>
                 <div class="col-sm-12">
@@ -33,7 +33,11 @@
                         <span>{{key}}</span>
                       </div>
                       <div ng-repeat="app in (value.filtered = (value | filter:nav.search))" class="app-container">
-                        <a>
+                        <a ng-if="app.app.appName == 'al'" href="/ap/{{app.app.appName}}/skills">
+                          <img src="/assets/al/images/logo.jpg" alt=""/>
+                          <span>{{app.app.appFullName}}</span>
+                        </a>
+                        <a ng-if="app.app.appName != 'al'" href="/underconstruction">
                           <img src="/assets/al/images/logo.jpg" alt=""/>
                           <span>{{app.app.appFullName}}</span>
                         </a>
@@ -88,7 +92,7 @@
             </a>
           <ul class="dropdown-menu" uib-collapse="nav.userOptionsCollapsed">
             <li><a href="/underconstruction">Settings</a></li>
-            <li><a ng-click="nav.logout()">Logout</a></li>
+            <li><a href ng-click="nav.logout()">Logout</a></li>
           </ul>
         </li>
       </ul>

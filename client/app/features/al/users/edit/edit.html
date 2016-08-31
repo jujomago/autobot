@@ -123,7 +123,7 @@
 
     <uib-tab index="1" heading="Roles" select="$ctrl.checkTab('roles')">
         <div class="row">
-            <div class="col col-md-2" ng-show="$ctrl.allRoles.length>0">       
+            <div class="col col-md-3" ng-show="$ctrl.allRoles.length>0">       
                     <h4>Roles Available</h4>
                     <div class="list-group list-group-roles">
                         <a href="#"  class="list-group-item" ng-repeat="rol in $ctrl.allRoles" ng-click="$ctrl.addRol(rol)">
@@ -131,7 +131,7 @@
                         </a>                                               
                     </div>                    
             </div>
-            <div class="col col-md-2">                
+            <div class="col col-md-3">                
                     <h4>Roles Assigned</h4>                    
                     <div class="list-group list-group-roles">
                         <a href="#"  class="list-group-item" ng-repeat="userRol in $ctrl.userRoles" ng-click="$ctrl.getPermissions(userRol)" ng-class="{'active':($index==$ctrl.userRolSelectedIndex)}">
@@ -140,7 +140,7 @@
                     </div>
                     <button type="button" class="btn btn-danger" ng-show="$ctrl.userRolSelectedIndex>=0 && $ctrl.userRoles.length>0" ng-click="$ctrl.deleteSelectedRol()">Delete</button>
             </div>
-            <div class="col" ng-class="{'col-md-10':($ctrl.allRoles.length==0),'col-md-8':($ctrl.allRoles.length>0)}" >
+            <div class="col" ng-class="{'col-md-9':($ctrl.allRoles.length==0),'col-md-6':($ctrl.allRoles.length>0)}" >
                  <h4>Permissions:</h4>
                     <div class="checkbox" ng-repeat="(per,val) in $ctrl.rolSelectedPermissions" ng-if="per!=='permissions'">
                         <label>
@@ -164,8 +164,8 @@
             <div ng-show="$ctrl.userSkills.length>0" id="skills-table">
                 <table class="table table-striped" ng-show="$ctrl.userSkills.length">
                     <thead>
-                        <th ng-click="$ctrl.sortColumn('skill.name') " class="sortColumn">Name
-                            <span class="glyphicon " ng-show="$ctrl.sortKey=='skill.name' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
+                        <th ng-click="$ctrl.sortColumn('skillName') " class="sortColumn">Name
+                            <span class="glyphicon " ng-show="$ctrl.sortKey=='skillName' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
             'glyphicon-chevron-down':!$ctrl.reverse} "></span>
 
                         </th>

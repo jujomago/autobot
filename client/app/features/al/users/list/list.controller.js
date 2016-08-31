@@ -55,9 +55,9 @@
                     }
                     return _users;
                 })
-                .catch(e => {
-                    console.error('Error Trying to get Users');
-                    console.log(e);
+                .catch(error => {
+                    this.message = { show: true, type:'danger', text: error.errorMessage };
+                    return error;
                 });
         }
 
@@ -85,16 +85,11 @@
                             }
                             return response;
                         })
-                        .catch(e => {
-                            console.error('Error Trying to delete user');
-                            this.message = { show: true, type: 'danger', text: e.data.body };
-                            _timeout(() => {
-                                this.message.show = false;
-                            }, 3000);
-
+                        .catch(error => {
+                            this.SubmitText = 'Save';
                             this.toogleUserRow = -1;
-
-                            return e;
+                            this.message = { show: true, type:'danger', text: error.errorMessage };
+                            return error;
                         });
                 })
                 .catch(() => {

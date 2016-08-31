@@ -1,23 +1,12 @@
 'use strict';
 (() => {
 
-  let _http,_q;
-
-  function handleError(err, result) {
-    console.log('enter handle error in service');
-    result.error = err.data;
-    result.statusCode = err.status;
-    //return result;
-    let defered = _q.defer();
-    let promise = defered.promise;
-    defered.reject(result);    
-    return promise;
-  }
+  let _http,_HandleError;
 
   //let endPointUrl = '_http://localhost:9000/api/f9/campaigns';
   class CampaignService {
 
-    constructor($http, $q, appConfig) {
+    constructor($http, HandleError, appConfig) {
       console.log('contrusctor CAMPAIGN SERVICE');
 
       this.endPointUrl = '/f9/campaigns';
@@ -25,12 +14,12 @@
         this.endPointUrl = appConfig.apiUri + this.endPointUrl;
       }
       _http = $http;
-      _q=$q;
+      _HandleError=HandleError;
 
     }
 
     getCampaigns() {
-      let result = { data: null, statusCode: 200, error: null };
+      let result = { data: null, statusCode: 200, errorMessage: null };
       return _http.get(this.endPointUrl)
         .then(response => {
           if (response.data) {
@@ -38,11 +27,11 @@
           }
           return result;
         })
-        .catch(err => handleError(err, result));
+        .catch(err => _HandleError(err, result));
     }
 
     getIVRScripts() {
-      let result = { data: null, statusCode: 200, error: null };
+      let result = { data: null, statusCode: 200, errorMessage: null };
       return _http.get(this.endPointUrl + '/ivrscripts')
         .then(response => {
           if (response.data) {
@@ -50,12 +39,12 @@
           }
           return result;
         })
-        .catch(err => handleError(err, result));
+        .catch(err => _HandleError(err, result));
 
     }
 
     getCampaign(type, name) {
-      let result = { data: null, statusCode: 200, error: null };
+      let result = { data: null, statusCode: 200, errorMessage: null };
 
       return _http.get(this.endPointUrl + '/' + type + '/' + name)
         .then(response => {
@@ -64,44 +53,44 @@
           }
           return result;
         })
-        .catch(err => handleError(err, result));
+        .catch(err => _HandleError(err, result));
     }
 
     createCampaign(newCampaign) {
-      let result = { data: null, statusCode: 201, error: null };
-      return _http.post(this.endPointUrl, newCampaign)
+      let result = { data: null, statusCode: 201, errorMessage: null };
+      return _http.post(this.endPointUrl+'/'+ newCampaign.type, newCampaign)
         .then(() => result)
-        .catch(err => handleError(err, result));
+        .catch(err => _HandleError(err, result));
     }
 
 
     updateOutBoundCampaign(newCampaign) {
-      let result = { data: null, statusCode: 200, error: null };
+      let result = { data: null, statusCode: 200, errorMessage: null };
 
-      return _http.put(this.endPointUrl + '/outbound', newCampaign)
+      return _http.put(this.endPointUrl + '/outbound/'+newCampaign.name, newCampaign)
         .then(() => result)
-        .catch(err => handleError(err, result));
+        .catch(err => _HandleError(err, result));
     }
 
 
     updateAutoDialCampaign(newCampaign) {
-      let result = { data: null, statusCode: 200, error: null };
+      let result = { data: null, statusCode: 200, errorMessage: null };
 
-      return _http.put(this.endPointUrl + '/autodial', newCampaign)
+      return _http.put(this.endPointUrl + '/autodial/'+newCampaign.name, newCampaign)
         .then(() => result)
-        .catch(err => handleError(err, result));
+        .catch(err => _HandleError(err, result));
     }
 
     updateInBoundCampaign(newCampaign) {
-      let result = { data: null, statusCode: 200, error: null };
+      let result = { data: null, statusCode: 200, errorMessage: null };
 
-      return _http.put(this.endPointUrl + '/inbound', newCampaign)
+      return _http.put(this.endPointUrl + '/inbound/'+newCampaign.name, newCampaign)
         .then(() => result)
-        .catch(err => handleError(err, result));
+        .catch(err => _HandleError(err, result));
     }
 
     getLists() {
-      let result = { data: null, statusCode: 200, error: null };
+      let result = { data: null, statusCode: 200, errorMessage: null };
 
       return _http.get(this.endPointUrl + '/lists')
         .then(response => {
@@ -110,11 +99,11 @@
           }
           return result;
         })
-        .catch(err => handleError(err, result));
+        .catch(err => _HandleError(err, result));
     }
 
     getAttachedLists(name) {
-      let result = { data: null, statusCode: 200, error: null };
+      let result = { data: null, statusCode: 200, errorMessage: null };
 
       return _http.get(this.endPointUrl + '/attached/lists/' + name)
         .then(response => {
@@ -123,12 +112,12 @@
           }
           return result;
         })
-        .catch(err => handleError(err, result));
+        .catch(err => _HandleError(err, result));
     }
 
 
     getAttachedDnis(name) {
-      let result = { data: null, statusCode: 200, error: null };
+      let result = { data: null, statusCode: 200, errorMessage: null };
 
       return _http.get(this.endPointUrl + '/attached/dnis/' + name)
         .then(response => {
@@ -137,12 +126,12 @@
           }
           return result;
         })
-        .catch(err => handleError(err, result));
+        .catch(err => _HandleError(err, result));
     }
 
 
     getDNIS() {
-      let result = { data: null, statusCode: 200, error: null };
+      let result = { data: null, statusCode: 200, errorMessage: null };
       return _http.get(this.endPointUrl + '/dnis')
         .then(response => {
           if (response.data) {
@@ -150,19 +139,19 @@
           }
           return result;
         })
-        .catch(err => handleError(err, result));
+        .catch(err => _HandleError(err, result));
     }
 
     addDNIS(dnisCampaign) {
-      let result = { data: null, statusCode: 200, error: null };
+      let result = { data: null, statusCode: 200, errorMessage: null };
       return _http.post(this.endPointUrl + '/dnis', dnisCampaign)
         .then(() => result)
-        .catch(err => handleError(err, result));
+        .catch(err => _HandleError(err, result));
     }
 
 
     removeDnis(listCampaign) {
-      let result = { data: null, statusCode: 200, error: null };
+      let result = { data: null, statusCode: 200, errorMessage: null };
       let dnisToRemove={DNISList:listCampaign.DNISList};
       return _http({
           url: this.endPointUrl + '/dnis/'+listCampaign.campaignName,
@@ -171,19 +160,19 @@
           headers: { 'Content-Type': 'application/json;charset=utf-8' }
       })
       .then(() => result)
-      .catch(err => handleError(err, result));
+      .catch(err => _HandleError(err, result));
     }
 
 
     addLists(listCampaign) {
-      let result = { data: null, statusCode: 200, error: null };
+      let result = { data: null, statusCode: 200, errorMessage: null };
       return _http.post(this.endPointUrl + '/lists', listCampaign)
         .then(() => result)
-        .catch(err => handleError(err, result));
+        .catch(err => _HandleError(err, result));
     }
 
     removeLists(listCampaign) {
-      let result = { data: null, statusCode: 200, error: null };      
+      let result = { data: null, statusCode: 200, errorMessage: null };      
       let listsToRemove={lists:listCampaign.lists};
          
       return _http({
@@ -193,30 +182,30 @@
           headers: { 'Content-Type': 'application/json;charset=utf-8' }
       })
       .then(() => result)
-      .catch(err => handleError(err, result));
+      .catch(err => _HandleError(err, result));
     }
 
     startCampaign(campaignName) {
-      let result = { data: null, statusCode: 200, error: null };
+      let result = { data: null, statusCode: 200, errorMessage: null };
 
-      return _http.get(this.endPointUrl + '/start/' + campaignName)
+      return _http.put(this.endPointUrl + '/start/' + campaignName)
         .then(() => result)
-        .catch(err => handleError(err, result));
+        .catch(err => _HandleError(err, result));
     }
 
     stopCampaign(campaignName) {
-      let result = { data: null, statusCode: 200, error: null };
+      let result = { data: null, statusCode: 200, errorMessage: null };
 
-      return _http.get(this.endPointUrl + '/stop/' + campaignName)
+      return _http.put(this.endPointUrl + '/stop/' + campaignName)
         .then(() => result)
-        .catch(err => handleError(err, result));
+        .catch(err => _HandleError(err, result));
     }
 
     deleteCampaign(name) {
-      let result = { data: null, statusCode: 204, error: null };
+      let result = { data: null, statusCode: 204, errorMessage: null };
       return _http.delete(this.endPointUrl + '/' + name)
         .then(() => result)
-        .catch(err => handleError(err, result));
+        .catch(err => _HandleError(err, result));
     }
 
 
@@ -224,7 +213,7 @@
 
   }
 
-  CampaignService.$inject = ['$http','$q','appConfig'];
+  CampaignService.$inject = ['$http','HandleError','appConfig'];
 
   angular.module('fakiyaMainApp')
     .service('CampaignService', CampaignService);

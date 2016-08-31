@@ -20,7 +20,7 @@ describe('Service:CampaignProfilesService', function () {
         _CampaignProfilesService = _CampaignProfilesService_;
         _$httpBackend = $httpBackend;
         if(appConfig.apiUri){
-            _endPointUrl=appConfig.apiUri+'/f9/campaignProfiles';
+            _endPointUrl=appConfig.apiUri+'/f9/campaigns/profiles';
         }        
     }));
 
@@ -61,7 +61,7 @@ describe('Service:CampaignProfilesService', function () {
       });
 
       it('should return unexpected server error', function () {
-          _$httpBackend.whenGET(_endPointUrl).respond(500, 'Internal Server Error');
+          _$httpBackend.whenGET(_endPointUrl).respond(500, {error: 'Internal Server Error'});
           _CampaignProfilesService.getCampaignProfiles().catch(error => {
               expect(error.errorMessage).to.equal('Internal Server Error');
               expect(error.statusCode).to.equal(500);
@@ -86,7 +86,7 @@ describe('Service:CampaignProfilesService', function () {
           _$httpBackend.flush();
       });
       it('should return unexpected server error', function () {
-          _$httpBackend.whenDELETE(_endPointUrl+'/CampaignProfile1').respond(500, 'Internal Server Error');
+          _$httpBackend.whenDELETE(_endPointUrl+'/CampaignProfile1').respond(500, {error: 'Internal Server Error'});
           _CampaignProfilesService.deleteCampaignProfile({name: 'CampaignProfile1'})
           .catch(error => {
               expect(error.errorMessage).to.equal('Internal Server Error');

@@ -1,16 +1,12 @@
 'use strict';
 (function() {
 
-    function _getErrorMessage(xmlMessage){
-        let message = xmlMessage.match('<faultstring>(.*)</faultstring>');
-        return message[1];
-    }
-
     let _UsersService,_stateParams,_state, _SkillsService, _ConfirmAsync, _ModalManager;
+    let _$filter;
 
     class EditComponent {
 
-        constructor($stateParams, $state,  $sessionStorage , $q, UsersService, SkillsService, ConfirmAsync, ModalManager) {
+        constructor($stateParams, $state,  $sessionStorage , $q, $filter, UsersService, SkillsService, ConfirmAsync, ModalManager) {
 
             //  console.log('Component EditComponent - al.users.edit');
             _stateParams = $stateParams;
@@ -19,6 +15,7 @@
             _ConfirmAsync = ConfirmAsync;
             _ModalManager = ModalManager;
             _state=$state;
+            _$filter = $filter;
             this.storage = $sessionStorage;
             this.qp = $q;
             this.SubmitText = 'Save';
@@ -64,7 +61,12 @@
             })
             .then((skills)=>{
                 this.storage.skills = skills.data;
-            });
+            })
+            .catch(error => {        
+                let errorMessage = error.errorMessage?error.errorMessage:error;              
+                this.message = { show: true, type: 'danger', text: errorMessage };
+                return error;
+            }); 
         }
 
         openModal(){
@@ -85,16 +87,12 @@
         }
         
         getAllPermissions(){
-              return _UsersService.getPermissions()
-                .then(response => {
-                console.log('loaded permissions');
-                   this.storage.rolesPermissions = response;
-                   return response;
-                })
-                .catch(error => {
-                    console.log('error');
-                    console.error(error);
-                });    
+          return _UsersService.getPermissions()
+            .then(response => {
+            console.log('loaded permissions');
+               this.storage.rolesPermissions = response;
+               return response;
+            });  
         }
 
         getAllSkills(){
@@ -103,10 +101,10 @@
                     console.log('loaded skills');
                     return response;
                 })
-                .catch(error => {
-                    console.log('error');
-                    console.error(error);
-                });   
+                .catch(error => {                      
+                    this.message = { show: true, type: 'danger', text: error.errorMessage };
+                    return error;
+                });  
         }
 
         getUserDetail(userName){
@@ -128,8 +126,7 @@
                     
                     this.allRoles = rolesAvailable; 
                     return _users;
-                })
-                .catch(error => console.log(error));
+                });
         }
 
         addRol(rolName) {
@@ -201,21 +198,16 @@
                 
                 return _UsersService.updateUser(reqFormat)
                 .then(response=>{
-                    if(response.statusCode===200){
-                        console.log('userInfo update:');
-                        console.log(response.data);                        
-                        let messageObj={show:true,type:'success',text:'User Updated'};
-                        _state.go('ap.al.users', { message: messageObj });                                         
-                    }else{
-                        this.message = { show: true, type:'danger', text:response.errorMessage };
-                    }                   
+                    console.log('userInfo update:');
+                    console.log(response.data);                        
+                    let messageObj={show:true,type:'success',text:'User Updated'};
+                    _state.go('ap.al.users', { message: messageObj });                                                          
                     return response;
                 })
                 .catch(error => {
                     this.SubmitText = 'Save';
-                    this.message = { show: true, type:'danger', text:error };
-                    console.error('error');
-                    console.log(error);
+                    this.message = { show: true, type:'danger', text: error.errorMessage };
+                    return error;
                 });
                 
             }
@@ -248,14 +240,16 @@
                     if(this.methodSkills === 'create'){
                         this.addSkillToUser(result).then(()=>{
                             this.getUserDetailSkill(this.userInfo.generalInfo.userName);
-                        }).catch((theMsg)=>{
-                            this.message={ show: true, type: 'warning', text: theMsg, expires: 3000}; 
-                        });   
+                        })
+                        .catch(error => {
+                            this.message = { show: true, type:'danger', text: error.errorMessage };
+                        });  
                     }else{
                         this.updateSkillFromUser(result).then(()=>{
                             this.getUserDetailSkill(this.userInfo.generalInfo.userName);
-                        }).catch((theMsg)=>{
-                            this.message={ show: true, type: 'warning', text: theMsg, expires: 3000}; 
+                        })
+                        .catch(error => {
+                            this.message = { show: true, type:'danger', text: error.errorMessage };
                         });   
                     }
                 }
@@ -271,7 +265,10 @@
                     this.userSkills = _users.skills;
                     return _users;
                 })
-                .catch(error => console.log(error));
+                .catch(error => {
+                    this.message = { show: true, type:'danger', text: error.errorMessage };
+                    return error;
+                });
       }
 
       addSkillToUser(skill){
@@ -283,12 +280,9 @@
                    return response;
                 })
                 .catch(error => {
-                    console.log('error');
-                    console.error(error);
-                    let textError = _getErrorMessage(error.data.body);
-                    this.message={ show: true, type: 'warning', text: textError, expires: 5000};
+                    this.message = { show: true, type:'danger', text: error.errorMessage };
                     return error;
-        });    
+                });  
       }
 
       deleteSkillFromUser(item, indexRow){
@@ -311,11 +305,12 @@
                                 this.message = { show: true, type: 'danger', text: response.errorMessage, expires:8000};
                             }
                             return response;
-                        }).catch(err => {
-                              console.error(err);
-                              let textError = _getErrorMessage(err.data.body);
-                              this.message = { show: true, type: 'danger', text: textError, expires:8000};
-                              return err;
+                        })
+                        .catch(error => {
+                            this.SubmitText = 'Save';
+                            this.toggleSkillRow = -1;
+                            this.message = { show: true, type:'danger', text: error.errorMessage };
+                            return error;
                         });
                 })
                 .catch(() => {
@@ -332,12 +327,9 @@
                    return response;
                 })
                 .catch(error => {
-                    console.log('error');
-                    console.error(error);
-                    let textError = _getErrorMessage(error.data.body);
-                    this.message={ show: true, type: 'warning', text: textError, expires: 5000};
+                    this.message = { show: true, type:'danger', text: error.errorMessage };
                     return error;
-        });  
+                });
       }
 
       checkTab(tab){
@@ -363,16 +355,24 @@
 
         sortColumn(columnName) {
           if (columnName !== undefined && columnName) {
-                console.log('sorting:' + columnName);
-              this.sortKey = columnName;
-              this.reverse = !this.reverse;
-              return true;
+            console.log('sorting:' + columnName);
+            this.sortKey = columnName;
+            this.reverse = !this.reverse;
+            this.orderList(this.filteredSkills);
+            return true;
           } else {
               return false;
           }
         }
+
+        orderList(list){
+            if(this.sortKey){
+                this.filteredSkills = _$filter('orderBy')(list, this.sortKey, this.reverse);
+            }
+        }
     }
-    EditComponent.$inject = ['$stateParams', '$state',  '$sessionStorage','$q', 'UsersService', 'SkillsService', 'ConfirmAsync', 'ModalManager'];
+
+    EditComponent.$inject = ['$stateParams', '$state',  '$sessionStorage','$q', '$filter', 'UsersService', 'SkillsService', 'ConfirmAsync', 'ModalManager'];
 
     angular.module('fakiyaMainApp')
         .component('al.users.edit', {

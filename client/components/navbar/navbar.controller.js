@@ -1,6 +1,6 @@
 'use strict';
 
-let _$location,_authService, _Base64Manager;
+let _$location, _authService, _Base64Manager;
 let _lodash;
 let _appsService;
 let _$filter, _$parse;
@@ -27,6 +27,8 @@ class NavbarController {
     this.minMenu = false;
     this.partners = [];
     this.getter = 'partner.partnerFullName';
+    this.message = { show: false };
+
     this.menu = [{
       'title': 'Dashboard',
       'state': 'main',
@@ -55,17 +57,25 @@ class NavbarController {
     this.newApps = [];
  }
 
-  
   logout(){
-   let encodedURL=_Base64Manager.encode(_$location.url());
+    let encodedURL=_Base64Manager.encode(_$location.url());
     return _authService.logout()
-    .then(response => {
-      if (response.status === 200) {
-        _$location.url('/login').search({url: encodedURL}); 
-      }
-      return response;
-    });
+        .then(response => {
+          if (response.status === 200) {
+            _$location.url('/login').search({url: encodedURL});
+          }
+          return response;
+        })
+        .catch(e => {
+          if (e.status && e.data) {
+            this.message = { show: true, text: e.data.statusText, type: 'danger' };
+          } else {
+            this.message = { show: true, text: e, type: 'danger' };
+          }
+          return e;
+        }); 
   }
+  
   $onInit(){
     this.getInstalled();
     this.getNewest();
@@ -100,15 +110,16 @@ class NavbarController {
   }
 
   filteringBySearch(){
-    
-    this.myAppsSearch = _$filter('filter')(this.myAppsFromService, this.search.app.appFullName);
-    
-    this.myAppsSearch = this.groupBy(this.myAppsSearch);
-
-    if(this.search.app.appFullName){
+    let regex = angular.element('#submenu-search').attr('abx-pattern-filter');
+    let filter = new RegExp(regex.substr(1, regex.length -2));
+    if(this.search.app.appFullName && filter.test(this.search.app.appFullName)){
+      this.myAppsSearch = _$filter('filter')(this.myAppsFromService, this.search.app.appFullName);
+      this.myAppsSearch = this.groupBy(this.myAppsSearch);
       this.total = Object.keys(this.myAppsSearch).length;
       return true;
     }else{
+      this.myAppsSearch = _$filter('filter')(this.myAppsFromService, '');
+      this.myAppsSearch = this.groupBy(this.myAppsSearch);
       this.total = this.myAppsFromService.length;
       return false;
     }

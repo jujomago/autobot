@@ -109,13 +109,20 @@ Ew==
 1. Login into the docker registry (Ask for credentials to the registry administrator):
 >~$ docker login https://74.208.171.144
 2. Put the docker-compose.yml into a directory of your preference (It is a good idea to save it into the root directory of your project; in this way, you can track the file in GIT)   
-3. Enter to the directory where you put the docker-compose.yml file and run the following command to pull the images:
+3. Enter to the directory where you put the `docker-compose.yml` and `docker-compose.dev.yml` files and run the following command to pull the images:
+
+In order to get production images you need run the next command:
 >~$ docker-compose pull
-4. Starts the container services in the background:
->~$ docker-compose up -d 
-5. If you want to run development docker images, run the following command:
+
+In order to get development images you need run the next command:
+>~$ docker-compose -f docker-compose.dev.yml pull
+4. Starts the container services in the background for production:
+>~$ docker-compose up -d
+5. Starts the container services in the background for development:
+>~$ docker-compose -f docker-compose.dev.yml up -d
+6. If you want to run development docker images, run the following command:
 >docker-compose -f docker-compose.dev.yml up 
-6. Stop containers: 
+7. Stop containers: 
 >~$ docker-compose down
 
 ## Testing with docker
@@ -133,3 +140,12 @@ b38abd8a1428        redis                         "docker-entrypoint.sh"   12 se
 >~$ docker inspect --format '{{ .NetworkSettings.Networks.projects_default.IPAddress }}' 728650beab2a
 4. Try to get the authentication token from the API:
 >~$ curl -d '{"username" : "admin@autoboxcorp.com", "password" : "Password1"}' -X POST -H "Content-Type: application/json" localhost:9999/api/auth/login
+# `Note`
+If you have a problem to get data from fiv9 endpoints you need set up the file: /etc/default/docker with DNS of the local machine.
+
+Example:
+ The local machine has the next DNS:
+    192.168.13.200 and 192.168.13.201
+ Then you set up the /etc/default/docker with:
+ DOCKER_OPTS="--dns 8.8.8.8 --dns 192.168.13.200 --dns 192.168.13.201"
+ 

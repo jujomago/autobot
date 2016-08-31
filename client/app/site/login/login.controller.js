@@ -57,7 +57,6 @@
           return e;
         });
     }
-
   }
 
   LoginController.$inject = ['$location', '$stateParams', 'AuthService', 'Base64Manager'];

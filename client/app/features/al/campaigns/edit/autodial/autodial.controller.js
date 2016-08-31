@@ -44,11 +44,10 @@ class AutodialComponent {
         }
         return response;
      })
-     .catch(e =>{    
-        let theMsg= (e.error)? e.error.body:e; 
-        this.message={ show: true, type: 'danger', text: theMsg};
-        return e;
-      });
+    .catch(error =>{    
+        this.message={ show: true, type: 'danger', text: error.errorMessage };
+        return error;
+    });
       
   }
        
@@ -69,10 +68,9 @@ class AutodialComponent {
         }
         return response;
      })
-      .catch(e =>{    
-        let theMsg= (e.error)? e.error.body:e; 
-        this.message={ show: true, type: 'danger', text: theMsg};
-        return e;
+      .catch(error =>{    
+        this.message={ show: true, type: 'danger', text: error.errorMessage };
+        return error;
       });
     } 
   
@@ -86,10 +84,9 @@ class AutodialComponent {
               }
               return response;                   
           })
-          .catch(e =>{    
-            let theMsg= (e.error)? e.error.body:e; 
-            this.message={ show: true, type: 'danger', text: theMsg};
-            return e;
+          .catch(error =>{    
+              this.message={ show: true, type: 'danger', text: error.errorMessage };
+              return error;
           });
           
    }
@@ -108,10 +105,9 @@ class AutodialComponent {
               }
               return response;                   
           })
-          .catch(e =>{    
-            let theMsg= (e.error)? e.error.body:e; 
-            this.message={ show: true, type: 'danger', text: theMsg};
-            return e;
+          .catch(error =>{    
+              this.message={ show: true, type: 'danger', text: error.errorMessage };
+              return error;
           });
    }
   
@@ -133,11 +129,10 @@ class AutodialComponent {
             }
             return response;                   
         })
-       .catch(e =>{    
-            let theMsg= (e.error)? e.error.body:e; 
-            this.message={ show: true, type: 'danger', text: theMsg};
-            return e;
-          });
+       .catch(error =>{    
+            this.message={ show: true, type: 'danger', text: error.errorMessage };
+            return error;
+        });
   }  
   
   getCampaign(type,name){    
@@ -161,16 +156,15 @@ class AutodialComponent {
        }
        return response;
     })
-   .catch(e =>{    
-            let theMsg= (e.error)? e.error.body:e; 
-            this.message={ show: true, type: 'danger', text: theMsg};
-            return e;
-          });
+   .catch(error =>{    
+        this.message={ show: true, type: 'danger', text: error.errorMessage };
+        return error;
+    });
   }
   
   update(){  
     this.SubmitText='Saving...';
-    console.log(this.campaign);
+    this.campaign.defaultIvrSchedule={scriptName: this.campaign.ivrscript.name};
     
     return _CampaignService.updateAutoDialCampaign(this.campaign)
     .then(response=>{
@@ -182,12 +176,11 @@ class AutodialComponent {
       }
       return response;
     })
-    .catch(e =>{    
-         this.SubmitText='Save';
-            let theMsg= (e.error)? e.error.body:e; 
-            this.message={ show: true, type: 'danger', text: theMsg};
-            return e;
-          });
+    .catch(error =>{ 
+        this.SubmitText='Save';   
+        this.message={ show: true, type: 'danger', text: error.errorMessage };
+        return error;
+    });
   }  
 }
 
