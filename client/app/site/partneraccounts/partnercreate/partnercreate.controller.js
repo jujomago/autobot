@@ -1,11 +1,13 @@
 'use strict';
 let _$state;
+let _PartnersService;
 (function () {
 
   class CreateController {
 
-    constructor($state) {
+    constructor($state, PartnersService) {
       _$state = $state;
+      _PartnersService = PartnersService;
       this.username = '';
       this.password = '';
       this.message = { show: false };
@@ -13,12 +15,19 @@ let _$state;
     }
 
     addAccount(){
-      _$state.go('underconstruction');
+      return _PartnersService.addAppToPartner({partnerId: 'f9', appName: 'al', credentials: {username: this.username}})
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error =>{
+        console.log(error);
+      })
+      //_$state.go('underconstruction');
     }
 
   }
 
-  CreateController.$inject = ['$state'];
+  CreateController.$inject = ['$state', 'PartnersService'];
 
 
 angular.module('fakiyaMainApp')
