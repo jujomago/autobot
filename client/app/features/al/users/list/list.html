@@ -1,8 +1,6 @@
+<h3 class="title_section">Users</h3>
 
-      <h3 class="title_section">Users</h3>
-
-<abx-message msg="$ctrl.message"></abx-message> 
-
+<abx-message msg="$ctrl.message"></abx-message>
 
 <abx-load-indicator  ng-show="$ctrl.usersList.length===0 " text="Loading Users"></abx-load-indicator> 
 
@@ -11,15 +9,18 @@
 
 <div ng-hide="$ctrl.usersList.length===0">
     
-    <div class="mywell">
-        <div class="searchbox_container">
-             
-              <input type="search" ng-model="$ctrl.search.userName" class="searchbox" placeholder="Search" ng-change="$ctrl.filteringBySearch()">
-               <span class="glyphicon glyphicon-search"></span>  
+    <div class="">
+        <div class="mywell pull-left">
+            <div class="searchbox_container">        
+                <input type="search" ng-model="$ctrl.search.userName" class="searchbox" placeholder="Search" ng-change="$ctrl.filteringBySearch()">
+                <span class="glyphicon glyphicon-search"></span>  
+            </div> 
         </div>
-        <button ui-sref="ap.al.usersCreate " class="btn btn-black pull-right">New</button>
-    </div>
-    
+        <div class="mywell pull-right">
+            <button ui-sref="" class="btn btn-black rigth-space-20px btn-80fixed">Import</button>
+            <button ui-sref="ap.al.usersCreate " class="btn btn-black btn-80fixed">New</button>        
+        </div> 
+    </div>   
 
     <table class="table table-striped" ng-show="$ctrl.filteredUsers.length">
 
