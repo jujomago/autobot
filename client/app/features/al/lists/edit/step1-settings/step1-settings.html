@@ -67,6 +67,11 @@
 	            </div>
 			</div>
 		</div>
+		<div class="checkbox fixed-margin-15-px">
+            <label>
+                <input type="checkbox" ng-model="$ctrl.disposition.agentMustConfirm"> Check records in DNC list
+            </label>
+        </div>
 		<div ng-show="$ctrl.optionButtons" class="settings-button-container">
 			<button ng-click="$ctrl.nextStep()" class="btn btn-black">Input records manually</button>
 			<button ng-click="$ctrl.displayFileField()" 
