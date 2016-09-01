@@ -1,25 +1,31 @@
 'use strict';
 
-function configInterceptor($httpProvider,jwtOptionsProvider){
- 
-   jwtOptionsProvider.config({
+function configInterceptor($httpProvider,jwtOptionsProvider,appConfig){
 
-	  unauthenticatedRedirectPath: '/login',
-	  unauthenticatedRedirector:['$cookies','authManager',function($cookies,authManager){
-	  	   console.log('cleaning old expired cookie');
+	let tempTag=document.createElement('a');
+	tempTag.href=appConfig.apiUri;
+	let hostname=tempTag.hostname;
+   
+   jwtOptionsProvider.config({
+	  whiteListedDomains: [hostname],
+	  unauthenticatedRedirector:['$cookies','authManager','$location',function($cookies,authManager,$location){
+	  	  console.log('cleaning old expired cookie');
 		  $cookies.remove('auth_token');
           authManager.unauthenticate();
+		  $location.path('/login'); 
 	  }],	
-	  whiteListedDomains: ['localhost'],
+	 
       tokenGetter:['$cookies','options',function($cookies,options) {
 
 		let idToken=$cookies.get('auth_token'); 	
-		let endUrl=options.url.substr(options.url.length - 5);		
+
+		let endUrl= /[^.]+$/.exec(options.url);
+
 	
-		if (!idToken || endUrl === '.html' || endUrl === '.json') {
+		if (endUrl[0] === 'html' || endUrl[0] === 'json') {
           return null;
         }
-		
+
 		return idToken;
         }]
     });
@@ -27,7 +33,7 @@ function configInterceptor($httpProvider,jwtOptionsProvider){
 	$httpProvider.interceptors.push('jwtInterceptor');
 }
 
-configInterceptor.$inject = ['$httpProvider','jwtOptionsProvider'];
+configInterceptor.$inject = ['$httpProvider','jwtOptionsProvider','appConfig'];
 
 angular.module('fakiyaMainApp')
 	.config(configInterceptor)

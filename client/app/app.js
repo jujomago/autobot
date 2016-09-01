@@ -14,7 +14,7 @@ angular.module('fakiyaMainApp', [
   .config(function ($urlRouterProvider, $locationProvider) {
     $urlRouterProvider.otherwise('/');
     $locationProvider.html5Mode(true);
-  }).run(function (lodash, $window, Global, authManager) { // jshint ignore:line
+  }).run(function (lodash, $window, Global) { // jshint ignore:line
     //this method is only for run the lodash deletion
     //TODO: Remove or Evaluate this block after Event Bus is implemented
     $window.onbeforeunload = function () {

@@ -1,22 +1,15 @@
 'use strict';
 (() => {
-    let _$http, _$cookies, _$q, _authManager;
-    function _handleError(err, result) {
-        result.errorMessage = err.data;
-        result.statusCode = err.status;
-        let defered = _$q.defer();
-        let promise = defered.promise;
-        defered.reject(result);
-        return promise;
-    }
+    let _$http, _$cookies, _authManager,_HandleError;
+
   
     class AuthService {
 
-        constructor($cookies, $http, $q, appConfig, authManager) {
+        constructor($cookies, $http, appConfig, authManager,HandleError) {
             _$http = $http;
-            _$cookies = $cookies;
-            _$q = $q;
+            _$cookies = $cookies;          
             _authManager = authManager;
+            _HandleError = HandleError;
             if (appConfig.apiUri) {
                 this.endPointUrl = appConfig.apiUri;
             }
@@ -36,10 +29,9 @@
                             _authManager.authenticate();
                         }
                         return response;
-                    }
-                    throw Error(response);
+                    }                  
                 })
-                .catch(e  => _handleError(e, result));
+                .catch(err => _HandleError(err, result));
         }
         renewToken(oldToken) {
             let result = { data: null, statusCode: 200, errorMessage: null };
@@ -47,13 +39,11 @@
                 .then(response => {
                     if (response.status === 200) {
                         _$cookies.put('auth_token', response.data);
-                        _authManager.authenticate();
-                        
-                        return response.data;
+                        _authManager.authenticate();            
                     }
-                    throw Error(response);
+                    return response;                  
                 })
-                .catch(e  => _handleError(e, result));
+                .catch(err => _HandleError(err, result));
         }
         loginApplication(credentialsApp) {
             let result = { data: null, statusCode: 200, errorMessage: null };
@@ -63,7 +53,7 @@
                         return response;
                     }
                 })
-                .catch(e  => _handleError(e, result));
+                .catch(err => _HandleError(err, result));
         }
         logout() {
             let result = { data: null, statusCode: 200, errorMessage: null };
@@ -74,11 +64,11 @@
                     _authManager.unauthenticate();
                     return response;
                 })
-                .catch(e => _handleError(e, result));
+                .catch(err => _HandleError(err, result));
         }
     }
 
-    AuthService.$inject = ['$cookies', '$http', '$q', 'appConfig', 'authManager'];
+    AuthService.$inject = ['$cookies', '$http', 'appConfig', 'authManager','HandleError'];
 
     angular.module('fakiyaMainApp')
         .service('AuthService', AuthService);
