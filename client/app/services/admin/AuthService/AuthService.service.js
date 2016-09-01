@@ -1,43 +1,38 @@
 'use strict';
 (() => {
-    let _$http, _$cookies, _$localStorage, _$q,_authManager;
+    let _$http, _$cookies, _$q, _authManager;
     function _handleError(err, result) {
         result.errorMessage = err.data;
         result.statusCode = err.status;
         let defered = _$q.defer();
         let promise = defered.promise;
-        defered.reject(result);    
+        defered.reject(result);
         return promise;
     }
+  
     class AuthService {
 
-        constructor($cookies, $localStorage, $http, $q, appConfig , authManager) {
+        constructor($cookies, $http, $q, appConfig, authManager) {
             _$http = $http;
             _$cookies = $cookies;
-            _$localStorage=$localStorage;
-            _$q=$q;
-            _authManager=authManager;
+            _$q = $q;
+            _authManager = authManager;
             if (appConfig.apiUri) {
                 this.endPointUrl = appConfig.apiUri;
             }
+        }
+        
+        isAuthenticated(){
+            return(_$cookies.put('auth_token'))?true:false;
         }
 
         login(credentials) {
             return _$http.post(this.endPointUrl + '/auth/login', credentials)
                 .then(response => {
-                    if (response.status === 200) {
-                        if (_$cookies.get('auth_token') === undefined) {
-                            
-                            let expDate = new Date();
-                            let minutes = 30;
-                            expDate.setTime(expDate.getTime() + (minutes * 60 * 1000));
-                            
-                            _$cookies.put('auth_token', response.data ,{
-                                expires:expDate
-                            });
-                            _$localStorage.userCred=credentials;
+                    if (response.status === 200) {                         
+                        if (_$cookies.get('auth_token') === undefined) {                       
+                            _$cookies.put('auth_token', response.data);
                             _authManager.authenticate();
-                        
                         }
                         return response;
                     }
@@ -45,8 +40,18 @@
                 })
                 .catch(e => e);
         }
-        renewToken(){
-            this.login(_$localStorage.userCred);
+        renewToken(oldToken) {
+            return _$http.put(this.endPointUrl + '/auth/refresh-token', { token: oldToken })
+                .then(response => {
+                    if (response.status === 200) {
+                        _$cookies.put('auth_token', response.data);
+                        _authManager.authenticate();
+                        
+                        return response.data;
+                    }
+                    throw Error(response);
+                })
+                .catch(e => e);
         }
         loginApplication(credentialsApp) {
             return _$http.post(this.endPointUrl + '/admin/users/auth', credentialsApp)
@@ -55,7 +60,7 @@
                         return response;
                     }
                 })
-                .catch(error=>error);
+                .catch(error => error);
         }
         logout() {
             let result = { data: null, statusCode: 200, errorMessage: null };
@@ -70,7 +75,7 @@
         }
     }
 
-    AuthService.$inject = ['$cookies', '$localStorage', '$http', '$q', 'appConfig' ,'authManager'];
+    AuthService.$inject = ['$cookies', '$http', '$q', 'appConfig', 'authManager'];
 
     angular.module('fakiyaMainApp')
         .service('AuthService', AuthService);

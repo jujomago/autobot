@@ -22,9 +22,4 @@ angular.module('fakiyaMainApp', [
         return 'You have updating processes in progress';
       }
     };
-
-    // Listen for 401 unauthorized requests and redirect
-    // the user to the login page
-    authManager.redirectWhenUnauthenticated();
-
   });
