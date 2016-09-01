@@ -14,17 +14,6 @@ let _PartnersService;
       this.cleanWrongPassword=false;
     }
 
-    addAccount(){
-      return _PartnersService.addAppToPartner({partnerId: 'f9', appName: 'al', credentials: {username: this.username}})
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error =>{
-        console.log(error);
-      })
-      //_$state.go('underconstruction');
-    }
-
   }
 
   CreateController.$inject = ['$state', 'PartnersService'];

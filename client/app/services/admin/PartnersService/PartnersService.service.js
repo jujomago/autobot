@@ -14,16 +14,8 @@
             var result = { data: null, statusCode: 200, errorMessage: '' };
             return _$http.post(this.endPointUrl+'/auth', credentials)
                 .then(response => {
-                    result.data = response.data.return;
-                    return result;
-                })
-                .catch(error => _HandleError(error, result));
-        }
-        addAppToPartner(appAccount) {
-            var result = { data: null, statusCode: 200, errorMessage: '' };
-            return _$http.post(this.endPointUrl + '/partner/app', appAccount)
-                .then(response => {
-                    result.data = response.data.return;
+
+                    result.data = response.data;
                     return result;
                 })
                 .catch(error => _HandleError(error, result));
