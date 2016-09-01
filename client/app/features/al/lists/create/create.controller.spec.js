@@ -46,7 +46,7 @@ describe('Component: CreateComponent', function () {
       _$httpBackend.flush();
     });
     it('list created should return 500 error statusCode', () => {
-      _$httpBackend.whenPOST(_endPointUrl).respond(500, {body: 'Error in create list'});
+      _$httpBackend.whenPOST(_endPointUrl).respond(500, {error: 'Error in create list'});
       _CreateComponent.list = { listName: 'List1' };
       _CreateComponent.save()
         .then(response => {

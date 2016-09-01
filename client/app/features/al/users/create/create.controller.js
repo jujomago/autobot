@@ -56,9 +56,9 @@
                     this.storage.rolesPermissions = response;
                     return response;
                 })
-                .catch(error => {
-                    console.log('error');
-                    console.error(error);
+                .catch(error => {                      
+                    this.message = { show: true, type: 'danger', text: error.errorMessage };
+                    return error;
                 });
 
             //   console.log(this.newUser);
@@ -166,6 +166,7 @@
                             
                             this.SubmitText = 'Save';
                             this.message = { show: true, type: 'danger', text: error.errorMessage };
+                            return error;
                         });
                 }
         }

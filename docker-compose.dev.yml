@@ -2,6 +2,8 @@ version: '2'
 services:
   mongo:
     image: mongo:3.2.9
+    volumes:
+      - "/var/abx/mongodb:/data/db"
     ports:
       - "27017:27017"
 

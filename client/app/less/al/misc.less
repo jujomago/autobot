@@ -619,13 +619,16 @@
                     line-height: 35px;
                 }
                 select{
-                    width: 99%;
+                    overflow: hidden;
+                    width: 22.3em;
                 }
                 .abx-number-input{
                     font-size: 14px;
                     font-weight: normal;
-                    padding-left: 15px;
-                    width: 37px;
+                    padding-left: 12px;
+                    line-height: 0;
+                    width: 35px;
+                    padding-top: 2px;
                 }
             }
             .skillmodal-buttons {
@@ -642,6 +645,15 @@
             .level-input {
                 width: 95px;
             }
+        }
+    }
+
+    .user-skills-tab{
+        .add-button{
+            text-align: right;
+            display: inline-block;
+            margin-top: 15px;
+            width: 100%;
         }
     }
 
@@ -666,5 +678,24 @@
     .edit-modal-x{
         right: -195px;
         position: absolute;
+    }
+
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        .skillU-modal{
+            #formSkill {
+                .inputminimal {
+                    select{
+                        padding-top: 7px;
+                    }
+                }     
+            }
+        }
+    }
+    .capitalize{
+        text-transform: capitalize;
+        padding-left: 0px;
+    }
+    .margin-with-footer{
+        margin-bottom: 35px;
     }
 }

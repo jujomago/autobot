@@ -1,18 +1,10 @@
 'use strict';
 (function () {
-    let _$http, _$q;
-    function _handleError(err, result) {
-        result.errorMessage = err.data;
-        result.statusCode = err.status;
-        let defered = _$q.defer();
-        let promise = defered.promise;
-        defered.reject(result);    
-        return promise;
-    }
+    let _$http, _HandleError;
     class ListsService {
-        constructor($http, $q, appConfig) {
+        constructor($http, HandleError, appConfig) {
             this.endPointUrl = '/f9/lists';
-            _$q = $q;
+            _HandleError = HandleError;
             if (appConfig.apiUri) {
                 this.endPointUrl = appConfig.apiUri + this.endPointUrl;
             }
@@ -34,11 +26,7 @@
                     }
                     return result;
                 })
-                .catch(error => {
-                    result.statusCode = error.status;
-                    result.errorMessage = error.data.body;
-                    return result;
-                });
+                .catch(err => _HandleError(err, result));
         }
         getLists() {
 
@@ -51,11 +39,7 @@
                         return result;
                     }
                 })
-                .catch(error => {
-                    result.statusCode = error.status;
-                    result.errorMessage = error.data.body;
-                    return result;
-                });
+                .catch(err => _HandleError(err, result));
         }
         createList(list) {
             var result = { data: null, statusCode: 201, errorMessage: '' };
@@ -65,11 +49,7 @@
                         result.data = response.data;
                         return result;
                 })
-                .catch(error => {
-                    result.statusCode = error.status;
-                    result.errorMessage = error.data.body;
-                    return result;
-                });
+                .catch(err => _HandleError(err, result));
         }
         deleteList(list) {
             console.log('list name in service');
@@ -86,13 +66,7 @@
                     }
                     return result;
                 })
-                 .catch(err => {
-                    console.log('ERROR IN DELETE LIST');
-                    console.log(err);
-                    err.statusCode = err.status;
-                    err.errorMessage = err.data.body;
-                    return err;
-                });
+                .catch(err => _HandleError(err, result));
         }
         isImportRunning(identifier, waitTime) {
             var result = { data: null, statusCode: 200, errorMessage: '' };
@@ -106,7 +80,7 @@
                     result.data = response.data.return;
                     return result;
                 })
-                .catch(err => _handleError(err, result));
+                .catch(err => _HandleError(err, result));
         }
 
         getResult(identifier) {
@@ -117,7 +91,7 @@
                     result.data = response.data.return;
                     return result;
                 })
-                .catch(err => _handleError(err, result));
+                .catch(err => _HandleError(err, result));
         }
 
         addContacts(contacts){
@@ -128,11 +102,7 @@
                         result.data = response.data;
                         return result;
                 })
-                .catch(error => {
-                    result.statusCode = error.status;
-                    result.errorMessage = error.data.body;
-                    return result;
-                });
+                .catch(err => _HandleError(err, result));
         }
 
         deleteContacts(contacts) {
@@ -147,17 +117,11 @@
                      result.data = response.data;
                      return result;
                 })
-                 .catch(err => {
-                    console.log('ERROR IN DELETE LIST');
-                    console.log(err);
-                    err.statusCode = err.status;
-                    err.errorMessage = err.data.body;
-                    return err;
-                });
+                .catch(err => _HandleError(err, result));
         }
     }
 
-    ListsService.$inject = ['$http', '$q','appConfig'];
+    ListsService.$inject = ['$http', 'HandleError','appConfig'];
     angular.module('fakiyaMainApp')
         .service('ListsService', ListsService);
 

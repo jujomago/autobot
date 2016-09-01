@@ -27,59 +27,70 @@ describe('Service:DispositionsService', function () {
     afterEach(function () {
         httpBackend.verifyNoOutstandingRequest();
     });
+    describe('#getDispositions', () => {
+      it('should return dispositions', function () {
+          httpBackend.whenGET(endPointUrl).respond(mockDispositionData);
+          DispositionsService.getDispositions().then(dispositions => {
+              expect(null).to.not.equal(dispositions);
+              expect(undefined).to.not.equal(dispositions);
+              expect(undefined).to.not.equal(dispositions.data);
+              expect(dispositions.data.length).to.equal(5);
+              expect(dispositions.statusCode).to.equal(200);
+              expect(dispositions.errorMessage.length).to.equal(0);
+          });
+          httpBackend.flush();
+      });
 
-    it('should return dispositions', function () {
-        httpBackend.whenGET(endPointUrl).respond(mockDispositionData);
-        DispositionsService.getDispositions().then(dispositions => {
-            expect(null).to.not.equal(dispositions);
-            expect(undefined).to.not.equal(dispositions);
-            expect(undefined).to.not.equal(dispositions.data);
-            expect(dispositions.data.length).to.equal(5);
-            expect(dispositions.statusCode).to.equal(200);
-            expect(dispositions.errorMessage.length).to.equal(0);
-        });
-        httpBackend.flush();
+      it('should return empty disposition array', function () {
+          httpBackend.whenGET(endPointUrl).respond({
+              return: []
+          });
+          DispositionsService.getDispositions().then(dispositions => {
+              expect(null).to.not.equal(dispositions);
+              expect(undefined).to.not.equal(dispositions);
+              expect(undefined).to.not.equal(dispositions.data);
+              expect(dispositions.data.length).to.equal(0);
+              expect(dispositions.statusCode).to.equal(200);
+              expect(dispositions.errorMessage.length).to.equal(0);
+          });
+          httpBackend.flush();
+      });
+      it('should return error in get dispositions', function () {
+          httpBackend.whenGET(endPointUrl).respond(500, {error: 'Internal Server Error'});
+          DispositionsService.getDispositions()
+          .catch(response => {
+              expect(response.statusCode).to.equal(500);
+              expect(response.errorMessage).to.equal('Internal Server Error');
+          });
+          httpBackend.flush();
+      });
     });
-
-    it('should return empty disposition array', function () {
-        httpBackend.whenGET(endPointUrl).respond({
-            return: []
-        });
-        DispositionsService.getDispositions().then(dispositions => {
-            expect(null).to.not.equal(dispositions);
-            expect(undefined).to.not.equal(dispositions);
-            expect(undefined).to.not.equal(dispositions.data);
-            expect(dispositions.data.length).to.equal(0);
-            expect(dispositions.statusCode).to.equal(200);
-            expect(dispositions.errorMessage.length).to.equal(0);
-        });
-        httpBackend.flush();
-    });
-    it('should remove a disposition', function () {
-        httpBackend.whenDELETE(endPointUrl+'/Disposition1').respond(204,null);
-        let disposition = {name: 'Disposition1'};
-        DispositionsService.deleteDisposition(disposition).then(result => {
-            expect(null).to.not.equal(result);
-            expect(undefined).to.not.equal(result);
-            expect(null).to.equal(result.data);
-            expect(result.statusCode).to.equal(204);
-            expect(result.errorMessage.length).to.equal(0);
-        });
-        httpBackend.flush();
-    });
-    it('should not remove a disposition asociated with campaigns or system disposition', function () {
-        httpBackend.whenDELETE(endPointUrl+'/Disposition1').respond(403,{
-          error: 'the explicit error'
-        });
-        let disposition = {name: 'Disposition1'};
-        DispositionsService.deleteDisposition(disposition).then(result => {
-            expect(null).to.not.equal(result);
-            expect(undefined).to.not.equal(result);
-            expect(result.statusCode).to.equal(403);
-            expect(result.errorMessage.length).to.not.equal(0);
-            expect(result.errorMessage).to.equal('the explicit error');
-        });
-        httpBackend.flush();
+    describe('#deleteDisposition', () => {
+      it('should remove a disposition', function () {
+          httpBackend.whenDELETE(endPointUrl+'/Disposition1').respond(204,null);
+          let disposition = {name: 'Disposition1'};
+          DispositionsService.deleteDisposition(disposition)
+          .then(result => {
+              expect(null).to.not.equal(result);
+              expect(undefined).to.not.equal(result);
+              expect(null).to.equal(result.data);
+              expect(result.statusCode).to.equal(204);
+              expect(result.errorMessage.length).to.equal(0);
+          });
+          httpBackend.flush();
+      });
+      it('should not remove a disposition asociated with campaigns or system disposition', function () {
+          httpBackend.whenDELETE(endPointUrl+'/Disposition1').respond(403,{
+            error: 'the explicit error'
+          });
+          let disposition = {name: 'Disposition1'};
+          DispositionsService.deleteDisposition(disposition)
+          .catch(result => {
+              expect(result.statusCode).to.equal(403);
+              expect(result.errorMessage).to.equal('the explicit error');
+          });
+          httpBackend.flush();
+      });
     });
     describe('#createDisposition', () => {
 

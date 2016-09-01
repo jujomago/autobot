@@ -44,7 +44,7 @@
 			   return this.campaignProfiles;
 			})
 			.catch(error =>{    
-			  this.message={ show: true, type: 'warning', text: error.errorMessage};
+			  this.message={ show: true, type: 'danger', text: error.errorMessage};
 			  return error;
 			});
 		}
@@ -97,6 +97,7 @@
 			            }).catch(error => {
 			            	this.deletedRow = null;
 			            	this.message = { show: true, type: 'danger', text: error.errorMessage, expires:8000};
+			            	return error;
 			            });
 			    })
 			    .catch(() => {

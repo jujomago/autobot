@@ -1,22 +1,13 @@
 'use strict';
 (function () {
-    let _$http,_$q;
-
-	function _handleError(err, result) {
-		result.errorMessage = err.data;
-		result.statusCode = err.status;
-		let defered = _$q.defer();
-		let promise = defered.promise;
-		defered.reject(result);    
-		return promise;
-	}
+    let _$http,_HandleError;
     class CampaignProfilesService {
-        constructor($http, $q, appConfig) {
-            this.endPointUrl = '/f9/campaignProfiles';
+        constructor($http, HandleError, appConfig) {
+            this.endPointUrl = '/f9/campaigns/profiles';
             if (appConfig.apiUri) {
                 this.endPointUrl = appConfig.apiUri + this.endPointUrl;
             }
-            _$q=$q;
+            _HandleError = HandleError;
             _$http = $http;
         }
 
@@ -29,7 +20,7 @@
                         return result;
                     }
                 })
-                .catch(error => _handleError(error, result));
+                .catch(error => _HandleError(error, result));
         }
         deleteCampaignProfile(profile) {
             var result = { data: null, statusCode: 204, errorMessage: '' };
@@ -41,10 +32,10 @@
                     }
                     return result;
                 })
-                .catch(error => _handleError(error, result));
+                .catch(error => _HandleError(error, result));
         }
     }
-    CampaignProfilesService.$inject = ['$http','$q','appConfig'];
+    CampaignProfilesService.$inject = ['$http','HandleError','appConfig'];
 	angular.module('fakiyaMainApp')
 	  .service('CampaignProfilesService',CampaignProfilesService);
 })();

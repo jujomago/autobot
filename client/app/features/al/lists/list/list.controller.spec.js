@@ -77,9 +77,7 @@ describe('Component: al.lists.list', function () {
 
     it('list should not be deleted return 403 statusCode', () => {
       _$httpBackend.whenDELETE(endPointUrl + '/List2').respond(403, {
-          statusCode: 403,
-          from: 'error from controller endpoint',
-          body: 'the explicit error'
+          error: 'The object cannot be deleted. Please verify it is not being used by any campaign.'
         });
 
       sandbox.stub(window, 'confirm').returns(true);
@@ -89,7 +87,7 @@ describe('Component: al.lists.list', function () {
       ListComponent.deleteList(item, 5)
         .then(response => {
           expect(ListComponent.toggleListRow).to.equal(-1);
-          expect(response.data.statusCode).to.equal(403);
+          expect(response.statusCode).to.equal(403);
           expect(ListComponent.message.type).to.equal('danger');
           expect(ListComponent.message.text).to.equal('The object cannot be deleted. Please verify it is not being used by any campaign.');
         });

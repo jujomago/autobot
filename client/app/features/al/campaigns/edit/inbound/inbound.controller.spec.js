@@ -47,7 +47,7 @@ describe('Component: al.campaigns.edit.inbound', function () {
                  expect(response.statusCode).to.equal(200);
                  expect(response.data).to.not.equal(null);
                  expect(response.data).to.have.property('name','BlueRubyDemo');
-                 expect(response.error).to.equal(null);
+                 expect(response.errorMessage).to.equal(null);
                  expect(InboundComponent.found).to.equal(true);
                  expect(InboundComponent.campaign).to.not.equal(null);
              });
@@ -105,8 +105,8 @@ describe('Component: al.campaigns.edit.inbound', function () {
             expect(response.statusCode).to.not.equal(200);
             expect(response.statusCode).to.equal(401);
             expect(response.data).to.equal(null);
-            expect(response.error).to.not.equal(null);
-            expect(InboundComponent.message).to.eql({ show: true, type: 'danger', text: response.error.body });
+            expect(response.errorMessage).to.not.equal(null);
+            expect(InboundComponent.message).to.eql({ show: true, type: 'danger', text: response.errorMessage });
          });
       httpBackend.flush();
     });
@@ -134,7 +134,7 @@ describe('Component: al.campaigns.edit.inbound', function () {
             .then(response => {
                  expect(response.statusCode).to.equal(200);
                  expect(response.data).to.not.equal(null); 
-                 expect(response.error).to.equal(null);
+                 expect(response.errorMessage).to.equal(null);
                  expect(InboundComponent.dnisAssigned).to.have.lengthOf(3);  
                  
              });
@@ -156,7 +156,7 @@ describe('Component: al.campaigns.edit.inbound', function () {
             .then(response => {
                  expect(response.statusCode).to.equal(200);
                  expect(response.data).to.not.equal(null); 
-                 expect(response.error).to.equal(null);
+                 expect(response.errorMessage).to.equal(null);
                  expect(InboundComponent.dnisAvailable).to.have.lengthOf(10);  
                  
              });
@@ -190,7 +190,7 @@ describe('Component: al.campaigns.edit.inbound', function () {
                  expect(InboundComponent.campaign.defaultIvrSchedule.scriptName).to.equal('Main.Oracle');
                  expect(response.statusCode).to.equal(200);
                  expect(response.data).to.equal(null);
-                 expect(response.error).to.equal(null);             
+                 expect(response.errorMessage).to.equal(null);             
              });
 
              httpBackend.flush();
@@ -220,8 +220,8 @@ describe('Component: al.campaigns.edit.inbound', function () {
             .then(response => {
                  expect(response.statusCode).to.equal(500);
                  expect(response.data).to.equal(null);
-                 expect(response.error).to.not.equal(null);
-                 expect(InboundComponent.message).to.eql({ show: true, type: 'danger', text: response.error.body, expires:3000 });
+                 expect(response.errorMessage).to.not.equal(null);
+                 expect(InboundComponent.message).to.eql({ show: true, type: 'danger', text: response.errorMessage, expires:3000 });
                  expect(InboundComponent.SubmitText).to.equal('Save');
              });
 
@@ -247,7 +247,7 @@ describe('Component: al.campaigns.edit.inbound', function () {
             .then(response => {
                  expect(response.statusCode).to.equal(200);
                  expect(response.data).to.equal(null); 
-                 expect(response.error).to.equal(null);        
+                 expect(response.errorMessage).to.equal(null);        
                  expect(InboundComponent.dnisAssigned).to.not.include(55554444);
                  expect(InboundComponent.dnisAvailable).to.include(55554444);           
              });
@@ -275,7 +275,7 @@ describe('Component: al.campaigns.edit.inbound', function () {
             .then(response => {
                  expect(response.statusCode).to.equal(200);
                  expect(response.data).to.equal(null); 
-                 expect(response.error).to.equal(null);     
+                 expect(response.errorMessage).to.equal(null);     
                  expect(InboundComponent.dnisAvailable).to.not.include(43434343);
                  expect(InboundComponent.dnisAssigned).to.include(43434343);      
                  

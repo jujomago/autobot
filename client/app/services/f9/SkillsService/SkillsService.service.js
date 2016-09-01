@@ -3,10 +3,11 @@
     let http;
 
     //let endPointUrl = 'http://localhost:9000/api/f9/skills';
-
+    let _HandleError;
     class SkillsService {
-        constructor($http, appConfig) {
+        constructor($http, appConfig, HandleError) {
             this.endPointUrl = '/f9/skills';
+            _HandleError = HandleError;
             if (appConfig.apiUri) {
                 this.endPointUrl = appConfig.apiUri + this.endPointUrl;
             }
@@ -25,11 +26,7 @@
                         return result;
                     }
                 })
-                .catch(error => {
-                    result.statusCode = error.status;
-                    result.errorMessage = error.data.body;
-                    return result;
-                });
+                .catch(err => _HandleError(err, result));
         }
         
         getSkillsInfo() {
@@ -43,33 +40,33 @@
                         return result;
                     }
                 })
-                .catch(error => {
-                    result.statusCode = error.status;
-                    result.errorMessage = error.data.body;
-                    return result;
-                });
+                .catch(err => _HandleError(err, result));
         }
         
         
 
         getSkill(name) {
+            var result = { data: null, statusCode: 200, errorMessage: '' };
             return http.get(this.endPointUrl + '/' + name)
                 .then(response => {
                     if (response.data) {
-                        return response.data.return;
+                        result.data = response.data.return;
                     }
-                    return null;
-                });
+                    return result;
+                })
+                .catch(err => _HandleError(err, result));
 
         }
         updateSkill(skill) {
+            var result = { data: null, statusCode: 200, errorMessage: '' };
             return http.put(this.endPointUrl , skill)
                 .then(response => {
                     if (response.data) {
-                        return response.data.return;
+                        result.data = response.data.return;
                     }
-                    return null;
-                });
+                    return result;
+                })
+                .catch(err => _HandleError(err, result));
 
         }
         createSkill(skill) {
@@ -86,17 +83,10 @@
                     }
                     return result;
                 })
-                .catch(err => {
-                    result.statusCode = err.data.statusCode;
-                    result.errorMessage = err.data.body;
-                    return result;
-                });
+                .catch(err => _HandleError(err, result));
 
         }
         deleteSkill(skill) {
-            console.log('skill name in service');
-            console.log(skill.name);
-      
             var result = { data: null, statusCode: 204, errorMessage: '' };
             return http.delete(this.endPointUrl + '/' + skill.name)
                 .then(response => {
@@ -108,16 +98,12 @@
                     }
                     return result;
                 })
-                 .catch(err => {
-                    result.statusCode = err.data.statusCode;
-                    result.errorMessage = err.data.body;
-                    return result;
-                });
+                .catch(err => _HandleError(err, result));
         }
 
     }
 
-    SkillsService.$inject = ['$http','appConfig'];
+    SkillsService.$inject = ['$http','appConfig', 'HandleError'];
     angular.module('fakiyaMainApp')
         .service('SkillsService', SkillsService);
 

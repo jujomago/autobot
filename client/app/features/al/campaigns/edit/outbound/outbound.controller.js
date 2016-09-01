@@ -47,10 +47,9 @@ class OutboundComponent {
         }
         return response;
      })
-    .catch(e =>{    
-          let theMsg= (e.error)? e.error.body:e; 
-          this.message={ show: true, type: 'danger', text: theMsg };
-          return e;
+    .catch(error =>{    
+        this.message={ show: true, type: 'danger', text: error.errorMessage };
+        return error;
     });
       
   }
@@ -71,11 +70,10 @@ class OutboundComponent {
         }
         return response;
      })
-     .catch(e =>{    
-          let theMsg= (e.error)? e.error.body:e; 
-          this.message={ show: true, type: 'danger', text: theMsg };
-          return e;
-    });
+     .catch(error =>{    
+          this.message={ show: true, type: 'danger', text: error.errorMessage };
+          return error;
+      });
   }    
    
    
@@ -88,11 +86,10 @@ class OutboundComponent {
               }
               return response;                   
           })
-         .catch(e =>{    
-                let theMsg= (e.error)? e.error.body:e; 
-                this.message={ show: true, type: 'danger', text: theMsg };
-                return e;
-          });
+         .catch(error =>{    
+            this.message={ show: true, type: 'danger', text: error.errorMessage };
+            return error;
+         });
    }
    
    getAttachedLists(campaignName){           
@@ -109,10 +106,9 @@ class OutboundComponent {
                 }
               return response;                   
           })
-          .catch(e =>{    
-                let theMsg= (e.error)? e.error.body:e; 
-                this.message={ show: true, type: 'danger', text: theMsg };
-                return e;
+          .catch(error =>{    
+              this.message={ show: true, type: 'danger', text: error.errorMessage };
+              return error;
           });
    }
    
@@ -136,10 +132,9 @@ class OutboundComponent {
          return response;
       }
     })
-    .catch(e =>{    
-          let theMsg= (e.error)? e.error.body:e; 
-          this.message={ show: true, type: 'danger', text: theMsg };
-          return e;
+    .catch(error =>{    
+        this.message={ show: true, type: 'danger', text: error.errorMessage };
+        return error;
     });
   }
   
@@ -153,11 +148,10 @@ class OutboundComponent {
       }
       return response;
     })
-   .catch(e =>{    
-          this.SubmitText='Save';    
-          let theMsg= (e.error)? e.error.body:e; 
-          this.message={ show: true, type: 'danger', text: theMsg };
-          return e;
+    .catch(error =>{  
+        this.SubmitText='Save';  
+        this.message={ show: true, type: 'danger', text: error.errorMessage };
+        return error;
     });
 
   }  

@@ -131,6 +131,11 @@ describe('Component: NavbarController', function() {
           expect(NavbarController.filteringBySearch()).to.equal (false);       
       });
 
+      it('Should return false, when input search is an ascii', () => {
+          NavbarController.search.app.appFullName = '?';
+          expect(NavbarController.filteringBySearch()).to.equal (false);       
+      });
+
   });*/
   afterEach(function () {
      _$httpBackend.verifyNoOutstandingRequest();

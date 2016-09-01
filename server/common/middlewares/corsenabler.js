@@ -2,7 +2,7 @@
 
 import cors from 'cors';
 
-let whitelist = ['http://www.dev-autoboxcorp.com:8080', 'http://www.dev-autoboxcorp.com', 'http://dev-autoboxcorp.com'];
+let whitelist = ['http://www.dev-autoboxcorp.com:8080', 'http://www.dev-autoboxcorp.com', 'http://www.dev-autoboxcorp.com:8081', 'http://dev-autoboxcorp.com:7000'];
 let corsOptions = {
     origin: function (origin, callback) {
         console.log('Evaluating origin -> ' + origin);

@@ -294,19 +294,17 @@ class ListComponent {
       console.log(this.sendContact);
       this.sending= true;
       return _ListService.addContacts(this.sendContact)
-          .then(response=>{  
-              if(response.statusCode === 201){
-                  if(response.data.return.identifier){
-                    this.sending= false;
-                    _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: true});
-                  }
-              }
-              else{
-                this.SubmitText='Save';
-                let theMsg= response.errorMessage; 
-                this.message={ show: true, type: 'danger', text: theMsg, expires: 5000 };
-              }
-              return response;
+      .then(response=>{  
+        if(response.data.return.identifier){
+          this.sending= false;
+          _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: true});
+        }
+        return response;
+      })
+      .catch(error =>{    
+        this.SubmitText='Save';
+        this.message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
+        return error;
       });
 
     }else{
@@ -321,19 +319,17 @@ class ListComponent {
       console.log(this.sendContact);
       this.sending= true;
       return _ListService.deleteContacts(this.sendContact)
-          .then(response=>{  
-              if(response.statusCode === 200){
-                  if(response.data.return.identifier){
-                    this.sending= false;
-                    _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: false});
-                  }
-              }
-              else{
-                this.SubmitText='Save';
-                let theMsg= response.errorMessage; 
-                this.message={ show: true, type: 'danger', text: theMsg, expires: 5000 };
-              }
-              return response;
+      .then(response=>{  
+        if(response.data.return.identifier){
+          this.sending= false;
+          _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: false});
+        }
+        return response;
+      })
+      .catch(error =>{    
+        this.SubmitText='Save';
+        this.message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
+        return error;
       });
     }
   }

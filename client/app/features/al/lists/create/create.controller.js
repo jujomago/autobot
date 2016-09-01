@@ -20,22 +20,20 @@
 	  	this.SubmitText = 'Saving...';
 		    return _ListService.createList(this.list)
 	        .then(response=>{  
-	            if(response.statusCode===201){
-	                this.message = {
-	                    type: 'success',
-	                    text: 'List Created SuccessFully',
-	                    expires: 3000
-	                };
-	                this.close();
-	                _$state.go('ap.al.lists', { message: this.message }, {reload: true});   
-	            }
-	            else{
-		            this.SubmitText='Save';
-		            let theMsg= response.errorMessage; 
-		            this.message={ show: true, type: 'danger', text: theMsg, expires: 5000 };
-	            }
-	            return response;
-	         });
+                this.message = {
+                    type: 'success',
+                    text: 'List Created SuccessFully',
+                    expires: 3000
+                };
+                this.close();
+                _$state.go('ap.al.lists', { message: this.message }, {reload: true});   
+            	return response;
+	         })
+	        .catch(error =>{    
+	            this.SubmitText='Save';
+	            this.message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
+	            return error;
+		    });
 	  }
 	}
 	CreateComponent.$inject = ['$state', 'ListsService'];

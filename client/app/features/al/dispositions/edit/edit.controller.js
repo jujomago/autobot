@@ -2,7 +2,7 @@
 (function(){
 	let _DispositionsService, _$state;
 	function setDispositionParams(disposition,params){
-		disposition.typeParameters={allowChangeTimer: params.allowChangeTimer, attempts: params.attempts, timer: params.timer, useTimer: params.useTimer};
+		disposition.typeParameters={allowChangeTimer: params.allowChangeTimer, attempts: params.attempts*1, timer: params.timer, useTimer: params.useTimer};
 	}
 
 	class EditComponent {
@@ -48,9 +48,9 @@
 	              }
 	              return response;                   
 	          })
-	          .catch(e =>{    
-	            this.message={ show: true, type: 'danger', text: e.errorMessage};
-	            return e;
+	          .catch(error =>{    
+	            this.message={ show: true, type: 'danger', text: error.errorMessage};
+	            return error;
 	          });
 	          
 		}
@@ -111,10 +111,10 @@
 		            }
 		            return response;
 		         })
-		          .catch(e =>{    
+		          .catch(error =>{    
 		            this.SubmitText='Save';
-		            this.message={ show: true, type: 'danger', text: e.errorMessage };
-		            return e;
+		            this.message={ show: true, type: 'danger', text: error.errorMessage };
+		            return error;
 		        });            
 		}
 	}

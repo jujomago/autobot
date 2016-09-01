@@ -76,13 +76,14 @@ describe('Component: al.users.list', function () {
 
       // user blueruby cant be deleted, it produces error 500 
 
-      httpBackend.whenDELETE(endPointUrl+'/blueruby').respond(500, { statusCode: 500, body: '<env:Envelope xmlns:env=\'http://schemas.xmlsoap.org/soap/envelope/\'><env:Header></env:Header><env:Body><env:Fault xmlns:env=\'http://schemas.xmlsoap.org/soap/envelope/\'><faultcode>env:Server</faultcode><faultstring>User &quot;blueruby&quot; can&apos;t be deleted: Cannot remove blueruby, user is a partition administrator.</faultstring><detail><ns2:UserCantBeDeletedFault xmlns:ns2=\'http://service.admin.ws.five9.com/\'><message>User &quot;blueruby&quot; can&apos;t be deleted: Cannot remove blueruby, user is a partition administrator.</message><userName>blueruby</userName></ns2:UserCantBeDeletedFault></detail></env:Fault></env:Body></env:Envelope>' });
+      httpBackend.whenDELETE(endPointUrl+'/blueruby').respond(500, { error: 'Internal Server Error' });
 
       ListComponent.deleteUser({ userName: 'blueruby' }, 4).then(response => {
 
-        expect(response.data.statusCode).to.equal(500);
+        expect(response.statusCode).to.equal(500);
         expect(ListComponent.message.show).to.equal(true);
         expect(ListComponent.message.type).to.equal('danger');
+        expect(ListComponent.message.text).to.equal('Internal Server Error');
         expect(ListComponent.toogleUserRow).to.equal(-1);
 
       });
@@ -99,12 +100,14 @@ describe('Component: al.users.list', function () {
   it('=> message type warning show, users cant be loaded', () => {
 
 
-    httpBackend.whenGET(endPointUrl).respond(401, { data: 'some error' });
+    httpBackend.whenGET(endPointUrl).respond(401, { error: 'some error' });
 
-    ListComponent.$onInit().then(response => {
-      expect(response.statusCode).to.not.equal(200);
+    ListComponent.$onInit()
+    .then(response => {
+      expect(response.statusCode).to.equal(401);
       expect(ListComponent.message.show).to.equal(true);
-      expect(ListComponent.message.type).to.equal('warning');
+      expect(ListComponent.message.type).to.equal('danger');
+      expect(ListComponent.message.text).to.equal('some error');
     });
 
     httpBackend.flush();

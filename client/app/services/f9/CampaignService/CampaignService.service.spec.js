@@ -84,7 +84,7 @@ describe('Service: CampaignService', function () {
           expect(response.statusCode).to.not.equal(200);
           expect(response.statusCode).to.equal(401);
           expect(response.data).to.equal(null);
-          expect(response.error).to.not.equal(null);
+          expect(response.errorMessage).to.not.equal(null);
 
         });
       httpBackend.flush();
@@ -140,7 +140,7 @@ describe('Service: CampaignService', function () {
           expect(response.statusCode).to.not.equal(200);
           expect(response.statusCode).to.equal(401);
           expect(response.data).to.equal(null);
-          expect(response.error).to.not.equal(null);
+          expect(response.errorMessage).to.not.equal(null);
 
         });
       httpBackend.flush();
@@ -170,7 +170,7 @@ describe('Service: CampaignService', function () {
           expect(response).to.be.property('statusCode');
           expect(response.statusCode).to.equal(201);
           expect(response.data).to.equal(null);
-          expect(response.error).to.equal(null);
+          expect(response.errorMessage).to.equal(null);
         });
 
       httpBackend.flush();
@@ -193,7 +193,7 @@ describe('Service: CampaignService', function () {
           expect(response).to.be.property('statusCode');
           expect(response.statusCode).to.equal(201);
           expect(response.data).to.equal(null);
-          expect(response.error).to.equal(null);
+          expect(response.errorMessage).to.equal(null);
         });
 
       httpBackend.flush();
@@ -220,7 +220,7 @@ describe('Service: CampaignService', function () {
           expect(response).to.be.property('statusCode');
           expect(response.statusCode).to.equal(201);
           expect(response.data).to.equal(null);
-          expect(response.error).to.equal(null);
+          expect(response.errorMessage).to.equal(null);
         });
 
       httpBackend.flush();
@@ -251,7 +251,7 @@ describe('Service: CampaignService', function () {
           expect(response).to.be.property('statusCode');
           expect(response.statusCode).to.equal(200);
           expect(response.data).to.equal(null);
-          expect(response.error).to.equal(null);
+          expect(response.errorMessage).to.equal(null);
         });
 
       httpBackend.flush();
@@ -281,7 +281,7 @@ describe('Service: CampaignService', function () {
           expect(response).to.be.property('statusCode');
           expect(response.statusCode).to.equal(200);
           expect(response.data).to.equal(null);
-          expect(response.error).to.equal(null);
+          expect(response.errorMessage).to.equal(null);
         });
 
       httpBackend.flush();
@@ -310,7 +310,7 @@ describe('Service: CampaignService', function () {
           expect(response).to.be.property('statusCode');
           expect(response.statusCode).to.equal(200);
           expect(response.data).to.equal(null);
-          expect(response.error).to.equal(null);
+          expect(response.errorMessage).to.equal(null);
         });
 
       httpBackend.flush();
@@ -349,7 +349,7 @@ describe('Service: CampaignService', function () {
           expect(response.statusCode).to.not.equal(204);
           expect(response.statusCode).to.equal(501);
           expect(response.data).to.equal(null);
-          expect(response.error).to.not.equal(null);
+          expect(response.errorMessage).to.not.equal(null);
         });
 
       httpBackend.flush();

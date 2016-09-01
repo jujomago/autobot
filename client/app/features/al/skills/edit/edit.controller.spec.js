@@ -95,7 +95,7 @@ describe('Component: al.skills.edit', function () {
             httpBackend.flush();
         });
 
-        it('=> should return false when status error occurs ', () => {
+        it('=> should return message when status error occurs ', () => {
             EditComponent.selectedSkill.id = 3;
             EditComponent.selectedSkill.name = 'Marketing';
 
@@ -105,16 +105,17 @@ describe('Component: al.skills.edit', function () {
                 skillName: EditComponent.selectedSkill.name,
                 userName: 'testName'            }
             ).respond(301,{
-                data: null, statusCode: 301, errorMessage: 'Page Redirected'
+                error: 'Server Error'
             });
 
             let addUsertoSkillPromise = EditComponent.addUsertoSkill({ userName: 'testName' }, 10);
 
             expect(EditComponent.toggleUserItem).to.have.property('item', 10);
 
-            addUsertoSkillPromise.then(response => {
-                expect(false).to.equal(response);
-                expect(EditComponent.message.show).to.equal(true);              
+            addUsertoSkillPromise.then(() => {
+                expect(EditComponent.message.show).to.equal(true); 
+                expect(EditComponent.message.type).to.equal('danger');
+                expect(EditComponent.message.text).to.equal('Server Error');              
             });
 
             httpBackend.flush();
@@ -152,7 +153,7 @@ describe('Component: al.skills.edit', function () {
                 EditComponent.selectedSkill.id=3;
                 EditComponent.selectedSkill.name='Marketing';
                                
-                httpBackend.whenPOST(endPointUrl+'/skills/add',{
+                httpBackend.whenPOST(endPointUrl+'/testName/skills',{
                     id:EditComponent.selectedSkill.id,
                     level:1,
                     skillName:EditComponent.selectedSkill.name,

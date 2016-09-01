@@ -33,9 +33,10 @@ describe('Service: ListsService', function () {
         httpBackend.flush();
     });
     it('should obtain error in create a new list', function () {
-        httpBackend.whenPOST(endPointUrl).respond(500, {body: 'Error in create list'});
+        httpBackend.whenPOST(endPointUrl).respond(500, {error: 'Error in create list'});
         let list = {listName: 'test'};
-        ListsService.createList(list).then(result => {
+        ListsService.createList(list)
+        .catch(result => {
             expect(result).to.not.equal(null);
             expect(result.statusCode).to.equal(500);
             expect(result.errorMessage).to.equal('Error in create list');
@@ -105,16 +106,15 @@ describe('Service: ListsService', function () {
     });
     it('should not remove a list asociated with campaigns', function () {
         httpBackend.whenDELETE(endPointUrl+'/ListWithCampaigns').respond(403,{
-          statusCode: 403,
-          from: 'error from controller endpoint',
-          body: 'the explicit error'
+          error: 'error from server',
         });
         let list = {name: 'ListWithCampaigns'};
-        ListsService.deleteList(list).then(result => {
+        ListsService.deleteList(list)
+        .catch(result => {
             expect(null).to.not.equal(result);
             expect(undefined).to.not.equal(result);
             expect(result.statusCode).to.equal(403);
-            expect(result.errorMessage.length).to.not.equal(0);
+            expect(result.errorMessage).to.equal('error from server');
         });
         httpBackend.flush();
     });
