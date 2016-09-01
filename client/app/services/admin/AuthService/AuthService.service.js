@@ -27,6 +27,7 @@
         }
 
         login(credentials) {
+            let result = { data: null, statusCode: 200, errorMessage: null };
             return _$http.post(this.endPointUrl + '/auth/login', credentials)
                 .then(response => {
                     if (response.status === 200) {                         
@@ -38,9 +39,10 @@
                     }
                     throw Error(response);
                 })
-                .catch(e => e);
+                .catch(e  => _handleError(e, result));
         }
         renewToken(oldToken) {
+            let result = { data: null, statusCode: 200, errorMessage: null };
             return _$http.put(this.endPointUrl + '/auth/refresh-token', { token: oldToken })
                 .then(response => {
                     if (response.status === 200) {
@@ -51,16 +53,17 @@
                     }
                     throw Error(response);
                 })
-                .catch(e => e);
+                .catch(e  => _handleError(e, result));
         }
         loginApplication(credentialsApp) {
+            let result = { data: null, statusCode: 200, errorMessage: null };
             return _$http.post(this.endPointUrl + '/admin/users/auth', credentialsApp)
                 .then(response => {
                     if (response.status === 200) {
                         return response;
                     }
                 })
-                .catch(error => error);
+                .catch(e  => _handleError(e, result));
         }
         logout() {
             let result = { data: null, statusCode: 200, errorMessage: null };
