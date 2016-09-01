@@ -8,19 +8,17 @@
 
 
 <div ng-hide="$ctrl.usersList.length===0">
-    
-    <div class="">
-        <div class="mywell pull-left">
-            <div class="searchbox_container">        
-                <input type="search" ng-model="$ctrl.search.userName" class="searchbox" placeholder="Search" ng-change="$ctrl.filteringBySearch()">
-                <span class="glyphicon glyphicon-search"></span>  
-            </div> 
-        </div>
-        <div class="mywell pull-right">
-            <button ui-sref="" class="btn btn-black rigth-space-20px btn-80fixed">Import</button>
-            <button ui-sref="ap.al.usersCreate " class="btn btn-black btn-80fixed">New</button>        
+
+    <div class="mywell pull-left">
+        <div class="searchbox_container">        
+            <input type="search" ng-model="$ctrl.search.userName" class="searchbox" placeholder="Search" ng-change="$ctrl.filteringBySearch()">
+            <span class="glyphicon glyphicon-search"></span>  
         </div> 
-    </div>   
+    </div>
+    <div class="mywell pull-right">
+        <button ui-sref="underconstruction" class="btn btn-black rigth-space-20px btn-80fixed">Import</button>
+        <button ui-sref="ap.al.usersCreate " class="btn btn-black btn-80fixed">New</button>        
+    </div>
 
     <table class="table table-striped" ng-show="$ctrl.filteredUsers.length">
 
