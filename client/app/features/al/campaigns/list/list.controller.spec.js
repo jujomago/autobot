@@ -209,7 +209,7 @@ describe('Component: al.campaigns.list', function () {
       
       httpBackend.whenGET(endPointUrl+'/start/SomeCampaignName').respond(200, null);
       
-      let promise = ListComponent.updateState(item,3)
+      let promise = ListComponent.updateState(item,3);
       expect(item.statusBtnText).to.equal('Starting');
       promise 
         .then(response => {       
