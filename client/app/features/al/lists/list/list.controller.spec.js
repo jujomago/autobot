@@ -26,7 +26,7 @@ describe('Component: al.lists.list', function () {
     _Global = Global;
     listService = _ListsService_;
     window = $window;
-    
+
     sandbox = sinon.sandbox.create();
     mockModal= {open: sinon.stub()};
     var _AlertMessage = function(){
@@ -36,13 +36,13 @@ describe('Component: al.lists.list', function () {
       endPointUrl = appConfig.apiUri + '/f9/lists';
     }
 
-
     ListComponent = $componentController('al.lists.list', {
       Global: _Global,
       $stateParams: { message: null, name: 'List6' },
       $state: state,
       ListsService: listService,
-      AlertMessage: _AlertMessage
+      AlertMessage: _AlertMessage,
+      selectedRow: { listName: 'List6' }
     });
 
     _$httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
@@ -105,6 +105,7 @@ describe('Component: al.lists.list', function () {
       expect(ListComponent.message.show).to.equal(false);
       expect(ListComponent.lists).to.have.lengthOf(0);
       var getLists = ListComponent.getLists();
+
       getLists.then(_lists => {
         expect(_lists).to.be.an.instanceOf(Array);
         expect(_lists).to.have.lengthOf(6);
@@ -114,7 +115,26 @@ describe('Component: al.lists.list', function () {
 
       _$httpBackend.flush();
     });
+    it('Lists Returned with new list created and selected', () => {
+      _$httpBackend.whenGET(endPointUrl).respond(mockListData);
 
+      expect(ListComponent.message.show).to.equal(false);
+      expect(ListComponent.lists).to.have.lengthOf(0);
+
+      var getLists = ListComponent.getLists();
+
+      getLists.then(_lists => {
+        ListComponent.selectedRow = {listName:'List6'};
+        ListComponent.$stateParams = {message: true, name: 'List6'};
+        expect(_lists).to.be.an.instanceOf(Array);
+        expect(_lists).to.have.lengthOf(6);
+        expect(ListComponent.selectedRow).to.be.an('object');
+        ListComponent.goToSelectedRow();
+        expect(ListComponent.reverse).to.equal(false);
+      });
+
+      _$httpBackend.flush();
+    });
   });
 
   it('List of Lists Returned but empty', () => {
@@ -187,7 +207,7 @@ describe('Component: al.lists.list', function () {
       _$httpBackend.whenGET(endPointUrl+'/importrunning/123-abc-456?waitTime=300').respond(200, {
             return:  false
       });
-    }); 
+    });
     it('get result nothing changed update', () => {
       _$httpBackend.whenGET(endPointUrl+'/importresults/123-abc-456').respond(200, {
             return: {

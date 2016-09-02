@@ -1,28 +1,33 @@
-<div class="row app-page">
-  <h3 class="title_section col-md-12 col-sm-12">Five9 <span>{{$ctrl.application.appFullName}}</span></h3>
-  <div class="row">
-    <div class="col-md-2 col-sm-3">
-      <div class="app-page-img-container">
-        <img class="img-responsive" src="assets/{{$ctrl.application.appName}}/images/logo-sm.jpg" alt="logo five9" />
-        <button class="btn btn-black" ng-show="$ctrl.application.isInstalled" ui-sref="underconstruction">Open app</button>
-        <button class="btn btn-black" ng-show="!$ctrl.application.isInstalled" ui-sref="underconstruction">Get app</button>
-        <p>Five9 admin account required</p>
+<div class="full-page-loading">
+    <abx-load-indicator ng-show="!$ctrl.application.appFullName" text="Loading App"></abx-load-indicator>   
+</div>
+<div class="row app-page" ng-show="$ctrl.application.appFullName">
+    <h3 class="title_section col-md-12 col-sm-12">Five9 <span>{{$ctrl.application.appFullName}}</span></h3>
+    <div class="row">
+        <div class="col-md-2 col-sm-3">
+            <div class="app-page-img-container">
+                <img class="img-responsive" ng-src="assets/{{$ctrl.application.appName}}/images/logo-sm.jpg" abx-default-image-switch="/assets/default/images/logo-sm.jpg" alt="logo {{$ctrl.application.appFullName}}" />
+                <button class="btn btn-black" ng-show="$ctrl.application.isInstalled" ui-sref="underconstruction">Open app</button>
+                <button class="btn btn-black" ng-show="!$ctrl.application.isInstalled" ui-sref="underconstruction">Get app</button>
+                <p>Five9 admin account required</p>
+            </div>
+
+        </div>
+        <div class="col-md-10 col-sm-9 app-page-detail">
+            {{$ctrl.application.description}}
+                <h4 class="app-page-subtitle">Screenshots</h4>
+                <div class="app-screens-container row">
+                    <div class="app-screen-img col-sm-4">
+                        <img class="img-responsive" ng-src="assets/al/images/screenshots/app-screen1.jpg" alt="screen1">
+                    </div>
+                     <div class="app-screen-img col-sm-4">
+                        <img class="img-responsive" ng-src="assets/al/images/screenshots/app-screen2.jpg" alt="screen2">
+                    </div>
+                     <div class="app-screen-img col-sm-4">
+                        <img  class="img-responsive" ng-src="assets/al/images/screenshots/app-screen3.jpg" alt="screen3">
+                    </div>    
+                               
+                </div>            
+        </div>
       </div>
-    </div>
-    <div class="col-md-10 col-sm-9 app-page-detail">
-      {{$ctrl.application.description}}
-      <h4 class="app-page-subtitle">Screenshots</h4>
-      <div class="app-screens-container row">
-        <div class="app-screen-img col-sm-4">
-          <img class="img-responsive" src="assets/{{$ctrl.application.appName}}/images/screenshots/app-screen1.png" alt="screen1">
-        </div>
-        <div class="app-screen-img col-sm-4">
-          <img class="img-responsive" src="assets/{{$ctrl.application.appName}}/images/screenshots/app-screen2.png" alt="screen2">
-        </div>
-        <div class="app-screen-img col-sm-4">
-          <img  class="img-responsive" src="assets/{{$ctrl.application.appName}}/images/screenshots/app-screen3.png" alt="screen3">
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
