@@ -16,6 +16,7 @@
             if (appConfig.apiUri) {
                 this.endPointUrl = appConfig.apiUri + this.endPointUrl;
             }
+            console.log(this.endPointUrl);
             this.installedEndPoint = '/assets/admin/json/installed.json';
             this.newestEndPoint = '/assets/admin/json/newapps.json';
             _$q=$q;
@@ -24,10 +25,10 @@
         }
         getApps() {
           let result = { data: null, statusCode: 200, errorMessage: null };
-          return _$http.get('/assets/admin/json/apps.json')
+          //return _$http.get('/assets/admin/json/apps.json')
+          return _$http.get(this.endPointUrl)
             .then(response => {
             	result.data = response.data;
-              console.log(result.data);
             	return result;
             })
             .catch(err => _handleError(err, result));

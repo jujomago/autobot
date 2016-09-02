@@ -1,10 +1,15 @@
 'use strict';
 (function(){
 	class AppsComponent {
-	constructor($state, AppsService) {
+	constructor($state, AppsService, lodash) {
 		this.partners = [];
+		this.apps = [];
+		this.appsByPartner = [];
+		this.appsPartner = {};
 		this.message = {show: false};
 		this.AppsService = AppsService;
+		_lodash = lodash;
+		this.getter = 'partner.partnerFullName';
 	}
 	$onInit(){
 		this.getApps();
@@ -13,41 +18,20 @@
 		return this.AppsService.getApps()
 		.then(response => {
 			console.log("=====APPS CONTROLLER====");
-			// console.log(response);
-			// let sales = new Array();
-			// let five9 = new Array();
-			// let ganalitics = new Array();
-			// let analitics = new Array();
-			// let i=0;
-			// let s=0;
-			// let f=0;
-			// let g=0;
-			// let a=0;
-			 this.partners=response.data;
-			 console.log(response.data);
-			// console.log(response.data.length);
-			// while(i<response.data.length){
-			// 	if(this.partners[i].partner.partnerName == "Five9"){
-			// 		five9[f] = this.partners[i];
-			// 		f++;
-			// 	}else if(this.partners[i].partner.partnerName == "SalesForce"){
-			// 		sales[s] = this.partners[i];
-			// 		s++;
-			// 	}else if(this.partners[i].partner.partnerName == "GoogleAnalitics"){
-			// 		ganalitics[g] = this.partners[i];
-			// 		g++;
-			// 	}else if(this.partners[i].partner.partnerName == "Analitics"){
-			// 		analitics[a] = this.partners[i];
-			// 		a++;
-			// 	}
-			// 	i++;
-			// }
-			// response =
-			// console.log(sales);
-			// console.log(five9);
-			// console.log(ganalitics);
-			// console.log(analitics);
 			console.log(response);
+			this.apps=this.groupBy(response.data);
+			this.partners = Object.getOwnPropertyNames(this.apps);
+			//this.partners = response.data;
+			let x = this.apps.Five9;
+			let partn = this.partners;
+			partn = partn[1];
+			console.log(partn);
+			for(let i = 0; i<x.length;i++){
+					this.appsByPartner[i] = this.apps.Five9[i].app;
+
+			}
+			this.appsPartner = { apps: this.appsByPartner, partnerName: 'Five9' }
+			console.log(this.appsPartner.partnerName);
 			return response;
 		})
 		.catch(error => {
@@ -56,19 +40,14 @@
             return error;
 		});
 	}
-	getAppsByPartner(partner, data){
-		let i = 0;
-		let j = 0;
-		while(i<data.length){
-			if(data[i].partner.partnerName == partner){
-				apps[j] = this.partners[i];
-				j++;
-			}
-			i++;
-		}
-	}
+	groupBy(list){
+    let getter = _$parse(this.getter);
+    return _lodash.groupBy(list, function(item) {
+        return getter(item);
+    });
+  }
 }
-	AppsComponent.$inject = ['$state', 'AppsService'];
+	AppsComponent.$inject = ['$state', 'AppsService', 'lodash'];
 	angular.module('fakiyaMainApp')
 	  .component('apps', {
 	    templateUrl: 'app/site/apps/apps.html',
