@@ -477,7 +477,7 @@
     .header-table-mapping{
           background: white;
           border: 1px solid #ddd;
-          padding: 35px;
+          padding: 35px 35px 13px;
           color:@grayforte;
           margin-top: 20px;
           .btn-primary{
@@ -497,9 +497,14 @@
            background: white;
            border: 1px solid @gray;
            margin: 0 2px;
+           height: 30px;
            &:disabled{
                background: @gray;
            }
+        }
+        input[type='checkbox']{
+            display: inline-block;
+            vertical-align: middle;
         }
     
         label{
@@ -524,15 +529,18 @@
         }
         .separator{
              margin-right: 15px;
-             display: inline-block;
-             margin-bottom: 20px;   
+             display: inline-block;             
+             vertical-align: top; 
              select{ 
                  width: 120px;
              }     
              input[type=text]{
-                 width: 50px;
-                 background: white;
+                 width: 40px;
+                 text-align: center;
              }     
+        }
+        .row{
+            margin-bottom: 25px;
         }
     }
 
