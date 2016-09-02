@@ -1,24 +1,22 @@
 'use strict';
 let _$state;
+let _PartnersService;
 (function () {
 
   class CreateController {
 
-    constructor($state) {
+    constructor($state, PartnersService) {
       _$state = $state;
+      _PartnersService = PartnersService;
       this.username = '';
       this.password = '';
       this.message = { show: false };
       this.cleanWrongPassword=false;
     }
 
-    addAccount(){
-      _$state.go('underconstruction');
-    }
-
   }
 
-  CreateController.$inject = ['$state'];
+  CreateController.$inject = ['$state', 'PartnersService'];
 
 
 angular.module('fakiyaMainApp')
