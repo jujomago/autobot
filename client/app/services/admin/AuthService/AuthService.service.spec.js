@@ -15,9 +15,6 @@ describe('Service: AuthService', function () {
     if(appConfig.apiUri){
         endPointUrl=appConfig.apiUri;
     }
-
-
-
   }));
   
   afterEach(function () {
@@ -68,6 +65,43 @@ describe('Service: AuthService', function () {
       });
 
   });
+
+describe('#renewToken',()=>{
+      it('=>Token is renewed succesfully, status 200',()=>{
+
+         let oldToken='eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyaWQiOiI1N2MyMjRmN2FlZjdiYzEwMDBjM2U3MmEiLCJkb21haW4iOiJhdXRvYm94Y29ycC5jb20iLC';
+         let newToken='j2NIl4nXwxItHYCQ6QYCHneTa5Hb8gSXhvXrsXrVxYLIqtu820gIUqEMYjKb09TmbQfegi3cJN8stfrqyDYWmHvFQC99kd08vS3gvjxA6IC6_aLPGYkiCQ86cRYO_Ahb2QBNCFHA_f_DPJb0O';
+         httpBackend.whenPUT(endPointUrl+'/auth/refresh-token',{token:oldToken}).respond(200,newToken);
+
+          AuthService.renewToken(oldToken)
+          .then(response=>{
+              expect(response.status).to.equal(200);
+              expect(response.data).to.equal(newToken);
+          });
+
+          httpBackend.flush();
+      });
+
+      it('=> Invaid token for renew, status 401',()=>{
+         
+         let oldToken='eyJ0eXAiOiJKV1QiLCJhbGcsiOiJSUzI1NiJ9.eyJ1c2VyaWQiOiI1N2MyMjRmN2FlZjdiYzEwMDBjM2U3MmEiLCJkb21haW4iOiJhdXRvYm94Y29ycC5jb20iLC';
+                
+         httpBackend.whenPUT(endPointUrl+'/auth/refresh-token',{token:oldToken}).respond(401,{
+            'error': 'invalid token'
+         });
+
+          AuthService.renewToken(oldToken)
+          .then(response=>{ 
+              expect(response.status).to.equal(401);
+              expect(response.data.error).to.equal('invalid token');
+          });
+
+          httpBackend.flush();
+      });
+
+  });
+
+
 
   describe('#loginApplication',()=>{
       it('=> User logged in Successfully with credentials F9',()=>{

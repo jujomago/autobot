@@ -1,33 +1,54 @@
 'use strict';
 
-function authInterceptor($q,$cookies,$location) {
-	let tokentInjector = {
-		request: function (httpConfig) {
-			httpConfig.headers = httpConfig.headers || {};
-			if ($cookies.get('auth_token')) {
-				console.log('===== sending TOKEN IN HEADER ====');
-				let token = $cookies.get('auth_token');
-				httpConfig.headers.Authorization = 'Bearer ' + token;
-			}
-			return httpConfig;
-		},
-		responseError: function (rejection) {
-			if (rejection.status === 401) {
-				 $location.path('/login'); 
-			}
-			return $q.reject(rejection); 
-		}
-	};
+function configInterceptor($httpProvider,jwtOptionsProvider,appConfig){
 
-	return tokentInjector;
+	let tempTag=document.createElement('a');
+	tempTag.href=appConfig.apiUri;
+	let hostname=tempTag.hostname;
+   
+   jwtOptionsProvider.config({
+	  whiteListedDomains: [hostname],
+	  unauthenticatedRedirector:['$cookies','authManager','$location',function($cookies,authManager,$location){
+	  	  console.log('cleaning old expired cookie');
+		  $cookies.remove('auth_token');
+          authManager.unauthenticate();
+		  $location.path('/login'); 
+	  }],	
+	 
+      tokenGetter:['$cookies','options',function($cookies,options) {
+
+		let idToken=$cookies.get('auth_token'); 	
+
+		let endUrl= /[^.]+$/.exec(options.url);
+
+	
+		if (endUrl[0] === 'html' || endUrl[0] === 'json') {
+          return null;
+        }
+
+		return idToken;
+        }]
+    });
+
+	$httpProvider.interceptors.push('jwtInterceptor');
 }
 
-authInterceptor.$inject = ['$q','$cookies', '$location'];
-
+configInterceptor.$inject = ['$httpProvider','jwtOptionsProvider','appConfig'];
 
 angular.module('fakiyaMainApp')
-	.config(['$httpProvider', function ($httpProvider) {
-		//  $httpProvider.defaults.withCredentials = true;
-		$httpProvider.interceptors.push('authInterceptor');
-	}])
-	.factory('authInterceptor', authInterceptor);
+	.config(configInterceptor)
+	.run(function(authManager, $cookies, $interval, AuthService){
+		
+		let minutes = 30 * 60 * 1000;
+		$interval(()=> {
+			if($cookies.get('auth_token')) {
+				console.log('calling renew');
+				AuthService.renewToken($cookies.get('auth_token'));
+			}
+		}, minutes);
+
+		// Listen for 401 unauthorized requests and redirect
+		// the user to the login page
+		authManager.redirectWhenUnauthenticated();
+	});
+

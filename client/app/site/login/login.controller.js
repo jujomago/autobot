@@ -25,7 +25,6 @@
       console.log(credentials);
       return _auth.login(credentials)
         .then(response => {
-
           if (response.status === 200) {
             let userApp = {
               'partnerId': 'f9',
@@ -37,9 +36,7 @@
           }
           throw response;
         })
-        .then(response => {
-          console.log('==== AUTH RESPONSE ====');
-          console.log(response);
+        .then(response => {    
           let decoded;
           if(_$stateParams.url && (decoded = _Base64Manager.decode(_$stateParams.url))){
             _$location.url(decoded).search('url', null);
@@ -48,12 +45,8 @@
           }
           return response;
         })
-        .catch(e => {     
-          if (e.status && e.data) {
-            this.message = { show: true, text: e.data, type: 'danger' };
-          } else {
-            this.message = { show: true, text: e, type: 'danger' };
-          }
+        .catch(e => {         
+          this.message = { show: true, text: e.errorMessage || e, type: 'danger' };        
           return e;
         });
     }
