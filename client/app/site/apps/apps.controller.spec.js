@@ -66,7 +66,7 @@ describe('Component: AppsComponent', function () {
       _$httpBackend.flush();
     });
     it('=> should return Status 500, error in update', () => {
-      _$httpBackend.whenGET(endPointUrl).respond(500, 'Internal Server Error');
+      _$httpBackend.whenGET(endPointUrl).respond(500, {error: 'Internal Server Error'});
       AppsComponent.getApps()
        .then(() =>{
           expect(AppsComponent.partners.length).to.equal(0);

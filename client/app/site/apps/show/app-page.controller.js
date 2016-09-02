@@ -8,7 +8,6 @@
 			this.message = { show: false };
 			_AppsService = AppsService;
 			this.application = {};
-			this.imageExists = true;
 		}
 		$onInit() {
 			this.getApp();
@@ -17,6 +16,7 @@
 			return _AppsService.getApp(this.appName)
 				.then(response => {
 					this.application=response.data.app;
+					this.application.isInstalled = response.data.installed;
 				})
 				.catch(error => {
 					let theMsg = error.errorMessage;
