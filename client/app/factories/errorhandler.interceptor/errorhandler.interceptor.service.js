@@ -4,10 +4,7 @@ angular.module('fakiyaMainApp')
 	.factory('ErrorHandlerInterceptor', ['$q', '$location', function ($q, $location) {
 		return {
 			responseError: function error(response) {
-				switch (response.status) {
-					case 401:
-						$location.path('/login');
-						break;
+				switch (response.status) {				
 					case 404:	
 						$location.path('/404');
 						break;

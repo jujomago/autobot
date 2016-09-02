@@ -8,12 +8,11 @@ angular.module('fakiyaMainApp', [
   'ui.router',
   'ui.bootstrap',
   'ngStorage',
-  'ngMessages'
+  'ngMessages',
+  'angular-jwt'
 ])
   .config(function ($urlRouterProvider, $locationProvider) {
-    $urlRouterProvider
-      .otherwise('/');
-
+    $urlRouterProvider.otherwise('/');
     $locationProvider.html5Mode(true);
   }).run(function (lodash, $window, Global) { // jshint ignore:line
     //this method is only for run the lodash deletion

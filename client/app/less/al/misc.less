@@ -70,13 +70,13 @@
     }
 
     /*button with 80px of width fixed*/
-    .btn-80fixed{
+    .btn-fixed-80{
         width: 80px;
         padding: 0;
         text-align: center;
     }
 
-    .rigth-space-20px{
+    .right-space-20{
         margin-right: 20px;
     }
     .btn-shared-row{
@@ -278,6 +278,7 @@
             }
             .settings-well{
                 background-color: white;
+                margin-bottom: 0;
                 &>div{
                     color: #666;
                 }
@@ -477,7 +478,7 @@
     .header-table-mapping{
           background: white;
           border: 1px solid #ddd;
-          padding: 35px;
+          padding: 35px 35px 13px;
           color:@grayforte;
           margin-top: 20px;
           .btn-primary{
@@ -497,9 +498,14 @@
            background: white;
            border: 1px solid @gray;
            margin: 0 2px;
+           height: 30px;
            &:disabled{
                background: @gray;
            }
+        }
+        input[type='checkbox']{
+            display: inline-block;
+            vertical-align: middle;
         }
     
         label{
@@ -521,6 +527,22 @@
         }
         #contactSelect{
             flex-grow: 1;
+        }
+
+        .separator{
+             margin-right: 15px;
+             display: inline-block;             
+             vertical-align: top; 
+             select{ 
+                 width: 120px;
+             }     
+             input[type=text]{
+                 width: 40px;
+                 text-align: center;
+             }     
+        }
+        .row{
+            margin-bottom: 25px;
         }
     }
 
@@ -691,6 +713,9 @@
         right: -195px;
         position: absolute;
     }
+    .full-page-loading >abx-load-indicator>.loader_indicator{
+        width: 100%;
+    }
     .capitalize{
         text-transform: capitalize;
         padding-left: 0px;
@@ -715,5 +740,9 @@
     }
     .margin-with-footer{
         margin-bottom: 35px;
+    }
+    .fixed-margin-15{
+        margin-top: 15px;
+        margin-bottom: 15px;
     }
 }
