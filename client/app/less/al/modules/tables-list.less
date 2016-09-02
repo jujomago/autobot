@@ -28,13 +28,16 @@
         }
     }
     .table tbody tr td {
-        transition: all .3s ease-out;       
+        transition: all .3s ease-out;
         border-top: 1px solid @color0;
         color: #666666;
         font-family: BrandonRegular;
         font-size: 14px;
         padding: 7px 8px;
         vertical-align: middle;
+    }
+    .table tbody tr.selected td{
+      background:#eff8fc;
     }
     .table tbody tr {
         &:last-child {
@@ -65,7 +68,7 @@
                  cursor:pointer;
             }
             .rowselected {
-                 td{                
+                 td{
                     background-color: #d4d4d4;
                 }
             }
