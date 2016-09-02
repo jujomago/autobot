@@ -2,10 +2,9 @@
 (function(){
 	class AppsComponent {
 	constructor($state, AppsService, lodash) {
-		this.partners = [];
+		//this.partners = [];
 		this.apps = [];
-		this.appsByPartner = [];
-		this.appsPartner = {};
+		this.appsPartner = [];
 		this.message = {show: false};
 		this.AppsService = AppsService;
 		_lodash = lodash;
@@ -14,24 +13,18 @@
 	$onInit(){
 		this.getApps();
 	}
+
+	//This needs a refactor to be able for any partner.
 	getApps(){
 		return this.AppsService.getApps()
 		.then(response => {
-			console.log("=====APPS CONTROLLER====");
-			console.log(response);
 			this.apps=this.groupBy(response.data);
-			this.partners = Object.getOwnPropertyNames(this.apps);
 			//this.partners = response.data;
-			let x = this.apps.Five9;
-			let partn = this.partners;
-			partn = partn[1];
-			console.log(partn);
-			for(let i = 0; i<x.length;i++){
-					this.appsByPartner[i] = this.apps.Five9[i].app;
-
+			console.log(this.apps);
+			let f9 = this.apps.Five9;
+			for(let i = 0; i<f9.length;i++){
+				this.appsPartner[i] = {app: f9[i].app, installed: f9[i].installed};
 			}
-			this.appsPartner = { apps: this.appsByPartner, partnerName: 'Five9' }
-			console.log(this.appsPartner.partnerName);
 			return response;
 		})
 		.catch(error => {

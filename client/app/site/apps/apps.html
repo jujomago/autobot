@@ -1,23 +1,22 @@
 <navbar></navbar>
 <div class="row offsettop col-equal-height al-theme" >
 	<section class="row apps-page-container">
-
 		<h3 class="title_section">Autobox apps</h3>
 		<abx-message msg="$ctrl.message"></abx-message>
-		<div class="partner-container" ng-repeat="partner in $ctrl.appsPartner">
-			<b>{{partner.partnerName}}</b>
+		<div class="partner-container">
+			<b>Five9</b>
 			<div class="row apps-container">
-				<div class="col-md-2-5 col-sm-6 col-xs-12" ng-repeat="app in partner.apps">
+				<div class="col-md-2-5 col-sm-6 col-xs-12" ng-repeat="app in $ctrl.appsPartner">
 					<div class="image-container">
-						<img ng-src="assets/{{app.appName}}/images/logo-sm.jpg">
+						<img ng-src="assets/{{app.app.appName}}/images/logo-sm.jpg">
 					</div>
 					<div class="title-container">
-						<h3>{{app.appFullName}}</h3>
+						<h3>{{app.app.appFullName}}</h3>
 					</div>
 					<div class="text-container">
-						<p>{{app.description}}</p>
-						<button type="button" ui-sref="underconstruction" class="btn btn-black" ng-show="app.isInstalled">Open app</button>
-						<button type="button" ui-sref="underconstruction" class="btn btn-black" ng-show="!app.isInstalled">Get app</button>
+						<p>{{app.app.description}}</p>
+						<button type="button" ui-sref="underconstruction" class="btn btn-black" ng-show="app.installed">Open app</button>
+						<button type="button" ui-sref="underconstruction" class="btn btn-black" ng-show="!app.installed">Get app</button>
 					</div>
 				</div>
 			</div>

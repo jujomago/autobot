@@ -16,7 +16,6 @@
             if (appConfig.apiUri) {
                 this.endPointUrl = appConfig.apiUri + this.endPointUrl;
             }
-            console.log(this.endPointUrl);
             this.installedEndPoint = '/assets/admin/json/installed.json';
             this.newestEndPoint = '/assets/admin/json/newapps.json';
             _$q=$q;
