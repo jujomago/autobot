@@ -20,6 +20,16 @@
                 })
                 .catch(error => _HandleError(error, result));
         }
+
+        getLastPartnerAccount(partnerName){
+        var result = { data: null, statusCode: 200, errorMessage: '' };
+        return _$http.post(this.endPointUrl+'/partner/'+partnerName+'/lastusedaccount', credentials)
+            .then(response => {
+                result.data = response.data;
+                return result;
+            })
+            .catch(error => _HandleError(error, result));
+        }
     }
     PartnersService.$inject = ['$http','HandleError','appConfig'];
 	angular.module('fakiyaMainApp')
