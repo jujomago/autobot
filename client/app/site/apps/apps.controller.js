@@ -19,6 +19,7 @@
 		return this.AppsService.getApps()
 		.then(response => {
 			this.apps=this.groupBy(response.data);
+			console.log(this.apps);
 			//this.partners = response.data;
 			console.log(this.apps);
 			let f9 = this.apps.Five9;
