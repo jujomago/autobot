@@ -83,6 +83,9 @@ class NavbarController {
   selectApp(appName){
     _$state.go('ap.page',{appName: appName});
   }
+  selectInstalledApp(selected){
+    _$state.go('ap.page',{appName: selected.app.appName, partnerId: selected.partner.partnerName, username: 'five9_1@five.com'});
+  }
   getInstalled(){
     return _appsService.getInstalled().then(response => {
       this.myAppsFromService = response.data;
