@@ -379,18 +379,30 @@
         nextStep(){
             console.log('next Step');
             console.log(this.contactFields);
+            let keysCount = _.filter(this.contactFields,{'isKey': true}).length;
+            if(keysCount>0 && keysCount<13){
+                let dataToSend = {
+                        fields: this.contactFields
+                };
 
-            let dataToSend = {
-                    fields: this.contactFields
-            };
+                if (_$stateParams.settings.listDeleteSettings) {
+                    dataToSend.listDeleteSettings = _$stateParams.settings.listDeleteSettings;
+                } else {
+                    dataToSend.listUpdateSettings = _$stateParams.settings.listUpdateSettings;
+                }
 
-            if (_$stateParams.settings.listDeleteSettings) {
-                dataToSend.listDeleteSettings = _$stateParams.settings.listDeleteSettings;
-            } else {
-                dataToSend.listUpdateSettings = _$stateParams.settings.listUpdateSettings;
+                _$state.go('ap.al.listsEdit-list', {settings:dataToSend, name: _$stateParams.name, manual: true});  
             }
-
-            _$state.go('ap.al.listsEdit-list', {settings:dataToSend, name: _$stateParams.name, manual: true});           
+            else{
+                let messageText;
+                if(keysCount===0){
+                    messageText = 'At least one field must be marked as key';
+                }
+                else{
+                    messageText = 'No more than 12 fields can be marked as key';
+                }
+                this.message = {type: 'warning', show: true, text: messageText, expires: 5000};
+            }  
         }
 
         finishMap() {
