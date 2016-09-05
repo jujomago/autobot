@@ -20,7 +20,9 @@
               <div class="col-sm-12" ng-show="nav.myAppsFromService.length > 0">
                 <div class="col-sm-12 myapps-title">
                   <div class="pull-left">
-                    <h4> <span class="underline">My apps</span></h4>
+                    <h4>
+                      <span class="underline">My apps</span>
+                    </h4>
                   </div>
                   <div class="pull-right">
                     <input id="submenu-search" type="text" name="search" ng-model="nav.search.app.appFullName" placeholder="Filter" ng-change="nav.filteringBySearch()" abx-pattern-filter="/^[^\`~&%#,|()':;?¿¡[/}=\]&quot;{*>!\\+<^]*$/">
@@ -51,7 +53,9 @@
             <div class="col-sm-5 new-apps" ng-class="{'border-left': nav.total <= nav.newApps.length}">
               <div class="newapps-title">
                 <div class="pull-left">
-                  <h4>New apps<span class="underline"></span></h4>
+                  <h4>
+                    <span class="underline">New apps</span>
+                  </h4>
                 </div>
                 <div class="pull-right link-see-all">
                   <h6><a ui-sref="apps">View all</a></h6>
