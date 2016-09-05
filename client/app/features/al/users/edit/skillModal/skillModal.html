@@ -9,7 +9,7 @@
   <form class="custom_form form-horizontal" name="formSkill" novalidate ng-submit="formSkill.$valid && $ctrl.save()" id="formSkill">
 
     <div ng-if="$ctrl.skills" class="inputminimal" ng-class="{ 'has-error': formSkill.skill.$invalid && formSkill.$submitted }">
-            <label for="skill">Skills</label>     
+            <label for="skill">Skills</label>
             <div>
                  <select ng-model="$ctrl.skill" name="skill" ng-options="v.name as v.name for (k, v) in $ctrl.skills" required class="form-control">
                  </select>
@@ -17,11 +17,11 @@
     </div>
 
     <div class="inputminimal" ng-if="!$ctrl.skills">
-            <label>{{$ctrl.skill}}</label>     
+            <label>{{$ctrl.skill}}</label>
     </div>
 
     <div class="inputminimal level-input" ng-class="{ 'has-error': formSkill.level.$invalid && formSkill.$submitted }">
-      <label for="level">Level</label>     
+      <label for="level">Level</label>
       <div class="timer-container">
         <div class="timer-items">
           <abx-number-updown ng-model="$ctrl.level" min-value="1" max-value="10"></abx-number-updown>
@@ -38,11 +38,11 @@
     <div ng-messages="formSkill.level.$error.pattern" ng-show="formSkill.$submitted">
         <p>Not a valid level</p>
     </div>
-    <div class="skillmodal-buttons">
-      <div class="text-center">     
+    <div class="skillmodal-buttons remove-spaces-inline">
+      <div class="text-center">
         <button type="submit" class="btn btn-blue">Save</button>
         <button type="button" class="btn btn-blue" ng-click="$ctrl.cancel()">Cancel</button>
-      </div> 
+      </div>
     </div>
-  </form>    
+  </form>
 </div>
