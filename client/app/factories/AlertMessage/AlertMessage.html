@@ -11,6 +11,28 @@
         	<ul>
         		<li ng-repeat="item in content.list">{{item}}</li>
         	</ul>
+<<<<<<< Updated upstream
+=======
+            <table ng-if="content.listDetail" class="table table-striped table-summary table-y-scroll table-y-scroll-col2">
+                <caption ng-if="content.listDetail.headerList">
+                    {{content.listDetail.headerList}}
+                </caption>
+                <thead>
+                    <tr>
+                        <th ng-repeat="colName in content.listDetail.cols">
+                            {{colName}}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="itemList in content.listDetail.rows">
+                        <td ng-repeat="item in itemList">
+                            {{item}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+>>>>>>> Stashed changes
         </div>
         <div class="modal-button-container">
           <button class="btn btn-blue" ng-click="close()">OK</button>
