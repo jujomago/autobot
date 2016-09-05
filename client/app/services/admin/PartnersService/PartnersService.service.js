@@ -23,7 +23,7 @@
 
         getLastUsedPartnerAccount(partnerName){
             var result = { data: null, statusCode: 200, errorMessage: '' };
-            return _$http.post(this.endPointUrl+'/partner/'+partnerName+'/lastusedaccount')
+            return _$http.get(this.endPointUrl+'/partner/'+partnerName+'/lastusedaccount')
                 .then(response => {
                     result.data = response.data;
                     return result;

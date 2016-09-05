@@ -1,16 +1,16 @@
 'use strict';
 
-let _$location, _authService, _Base64Manager;
+let _$location, _authService, _Base64Manager, _SelectLastAccount;
 let _lodash;
 let _appsService;
 let _$filter, _$parse, _$state;
 class NavbarController {
 
-  constructor($filter, $parse, $location, $state, lodash, AuthService, AppsService, Base64Manager) {
+  constructor($filter, $parse, $location, $state, lodash, AuthService, AppsService, Base64Manager, SelectLastAccount) {
 
     this.isCollapsed = true;
     _Base64Manager = Base64Manager;
-  
+    _SelectLastAccount = SelectLastAccount
     this.userOptionsCollapsed = true;
     _$state = $state;
     _$location=$location;
@@ -84,7 +84,8 @@ class NavbarController {
     _$state.go('ap.page',{appName: appName});
   }
   selectInstalledApp(selected){
-    _$state.go('ap.page',{appName: selected.app.appName, partnerId: selected.partner.partnerName, username: 'five9_1@five.com'});
+    _SelectLastAccount('fd9');
+    //_$state.go('ap.page',{appName: selected.app.appName, partnerId: selected.partner.partnerName, username: 'five9_1@five.com'});
   }
   getInstalled(){
     return _appsService.getInstalled().then(response => {
@@ -139,7 +140,7 @@ class NavbarController {
 
 }
 
-NavbarController.$inject=['$filter', '$parse' , '$location', '$state','lodash', 'AuthService', 'AppsService', 'Base64Manager'];
+NavbarController.$inject=['$filter', '$parse' , '$location', '$state','lodash', 'AuthService', 'AppsService', 'Base64Manager', 'SelectLastAccount'];
 
 angular.module('fakiyaMainApp')
   .controller('NavbarController', NavbarController);

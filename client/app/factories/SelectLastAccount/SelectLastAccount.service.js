@@ -5,11 +5,12 @@ angular.module('fakiyaMainApp')
     function getLastPartnerAccount(partnerId, appName){
       return PartnersService.getLastUsedPartnerAccount(partnerId)
       .then(response => {
-        $state.go('');
+        console.log(response);
+        $state.go('ap.al.skills');
         return response;
       })
       .catch(error => {
-        $state.go('');
+        $state.go('login');
         return error;
       });
     }

@@ -44,7 +44,7 @@ describe('Service:PartnersService', function () {
   describe('#getLastUsedPartnerAccount', () => {
     it('should return 200 if login', function () {
         let partnerName = 'f9';
-        _$httpBackend.whenPOST(_endPointUrl+'/partner/f9/lastusedaccount').respond(200, {username: 'five9_1@five.com'});
+        _$httpBackend.whenGET(_endPointUrl+'/partner/f9/lastusedaccount').respond(200, {username: 'five9_1@five.com'});
         _PartnersService.getLastUsedPartnerAccount(partnerName)
         .then(result => {
             expect(result.data.username).to.equal('five9_1@five.com');
@@ -55,7 +55,7 @@ describe('Service:PartnersService', function () {
     });
     it('should return unexpected server error', function () {
         let partnerName = 'f9';
-        _$httpBackend.whenPOST(_endPointUrl+'/partner/f9/lastusedaccount').respond(500, {error: 'Internal Server Error'});
+        _$httpBackend.whenGET(_endPointUrl+'/partner/f9/lastusedaccount').respond(500, {error: 'Internal Server Error'});
         _PartnersService.getLastUsedPartnerAccount(partnerName)
         .catch(error => {
             expect(error.errorMessage).to.equal('Internal Server Error');
