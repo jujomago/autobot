@@ -5,16 +5,49 @@
 <div class="modal-body">
     <form name="formList" novalidate ng-submit="formList.$valid && $ctrl.save()" class="custom_form form-horizontal">
         <div class="contact-model-form">
-          <div ng-repeat="form in $ctrl.formDataModal" > 
-            <div class="inputminimal" ng-class="{ 'has-error': formList[form.name].$invalid && formList.$submitted }">  
-                <label for="{{form.name}}">{{form.name | removeUnderscore}}<span ng-if="form.required"> (key)</span></label>     
+          <div ng-repeat="form in $ctrl.formDataModal" >
+            <div class="inputminimal" ng-class="{ 'has-error': formList[form.name].$invalid && formList.$submitted }">
+                <label for="{{form.name}}">{{form.name | removeUnderscore}}<span ng-if="form.required"> (key)</span></label>
                 <div>
-                     <input type="{{form.type}}" ng-if="form.type != 'date-text' && form.type != 'tel'" name="{{form.name}}" ng-minlength="{{form.minlength}}" ng-maxlength="{{form.maxlength}}" id="{{form.name}}" ng-model="$ctrl.contact[form.name]" ng-required="form.required" ng-change="$ctrl.phoneChanged()"/>
-                     <input type="{{form.type}}" ng-if="form.type == 'tel' " name="{{form.name}}" ng-minlength="{{form.minlength}}" ng-maxlength="{{form.maxlength}}" id="{{form.name}}" ng-model="$ctrl.contact[form.name]" ng-required="$ctrl.phoneRequired" ng-change="$ctrl.phoneChanged()" abx-check-phone="/^[^A-Za-zñÑ´ç`_.,\¿¡*~&%#,|_':;?[/}=\]&quot;{*>!\\<^]*$/"/>
-                     <input ng-if="form.type == 'date-text'" type="{{form.type}}" name="{{form.name}}" ng-minlength="{{form.minlength}}" ng-maxlength="{{form.maxlength}}" id="{{form.name}}" ng-model="$ctrl.dates[$index].date" ng-required="form.required" uib-datepicker-popup="MM-dd-yyyy" datepicker-options="$ctrl.dateOptions" is-open="$ctrl.dates[$index].opened" readonly="" ng-change="$ctrl.phoneChanged()"/>
+                     <input type="{{form.type}}"
+                            ng-if="form.type != 'date-text' && form.type != 'tel'"
+                            name="{{form.name}}"
+                            ng-minlength="{{form.minlength}}"
+                            ng-maxlength="{{form.maxlength}}"
+                            id="{{form.name}}"
+                            ng-model="$ctrl.contact[form.name]"
+                            ng-required="form.required"
+                            ng-change="$ctrl.phoneChanged()"/>
+                     <input type="{{form.type}}"
+                            ng-if="form.type == 'tel' "
+                            name="{{form.name}}"
+                            ng-minlength="{{form.minlength}}"
+                            ng-maxlength="{{form.maxlength}}"
+                            id="{{form.name}}"
+                            ng-model="$ctrl.contact[form.name]"
+                            ng-required="$ctrl.phoneRequired"
+                            ng-change="$ctrl.phoneChanged()"
+                            abx-check-phone="/^[^A-Za-zñÑ´ç`_.,\¿¡*~&%#,|_':;?[/}=\]&quot;{*>!\\<^]*$/"/>
+                     <input ng-if="form.type == 'date-text'"
+                            type="{{form.type}}"
+                            name="{{form.name}}"
+                            ng-minlength="{{form.minlength}}"
+                            ng-maxlength="{{form.maxlength}}"
+                            id="{{form.name}}"
+                            ng-model="$ctrl.dates[$index].date"
+                            ng-required="form.required"
+                            uib-datepicker-popup="MM-dd-yyyy"
+                            datepicker-options="$ctrl.dateOptions"
+                            is-open="$ctrl.dates[$index].opened"
+                            readonly=""
+                            ng-change="$ctrl.phoneChanged()"/>
                      <div ng-if="form.type == 'date-text'" class="datetime-button">
                       <span class="timepicker-input">
-                        <input type="time" name="$ctrl.dates[$index].time" id="$ctrl.dates[$index].time" ng-model="$ctrl.dates[$index].time" placeholder="HH:mm:ss" min="00:00:00" max="23:00:00"/>
+                        <input type="time"
+                               name="$ctrl.dates[$index].time"
+                               id="$ctrl.dates[$index].time"
+                               ng-model="$ctrl.dates[$index].time"
+                               placeholder="HH:mm:ss" min="00:00:00" max="23:00:00"/>
                       </span>
                       <span class="datepicker-button">
                         <button type="button" class="btn btn-default" ng-click="$ctrl.openDatePicker($index)"><i class="glyphicon glyphicon-calendar"></i></button>
@@ -32,11 +65,11 @@
           </div>
         </div>
         <div class="form-group contact-buttons">
-          <div class="text-center">
+          <div class="text-center remove-spaces-inline">
             <button ng-if="$ctrl.method == 'create'" class="btn btn-blue" type="submit">Insert</button>
             <button ng-if="$ctrl.method == 'update'" class="btn btn-blue" type="submit">Edit</button>
             <a class="btn btn-blue" ng-click="$ctrl.cancel()">Cancel</a>
           </div>
         </div>
-    </form>    
+    </form>
 </div>
