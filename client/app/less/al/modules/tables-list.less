@@ -75,25 +75,40 @@
         }
     }
 
-    .table-x-scroll{
+    .table-x-scroll {
         width: 100%;
         overflow-x: auto;
-    }
-
-
-    .table-x-scroll {
         .contact-list {
+            width: auto;
+            min-width: 100%;
+            thead {
+                tr>th{
+                    white-space: nowrap;
+                    padding-right: 50px;
+                    &:last-child{
+                        padding-right: 8px;
+                    }
+                }
+            }
             tbody {
-                tr>td.row-selected {
-                    background-color: #dff0d8;
+                tr>td{
+                    white-space: nowrap;
+                    padding-right: 50px;
+                    &:last-child{
+                        padding-right: 8px;
+                    }
+                    &.row-selected {
+                        background-color: #dff0d8;
+                    }
+                    a{
+                        cursor:default;
+                    }    
                 }
-                tr>td a{
-                    cursor:default;
-                }
+                
             }
         }
         .width-manual{
-            min-width: 3000px;
+           // min-width: 3000px;
         }
     }
 
