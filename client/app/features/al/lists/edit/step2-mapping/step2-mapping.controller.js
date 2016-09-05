@@ -38,8 +38,7 @@
         return validRowNumber;
     }
    
-    let _AlertMessage;
-
+    let _AlertMessage;    
     function _formatGroupedKeyRows(rowsGrouped) {
 
         let fieldsName = Object.keys(rowsGrouped);
@@ -65,10 +64,27 @@
             }
 
         }
+        let numInvalidRows = invalidRows.length;
+        console.log(numRecords+' cantidad de  filas');
+        console.log(numInvalidRows+' invaldiads');
 
+        if(numInvalidRows==numRecords)
+        {
+            let contentModal={
+                customFunction: function(){
+                console.log('desde invalidos');
+                _$location.path('/ap/al/lists');                        
+                },
+                title:'Summary',
+                textCloseBtn:'Close'                           
+            };          
+            contentModal.body=`${numRecords} record(s) are invalids, try again`;           
+            _AlertMessage(contentModal);
+        }
+        else{
         if (invalidRows.length > 0) {
           
-            let contentModal={
+            let contentModal={                
                 title:'Summary',
                 textCloseBtn:'Close',
                 listDetail:{
@@ -88,6 +104,16 @@
 
             _AlertMessage(contentModal);
 
+        }
+        else
+        {
+            let contentModal={                
+                title:'Summary',
+                textCloseBtn:'Close'                              
+            };            
+            contentModal.body=`All ${numRecords} record(s) have been successfully read from file. Records will be added to the list`;           
+            _AlertMessage(contentModal);
+        }
         }
 
         return rowsUnGrouped;
@@ -236,16 +262,17 @@
 
     let  _$stateParams, _$state;
     let _ContactFieldsService, _;
-
+    let _$location;
 
     class MapFieldsController {
 
-        constructor($stateParams, AlertMessage, $state, ContactFieldsService, lodash) {
+        constructor($stateParams, AlertMessage, $state, ContactFieldsService, lodash, $location) {
             _ = lodash;
             _$stateParams = $stateParams;
             _AlertMessage = AlertMessage;
             _$state = $state;
             _ContactFieldsService = ContactFieldsService;
+            _$location=$location;
             this.hasHeader = true;
             this.delimiters = [
                 { title: 'Comma', symbol: ',' },
@@ -502,7 +529,7 @@
         }
     }
 
-    MapFieldsController.$inject = ['$stateParams', 'AlertMessage', '$state', 'ContactFieldsService', 'lodash'];
+    MapFieldsController.$inject = ['$stateParams', 'AlertMessage', '$state', 'ContactFieldsService', 'lodash','$location'];
 
     angular.module('fakiyaMainApp')
         .component('al.lists.mapping', {
