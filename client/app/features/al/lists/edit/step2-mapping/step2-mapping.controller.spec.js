@@ -299,7 +299,52 @@ describe('Component: al.lists.mapping', function () {
     });
 
   });*/
+ // TODO: Solve problem with lodash(_.filter)
+ /* describe('#nextStep', () => {
 
+    it('Show message if no have key fields', () => {
+      
+      MappingComponent.contactFields = [
+        {'name': 'number1', 'isKey': false },
+        {'name': 'number2', 'isKey': false },
+        {'name': 'number3', 'isKey': false },
+        {'name': 'first_name', 'isKey': false},
+        {'name': 'last_name', 'isKey': false},
+        {'name': 'company', 'isKey': false}
+      ];
+
+      MappingComponent.nextStep();
+      expect(MappingComponent.message.type).to.equal('warning');
+      expect(MappingComponent.message.show).to.equal(true);
+      expect(MappingComponent.message.text).to.equal('At least one field must be marked as key');
+    });
+
+    it('Show message if have more than 12 key fields', () => {
+      
+      MappingComponent.contactFields = [
+        {'name': 'number1', 'isKey': false },
+        {'name': 'number2', 'isKey': false },
+        {'name': 'number3', 'isKey': false },
+        {'name': 'first_name', 'isKey': false},
+        {'name': 'last_name', 'isKey': false},
+        {'name': 'company', 'isKey': false},
+        {'name': 'last_sms', 'isKey': false },
+        {'name': 'url', 'isKey': false },
+        {'name': 'test1', 'isKey': false },
+        {'name': 'test2', 'isKey': false},
+        {'name': 'test3', 'isKey': false},
+        {'name': 'test4', 'isKey': false},
+        {'name': 'test5', 'isKey': false}
+      ];
+
+      MappingComponent.nextStep();
+      expect(MappingComponent.message.type).to.equal('warning');
+      expect(MappingComponent.message.show).to.equal(true);
+      expect(MappingComponent.message.text).to.equal('No more than 12 fields can be marked as key');
+
+    });
+
+  });*/
  describe('#clearMapping', () => {
 
     it('all sourceFields values should be null', () => {
