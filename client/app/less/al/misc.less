@@ -44,6 +44,7 @@
         color: @white;
         padding: 0 32px;
         height: 30px;
+        width: 120px;
         line-height: 30px;
         transition: all .2s ease-out;
         &:hover, &:active {
@@ -227,8 +228,9 @@
         border:0;
         outline:0;
         background: transparent;
-
-
+    }
+    select.cell-select::-ms-expand{
+      display:none;
     }
     .withArrow{
             background:url('@{images_al_path}/dropdown.png') no-repeat center center;
@@ -500,10 +502,8 @@
             border: 0;
             border-radius: 0;
             padding: 5px 0px;
-            margin-right: 13px;
+            margin:0 15px 10px 0;
             width: 150px;
-            margin-bottom: 6px;
-
             //  margin-right: 7px;
               &:disabled{
                   color: white;
@@ -516,6 +516,7 @@
            height: 30px;
            &:disabled{
                background: @gray;
+               width: 40px;
            }
         }
         input[type='checkbox']{
@@ -544,7 +545,7 @@
             flex-grow: 1;
         }
         .separator{
-             margin-right: 15px;
+             margin:0 15px 10px 0;
              display: inline-block;
              vertical-align: top;
              select{
@@ -556,7 +557,7 @@
              }
         }
         .row{
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
     }
 
@@ -749,5 +750,9 @@
     .fixed-margin-15{
         margin-top: 15px;
         margin-bottom: 15px;
+    }
+    .light-label{
+        font-weight: normal;
+        margin-bottom: 0px;
     }
 }
