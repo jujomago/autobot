@@ -406,16 +406,15 @@
         nextStep(){
             console.log('next Step');
             console.log(this.contactFields);
-            let keysCount = _.filter(this.contactFields,{'isKey': true}).length;
-            if(keysCount>0 && keysCount<13){
-                let dataToSend = {
-                        fields: this.contactFields
-                };
-
+            let keysFields = _.filter(this.contactFields,{'isKey': true});
+            if(keysFields.length>0 && keysFields.length<13){
+                let dataToSend = {};
                 if (_$stateParams.settings.listDeleteSettings) {
                     dataToSend.listDeleteSettings = _$stateParams.settings.listDeleteSettings;
+                    dataToSend.fields = keysFields;
                 } else {
                     dataToSend.listUpdateSettings = _$stateParams.settings.listUpdateSettings;
+                    dataToSend.fields = this.contactFields;
                 }
 
                 _$state.go('ap.al.listsEdit-list', {settings:dataToSend, name: _$stateParams.name, manual: true});  
@@ -436,7 +435,9 @@
 
             let fieldsKeys = _.filter(this.contactFields,{'isKey':true});
             let checkSelectedKeys = _checkSelectedFieldKeys(this.hasHeader, this.contactFields, _);
-           
+            if (_$stateParams.settings.listDeleteSettings) {
+                this.contactFields = fieldsKeys;
+            }
             if(fieldsKeys.length>0){
                 if (checkSelectedKeys.length === 0) {
                     let keyNames = _.chain(this.contactFields)
