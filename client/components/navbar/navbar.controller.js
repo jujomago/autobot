@@ -10,7 +10,7 @@ class NavbarController {
 
     this.isCollapsed = true;
     _Base64Manager = Base64Manager;
-    _SelectLastAccount = SelectLastAccount
+    _SelectLastAccount = SelectLastAccount;
     this.userOptionsCollapsed = true;
     _$state = $state;
     _$location=$location;
@@ -84,8 +84,10 @@ class NavbarController {
     _$state.go('ap.page',{appName: appName});
   }
   selectInstalledApp(selected){
-    _SelectLastAccount('f9', 'al');
-    //_$state.go('ap.page',{appName: selected.app.appName, partnerId: selected.partner.partnerName, username: 'five9_1@five.com'});
+    if(selected.partner.partnerName === 'Five9'){
+      selected.partner.partnerName = 'f9';
+    }
+    _SelectLastAccount(selected.partner.partnerName, selected.app.appName);
   }
   getInstalled(){
     return _appsService.getInstalled().then(response => {

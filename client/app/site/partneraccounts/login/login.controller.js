@@ -21,7 +21,12 @@
 	  login(){
 	  	return _PartnersService.partnerLogin(this.credentials)
 	  	.then(response => {
-	  		_$state.go('ap.al.skills');
+	  		if(this.credentials.appName === 'al'){
+	  			_$state.go('ap.al.skills');
+	  		}
+	  		else{
+	  			_$state.go('underconstruction');
+	  		}
 	  		return response;
 	  	})
 	  	.catch(error =>{    
