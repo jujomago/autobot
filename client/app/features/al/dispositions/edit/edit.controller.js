@@ -2,7 +2,10 @@
 (function(){
 	let _DispositionsService, _$state;
 	function setDispositionParams(disposition,params){
-		disposition.typeParameters={allowChangeTimer: params.allowChangeTimer, attempts: params.attempts*1, timer: params.timer, useTimer: params.useTimer};
+		disposition.typeParameters={allowChangeTimer: params.allowChangeTimer, timer: params.timer, useTimer: params.useTimer};
+		if(disposition.type === 'RedialNumber'){
+			disposition.typeParameters.attempts = params.attempts;
+		}	
 	}
 
 	class EditComponent {

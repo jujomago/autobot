@@ -17,8 +17,10 @@
 	  	this.partnerName = _getPartnerName(_$stateParams.partnerId);
 	  	this.credentials = {partnerId: _$stateParams.partnerId, appName: _$stateParams.appName, username: _$stateParams.username};
 	  	this.message = { show: false };
+	  	this.sendingInfo = false;
 	  }
 	  login(){
+	  	this.sendingInfo = true;
 	  	return _PartnersService.partnerLogin(this.credentials)
 	  	.then(response => {
 	  		if(this.credentials.appName === 'al'){
@@ -30,9 +32,13 @@
 	  		return response;
 	  	})
 	  	.catch(error =>{    
+	  	  this.sendingInfo = false;
           this.message={ show: true, type: 'danger', text: error.errorMessage};
           return error;
         });  
+	  }
+	  allAccounts(){
+	  	_$state.go('partneraccounts', {partnerId: this.credentials.partnerId});
 	  }
 	}
 	LoginComponent.$inject = ['$state', '$stateParams', 'PartnersService'];
