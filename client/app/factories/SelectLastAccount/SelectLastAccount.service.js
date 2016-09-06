@@ -6,11 +6,16 @@ angular.module('fakiyaMainApp')
       return PartnersService.getLastUsedPartnerAccount(partnerId)
       .then(response => {
         console.log(response);
-        $state.go('ap.al.skills');
+        if(response.data.username){
+          $state.go('ap.login', {partnerId: partnerId, appName: appName, username: response.data.username} );
+        }
+        else{
+          $state.go('partneraccounts', {partnerId: partnerId});
+        }
         return response;
       })
       .catch(error => {
-        $state.go('login');
+        $state.go('partneraccounts', {partnerId: partnerId});
         return error;
       });
     }

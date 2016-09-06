@@ -84,7 +84,7 @@ class NavbarController {
     _$state.go('ap.page',{appName: appName});
   }
   selectInstalledApp(selected){
-    _SelectLastAccount('fd9');
+    _SelectLastAccount('f9', 'al');
     //_$state.go('ap.page',{appName: selected.app.appName, partnerId: selected.partner.partnerName, username: 'five9_1@five.com'});
   }
   getInstalled(){

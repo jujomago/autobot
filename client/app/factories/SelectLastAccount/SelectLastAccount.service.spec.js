@@ -14,14 +14,18 @@ describe('Service:SelectLastAccount', function () {
     if(appConfig.apiUri){
         _endPointUrl=appConfig.apiUri+'/admin/users';
     }
+    _$httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
   }));
-
+  afterEach(function () {
+    _$httpBackend.verifyNoOutstandingRequest();
+  });
   it('should do something', function () {
-    _$httpBackend.whenPOST(_endPointUrl+'/partner/f9/lastusedaccount').respond(200, {username: 'five9_1@five.com'});
-    _SelectLastAccount('f9d', 's')
+    _$httpBackend.whenGET(_endPointUrl+'/partner/f9/lastusedaccount').respond(200, {username: 'five9_1@five.com'});
+    _SelectLastAccount('f9', 's')
     .then(response => {
       expect(response.data.username).to.equal('five9_1@fisdve.coms');  
     });
+    _$httpBackend.flush();
   });
 
 });
