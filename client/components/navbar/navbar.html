@@ -35,8 +35,8 @@
                         <span>{{key}}</span>
                       </div>
                       <div ng-repeat="app in (value.filtered = (value | filter:nav.search))" class="app-container">
-                        <a ng-if="app.app.appName != 'al'" href="/underconstruction">
-                          <img src="/assets/al/images/logo.jpg" alt=""/>
+                        <a ng-click="nav.selectApp(app.app.appName)">
+                          <img ng-src="/assets/{{app.app.appName}}/images/logo-sm.jpg" abx-default-image-switch="/assets/default/images/logo-sm.jpg" alt=""/>
                           <span>{{app.app.appFullName}}</span>
                         </a>
                       </div>
@@ -64,7 +64,7 @@
               <ul>
                 <li ng-repeat="app in nav.newApps | limitTo:nav.quantity" ng-click="nav.selectApp(app.app.appName)">
                   <a class="new-img">
-                    <img src="/assets/sf/images/logo-sm.jpg" alt=""/>
+                    <img src="/assets/{{app.app.appName}}/images/logo-sm.jpg" abx-default-image-switch="/assets/default/images/logo-sm.jpg" alt=""/>
                   </a>
                   <a class="new-link">
                     <span class="app-full">{{app.app.appFullName}}</span>
