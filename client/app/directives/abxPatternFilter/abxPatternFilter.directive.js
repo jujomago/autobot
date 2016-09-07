@@ -17,8 +17,7 @@ angular.module('fakiyaMainApp')
       require: 'ngModel',
       scope: {
       	ngModel: '=',
-        filter:'@abxPatternFilter',
-        filter2: '@regularExpression'
+        filter:'@abxPatternFilter'
       },
       link: function (scope) {
         console.log('RegExpresion: '+scope.filter);
