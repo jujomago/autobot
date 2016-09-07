@@ -20,7 +20,9 @@
               <div class="col-sm-12" ng-show="nav.myAppsFromService.length > 0">
                 <div class="col-sm-12 myapps-title">
                   <div class="pull-left">
-                    <h4>My apps <span class="underline"></span></h4>
+                    <h4>
+                      <span class="underline">My apps</span>
+                    </h4>
                   </div>
                   <div class="pull-right">
                     <input abx-pattern-filter="[a-z0-9á-ú\s]" type-field="ALPHANUMBERS" id="submenu-search" type="text" name="search" ng-model="nav.search.app.appFullName" placeholder="Filter" ng-change="nav.filteringBySearch()" >
@@ -38,7 +40,6 @@
                           <span>{{app.app.appFullName}}</span>
                         </a>
                       </div>
-                      
                     </div>
                   </div>  
                 </div>
@@ -49,8 +50,17 @@
                 <p class="link"><a ui-sref="apps">See all apps</a></p>
               </div>
             </div>
-            <div class="col-sm-4 new-apps" ng-class="{'border-left': nav.total <= nav.newApps.length}">
-              <h4>New apps<span class="underline"></span></h4>
+            <div class="col-sm-5 new-apps" ng-class="{'border-left': nav.total <= nav.newApps.length}">
+              <div class="newapps-title">
+                <div class="pull-left">
+                  <h4>
+                    <span class="underline">New apps</span>
+                  </h4>
+                </div>
+                <div class="pull-right link-see-all">
+                  <h6><a ui-sref="apps">View all</a></h6>
+                </div>
+              </div>
               <ul>
                 <li ng-repeat="app in nav.newApps | limitTo:nav.quantity" ng-click="nav.selectApp(app.app.appName)">
                   <a class="new-img">
@@ -63,9 +73,7 @@
                 </li>
               </ul>
             </div>
-            <div class="col-sm-1 link-see-all">
-              <h6><a ui-sref="apps">View all</a></h6>
-            </div>
+            
           </div>
           
           </ul>

@@ -44,6 +44,7 @@
         color: @white;
         padding: 0 32px;
         height: 30px;
+        width: 120px;
         line-height: 30px;
         transition: all .2s ease-out;
         &:hover, &:active {
@@ -226,6 +227,9 @@
    }
     .withArrow{
             background:url('@{images_al_path}/dropdown.png') no-repeat center center;
+    }
+    select.cell-select::-ms-expand{
+      display:none;
     }
     .cell-checkbox {
         width: 18px;
@@ -491,9 +495,8 @@
             border: 0;
             border-radius: 0;
             padding: 5px 0px;
-            margin-right: 13px;
+            margin:0 15px 10px 0;
             width: 150px;
-            margin-bottom: 6px;
 
             //  margin-right: 7px;
               &:disabled{
@@ -507,6 +510,8 @@
            height: 30px;
            &:disabled{
                background: @gray;
+               width: 40px;
+               text-align: center;
            }
         }
         input[type='checkbox']{
@@ -518,7 +523,7 @@
             font-weight:normal;
         }
         span{
-                margin: 0 4px;
+                margin: 0 4px 0 -1px;
         }
         p{
             margin:0;
@@ -536,7 +541,7 @@
         }
 
         .separator{
-             margin-right: 15px;
+             margin:0 15px 10px 0;
              display: inline-block;
              vertical-align: top;
              select{
@@ -548,7 +553,7 @@
              }
         }
         .row{
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
     }
 
@@ -579,7 +584,7 @@
             opacity: 0.9;
         }
         .btn-blue {
-            margin-right: 10px;
+            margin-right: 20px;
         }
         .uib-daypicker .btn-sm{
             width: auto;
@@ -590,7 +595,7 @@
         }
 
         .inputminimal input{
-            padding: 5px 8px 0 8px;
+            padding: 8px 8px 0;
         }
     }
 
