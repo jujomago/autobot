@@ -3,10 +3,10 @@
 	<section class="row apps-page-container">
 		<h3 class="title_section">Autobox apps</h3>
 		<abx-message msg="$ctrl.message"></abx-message>
-		<div class="partner-container">
-			<b>Five9</b>
+		<div class="partner-container" ng-repeat="partner in $ctrl.partners">
+			<b>{{partner.partner}}</b>
 			<div class="row apps-container">
-				<div class="col-md-2-5 col-sm-6 col-xs-12" ng-repeat="app in $ctrl.appsPartner">
+				<div class="col-md-2-5 col-sm-6 col-xs-12" ng-repeat="app in partner.apps">
 					<div class="image-container">
 						<img ng-src="assets/{{app.app.appName}}/images/logo-sm.jpg">
 					</div>

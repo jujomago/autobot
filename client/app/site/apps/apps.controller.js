@@ -1,30 +1,31 @@
 'use strict';
 (function(){
+	let _lodash;
+	let _$parse;
 	class AppsComponent {
-	constructor($state, AppsService, lodash) {
-		//this.partners = [];
+	constructor($state, AppsService, lodash, $parse) {
+		this.partners = [];
 		this.apps = [];
-		this.appsPartner = [];
 		this.message = {show: false};
 		this.AppsService = AppsService;
+		_$parse = $parse;
 		_lodash = lodash;
-		this.getter = 'partner.partnerFullName';
+		this.getter = 'partner.partnerName';
 	}
 	$onInit(){
 		this.getApps();
 	}
 
-	//This needs a refactor to be able for any partner.
 	getApps(){
 		return this.AppsService.getApps()
 		.then(response => {
 			this.apps=this.groupBy(response.data);
-			console.log(this.apps);
-			//this.partners = response.data;
-			console.log(this.apps);
-			let f9 = this.apps.Five9;
-			for(let i = 0; i<f9.length;i++){
-				this.appsPartner[i] = {app: f9[i].app, installed: f9[i].installed};
+			var j = 0;
+			for(let partnerName in this.apps)
+			{
+				console.log(partnerName);
+				this.partners[j] = {apps: this.apps[partnerName], partner: partnerName};
+				j++;
 			}
 			return response;
 		})
@@ -41,7 +42,7 @@
     });
   }
 }
-	AppsComponent.$inject = ['$state', 'AppsService', 'lodash'];
+	AppsComponent.$inject = ['$state', 'AppsService', 'lodash', '$parse'];
 	angular.module('fakiyaMainApp')
 	  .component('apps', {
 	    templateUrl: 'app/site/apps/apps.html',
