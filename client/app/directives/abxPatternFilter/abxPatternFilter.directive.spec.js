@@ -13,83 +13,67 @@ describe('Directive: abxPatternFilter', function () {
   }));
 
   describe('#scope',function(){
-    it('only numbers filter for regular expresion [0-9] code: 1200 ', inject(function ($compile) {
-      scope.model='21asasd0';
-      element = angular.element('<input type="text" abx-pattern-filter="[0-9]" ng-model="model">');
+    it('should empty be a valid value', inject(function ($compile) {
+      scope.model='';
+      element = angular.element('<input type="text" abx-pattern-filter="/^[0-9]+$/" ng-model="model">');
       element = $compile(element)(scope);
       scope.$apply();
-      scope.$digest();
-      expect(element.isolateScope().ngModel).to.equal('210');
+      expect(element.isolateScope().ngModel).to.equal('');
     }));
-    it('only Charachter filter for regular expresion [a-z] code: 1201 ', inject(function ($compile) {
-      scope.model='21Tarija0';
-      element = angular.element('<input type="text" abx-pattern-filter="[a-z]" ng-model="model">');
+    it('should return empty if the value not match with the regex', inject(function ($compile) {
+      element = angular.element('<input type="text" abx-pattern-filter="/^[0-9]+$/" ng-model="model">');
       element = $compile(element)(scope);
       scope.$apply();
+      element.isolateScope().ngModel='not Match!';
       scope.$digest();
-      expect(element.isolateScope().ngModel).to.equal('Tarija');
+      expect(element.isolateScope().ngModel).to.equal('');
     }));
-    it('should return empty if the value not match with the regex [^0-9] not a number code: 1202', inject(function ($compile) {
-      scope.model='21not Match!0';
-      element = angular.element('<input type="text" abx-pattern-filter="[^0-9]" ng-model="model">');
+    it('should return the value if match with the regex', inject(function ($compile) {
+      element = angular.element('<input type="text" abx-pattern-filter="/^[0-9]+$/" ng-model="model">');
       element = $compile(element)(scope);
       scope.$apply();
-      //element.isolateScope().ngModel='not Match!';
+      element.isolateScope().ngModel='56789';
       scope.$digest();
-      expect(element.isolateScope().ngModel).to.equal('not Match!');
-    }));
-    it('should return the value if match with the regex Is a number  [0-9] code: 1203', inject(function ($compile) {
-      scope.model='5malo8';
-      element = angular.element('<input type="text" abx-pattern-filter="[0-9]" ng-model="model">');
-      element = $compile(element)(scope);
-      scope.$apply();
-      //element.isolateScope().ngModel='56dsd789';
-      scope.$digest();
-      expect(element.isolateScope().ngModel).to.equal('58');
+      expect(element.isolateScope().ngModel).to.equal('56789');
     }));
     
-    it('should return the value if match with the regex [a-zA-Z0-9á-ú\\s] code: 1204', inject(function ($compile) {
-      scope.model='test- working*';
-      element = angular.element('<input type="text" abx-pattern-filter="[a-z0-9á-ú\\s]" ng-model="model">');
+    it('should return the value if match with the regex', inject(function ($compile) {
+      element = angular.element('<input type="text" abx-pattern-filter="/^[^\\`~&%#,|()_\':;?[/}=\\]&quot;{*>!\\+<^]*$/" ng-model="model">');
       element = $compile(element)(scope);
       scope.$apply();
-      //element.isolateScope().ngModel='test with valid text';
+      element.isolateScope().ngModel='test with valid text';
       scope.$digest();
-      expect(element.isolateScope().ngModel).to.equal('test working');
+      expect(element.isolateScope().ngModel).to.equal('test with valid text');
     }));
-    it('should return the last valid value if not match with the regex code: 1205', inject(function ($compile) {
-      scope.model='test 12215';
-      element = angular.element('<input type="text" abx-pattern-filter="^[^\\`~&%#,|()_\':;?[/}=\\]&quot;{*>!\\+<^]*$" ng-model="model">');
+    it('should return the last valid value if not match with the regex', inject(function ($compile) {
+      element = angular.element('<input type="text" abx-pattern-filter="/^[^\\`~&%#,|()_\':;?[/}=\\]&quot;{*>!\\+<^]*$/" ng-model="model">');
       element = $compile(element)(scope);
       scope.$apply();
-      //element.isolateScope().ngModel='test with *---//+ valid text?????';
-      //scope.$digest();
-      //element.isolateScope().ngModel='test with invalid especial char: %^*&()_<>';
+      element.isolateScope().ngModel='test with valid text';
       scope.$digest();
-      expect(element.isolateScope().ngModel).to.equal('test 12215');
+      element.isolateScope().ngModel='test with invalid especial char: %^*&()_<>';
+      scope.$digest();
+      expect(element.isolateScope().ngModel).to.equal('test with valid text');
     }));
-    it('should return the last valid value with underscore if not match with the regex code: 1206', inject(function ($compile) {
-      element = angular.element('<input type="text" abx-pattern-filter="^[^\\`~&%#,|()\':;?[/}=\\]&quot;{*>!\\+<^]*$" ng-model="model">');
+    it('should return the last valid value with underscore if not match with the regex', inject(function ($compile) {
+      element = angular.element('<input type="text" abx-pattern-filter="/^[^\\`~&%#,|()\':;?[/}=\\]&quot;{*>!\\+<^]*$/" ng-model="model">');
       element = $compile(element)(scope);
       scope.$apply();
       element.isolateScope().ngModel='test_with_valid_text';
       scope.$digest();
-      //element.isolateScope().ngModel='test with invalid especial char: %^*&()<>';
-      //scope.$digest();
+      element.isolateScope().ngModel='test with invalid especial char: %^*&()<>';
+      scope.$digest();
       expect(element.isolateScope().ngModel).to.equal('test_with_valid_text');
     }));
-    it('should return the last valid value if the new value not match with the regex [0-9] code:1207', inject(function ($compile) {
-      scope.model='5mal 8';
-      element = angular.element('<input type="text" abx-pattern-filter="[0-9]" ng-model="model">');
+    it('should return the last valid value if the new value not match with the regex', inject(function ($compile) {
+      element = angular.element('<input type="text" abx-pattern-filter="/^[0-9]+$/" ng-model="model">');
       element = $compile(element)(scope);
       scope.$apply();
-      //element.isolateScope().ngModel='123456';
-     // scope.$digest();
-      //expect(element.isolateScope().ngModel).to.equal('123456');
-      //element.isolateScope().ngModel='Not 858 Valid';
+      element.isolateScope().ngModel='123456';
       scope.$digest();
-      console.log('value of ngmodel: '+element.isolateScope().ngModel);
-      expect(element.isolateScope().ngModel).to.equal('58');
+      element.isolateScope().ngModel='Not Valid';
+      scope.$digest();
+      expect(element.isolateScope().ngModel).to.equal('123456');
     }));
   });
 });
