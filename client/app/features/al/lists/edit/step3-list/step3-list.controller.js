@@ -335,11 +335,7 @@ class ListComponent {
   }
 
   cancelList(){
-    if(_$stateParams.name){
-      _$state.go('ap.al.listsEdit', {name: _$stateParams.name});
-    }else{
-      _$state.go('ap.al.lists', {});
-    }
+      _$state.go('ap.al.lists');
   }
 
   initArrays() {

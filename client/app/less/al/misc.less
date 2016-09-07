@@ -4,7 +4,7 @@
     // applies to all tables, wrap long texts
     .table{
         table-layout: fixed;
-        td{            
+        td{
            word-wrap: break-word;
         }
     }
@@ -44,6 +44,7 @@
         color: @white;
         padding: 0 32px;
         height: 30px;
+        width: 120px;
         line-height: 30px;
         transition: all .2s ease-out;
         &:hover, &:active {
@@ -64,8 +65,20 @@
         padding: 0;
         text-align: center;
     }
+
     .rigth-space-sm{
         margin-right: 10px;
+    }
+
+    /*button with 80px of width fixed*/
+    .btn-fixed-80{
+        width: 80px;
+        padding: 0;
+        text-align: center;
+    }
+
+    .right-space-20{
+        margin-right: 20px;
     }
     .btn-shared-row{
         display: inline-block;
@@ -113,16 +126,19 @@
         background: none;
         border: 0;
         padding: 0;
-        margin: 0 0 50px;
+        margin: 0 0 43px;
         border-radius: 0;
         box-shadow: none;
         &.footer_table {
             font-family: BrandonRegular;
             margin-top: 50px;
-            margin-bottom: 60px;
+            margin-bottom: 50px;
             font-size: 14px;
             overflow: hidden;
         }
+    }
+    .remove-spaces-inline{
+        font-size: 0;
     }
     // logo five9
     .logofive9 {
@@ -131,13 +147,13 @@
     }
     .loader_indicator {
         width: 200px;
-        height: 100px;        
+        height: 100px;
         text-align: center;
         font-size: 24px;
         //margin-top: 34%;
         color: #666;
         display: block;
-        margin-right: auto; 
+        margin-right: auto;
         margin-left: auto;
         padding: 20px 0;
         font-family: BrandonRegular;
@@ -209,6 +225,12 @@
             height: 100%;
             vertical-align: middle;
    }
+    .withArrow{
+            background:url('@{images_al_path}/dropdown.png') no-repeat center center;
+    }
+    select.cell-select::-ms-expand{
+      display:none;
+    }
     .cell-checkbox {
         width: 18px;
         height: 18px;
@@ -260,12 +282,13 @@
             margin-top: 20px;
             input[type="radio"],input[type="checkbox"]{
                 margin-top: 10px;
-            } 
+            }
             .sub-option{
                 padding-left: 20px;
             }
             .settings-well{
                 background-color: white;
+                margin-bottom: 0;
                 &>div{
                     color: #666;
                 }
@@ -311,7 +334,7 @@
         width: 90px;
         padding: 0;
     }
-    
+
     //add Modal transparent
     #modal-container{
         .modal{
@@ -361,7 +384,7 @@
             }
         }
         p{
-            padding-left: 0;   
+            padding-left: 0;
         }
         .error-modal{
             color: #e64b3b;
@@ -420,7 +443,7 @@
         }
         p{
             padding-left: 0;
-            
+
         }
         .error-modal{
             color: #e64b3b;
@@ -465,17 +488,16 @@
     .header-table-mapping{
           background: white;
           border: 1px solid #ddd;
-          padding: 35px;
+          padding: 35px 35px 13px;
           color:@grayforte;
           margin-top: 20px;
           .btn-primary{
             border: 0;
             border-radius: 0;
             padding: 5px 0px;
-            margin-right: 13px;
+            margin:0 15px 10px 0;
             width: 150px;
-                margin-bottom: 6px;
-              
+
             //  margin-right: 7px;
               &:disabled{
                   color: white;
@@ -485,30 +507,53 @@
            background: white;
            border: 1px solid @gray;
            margin: 0 2px;
+           height: 30px;
            &:disabled{
                background: @gray;
+               width: 40px;
+               text-align: center;
            }
         }
-    
+        input[type='checkbox']{
+            display: inline-block;
+            vertical-align: middle;
+        }
+
         label{
             font-weight:normal;
         }
         span{
-                margin: 0 4px;
+                margin: 0 4px 0 -1px;
         }
         p{
             margin:0;
-         //   display: flex; 
+         //   display: flex;
             margin-bottom: 10px;
             >*{
                 display: inline-block;
                 //vertical-align: bottom;
                 margin-bottom:0;
             }
-                   
+
         }
         #contactSelect{
             flex-grow: 1;
+        }
+
+        .separator{
+             margin:0 15px 10px 0;
+             display: inline-block;
+             vertical-align: top;
+             select{
+                 width: 120px;
+             }
+             input[type=text]{
+                 width: 40px;
+                 text-align: center;
+             }
+        }
+        .row{
+            margin-bottom: 20px;
         }
     }
 
@@ -539,7 +584,7 @@
             opacity: 0.9;
         }
         .btn-blue {
-            margin-right: 10px;
+            margin-right: 20px;
         }
         .uib-daypicker .btn-sm{
             width: auto;
@@ -550,7 +595,7 @@
         }
 
         .inputminimal input{
-            padding: 5px 8px 0 8px;
+            padding: 8px 8px 0;
         }
     }
 
@@ -679,7 +724,16 @@
         right: -195px;
         position: absolute;
     }
-
+    .full-page-loading >abx-load-indicator>.loader_indicator{
+        width: 100%;
+    }
+    .capitalize{
+        text-transform: capitalize;
+        padding-left: 0px;
+    }
+    .margin-with-footer{
+        margin-bottom: 35px;
+    }
     @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
         .skillU-modal{
             #formSkill {
@@ -687,7 +741,7 @@
                     select{
                         padding-top: 7px;
                     }
-                }     
+                }
             }
         }
     }
@@ -697,5 +751,13 @@
     }
     .margin-with-footer{
         margin-bottom: 35px;
+    }
+    .fixed-margin-15{
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+    .light-label{
+        font-weight: normal;
+        margin-bottom: 0px;
     }
 }

@@ -60,24 +60,24 @@
       <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
       <script src="bower_components/ngstorage/ngStorage.js"></script>
       <script src="bower_components/angular-messages/angular-messages.js"></script>
+      <script src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:js(.tmp) app/app.js -->
       <script src="app/app.js"></script>
       <!-- injector:js -->
       <script src="components/util/util.module.js"></script>
-      <script src="app/features/al/lists/edit/step3-list/step3-list.controller.js"></script>
+      <script src="app/features/al/lists/list/list.js"></script>
+      <script src="app/directives/abxDefaultImageSwitch/abxDefaultImageSwitch.directive.js"></script>
       <script src="app/directives/abxLoadIndicator/abxLoadIndicator.directive.js"></script>
       <script src="app/directives/abxMessage/abxMessage.directive.js"></script>
       <script src="app/directives/abxNumberUpdown/abxNumberUpdown.directive.js"></script>
-      <script src="app/directives/abxOnImageError/abxOnImageError.directive.js"></script>
       <script src="app/directives/abxPatternFilter/abxPatternFilter.directive.js"></script>
       <script src="app/directives/abxReadFile/abxReadFile.directive.js"></script>
       <script src="app/directives/abxSidebar/abxSidebar.directive.js"></script>
       <script src="app/factories/AlertMessage/AlertMessage.service.js"></script>
       <script src="app/factories/Base64Manager/Base64Manager.service.js"></script>
       <script src="app/factories/ConfirmAsync/ConfirmAsync.service.js"></script>
-      <script src="app/factories/Delegate/Delegate.service.js"></script>
       <script src="app/factories/Global/Global.service.js"></script>
       <script src="app/factories/HandleError/HandleError.service.js"></script>
       <script src="app/factories/ModalManager/ModalManager.service.js"></script>
@@ -86,8 +86,6 @@
       <script src="app/factories/auth.interceptor/auth.interceptor.service.js"></script>
       <script src="app/factories/errorhandler.interceptor/errorhandler.interceptor.service.js"></script>
       <script src="app/factories/lodash/lodash.service.js"></script>
-      <script src="app/features/al/accounts/login/login.controller.js"></script>
-      <script src="app/features/al/accounts/login/login.js"></script>
       <script src="app/features/al/auth/auth.controller.js"></script>
       <script src="app/features/al/auth/auth.js"></script>
       <script src="app/features/al/campaignProfiles/list/list.controller.js"></script>
@@ -116,10 +114,10 @@
       <script src="app/features/al/lists/edit/step2-mapping/step2-mapping.js"></script>
       <script src="app/features/al/lists/edit/step3-list/contactModal/contactModal.controller.js"></script>
       <script src="app/features/al/lists/edit/step3-list/contactModal/contactModal.js"></script>
-      <script src="app/directives/abxCheckPhone/abxCheckPhone.directive.js"></script>
+      <script src="app/features/al/lists/edit/step3-list/step3-list.controller.js"></script>
       <script src="app/features/al/lists/edit/step3-list/step3-list.js"></script>
       <script src="app/features/al/lists/list/list.controller.js"></script>
-      <script src="app/features/al/lists/list/list.js"></script>
+      <script src="app/directives/abxCheckPhone/abxCheckPhone.directive.js"></script>
       <script src="app/features/al/skills/create/create.controller.js"></script>
       <script src="app/features/al/skills/create/create.js"></script>
       <script src="app/features/al/skills/edit/edit.controller.js"></script>
@@ -140,6 +138,7 @@
       <script src="app/filters/removeUnderscore/removeUnderscore.filter.js"></script>
       <script src="app/services/admin/AppsService/AppsService.service.js"></script>
       <script src="app/services/admin/AuthService/AuthService.service.js"></script>
+      <script src="app/services/admin/PartnersService/PartnersService.service.js"></script>
       <script src="app/services/f9/CampaignProfilesService/CampaignProfilesService.service.js"></script>
       <script src="app/services/f9/CampaignService/CampaignService.service.js"></script>
       <script src="app/services/f9/ContactFieldService/ContactFieldService.service.js"></script>
@@ -154,6 +153,8 @@
       <script src="app/site/homepage/homepage.js"></script>
       <script src="app/site/login/login.controller.js"></script>
       <script src="app/site/login/login.js"></script>
+      <script src="app/site/partneraccounts/login/login.controller.js"></script>
+      <script src="app/site/partneraccounts/login/login.js"></script>
       <script src="app/site/partneraccounts/partneraccounts.controller.js"></script>
       <script src="app/site/partneraccounts/partneraccounts.js"></script>
       <script src="app/site/partneraccounts/partnercreate/partnercreate.controller.js"></script>

@@ -7,6 +7,7 @@ describe('Service: AppsService', function () {
 
   // instantiate service
   var _AppsService, _$httpBackend;
+  var _endPointUrl;
   var mockAppsData = [
                       {
                         'partner': 'Five9',
@@ -47,9 +48,12 @@ describe('Service: AppsService', function () {
                         ]
                       }
                     ];
-  beforeEach(inject(function (_AppsService_, $httpBackend) {
+  beforeEach(inject(function (_AppsService_, $httpBackend, appConfig) {
     _AppsService = _AppsService_;
     _$httpBackend = $httpBackend;
+    if(appConfig.apiUri){
+        _endPointUrl=appConfig.apiUri+'/admin/apps';
+    }
   }));
   afterEach(function () {
     _$httpBackend.verifyNoOutstandingRequest();
@@ -70,7 +74,7 @@ describe('Service: AppsService', function () {
     //_$httpBackend.flush();
   });
   it('should return error getting apps', function () {
-    _$httpBackend.whenGET('/admin/apps').respond(500, 'Internal Server Error');
+    _$httpBackend.whenGET('/admin/apps').respond(500, {error: 'Internal Server Error'});
     _AppsService.getApps().catch(error => {
         expect(null).to.not.equal(error);
         expect(undefined).to.not.equal(error);
@@ -104,7 +108,7 @@ describe('Service: AppsService', function () {
         'partnerFullName': 'Five9'
       }
     }];
-    _$httpBackend.whenGET('/assets/admin/json/installed.json').respond(installedApps);
+    _$httpBackend.whenGET(_endPointUrl+'/installed').respond(installedApps);
     _AppsService.getInstalled().then(apps => {
         expect(null).to.not.equal(apps);
         expect(undefined).to.not.equal(apps);
@@ -114,7 +118,7 @@ describe('Service: AppsService', function () {
     _$httpBackend.flush();
   });
   it('should return submenu error', function () {
-    _$httpBackend.whenGET('/assets/admin/json/installed.json').respond(500, 'Internal Server Error');
+    _$httpBackend.whenGET(_endPointUrl+'/installed').respond(500, {error: 'Internal Server Error'});
     _AppsService.getInstalled().catch(error => {
         expect(null).to.not.equal(error);
         expect(undefined).to.not.equal(error);
@@ -149,7 +153,7 @@ describe('Service: AppsService', function () {
         }
       }
     ];
-    _$httpBackend.whenGET('/assets/admin/json/newapps.json').respond(newApps);
+    _$httpBackend.whenGET(_endPointUrl+'/notinstalled').respond(newApps);
     _AppsService.getNewest().then(apps => {
         expect(null).to.not.equal(apps);
         expect(undefined).to.not.equal(apps);
@@ -160,7 +164,7 @@ describe('Service: AppsService', function () {
   });
 
   it('should return submenu new apps error', function () {
-    _$httpBackend.whenGET('/assets/admin/json/newapps.json').respond(500, 'Internal Server Error');
+    _$httpBackend.whenGET(_endPointUrl+'/notinstalled').respond(500, {error: 'Internal Server Error'});
     _AppsService.getNewest().catch(error => {
         expect(null).to.not.equal(error);
         expect(undefined).to.not.equal(error);

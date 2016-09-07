@@ -4,46 +4,34 @@
 
 // table styles for main lists
 .al-theme {
-    .table-striped tbody tr.danger {
-        cursor: wait;
-    }
-    .table-striped tbody tr.danger>td {
-        color: @color1;
-        * {
-            color: @color1;
+
+    .table{
+        thead tr th{
+            border-bottom: none;
+             vertical-align: bottom;
         }
-    }
-    .table-striped tbody tr {
-        &:nth-child(even)>td {
-            background-color: @table_even_row;
-        }
-        &:nth-child(even)>th {
-            background-color: @table_even_row;
-        }
-        &:nth-child(odd)>td {
-            background-color: @table_odd_row;
-        }
-        &:nth-child(odd)>th {
-            background-color: @table_odd_row;
-        }
-    }
-    .table tbody tr td {
-        transition: all .3s ease-out;       
-        border-top: 1px solid @color0;
-        color: #666666;
-        font-family: BrandonRegular;
-        font-size: 14px;
-        padding: 7px 8px;
-        vertical-align: middle;
-    }
-    .table tbody tr {
-        &:last-child {
-            td {
-                border-bottom: 1px solid @color0;
+        tbody tr {
+            td{
+                transition: all .3s ease-out;
+                border-top: 1px solid @color0;
+                color: #666666;
+                font-family: BrandonRegular;
+                font-size: 14px;
+                padding: 7px 8px;
+                vertical-align: middle;
+            }
+            &:last-child {
+                td {
+                    border-bottom: 1px solid @color0;
+                }
+            }
+            &.selected td{
+                background:#eff8fc;
             }
         }
     }
-    .table-striped {
+
+    .table-striped{
         thead {
             th {
                 color: #000000;
@@ -52,59 +40,86 @@
                 text-transform: capitalize;
             }
         }
-    }
-    .table>thead>tr>th {
-        border-bottom: none;
-        vertical-align: bottom;
+        tbody tr{
+            &.danger{
+                 cursor: wait;
+                 >td{
+                    color: @color1;
+                    * {
+                        color: @color1;
+                    }
+                 }
+            }
+            &:nth-child(even)>td, &:nth-child(even)>th {
+                background-color: @table_even_row;
+            }
+            &:nth-child(odd)>td, &:nth-child(odd)>th {
+                background-color: @table_odd_row;
+            }        
+        }
     }
 
 
-    .table.table-selectable{
+    .table-selectable{
         tbody{
             tr{
                  cursor:pointer;
             }
             .rowselected {
-                 td{                
+                 td{
                     background-color: #d4d4d4;
                 }
             }
         }
     }
 
-    .table-x-scroll{
+    .table-x-scroll {
         width: 100%;
         overflow-x: auto;
-    }
-
-
-    .table-x-scroll {
         .contact-list {
+            width: auto;
+            min-width: 100%;
+            thead {
+                tr>th{
+                    white-space: nowrap;
+                    padding-right: 50px;
+                    &:last-child{
+                        padding-right: 8px;
+                    }
+
+                }
+            }
             tbody {
-                tr>td.row-selected {
-                    background-color: #dff0d8;
+                tr>td{
+                    white-space: nowrap;
+                    padding-right: 50px;
+                    &:last-child{
+                        padding-right: 8px;
+                    }
+                    &.row-selected {
+                        background-color: #dff0d8;
+                    }
+                    a{
+                        cursor:default;
+                    }    
                 }
-                tr>td a{
-                    cursor:default;
-                }
+                
             }
         }
         .width-manual{
-            min-width: 3000px;
+           // min-width: 3000px;
         }
     }
 
-    .table-scrollable{
+    .table-y-scroll{
         width: 100%;
         border-spacing: 0;
         thead, tbody, tr, th, td {
             display: block;
         }
-       thead tr {
+        thead tr {
             /* fallback */
-            width: 97%;
-            /* minus scroll bar width */
-            width:~"calc(100% - 16px)";
+            width: 100%;           
         }
 
         tr:after {  /* clearing float */
@@ -115,7 +130,7 @@
         }
 
         tbody {
-            height: 280px;
+            max-height: 280px;
             overflow-y: auto;
             overflow-x: hidden;
             td{
@@ -124,11 +139,40 @@
         }
 
         tbody td, thead th {
-            width: 33.2%;  /* 33.2% is less than (100% / 3 cols) = 33.3% */
+            width: 25%;  /* 33.2% is less than (100% / 3 cols) = 33.3% */
             float: left;
-        }
+        } 
 
     }
+    .table-y-scroll-showscroll{
+        thead tr{
+            /* minus scroll bar width */
+             width:~"calc(100% - 16px)";
+        }            
+    }
+    .table-y-scroll-col4{
+        tbody td, thead th {
+            width: 25%;  /* 33.2% is less than (100% / 3 cols) = 33.3% */
+            float: left;
+        }     
+    }
+
+    .table-y-scroll-col3{
+        tbody td, thead th {
+            width: 33.2%;  /* 33.2% is less than (100% / 3 cols) = 33.3% */
+            float: left;
+        }     
+    }
+
+    .table-y-scroll-col2{
+        tbody td, thead th {
+            width: 50%;  /* 33.2% is less than (100% / 3 cols) = 33.3% */
+            float: left;
+        }     
+    }
+
+
+
 
     .table-full-condensed tbody tr{
         td{
