@@ -2,15 +2,15 @@
 
 angular.module('fakiyaMainApp')
   .factory('GetHomePage', function () {
-    // Service logic
-    // ...
-
-    var meaningOfLife = 42;
-
-    // Public API here
-    return {
-      someMethod: function () {
-        return meaningOfLife;
+    
+    function getHomePage(appName){
+      switch(appName){
+        case 'al':
+          return 'ap.al.skills';
+        default:
+          return 'underconstruction';
       }
-    };
+    }
+
+    return getHomePage;
   });

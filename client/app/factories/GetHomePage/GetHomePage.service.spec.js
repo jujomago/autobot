@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Service: GetHomePage', function () {
+describe('Service:GetHomePage', function () {
 
   // load the service's module
   beforeEach(module('fakiyaMainApp'));
@@ -11,8 +11,12 @@ describe('Service: GetHomePage', function () {
     GetHomePage = _GetHomePage_;
   }));
 
-  it('should do something', function () {
-    expect(!!GetHomePage).to.be.true;
+  it('should return ap.al.skills', function () {
+    expect(GetHomePage('al')).to.equal('ap.al.skills');
+  });
+
+  it('should return underconstruction', function () {
+    expect(GetHomePage('qsc')).to.equal('underconstruction');
   });
 
 });
