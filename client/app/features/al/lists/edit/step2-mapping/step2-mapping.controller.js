@@ -19,16 +19,11 @@
         for (var prop in csvObjectRow) {
             if (prop === 'number1' || prop === 'number2' || prop === 'number3') {
                 let numberPhone = csvObjectRow[prop];
-                if (numberPhone === '') { // if number is empty should pass
-                    validRowNumber = true;
-                    break;
-                }
                 if (numberPhone.length <= 10) { // phone us number
                     number = new RegExp(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im);
                 } else { // international numbers
-                    number = new RegExp(/^(?:\+|00|011)(?:[. ()-]*\d){11,12}[. ()-]*$/g);
-                }
-                console.log(`testing numberPhone ${numberPhone}`);
+                    number = new RegExp(/^(?:\+|00|011)(?:[. ()-]*\d){11,15}[. ()-]*$/g);
+                }               
                 if (number.test(numberPhone) === false) {
                     validRowNumber = false;
                     break;
@@ -190,10 +185,8 @@
                 resultGroupedRows[el.name] = jsonCSVTemp.map(elem => {
                         if(typeField==='PHONE'){
                             return _.chain(mappedFiedlsNamesIndexes)
-                                    .map(ind=>{                                 
-                                            if(!isNaN(elem[ind])){
-                                                return elem[ind];
-                                            }
+                                    .map(ind=>{                                       
+                                         return elem[ind].replace(/[^\d]/g, '');  // clean all non numbers characters                                         
                                     }).join('').value();
 
                         }else{
@@ -208,10 +201,8 @@
                 resultGroupedRows[el.name] = jsonCSV.map(elem => {
                      if(typeField==='PHONE'){
                          return _.chain(mappedFiedlsIndexes)
-                                    .map(ind=>{                                 
-                                            if(!isNaN(elem[ind-1])){
-                                                return elem[ind-1];
-                                            }
+                                    .map(ind=>{
+                                           return  elem[ind-1].replace(/[^\d]/g, '');  // clean all non numbers characters                              
                                     }).join('').value();
                      }else{
                         return _.chain(mappedFiedlsIndexes)
@@ -255,8 +246,6 @@
 
         return fieldsEntries;
     }
-
-
 
 
 
