@@ -23,6 +23,8 @@
 	  	this.sendingInfo = true;
 	  	return _PartnersService.partnerLogin(this.credentials)
 	  	.then(response => {
+	  		console.log(this.credentials);
+	  		console.log(response);
 	  		if(this.credentials.appName === 'al'){
 	  			_$state.go('ap.al.skills');
 	  		}

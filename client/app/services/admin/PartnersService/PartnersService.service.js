@@ -14,7 +14,7 @@
             var result = { data: null, statusCode: 200, errorMessage: '' };
             return _$http.post(this.endPointUrl+'/auth', credentials)
                 .then(response => {
-
+                    console.log(response);
                     result.data = response.data;
                     return result;
                 })
