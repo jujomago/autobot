@@ -114,10 +114,7 @@ class ListComponent {
 
         this.sendContact.listName = _$stateParams.name;
         this.typeUpdate = (_$stateParams.settings.listUpdateSettings) ? true : false;
-        console.log(this.importData.rows);
-        if(!this.typeUpdate){
-
-        }
+        console.log(this.importData.rows);        
       }else{
         let theMsg = 'Bad params';
         this.error = true;

@@ -299,8 +299,9 @@ describe('Component: al.lists.mapping', function () {
     });
 
   });*/
+  
  // TODO: Solve problem with lodash(_.filter)
- /* describe('#nextStep', () => {
+ /*describe('#nextStep', () => {
 
     it('Show message if no have key fields', () => {
       
@@ -325,16 +326,16 @@ describe('Component: al.lists.mapping', function () {
         {'name': 'number1', 'isKey': false },
         {'name': 'number2', 'isKey': false },
         {'name': 'number3', 'isKey': false },
-        {'name': 'first_name', 'isKey': false},
-        {'name': 'last_name', 'isKey': false},
-        {'name': 'company', 'isKey': false},
+        {'name': 'first_name', 'isKey': false },
+        {'name': 'last_name', 'isKey': false },
+        {'name': 'company', 'isKey': false },
         {'name': 'last_sms', 'isKey': false },
         {'name': 'url', 'isKey': false },
         {'name': 'test1', 'isKey': false },
-        {'name': 'test2', 'isKey': false},
-        {'name': 'test3', 'isKey': false},
-        {'name': 'test4', 'isKey': false},
-        {'name': 'test5', 'isKey': false}
+        {'name': 'test2', 'isKey': false },
+        {'name': 'test3', 'isKey': false },
+        {'name': 'test4', 'isKey': false },
+        {'name': 'test5', 'isKey': true }
       ];
 
       MappingComponent.nextStep();
@@ -344,7 +345,48 @@ describe('Component: al.lists.mapping', function () {
 
     });
 
+    it('Return data to send to next step when is updating', () => {
+      
+      MappingComponent.contactFields = [
+        {'name': 'number1', 'isKey': true },
+        {'name': 'number2', 'isKey': false },
+        {'name': 'number3', 'isKey': false },
+        {'name': 'first_name', 'isKey': true},
+        {'name': 'last_name', 'isKey': true},
+        {'name': 'company', 'isKey': false}
+      ];
+
+      MappingComponent.nextStep();
+
+      let dataToSendTest = MappingComponent.nextStep();
+      let numFieldsToSend= _.filter(this.contactFields,{'isKey': true}).length;
+      let deleteAction = dataToSendTest.listDeleteSettings;
+      expect(deleteAction).to.equal(true);
+      expect(numFieldsToSend).to.equal(3);      
+    });
+
+    it('Return data to send to next step when is deleting', () => {
+      
+      MappingComponent.contactFields = [
+        {'name': 'number1', 'isKey': true },
+        {'name': 'number2', 'isKey': false },
+        {'name': 'number3', 'isKey': false },
+        {'name': 'first_name', 'isKey': true},
+        {'name': 'last_name', 'isKey': true},
+        {'name': 'company', 'isKey': false}
+      ];
+
+      MappingComponent.nextStep();
+
+      let dataToSendTest = MappingComponent.nextStep();
+      let numFieldsToSend= _.filter(this.contactFields,{'isKey': true}).length;
+      let updateAction = dataToSendTest.listDeleteSettings;
+      expect(updateAction).to.equal(true);
+      expect(numFieldsToSend).to.equal(24);
+    });
+
   });*/
+
  describe('#clearMapping', () => {
 
     it('all sourceFields values should be null', () => {

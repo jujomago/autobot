@@ -396,17 +396,18 @@
             console.log('next Step');
             console.log(this.contactFields);
             let keysFields = _.filter(this.contactFields,{'isKey': true});
-            if(keysFields.length>0 && keysFields.length<13){
+            let keysCount = _.filter(this.contactFields,{'isKey': true}).length;
+            if(keysCount>0 && keysCount<13){
                 let dataToSend = {};
                 if (_$stateParams.settings.listDeleteSettings) {
                     dataToSend.listDeleteSettings = _$stateParams.settings.listDeleteSettings;
                     dataToSend.fields = keysFields;
                 } else {
                     dataToSend.listUpdateSettings = _$stateParams.settings.listUpdateSettings;
-                    dataToSend.fields = this.contactFields;
+                    dataToSend.fields = this.contactFields;                   
                 }
-
                 _$state.go('ap.al.listsEdit-list', {settings:dataToSend, name: _$stateParams.name, manual: true});  
+                 return dataToSend;
             }
             else{
                 let messageText;
@@ -417,6 +418,7 @@
                     messageText = 'No more than 12 fields can be marked as key';
                 }
                 this.message = {type: 'warning', show: true, text: messageText, expires: 5000};
+                return null;
             }  
         }
 
