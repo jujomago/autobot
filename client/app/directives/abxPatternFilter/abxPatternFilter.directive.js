@@ -20,7 +20,7 @@ angular.module('fakiyaMainApp')
         filter:'@abxPatternFilter',
         filter2: '@regularExpression'
       },
-      link: function (scope, element, attrs, modelCtrl) {
+      link: function (scope) {
         console.log('RegExpresion: '+scope.filter);
         var filter;
         try{
@@ -40,7 +40,7 @@ angular.module('fakiyaMainApp')
               }
               scope.ngModel = stringMatched;
             }catch(e){
-              console.log(e);
+              console.log(e+oldValue);
             }
           }
         });
