@@ -436,7 +436,7 @@ describe('Component: al.lists.mapping', function () {
       MappingComponent.nextStep();
 
       let dataToSendTest = MappingComponent.nextStep();    
-      expect(dataToSendTest.fields.length).to.have.lengthOf(3);
+      expect(dataToSendTest.fields.length).to.have.lengthOf(4);
       expect(dataToSendTest.fields[0]).to.eql({'name': 'number1', 'isKey': true });    
       expect(dataToSendTest.fields[1]).to.eql({'name': 'first_name', 'isKey': true});
       expect(dataToSendTest.fields[2]).to.eql({'name': 'last_name', 'isKey': true});
