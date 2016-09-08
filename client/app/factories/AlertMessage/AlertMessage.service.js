@@ -1,14 +1,15 @@
 'use strict';
 
 angular.module('fakiyaMainApp')
-  .factory('AlertMessage', function (ModalManager) {
+  .factory('AlertMessage', function (ModalManager) {   
     function getOptions(content){
-      return {
+      return {       
         animation: false,
         templateUrl: 'app/factories/AlertMessage/AlertMessage.html',
         size: 'hs',
         controller: ['$scope', '$uibModalInstance', 'content', function ($scope, $uibModalInstance, content) {
           $scope.content = content;
+
           $scope.close = function(){
            if(content.customFunction)
             {               
@@ -16,7 +17,7 @@ angular.module('fakiyaMainApp')
               content.customFunction();
             }  
             else
-            {$uibModalInstance.dismiss('cancel');}       
+            {$uibModalInstance.dismiss('cancel');} 
           };
         }],
         resolve: {

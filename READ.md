@@ -3,7 +3,7 @@ This is an important set of recomendations
 
 ## Getting Started
 
-### Prerequisites
+### Prerequisites.
 
 - [Git](https://git-scm.com/)
 - [Node.js and npm](nodejs.org) Node ^4.2.3, npm ^2.14.7

@@ -113,7 +113,7 @@ class ListComponent {
         }
 
         this.sendContact.listName = _$stateParams.name;
-        this.typeUpdate = (_$stateParams.settings.listUpdateSettings) ? true : false;
+        this.typeUpdate = (_$stateParams.settings.listUpdateSettings) ? true : false;               
       }else{
         let theMsg = 'Bad params';
         this.error = true;
@@ -344,19 +344,13 @@ class ListComponent {
 
   initArrays() {
       let cont = 1;
-      let key = false;
       let listManual = {};
-      console.log('initialized arrays');
+      console.log('initialized arrays');      
       if (this.contactFields) {
         this.loadingContacts = false;
         _.map(this.contactFields, value=>{
-          if(value.name === 'number1'){
-            key = true;
-          }else{
-            key = false;
-          }
           listManual[value.name] = '';
-          this.fieldsMapping.push({columnNumber: cont, fieldName: value.name, key: key});
+          this.fieldsMapping.push({columnNumber: cont, fieldName: value.name, key: value.isKey});
           cont++;
         });
         this.importData.fields = this.contactFields;

@@ -32,8 +32,8 @@
             }
         }   
         return resultPhones.indexOf(true)>=0;
-    }
-   
+    }   
+
     function _formatGroupedKeyRows(rowsGrouped) {
 
         let fieldsName = Object.keys(rowsGrouped);
@@ -234,7 +234,6 @@
 
 
 
-
     class MapFieldsController {
 
         constructor($stateParams, AlertMessage, $state, ContactFieldsService, lodash) {
@@ -242,7 +241,7 @@
             _$stateParams = $stateParams;
             _AlertMessage = AlertMessage;
             _$state = $state;
-            _ContactFieldsService = ContactFieldsService;
+            _ContactFieldsService = ContactFieldsService;            
             this.hasHeader = true;
             this.delimiters = [
                 { title: 'Comma', symbol: ',' },
@@ -376,29 +375,30 @@
         nextStep(){
             console.log('next Step');
             console.log(this.contactFields);
-            let keysCount = _.filter(this.contactFields,{'isKey': true}).length;
-            if(keysCount>0 && keysCount<13){
-                let dataToSend = {
-                        fields: this.contactFields
-                };
-
+            let keysFields = _.filter(this.contactFields,{'isKey': true});  
+            let countKeys= keysFields.length;       
+            if(countKeys>0 && countKeys<13){
+                let dataToSend = {};
                 if (_$stateParams.settings.listDeleteSettings) {
                     dataToSend.listDeleteSettings = _$stateParams.settings.listDeleteSettings;
+                    dataToSend.fields = keysFields;
                 } else {
                     dataToSend.listUpdateSettings = _$stateParams.settings.listUpdateSettings;
+                    dataToSend.fields = this.contactFields;                   
                 }
-
                 _$state.go('ap.al.listsEdit-list', {settings:dataToSend, name: _$stateParams.name, manual: true});  
+                 return dataToSend;
             }
             else{
                 let messageText;
-                if(keysCount===0){
+                if(countKeys===0){
                     messageText = 'At least one field must be marked as key';
                 }
                 else{
                     messageText = 'No more than 12 fields can be marked as key';
                 }
                 this.message = {type: 'warning', show: true, text: messageText, expires: 5000};
+                return null;
             }  
         }
 
@@ -406,7 +406,9 @@
 
             let fieldsKeys = _.filter(this.contactFields,{'isKey':true});
             let checkSelectedKeys = _checkSelectedFieldKeys(this.hasHeader, this.contactFields, _);
-           
+            if (_$stateParams.settings.listDeleteSettings) {
+                this.contactFields = fieldsKeys;
+            }
             if(fieldsKeys.length>0){
                 if (checkSelectedKeys.length === 0) {
                     let keyNames = _.chain(this.contactFields)
