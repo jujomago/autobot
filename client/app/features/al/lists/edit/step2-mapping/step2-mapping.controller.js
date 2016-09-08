@@ -1,6 +1,9 @@
 'use strict';
 (() => {
 
+    let  _$stateParams,_$state;
+    let _AlertMessage, _ContactFieldsService, _;
+
     function _csvToJSON(rawFile, delimiter) {
         let delimiterSympol = delimiter;
         let lines = rawFile.trim().split('\n');
@@ -29,9 +32,8 @@
             }
         }   
         return resultPhones.indexOf(true)>=0;
-    }
-   
-    let _AlertMessage;    
+    }   
+
     function _formatGroupedKeyRows(rowsGrouped) {
 
         let fieldsName = Object.keys(rowsGrouped);
@@ -67,7 +69,7 @@
         if(invalidRows.length===0){
             contentModal.body=`All ${numRecords} record(s) have been successfully read from file. Records will be added to the list`;
          }else{
-            contentModal.textCloseBtn='Close',
+            contentModal.textCloseBtn='Close';
             contentModal.listDetail={
                     headerList:'Invalid records',
                     cols:['Line','Error'],
@@ -230,8 +232,7 @@
 
 
 
-    let  _$stateParams, _$state;
-    let _ContactFieldsService, _;
+
 
     class MapFieldsController {
 
