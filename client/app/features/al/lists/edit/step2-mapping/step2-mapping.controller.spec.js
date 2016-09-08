@@ -301,7 +301,7 @@ describe('Component: al.lists.mapping', function () {
   });*/
   
  // TODO: Solve problem with lodash(_.filter)
- /*describe('#nextStep', () => {
+/*describe('#nextStep', () => {
 
     it('Show message if no have key fields', () => {
       
@@ -353,17 +353,56 @@ describe('Component: al.lists.mapping', function () {
         {'name': 'number3', 'isKey': false },
         {'name': 'first_name', 'isKey': true},
         {'name': 'last_name', 'isKey': true},
-        {'name': 'company', 'isKey': false}
+        {'name': 'company', 'isKey': false},
+        {'name': 'street', 'isKey': false },
+        {'name': 'city', 'isKey': false },
+        {'name': 'state', 'isKey': false },
+        {'name': 'Zip', 'isKey': false},
+        {'name': 'Balance', 'isKey': false},
+        {'name': 'Product', 'isKey': false},
+        {'name': 'salesforce_id', 'isKey': true },
+        {'name': 'thread_url', 'isKey': false },
+        {'name': 'Dial Status', 'isKey': false },
+        {'name': 'email', 'isKey': false},
+        {'name': 'Widgets', 'isKey': false},
+        {'name': 'sms_body', 'isKey': false},
+        {'name': 'short_code', 'isKey': false },
+        {'name': 'date_received', 'isKey': false },
+        {'name': 'last_disposition', 'isKey': false },
+        {'name': 'last_agent', 'isKey': false},
+        {'name': 'last_campaign', 'isKey': false },
+        {'name': 'last_sms', 'isKey': false}        
       ];
 
       MappingComponent.nextStep();
 
-      let dataToSendTest = MappingComponent.nextStep();
-      let numFieldsToSend= _.filter(this.contactFields,{'isKey': true}).length;
-      let deleteAction = dataToSendTest.listDeleteSettings;
-      expect(deleteAction).to.equal(true);
-      expect(numFieldsToSend).to.equal(3);      
-    });
+      let dataToSendTest = MappingComponent.nextStep();    
+      expect(dataToSendTest.fields.length).to.have.lengthOf(24);
+      expect(dataToSendTest.fields[0]).to.eql({'name': 'number1', 'isKey': true });    
+      expect(dataToSendTest.fields[1]).to.eql({'name': 'number2', 'isKey': false });
+      expect(dataToSendTest.fields[2]).to.eql({'name': 'number3', 'isKey': false });
+      expect(dataToSendTest.fields[3]).to.eql({'name': 'first_name', 'isKey': true});
+      expect(dataToSendTest.fields[4]).to.eql({'name': 'last_name', 'isKey': true});  
+      expect(dataToSendTest.fields[5]).to.eql({'name': 'company', 'isKey': false});
+      expect(dataToSendTest.fields[6]).to.eql({'name': 'street', 'isKey': false });    
+      expect(dataToSendTest.fields[7]).to.eql({'name': 'city', 'isKey': false });
+      expect(dataToSendTest.fields[8]).to.eql({'name': 'state', 'isKey': false });
+      expect(dataToSendTest.fields[9]).to.eql({'name': 'Balance', 'isKey': false});
+      expect(dataToSendTest.fields[10]).to.eql({'name': 'Product', 'isKey': false});  
+      expect(dataToSendTest.fields[11]).to.eql({'name': 'salesforce_id', 'isKey': false});
+      expect(dataToSendTest.fields[12]).to.eql({'name': 'thread_url', 'isKey': false });    
+      expect(dataToSendTest.fields[13]).to.eql({'name': 'Dial Status', 'isKey': false });
+      expect(dataToSendTest.fields[14]).to.eql({'name': 'email', 'isKey': false });
+      expect(dataToSendTest.fields[15]).to.eql({'name': 'Widgets', 'isKey': false});
+      expect(dataToSendTest.fields[16]).to.eql({'name': 'sms_body', 'isKey': false});  
+      expect(dataToSendTest.fields[17]).to.eql({'name': 'short_code', 'isKey': false});
+      expect(dataToSendTest.fields[18]).to.eql({'name': 'date_received', 'isKey': false });    
+      expect(dataToSendTest.fields[19]).to.eql({'name': 'last_disposition', 'isKey': false });
+      expect(dataToSendTest.fields[20]).to.eql({'name': 'last_agent', 'isKey': false });
+      expect(dataToSendTest.fields[21]).to.eql({'name': 'last_campaign', 'isKey': false});
+      expect(dataToSendTest.fields[22]).to.eql({'name': 'last_sms', 'isKey': false});  
+      expect(dataToSendTest.fields[23]).to.eql({'name': 'company', 'isKey': false});
+    }); 
 
     it('Return data to send to next step when is deleting', () => {
       
@@ -372,17 +411,19 @@ describe('Component: al.lists.mapping', function () {
         {'name': 'number2', 'isKey': false },
         {'name': 'number3', 'isKey': false },
         {'name': 'first_name', 'isKey': true},
-        {'name': 'last_name', 'isKey': true},
-        {'name': 'company', 'isKey': false}
+        {'name': 'last_name', 'isKey': true},        
       ];
 
       MappingComponent.nextStep();
 
-      let dataToSendTest = MappingComponent.nextStep();
-      let numFieldsToSend= _.filter(this.contactFields,{'isKey': true}).length;
-      let updateAction = dataToSendTest.listDeleteSettings;
-      expect(updateAction).to.equal(true);
-      expect(numFieldsToSend).to.equal(24);
+      let dataToSendTest = MappingComponent.nextStep();    
+      expect(dataToSendTest.fields.length).to.have.lengthOf(3);
+      expect(dataToSendTest.fields[0]).to.eql({'name': 'number1', 'isKey': true });    
+      expect(dataToSendTest.fields[1]).to.eql({'name': 'number2', 'isKey': false });
+      expect(dataToSendTest.fields[2]).to.eql({'name': 'number3', 'isKey': false });
+      expect(dataToSendTest.fields[3]).to.eql({'name': 'first_name', 'isKey': true});
+      expect(dataToSendTest.fields[4]).to.eql({'name': 'last_name', 'isKey': true});
+
     });
 
   });*/
