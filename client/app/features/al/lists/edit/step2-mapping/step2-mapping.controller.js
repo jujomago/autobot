@@ -13,24 +13,22 @@
     }
 
 
-    function _validRowNumber(csvObjectRow) {
-        let validRowNumber = true;
-        let number;
-        for (var prop in csvObjectRow) {
+    function _validRowNumber(csvObjectRow) {       
+        let number;  
+        let resultPhones=[];
+         for (var prop in csvObjectRow) {
             if (prop === 'number1' || prop === 'number2' || prop === 'number3') {
                 let numberPhone = csvObjectRow[prop];
                 if (numberPhone.length <= 10) { // phone us number
                     number = new RegExp(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im);
                 } else { // international numbers
-                    number = new RegExp(/^(?:\+|00|011)(?:[. ()-]*\d){11,15}[. ()-]*$/g);
-                }               
-                if (number.test(numberPhone) === false) {
-                    validRowNumber = false;
-                    break;
-                }
+                    number = new RegExp(/^(?:\+|00|011)(?:[. ()-]*\d){10,17}[. ()-]*$/g);
+                }           
+                let boolResult=number.test(numberPhone);
+                resultPhones.push(boolResult);             
             }
-        }
-        return validRowNumber;
+        }   
+        return resultPhones.indexOf(true)>=0;
     }
    
     let _AlertMessage;
@@ -51,42 +49,52 @@
                 var fieldName = fieldsName[k];
                 tempObj[fieldName] = rowsGrouped[fieldName][i];
             }
-
-            if (_validRowNumber(tempObj)) {
+            if (_validRowNumber(tempObj) &&  (
+                 tempObj.hasOwnProperty('number1') ||
+                 tempObj.hasOwnProperty('number2') ||
+                 tempObj.hasOwnProperty('number3')  
+                )){             
                 rowsUnGrouped.push(tempObj);
             } else {
                 let errorField = JSON.stringify(tempObj).replace(/"/g, '');
-                invalidRows.push({ line: i + 1, record: errorField });
+                invalidRows.push({ line: i + 1, record: errorField });                
             }
-
         }
 
-        if (invalidRows.length > 0) {
-          
-            let contentModal={
-                title:'Summary',
-                textCloseBtn:'Close',
-                listDetail:{
+        let contentModal={
+            title:'Summary'
+        };
+
+        if(invalidRows.length===0){
+            contentModal.body=`All ${numRecords} record(s) have been successfully read from file. Records will be added to the list`;
+         }else{
+            contentModal.textCloseBtn='Close',
+            contentModal.listDetail={
                     headerList:'Invalid records',
                     cols:['Line','Error'],
                     rows:[]
-                }                
-            };
-          
+            };          
+            
+            if (invalidRows.length === numRecords) {
+                contentModal.body=`All ${numRecords} record(s) are invalids, try again`;
+                contentModal.customFunction=function(){
+                     _$state.go('ap.al.lists');
+                };   
+            }else{               
+                contentModal.body=`Only ${rowsUnGrouped.length} of ${numRecords} records have been successfully read from file. ${rowsUnGrouped.length} valid Record(s) will be added to the list`;     
+            }  
             let fe = '';
             for (var r = 0; r < invalidRows.length; r++) {
                 contentModal.listDetail.rows.push({'line':invalidRows[r].line,'error':'Record Number is not valid'});
                 fe += JSON.stringify(invalidRows[r]).replace(/"/g, '') + '\n';
             }
-            
-            contentModal.body=`Only ${rowsUnGrouped.length} of ${numRecords} records have been successfully read from file. ${rowsUnGrouped.length} valid Record(s) will be added to the list`;
-
-            _AlertMessage(contentModal);
-
+           
         }
+        _AlertMessage(contentModal);
 
-        return rowsUnGrouped;
+       return rowsUnGrouped;
     }
+    
     function _checkSelectedFieldKeys(hasHeader, contactFields, lodash) {
         let keysNotMapped = [];
         let _ = lodash;
