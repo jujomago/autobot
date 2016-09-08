@@ -9,15 +9,15 @@ angular.module('fakiyaMainApp')
         size: 'hs',
         controller: ['$scope', '$uibModalInstance', 'content', function ($scope, $uibModalInstance, content) {
           $scope.content = content;
-          $scope.close = function()
-          {     
-            if(content.customFunction)
+
+          $scope.close = function(){
+           if(content.customFunction)
             {               
               $uibModalInstance.dismiss('cancel');
               content.customFunction();
             }  
             else
-            {$uibModalInstance.dismiss('cancel');}                  
+            {$uibModalInstance.dismiss('cancel');} 
           };
         }],
         resolve: {
