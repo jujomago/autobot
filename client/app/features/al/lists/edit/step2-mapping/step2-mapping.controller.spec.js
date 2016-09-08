@@ -411,7 +411,26 @@ describe('Component: al.lists.mapping', function () {
         {'name': 'number2', 'isKey': false },
         {'name': 'number3', 'isKey': false },
         {'name': 'first_name', 'isKey': true},
-        {'name': 'last_name', 'isKey': true},        
+        {'name': 'last_name', 'isKey': true},
+        {'name': 'company', 'isKey': false},
+        {'name': 'street', 'isKey': false },
+        {'name': 'city', 'isKey': false },
+        {'name': 'state', 'isKey': false },
+        {'name': 'Zip', 'isKey': false},
+        {'name': 'Balance', 'isKey': false},
+        {'name': 'Product', 'isKey': false},
+        {'name': 'salesforce_id', 'isKey': true },
+        {'name': 'thread_url', 'isKey': false },
+        {'name': 'Dial Status', 'isKey': false },
+        {'name': 'email', 'isKey': false},
+        {'name': 'Widgets', 'isKey': false},
+        {'name': 'sms_body', 'isKey': false},
+        {'name': 'short_code', 'isKey': false },
+        {'name': 'date_received', 'isKey': false },
+        {'name': 'last_disposition', 'isKey': false },
+        {'name': 'last_agent', 'isKey': false},
+        {'name': 'last_campaign', 'isKey': false },
+        {'name': 'last_sms', 'isKey': false}        
       ];
 
       MappingComponent.nextStep();
@@ -419,11 +438,8 @@ describe('Component: al.lists.mapping', function () {
       let dataToSendTest = MappingComponent.nextStep();    
       expect(dataToSendTest.fields.length).to.have.lengthOf(3);
       expect(dataToSendTest.fields[0]).to.eql({'name': 'number1', 'isKey': true });    
-      expect(dataToSendTest.fields[1]).to.eql({'name': 'number2', 'isKey': false });
-      expect(dataToSendTest.fields[2]).to.eql({'name': 'number3', 'isKey': false });
-      expect(dataToSendTest.fields[3]).to.eql({'name': 'first_name', 'isKey': true});
-      expect(dataToSendTest.fields[4]).to.eql({'name': 'last_name', 'isKey': true});
-
+      expect(dataToSendTest.fields[1]).to.eql({'name': 'first_name', 'isKey': true});
+      expect(dataToSendTest.fields[2]).to.eql({'name': 'last_name', 'isKey': true});
     });
 
   });*/
