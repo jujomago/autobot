@@ -3,8 +3,7 @@
 angular.module('fakiyaMainApp')
   .factory('AlertMessage', function (ModalManager) {   
     function getOptions(content){
-      return {        
-        path:'fd',
+      return {       
         animation: false,
         templateUrl: 'app/factories/AlertMessage/AlertMessage.html',
         size: 'hs',

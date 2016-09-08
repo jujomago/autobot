@@ -59,27 +59,10 @@
             }
 
         }
-        let numInvalidRows = invalidRows.length;
-        console.log(numRecords+' cantidad de  filas');
-        console.log(numInvalidRows+' invaldiads');
 
-        if(numInvalidRows==numRecords)
-        {
-            let contentModal={
-                customFunction: function(){
-                console.log('desde invalidos');
-                _$location.path('/ap/al/lists');                        
-                },
-                title:'Summary',
-                textCloseBtn:'Close'                           
-            };          
-            contentModal.body=`${numRecords} record(s) are invalids, try again`;           
-            _AlertMessage(contentModal);
-        }
-        else{
         if (invalidRows.length > 0) {
           
-            let contentModal={                
+            let contentModal={
                 title:'Summary',
                 textCloseBtn:'Close',
                 listDetail:{
@@ -99,16 +82,6 @@
 
             _AlertMessage(contentModal);
 
-        }
-        else
-        {
-            let contentModal={                
-                title:'Summary',
-                textCloseBtn:'Close'                              
-            };            
-            contentModal.body=`All ${numRecords} record(s) have been successfully read from file. Records will be added to the list`;           
-            _AlertMessage(contentModal);
-        }
         }
 
         return rowsUnGrouped;
@@ -251,17 +224,15 @@
 
     let  _$stateParams, _$state;
     let _ContactFieldsService, _;
-    let _$location;
 
     class MapFieldsController {
 
-        constructor($stateParams, AlertMessage, $state, ContactFieldsService, lodash, $location) {
+        constructor($stateParams, AlertMessage, $state, ContactFieldsService, lodash) {
             _ = lodash;
             _$stateParams = $stateParams;
             _AlertMessage = AlertMessage;
             _$state = $state;
-            _ContactFieldsService = ContactFieldsService;
-            _$location=$location;
+            _ContactFieldsService = ContactFieldsService;            
             this.hasHeader = true;
             this.delimiters = [
                 { title: 'Comma', symbol: ',' },
@@ -395,9 +366,9 @@
         nextStep(){
             console.log('next Step');
             console.log(this.contactFields);
-            let keysFields = _.filter(this.contactFields,{'isKey': true});
-            let keysCount = _.filter(this.contactFields,{'isKey': true}).length;
-            if(keysCount>0 && keysCount<13){
+            let keysFields = _.filter(this.contactFields,{'isKey': true});  
+            let countKeys= keysFields.length;       
+            if(countKeys>0 && countKeys<13){
                 let dataToSend = {};
                 if (_$stateParams.settings.listDeleteSettings) {
                     dataToSend.listDeleteSettings = _$stateParams.settings.listDeleteSettings;
@@ -411,7 +382,7 @@
             }
             else{
                 let messageText;
-                if(keysCount===0){
+                if(countKeys===0){
                     messageText = 'At least one field must be marked as key';
                 }
                 else{
@@ -533,7 +504,7 @@
         }
     }
 
-    MapFieldsController.$inject = ['$stateParams', 'AlertMessage', '$state', 'ContactFieldsService', 'lodash','$location'];
+    MapFieldsController.$inject = ['$stateParams', 'AlertMessage', '$state', 'ContactFieldsService', 'lodash'];
 
     angular.module('fakiyaMainApp')
         .component('al.lists.mapping', {
