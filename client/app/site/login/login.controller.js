@@ -14,7 +14,6 @@
       _$location = $location;
       _$stateParams = $stateParams;
       _Base64Manager = Base64Manager;
-      this.sendingInfo = false;
     }
 
     login() {
@@ -23,7 +22,6 @@
         'username': this.username,
         'password': this.password
       };
-      this.sendingInfo = true;
       return _auth.login(credentials)
         .then(response => {
           if (response.status === 200) {
