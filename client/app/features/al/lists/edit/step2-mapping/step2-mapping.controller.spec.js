@@ -440,6 +440,7 @@ describe('Component: al.lists.mapping', function () {
       expect(dataToSendTest.fields[0]).to.eql({'name': 'number1', 'isKey': true });    
       expect(dataToSendTest.fields[1]).to.eql({'name': 'first_name', 'isKey': true});
       expect(dataToSendTest.fields[2]).to.eql({'name': 'last_name', 'isKey': true});
+      expect(dataToSendTest.fields[2]).to.eql({'name': 'salesforce_id', 'isKey': true});
     });
 
   });*/
