@@ -1,16 +1,22 @@
 'use strict';
 (function () {
-	let _AppsService;
+	let _$state;
+	let _AppsService, _GetHomePage;
 	class AppPageComponent {
 
-		constructor($stateParams, AppsService) {
+		constructor($stateParams, $state, AppsService, GetHomePage) {
 			this.appName = $stateParams.appName;		
 			this.message = { show: false };
 			_AppsService = AppsService;
+			_GetHomePage = GetHomePage;
 			this.application = {};
+			_$state = $state;
 		}
 		$onInit() {
 			this.getApp();
+		}
+		selectInstalledApp(){
+			_$state.go(_GetHomePage.of(this.application.appName));
 		}
 		getApp() {
 			return _AppsService.getApp(this.appName)
@@ -26,7 +32,7 @@
 		}
 	}
 
-	AppPageComponent.$inject = ['$stateParams', 'AppsService'];
+	AppPageComponent.$inject = ['$stateParams', '$state', 'AppsService', 'GetHomePage'];
 
 	angular.module('fakiyaMainApp')
 		.component('apppage', {

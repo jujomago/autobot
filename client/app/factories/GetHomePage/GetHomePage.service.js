@@ -12,5 +12,7 @@ angular.module('fakiyaMainApp')
       }
     }
 
-    return getHomePage;
+    return {
+      of: getHomePage
+    };
   });

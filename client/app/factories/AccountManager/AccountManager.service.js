@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('fakiyaMainApp')
-  .factory('SelectLastAccount', function ($http, $state, PartnersService) {
+  .factory('AccountManager', function ($http, $state, PartnersService) {
     function getLastPartnerAccount(partnerId, appName){
       console.log(partnerId);
       return PartnersService.getLastUsedPartnerAccount(partnerId)
@@ -19,5 +19,7 @@ angular.module('fakiyaMainApp')
         return error;
       });
     }
-    return getLastPartnerAccount;
+    return {
+      getLastPartnerAccount: getLastPartnerAccount
+    };
   });

@@ -10,8 +10,8 @@ angular.module('fakiyaMainApp')
 						break;
 					case 409:
 						let app =JSON.parse(response.data.error);
-						let SelectLastAccount = $injector.get('SelectLastAccount');
-						SelectLastAccount(app.partnerName,app.appName);
+						let AccountManager = $injector.get('AccountManager');
+						AccountManager.getLastPartnerAccount(app.partnerName,app.appName);
 						break;
 				}
 

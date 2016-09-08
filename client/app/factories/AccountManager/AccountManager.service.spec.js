@@ -1,12 +1,12 @@
 'use strict';
 
-describe('Service:SelectLastAccount', function () {
+describe('Service:AccountManager', function () {
 
   // load the service's module
   beforeEach(module('fakiyaMainApp'));
 
   // instantiate service
-  var _SelectLastAccount, _endPointUrl;
+  var _AccountManager, _endPointUrl;
   var _$httpBackend;
   var mockState;
   beforeEach(function (){
@@ -20,8 +20,8 @@ describe('Service:SelectLastAccount', function () {
           $provide.value('$state', mockState);
       });
   });
-  beforeEach(inject(function (_SelectLastAccount_, $httpBackend, appConfig) {
-    _SelectLastAccount = _SelectLastAccount_;
+  beforeEach(inject(function (_AccountManager_, $httpBackend, appConfig) {
+    _AccountManager = _AccountManager_;
     _$httpBackend = $httpBackend;
     if(appConfig.apiUri){
         _endPointUrl=appConfig.apiUri+'/admin/users';
@@ -33,7 +33,7 @@ describe('Service:SelectLastAccount', function () {
   });
   it('should redirect to login page with partner, app and username', function () {
     _$httpBackend.whenGET(_endPointUrl+'/partner/f9/lastusedaccount').respond(200, {username: 'five9_1@five.com'});
-    _SelectLastAccount('f9', 'al')
+    _AccountManager.getLastPartnerAccount('f9', 'al')
     .then(() => {
       expect(mockState.state).to.equal('ap.login');  
       expect(mockState.params.partnerId).to.equal('f9');
@@ -45,7 +45,7 @@ describe('Service:SelectLastAccount', function () {
 
   it('should redirect to all accounts page', function () {
     _$httpBackend.whenGET(_endPointUrl+'/partner/sf/lastusedaccount').respond(200, {username: ''});
-    _SelectLastAccount('sf', 'app1')
+    _AccountManager.getLastPartnerAccount('sf', 'app1')
     .then(() => {
       expect(mockState.state).to.equal('partneraccounts');  
       expect(mockState.params.partnerId).to.equal('sf');
@@ -55,7 +55,7 @@ describe('Service:SelectLastAccount', function () {
 
   it('should redirect to all accounts page', function () {
     _$httpBackend.whenGET(_endPointUrl+'/partner/f9/lastusedaccount').respond(500, {error: 'Internal Server Error'});
-    _SelectLastAccount('f9', 'al')
+    _AccountManager.getLastPartnerAccount('f9', 'al')
     .then(() => {
       expect(mockState.state).to.equal('partneraccounts');  
       expect(mockState.params.partnerId).to.equal('f9');

@@ -577,84 +577,142 @@ describe('Component: al.lists.mapping', function () {
     });
 
 
-    describe('Support more formats in phone numbers',funciton(){
+  describe('Support more formats in phone numbers',function(){
 
-  beforeEach(
-    inject(function ($componentController, $rootScope, $httpBackend, $stateParams, $window, _ContactFieldsService_, appConfig,_lodash_) {
+      beforeEach(
+        inject(function ($componentController, $rootScope, $httpBackend, $stateParams, $window, _ContactFieldsService_, appConfig,_lodash_) {
 
-    scope = $rootScope.$new();
-    _$httpBackend = $httpBackend;
-    contactFieldService = _ContactFieldsService_;
-    window = $window;
-    lodash=_lodash_; 
+        scope = $rootScope.$new();
+        _$httpBackend = $httpBackend;
+        contactFieldService = _ContactFieldsService_;
+        window = $window;
+        lodash=_lodash_; 
 
-    if (appConfig.apiUri) {
-      endPointUrl = appConfig.apiUri + '/f9/contactfields';
-    } 
-    
-    let mockCSV=`
-    number1
-    202-555-0128
-    (978)8874514
-    +1-541-754-3010
-    (011)663342346742
-    011-87859302098742
-    555.322.4432
-    933----643---------889348232
-    some name 3384023456
-    582-4285829 asdaf23
-    764----643….8893
-    33----643 -s.4124
-    011---233-5532245223
-    332SDE3953-563
-    `;
-
-    MappingComponent = $componentController('al.lists.mapping', {    
-      $stateParams: {
-        settings: 
-        { 
-          csvData: mockCSV, 
-          listDeleteSettings:mockDeleteSettigs 
+        if (appConfig.apiUri) {
+          endPointUrl = appConfig.apiUri + '/f9/contactfields';
         } 
-      },
-      $window: window,
-      ContactFieldsService: contactFieldService,
-      lodash:lodash
-    });
+        
+        let mockCSV=`
+        number1
+        202-555-0128
+        (978)8874514
+        +1-541-754-3010
+        (011)663342346742
+        011-87859302098742
+        555.322.4432
+        933----643---------889348232
+        some name 3384023456
+        582-4285829 asdaf23
+        764----643….8893
+        33----643 -s.4124
+        011---233-5532245223
+        332SDE3953-563
+        `;
 
-    _$httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
-  }));
+        MappingComponent = $componentController('al.lists.mapping', {    
+          $stateParams: {
+            settings: 
+            { 
+              csvData: mockCSV, 
+              listDeleteSettings:mockDeleteSettigs 
+            } 
+          },
+          $window: window,
+          ContactFieldsService: contactFieldService,
+          lodash:lodash
+        });
 
-    it('Number Phones with non numeric characters should be cleaned and validated',()=>{      
-        MappingComponent.contactFields = [          
-          {'name': 'number1' , mappedName:number1 , mappedIndex:0 },
-          {'name': 'number2' , mappedName:null , mappedIndex:0 },
-          {'name': 'number3' , mappedName:null , mappedIndex:0 },        
-          {'name': 'last_name' , mappedName:null , mappedIndex:0 },
-          {'name': 'company' , mappedName:null , mappedIndex:0 }
-        ];       
+        _$httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
+      }));
 
-
-      let resultFinish=MappingComponent.finishMap();
-      let rows=resultFinish.resultMapping.rows;
-      expect(rows).to.have.lengthOf(7);
-      expect(rows[0]).to.eql({number1:'2025550128'});
-      expect(rows[1]).to.eql({number1:'9788874514'});
-      expect(rows[2]).to.eql({number1:'011663342346742'});
-      expect(rows[3]).to.eql({number1:'01187859302098742'});
-      expect(rows[4]).to.eql({number1:'3384023456'});
-      expect(rows[5]).to.eql({number1:'7646438893'});
-      expect(rows[6]).to.eql({number1:'0112335532245223'});      
-    });
-
-    });
+      it('Number Phones with non numeric characters should be cleaned and validated',()=>{      
+          MappingComponent.contactFields = [          
+            {'name': 'number1' , mappedName:number1 , mappedIndex:0 },
+            {'name': 'number2' , mappedName:null , mappedIndex:0 },
+            {'name': 'number3' , mappedName:null , mappedIndex:0 },        
+            {'name': 'last_name' , mappedName:null , mappedIndex:0 },
+            {'name': 'company' , mappedName:null , mappedIndex:0 }
+          ];       
 
 
+        let resultFinish=MappingComponent.finishMap();
+        let rows=resultFinish.resultMapping.rows;
+        expect(rows).to.have.lengthOf(7);
+        expect(rows[0]).to.eql({number1:'2025550128'});
+        expect(rows[1]).to.eql({number1:'9788874514'});
+        expect(rows[2]).to.eql({number1:'011663342346742'});
+        expect(rows[3]).to.eql({number1:'01187859302098742'});
+        expect(rows[4]).to.eql({number1:'3384023456'});
+        expect(rows[5]).to.eql({number1:'7646438893'});
+        expect(rows[6]).to.eql({number1:'0112335532245223'});      
+      });
+  });
+  describe('Support more formats in phone numbers in 2 columns of CSV',function(){
 
- });
-   */
+      beforeEach(
+        inject(function ($componentController, $rootScope, $httpBackend, $stateParams, $window, _ContactFieldsService_, appConfig,_lodash_) {
 
+        scope = $rootScope.$new();
+        _$httpBackend = $httpBackend;
+        contactFieldService = _ContactFieldsService_;
+        window = $window;
+        lodash=_lodash_; 
 
+        if (appConfig.apiUri) {
+          endPointUrl = appConfig.apiUri + '/f9/contactfields';
+        } 
+        
+        let mockCSV=`
+          number1,number2
+          202-555-0128,978-8874950
+          (978)8874514,(978)80874514
+          +1-541-754-3010,842167239
+          (011)663342346742,9632587410
+          011-87859302098742,
+          555.322.4432,978-8874987
+          764----643….8893,01196325874102
+          33----6343 -s.4124,011963258741024
+        `;
+
+        MappingComponent = $componentController('al.lists.mapping', {    
+          $stateParams: {
+            settings: 
+            { 
+              csvData: mockCSV, 
+              listDeleteSettings:mockDeleteSettigs 
+            } 
+          },
+          $window: window,
+          ContactFieldsService: contactFieldService,
+          lodash:lodash
+        });
+
+        _$httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
+      }));
+
+      it('Number Phones with non numeric characters should be cleaned and validated',()=>{      
+          MappingComponent.contactFields = [          
+            {'name': 'number1' , mappedName:'number1' , mappedIndex:0 },
+            {'name': 'number2' , mappedName:'number2' , mappedIndex:0 }        
+          ];       
+
+          let resultFinish=MappingComponent.finishMap();
+          let rows=resultFinish.resultMapping.rows;
+          expect(rows).to.have.lengthOf(7);
+          
+          expect(rows[0]).to.eql({'number1':'2025550128','number2':'9788874950'});
+          expect(rows[1]).to.eql({'number1':'9788874514','number2':'97880874514'});
+          expect(rows[2]).to.eql({'number1':'011663342346742','number2':'9632587410'});
+          expect(rows[3]).to.eql({'number1':'01187859302098742','number2':''});
+          expect(rows[4]).to.eql({'number1':'5553224432','number2':'9788874987'});
+          expect(rows[5]).to.eql({'number1':'7646438893','number2':'01196325874102'});
+          expect(rows[6]).to.eql({'number1':'3363434124','number2':'011963258741024'});      
+
+      });
+  });
+
+});
+*/
  describe('#removeSelectedItem', () => {
     it('remove selected item from table', () => {
       MappingComponent.selectedRow=3;

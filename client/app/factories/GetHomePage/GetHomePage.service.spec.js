@@ -12,11 +12,11 @@ describe('Service:GetHomePage', function () {
   }));
 
   it('should return ap.al.skills', function () {
-    expect(GetHomePage('al')).to.equal('ap.al.skills');
+    expect(GetHomePage.of('al')).to.equal('ap.al.skills');
   });
 
   it('should return underconstruction', function () {
-    expect(GetHomePage('qsc')).to.equal('underconstruction');
+    expect(GetHomePage.of('qsc')).to.equal('underconstruction');
   });
 
 });

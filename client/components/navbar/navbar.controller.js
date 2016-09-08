@@ -84,7 +84,7 @@ class NavbarController {
     _$state.go('ap.page',{appName: appName});
   }
   selectInstalledApp(selected){
-    _$state.go(_GetHomePage(selected.app.appName));
+    _$state.go(_GetHomePage.of(selected.app.appName));
   }
   getInstalled(){
     return _appsService.getInstalled().then(response => {
