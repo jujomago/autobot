@@ -23,6 +23,7 @@
 				.then(response => {
 					this.application=response.data.app;
 					this.application.isInstalled = response.data.installed;
+					return response;
 				})
 				.catch(error => {
 					let theMsg = error.errorMessage;

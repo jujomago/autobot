@@ -9,9 +9,9 @@ angular.module('fakiyaMainApp')
 						$location.path('/404');
 						break;
 					case 409:
-						let app =JSON.parse(response.data.error);
+						let appRouteKey =JSON.parse(response.data.error);
 						let AccountManager = $injector.get('AccountManager');
-						AccountManager.getLastPartnerAccount(app.partnerName,app.appName);
+						AccountManager.getLastPartnerAccount(appRouteKey.partnerName,appRouteKey.appName);
 						break;
 				}
 
