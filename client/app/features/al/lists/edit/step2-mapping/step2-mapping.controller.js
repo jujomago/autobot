@@ -352,14 +352,12 @@
                 let posibleHeaders = this.jsonCSV[0];
                 console.log(`posibleHeaders:  ${posibleHeaders} `);
                 _.forEach(this.contactFields, el => {
-                    if (posibleHeaders.indexOf(el.name) >= 0 && el.hasOwnProperty('isKey')) {
+                    if (posibleHeaders.indexOf(el.name) >= 0) {
                         el.mappedName = el.name;
                     }
                 });
-                return this.contactFields;
-            } else {               
+            } else {
                 console.log('the feature smart match is just for header enabled');
-                return null;
             }
         }
 
