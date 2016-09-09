@@ -137,6 +137,12 @@ class NavbarController {
     });  
   }
 
+  changeFocus(){
+   angular.element('.search').blur();
+   angular.element('.searchbox_container').focus();
+   return true;
+  }
+
 }
 
 NavbarController.$inject=['$filter', '$parse' , '$location', '$state','lodash', 'AuthService', 'AppsService', 'Base64Manager', 'GetHomePage'];
