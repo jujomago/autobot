@@ -13,11 +13,9 @@
 	$onInit(){
 		this.getApps();
 	}
-
 	selectInstalledApp(appName){
 		_$state.go(_GetHomePage.of(appName));
 	}
-
 	getApps(){
 		return this.AppsService.getApps()
 		.then(response => {
