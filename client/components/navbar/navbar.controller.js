@@ -1,16 +1,16 @@
 'use strict';
 
-let _$location, _authService, _Base64Manager;
+let _$location, _authService, _Base64Manager, _GetHomePage;
 let _lodash;
 let _appsService;
 let _$filter, _$parse, _$state;
 class NavbarController {
 
-  constructor($filter, $parse, $location, $state, lodash, AuthService, AppsService, Base64Manager) {
+  constructor($filter, $parse, $location, $state, lodash, AuthService, AppsService, Base64Manager, GetHomePage) {
 
     this.isCollapsed = true;
     _Base64Manager = Base64Manager;
-  
+    _GetHomePage = GetHomePage;
     this.userOptionsCollapsed = true;
     _$state = $state;
     _$location=$location;
@@ -83,6 +83,9 @@ class NavbarController {
   selectApp(appName){
     _$state.go('ap.page',{appName: appName});
   }
+  selectInstalledApp(selected){
+    _$state.go(_GetHomePage.of(selected.app.appName));
+  }
   getInstalled(){
     return _appsService.getInstalled().then(response => {
       this.myAppsFromService = response.data;
@@ -136,7 +139,7 @@ class NavbarController {
 
 }
 
-NavbarController.$inject=['$filter', '$parse' , '$location', '$state','lodash', 'AuthService', 'AppsService', 'Base64Manager'];
+NavbarController.$inject=['$filter', '$parse' , '$location', '$state','lodash', 'AuthService', 'AppsService', 'Base64Manager', 'GetHomePage'];
 
 angular.module('fakiyaMainApp')
   .controller('NavbarController', NavbarController);

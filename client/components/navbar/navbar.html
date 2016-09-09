@@ -35,7 +35,7 @@
                         <span>{{key}}</span>
                       </div>
                       <div ng-repeat="app in (value.filtered = (value | filter:nav.search))" class="app-container">
-                        <a ng-click="nav.selectApp(app.app.appName)">
+                        <a ng-click="nav.selectInstalledApp(app)">
                           <img ng-src="/assets/{{app.app.appName}}/images/logo-sm.jpg" abx-default-image-switch="/assets/default/images/logo-sm.jpg" alt=""/>
                           <span>{{app.app.appFullName}}</span>
                         </a>

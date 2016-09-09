@@ -31,9 +31,20 @@ describe('Component: LoginComponent', function () {
 
       it('should login and be redirected to skills', () =>{
         _$httpBackend.whenPOST(_endPointUrl+'/auth').respond(200, 'Success');
+        _LoginComponent.credentials.appName = 'al';
         _LoginComponent.login()
         .then(() => {
           expect(_mockState.path).to.equal('ap.al.skills');
+        });
+        _$httpBackend.flush();
+      });
+
+      it('should login and be redirected to underconstruction', () =>{
+        _$httpBackend.whenPOST(_endPointUrl+'/auth').respond(200, 'Success');
+        _LoginComponent.credentials.appName = 'cj';
+        _LoginComponent.login()
+        .then(() => {
+          expect(_mockState.path).to.equal('underconstruction');
         });
         _$httpBackend.flush();
       });
