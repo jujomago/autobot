@@ -15,7 +15,7 @@
 					</div>
 					<div class="text-container">
 						<p>{{ app.app.description | limitTo: 190 }}</p>
-						<button type="button" ui-sref="underconstruction" class="btn btn-black" ng-show="app.installed">Open app</button>
+						<button type="button" ng-click="$ctrl.selectInstalledApp(app.app.appName)"  ui-sref="underconstruction" class="btn btn-black" ng-show="app.installed">Open app</button>
 						<button type="button" ui-sref="underconstruction" class="btn btn-black" ng-show="!app.installed">Get app</button>
 					</div>
 				</div>

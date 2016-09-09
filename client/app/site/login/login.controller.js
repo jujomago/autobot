@@ -22,7 +22,6 @@
         'username': this.username,
         'password': this.password
       };
-      console.log(credentials);
       return _auth.login(credentials)
         .then(response => {
           if (response.status === 200) {
