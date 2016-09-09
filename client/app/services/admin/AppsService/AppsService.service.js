@@ -6,7 +6,7 @@
         constructor($http, HandleError, appConfig, lodash, $parse) {
             this.partners = [];
       		  this.apps = [];
-            this.getter = 'partner.partnerName';
+            this.getter = 'partner.partnerFullName';
             this.endPointUrl = '/admin/apps';
             if (appConfig.apiUri) {
                 this.endPointUrl = appConfig.apiUri + this.endPointUrl;
@@ -27,7 +27,7 @@
         			var j = 0;
         			for(let partnerName in this.apps)
         			{
-        				console.log(partnerName);
+        				console.log(this.apps);
         				this.partners[j] = {apps: this.apps[partnerName], partner: partnerName};
         				j++;
         			}
