@@ -162,10 +162,17 @@
               background-color: #ffffff;
               color:#000000;
               border: 1px solid #666666; 
-              margin: 8px 0 0px 0;  
-              &:hover {
-                  color: @blue;
-              }
+              margin: 8px 0 0px 0;
+            }
+            input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+              color:    #cccccc;
+            }
+            input::-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+              color:    #cccccc;
+              opacity:  1;
+            }
+            input::-ms-input-placeholder { /* Internet Explorer 10-11 */
+              color:    #cccccc;
             }            
             .glyphicon-search {
                 font-size: 16px;
