@@ -1,17 +1,28 @@
 <div class="partneraccounts-page">
 	<navbar></navbar>
-	<div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4   partner-accounts-list">
-		<img src="assets/al/images/logo-sm.jpg" alt="Five9" class="center-block"> 
-		<h3 class="text-center">Choose account</h3>
-		<h3 class="title-container">
-			<span>Five9</span> accounts
-		</h3>
-		<ul class="list-group account-list">
-			<li class="list-group-item"  ng-repeat="item in $ctrl.accountsList" ng-click="$ctrl.clickList(item)">			
-					<img ng-src="assets/al/images/{{item.avatar}}" alt="avatar" class="img-circle fixed-avatar">
-					{{item.name}}	
-			</li>
-		</ul>
+	<div class="partner-accounts-list">
+		<img src="assets/{{$ctrl.credentials.appName}}/images/logo-sm.jpg" alt="Five9" class="fixed-logo">
+		<div ng-if="$ctrl.emptyPartnerAccounts">
+			<h3 class="title-level3">Choose account</h3>
+			<h3 class="title-container">
+				Five9<span> accounts</span>
+			</h3>
+			<ul class="list-group account-list">
+				<li class="list-group-item"  ng-repeat="item in $ctrl.accountsList" ng-click="$ctrl.clickList(item)">
+						<img ng-if="item.avatar!=null" ng-src="assets/al/images/{{item.avatar}}" alt="avatar" class="img-circle fixed-avatar">
+						<img ng-if="item.avatar==null" ng-src="assets/al/images/avatar-default.png" alt="avatar" class="img-circle fixed-avatar">
+						{{item.username}}
+				</li>
+			</ul>
+		</div>
+		<div class="emptyPartner" ng-if="!$ctrl.emptyPartnerAccounts">
+			<h3 class="title-level3">Add account</h3>
+			<h3 class="title-container">
+				Five9<span> accounts</span>
+			</h3>
+			<p>You have no Five9 accounts registered yet.</p>
+			<p>Please create a <a ui-sref="partnercreate" class="text-center">new account</a> before using Admin Console</p>
+		</div>
 		<div class="text-center">
 			<a ui-sref="partnercreate" class="text-center">Add new account</a>
 		</div>

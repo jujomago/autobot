@@ -1,39 +1,47 @@
 .partner-accounts-list{
-	margin-top: 100px;
+	margin: 100px auto;
+	padding: 0;
+	width: 400px;
+	.title-level3{
+		font-family: BrandonLight;
+		text-align: center;
+	}
 	h3{
-		font-family: BrandonRegular;
+		font-family: BrandonMedium;
 		span{
-			font-family: BrandonBold;
+			color: #676767;
 		}
+	}
+	.emptyPartner{
+		text-align: center;
+	}
+	.fixed-logo{
+		margin-left: 128px;
+		width: 140px;
 	}
 }
 .account-list{
-	margin-top: 16px;
+	margin: 20px auto;
+	width: 400px;
 	li{
 		background:@lightgray;
 		border: 1px solid @gray;
-		border-radius:0;
-		font-weight: bold;
 		color:@black;
 		cursor: pointer;
-		a{
-			color:@black;
-		}
+		padding: 10px;
 	}
 	img{
-		width: 70px;
-		margin-right: 22px;
-    	margin-left: 8px;
+		width: 60px;
+		margin-right: 20px;
+    margin-left: 10px;
+		border: 1px solid @gray;
 	}
 }
 .partneraccounts-page{
 	footer.footer{
-		    position: absolute;
+		  position: absolute;
 			bottom: 0;
-			display: block;			
+			display: block;
 			width: 100%;
-	}
-	img{
-		transform: translateZ(0);
 	}
 }

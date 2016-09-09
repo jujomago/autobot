@@ -1,20 +1,49 @@
 'use strict';
 (function(){
-
+  let _$state, _$stateParams;
+  let _PartnersService;
+  function _getPartnerName(partnerId){
+    switch(partnerId){
+      case 'f9':
+        return 'Five9';
+    }
+    return partnerId;
+  }
 class PartnerAcoountsListComponent {
-  constructor($location) {
+  constructor($location, $state, $stateParams, PartnersService) {
     this.location=$location;
-    this.accountsList=[
-      {name:'JSmith1162',avatar:'jsmith.jpg'},
-      {name:'anniehal23',avatar:'jsmith.jpg'},
-    ];
+    _$state = $state;
+    _$stateParams = $stateParams;
+    _PartnersService = PartnersService;
+    this.partnerName = _getPartnerName(_$stateParams.partnerId);
+    this.credentials = {partnerId: _$stateParams.partnerId, appName: _$stateParams.appName};
+    this.message = { show: false };
+    this.accountsList = [];
+    this.emptyPartnerAccounts = true;
+  }
+  $onInit(){
+		this.getAccounts();
+	}
+  getAccounts(){
+    return _PartnersService.getPartnerAccounts()
+    .then(response => {
+      this.accountsList = response.data;
+      console.log(this.accountsList);
+      if(this.accountsList.length === 0){
+          this.emptyPartnerAccounts = null;
+      }
+      return response;
+    })
+    .catch(error =>{
+        this.message={ show: true, type: 'danger', text: error.errorMessage};
+        return error;
+      });
   }
   clickList(){
     this.location.path('/underconstruction');
   }
 }
-PartnerAcoountsListComponent.$inject=['$location'];
-
+PartnerAcoountsListComponent.$inject=['$location', '$state', '$stateParams', 'PartnersService'];
 angular.module('fakiyaMainApp')
   .component('accounts.partneraccounts', {
     templateUrl: 'app/site/partneraccounts/partneraccounts.html',

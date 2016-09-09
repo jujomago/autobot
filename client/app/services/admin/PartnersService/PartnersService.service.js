@@ -14,11 +14,19 @@
             var result = { data: null, statusCode: 200, errorMessage: '' };
             return _$http.post(this.endPointUrl+'/auth', credentials)
                 .then(response => {
-
                     result.data = response.data;
                     return result;
                 })
                 .catch(error => _HandleError(error, result));
+        }
+        getPartnerAccounts(){
+          let result = { data: null, statusCode: 200, errorMessage: null };
+          return _$http.get(this.endPointUrl+'/partners/f9/accounts')
+            .then(response => {
+              result.data = response.data;
+              return result;
+            })
+            .catch(err => _HandleError(err, result));
         }
     }
     PartnersService.$inject = ['$http','HandleError','appConfig'];
