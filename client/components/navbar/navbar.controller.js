@@ -107,6 +107,13 @@ class NavbarController {
     });  
   }
 
+  changeFocus(){
+   angular.element('.search').blur();
+   angular.element('#submenu-search').focus();
+   angular.element('#submenu-search').blur();
+   return true;
+  }
+
 }
 
 NavbarController.$inject=['$filter', '$parse' ,'lodash', 'AppsService'];
