@@ -5,6 +5,9 @@ angular.module('fakiyaMainApp')
     $stateProvider
       .state('ap.login', {
         url: '/:partnerId/:appName/login/:username',
-        template: '<partners.accounts.login></partners.accounts.login>'
+        template: '<partners.accounts.login></partners.accounts.login>',
+        params: {
+            message: null,
+         }
       });
   });

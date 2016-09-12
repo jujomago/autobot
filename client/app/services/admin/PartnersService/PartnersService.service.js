@@ -30,6 +30,17 @@
                 })
                 .catch(error => _HandleError(error, result));
         }
+
+        partnerAccountSubscription(partnerInfo) {
+            var result = { data: null, statusCode: 200, errorMessage: '' };
+            return _$http.post(this.endPointUrl+'/partner/app', partnerInfo)
+                .then(response => {
+                    result.data = response.data;
+                    return result;
+                })
+                .catch(error => _HandleError(error, result));
+        }
+
     }
     PartnersService.$inject = ['$http','HandleError','appConfig'];
 	angular.module('fakiyaMainApp')
