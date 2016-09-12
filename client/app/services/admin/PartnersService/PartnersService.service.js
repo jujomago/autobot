@@ -19,6 +19,7 @@
                 })
                 .catch(error => _HandleError(error, result));
         }
+        // When we need to get different partners, we need to update the endpoint call
         getPartnerAccounts(){
           let result = { data: null, statusCode: 200, errorMessage: null };
           return _$http.get(this.endPointUrl+'/partners/f9/accounts')

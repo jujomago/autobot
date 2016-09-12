@@ -28,7 +28,6 @@ class PartnerAcoountsListComponent {
     return _PartnersService.getPartnerAccounts()
     .then(response => {
       this.accountsList = response.data;
-      console.log(this.accountsList);
       if(this.accountsList.length === 0){
           this.emptyPartnerAccounts = null;
       }
