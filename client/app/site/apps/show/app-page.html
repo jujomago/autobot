@@ -7,7 +7,7 @@
         <div class="col-md-2 col-sm-3">
             <div class="app-page-img-container">
                 <img class="img-responsive" ng-src="assets/{{$ctrl.application.appName}}/images/logo-sm.jpg" abx-default-image-switch="/assets/default/images/logo-sm.jpg" alt="logo {{$ctrl.application.appFullName}}" />
-                <button class="btn btn-black" ng-show="$ctrl.application.isInstalled" ui-sref="underconstruction">Open app</button>
+                <button class="btn btn-black" ng-show="$ctrl.application.isInstalled" ng-click="$ctrl.selectInstalledApp()">Open app</button>
                 <button class="btn btn-black" ng-show="!$ctrl.application.isInstalled" ui-sref="underconstruction">Get app</button>
                 <p>Five9 admin account required</p>
             </div>

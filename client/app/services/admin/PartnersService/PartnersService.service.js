@@ -14,6 +14,17 @@
             var result = { data: null, statusCode: 200, errorMessage: '' };
             return _$http.post(this.endPointUrl+'/auth', credentials)
                 .then(response => {
+                    console.log(response);
+                    result.data = response.data;
+                    return result;
+                })
+                .catch(error => _HandleError(error, result));
+        }
+
+        getLastUsedPartnerAccount(partnerName){
+            var result = { data: null, statusCode: 200, errorMessage: '' };
+            return _$http.get(this.endPointUrl+'/partner/'+partnerName+'/lastusedaccount')
+                .then(response => {
                     result.data = response.data;
                     return result;
                 })
