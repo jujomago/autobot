@@ -3,6 +3,9 @@
     <h3 class="modal-title">Add new contact</h3>
 </div>
 <div class="modal-body">
+   
+  <abx-message msg="$ctrl.message"></abx-message>
+
     <form name="formList" novalidate ng-submit="formList.$valid && $ctrl.save()" class="custom_form form-horizontal">
         <div class="contact-model-form">
           <div ng-repeat="form in $ctrl.formDataModal" >
@@ -15,9 +18,8 @@
                             ng-minlength="{{form.minlength}}"
                             ng-maxlength="{{form.maxlength}}"
                             id="{{form.name}}"
-                            ng-model="$ctrl.contact[form.name]"
-                            ng-required="form.required"
-                            ng-change="$ctrl.phoneChanged()"/>
+                            ng-model="$ctrl.contact[form.name]"                           
+                           />
                      <input type="{{form.type}}"
                             ng-if="form.type == 'tel' "
                             name="{{form.name}}"
@@ -34,13 +36,12 @@
                             ng-minlength="{{form.minlength}}"
                             ng-maxlength="{{form.maxlength}}"
                             id="{{form.name}}"
-                            ng-model="$ctrl.dates[$index].date"
-                            ng-required="form.required"
+                            ng-model="$ctrl.dates[$index].date"                           
                             uib-datepicker-popup="MM-dd-yyyy"
                             datepicker-options="$ctrl.dateOptions"
                             is-open="$ctrl.dates[$index].opened"
                             readonly=""
-                            ng-change="$ctrl.phoneChanged()"/>
+                            />
                      <div ng-if="form.type == 'date-text'" class="datetime-button">
                       <span class="timepicker-input">
                         <input type="time"
@@ -55,11 +56,10 @@
                      </div>
                 </div>
             </div>
-            <div ng-messages="formList[form.name].$error" ng-show="formList.$submitted">
+            <div class="errorMessagesModal" ng-messages="formList[form.name].$error"  ng-show='formList.$submitted || formList[form.name].$dirty'>
                   <p ng-message="minlength">This field is too short</p>
-                  <p ng-message="required" ng-if="!$ctrl.phoneRequired">This field is required</p>
                   <p nf-if="form.type == 'email'" ng-message="email">This field must be an email address</p>
-                  <p ng-message="required" nf-if="$ctrl.phoneRequired">The contacts record does not have any number</p>
+                  <p ng-message="required">The Contact Record does not have any number</p>
                   <p ng-message="usphoneValidator">This field has a invalid value. Number must either be 10 digits for dialing within North America, or begin with "011" for International number.</p>
             </div>
           </div>
