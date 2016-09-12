@@ -165,10 +165,23 @@
     }
 
     .table-y-scroll-col2{
+        thead tr th,tbody tr td{
+            &:first-child{
+                width:8%;
+                text-align: center
+            }
+             &:last-child{
+                width:92%;
+            }
+        }
         tbody td, thead th {
-            width: 50%;  /* 33.2% is less than (100% / 3 cols) = 33.3% */
+        //    width: 50%;  /* 33.2% is less than (100% / 3 cols) = 33.3% */
             float: left;
+            padding-left: 10px;
         }     
+        tbody td{
+            line-height: 14px;
+        }
     }
 
 
