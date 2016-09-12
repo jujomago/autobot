@@ -271,19 +271,21 @@ describe('Component: al.lists.mapping', function () {
       expect(MappingComponent.hasHeader).to.equal(true);
 
       MappingComponent.contactFields = [
-        {'name': 'number1' },
-        {'name': 'number2' },
-        {'name': 'number3' },
-        {'name': 'first_name'},
-        {'name': 'last_name'},
-        {'name': 'company'}
+        {'name': 'number1',mappedName:null },
+        {'name': 'number2' ,mappedName:null },
+        {'name': 'number3' ,mappedName:null },
+        {'name': 'first_name',mappedName:null },
+        {'name': 'last_name',mappedName:null },
+        {'name': 'company',mappedName:null }
       ];
 
       let matchedFiedls=MappingComponent.matchSmart();
       expect(matchedFiedls).to.be.an.instanceof(Array);
       console.log('mached fields');
       console.log(matchedFiedls);
-      expect(matchedFiedls).to.eql([{name:'first_name'},{name:'last_name'},{name:'company'}]);
+      expect(matchedFiedls[0]).to.eql([{'name': 'number1',mappedName:null }]);
+      expect(matchedFiedls[3]).to.eql([{'name': 'number1',mappedName:'first_name' }]);
+      expect(matchedFiedls[4]).to.eql([{'name': 'number1',mappedName:'last_name' }]);
 
     });
 
@@ -297,6 +299,36 @@ describe('Component: al.lists.mapping', function () {
       expect(matchedFiedls).to.equal(null);
 
     });
+
+    it('matchSmart just must apply to contact fields that have a checkbox (isKey property)', () => {
+      
+      MappingComponent.hasHeader=true;
+
+      expect(MappingComponent.hasHeader).to.equal(true);
+
+      MappingComponent.contactFields = [
+        {'name': 'number1' ,mappedName:null, isKey:false},      
+        {'name': 'number2' ,mappedName:null , isKey:true },      
+        {'name': 'number3',mappedName:null , isKey:true  },
+        {'name': 'first_name',mappedName:null , isKey:false },
+        {'name': 'first_name',mappedName:null },
+        {'name': 'first_name',mappedName:null },
+        {'name': 'last_name' ,mappedName:null, isKey:true },
+        {'name': 'last_name' ,mappedName:null },
+        {'name': 'company' ,mappedName:null ,isKey:false }
+      ];
+
+      expect(MappingComponent.hasHeader).to.equal(false);
+
+      let matchedFiedls=MappingComponent.matchSmart();
+      expect(matchedFiedls[3]).to.eql([{'name': 'first_name',mappedName:'fist_name',isKey:false}]);
+      expect(matchedFiedls[4]).to.eql([{'name': 'first_name',mappedName:null }]);
+      expect(matchedFiedls[5]).to.eql([{'name': 'first_name',mappedName:null }]);
+      expect(matchedFiedls[6]).to.eql([ {'name': 'last_name' ,mappedName:'last_name', isKey:true }]);
+      expect(matchedFiedls[7]).to.eql([ {'name': 'last_name' ,mappedName:null}]);
+
+    });
+
 
   });*/
   
