@@ -12,14 +12,7 @@
                 return rowValues.map(rv => rv.trim());
             });
         } else {
-
-            console.log('DELIMITER');
-            console.log(delimiter);
-
-            var headers = lines[0].split(delimiter);
-            console.log('THE HEADERS');
-            console.log(headers);
-
+            var headers = lines[0].split(delimiter);        
 
             for (var i = 1; i < lines.length; i++) {
                 var obj = {};
@@ -32,8 +25,7 @@
                         obj[headers[j]] = currentline[0];
                     }    
                 }
-                result.push(obj);               
-              
+                result.push(obj);                             
             }
         }
         return result;
@@ -368,11 +360,9 @@
 
         changeDelimiter() {
             this.customDelimiterEnabled = (this.selectedDelimiter.title === 'Custom');
-            if (this.customDelimiterEnabled) {
-                console.log('here should enter');
+            if (this.customDelimiterEnabled) {            
                 this.aplyDemiliterCSV(this.customDelimiterDefaultSymbol);
-            } else {
-                console.log('here should not enter');
+            } else {             
                 this.aplyDemiliterCSV(this.selectedDelimiter.symbol);
             }
         }
