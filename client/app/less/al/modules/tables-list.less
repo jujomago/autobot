@@ -25,9 +25,6 @@
                     border-bottom: 1px solid @color0;
                 }
             }
-            &.selected td{
-                background:#eff8fc;
-            }         
         }
     }
 
@@ -56,10 +53,16 @@
             &:nth-child(odd)>td, &:nth-child(odd)>th {
                 background-color: @table_odd_row;
             }
+
             &.selectedRowMapped td{
                 background: #e6e6e6;
                 color: #464646;
             }        
+
+            &.selected td{
+                background:#eff8fc;
+            }
+
         }
     }
 
@@ -104,9 +107,9 @@
                     }
                     a{
                         cursor:default;
-                    }    
+                    }
                 }
-                
+
             }
         }
         .width-manual{
@@ -123,7 +126,7 @@
         }
         thead tr {
             /* fallback */
-            width: 100%;           
+            width: 100%;
         }
 
         tr:after {  /* clearing float */
@@ -145,27 +148,27 @@
         tbody td, thead th {
             width: 25%;  /* 33.2% is less than (100% / 3 cols) = 33.3% */
             float: left;
-        } 
+        }
 
     }
     .table-y-scroll-showscroll{
         thead tr{
             /* minus scroll bar width */
              width:~"calc(100% - 16px)";
-        }            
+        }
     }
     .table-y-scroll-col4{
         tbody td, thead th {
             width: 25%;  /* 33.2% is less than (100% / 3 cols) = 33.3% */
             float: left;
-        }     
+        }
     }
 
     .table-y-scroll-col3{
         tbody td, thead th {
             width: 33.2%;  /* 33.2% is less than (100% / 3 cols) = 33.3% */
             float: left;
-        }     
+        }
     }
 
     .table-y-scroll-col2{
@@ -182,7 +185,7 @@
         //    width: 50%;  /* 33.2% is less than (100% / 3 cols) = 33.3% */
             float: left;
             padding-left: 10px;
-        }     
+        }
         tbody td{
             line-height: 14px;
         }
