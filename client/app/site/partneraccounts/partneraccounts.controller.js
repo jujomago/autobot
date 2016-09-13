@@ -25,7 +25,7 @@ class PartnerAcoountsListComponent {
 		this.getAccounts();
 	}
   getAccounts(){
-    return _PartnersService.getPartnerAccounts()
+    return _PartnersService.getPartnerAccounts(_$stateParams.partnerId)
     .then(response => {
       this.accountsList = response.data;
       if(this.accountsList.length === 0){
