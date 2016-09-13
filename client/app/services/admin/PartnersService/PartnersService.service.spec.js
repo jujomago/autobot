@@ -11,7 +11,7 @@ describe('Service:PartnersService', function () {
     _$httpBackend = $httpBackend;
     if(appConfig.apiUri){
         _endPointUrl=appConfig.apiUri+'/admin/users';
-    }   
+    }
   }));
 
   afterEach(function () {
@@ -31,6 +31,27 @@ describe('Service:PartnersService', function () {
     it('should return unexpected server error', function () {
         _$httpBackend.whenPOST(_endPointUrl+'/auth').respond(500, {error: 'Internal Server Error'});
         _PartnersService.partnerLogin()
+        .catch(error => {
+            expect(error.errorMessage).to.equal('Internal Server Error');
+            expect(error.statusCode).to.equal(500);
+            expect(error.data).to.equal(null);
+        });
+        _$httpBackend.flush();
+    });
+
+  });
+  describe('#get Account for a partner', () => {
+    it('should return at least one account', function () {
+        _$httpBackend.whenGET(_endPointUrl+'/partners/f9/accounts').respond({username:'XYZ', avatar:null});
+        _PartnersService.getPartnerAccounts()
+        .then(result => {
+            expect(result.data.length).to.not.equal(0);
+        });
+        _$httpBackend.flush();
+    });
+    it('should return unexpected server error', function () {
+        _$httpBackend.whenGET(_endPointUrl+'/partners/f9/accounts').respond(500, {error: 'Internal Server Error'});
+        _PartnersService.getPartnerAccounts()
         .catch(error => {
             expect(error.errorMessage).to.equal('Internal Server Error');
             expect(error.statusCode).to.equal(500);
