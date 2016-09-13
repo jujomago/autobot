@@ -169,10 +169,10 @@ describe('Component: contactModalComponent', function () {
                           controllerAs: '$ctrl',
                           template: '<al.lists.contact-modal></al.lists.contact-modal>',
                         });
-    let contact = {
+   /* let contact = {
       'number1': '2025550180',
       'number2': '2025550181'
-    };
+    };*/
     _ContactModalComponent.instance = modalInstance;
     _ContactModalComponent.dates = [];
     modalInstance.result

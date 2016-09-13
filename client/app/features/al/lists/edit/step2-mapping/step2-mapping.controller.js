@@ -256,8 +256,12 @@
             this.message = { show: false };
             this.loadingContacts = true;
             this.canMapping = false;
-            this.selectedRow=-1;
-            this.jsonCSV=[];
+
+            this.selectedRow = -1;
+            this.jsonCSV = [];
+            this.jsonHeaders = [];
+            this.seletedRowsMapped=[];
+
         }
 
         $onInit() {
@@ -343,11 +347,21 @@
                 this.changeDelimiter();
                 let posibleHeaders = this.jsonCSV[0];
                 console.log(`posibleHeaders:  ${posibleHeaders} `);
-                _.forEach(this.contactFields, el => {
+
+                _.each(this.contactFields, (el,index) => {
                     if (posibleHeaders.indexOf(el.name) >= 0 && el.hasOwnProperty('isKey')) {
                         el.mappedName = el.name;
+                        this.seletedRowsMapped.push(index);
                     }
                 });
+                console.log('this.seletedRowsMapped');
+                console.log(this.seletedRowsMapped);
+                let contentModal={
+                      title:'Message',
+                      body:`${this.seletedRowsMapped.length} item(s) have(s) been successfully mapped.\n
+                      All affected items have been selected`
+                };
+                 _AlertMessage(contentModal);     
                 return this.contactFields;
             } else {               
                 console.log('the feature smart match is just for header enabled');
@@ -359,6 +373,7 @@
         clearMapping() {
             // TODO: Research _.fill() does not work;
             if (this.contactFields) {
+                this.seletedRowsMapped=[];
                 this.contactFields.forEach((el) => {
                     el.mappedName = null;
                     el.mappedIndex = 0;
