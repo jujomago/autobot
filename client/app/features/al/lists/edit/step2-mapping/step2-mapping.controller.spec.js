@@ -10,7 +10,6 @@ describe('Component: al.lists.mapping', function () {
 
   var mockCSV = `
     llave,llave2,first_name,last_name,company
-   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     7777777777,,Josue, Mancilla, Sinapsysit
     3333333333,53,Boris,Bachas, ninguna
     664334368,5535632212,Ken,Osborn,Five9
