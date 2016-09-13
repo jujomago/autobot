@@ -62,7 +62,45 @@ describe('Service:PartnersService', function () {
 
   });
 
-  describe('#getLastUsedPartnerAccount', () => {
+  describe('#partnerAccountSubscription', () => {
+    it('should return 200 if account registered successfully', function () {
+        _$httpBackend.whenPOST(_endPointUrl+'/partner/app').respond(200, 'Success');
+        let mockInfo = {
+          partnerId: 'f9',
+          appName: 'al',
+          credentials: {
+            username: 'test@test.com'
+          }
+        };
+        _PartnersService.partnerAccountSubscription(mockInfo)
+        .then(result => {
+            expect(result.data).to.equal('Success');
+            expect(result.statusCode).to.equal(200);
+            expect(result.errorMessage.length).to.equal(0);
+        });
+        _$httpBackend.flush();
+    });
+    it('should return unexpected server error', function () {
+        _$httpBackend.whenPOST(_endPointUrl+'/partner/app').respond(500, {error: 'Internal Server Error'});
+        let mockInfo = {
+          partnerId: 'f9',
+          appName: 'al',
+          credentials: {
+            username: 'test@test.com'
+          }
+        };
+        _PartnersService.partnerAccountSubscription(mockInfo)
+        .catch(error => {
+            expect(error.errorMessage).to.equal('Internal Server Error');
+            expect(error.statusCode).to.equal(500);
+            expect(error.data).to.equal(null);
+        });
+        _$httpBackend.flush();
+    });
+
+  });
+
+    describe('#getLastUsedPartnerAccount', () => {
     it('should return 200 if login', function () {
         let partnerName = 'f9';
         _$httpBackend.whenGET(_endPointUrl+'/partner/f9/lastusedaccount').respond(200, {username: 'five9_1@five.com'});

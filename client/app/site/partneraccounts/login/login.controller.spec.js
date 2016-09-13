@@ -5,7 +5,7 @@ describe('Component: LoginComponent', function () {
   // load the controller's module
   beforeEach(module('fakiyaMainApp'));
 
-  let _LoginComponent, _endPointUrl, _mockState;
+  let _LoginComponent, _endPointUrl, _mockState, _mockStateParams;
   let _$httpBackend;
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($componentController, $httpBackend, appConfig) {
@@ -19,13 +19,30 @@ describe('Component: LoginComponent', function () {
         this.path = path;
       }
     };
+    _mockStateParams = {};
     _LoginComponent = $componentController('partners.accounts.login', {
-      $state: _mockState
+      $state: _mockState,
+      $stateParams: _mockStateParams
     });
     _$httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
   }));
   afterEach(function () {
     _$httpBackend.verifyNoOutstandingRequest();
+  });
+  describe('#setMessage', () => {
+      it('should display a param message', () =>{
+        _mockStateParams.message = {show: true, text: 'some message', type: 'danger'};
+        _LoginComponent.setMessage();
+        expect(_LoginComponent.message.show).to.equal(true);
+        expect(_LoginComponent.message.text).to.equal('some message');
+        expect(_LoginComponent.message.type).to.equal('danger');
+      });
+
+      it('should hide the message', () =>{
+        _mockStateParams.message = null;
+        _LoginComponent.setMessage();
+        expect(_LoginComponent.message.show).to.equal(false);
+      }); 
   });
   describe('#login', () => {
 

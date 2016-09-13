@@ -35,5 +35,4 @@
 	    templateUrl: 'app/site/apps/apps.html',
 	    controller: AppsComponent
 	  });
-
 })();

@@ -30,7 +30,7 @@
                 })
                 .catch(error => _HandleError(error, result));
         }
-        // When we need to get different partners, we need to update the endpoint call
+
         getPartnerAccounts(partnerName){
           let result = { data: null, statusCode: 200, errorMessage: null };
           return _$http.get(this.endPointUrl+'/partners/'+partnerName+'/accounts')
@@ -39,6 +39,16 @@
               return result;
             })
             .catch(err => _HandleError(err, result));
+        }
+
+        partnerAccountSubscription(partnerInfo) {
+            var result = { data: null, statusCode: 200, errorMessage: '' };
+            return _$http.post(this.endPointUrl+'/partner/app', partnerInfo)
+                .then(response => {
+                    result.data = response.data;
+                    return result;
+                })
+                .catch(error => _HandleError(error, result));
         }
     }
     PartnersService.$inject = ['$http','HandleError','appConfig'];
