@@ -233,7 +233,7 @@ MappingComponent.changeDelimiter();
      expect(MappingComponent.customDelimiterEnabled).to.equal(true);
       expect(MappingComponent.jsonCSV).to.not.equal(null);
       expect(MappingComponent.jsonCSV).to.be.instanceof(Array);  
-      expect(MappingComponent.jsonCSV).to.have.lengthOf(10);
+      expect(MappingComponent.jsonCSV).to.have.lengthOf(9);
 
     });
 
@@ -252,7 +252,7 @@ MappingComponent.changeDelimiter();
       expect(MappingComponent.customDelimiterEnabled).to.equal(false);
       expect(MappingComponent.jsonCSV).to.not.equal(null);
       expect(MappingComponent.jsonCSV).to.be.instanceof(Array);
-      expect(MappingComponent.jsonCSV).to.have.lengthOf(10);
+      expect(MappingComponent.jsonCSV).to.have.lengthOf(9);
 
     });
 
