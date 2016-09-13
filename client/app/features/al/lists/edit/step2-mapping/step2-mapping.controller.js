@@ -12,16 +12,28 @@
                 return rowValues.map(rv => rv.trim());
             });
         } else {
+
+            console.log('DELIMITER');
+            console.log(delimiter);
+
             var headers = lines[0].split(delimiter);
+            console.log('THE HEADERS');
+            console.log(headers);
+
 
             for (var i = 1; i < lines.length; i++) {
                 var obj = {};
                 var currentline = lines[i].split(delimiter);
 
                 for (var j = 0; j < headers.length; j++) {
-                    obj[headers[j]] = currentline[j].trim();
+                    try{
+                        obj[headers[j]] = currentline[j].trim();
+                    }catch(e){
+                        obj[headers[j]] = currentline[0];
+                    }    
                 }
-                result.push(obj);
+                result.push(obj);               
+              
             }
         }
         return result;
@@ -357,8 +369,10 @@
         changeDelimiter() {
             this.customDelimiterEnabled = (this.selectedDelimiter.title === 'Custom');
             if (this.customDelimiterEnabled) {
+                console.log('here should enter');
                 this.aplyDemiliterCSV(this.customDelimiterDefaultSymbol);
             } else {
+                console.log('here should not enter');
                 this.aplyDemiliterCSV(this.selectedDelimiter.symbol);
             }
         }
@@ -370,18 +384,18 @@
                 console.log(`posibleHeaders:  ${posibleHeaders} `);
 
                 _.each(this.contactFields, (el,index) => {
-                    if (posibleHeaders.indexOf(el.name) >= 0 && el.hasOwnProperty('isKey')) {
+                    if (posibleHeaders.indexOf(el.name) >= 0 && el.hasOwnProperty('isKey') && el.mappedName===null)  {                        
                         el.mappedName = el.name;
                         this.seletedRowsMapped.push(index);
                     }
                 });
-                console.log('this.seletedRowsMapped');
-                console.log(this.seletedRowsMapped);
+
                 let contentModal={
                       title:'Message',
                       body:`${this.seletedRowsMapped.length} item(s) have(s) been successfully mapped.\n
                       All affected items have been selected`
                 };
+
                  _AlertMessage(contentModal);     
                 return this.contactFields;
             } else {               
