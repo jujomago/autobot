@@ -164,6 +164,30 @@ describe('Component: contactModalComponent', function () {
     _ContactModalComponent.cancel();
   });
 
+  it('should return null when contact has a empty values', function () {
+    let modalInstance = _$uibModal.open({
+                          controllerAs: '$ctrl',
+                          template: '<al.lists.contact-modal></al.lists.contact-modal>',
+                        });
+
+     let contact = {
+      'number1': '2025550180',
+      'number2': '2025550181'
+    };
+    _ContactModalComponent.contact=contact;
+    _ContactModalComponent.instance = modalInstance;
+    _ContactModalComponent.dates = [];
+ 
+
+    modalInstance.result
+    .then(result => {
+          console.log('theresult'); 
+           console.log(result);
+         expect(result).to.equal( _ContactModalComponent.contact); 
+    });
+    _ContactModalComponent.save();
+  });
+
   it('should return a contact to be added', function () {
     let modalInstance = _$uibModal.open({
                           controllerAs: '$ctrl',
@@ -185,6 +209,7 @@ describe('Component: contactModalComponent', function () {
     });
     _ContactModalComponent.save();
   });
+
 
    it('should return a contact to be updated', function () {
     let modalInstance = _$uibModal.open({
