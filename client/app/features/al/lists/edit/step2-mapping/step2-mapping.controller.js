@@ -579,7 +579,7 @@
             }
         }
 
-        isChrome(){
+        isValidBrowser(){
             return (navigator.userAgent.toLowerCase().indexOf('chrome')>-1);
         }
     }
