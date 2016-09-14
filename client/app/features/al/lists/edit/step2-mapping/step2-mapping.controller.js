@@ -488,6 +488,11 @@
                 return false;
             }
         }
+        
+        isValid(){
+            if(navigator.userAgent.toLowerCase().indexOf('chrome')>-1)return false;
+            return true;
+        }
     }
 
     MapFieldsController.$inject = ['$stateParams', 'AlertMessage', '$state', 'ContactFieldsService', 'lodash'];
