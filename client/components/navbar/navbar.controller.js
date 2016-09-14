@@ -108,9 +108,7 @@ class NavbarController {
   }
 
   changeFocus(){
-   angular.element('.search').blur();
-   angular.element('.searchbox_container').focus();
-   return true;
+   angular.element('input').blur();
   }
 
 }
