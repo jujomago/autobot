@@ -16,7 +16,7 @@
         }
         
         isAuthenticated(){
-            return(_$cookies.put('auth_token'))?true:false;
+            return(_$cookies.get('auth_token'))?true:false;
         }
 
         login(credentials) {
