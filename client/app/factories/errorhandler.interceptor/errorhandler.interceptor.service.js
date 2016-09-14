@@ -9,7 +9,7 @@ angular.module('fakiyaMainApp')
                let AuthService=$injector.get('AuthService');
 			   if(AuthService.isAuthenticated() && (path==='/' || path==='/login'))
 				{				
-					$location.path('/underconstruction');
+					 $location.path('/underconstruction');
 				}
                return config;
             },
