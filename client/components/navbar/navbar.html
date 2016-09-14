@@ -12,9 +12,9 @@
     <div uib-collapse="nav.isCollapsed" class="navbar-collapse collapse" id="navbar-main">
       <ul class="nav navbar-nav">
         <li ui-sref-active="active"><a href="/underconstruction">Dashboard</a></li>
-        <li class="dropdown sub-menu-dropdown" ng-mouseenter="nav.myAppsCollapsed = false" ng-mouseleave="nav.myAppsCollapsed = true">
+        <li class="dropdown sub-menu-dropdown positionCustomize" ng-mouseenter="nav.myAppsCollapsed = false;nav.changeFocus()" ng-mouseleave="nav.myAppsCollapsed = true;nav.changeFocus()">
           <a class="dropdown-toggle" role="button">My apps</a>
-          <ul class="dropdown-menu submenu" uib-collapse="nav.myAppsCollapsed" ng-show="nav.changeFocus()" ng-class="{'full-menu': nav.fullMenu, 'min-menu': !nav.fullMenu}">
+          <ul class="dropdown-menu submenu" uib-collapse="nav.myAppsCollapsed">
           <div class="col-sm-12">
             <div class="col-sm-7 my-apps" ng-class="{'border-right': nav.total > nav.newApps.length}">
               <div class="col-sm-12" ng-show="nav.myAppsFromService.length > 0">
