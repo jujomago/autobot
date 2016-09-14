@@ -9,12 +9,12 @@
       </button>
       <a href="/ap/al/skills" class="logo">AutoBox</a>
     </div>
-    <div uib-collapse="nav.isCollapsed" class="navbar-collapse collapse" id="navbar-main">
+    <div uib-collapse="nav.isCollapsed" class="navbar-collapse collapse submenucustomize" id="navbar-main">
       <ul class="nav navbar-nav">
         <li ui-sref-active="active"><a href="/underconstruction">Dashboard</a></li>
-        <li class="dropdown sub-menu-dropdown" ng-mouseenter="nav.myAppsCollapsed = false" ng-mouseleave="nav.myAppsCollapsed = true">
+        <li class="dropdown sub-menu-dropdown positionCustomize" ng-mouseenter="nav.myAppsCollapsed = false" ng-mouseleave="nav.myAppsCollapsed = true">
           <a class="dropdown-toggle" ng-mouseenter="nav.changeFocus()" role="button">My apps</a>
-          <ul class="dropdown-menu submenu" uib-collapse="nav.myAppsCollapsed" ng-mouseleave="nav.changeFocus()" ng-class="{'full-menu': nav.fullMenu, 'min-menu': !nav.fullMenu}">
+          <ul class="dropdown-menu submenu centerSubmenu" uib-collapse="nav.myAppsCollapsed" ng-mouseleave="nav.changeFocus()">
           <div class="col-sm-12">
             <div class="col-sm-7 my-apps" ng-class="{'border-right': nav.total > nav.newApps.length}">
               <div class="col-sm-12" ng-show="nav.myAppsFromService.length > 0">
