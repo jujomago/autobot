@@ -17,8 +17,16 @@
 	  	_GetHomePage = GetHomePage;
 	  	this.partnerName = _getPartnerName(_$stateParams.partnerId);
 	  	this.credentials = {partnerId: _$stateParams.partnerId, appName: _$stateParams.appName, username: _$stateParams.username};
-	  	this.message = { show: false };
+	  	this.setMessage();
 	  	this.sendingInfo = false;
+	  }
+	  setMessage(){
+		if(!_$stateParams.message){
+	  		this.message = { show: false };
+	  	}
+	  	else{
+	  		this.message = _$stateParams.message;
+	  	}
 	  }
 	  login(){
 	  	this.sendingInfo = true;
