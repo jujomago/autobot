@@ -115,7 +115,7 @@ describe('Component: al.lists.mapping', function () {
                 } 
 
                 MappingComponent = $componentController('al.lists.mapping', {    
-                  $stateParams: {
+                  $stateParams: { 
                     name:'testListName',     
                     settings:{ 
                         csvData: mockCSV, 
@@ -214,7 +214,7 @@ describe('Component: al.lists.mapping', function () {
   });
   */
 
-  describe('#changeDelimiter', () => {
+ describe('#changeDelimiter', () => {
 
     it('Custom delimiter Unserscore', () => {
 
@@ -228,7 +228,7 @@ describe('Component: al.lists.mapping', function () {
       MappingComponent.customDelimiterDefaultSymbol = '_';
       //MappingComponent.customDelimiterEnabled=true;
 
-MappingComponent.changeDelimiter();
+    MappingComponent.changeDelimiter();
    
      expect(MappingComponent.customDelimiterEnabled).to.equal(true);
       expect(MappingComponent.jsonCSV).to.not.equal(null);
@@ -257,36 +257,45 @@ MappingComponent.changeDelimiter();
     });
 
   });
-  
- // TODO: Solve problem with lodash(_.forEach)
- /* describe('#matchSmart', () => {
 
+
+  describe('#matchSmart', () => {
     it('Fields should match exact names in the cvs file header', () => {
-      
+
+    MappingComponent.setStateParams({
+        name:'testListName',
+        settings:{ 
+              csvData: mockCSV, 
+              listDeleteSettings:mockDeleteSettigs 
+        }      
+    });
+
       MappingComponent.hasHeader=true;
 
       expect(MappingComponent.hasHeader).to.equal(true);
 
       MappingComponent.contactFields = [
-        {'name': 'number1',mappedName:null },
-        {'name': 'number2' ,mappedName:null },
-        {'name': 'number3' ,mappedName:null },
-        {'name': 'first_name',mappedName:null },
-        {'name': 'last_name',mappedName:null },
-        {'name': 'company',mappedName:null }
+        {'name':'number1',mappedName:null,isKey:true},
+        {'name':'number2',mappedName:null,isKey:false},
+        {'name':'number3' ,mappedName:null,isKey:true },
+        {'name':'first_name',mappedName:null,isKey:false },
+        {'name':'last_name',mappedName:null,isKey:true},
+        {'name':'company',mappedName:null,isKey:false }
       ];
 
       let matchedFiedls=MappingComponent.matchSmart();
       expect(matchedFiedls).to.be.an.instanceof(Array);
-      console.log('mached fields');
-      console.log(matchedFiedls);
-      expect(matchedFiedls[0]).to.eql([{'name': 'number1',mappedName:null }]);
-      expect(matchedFiedls[3]).to.eql([{'name': 'number1',mappedName:'first_name' }]);
-      expect(matchedFiedls[4]).to.eql([{'name': 'number1',mappedName:'last_name' }]);
+ 
+      expect(matchedFiedls[0].mappedName).to.eql(null);
+      expect(matchedFiedls[1].mappedName).to.eql(null);
+      expect(matchedFiedls[2].mappedName).to.eql(null);
+      expect(matchedFiedls[3].mappedName).to.eql('first_name');
+      expect(matchedFiedls[4].mappedName).to.eql('last_name');
+      expect(matchedFiedls[5].mappedName).to.eql('company');
 
     });
 
-    it('matchSmart but header not enabled', () => {
+     it('matchSmart but header not enabled', () => {
       
       MappingComponent.hasHeader=false;
 
@@ -298,6 +307,14 @@ MappingComponent.changeDelimiter();
     });
 
     it('matchSmart just must apply to contact fields that have a checkbox (isKey property)', () => {
+
+      MappingComponent.setStateParams({
+        name:'testListName',
+        settings:{ 
+              csvData: mockCSV, 
+              listDeleteSettings:mockDeleteSettigs 
+        }      
+      });
       
       MappingComponent.hasHeader=true;
 
@@ -315,19 +332,19 @@ MappingComponent.changeDelimiter();
         {'name': 'company' ,mappedName:null ,isKey:false }
       ];
 
-      expect(MappingComponent.hasHeader).to.equal(false);
-
       let matchedFiedls=MappingComponent.matchSmart();
-      expect(matchedFiedls[3]).to.eql([{'name': 'first_name',mappedName:'fist_name',isKey:false}]);
-      expect(matchedFiedls[4]).to.eql([{'name': 'first_name',mappedName:null }]);
-      expect(matchedFiedls[5]).to.eql([{'name': 'first_name',mappedName:null }]);
-      expect(matchedFiedls[6]).to.eql([ {'name': 'last_name' ,mappedName:'last_name', isKey:true }]);
-      expect(matchedFiedls[7]).to.eql([ {'name': 'last_name' ,mappedName:null}]);
+      expect(matchedFiedls[3].name).to.eql('first_name');
+      expect(matchedFiedls[3].mappedName).to.eql('first_name');
+      expect(matchedFiedls[4].name).to.eql('first_name');
+      expect(matchedFiedls[4].mappedName).to.equal(null);
+      expect(matchedFiedls[6].name).to.eql('last_name');
+      expect(matchedFiedls[6].mappedName).to.eql('last_name');
+      expect(matchedFiedls[8].mappedName).to.eql('company');    
 
     });
 
 
-  });*/
+  });
   
  // TODO: Solve problem with lodash(_.filter)
 /*describe('#nextStep', () => {

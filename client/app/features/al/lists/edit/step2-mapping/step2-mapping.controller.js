@@ -2,7 +2,7 @@
 (() => {
 
     function _csvToJSON(rawFile, delimiter, hasHeaders) {
-
+        console.log(`calling to csvToJson with delimiter ${delimiter} and hasHeaders ${hasHeaders}`);
         let lines = rawFile.trim().split('\n');
         let result = [];
 
@@ -26,14 +26,13 @@
                     }    
                 }
                 result.push(obj);                             
-            }
+            }          
         }
         return result;
     }
 
 
     function _validateRowsFiels(rowsFields,validator){
-        console.log(validator);
 
         function _fillResultsBools(key,value,result){
             if(!result){
@@ -206,7 +205,6 @@
             });
             return fr;
         };
-
   
         let rowsFields = _.map(jsonCSV, _jsonRecordsToFieldsRecords);     
         return rowsFields;
@@ -276,17 +274,17 @@
         }
 
         $onInit() {
-            this.changeHeaderValue();
             this.setStateParams(_$stateParams);
-            //this.changeDelimiter();
         }
 
         setStateParams(stateParams) {
-            if (stateParams.manual === true) {
+           
+            if (stateParams.manual === true) {              
                 this.getContactFiels();
                 this.listName = stateParams.name;
             } else {
                 if (stateParams.settings && stateParams.settings.csvData) {
+                  
                     this.canMapping = true;
                     this.rawCSV = stateParams.settings.csvData;
                     this.jsonCSV = _csvToJSON(this.rawCSV, this.customDelimiterDefaultSymbol, this.hasHeader);
@@ -350,11 +348,11 @@
         }
 
         aplyDemiliterCSV(delimiter) {
+            console.log('rawCSV');
+            console.log(this.rawCSV);
             if (this.rawCSV) {
                 delimiter = delimiter || '\n';
                 this.jsonCSV = _csvToJSON(this.rawCSV, delimiter, this.hasHeader);
-                console.log('after applyed delimiter');
-                console.log(this.jsonCSV);
             }
         }
 
@@ -362,18 +360,19 @@
             this.customDelimiterEnabled = (this.selectedDelimiter.title === 'Custom');
             if (this.customDelimiterEnabled) {            
                 this.aplyDemiliterCSV(this.customDelimiterDefaultSymbol);
-            } else {             
-                this.aplyDemiliterCSV(this.selectedDelimiter.symbol);
+            } else {                            
+                this.aplyDemiliterCSV(this.selectedDelimiter.symbol);                 
             }
         }
 
         matchSmart() {
             if (this.hasHeader === true) {
                 this.changeDelimiter();
+
                 let posibleHeaders = Object.keys(this.jsonCSV[0]);
                 console.log(`posibleHeaders:  ${posibleHeaders} `);
 
-                _.each(this.contactFields, (el,index) => {
+                angular.forEach(this.contactFields, (el,index) => {
                     if (posibleHeaders.indexOf(el.name) >= 0 && el.hasOwnProperty('isKey') && el.mappedName===null)  {                        
                         el.mappedName = el.name;
                         this.seletedRowsMapped.push(index);
@@ -385,9 +384,9 @@
                       body:`${this.seletedRowsMapped.length} item(s) have(s) been successfully mapped.\n
                       All affected items have been selected`
                 };
-
                  _AlertMessage(contentModal);     
                 return this.contactFields;
+
             } else {               
                 console.log('the feature smart match is just for header enabled');
                 return null;
