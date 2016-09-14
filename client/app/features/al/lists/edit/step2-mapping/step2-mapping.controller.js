@@ -489,9 +489,8 @@
             }
         }
         
-        isValid(){
-            if(navigator.userAgent.toLowerCase().indexOf('chrome')>-1)return false;
-            return true;
+        isValidBrowser(){
+            return (navigator.userAgent.toLowerCase().indexOf('chrome')>-1);
         }
     }
 
