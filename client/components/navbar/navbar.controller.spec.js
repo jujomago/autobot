@@ -115,7 +115,7 @@ describe('Controller: NavbarController', function () {
       });
 
   });*/
-  describe('#filteringBySearch', () => {
+  describe('# myAppsCollapsed variable', () => {
       it('the update the myAppsCollapsed true variable',()=>{
           NavbarController.changeFocus(true);
           expect(NavbarController.myAppsCollapsed).to.equal(true);
