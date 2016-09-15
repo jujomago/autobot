@@ -174,6 +174,8 @@ describe('Component: NavbarController', function() {
 
           _$httpBackend.flush();
       });
+  });
+  describe('# myAppsCollapsed variable', () => {
       it('the update the myAppsCollapsed true variable',()=>{
           NavbarController.changeFocus(true);
           expect(NavbarController.myAppsCollapsed).to.equal(true);
@@ -182,7 +184,6 @@ describe('Component: NavbarController', function() {
           NavbarController.changeFocus(false);
           expect(NavbarController.myAppsCollapsed).to.equal(false);
       });
-
   });
 
 });
