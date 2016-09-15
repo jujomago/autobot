@@ -1,7 +1,7 @@
 <div class="navbar navbar-inverse navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
-      <button class="navbar-toggle" type="button" ng-click="nav.isCollapsed = !nav.isCollapsed">
+      <button class="navbar-toggle" type="button" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -9,15 +9,15 @@
       </button>
       <a href="/ap/al/skills" class="logo">AutoBox</a>
     </div>
-    <div uib-collapse="nav.isCollapsed" class="navbar-collapse collapse submenucustomize" id="navbar-main">
+    <div uib-collapse="$ctrl.isCollapsed" class="navbar-collapse collapse submenucustomize" id="navbar-main">
       <ul class="nav navbar-nav">
         <li ui-sref-active="active"><a href="/underconstruction">Dashboard</a></li>
-        <li class="dropdown sub-menu-dropdown positionCustomize" ng-mouseenter="nav.myAppsCollapsed = false;nav.changeFocus()" ng-mouseleave="nav.myAppsCollapsed = true;nav.changeFocus()">
+        <li class="dropdown sub-menu-dropdown positionCustomize" ng-mouseenter="$ctrl.changeFocus(false)" ng-mouseleave="$ctrl.changeFocus(true)">
           <a class="dropdown-toggle" role="button">My apps</a>
-          <ul class="dropdown-menu submenu centerSubmenu" uib-collapse="nav.myAppsCollapsed">
+          <ul class="dropdown-menu submenu centerSubmenu" uib-collapse="$ctrl.myAppsCollapsed">
           <div class="col-sm-12">
-            <div class="col-sm-7 my-apps" ng-class="{'border-right': nav.total > nav.newApps.length}">
-              <div class="col-sm-12" ng-show="nav.myAppsFromService.length > 0">
+            <div class="col-sm-7 my-apps" ng-class="{'border-right': $ctrl.total > $ctrl.newApps.length}">
+              <div class="col-sm-12" ng-show="$ctrl.myAppsFromService.length > 0">
                 <div class="col-sm-12 myapps-title">
                   <div class="pull-left">
                     <h4>
@@ -26,23 +26,23 @@
                   </div>
                   <div class="pull-right">
                     <div class="searchbox_container">
-                      <input class="search" abx-pattern-filter="/^[a-zA-Z0-9\s]*$/" id="submenu-search" type="search" name="search" ng-model="nav.search.app.appFullName" placeholder="Search" ng-change="nav.filteringBySearch()" >
+                      <input class="search" abx-pattern-filter="/^[a-zA-Z0-9\s]*$/" id="submenu-search" type="search" name="search" ng-model="$ctrl.search.app.appFullName" placeholder="Search" ng-change="$ctrl.filteringBySearch()" >
                       <span class="glyphicon glyphicon-search"></span>
                     </div>
                   </div>
                 </div>
                 <div class="col-sm-12">
                   <div class="cols">
-                    <div ng-repeat="(key, value) in nav.myAppsSearch" class="apps-list">
+                    <div ng-repeat="(key, value) in $ctrl.myAppsSearch" class="apps-list">
                       <div class="partner-title" ng-if="value.filtered.length > 0">
                         <span>{{key}}</span>
                       </div>
-                      <div ng-repeat="item in (value.filtered = (value | filter:nav.search))" class="app-container">
-                        <a ng-if="item.app.appName == 'al'" ng-href="/ap/{{item.app.appName}}/skills" ng-click="nav.myAppsCollapsed = true">
+                      <div ng-repeat="item in (value.filtered = (value | filter:$ctrl.search))" class="app-container">
+                        <a ng-if="item.app.appName == 'al'" ng-href="/ap/{{item.app.appName}}/skills" ng-click="$ctrl.myAppsCollapsed = true">
                           <img src="/assets/al/images/logo.jpg" alt=""/>
                           <span>{{item.app.appFullName}}</span>
                         </a>
-                        <a ng-if="item.app.appName != 'al'" ng-href="/underconstruction" ng-click="nav.myAppsCollapsed = true">
+                        <a ng-if="item.app.appName != 'al'" ng-href="/underconstruction" ng-click="$ctrl.myAppsCollapsed = true">
                           <img src="/assets/al/images/logo.jpg" alt=""/>
                           <span>{{item.app.appFullName}}</span>
                         </a>
@@ -51,13 +51,13 @@
                   </div>  
                 </div>
               </div>
-              <div ng-show="nav.myAppsFromService.length == 0">
+              <div ng-show="$ctrl.myAppsFromService.length == 0">
                 <p>Still haven't tried any app?</p>
                 <p>We Have many apps you can review</p>
                 <p class="link"><a ui-sref="apps">See all apps</a></p>
               </div>
             </div>
-            <div class="col-sm-5 new-apps" ng-class="{'border-left': nav.total <= nav.newApps.length}">
+            <div class="col-sm-5 new-apps" ng-class="{'border-left': $ctrl.total <= $ctrl.newApps.length}">
               <div class="newapps-title">
                 <div class="pull-left">
                   <h4>
@@ -69,7 +69,7 @@
                 </div>
               </div>
               <ul>
-                <li ng-repeat="app in nav.newApps | limitTo:nav.quantity" ng-click="nav.selectApp(app.app.appName)">
+                <li ng-repeat="app in $ctrl.newApps | limitTo:$ctrl.quantity" ng-click="$ctrl.selectApp(app.app.appName)">
                   <a class="new-img">
                     <img src="/assets/sf/images/logo-sm.jpg" alt=""/>
                   </a>
@@ -96,14 +96,14 @@
         <li><a href="/underconstructtion">
             <img src="/assets/al/images/serverDefault.png" alt="server">
         </a></li>
-        <li class="dropdown" ng-mouseenter="nav.userOptionsCollapsed = false" ng-mouseleave="nav.userOptionsCollapsed = true">
+        <li class="dropdown" ng-mouseenter="$ctrl.userOptionsCollapsed = false" ng-mouseleave="$ctrl.userOptionsCollapsed = true">
           <a href="#" class="dropdown-toggle" role="button">
             <img src="assets/al/images/avatar.png" alt="avatar">
-            Jhon<span class="glyphicon glyphicon-chevron-up" ng-class="{'glyphicon-chevron-up':nav.userOptionsCollapsed,'glyphicon-chevron-down':!nav.userOptionsCollapsed}"></span>
+            Jhon<span class="glyphicon glyphicon-chevron-up" ng-class="{'glyphicon-chevron-up':$ctrl.userOptionsCollapsed,'glyphicon-chevron-down':!$ctrl.userOptionsCollapsed}"></span>
             </a>
-          <ul class="dropdown-menu" uib-collapse="nav.userOptionsCollapsed">
+          <ul class="dropdown-menu" uib-collapse="$ctrl.userOptionsCollapsed">
             <li><a href="/underconstruction">Settings</a></li>
-            <li><a href ng-click="nav.logout()">Logout</a></li>
+            <li><a href ng-click="$ctrl.logout()">Logout</a></li>
           </ul>
         </li>
       </ul>
