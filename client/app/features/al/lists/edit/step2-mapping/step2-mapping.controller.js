@@ -2,7 +2,7 @@
 (() => {
 
     function _csvToJSON(rawFile, delimiter, hasHeaders) {
-
+        console.log(`calling to csvToJson with delimiter ${delimiter} and hasHeaders ${hasHeaders}`);
         let lines = rawFile.trim().split('\n');
         let result = [];
 
@@ -12,25 +12,40 @@
                 return rowValues.map(rv => rv.trim());
             });
         } else {
-            var headers = lines[0].split(delimiter);
+            var headers = lines[0].split(delimiter);        
 
             for (var i = 1; i < lines.length; i++) {
                 var obj = {};
                 var currentline = lines[i].split(delimiter);
 
                 for (var j = 0; j < headers.length; j++) {
-                    obj[headers[j]] = currentline[j].trim();
+                    try{
+                        obj[headers[j]] = currentline[j].trim();
+                    }catch(e){
+                        obj[headers[j]] = currentline[0];
+                    }    
                 }
-                result.push(obj);
-            }
+                result.push(obj);                             
+            }          
         }
         return result;
     }
 
+    function _aplyDemiliterCSV(rawCSV,delimiter,hasHeader) {       
+        if (rawCSV) {
+            delimiter = delimiter || '\n';
+            let jsonCSV = _csvToJSON(rawCSV, delimiter, hasHeader);
+            console.log('after applyed delimiter');
+            console.log(jsonCSV);
+            return jsonCSV;
+        }else{
+            console.log('rawCSV is not set');
+        }       
+    }
 
-    function _validateRowsFiels(rowsFields,validator){
-        console.log(validator);
 
+    function _validateRowsFiels(lodash,rowsFields,validator){
+         let _ = lodash;
         function _fillResultsBools(key,value,result){
             if(!result){
                 let errorReason=`Field "${key}" has a invalid value "${value}"`; 
@@ -202,7 +217,6 @@
             });
             return fr;
         };
-
   
         let rowsFields = _.map(jsonCSV, _jsonRecordsToFieldsRecords);     
         return rowsFields;
@@ -267,31 +281,32 @@
             this.selectedRow = -1;
             this.jsonCSV = [];
             this.jsonHeaders = [];
+            this.seletedRowsMapped=[];
+
         }
 
         $onInit() {
-            this.changeHeaderValue();
             this.setStateParams(_$stateParams);
-            //this.changeDelimiter();
         }
 
         setStateParams(stateParams) {
-            if (stateParams.manual === true) {
-                this.getContactFiels();
+            this.getContactFiels();
+            if(stateParams.name){
                 this.listName = stateParams.name;
+            }
+            if (stateParams.manual === true) {      
+                this.canMapping = false;               
             } else {
                 if (stateParams.settings && stateParams.settings.csvData) {
-                    this.canMapping = true;
+                    this.canMapping = true; 
                     this.rawCSV = stateParams.settings.csvData;
-                    this.jsonCSV = _csvToJSON(this.rawCSV, this.customDelimiterDefaultSymbol, this.hasHeader);
+                    this.jsonCSV = _aplyDemiliterCSV(this.rawCSV, 
+                    this.customDelimiterDefaultSymbol, this.hasHeader);
                     if (this.hasHeader) {
                         this.jsonHeaders = Object.keys(this.jsonCSV[0]);
                     } else {
                         this.jsonHeaders = this.jsonCSV[0];
-                    }
-
-                    this.getContactFiels();
-                    this.listName = stateParams.name;
+                    }         
                 } else {
                     this.message = { show: true, type: 'warning', text: 'no csv file arrived' };
                 }
@@ -301,7 +316,7 @@
             // TODO: Research _.fill() does not work;
             console.log('initialized arrays');
             if (this.contactFields) {
-                _.forEach(this.contactFields, (el) => {
+                angular.forEach(this.contactFields, (el) => {
                     el.mappedName = null;
                     el.mappedIndex = 0;
                     if (el.name === 'number1') {
@@ -341,37 +356,39 @@
                 this.clearMapping();
             }
             this.changeDelimiter();
-        }
 
-        aplyDemiliterCSV(delimiter) {
-            if (this.rawCSV) {
-                delimiter = delimiter || '\n';
-                this.jsonCSV = _csvToJSON(this.rawCSV, delimiter, this.hasHeader);
-                console.log('after applyed delimiter');
-                console.log(this.jsonCSV);
-            }
-        }
-
+        } 
         changeDelimiter() {
             this.customDelimiterEnabled = (this.selectedDelimiter.title === 'Custom');
             if (this.customDelimiterEnabled) {
-                this.aplyDemiliterCSV(this.customDelimiterDefaultSymbol);
+                this.jsonCSV=_aplyDemiliterCSV(this.rawCSV,this.customDelimiterDefaultSymbol,this.hasHeader);
             } else {
-                this.aplyDemiliterCSV(this.selectedDelimiter.symbol);
+                this.jsonCSV=_aplyDemiliterCSV(this.rawCSV,this.selectedDelimiter.symbol,this.hasHeader);
             }
         }
 
         matchSmart() {
             if (this.hasHeader === true) {
                 this.changeDelimiter();
+
                 let posibleHeaders = Object.keys(this.jsonCSV[0]);
                 console.log(`posibleHeaders:  ${posibleHeaders} `);
-                _.forEach(this.contactFields, el => {
-                    if (posibleHeaders.indexOf(el.name) >= 0 && el.hasOwnProperty('isKey')) {
+
+                angular.forEach(this.contactFields, (el,index) => {
+                    if (posibleHeaders.indexOf(el.name) >= 0 && el.hasOwnProperty('isKey') && el.mappedName===null)  {                        
                         el.mappedName = el.name;
+                        this.seletedRowsMapped.push(index);
                     }
                 });
+
+                let contentModal={
+                      title:'Message',
+                      body:`${this.seletedRowsMapped.length} item(s) have(s) been successfully mapped.\n
+                      All affected items have been selected`
+                };
+                 _AlertMessage(contentModal);     
                 return this.contactFields;
+
             } else {               
                 console.log('the feature smart match is just for header enabled');
                 return null;
@@ -382,6 +399,7 @@
         clearMapping() {
             // TODO: Research _.fill() does not work;
             if (this.contactFields) {
+                this.seletedRowsMapped=[];
                 this.contactFields.forEach((el) => {
                     el.mappedName = null;
                     el.mappedIndex = 0;
@@ -459,9 +477,8 @@
                    console.log('rows Fields');
                    console.log(rowsFields);
 
-                   let resultValidRowsFields=_validateRowsFiels(rowsFields,this.ValidatorService);                  
-        
-                
+                   let resultValidRowsFields=_validateRowsFiels(_,rowsFields,this.ValidatorService);                  
+                        
                     let contentModal={
                       title:'Summary'
                     };
