@@ -41,7 +41,7 @@
           return error;
         });  
 	  }
-	  allAccounts(){
+	  goToAllAccounts(){
 	  	_$state.go('partneraccounts', {partnerId: this.credentials.partnerId, appName: this.credentials.appName});
 	  }
 	}
