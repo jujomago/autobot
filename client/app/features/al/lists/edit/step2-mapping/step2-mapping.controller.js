@@ -31,9 +31,21 @@
         return result;
     }
 
+    function _aplyDemiliterCSV(rawCSV,delimiter,hasHeader) {       
+        if (rawCSV) {
+            delimiter = delimiter || '\n';
+            let jsonCSV = _csvToJSON(rawCSV, delimiter, hasHeader);
+            console.log('after applyed delimiter');
+            console.log(jsonCSV);
+            return jsonCSV;
+        }else{
+            console.log('rawCSV is not set');
+        }       
+    }
 
-    function _validateRowsFiels(rowsFields,validator){
 
+    function _validateRowsFiels(lodash,rowsFields,validator){
+         let _ = lodash;
         function _fillResultsBools(key,value,result){
             if(!result){
                 let errorReason=`Field "${key}" has a invalid value "${value}"`; 
@@ -278,24 +290,23 @@
         }
 
         setStateParams(stateParams) {
-           
-            if (stateParams.manual === true) {              
-                this.getContactFiels();
+            this.getContactFiels();
+            if(stateParams.name){
                 this.listName = stateParams.name;
+            }
+            if (stateParams.manual === true) {      
+                this.canMapping = false;               
             } else {
                 if (stateParams.settings && stateParams.settings.csvData) {
-                  
-                    this.canMapping = true;
+                    this.canMapping = true; 
                     this.rawCSV = stateParams.settings.csvData;
-                    this.jsonCSV = _csvToJSON(this.rawCSV, this.customDelimiterDefaultSymbol, this.hasHeader);
+                    this.jsonCSV = _aplyDemiliterCSV(this.rawCSV, 
+                    this.customDelimiterDefaultSymbol, this.hasHeader);
                     if (this.hasHeader) {
                         this.jsonHeaders = Object.keys(this.jsonCSV[0]);
                     } else {
                         this.jsonHeaders = this.jsonCSV[0];
-                    }
-
-                    this.getContactFiels();
-                    this.listName = stateParams.name;
+                    }         
                 } else {
                     this.message = { show: true, type: 'warning', text: 'no csv file arrived' };
                 }
@@ -305,7 +316,7 @@
             // TODO: Research _.fill() does not work;
             console.log('initialized arrays');
             if (this.contactFields) {
-                _.forEach(this.contactFields, (el) => {
+                angular.forEach(this.contactFields, (el) => {
                     el.mappedName = null;
                     el.mappedIndex = 0;
                     if (el.name === 'number1') {
@@ -345,23 +356,14 @@
                 this.clearMapping();
             }
             this.changeDelimiter();
-        }
 
-        aplyDemiliterCSV(delimiter) {
-            console.log('rawCSV');
-            console.log(this.rawCSV);
-            if (this.rawCSV) {
-                delimiter = delimiter || '\n';
-                this.jsonCSV = _csvToJSON(this.rawCSV, delimiter, this.hasHeader);
-            }
-        }
-
+        } 
         changeDelimiter() {
             this.customDelimiterEnabled = (this.selectedDelimiter.title === 'Custom');
-            if (this.customDelimiterEnabled) {            
-                this.aplyDemiliterCSV(this.customDelimiterDefaultSymbol);
-            } else {                            
-                this.aplyDemiliterCSV(this.selectedDelimiter.symbol);                 
+            if (this.customDelimiterEnabled) {
+                this.jsonCSV=_aplyDemiliterCSV(this.rawCSV,this.customDelimiterDefaultSymbol,this.hasHeader);
+            } else {
+                this.jsonCSV=_aplyDemiliterCSV(this.rawCSV,this.selectedDelimiter.symbol,this.hasHeader);
             }
         }
 
@@ -475,9 +477,8 @@
                    console.log('rows Fields');
                    console.log(rowsFields);
 
-                   let resultValidRowsFields=_validateRowsFiels(rowsFields,this.ValidatorService);                  
-        
-                
+                   let resultValidRowsFields=_validateRowsFiels(_,rowsFields,this.ValidatorService);                  
+                        
                     let contentModal={
                       title:'Summary'
                     };
