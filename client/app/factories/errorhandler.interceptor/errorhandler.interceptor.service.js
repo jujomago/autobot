@@ -7,8 +7,10 @@ angular.module('fakiyaMainApp')
 			request: function(config) {
 			   let path=$location.path();
                let AuthService=$injector.get('AuthService');
+			   //the home page of a user Authenticated is the dashboard
 			   if(AuthService.isAuthenticated() && (path==='/' || path==='/login'))
 				{				
+					//cooming soon this path will be redirect to dashboard
 					 $location.path('/underconstruction');
 				}
                return config;
