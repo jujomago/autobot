@@ -42,7 +42,7 @@
         });  
 	  }
 	  allAccounts(){
-	  	_$state.go('partneraccounts', {partnerId: this.credentials.partnerId});
+	  	_$state.go('partneraccounts', {partnerId: this.credentials.partnerId, appName: this.credentials.appName});
 	  }
 	}
 	LoginComponent.$inject = ['$state', '$stateParams', 'PartnersService', 'GetHomePage'];
