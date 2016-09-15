@@ -25,6 +25,11 @@
                     border-bottom: 1px solid @color0;
                 }
             }
+
+            &.selected td{
+                background:#eff8fc;
+            }         
+
         }
     }
 
@@ -53,9 +58,16 @@
             &:nth-child(odd)>td, &:nth-child(odd)>th {
                 background-color: @table_odd_row;
             }
+
+            &.selectedRowMapped td{
+                background: #e6e6e6;
+                color: #464646;
+            }        
+
             &.selected td{
                 background:#eff8fc;
             }
+
         }
     }
 
