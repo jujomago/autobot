@@ -137,8 +137,10 @@ class NavbarController {
     });  
   }
 
-  changeFocus(){
+  changeFocus(isCollapsed){
    angular.element('input').blur();
+   this.myAppsCollapsed = isCollapsed;
+   return isCollapsed;
   }
 
 }
