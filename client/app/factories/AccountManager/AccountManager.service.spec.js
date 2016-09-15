@@ -49,6 +49,7 @@ describe('Service:AccountManager', function () {
     .then(() => {
       expect(mockState.state).to.equal('partneraccounts');  
       expect(mockState.params.partnerId).to.equal('sf');
+      expect(mockState.params.appName).to.equal('app1');
     });
     _$httpBackend.flush();
   });
@@ -59,6 +60,7 @@ describe('Service:AccountManager', function () {
     .then(() => {
       expect(mockState.state).to.equal('partneraccounts');  
       expect(mockState.params.partnerId).to.equal('f9');
+      expect(mockState.params.appName).to.equal('al');
     });
     _$httpBackend.flush();
   });
