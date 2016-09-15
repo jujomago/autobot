@@ -35,7 +35,6 @@ let _PartnersService, _GetHomePage;
       });
     }
     goToAllAccounts(){
-       alert(this.partnerInfo.partnerId)
        _$state.go('partneraccounts', {partnerId: this.partnerInfo.partnerId, appName: this.partnerInfo.appName});
     }
     subscribe(){
