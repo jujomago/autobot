@@ -5,5 +5,5 @@ angular.module('fakiyaMainApp')
     templateUrl: 'components/navbar/navbar.html',
     restrict: 'E',
     controller: 'NavbarController',
-    controllerAs: 'nav'
+    controllerAs: '$ctrl'
 }));
