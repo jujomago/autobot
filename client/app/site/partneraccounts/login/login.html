@@ -7,7 +7,7 @@
 			<label>{{$ctrl.partnerName}}</label>account
 		</div>
 		<div class="avatar-container">
-			<img src="assets/al/images/jsmith.jpg" class="img-circle fixed-avatar">
+			<img src="assets/al/images/ProfileDefault.png" class="img-circle fixed-avatar">
 			<label>{{$ctrl.credentials.username}}</label>
 		</div>
 		<form name="loginForm" class="custom_form form-horizontal" novalidate autocomplete="off"  ng-submit="loginForm.$valid && $ctrl.login()">
@@ -21,8 +21,8 @@
                     <p class="" ng-message="required">This field is required</p>
             	</div>
 		    <div class="login-button-container">
-			    <button class="btn btn-black" type="submit">Sign in</button>
-			    <a href="/underconstruction">Sign in with a diferent account</a>
+			    <button class="btn btn-black" type="submit" ng-disabled = "$ctrl.sendingInfo">Sign in</button>
+			    <a href ng-click="$ctrl.goToAllAccounts()">Sign in with a diferent account</a>
 		    </div>
 	    </form>
 	</div>

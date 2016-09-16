@@ -10,26 +10,40 @@ describe('Service: AppsService', function () {
   var _endPointUrl;
   var mockAppsData = [
                       {
-                        'partnerName': 'Five9',
-                        'partnerId': 'f9',
+                        'partner': 'Five9',
                         'apps': [
                           {
-                            'appName': 'al',
-                            'appFullName': 'Admin Lite',
-                            'description': 'This is the description',
-                            'isInstalled': true
+                            'app': [
+                              {
+                                'appFullName':'Admin Console',
+                                'appName':'al',
+                                'description': 'This is the description'
+                              }
+                            ],
+                            'installed': true,
+                            'partner': {
+                              'partnerFullName':'Five9',
+                              'partnerName':'Five9'
+                            }
                           }
                         ]
                       },
                       {
-                        'partnerName': 'SalesForce',
-                        'partnerId': 'sf',
+                        'partner': 'SalesForce',
                         'apps': [
                           {
-                            'appName': 'sf',
-                            'appFullName': 'XYZ App',
-                            'description': 'This is the description',
-                            'isInstalled': false
+                            'app': [
+                              {
+                                'appFullName':'XYZ App',
+                                'appName':'XYZApp',
+                                'description': 'This is the description'
+                              }
+                            ],
+                            'installed': true,
+                            'partner': {
+                              'partnerFullName':'Sales Force',
+                              'partnerName':'SalesForce'
+                            }
                           }
                         ]
                       }
@@ -47,45 +61,45 @@ describe('Service: AppsService', function () {
 
 
   it('should return apps', function () {
-    _$httpBackend.whenGET('/assets/admin/json/apps.json').respond(mockAppsData);
+    _$httpBackend.whenGET('/admin/apps').respond(mockAppsData);
     _AppsService.getApps().then(apps => {
         expect(null).to.not.equal(apps);
         expect(undefined).to.not.equal(apps);
         expect(apps.data.length).to.equal(2);
         expect(apps.data[0].apps.length).to.equal(1);
         expect(apps.data[1].apps.length).to.equal(1);
-        expect(apps.data[1].partnerName).to.equal('SalesForce');
-        expect(apps.data[0].partnerName).to.equal('Five9');
+        expect(apps.data[1].partner).to.equal('SalesForce');
+        expect(apps.data[0].partner).to.equal('Five9');
     });
-    _$httpBackend.flush();
+    //_$httpBackend.flush();
   });
   it('should return error getting apps', function () {
-    _$httpBackend.whenGET('/assets/admin/json/apps.json').respond(500, {error: 'Internal Server Error'});
+    _$httpBackend.whenGET('/admin/apps').respond(500, {error: 'Internal Server Error'});
     _AppsService.getApps().catch(error => {
         expect(null).to.not.equal(error);
         expect(undefined).to.not.equal(error);
         expect(error.statusCode).to.equal(500);
         expect(error.errorMessage).to.equal('Internal Server Error');
     });
-    _$httpBackend.flush();
+    //_$httpBackend.flush();
   });
 
   it('should return submenu installed apps', function () {
     let installedApps = [
     {
       'app':{
-        'appName': 'AL', 
+        'appName': 'AL',
         'appFullName': 'Admin Console',
         'description': 'My app 1 description'
       },
       'partner':{
         'partnerName': 'f9',
         'partnerFullName': 'Five9'
-      }  
+      }
     },
     {
       'app':{
-        'appName': 'myapp2', 
+        'appName': 'myapp2',
         'appFullName': 'My App2',
         'description': 'My app 2 description'
       },
@@ -118,7 +132,7 @@ describe('Service: AppsService', function () {
     let newApps = [
       {
         'app':{
-          'appName': 'myapp4', 
+          'appName': 'myapp4',
           'appFullName': 'My App4',
           'description': 'My app 4 description'
         },
@@ -129,7 +143,7 @@ describe('Service: AppsService', function () {
       },
       {
         'app':{
-          'appName': 'myapp5', 
+          'appName': 'myapp5',
           'appFullName': 'My App5',
           'description': 'My app 5 description'
         },

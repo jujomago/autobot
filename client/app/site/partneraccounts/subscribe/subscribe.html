@@ -2,26 +2,26 @@
   <navbar></navbar>
   <div id="sign-up" ng-class="{'has-error': formSigIn.$invalid}">
 
-    <form name="formSigIn" ng-submit="formSigIn.$valid && $ctrl.addAccount()" novalidate autocomplete="off">
+    <form name="formSigIn" ng-submit="formSigIn.$valid && $ctrl.subscribe()" novalidate autocomplete="off">
 
       <!-- work around chrome autofill -->
       <input name="fake_email" class="visually-hidden" type="text">
       <input name="fake_password" class="visually-hidden" type="password">
       <!-- end workaorund -->
       <div id="logo">
-        <img class="center-block img-responsive" src="assets/al/images/logo-sm.jpg">
+        <img class="center-block img-responsive" src="assets/{{$ctrl.partnerInfo.appName}}/images/logo-sm.jpg">
       </div>
 
       <abx-message msg="$ctrl.message"></abx-message>
       <div class="row">
         <h3 class="text-center">Add new account</h3>
         <h3 class="center-block partner-title">
-          <span>Five9</span> account
+          <span>{{$ctrl.partnerName}}</span> account
         </h3>
       </div>
       <div class="inputminimal center-block">
         <label>Username</label>
-        <input type="text" ng-model="$ctrl.username" name="userName" maxlength="250" required autocomplete="off">
+        <input type="text" ng-model="$ctrl.credentials.username" name="userName" maxlength="250" required autocomplete="off">
         <div ng-messages="formSigIn.userName.$error" ng-show="formSigIn.$submitted">
           <p ng-message="required">This field is required</p>
         </div>
@@ -29,17 +29,17 @@
 
       <div class="inputminimal center-block">
         <label>Password</label>
-        <input type="password" ng-model="$ctrl.password" name="password" maxlength="250" required autocomplete="off">
-             <div ng-messages="formSigIn.password.$error"  ng-show="formSigIn.$submitted && !$ctrl.cleanWrongPassword" >
+        <input type="password" ng-model="$ctrl.credentials.password" name="password" maxlength="250" required autocomplete="off">
+             <div ng-messages="formSigIn.password.$error"  ng-show="formSigIn.$submitted" >
               <p ng-message="required ">This field is required</p>
             </div>
       </div>
       <div class="row ">
-            <button id="sign-button" type="submit " class="btn btn-default center-block">Add account</button>
+            <button id="sign-button" type="submit " class="btn btn-default center-block" ng-disabled = "$ctrl.sendingInfo" >Add account</button>
       </div>
       <div class="row">
         <div class="center-block partner-signin">
-          <a ui-sref="partneraccounts">Sign in with a different account</a>
+          <a href ng-click="$ctrl.goToAllAccounts()">Sign in with a different account</a>
         </div>
       </div>
     </form>

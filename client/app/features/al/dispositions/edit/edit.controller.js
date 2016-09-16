@@ -2,7 +2,7 @@
 (function(){
 	let _DispositionsService, _$state;
 	function setDispositionParams(disposition,params){
-		disposition.typeParameters={allowChangeTimer: params.allowChangeTimer, attempts: params.attempts*1, timer: params.timer, useTimer: params.useTimer};
+		disposition.typeParameters={allowChangeTimer: params.allowChangeTimer, attempts: params.attempts, timer: params.timer, useTimer: params.useTimer};
 	}
 
 	class EditComponent {
