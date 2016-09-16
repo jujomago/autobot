@@ -1,6 +1,5 @@
 // all styles for admin lite theme
 .al-theme {
-
     // applies to all tables, wrap long texts
     .table{
         table-layout: fixed;
@@ -481,7 +480,10 @@
     .custom_form{
         .inputminimal{
             &>input.inline-input{
-                width: auto;
+              //  width: auto;
+            }
+            input{
+              padding: 7px 10px 0;
             }
         }
     }
@@ -607,10 +609,6 @@
             line-height: 1.5;
             border-radius: 3px;
         }
-
-        .inputminimal input{
-            padding: 8px 8px 0;
-        }
     }
 
     .subtitle_section{
@@ -698,11 +696,6 @@
                         margin-right: 20px;
                     }
                 }
-            }
-        }
-        .custom_form {
-            .level-input {
-                width: 95px;
             }
         }
     }

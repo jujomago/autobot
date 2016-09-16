@@ -1,112 +1,81 @@
-
 <h3 class="title_section">Campaigns</h3>
-
-<abx-message msg="$ctrl.message"></abx-message> 
-
-
-
-<abx-load-indicator ng-show="$ctrl.campaigns.length==0 && !$ctrl.message.show" text="Loading Campaigns"></abx-load-indicator> 
-
-
-
-<div ng-show="$ctrl.campaigns.length>0" > 
-  
-<div class="mywell"> 
-
+<abx-message msg="$ctrl.message"></abx-message>
+<abx-load-indicator ng-show="$ctrl.campaigns.length==0 && !$ctrl.message.show" text="Loading Campaigns"></abx-load-indicator>
+<div ng-show="$ctrl.campaigns.length>0" >
+  <div class="mywell">
     <div class="filter_select">
-        <span>Filter by</span>
-        <select name="typeCampaignFilter" class="form-control" ng-model="$ctrl.typeCampaignFilter" ng-change="$ctrl.filteringBySearch()">
-                <option value="">All</option>
-                <option value="INBOUND">InBound</option>
-                <option value="OUTBOUND">OutBound</option>
-                <option value="AUTODIAL">Autodial</option>
-        </select>
+      <span>Filter by</span>
+      <select name="typeCampaignFilter" class="form-control" ng-model="$ctrl.typeCampaignFilter" ng-change="$ctrl.filteringBySearch()">
+        <option value="">All</option>
+        <option value="INBOUND">InBound</option>
+        <option value="OUTBOUND">OutBound</option>
+        <option value="AUTODIAL">Autodial</option>
+      </select>
     </div>
-   
-    
-    <div class="searchbox_container">          
-       <input type="search" ng-model="$ctrl.search.name" class="searchbox" placeholder="Search" ng-change="$ctrl.filteringBySearch()">
-       <span class="glyphicon glyphicon-search"></span>
+    <div class="searchbox_container">
+      <input type="search" ng-model="$ctrl.search.name" class="searchbox" placeholder="Search" ng-change="$ctrl.filteringBySearch()">
+      <span class="glyphicon glyphicon-search"></span>
     </div>
     <button ui-sref="ap.al.campaignsCreate " class="btn btn-black pull-right">New</button>
-</div>  
+  </div>
 
-
-<table class="table table-striped"  ng-show="$ctrl.filteredCampaigns.length"> 
-
+  <table class="table table-striped"  ng-show="$ctrl.filteredCampaigns.length">
     <thead>
-        
-        <th ng-click="$ctrl.sortColumn('name') " class="sortColumn">Name
-            <span class="glyphicon " ng-show="$ctrl.sortKey=='name' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
-'glyphicon-chevron-down':!$ctrl.reverse} "></span>
-        </th>        
-        <th ng-click="$ctrl.sortColumn('type') " class="sortColumn">Type
-            <span class="glyphicon " ng-show="$ctrl.sortKey=='type' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
-'glyphicon-chevron-down':!$ctrl.reverse} "></span>
+      <th ng-click="$ctrl.sortColumn('name') " class="sortColumn">Name
+        <span class="glyphicon " ng-show="$ctrl.sortKey=='name' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,'glyphicon-chevron-down':!$ctrl.reverse} "></span>
+      </th>
+      <th ng-click="$ctrl.sortColumn('type') " class="sortColumn">Type
+        <span class="glyphicon " ng-show="$ctrl.sortKey=='type' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,'glyphicon-chevron-down':!$ctrl.reverse} "></span>
+      </th>
+      <th ng-click="$ctrl.sortColumn('mode') " class="sortColumn">Mode
+        <span class="glyphicon " ng-show="$ctrl.sortKey=='mode' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,'glyphicon-chevron-down':!$ctrl.reverse} "></span>
         </th>
-        <th ng-click="$ctrl.sortColumn('mode') " class="sortColumn">Mode
-            <span class="glyphicon " ng-show="$ctrl.sortKey=='mode' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
-'glyphicon-chevron-down':!$ctrl.reverse} "></span>
-        </th>        
-
         <th ng-click="$ctrl.sortColumn('state') " class="sortColumn">State
-            <span class="glyphicon " ng-show="$ctrl.sortKey=='state' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
-'glyphicon-chevron-down':!$ctrl.reverse} "></span>
+          <span class="glyphicon " ng-show="$ctrl.sortKey=='state' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,'glyphicon-chevron-down':!$ctrl.reverse} "></span>
         </th>
         <th ng-click="$ctrl.sortColumn('trainingMode') " class=" sortColumn text-center"  width="120">Training
-
-            <span class="glyphicon " ng-show="$ctrl.sortKey=='trainingMode' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,
-'glyphicon-chevron-down':!$ctrl.reverse} "></span>
+          <span class="glyphicon " ng-show="$ctrl.sortKey=='trainingMode' " ng-class="{ 'glyphicon-chevron-up':$ctrl.reverse,'glyphicon-chevron-down':!$ctrl.reverse} "></span>
         </th>
-        <th class="text-center" width="180">
-            Actions
+        <th class="text-center" width="180">Actions
         </th>
-    </thead>
-    <tbody>
-         <tr ng-repeat="item in ($ctrl.filteredCampaigns=($ctrl.campaigns  | filter:{type:$ctrl.typeCampaignFilter} | filter:$ctrl.search | orderBy:$ctrl.sortKey:$ctrl.reverse) | limitTo:$ctrl.numPerPage:$ctrl.beginNext )" 
-
-       ng-class="{'danger' : $ctrl.toggleCampaignRow==$index, 'warning': $ctrl.toggleStatusRow==$index}">            
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in ($ctrl.filteredCampaigns=($ctrl.campaigns  | filter:{type:$ctrl.typeCampaignFilter} | filter:$ctrl.search | orderBy:$ctrl.sortKey:$ctrl.reverse) | limitTo:$ctrl.numPerPage:$ctrl.beginNext )"
+            ng-class="{'danger' : $ctrl.toggleCampaignRow==$index, 'warning': $ctrl.toggleStatusRow==$index}">
             <td>
-               <a href ng-click="$ctrl.getDetail(item)">
-                {{item.name}}
-               </a>
+              <a href ng-click="$ctrl.getDetail(item)">{{item.name}}</a>
             </td>
             <td class="to_capitalize">{{item.type}}</td>
             <td class="to_capitalize">{{item.mode}}</td>
-          
             <td class="to_capitalize">{{item.state | removeUnderscore}}</td>
             <td class="text-center to_capitalize">{{item.trainingMode}}</td>
             <td class="text-center">
-                <button class="btn btn-row-campaign" ng-class="{'btn-primary':item.state==='NOT_RUNNING','btn-danger':item.state==='RUNNING'}" 
-                 ng-click="$ctrl.updateState(item,$index)" ng-init="item.statusBtnText=(item.state==='RUNNING')?'Stop':'Start'" ng-disabled="(item.statusBtnText==='Starting' || item.statusBtnText=='Stopping')">
-                    {{ item.statusBtnText }}
-                </button>               
-                <a href class="circle_delete" ng-click="$ctrl.deleteCampaign(item,$index)"  
-                ng-hide="$ctrl.toggleCampaignRow==$index"></a>
+              <button class="btn btn-row-campaign" ng-class="{'btn-primary':item.state==='NOT_RUNNING','btn-danger':item.state==='RUNNING'}"
+                      ng-click="$ctrl.updateState(item,$index)" ng-init="item.statusBtnText=(item.state==='RUNNING')?'Stop':'Start'" ng-disabled="(item.statusBtnText==='Starting' || item.statusBtnText=='Stopping')">
+                      {{ item.statusBtnText }}
+              </button>
+              <a href class="circle_delete" ng-click="$ctrl.deleteCampaign(item,$index)" ng-hide="$ctrl.toggleCampaignRow==$index"></a>
             </td>
         </tr>
-    </tbody>
-</table>
+      </tbody>
+  </table>
 
-<div class="mywell footer_table text-center">
-
-       <div class="noresults" ng-show="!$ctrl.filteredCampaigns.length"  ng-if="$ctrl.search.name">
-             <img src="assets/al/images/NoResultsIcon.png" alt="lupa">
-             <p>We couldn't find what you are looking for</p>
-       </div>
-
-    <label class="pull-left" ng-show="$ctrl.filteredCampaigns.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.getMax()}} of {{$ctrl.filteredCampaigns.length}}</label>    
-
-
-    <uib-pagination ng-show="$ctrl.filteredCampaigns.length" total-items="$ctrl.filteredCampaigns.length" ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
-    " boundary-links="true "
-    ng-change="$ctrl.pageChanged()" >
+  <div class="mywell footer_table text-center">
+    <div class="noresults" ng-show="!$ctrl.filteredCampaigns.length"  ng-if="$ctrl.search.name">
+      <img src="assets/al/images/NoResultsIcon.png" alt="lupa">
+      <p>We couldn't find what you are looking for</p>
+    </div>
+    <label class="pull-left" ng-show="$ctrl.filteredCampaigns.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.getMax()}} of {{$ctrl.filteredCampaigns.length}}</label>
+    <uib-pagination ng-show="$ctrl.filteredCampaigns.length"
+                    total-items="$ctrl.filteredCampaigns.length"
+                    ng-model="$ctrl.currentPage"
+                    items-per-page="$ctrl.numPerPage"
+                    boundary-links="true "
+                    ng-change="$ctrl.pageChanged()" >
     </uib-pagination>
-
-    <div class="pull-right results_per_page"  ng-show="$ctrl.filteredCampaigns.length"><span>Show</span> 
-        <select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities" ng-change="$ctrl.pageChanged()">
-        </select><span>results per page</span> 
-    </div>  
-</div> 
-
+    <div class="pull-right results_per_page"  ng-show="$ctrl.filteredCampaigns.length"><span>Show</span>
+      <select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities" ng-change="$ctrl.pageChanged()">
+      </select><span>results per page</span>
+    </div>
+  </div>
 </div>
