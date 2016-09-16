@@ -579,9 +579,6 @@
             }
         }
 
-        isValidBrowser(){
-            return (navigator.userAgent.toLowerCase().indexOf('chrome')>-1);
-        }
     }
 
     MapFieldsController.$inject = ['$stateParams', 'AlertMessage', '$state', 'ContactFieldsService','ValidatorService', 'lodash'];

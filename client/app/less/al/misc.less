@@ -228,15 +228,11 @@
         border:0;
         outline:0;
         background: transparent;
-        padding-left: 8px;
+        padding-left: 6px;
+        text-indent: 1px;
         &:focus,&:active{
             outline: none;
         }
-    }
-    /*This Class is optional only for Firefox and IE browser, for solve a problem with text-indent property*/
-    .left-padding{
-        padding-left: 6px;
-        text-indent: -1px;
     }
     select.cell-select::-ms-expand{
       display:none;
@@ -771,3 +767,12 @@
         margin-bottom: 0px;
     }
 }
+@-moz-document url-prefix() {
+    .al-theme {
+        /*Only for Firefox text-indent property is a singular in the browsers*/
+        .cell-select{
+            padding-left: 7px;
+            text-indent: -2px;
+        }
+    }
+  }
