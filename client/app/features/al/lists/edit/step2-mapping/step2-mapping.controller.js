@@ -13,6 +13,10 @@
             });
         } else {
             var headers = lines[0].split(delimiter);        
+            if(headers.length===1){
+                console.log('cant map with that deliminter');
+                return headers;
+            }
 
             for (var i = 1; i < lines.length; i++) {
                 var obj = {};
@@ -26,9 +30,9 @@
                     }    
                 }
                 result.push(obj);                             
-            }          
-        }
-        return result;
+            }        
+        } 
+        return result;      
     }
 
     function _aplyDemiliterCSV(rawCSV,delimiter,hasHeader) {       
@@ -178,12 +182,21 @@
 
 
         let _cleanNotNumbers = function (val) {
-            let firstChar=val.substr(0,1).replace(/[^\d\+]/g,'');
-            let cleaned=firstChar+val.substr(1,val.length).replace(/[^\d]/g, '');
-            return cleaned;
+            console.log('theval');
+            console.log(val);
+            if(val){
+               let firstChar=val.substr(0,1).replace(/[^\d\+]/g,'');
+               let cleaned=firstChar+val.substr(1,val.length).replace(/[^\d]/g, '');
+               return cleaned;
+            }
+            return '';
+            
         };
 
-        let _jsonRecordsToFieldsRecords = function (jrecord) {            
+        let _jsonRecordsToFieldsRecords = function (jrecord) {  
+            console.log('jrecord');
+            console.log(jrecord);
+
             let fr = {};           
             _.each(mappedFiedlsUniq, el => {
                
@@ -291,6 +304,10 @@
 
         setStateParams(stateParams) {
             this.getContactFiels();
+
+            console.log('setStateParams');
+            console.log(stateParams);
+
             if(stateParams.name){
                 this.listName = stateParams.name;
             }
@@ -302,6 +319,7 @@
                     this.rawCSV = stateParams.settings.csvData;
                     this.jsonCSV = _aplyDemiliterCSV(this.rawCSV, 
                     this.customDelimiterDefaultSymbol, this.hasHeader);
+
                     if (this.hasHeader) {
                         this.jsonHeaders = Object.keys(this.jsonCSV[0]);
                     } else {
@@ -361,33 +379,48 @@
         changeDelimiter() {
             this.customDelimiterEnabled = (this.selectedDelimiter.title === 'Custom');
             if (this.customDelimiterEnabled) {
-                this.jsonCSV=_aplyDemiliterCSV(this.rawCSV,this.customDelimiterDefaultSymbol,this.hasHeader);
+                this.jsonCSV=_aplyDemiliterCSV(this.rawCSV,this.customDelimiterDefaultSymbol,this.hasHeader);    
             } else {
                 this.jsonCSV=_aplyDemiliterCSV(this.rawCSV,this.selectedDelimiter.symbol,this.hasHeader);
             }
+
+            if(this.jsonCSV.length===1){                
+                this.jsonHeaders=this.jsonCSV;
+            }else{
+                this.jsonHeaders=Object.keys(this.jsonCSV[0]);
+            }   
+              console.log(`posibleHeaders:  ${this.jsonHeaders} `);
+
         }
 
         matchSmart() {
+            console.log('matchSmart');        
             if (this.hasHeader === true) {
-                this.changeDelimiter();
-
-                let posibleHeaders = Object.keys(this.jsonCSV[0]);
-                console.log(`posibleHeaders:  ${posibleHeaders} `);
-
-                angular.forEach(this.contactFields, (el,index) => {
-                    if (posibleHeaders.indexOf(el.name) >= 0 && el.hasOwnProperty('isKey') && el.mappedName===null)  {                        
-                        el.mappedName = el.name;
-                        this.seletedRowsMapped.push(index);
-                    }
-                });
-
-                let contentModal={
+                this.changeDelimiter();         
+                console.log('jsonHeaders');
+                console.log(this.jsonHeaders);    
+                
+                if(this.jsonCSV.length===1){                
+                    _AlertMessage({
                       title:'Message',
-                      body:`${this.seletedRowsMapped.length} item(s) have(s) been successfully mapped.\n
-                      All affected items have been selected`
-                };
-                 _AlertMessage(contentModal);     
-                return this.contactFields;
+                      body:'Unfortunately, nothing can be mapped automatically'
+                    });  
+                    return null;
+                }else{
+                    angular.forEach(this.contactFields, (el,index) => {
+                         if (this.jsonHeaders.indexOf(el.name) >= 0 && el.hasOwnProperty('isKey') &&   el.mappedName===null)  {                        
+                             el.mappedName = el.name;
+                             this.seletedRowsMapped.push(index);
+                         }
+                    });
+            
+                    _AlertMessage({
+                            title:'Message',
+                            body:`${this.seletedRowsMapped.length} item(s) have(s) been successfully mapped.\n
+                            All affected items have been selected`
+                    });     
+                    return this.contactFields;
+                }
 
             } else {               
                 console.log('the feature smart match is just for header enabled');
@@ -442,7 +475,7 @@
         }
 
         finishMap() {
-
+            
             let fieldsKeys = _.filter(this.contactFields, { 'isKey': true });
             let checkSelectedKeys = _checkSelectedFieldKeys(this.hasHeader, this.contactFields, _);
 
@@ -458,7 +491,7 @@
                     let keyNames = _.chain(this.contactFields)
                         .filter({ isKey: true })
                         .map('name').value();
-                    _getRowsFields(this.hasHeader, this.contactFields, this.jsonCSV, _);
+                   
                     let dataToSend = {
                         resultMapping: {
                             keys: keyNames,
@@ -513,13 +546,22 @@
                         }
                     
                     }
-                    _AlertMessage(contentModal);       
 
-                    // this data goes to table (next step)
                     console.log('=== DATA FOR NEXT STEPP===');
                     console.log(dataToSend);
+                    
+                    
+                    //BUG:1603-The list flow does not completed when skipPreview
+                    if(_$stateParams.settings.skipPreview===true){
+                        console.log('skiping preview');           
+                        
+                    }else{
+                        _AlertMessage(contentModal);                          
+                        _$state.go('ap.al.listsEdit-list', { settings: dataToSend, name: _$stateParams.name });
+                    }
 
-                   _$state.go('ap.al.listsEdit-list', { settings: dataToSend, name: _$stateParams.name });
+
+                  
                     return dataToSend;
                 } else {
                     let keyNamesNotMapped = _.map(checkSelectedKeys, 'name');
