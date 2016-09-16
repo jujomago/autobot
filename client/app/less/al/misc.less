@@ -1,3 +1,15 @@
+@-moz-document url-prefix() {
+    .al-theme {
+        /*Only for Firefox text-indent property is a singular in the browsers*/
+        /*This CSS is for 
+        bug 1472: Admin Console: manual mapping: The Source field name does not align with the column title.
+        for horizontal align of cell mapping*/
+        .cell-select{
+            padding-left: 7px;
+            text-indent: -2px;
+        }
+    }
+  }
 // all styles for admin lite theme
 .al-theme {
 
@@ -230,7 +242,8 @@
         border:0;
         outline:0;
         background: transparent;
-        padding-left: 9px;
+        padding-left: 6px;
+        text-indent: 1px;
         &:focus,&:active{
             outline: none;
         }

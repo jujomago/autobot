@@ -57,7 +57,7 @@
             <tbody>
                 <tr ng-repeat="field in $ctrl.contactFields track by $index" ng-class="{'selectedRowMapped':$ctrl.seletedRowsMapped.indexOf($index)>=0}">
                     <td>
-                        <select class="cell-select" ng-class="{'withArrow':field.mappedName===null}" ng-if="$ctrl.hasHeader" ng-model="field.mappedName" ng-options="o for o in $ctrl.jsonCSV[0]">
+                        <select class="cell-select" ng-class="{'withArrow':field.mappedName===null}" ng-if="$ctrl.hasHeader" ng-model="field.mappedName" ng-options="o for o in $ctrl.jsonHeaders">
                             <option value=""></option>
                         </select>
                         <abx-number-updown class="number-updown-width" ng-model="field.mappedIndex" max-value="256" ng-if="!$ctrl.hasHeader"></abx-number-updown>
