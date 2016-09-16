@@ -1,3 +1,12 @@
+@-moz-document url-prefix() {
+    .al-theme {
+        /*Only for Firefox text-indent property is a singular in the browsers*/
+        .cell-select{
+            padding-left: 7px;
+            text-indent: -2px;
+        }
+    }
+}
 // all styles for admin lite theme
 .al-theme {
 
@@ -765,14 +774,5 @@
     .light-label{
         font-weight: normal;
         margin-bottom: 0px;
-    }
-}
-@-moz-document url-prefix() {
-    .al-theme {
-        /*Only for Firefox text-indent property is a singular in the browsers*/
-        .cell-select{
-            padding-left: 7px;
-            text-indent: -2px;
-        }
     }
 }
