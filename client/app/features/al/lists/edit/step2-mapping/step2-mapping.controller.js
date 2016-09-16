@@ -553,8 +553,40 @@
                     
                     //BUG:1603-The list flow does not completed when skipPreview
                     if(_$stateParams.settings.skipPreview===true){
-                        console.log('skiping preview');           
-                        
+                        console.log('skiping preview _$stateParams');  
+                        console.log(_$stateParams);         
+/*                        
+
+{
+    "listName":"SMS_Broadcast",
+    "importData":{
+        "values":[
+            {"item":["9788874944","Ken","gus@five9.com"]},
+            {"item":["9788874950","Invenctado","sssss444ss"]},
+            {"item":["9788874514","Chris",""]},
+            {"item":["9632587410","Chris",""]},
+            {"item":["","Chris",""]},
+            {"item":["9788874987","Ken","gus@five9.com"]},
+            {"item":["9788874987","Ken","gus@five9.com"]},
+            {"item":["9788874514","Chris",""]}
+        ]
+    },
+    "listUpdateSettings":{
+        "listAddMode":"ADD_FIRST",
+        "crmAddMode":"ADD_NEW",
+        "crmUpdateMode":"UPDATE_FIRST",
+        "cleanListBeforeUpdate":false,
+        "fieldsMapping":[
+            {"fieldName":"number1","key":true,"columnNumber":1},
+            {"fieldName":"first_name","key":false,"columnNumber":3},
+            {"fieldName":"street","key":false,"columnNumber":12}
+        ]
+    }
+}
+
+*/
+
+
                     }else{
                         _AlertMessage(contentModal);                          
                         _$state.go('ap.al.listsEdit-list', { settings: dataToSend, name: _$stateParams.name });
