@@ -40,7 +40,7 @@
   }
 class ContactModalComponent {
   constructor() {
-  	  
+  	   this.message = { show: false }; 
   }
 
   $onInit(){
@@ -58,6 +58,8 @@ class ContactModalComponent {
     this.method = this.edit.method;
 
     this.phoneRequired = (this.manual && this.method === 'create') ? true : false;
+    console.log(`phoneRequired ${this.phoneRequired}`);
+    //this.phoneRequired=false;
 
     this.contactModal = angular.copy(this.edit.contact);
 
@@ -79,9 +81,13 @@ class ContactModalComponent {
   }
 
   getValidation(fields){
-
     let validation = [];
     let typeInput;
+    let atLeastRequireOnePhone=false;
+
+    if(fields.map(val=>val.name).indexOf('number1')>=0){
+      atLeastRequireOnePhone=true;
+    }
 
     fields.map((value, key)=>{
       
@@ -99,31 +105,43 @@ class ContactModalComponent {
           break;
       }
 
-		let required = (value.isKey) ? value.isKey: false;
+    //  let required = (value.isKey) ? value.isKey: false;
 
-		if(typeInput === 'date-text'){
-		  this.dates[key] = {opened: false, name: value.name, time: '', date: ''};
-		}
+      if(typeInput === 'date-text'){
+        this.dates[key] = {opened: false, name: value.name, time: '', date: ''};
+      }
+     
 
-		if(typeInput === 'tel'){
-		  validation.push({'name': value.name, 'type': typeInput, 'required': required, 'min-length': 10, 'max-lentgh': 20});
-		}else{
-		  validation.push({'name': value.name, 'type': typeInput, 'required': required, 'min-length': 5, 'max-lentgh': 50});  
-		}
+      if(typeInput === 'tel'){
+         if(atLeastRequireOnePhone){
+            this.phoneRequired=true;        
+        }
+        validation.push({'name': value.name, 'type': typeInput, 'min-length': 10, 'max-lentgh': 20});
+      }else{
+        validation.push({'name': value.name, 'type': typeInput, 'min-length': 5, 'max-lentgh': 50});  
+      }
     });
+ 
     return validation;
   }
 
   save(){
-  	if(this.dates.length>0){
-  		this.dates.map((value)=>{
-			if(value.date !== '' && value.date !== null){
-				this.contact[value.name] = _parseDate(value.date, value.time);  
-			}
-		});	
-  	}
-    this.instance.close(this.contact);
-  }
+    console.log('save');
+    console.log(this.contact);
+    if(Object.keys(this.contact).length===0){
+       this.message={ show: true, type: 'warning', text: 'Can\'t save empty Contact Record', expires: 3000};
+        this.instance.close(null);
+  }else{
+      if(this.dates.length>0){
+        this.dates.map((value)=>{
+        if(value.date !== '' && value.date !== null){
+          this.contact[value.name] = _parseDate(value.date, value.time);  
+        }
+      });	
+      }
+      this.instance.close(this.contact);
+    }
+ }
 
   cancel(){
 	this.instance.dismiss('cancel');
@@ -136,17 +154,21 @@ class ContactModalComponent {
   phoneChanged(){
     let numbers;
     let data = [];
-    numbers = angular.element('input[type="tel"]');
-    numbers.map((key, value)=>{
-      if(angular.element(value).val()){
-        data.push(angular.element(value).val());  
-      }
-    });
+    let number1Exists=angular.element('input[name="number1"]').length;
+    if(number1Exists>0){
+          numbers = angular.element('input[type="tel"]');
+      numbers.map((key, value)=>{
+        if(angular.element(value).val()){
+          data.push(angular.element(value).val());  
+        }
+      });
 
-    if(data.length > 0){
-      this.phoneRequired = false;
-    }else{
-      this.phoneRequired = true;
+      if(data.length > 0){
+        this.phoneRequired = false;
+      }else{
+        this.phoneRequired = true;
+      }
+      console.log(this.phoneRequired);
     }
   }
 }

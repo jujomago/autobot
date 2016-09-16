@@ -34,6 +34,9 @@ let _PartnersService, _GetHomePage;
         return error;
       });
     }
+    goToAllAccounts(){
+       _$state.go('partneraccounts', {partnerId: this.partnerInfo.partnerId, appName: this.partnerInfo.appName});
+    }
     subscribe(){
       this.sendingInfo = true;
       this.partnerInfo.credentials = {username: this.credentials.username};
