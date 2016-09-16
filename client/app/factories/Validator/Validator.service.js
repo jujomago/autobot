@@ -9,7 +9,7 @@ function ValidatorService() {
               return true;
           }
           if (numberPhone.length <= 10) { // phone us number
-              regex = new RegExp(/^[(]?[2-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im);
+              regex = new RegExp(/^[2-9]{1}[0-9]{9}$/im);
           } else { // international numbers
               regex = new RegExp(/^(?:011)(?:[. ()-]*\d){10,17}[. ()-]*$/g);
           }

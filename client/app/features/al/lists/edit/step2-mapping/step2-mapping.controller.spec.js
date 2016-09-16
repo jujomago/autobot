@@ -10,7 +10,6 @@ describe('Component: al.lists.mapping', function () {
 
   var mockCSV = `
     llave,llave2,first_name,last_name,company
-    6643342368,44934,Ken,Osborn,Five9
     7777777777,,Josue, Mancilla, Sinapsysit
     3333333333,53,Boris,Bachas, ninguna
     664334368,5535632212,Ken,Osborn,Five9
@@ -66,88 +65,56 @@ describe('Component: al.lists.mapping', function () {
 
   describe('#setStateParams',()=>{
 
-       describe('When mode is manual in stateParams',()=>{
-            beforeEach(
-                inject(function ($componentController, $rootScope, $httpBackend, $stateParams, $window, _ContactFieldsService_, appConfig,_lodash_) {
+    it('When mode is manual should cant mapping', () => {
+        MappingComponent.setStateParams({
+            manual:true,
+            name:'testListName'              
+        });                
+        expect(MappingComponent.listName).to.equal('testListName');
+        expect(MappingComponent.canMapping).to.equal(false);
+    });
 
-                scope = $rootScope.$new();
-                _$httpBackend = $httpBackend;
-                contactFieldService = _ContactFieldsService_;
-                window = $window;
-                lodash=_lodash_; 
+    it('When mode is not manual should can mapping', () => {
+        MappingComponent.setStateParams({  
+            name:'testListName',   
+            settings:{ 
+                csvData: mockCSV, 
+                listDeleteSettings:mockDeleteSettigs 
+            }                
+        });                
+        expect(MappingComponent.listName).to.equal('testListName');
+        expect(MappingComponent.canMapping).to.equal(true);
+        expect(MappingComponent.rawCSV).to.equal(mockCSV);
+    });
 
-                if (appConfig.apiUri) {
-                  endPointUrl = appConfig.apiUri + '/f9/contactfields';
-                } 
+    it('csv should converted to array o JSON objects', () => {
 
-                MappingComponent = $componentController('al.lists.mapping', {    
-                  $stateParams: {
-                    manual:true,
-                    name:'testListName'              
-                  },
-                  $window: window,
-                  ContactFieldsService: contactFieldService,
-                  lodash:lodash
-                });
-                _$httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
-            }));
+       let mockCSV = `
+        number1,number3,first_name,last_name,company,email
+        7777777777,+233552234,Josue,Mancilla, Sinapsysit,josue@gmail.com
+        3333333333,53,Boris,Bachas,ninguna,boris@gmail.com         
+      `;
 
-            it('should cant mapping', () => {
-                MappingComponent.setStateParams({
-                    manual:true,
-                    name:'testListName'              
-                });                
-                expect(MappingComponent.listName).to.equal('testListName');
-                expect(MappingComponent.canMapping).to.equal(false);
-            });
-       });
-       describe('When mode is not manual in stateParams',()=>{
-            beforeEach(
-                inject(function ($componentController, $rootScope, $httpBackend, $stateParams, $window, _ContactFieldsService_, appConfig,_lodash_) {
+       MappingComponent.setStateParams({  
+            name:'testListName',   
+            settings:{ 
+                csvData: mockCSV, 
+                listDeleteSettings:mockDeleteSettigs 
+            }                
+        });                
+      
+        expect(MappingComponent.listName).to.equal('testListName');
+        expect(MappingComponent.canMapping).to.equal(true);
+        expect(MappingComponent.rawCSV).to.equal(mockCSV);
+        expect(MappingComponent.jsonCSV).to.eql([
+          {number1: '7777777777', number3: '+233552234', 'first_name': 'Josue', 'last_name': 'Mancilla', company: 'Sinapsysit', email: 'josue@gmail.com'}, 
+          {number1: '3333333333', number3: '53', 'first_name': 'Boris', 'last_name': 'Bachas', company: 'ninguna', email: 'boris@gmail.com'}
+        ]);
 
-                scope = $rootScope.$new();
-                _$httpBackend = $httpBackend;
-                contactFieldService = _ContactFieldsService_;
-                window = $window;
-                lodash=_lodash_; 
+    });
+});
 
-                if (appConfig.apiUri) {
-                  endPointUrl = appConfig.apiUri + '/f9/contactfields';
-                } 
-
-                MappingComponent = $componentController('al.lists.mapping', {    
-                  $stateParams: {
-                    name:'testListName',     
-                    settings:{ 
-                        csvData: mockCSV, 
-                        listDeleteSettings:mockDeleteSettigs 
-                    }              
-                  },
-                  $window: window,
-                  ContactFieldsService: contactFieldService,
-                  lodash:lodash
-                });
-                _$httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
-            }));
-
-            it('should can mapping', () => {
-                MappingComponent.setStateParams({  
-                    name:'testListName',   
-                    settings:{ 
-                        csvData: mockCSV, 
-                        listDeleteSettings:mockDeleteSettigs 
-                    }                
-                });                
-                expect(MappingComponent.listName).to.equal('testListName');
-                expect(MappingComponent.canMapping).to.equal(true);
-                expect(MappingComponent.rawCSV).to.equal(mockCSV);
-            });
-       });
-
-
-  });
-
-// TODO: Solve problem with lodash(_.forEach)
+// TODO: Solve problem with lodash(_.forEach, _.map , _.omit)
 /*
   describe('#getContactFields', () => {
 
@@ -214,33 +181,54 @@ describe('Component: al.lists.mapping', function () {
 
   });
   */
-/* TODO:Review problem with this unit test
-  describe('#changeDelimiter', () => {
+
+ describe('#changeDelimiter', () => {
 
     it('Custom delimiter Unserscore', () => {
+
+      let mockCSV = `
+        number1,number3,first_name,last_name,company,email
+        7777777777,+233552234,Josue,Mancilla, Sinapsysit,josue@gmail.com
+        3333333333,53,Boris,Bachas,ninguna,boris@gmail.com         
+      `;
 
       MappingComponent.setStateParams({settings: {
           csvData: mockCSV, 
           listDeleteSettings:mockDeleteSettigs 
       }});
 
-
       MappingComponent.selectedDelimiter.title = 'Custom';
       MappingComponent.customDelimiterDefaultSymbol = '_';
+      //MappingComponent.customDelimiterEnabled=true;
 
       MappingComponent.changeDelimiter();
-
+   
       expect(MappingComponent.customDelimiterEnabled).to.equal(true);
       expect(MappingComponent.jsonCSV).to.not.equal(null);
-      expect(MappingComponent.jsonCSV).to.be.instanceof(Array);
-      expect(MappingComponent.jsonCSV[0]).to.eql(['llave,llave2,first', 'name,last', 'name,company']);
-
-      expect(MappingComponent.jsonCSV).to.have.lengthOf(11);
+      expect(MappingComponent.jsonCSV).to.be.instanceof(Array);  
+      expect(MappingComponent.jsonCSV).to.have.lengthOf(2);
+      expect(MappingComponent.jsonCSV).to.eql([
+        {
+        'number1,number3,first': '7777777777,+233552234,Josue,Mancilla, Sinapsysit,josue@gmail.com', 
+        'name,last': '        7777777777,+233552234,Josue,Mancilla, Sinapsysit,josue@gmail.com', 
+        'name,company,email': '        7777777777,+233552234,Josue,Mancilla, Sinapsysit,josue@gmail.com'}, 
+        {
+        'number1,number3,first': '3333333333,53,Boris,Bachas,ninguna,boris@gmail.com', 
+        'name,last': '        3333333333,53,Boris,Bachas,ninguna,boris@gmail.com', 
+        'name,company,email': '        3333333333,53,Boris,Bachas,ninguna,boris@gmail.com'
+        }
+      ]);
 
     });
 
     it('Default delimiter Comma', () => {
       
+      let mockCSV = `
+      number1,number3,first_name,last_name,company,email
+      7777777777,+233552234,Josue,Mancilla, Sinapsysit,josue@gmail.com
+      3333333333,53,Boris,Bachas,ninguna,boris@gmail.com         
+    `;
+
       MappingComponent.setStateParams({settings: {
           csvData: mockCSV, 
           listDeleteSettings:mockDeleteSettigs 
@@ -254,43 +242,54 @@ describe('Component: al.lists.mapping', function () {
       expect(MappingComponent.customDelimiterEnabled).to.equal(false);
       expect(MappingComponent.jsonCSV).to.not.equal(null);
       expect(MappingComponent.jsonCSV).to.be.instanceof(Array);
-      expect(MappingComponent.jsonCSV).to.have.lengthOf(11);
-      expect(MappingComponent.jsonCSV[0]).to.eql(['llave','llave2', 'first_name', 'last_name', 'company']);
-
+      expect(MappingComponent.jsonCSV).to.have.lengthOf(2);
+      expect(MappingComponent.jsonCSV).to.eql([
+          {number1: '7777777777', number3: '+233552234', 'first_name': 'Josue', 'last_name': 'Mancilla', company: 'Sinapsysit', email: 'josue@gmail.com'}, 
+          {number1: '3333333333', number3: '53', 'first_name': 'Boris', 'last_name': 'Bachas', company: 'ninguna', email: 'boris@gmail.com'}
+      ]);
 
     });
 
   });
-  */
- // TODO: Solve problem with lodash(_.forEach)
- /* describe('#matchSmart', () => {
 
+
+  describe('#matchSmart', () => {
     it('Fields should match exact names in the cvs file header', () => {
-      
+
+    MappingComponent.setStateParams({
+        name:'testListName',
+        settings:{ 
+              csvData: mockCSV, 
+              listDeleteSettings:mockDeleteSettigs 
+        }      
+    });
+
       MappingComponent.hasHeader=true;
 
       expect(MappingComponent.hasHeader).to.equal(true);
 
       MappingComponent.contactFields = [
-        {'name': 'number1',mappedName:null },
-        {'name': 'number2' ,mappedName:null },
-        {'name': 'number3' ,mappedName:null },
-        {'name': 'first_name',mappedName:null },
-        {'name': 'last_name',mappedName:null },
-        {'name': 'company',mappedName:null }
+        {'name':'number1',mappedName:null,isKey:true},
+        {'name':'number2',mappedName:null,isKey:false},
+        {'name':'number3' ,mappedName:null,isKey:true },
+        {'name':'first_name',mappedName:null,isKey:false },
+        {'name':'last_name',mappedName:null,isKey:true},
+        {'name':'company',mappedName:null,isKey:false }
       ];
 
       let matchedFiedls=MappingComponent.matchSmart();
       expect(matchedFiedls).to.be.an.instanceof(Array);
-      console.log('mached fields');
-      console.log(matchedFiedls);
-      expect(matchedFiedls[0]).to.eql([{'name': 'number1',mappedName:null }]);
-      expect(matchedFiedls[3]).to.eql([{'name': 'number1',mappedName:'first_name' }]);
-      expect(matchedFiedls[4]).to.eql([{'name': 'number1',mappedName:'last_name' }]);
+ 
+      expect(matchedFiedls[0].mappedName).to.eql(null);
+      expect(matchedFiedls[1].mappedName).to.eql(null);
+      expect(matchedFiedls[2].mappedName).to.eql(null);
+      expect(matchedFiedls[3].mappedName).to.eql('first_name');
+      expect(matchedFiedls[4].mappedName).to.eql('last_name');
+      expect(matchedFiedls[5].mappedName).to.eql('company');
 
     });
 
-    it('matchSmart but header not enabled', () => {
+     it('matchSmart but header not enabled', () => {
       
       MappingComponent.hasHeader=false;
 
@@ -302,6 +301,14 @@ describe('Component: al.lists.mapping', function () {
     });
 
     it('matchSmart just must apply to contact fields that have a checkbox (isKey property)', () => {
+
+      MappingComponent.setStateParams({
+        name:'testListName',
+        settings:{ 
+              csvData: mockCSV, 
+              listDeleteSettings:mockDeleteSettigs 
+        }      
+      });
       
       MappingComponent.hasHeader=true;
 
@@ -319,19 +326,19 @@ describe('Component: al.lists.mapping', function () {
         {'name': 'company' ,mappedName:null ,isKey:false }
       ];
 
-      expect(MappingComponent.hasHeader).to.equal(false);
-
       let matchedFiedls=MappingComponent.matchSmart();
-      expect(matchedFiedls[3]).to.eql([{'name': 'first_name',mappedName:'fist_name',isKey:false}]);
-      expect(matchedFiedls[4]).to.eql([{'name': 'first_name',mappedName:null }]);
-      expect(matchedFiedls[5]).to.eql([{'name': 'first_name',mappedName:null }]);
-      expect(matchedFiedls[6]).to.eql([ {'name': 'last_name' ,mappedName:'last_name', isKey:true }]);
-      expect(matchedFiedls[7]).to.eql([ {'name': 'last_name' ,mappedName:null}]);
+      expect(matchedFiedls[3].name).to.eql('first_name');
+      expect(matchedFiedls[3].mappedName).to.eql('first_name');
+      expect(matchedFiedls[4].name).to.eql('first_name');
+      expect(matchedFiedls[4].mappedName).to.equal(null);
+      expect(matchedFiedls[6].name).to.eql('last_name');
+      expect(matchedFiedls[6].mappedName).to.eql('last_name');
+      expect(matchedFiedls[8].mappedName).to.eql('company');    
 
     });
 
 
-  });*/
+  });
   
  // TODO: Solve problem with lodash(_.filter)
 /*describe('#nextStep', () => {

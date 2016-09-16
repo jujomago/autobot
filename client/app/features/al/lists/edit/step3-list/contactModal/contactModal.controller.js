@@ -81,9 +81,6 @@ class ContactModalComponent {
   }
 
   getValidation(fields){
-    console.log('getValidation');
-    console.log(fields);
-
     let validation = [];
     let typeInput;
     let atLeastRequireOnePhone=false;
@@ -124,8 +121,7 @@ class ContactModalComponent {
         validation.push({'name': value.name, 'type': typeInput, 'min-length': 5, 'max-lentgh': 50});  
       }
     });
-    console.log('validation');
-    console.log(validation);
+ 
     return validation;
   }
 
