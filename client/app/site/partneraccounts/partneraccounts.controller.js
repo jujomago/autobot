@@ -38,8 +38,12 @@ class PartnerAcoountsListComponent {
         return error;
       });
   }
-  clickList(){
-    this.location.path('/underconstruction');
+  goToLoginAccount(user){
+    console.log(user);
+     _$state.go('ap.login', {partnerId: this.credentials.partnerId, appName: this.credentials.appName, username: user});
+  }
+  goToSubscribeAccount(){
+     _$state.go('partnersubscribe', {partnerId: this.credentials.partnerId, appName: this.credentials.appName});
   }
 }
 PartnerAcoountsListComponent.$inject=['$location', '$state', '$stateParams', 'PartnersService'];

@@ -1,5 +1,5 @@
+<navbar></navbar>
 <div class="partneraccounts-page">
-	<navbar></navbar>
 	<div class="partner-accounts-list">
 		<img src="assets/{{$ctrl.credentials.appName}}/images/logo-sm.jpg" alt="Five9" class="fixed-logo">
 		<div ng-if="$ctrl.emptyPartnerAccounts">
@@ -8,7 +8,7 @@
 				{{$ctrl.partnerName}}<span> accounts</span>
 			</h3>
 			<ul class="list-group account-list">
-				<li class="list-group-item"  ng-repeat="item in $ctrl.accountsList" ng-click="$ctrl.clickList(item)">
+				<li class="list-group-item"  ng-repeat="item in $ctrl.accountsList" ng-click="$ctrl.goToLoginAccount(item.username)">
 						<img ng-src="assets/al/images/{{item.avatar}}" abx-default-image-switch="assets/al/images/avatar-default.png" alt="avatar" class="img-circle fixed-avatar">
 						{{item.username}}
 				</li>
@@ -20,11 +20,15 @@
 				{{$ctrl.partnerName}}<span> accounts</span>
 			</h3>
 			<p>You have no {{$ctrl.partnerName}} accounts registered yet.</p>
-			<p>Please create a <a ui-sref="partnercreate" class="text-center">new account</a> before using Admin Console</p>
+			<p>Please create a <a href ng-click="$ctrl.goToSubscribeAccount()" class="text-center">new account</a> before using Admin Console</p>
 		</div>
 		<div class="text-center">
-			<a ui-sref="partnercreate" class="text-center">Add new account</a>
+			<a href ng-click="$ctrl.goToSubscribeAccount()" class="text-center">Add new account</a>
 		</div>
 	</div>
-	<footer class="row"></footer>
+	<div id="autobox-footer">
+    <div id="footer-text">
+      <p>&copy; 2016 AutoBox LLC. All Rights Reserved</p>
+    </div>
+  </div>
 </div>
