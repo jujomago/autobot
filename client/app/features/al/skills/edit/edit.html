@@ -1,77 +1,63 @@
-
-<h3 class="title_section">Skill: <span>{{::$ctrl.selectedSkill.name}}</span></h3> 
-<abx-message msg="$ctrl.message"></abx-message> 
-<abx-load-indicator ng-hide="$ctrl.found"> </abx-load-indicator> 
-
-
-
+<h3 class="title_section">Skill: <span>{{::$ctrl.selectedSkill.name}} </span></h3>
+<abx-load-indicator ng-hide="$ctrl.found"> </abx-load-indicator>
 <uib-tabset active="active1" justified="false" ng-hide="!$ctrl.found">
     <uib-tab index="0" heading="Details" select="$ctrl.showSkill()">
         <div ng-show="$ctrl.found">
-
             <form class="custom_form form-horizontal" ng-submit="$ctrl.save()">
-                <div class="inputminimal"> 
-                        <label for="inputName">Name *</label>    
-                        <div> 
-                            <input autofocus  type="text" id="inputName" ng-model="$ctrl.selectedSkill.name" maxlength="32" />
-                        </div>
-               </div> 
-               <div class="inputminimal">  
-                     <label for="inputDesc">Description</label>
-                    <div>              
-                    <input type="text" id="inputDesc" ng-model="$ctrl.selectedSkill.description"/>   
-                     </div>                
+                <div class="inputminimal">
+                  <label for="inputName">Name *</label>
+                  <input autofocus  type="text" id="inputName" ng-model="$ctrl.selectedSkill.name" maxlength="32" />
+               </div>
+               <div class="inputminimal">
+                 <label for="inputDesc">Description</label>
+                 <input type="text" id="inputDesc" ng-model="$ctrl.selectedSkill.description"/>
+               </div>
+               <div class="inputminimal">
+                  <label for="inputMessage">Message of the Day</label>
+                  <input type="text" id="inputMessage" ng-model="$ctrl.selectedSkill.messageOfTheDay"  maxlength="255" />
                 </div>
-                <div class="inputminimal"> 
-                      <label for="inputMessage">Message of the Day</label>    
-                    <div>              
-                    <input type="text" id="inputMessage" ng-model="$ctrl.selectedSkill.messageOfTheDay"  maxlength="255" />        </div>             
+                <div class="form-group ">
+                  <div class="checkbox" >
+                    <label>
+                      <input type="checkbox" id="inlineCheckbox1" ng-model="$ctrl.selectedSkill.routeVoiceMails">Route voice mails
+                    </label>
+                  </div>
                 </div>
-                    <div class="form-group ">
-
-                    <div class="checkbox" >
-                            <label>
-                                <input type="checkbox" id="inlineCheckbox1" ng-model="$ctrl.selectedSkill.routeVoiceMails">Route voice mails
-                            </label>                   
-                    </div> 
-
+                <div class="form-group text-center">
+                  <button type="submit" class="btn btn-black" ng-disabled="$ctrl.SubmitText=='Saving...'">{{$ctrl.SubmitText}}</button>
+                  <button type="submit" class="btn btn-black" ng-click="$ctrl.cancel()">Cancel</button>
                 </div>
-
-               
-                
-                <div class="form-group text-center">                 
-                        <button type="submit" class="btn btn-black" ng-disabled="$ctrl.SubmitText=='Saving...'">{{$ctrl.SubmitText}}</button>
-                        <button type="submit" class="btn btn-black" ng-click="$ctrl.cancel()">Cancel</button>
-                </div>
-            </form>        
+            </form>
         </div>
     </uib-tab>
     <uib-tab index="1" heading="Users" select="$ctrl.listUsers()">
-
-        <p>
-            <label>Assign Users for this Skill:&nbsp;</label> {{::$ctrl.selectedSkill.name}}
-        </p>        
-         
+        <p><label>Assign Users for this Skill:&nbsp;</label>
+          {{::$ctrl.selectedSkill.name}}
+        </p>
+        <abx-message msg="$ctrl.message"></abx-message>
         <div class="row panel-full-height">
-
             <div class="col-sm-12 col-md-4 ">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <strong>Users Assigned</strong>
                     </div>
-
                     <div class="btn-group-vertical userNamesList" role="group">
                         <div class="btn-group"  uib-dropdown ng-repeat="user in $ctrl.UsersNamesSkills">
-                            <button id="button{{user.id}}" type="button" class="btn btn-default" uib-dropdown-toggle ng-class="{'btn-info' : $ctrl.toggleUsernameLink == $index}" 
-                            ng-disabled="$ctrl.toggleUserNameItem==$index">
-                                {{($ctrl.toggleUserNameItem!=$index)?user.userName:user.userName+'(DELETING)'}} <span class="caret"></span>
+                            <button id="button{{user.id}}" type="button"
+                                    class="btn btn-default"
+                                    uib-dropdown-toggle ng-class="{'btn-info' : $ctrl.toggleUsernameLink == $index}"
+                                    ng-disabled="$ctrl.toggleUserNameItem==$index">
+                                    {{($ctrl.toggleUserNameItem!=$index)?user.userName:user.userName+'(DELETING)'}}
+                                    <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="button{{user.id}}">
                                 <li role="menuitem">
-                                    <a href="#" ng-click="$ctrl.showUserInfo(user.userName,$index)">Get Detail UserName</a></li>
+                                    <a href="#" ng-click="$ctrl.showUserInfo(user.userName,$index)">Get Detail UserName</a>
+                                </li>
                                 <li class="divider"></li>
                                 <li role="menuitem">
-                                    <a href="#" ng-click="$ctrl.deleteUserfromSkill(user,$index)">Remove UserName</a></li>
+                                    <a href="#" ng-click="$ctrl.deleteUserfromSkill(user,$index)">Remove UserName</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -81,7 +67,6 @@
                 <h4 ng-show="$ctrl.filteredUsers.length===0">
                     <label class="label label-info">Loading Users...</label>
                 </h4>
-               
                 <div class="panel panel-info" ng-show="$ctrl.filteredUsers.length>0">
                     <div class="panel-heading">
                         <strong>Users UnAssigned</strong>
@@ -100,14 +85,17 @@
                             <th>Assign</th>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="useritem  in $ctrl.tableUsers = ($ctrl.filteredUsers  | filter:search) | limitTo:$ctrl.numPerPage:$ctrl.beginNext" ng-class="{'success' : $ctrl.toggleUserItem.item == $index}">
+                            <tr ng-repeat="useritem  in $ctrl.tableUsers = ($ctrl.filteredUsers  | filter:search) | limitTo:$ctrl.numPerPage:$ctrl.beginNext"
+                                ng-class="{'success' : $ctrl.toggleUserItem.item == $index}">
                                 <td>{{useritem.userName}}</td>
                                 <td>{{useritem.firstName}}</td>
                                 <td>{{useritem.lastName}}</td>
                                 <td>{{useritem.fullName}}</td>
                                 <td>{{useritem.EMail}}</td>
                                 <td>
-                                    <button class="btn btn-success" ng-click="$ctrl.addUsertoSkill(useritem,$index)" ng-disabled="$ctrl.toggleUserItem.item==$index">
+                                    <button class="btn btn-success"
+                                            ng-click="$ctrl.addUsertoSkill(useritem,$index)"
+                                            ng-disabled="$ctrl.toggleUserItem.item==$index">
                                         {{($ctrl.toggleUserItem.item==$index)?'Assigning..':'Add'}}
                                     </button>
                                 </td>
@@ -120,7 +108,6 @@
                     items-per-page="$ctrl.numPerPage" boundary-links="true" ng-change="$ctrl.pageChanged()" ng-class="pagination_edit_skills">
                     </uib-pagination>
                 </div>
-
             </div>
         </div>
         <div class="panel panel-info" ng-show="$ctrl.showPanelInfo">
@@ -128,25 +115,25 @@
                 <strong>User Selected Info</strong>
             </div>
             <div class="panel-body" ng-show="!$ctrl.DetailUser.firstName">
-                    <h4><label class="label label-info">
-                    Loading User Information
-                    </label>
-                    </h4>
+              <h4><label class="label label-info">
+                          Loading User Information
+                  </label>
+              </h4>
             </div>
             <table ng-show="$ctrl.DetailUser.firstName" class="table">
                     <thead>
                         <th>FirstName</th>
                         <th>LastName</th>
                         <th>FullName</th>
-                        <th>Email</th>                                
+                        <th>Email</th>
                     </thead>
                     <tbody>
                         <td>{{$ctrl.DetailUser.firstName}}</td>
                         <td>{{$ctrl.DetailUser.lastName}}</td>
                         <td>{{$ctrl.DetailUser.fullName}}</td>
                         <td>{{$ctrl.DetailUser.EMail}}</td>
-                    </tbody>                            
-                </table>
+                    </tbody>
+            </table>
         </div>
     </uib-tab>
 </uib-tabset>
