@@ -4,9 +4,10 @@ let _$location, _authService, _Base64Manager, _GetHomePage;
 let _lodash;
 let _appsService;
 let _$filter, _$parse, _$state;
+let _AlertMessage;
 class NavbarController {
 
-  constructor($filter, $parse, $location, $state, lodash, AuthService, AppsService, Base64Manager, GetHomePage) {
+  constructor($filter, $parse, $location, $state, lodash, AuthService, AppsService, Base64Manager, GetHomePage, AlertMessage) {
 
     this.isCollapsed = true;
     _Base64Manager = Base64Manager;
@@ -14,7 +15,7 @@ class NavbarController {
     this.userOptionsCollapsed = true;
     _$state = $state;
     _$location=$location;
-    _authService=AuthService;
+    _authService=AuthService;    
     this.myAppsCollapsed = true;
     this.isFocus=false;
     this.quantity = 4;
@@ -24,6 +25,7 @@ class NavbarController {
     _$filter = $filter;
     _$parse = $parse;
     _appsService = AppsService;
+    _AlertMessage=AlertMessage;
     this.fullMenu = false;
     this.minMenu = false;
     this.partners = [];
@@ -61,16 +63,22 @@ class NavbarController {
   logout(){
     let encodedURL=_Base64Manager.encode(_$location.url());
     return _authService.logout()
-        .then(response => {
-          if (response.status === 200) {
-            _$location.url('/login').search({url: encodedURL});
-          }
+        .then(response => {         
+          if (response.statusCode === 200) {           
+            _$location.url('/login').search({url: encodedURL});              
+          }                   
           return response;
         })
-        .catch(e => {
+        .catch(e => {            
+          let contentModal={ title:'Message',
+                             body:`An unexpected error has ocurred. Please try again or contact us`
+          };
+          _AlertMessage(contentModal); 
+                  
           if (e.status && e.data) {
             this.message = { show: true, text: e.data.statusText, type: 'danger' };
-          } else {
+          } 
+          else {
             this.message = { show: true, text: e, type: 'danger' };
           }
           return e;
@@ -154,7 +162,7 @@ class NavbarController {
 
 }
 
-NavbarController.$inject=['$filter', '$parse' , '$location', '$state','lodash', 'AuthService', 'AppsService', 'Base64Manager', 'GetHomePage'];
+NavbarController.$inject=['$filter','$parse' , '$location', '$state','lodash', 'AuthService', 'AppsService', 'Base64Manager', 'GetHomePage','AlertMessage'];
 
 angular.module('fakiyaMainApp')
   .controller('NavbarController', NavbarController);
