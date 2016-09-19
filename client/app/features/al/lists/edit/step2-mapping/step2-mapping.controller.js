@@ -6,6 +6,8 @@
         let lines = rawFile.trim().split('\n');
         let result = [];
 
+        console.log(lines);
+
         if (!hasHeaders) {
             result = lines.map(el => {
                 let rowValues = el.split(delimiter);
@@ -13,10 +15,10 @@
             });
         } else {
             var headers = lines[0].split(delimiter);        
-            if(headers.length===1){
+          /*  if(headers.length===1){
                 console.log('cant map with that deliminter');
                 return headers;
-            }
+            }*/
 
             for (var i = 1; i < lines.length; i++) {
                 var obj = {};
@@ -47,9 +49,23 @@
         }       
     }
 
+                   
+    function _validateSingleRow(singleRow,validator,lodash){
+      
+        let row=singleRow;
+        let _ = lodash;
 
-    function _validateRowsFiels(lodash,rowsFields,validator){
-         let _ = lodash;
+
+        let resultValidSingleRow=[];
+        let resultValidation;
+
+        let allFieldsEmpty=_.every(singleRow,(e,k)=>{
+         //   console.log(`at key ${k} value is ${e}`);
+            return e==='';
+        });
+    
+
+        
         function _fillResultsBools(key,value,result){
             if(!result){
                 let errorReason=`Field "${key}" has a invalid value "${value}"`; 
@@ -58,62 +74,88 @@
                 return {result:true};
             }  
         }
-               
-        function _validSingleRow(singleRow){
-            let resultValidSingleRow=[];
-            let resultValidation;
 
-            if(
-                (!singleRow.hasOwnProperty('number1') &&
-                !singleRow.hasOwnProperty('number2') &&
-                !singleRow.hasOwnProperty('number3'))||
-                (singleRow.number1==='' &&
-                 singleRow.number2==='' &&
-                 singleRow.number3==='')
-            ){
-                resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
-            }else{               
-
-                _.each(singleRow,(value,key)=>{                    
-                        switch (key) {
-                            case 'Balance':
-                                resultValidation=validator.balance(value);
-                                resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));                              
-                                break;  
-                            case 'number1':
-                                resultValidation=validator.phone(value);
-                                resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));
-                                                   
-                                break;
-                            case 'number2':
-                                resultValidation=validator.phone(value);
-                                resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));
-                                
-                                break;
-                            case 'number3':
-                                resultValidation=validator.phone(value);
-                                resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));
-                                
-                                break;
-                            case 'email':
-                                resultValidation=validator.email(value);
-                                resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));
-                                
-                                break;           
-                        }             
-                    });
+        if(allFieldsEmpty){
+            resultValidSingleRow.push({errorReason:'Record is empty.',result:false});
+        }else if(!row.hasOwnProperty('number1') &&  !row.hasOwnProperty('number2') && !row.hasOwnProperty('number3')){
+            resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
+        }else{               
+            if( 
+               ( (row.hasOwnProperty('number1') && row.number1==='') && !row.hasOwnProperty('number2') && !row.hasOwnProperty('number3') ) ||
+               ( (row.hasOwnProperty('number2') && row.number2==='') && !row.hasOwnProperty('number1') && !row.hasOwnProperty('number3') ) ||
+               ( (row.hasOwnProperty('number3') && row.number3==='') && !row.hasOwnProperty('number1') && !row.hasOwnProperty('number2') )
+              ){
+                     resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
+            }           
+            if(row.hasOwnProperty('number1') &&  row.hasOwnProperty('number2') && !row.hasOwnProperty('number3')){
+                if(row.number1==='' && row.number2===''){
+                     resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
+                }                
             }
+            if(row.hasOwnProperty('number1') &&  row.hasOwnProperty('number3') && !row.hasOwnProperty('number2')){
+                 if(row.number1==='' && row.number3===''){
+                     resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
+                }                      
+            }
+            if(row.hasOwnProperty('number2') &&  row.hasOwnProperty('number3') && !row.hasOwnProperty('number1')){
+                 if(row.number2==='' && row.number3===''){
+                     resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
+                }       
+            }
+            if(row.hasOwnProperty('number1') &&  row.hasOwnProperty('number2') && row.hasOwnProperty('number3')){
+                 if(row.number1==='' && row.number2==='' && row.number3===''){
+                     resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
+                }       
+            }
+             
 
-            return resultValidSingleRow;           
+            // 3 numbers are mapped
+            _.each(row,(value,key)=>{                    
+                switch (key) {
+                    case 'Balance':
+                        resultValidation=validator.balance(value);
+                        resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));                              
+                        break;  
+                    case 'number1':
+                        resultValidation=validator.phone(value);
+                        resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));
+                                            
+                        break;
+                    case 'number2':
+                        resultValidation=validator.phone(value);
+                        resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));
+                        
+                        break;
+                    case 'number3':
+                        resultValidation=validator.phone(value);
+                        resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));
+                        
+                        break;
+                    case 'email':
+                        resultValidation=validator.email(value);
+                        resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));
+                        
+                        break;           
+                }             
+            });
+                        
         }
 
+
+       
+        return resultValidSingleRow;           
+    }
+
+
+    function _validateRowsFiels(lodash,rowsFields,validator){
+      
+        let _ = lodash;
         let validRows=[];
         let invalidRows=[];
-        _.each(rowsFields,(el,i)=>{
 
-            let rowFieldObject=el;
-            let resultValidation=_validSingleRow(rowFieldObject);
-
+        _.each(rowsFields,(rowFieldObject,i)=>{
+            let resultValidation=_validateSingleRow(rowFieldObject,validator,_);
+      
             if(resultValidation.map(e=>e.result).indexOf(false)===-1){
                 validRows.push(rowFieldObject);
             }else{
@@ -182,8 +224,6 @@
 
 
         let _cleanNotNumbers = function (val) {
-            console.log('theval');
-            console.log(val);
             if(val){
                let firstChar=val.substr(0,1).replace(/[^\d\+]/g,'');
                let cleaned=firstChar+val.substr(1,val.length).replace(/[^\d]/g, '');
@@ -194,9 +234,7 @@
         };
 
         let _jsonRecordsToFieldsRecords = function (jrecord) {  
-            console.log('jrecord');
-            console.log(jrecord);
-
+         
             let fr = {};           
             _.each(mappedFiedlsUniq, el => {
                
@@ -264,16 +302,17 @@
     }
 
     let _$stateParams, _$state;
-    let _AlertMessage,_ContactFieldsService, _;
+    let _AlertMessage,_ContactFieldsService, _ListService, _;
 
     class MapFieldsController {
 
-        constructor($stateParams, AlertMessage, $state, ContactFieldsService, ValidatorService, lodash) {
+        constructor($stateParams, AlertMessage, $state, ContactFieldsService, ListsService, ValidatorService, lodash) {
             _ = lodash;
             _$stateParams = $stateParams;
             _AlertMessage = AlertMessage;
             _$state = $state;
-            _ContactFieldsService = ContactFieldsService;       
+            _ContactFieldsService = ContactFieldsService;
+            _ListService = ListsService;       
             this.ValidatorService=ValidatorService;     
             this.hasHeader = true;
             this.delimiters = [
@@ -507,8 +546,7 @@
                     }
 
                    let rowsFields=_getRowsFields(this.hasHeader, this.contactFields, this.jsonCSV, _);
-                   console.log('rows Fields');
-                   console.log(rowsFields);
+                
 
                    let resultValidRowsFields=_validateRowsFiels(_,rowsFields,this.ValidatorService);                  
                         
@@ -553,47 +591,12 @@
                     
                     //BUG:1603-The list flow does not completed when skipPreview
                     if(_$stateParams.settings.skipPreview===true){
-                        console.log('skiping preview _$stateParams');  
-                        console.log(_$stateParams);         
-/*                        
-
-{
-    "listName":"SMS_Broadcast",
-    "importData":{
-        "values":[
-            {"item":["9788874944","Ken","gus@five9.com"]},
-            {"item":["9788874950","Invenctado","sssss444ss"]},
-            {"item":["9788874514","Chris",""]},
-            {"item":["9632587410","Chris",""]},
-            {"item":["","Chris",""]},
-            {"item":["9788874987","Ken","gus@five9.com"]},
-            {"item":["9788874987","Ken","gus@five9.com"]},
-            {"item":["9788874514","Chris",""]}
-        ]
-    },
-    "listUpdateSettings":{
-        "listAddMode":"ADD_FIRST",
-        "crmAddMode":"ADD_NEW",
-        "crmUpdateMode":"UPDATE_FIRST",
-        "cleanListBeforeUpdate":false,
-        "fieldsMapping":[
-            {"fieldName":"number1","key":true,"columnNumber":1},
-            {"fieldName":"first_name","key":false,"columnNumber":3},
-            {"fieldName":"street","key":false,"columnNumber":12}
-        ]
-    }
-}
-
-*/
-
-
+                        this.uploadContacts(dataToSend,_$stateParams);
                     }else{
                         _AlertMessage(contentModal);                          
                         _$state.go('ap.al.listsEdit-list', { settings: dataToSend, name: _$stateParams.name });
                     }
-
-
-                  
+       
                     return dataToSend;
                 } else {
                     let keyNamesNotMapped = _.map(checkSelectedKeys, 'name');
@@ -620,6 +623,74 @@
 
                 return null;
             }
+        }
+
+        uploadContacts(dataToSend,stateParams){
+                               /*{
+                                "listName":"SMS_Broadcast",
+                                "importData":{
+                                    "values":[
+                                        {"item":["9788874944","Ken","gus@five9.com"]},
+                                        {"item":["9788874950","Invenctado","sssss444ss"]},
+                                        {"item":["9788874514","Chris",""]},
+                                        {"item":["9632587410","Chris",""]},
+                                        {"item":["","Chris",""]},
+                                        {"item":["9788874987","Ken","gus@five9.com"]},
+                                        {"item":["9788874987","Ken","gus@five9.com"]},
+                                        {"item":["9788874514","Chris",""]}
+                                    ]
+                                },
+                                "listUpdateSettings":{
+                                    "listAddMode":"ADD_FIRST",
+                                    "crmAddMode":"ADD_NEW",
+                                    "crmUpdateMode":"UPDATE_FIRST",
+                                    "cleanListBeforeUpdate":false,
+                                    "fieldsMapping":[
+                                        {"fieldName":"number1","key":true,"columnNumber":1},
+                                        {"fieldName":"first_name","key":false,"columnNumber":3},
+                                        {"fieldName":"street","key":false,"columnNumber":12}
+                                    ]
+                                }
+                            }*/
+                console.log('skiping preview _$stateParams');  
+                console.log(stateParams); 
+                
+                let dataContact={};
+
+                dataContact.listName=stateParams.name;
+                if(dataToSend.listUpdateSettings){
+                    dataContact.listUpdateSettings=dataToSend.listUpdateSettings;
+                    dataContact.listUpdateSettings.fieldsMapping=dataToSend.fieldsMapping;
+                }else{
+                    dataContact.listDeleteSettings=dataToSend.listDeleteSettings;
+                    dataContact.listDeleteSettings.fieldsMapping=dataToSend.fieldsMapping;
+                }
+
+                dataContact.importData={values:_.map(dataToSend.resultMapping.rows,el=>( {'item':_.map(el,elem=>elem)}) )};
+               
+    
+                console.log('dataContact');
+                console.log(dataContact);
+
+                return _ListService.addContacts(dataContact)
+                    .then(response=>{  
+                        if(response.statusCode === 201){
+                            if(response.data.return.identifier){
+                               _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: true});     
+                            }
+                        }
+                        else{
+                            this.SubmitText='Save';
+                            let theMsg= response.errorMessage; 
+                            this.message={ show: true, type: 'danger', text: theMsg, expires: 5000 };
+                        }
+                        return response;
+                });
+
+
+
+
+
         }
 
         addMappingItem() {
@@ -671,7 +742,7 @@
         }
     }
 
-    MapFieldsController.$inject = ['$stateParams', 'AlertMessage', '$state', 'ContactFieldsService','ValidatorService', 'lodash'];
+    MapFieldsController.$inject = ['$stateParams', 'AlertMessage', '$state', 'ContactFieldsService', 'ListsService','ValidatorService', 'lodash'];
 
     angular.module('fakiyaMainApp')
         .component('al.lists.mapping', {

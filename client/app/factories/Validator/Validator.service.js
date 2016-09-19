@@ -5,13 +5,13 @@ function ValidatorService() {
 
   let Validator={
       phone:function(numberPhone){         
-          if(numberPhone===''){
+          if(numberPhone===''){ 
               return true;
           }
-          if (numberPhone.length <= 10) { // phone us number
+          if (numberPhone.length <= 10 && numberPhone.substr(0,3)!=='011') { // phone us number
               regex = new RegExp(/^[2-9]{1}[0-9]{9}$/im);
           } else { // international numbers
-              regex = new RegExp(/^(?:011)(?:[. ()-]*\d){10,17}[. ()-]*$/g);
+              regex = new RegExp(/^(?:011)(?:[. ()-]*\d){2,17}[. ()-]*$/g);
           }
           return regex.test(numberPhone);
       },
@@ -26,7 +26,7 @@ function ValidatorService() {
           if(quantity===''){
               return true;
           }
-          regex = new RegExp(/^[0-9]{0,3}\.[0-9]{0,2}$/g);
+          regex = new RegExp(/^[0-9]{0,3}(\.[0-9]{0,2})?$/g);
           return regex.test(quantity);
       }
   };
