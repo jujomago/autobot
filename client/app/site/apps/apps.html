@@ -5,8 +5,8 @@
 		<abx-message msg="$ctrl.message"></abx-message>
 		<div class="partner-container" ng-repeat="partner in $ctrl.partners">
 			<b>{{partner.partner}}</b>
-			<div class="row apps-container">
-				<div class="col-md-2-5 col-sm-6 col-xs-12" ng-repeat="item in partner.apps">
+			<div class="row">
+				<div class="apps-container" ng-repeat="item in partner.apps">
 					<div class="image-container">
 						<img ng-src="assets/{{item.app.appName}}/images/logo-sm.jpg" abx-default-image-switch="/assets/default/images/logo-sm.jpg">
 					</div>
@@ -14,7 +14,7 @@
 						<h3>{{item.app.appFullName}}</h3>
 					</div>
 					<div class="text-container">
-						<p>{{ item.app.description | limitTo: 190 }}</p>
+						<p>{{ item.app.description | limitTo: 190 }} {{ item.app.description.length > 190 ? '...' : ''}}</p>
 						<button type="button" ng-click="$ctrl.selectInstalledApp(item.app.appName)"  ui-sref="underconstruction" class="btn btn-black" ng-show="item.installed">Open app</button>
 						<button type="button" ui-sref="underconstruction" class="btn btn-black" ng-show="!item.installed">Get app</button>
 					</div>
