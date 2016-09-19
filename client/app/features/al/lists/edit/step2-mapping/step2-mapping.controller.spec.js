@@ -183,7 +183,7 @@ describe('Component: al.lists.mapping', function () {
   });
   */
 
- describe.only('#changeDelimiter', () => {
+ describe('#changeDelimiter', () => {
 
     it('Custom delimiter Unserscore', () => {
 
