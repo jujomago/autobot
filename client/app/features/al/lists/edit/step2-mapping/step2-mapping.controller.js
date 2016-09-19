@@ -293,7 +293,7 @@
 
     class MapFieldsController {
 
-        constructor($stateParams, AlertMessage, $state, ContactFieldsService, ListsService, ValidatorService, lodash) {
+        constructor($stateParams, $state, lodash, ContactFieldsService, ListsService, ValidatorService, AlertMessage) {
             _ = lodash;
             _$stateParams = $stateParams;
             _AlertMessage = AlertMessage;
@@ -402,10 +402,16 @@
         } 
         changeDelimiter() {            
             this.clearMapping();
+
+               console.log('enter here 1');
+                console.log(this.selectedDelimiter);
+
             this.customDelimiterEnabled = (this.selectedDelimiter.title === 'Custom');
             if (this.customDelimiterEnabled) {
                 this.jsonCSV=_aplyDemiliterCSV(this.rawCSV,this.customDelimiterDefaultSymbol,this.hasHeader);    
             } else {
+                console.log('enter here');
+                console.log(this.selectedDelimiter);
                 this.jsonCSV=_aplyDemiliterCSV(this.rawCSV,this.selectedDelimiter.symbol,this.hasHeader);
             }
 
@@ -414,7 +420,7 @@
             }else{
                 this.jsonHeaders=Object.keys(this.jsonCSV[0]);
             }   
-              console.log(`posibleHeaders:  ${this.jsonHeaders} `);
+            console.log(`posibleHeaders:  ${this.jsonHeaders} `);
 
         }
 
@@ -579,7 +585,7 @@
                    
                     if(_$stateParams.settings.skipPreview===true){
                          //BUG:1603 - The list flow does not completed when skipPreview
-                        this.uploadContacts(dataToSend,_$stateParams);
+                        this.uploadContacts(dataToSend,_$stateParams.name);
                     }else{
                         _AlertMessage(contentModal);                          
                         _$state.go('ap.al.listsEdit-list', { settings: dataToSend, name: _$stateParams.name });
@@ -613,11 +619,11 @@
             }
         }
         //BUG:1603-The list flow does not completed when skipPreview
-        uploadContacts(dataToSend,stateParams){
+        uploadContacts(dataToSend,listName){
                 this.sending= true;   
                 let dataContact={};
 
-                dataContact.listName=stateParams.name;
+                dataContact.listName=listName;
                 if(dataToSend.listUpdateSettings){
                     dataContact.listUpdateSettings=dataToSend.listUpdateSettings;
                     dataContact.listUpdateSettings.fieldsMapping=dataToSend.fieldsMapping;
@@ -652,7 +658,7 @@
                             if(response.statusCode === 200){
                                 if(response.data.return.identifier){
                                     this.sending= false;
-                                    _$state.go('ap.al.lists', {name: dataContact.listName, identifier: response.data.return.identifier, isUpdate: false});     
+                                 //   _$state.go('ap.al.lists', {name: dataContact.listName, identifier: response.data.return.identifier, isUpdate: false});     
                                 }
                             }
                             else{                             
@@ -714,7 +720,7 @@
 
     }
 
-    MapFieldsController.$inject = ['$stateParams', 'AlertMessage', '$state', 'ContactFieldsService', 'ListsService','ValidatorService', 'lodash'];
+    MapFieldsController.$inject = ['$stateParams', '$state', 'lodash', 'ContactFieldsService', 'ListsService', 'ValidatorService', 'AlertMessage'];
 
     angular.module('fakiyaMainApp')
         .component('al.lists.mapping', {
