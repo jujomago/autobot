@@ -1,50 +1,32 @@
-
-      <h3 class="title_section">Skill: <span>New skill</span></h3> 
-
-<abx-message msg="$ctrl.message"></abx-message> 
-
+<h3 class="title_section">Skill: <span>New skill</span></h3>
+<abx-message msg="$ctrl.message"></abx-message>
 <form class="custom_form form-horizontal" name="formSkill" novalidate ng-submit="formSkill.$valid && $ctrl.save()">
-
-    <div class="inputminimal" ng-class="{ 'has-error': formSkill.skillName.$invalid && formSkill.$submitted }">  
-            <label for="inputName">Name *</label>     
-            <div>
-                 <input autofocus type="text" id="inputName" ng-model="$ctrl.newSkill.name" name="skillName" required ng-minlength="5" maxlength="32" 
-         />        
-                                
-            </div>
-     
-    </div>
-     <div ng-messages="formSkill.skillName.$error" ng-show="formSkill.$submitted">
-                        <p ng-message="minlength">This field is too short</p>
-                        <p ng-message="required">This field is required</p>
-                    </div>  
-    <div class="inputminimal">        
-        <label for="inputDesc">Description</label>
-        <div>
-            <input type="text" id="inputDesc" ng-model="$ctrl.newSkill.description" />
-        </div>
-    </div>
-    <div class="inputminimal">
-         <label for="inputMessage" >Message of the Day</label>
-          <div>
-            <input type="text" id="inputMessage" ng-model="$ctrl.newSkill.messageOfTheDay"  maxlength="255" />
-          </div>
-    </div>
-
-     <div class="form-group">   
-
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" id="inlineCheckbox1" ng-model="$ctrl.newSkill.routeVoiceMails">
+  <div class="inputminimal" ng-class="{ 'has-error': formSkill.skillName.$invalid && formSkill.$submitted }">
+    <label for="inputName">Name *</label>
+    <input autofocus type="text" id="inputName" ng-model="$ctrl.newSkill.name" name="skillName" required ng-minlength="5" maxlength="32"/>
+  </div>
+  <div ng-messages="formSkill.skillName.$error" ng-show="formSkill.$submitted">
+    <p ng-message="minlength">This field is too short</p>
+    <p ng-message="required">This field is required</p>
+  </div>
+  <div class="inputminimal">
+    <label for="inputDesc">Description</label>
+    <input type="text" id="inputDesc" ng-model="$ctrl.newSkill.description" />
+  </div>
+  <div class="inputminimal">
+    <label for="inputMessage" >Message of the Day</label>
+    <input type="text" id="inputMessage" ng-model="$ctrl.newSkill.messageOfTheDay"  maxlength="255" />
+  </div>
+  <div class="form-group">
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" id="inlineCheckbox1" ng-model="$ctrl.newSkill.routeVoiceMails">
                 Route voice mails
-            </label>                   
-
-        </div>    
-
-     </div> 
-    
-    <div class="form-group text-center">     
-        <button type="submit" class="btn btn-black" ng-disabled="$ctrl.SubmitText=='Saving...'">{{$ctrl.SubmitText}}</button>
-        <button type="button" class="btn btn-black" ng-click="$ctrl.cancel()">Cancel</button>
+      </label>
     </div>
+  </div>
+  <div class="form-group text-center">
+    <button type="submit" class="btn btn-black" ng-disabled="$ctrl.SubmitText=='Saving...'">{{$ctrl.SubmitText}}</button>
+    <button type="button" class="btn btn-black" ng-click="$ctrl.cancel()">Cancel</button>
+  </div>
 </form>
