@@ -49,7 +49,7 @@
         }       
     }
 
-                   
+    //BUG:1465 - The Contact uploads report does not accept valid numbers of the csv file.     
     function _validateSingleRow(singleRow,validator,lodash){
       
         let row=singleRow;
@@ -59,13 +59,8 @@
         let resultValidSingleRow=[];
         let resultValidation;
 
-        let allFieldsEmpty=_.every(singleRow,(e,k)=>{
-         //   console.log(`at key ${k} value is ${e}`);
-            return e==='';
-        });
-    
-
-        
+        let allFieldsEmpty=_.every(singleRow,e=>(e===''));
+                
         function _fillResultsBools(key,value,result){
             if(!result){
                 let errorReason=`Field "${key}" has a invalid value "${value}"`; 
@@ -137,18 +132,13 @@
                         
                         break;           
                 }             
-            });
-                        
-        }
-
-
-       
+            });                        
+        }       
         return resultValidSingleRow;           
     }
 
 
-    function _validateRowsFiels(lodash,rowsFields,validator){
-      
+    function _validateRowsFiels(lodash,rowsFields,validator){      
         let _ = lodash;
         let validRows=[];
         let invalidRows=[];
@@ -334,6 +324,7 @@
             this.jsonCSV = [];
             this.jsonHeaders = [];
             this.seletedRowsMapped=[];
+            this.sending = false;
 
         }
 
@@ -415,7 +406,8 @@
             this.changeDelimiter();
 
         } 
-        changeDelimiter() {
+        changeDelimiter() {            
+            this.clearMapping();
             this.customDelimiterEnabled = (this.selectedDelimiter.title === 'Custom');
             if (this.customDelimiterEnabled) {
                 this.jsonCSV=_aplyDemiliterCSV(this.rawCSV,this.customDelimiterDefaultSymbol,this.hasHeader);    
@@ -438,28 +430,32 @@
                 this.changeDelimiter();         
                 console.log('jsonHeaders');
                 console.log(this.jsonHeaders);    
-                
-                if(this.jsonCSV.length===1){                
-                    _AlertMessage({
-                      title:'Message',
-                      body:'Unfortunately, nothing can be mapped automatically'
+               
+
+                //BUG:1498 - The fields mapped does not display as selected.
+                angular.forEach(this.contactFields, (el,index) => {
+                        if (this.jsonHeaders.indexOf(el.name) >= 0 && el.hasOwnProperty('isKey') &&  el.mappedName===null)  {                        
+                            el.mappedName = el.name;
+                            this.seletedRowsMapped.push(index);
+                        }
+                });
+
+                //BUG:1604 - The message for mapped fields does not behave as the java app.
+                let mappedFiedls = _getMappedFiels(this.hasHeader, this.contactFields, 'nouniq', _);
+                if(mappedFiedls.length===0){                    
+                        _AlertMessage({
+                        title:'Message',
+                        body:'Unfortunately, nothing can be mapped automatically'
                     });  
                     return null;
                 }else{
-                    angular.forEach(this.contactFields, (el,index) => {
-                         if (this.jsonHeaders.indexOf(el.name) >= 0 && el.hasOwnProperty('isKey') &&   el.mappedName===null)  {                        
-                             el.mappedName = el.name;
-                             this.seletedRowsMapped.push(index);
-                         }
-                    });
-            
                     _AlertMessage({
-                            title:'Message',
-                            body:`${this.seletedRowsMapped.length} item(s) have(s) been successfully mapped.\n
-                            All affected items have been selected`
-                    });     
+                        title:'Message',
+                        body:`${this.seletedRowsMapped.length} item(s) have(s) been successfully mapped.\n
+                        All affected items have been selected`
+                        });     
                     return this.contactFields;
-                }
+                }              
 
             } else {               
                 console.log('the feature smart match is just for header enabled');
@@ -589,8 +585,9 @@
                     console.log(dataToSend);
                     
                     
-                    //BUG:1603-The list flow does not completed when skipPreview
+                   
                     if(_$stateParams.settings.skipPreview===true){
+                         //BUG:1603 - The list flow does not completed when skipPreview
                         this.uploadContacts(dataToSend,_$stateParams);
                     }else{
                         _AlertMessage(contentModal);                          
@@ -624,73 +621,56 @@
                 return null;
             }
         }
-
+        //BUG:1603-The list flow does not completed when skipPreview
         uploadContacts(dataToSend,stateParams){
-                               /*{
-                                "listName":"SMS_Broadcast",
-                                "importData":{
-                                    "values":[
-                                        {"item":["9788874944","Ken","gus@five9.com"]},
-                                        {"item":["9788874950","Invenctado","sssss444ss"]},
-                                        {"item":["9788874514","Chris",""]},
-                                        {"item":["9632587410","Chris",""]},
-                                        {"item":["","Chris",""]},
-                                        {"item":["9788874987","Ken","gus@five9.com"]},
-                                        {"item":["9788874987","Ken","gus@five9.com"]},
-                                        {"item":["9788874514","Chris",""]}
-                                    ]
-                                },
-                                "listUpdateSettings":{
-                                    "listAddMode":"ADD_FIRST",
-                                    "crmAddMode":"ADD_NEW",
-                                    "crmUpdateMode":"UPDATE_FIRST",
-                                    "cleanListBeforeUpdate":false,
-                                    "fieldsMapping":[
-                                        {"fieldName":"number1","key":true,"columnNumber":1},
-                                        {"fieldName":"first_name","key":false,"columnNumber":3},
-                                        {"fieldName":"street","key":false,"columnNumber":12}
-                                    ]
-                                }
-                            }*/
-                console.log('skiping preview _$stateParams');  
-                console.log(stateParams); 
-                
+                this.sending= true;   
                 let dataContact={};
 
                 dataContact.listName=stateParams.name;
                 if(dataToSend.listUpdateSettings){
                     dataContact.listUpdateSettings=dataToSend.listUpdateSettings;
                     dataContact.listUpdateSettings.fieldsMapping=dataToSend.fieldsMapping;
-                }else{
+                }else{                
                     dataContact.listDeleteSettings=dataToSend.listDeleteSettings;
                     dataContact.listDeleteSettings.fieldsMapping=dataToSend.fieldsMapping;
                 }
 
                 dataContact.importData={values:_.map(dataToSend.resultMapping.rows,el=>( {'item':_.map(el,elem=>elem)}) )};
-               
-    
+                   
                 console.log('dataContact');
                 console.log(dataContact);
 
-                return _ListService.addContacts(dataContact)
-                    .then(response=>{  
-                        if(response.statusCode === 201){
-                            if(response.data.return.identifier){
-                               _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: true});     
+                if(dataToSend.listUpdateSettings){
+                    return _ListService.addContacts(dataContact)
+                            .then(response=>{  
+                                if(response.statusCode === 201){
+                                    if(response.data.return.identifier){
+                                        this.sending= false;
+                                        _$state.go('ap.al.lists', {name: dataContact.listName, identifier: response.data.return.identifier, isUpdate: true});     
+                                    }
+                                }
+                                else{                                
+                                    let theMsg= response.errorMessage; 
+                                    this.message={ show: true, type: 'danger', text: theMsg, expires: 5000 };
+                                }
+                                return response;
+                            });
+                }else{
+                    return _ListService.deleteContacts(dataContact)
+                        .then(response=>{  
+                            if(response.statusCode === 200){
+                                if(response.data.return.identifier){
+                                    this.sending= false;
+                                    _$state.go('ap.al.lists', {name: dataContact.listName, identifier: response.data.return.identifier, isUpdate: false});     
+                                }
                             }
-                        }
-                        else{
-                            this.SubmitText='Save';
-                            let theMsg= response.errorMessage; 
-                            this.message={ show: true, type: 'danger', text: theMsg, expires: 5000 };
-                        }
-                        return response;
-                });
-
-
-
-
-
+                            else{                             
+                                let theMsg= response.errorMessage; 
+                                this.message={ show: true, type: 'danger', text: theMsg, expires: 5000 };
+                            }
+                            return response;
+                    });
+                }
         }
 
         addMappingItem() {

@@ -8,8 +8,10 @@
 </div>
 
 <abx-message msg="$ctrl.message"></abx-message>
+<abx-load-indicator ng-show="$ctrl.sending" text="Sending"  absolute="false"></abx-load-indicator>
+
 <div ng-if="!$ctrl.canMapping">Sorry you need a file to map</div>
-<div ng-if="$ctrl.canMapping">
+<div ng-if="$ctrl.canMapping && !$ctrl.sending">
         <p>Set mapping from source fields to Contact fields:</p>
         <div class="header-table-mapping">
             <div class="row">
