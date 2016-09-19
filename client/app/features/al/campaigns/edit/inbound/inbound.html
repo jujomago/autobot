@@ -1,114 +1,88 @@
-
-
-
 <h3 class="title_section">Campaign: <span>{{::$ctrl.campaign.name}}</span></h3>
-
-<abx-message msg="$ctrl.message"></abx-message> 
-
-
-
-<abx-load-indicator ng-hide="$ctrl.found"></abx-load-indicator> 
-
-
- 
- <uib-tabset active="active1" justified="false" ng-hide="!$ctrl.found">
-    <uib-tab index="0" heading="Details">   
-
-        <form name="formCampaign" novalidate class="custom_form form-horizontal" ng-submit="formCampaign.$valid && $ctrl.update()">
-            <div class="inputminimal">
-                <label>Description</label>
-                <div>
-                    <input type="text" ng-model="$ctrl.campaign.description" />
-                </div>
-            </div>
-            <div class="inputminimal" ng-class="{ 'has-error': (formCampaign.numberLines.$invalid||formCampaign.campaignIVR.$invalid) && formCampaign.$submitted }">
-                <label >Max Number of Lines</label>
-                <div class="col-xs-2">
-                    <input  type="number" class="form-control" name="numberLines" min="0" ng-model="$ctrl.campaign.maxNumOfLines" required>
-                      
-                </div>
-            </div>
-            <div ng-messages="formCampaign.numberLines.$error" ng-show="formCampaign.$submitted">                  
-                        <p ng-message="required">Max Number is required</p>
-                        <p ng-message="min">Value mus be greater than 0</p>
-                    </div>         
-            <div class="inputminimal">
-
-                <label for="inputMessage" class="control-label col-xs-3">Default IVR Script</label>
-                <div class="col-xs-6">
-                    <h4 ng-hide="$ctrl.ivrScripts.length>0" class="text-center"><span class="label label-success">Loading IVRScripts...</span></h4>
-                    <select ng-show="$ctrl.ivrScripts.length>0"  name="campaignIVR"  class="form-control"  ng-options="o.name for o in $ctrl.ivrScripts track by o.name"
-      ng-model="$ctrl.campaign.ivrscript" required></select>
-                                  
-                </div>
-            </div> 
-             <div ng-messages="formCampaign.campaignIVR.$error" ng-show="formCampaign.$submitted">
-                        <p ng-message="required">This field is required</p>
-                    </div>  
-            <!--div class="form-group"-->          
-
-            <!--/div-->
-            <div class="form-group">              
-                <label class="checkbox">
-                    <input type="checkbox" id="inlineCheckbox2" ng-model="$ctrl.campaign.autoRecord">Auto Record Call for Agents
-                </label>               
-            </div>
-            <div class="form-group text-center">
-         
-                    <button type="submit" class="btn btn-black" ng-disabled="$ctrl.SubmitText=='Saving...'">{{$ctrl.SubmitText}}</button>
-                    <button type="button" class="btn btn-black" ui-sref="ap.al.campaigns">Cancel</button>
-              
-            </div>
-        </form>
-    </uib-tab>
-     <uib-tab index="1" heading="DNI(s)">
-
-        <div class="row  panel-full-height">
-            <div class="col-sm-12 col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <strong>DNI(s) Assigned</strong>
-                    </div>
-                    <table  class="table">
-                        <thead>
-                            <tr>
-                                <th>Number</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody  ng-repeat="dniItemAssigned in $ctrl.dnisAssigned">
-                            <tr>
-                                <td>{{dniItemAssigned}}</td>
-                                <td><button class="btn btn-danger" ng-click="$ctrl.removeDni(dniItemAssigned)">Remove from Campaign</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-6">
-                <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <strong>DNI(s) Available</strong>
-                        </div>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Number</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody ng-repeat="dnisItem in $ctrl.dnisAvailable">
-                                <tr>
-                                    <td>{{dnisItem}}</td>
-                                    <td><button class="btn btn-primary" ng-click="$ctrl.addDnis(dnisItem)">Add to Campaign</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-            </div>
+<abx-message msg="$ctrl.message"></abx-message>
+<abx-load-indicator ng-hide="$ctrl.found"></abx-load-indicator>
+<uib-tabset active="active1" justified="false" ng-hide="!$ctrl.found">
+  <uib-tab index="0" heading="Details">
+    <form name="formCampaign" novalidate class="custom_form form-horizontal" ng-submit="formCampaign.$valid && $ctrl.update()">
+      <div class="inputminimal">
+        <label>Description</label>
+        <input type="text" ng-model="$ctrl.campaign.description" />
+      </div>
+      <div class="inputminimal" ng-class="{ 'has-error': (formCampaign.numberLines.$invalid||formCampaign.campaignIVR.$invalid) && formCampaign.$submitted }">
+          <label >Max Number of Lines</label>
+          <input  type="number" class="form-control" name="numberLines" min="0" ng-model="$ctrl.campaign.maxNumOfLines" required>
+      </div>
+      <div ng-messages="formCampaign.numberLines.$error" ng-show="formCampaign.$submitted">
+          <p ng-message="required">Max Number is required</p>
+          <p ng-message="min">Value mus be greater than 0</p>
+      </div>
+      <div class="inputminimal">
+        <label for="inputMessage" class="control-label">Default IVR Script</label>
+        <h4 ng-hide="$ctrl.ivrScripts.length>0" class="text-center"><span class="label label-success">Loading IVRScripts...</span></h4>
+        <select ng-show="$ctrl.ivrScripts.length>0"
+                    name="campaignIVR"
+                    class="form-control"
+                    ng-options="o.name for o in $ctrl.ivrScripts track by o.name"
+                    ng-model="$ctrl.campaign.ivrscript" required></select>
+      </div>
+      <div ng-messages="formCampaign.campaignIVR.$error" ng-show="formCampaign.$submitted">
+          <p ng-message="required">This field is required</p>
+      </div>
+      <div class="form-group">
+        <label class="checkbox">
+            <input type="checkbox" id="inlineCheckbox2" ng-model="$ctrl.campaign.autoRecord">Auto Record Call for Agents
+        </label>
+      </div>
+      <div class="form-group text-center">
+          <button type="submit" class="btn btn-black" ng-disabled="$ctrl.SubmitText=='Saving...'">{{$ctrl.SubmitText}}</button>
+          <button type="button" class="btn btn-black" ui-sref="ap.al.campaigns">Cancel</button>
         </div>
-      
-     
+      </form>
+    </uib-tab>
+    <uib-tab index="1" heading="DNI(s)">
+      <div class="row  panel-full-height">
+        <div class="col-sm-12 col-md-6">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <strong>DNI(s) Assigned</strong>
+            </div>
+            <table  class="table">
+              <thead>
+                <tr>
+                  <th>Number</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody  ng-repeat="dniItemAssigned in $ctrl.dnisAssigned">
+                <tr>
+                  <td>{{dniItemAssigned}}</td>
+                  <td><button class="btn btn-danger" ng-click="$ctrl.removeDni(dniItemAssigned)">Remove from Campaign</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <strong>DNI(s) Available</strong>
+            </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Number</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody ng-repeat="dnisItem in $ctrl.dnisAvailable">
+                <tr>
+                  <td>{{dnisItem}}</td>
+                  <td><button class="btn btn-primary" ng-click="$ctrl.addDnis(dnisItem)">Add to Campaign</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </uib-tab>
 </uib-tabset>
-

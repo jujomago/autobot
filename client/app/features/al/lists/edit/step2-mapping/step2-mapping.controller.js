@@ -720,6 +720,7 @@
                 }
             }
         }
+
     }
 
     MapFieldsController.$inject = ['$stateParams', 'AlertMessage', '$state', 'ContactFieldsService', 'ListsService','ValidatorService', 'lodash'];

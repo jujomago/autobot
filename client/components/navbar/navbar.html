@@ -12,8 +12,8 @@
     <div uib-collapse="nav.isCollapsed" class="navbar-collapse collapse submenucustomize" id="navbar-main">
       <ul class="nav navbar-nav">
         <li ui-sref-active="active"><a href="/underconstruction">Dashboard</a></li>
-        <li class="dropdown sub-menu-dropdown positionCustomize" ng-mouseenter="nav.myAppsCollapsed = false" ng-mouseleave="nav.myAppsCollapsed = true">
-          <a class="dropdown-toggle" ng-mouseenter="nav.changeFocus()" role="button">My apps</a>
+        <li class="dropdown sub-menu-dropdown positionCustomize" ng-mouseenter="nav.changeFocus(false)" ng-mouseleave="nav.changeFocus(true)">
+          <a class="dropdown-toggle" role="button">My apps</a>
           <ul class="dropdown-menu submenu centerSubmenu" uib-collapse="nav.myAppsCollapsed">
           <div class="col-sm-12">
             <div class="col-sm-7 my-apps" ng-class="{'border-right': nav.total > nav.newApps.length}">
@@ -26,7 +26,7 @@
                   </div>
                   <div class="pull-right">
                     <div class="searchbox_container">
-                      <input class="search" abx-pattern-filter="/^[a-zA-Z0-9\s]*$/" id="submenu-search" type="search" name="search" ng-model="nav.search.app.appFullName" placeholder="Search" ng-change="nav.filteringBySearch()" >
+                      <input class="search" abx-no-special-character="/^[a-zA-Z0-9\s]*$/" id="submenu-search" type="search" name="search" ng-model="nav.search.app.appFullName" placeholder="Search" ng-change="nav.filteringBySearch()" >
                       <span class="glyphicon glyphicon-search"></span>
                     </div>
                   </div>

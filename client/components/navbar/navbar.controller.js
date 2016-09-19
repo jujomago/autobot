@@ -9,6 +9,7 @@ class NavbarController {
     this.isCollapsed = true;
     this.userOptionsCollapsed = true;
     this.myAppsCollapsed = true;
+    this.isFocus=false;
     this.quantity = 4;
     this.search = {app: {appFullName: ''}};
     this.appsLoaded = false;
@@ -85,9 +86,7 @@ class NavbarController {
   }
 
   filteringBySearch(){
-    let regex = angular.element('#submenu-search').attr('abx-pattern-filter');
-    let filter = new RegExp(regex.substr(1, regex.length -2));
-    if(this.search.app.appFullName && filter.test(this.search.app.appFullName)){
+    if(this.search.app.appFullName){
       this.myAppsSearch = _$filter('filter')(this.myAppsFromService, this.search.app.appFullName);
       this.myAppsSearch = this.groupBy(this.myAppsSearch);
       this.total = Object.keys(this.myAppsSearch).length;
@@ -107,10 +106,21 @@ class NavbarController {
     });  
   }
 
-  changeFocus(){
-   angular.element('.search').blur();
-   angular.element('.searchbox_container').focus();
-   return true;
+  changeFocus(isCollapsed){
+    if(isCollapsed===false){
+      this.isFocus = angular.element('input.searchbox').is(':focus');
+      console.log('focus '+angular.element('input.searchbox').is(':focus'));
+    }
+    
+    angular.element('input').blur();
+    this.myAppsCollapsed = isCollapsed;
+
+    /** Bug 1476 when the user place the focus in an input, and perform an over action in the sub menu,the focus should not be lost. */
+    if(isCollapsed&&this.isFocus===true){
+      angular.element('input.searchbox').focus();
+      console.log('focus return');
+    }
+    return isCollapsed;
   }
 
 }
