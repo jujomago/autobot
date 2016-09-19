@@ -39,7 +39,7 @@ let _PartnersService, _GetHomePage;
     }
     subscribe(){
       this.sendingInfo = true;
-      this.partnerInfo.credentials = {username: this.credentials.username};
+      this.partnerInfo.credentials = {username: this.credentials.username, password: this.credentials.password};
       return _PartnersService.partnerAccountSubscription(this.partnerInfo)
       .then(() => {
         return this.login();
