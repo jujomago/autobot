@@ -6,9 +6,7 @@
       <form name="formCampaign" novalidate class="custom_form form-horizontal" ng-submit="formCampaign.$valid && $ctrl.update()">
         <div class="inputminimal" >
           <label>Description</label>
-          <div>
-            <input type="text"  ng-model="$ctrl.campaign.description" />
-          </div>
+          <input type="text"  ng-model="$ctrl.campaign.description" />
         </div>
         <div class="inputminimal" ng-class="{ 'has-error': (formCampaign.QuequeTimeMinutes.$invalid || formCampaign.QuequeTimeSeconds.$invalid) && formCampaign.$submitted }">
           <label>Max Queue Time (mm:ss) (*)</label>

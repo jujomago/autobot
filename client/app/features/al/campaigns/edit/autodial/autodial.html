@@ -7,15 +7,11 @@
     <form name="formCampaign" novalidate class="custom_form form-horizontal" ng-submit="formCampaign.$valid && $ctrl.update()">
       <div class="inputminimal">
         <label>Description</label>
-        <div>
-          <input type="text"  class="form-control" ng-model="$ctrl.campaign.description" />
-        </div>
+        <input type="text"  class="form-control" ng-model="$ctrl.campaign.description" />
       </div>
       <div class="inputminimal" ng-class="{ 'has-error': (formCampaign.numberLines.$invalid||formCampaign.campaignIVR.$invalid) && formCampaign.$submitted }">
         <label >Max Number of Lines</label>
-        <div>
-          <input  type="number" class="form-control" name="numberLines" min="0" ng-model="$ctrl.campaign.maxNumOfLines" required>
-        </div>
+        <input  type="number" class="form-control" name="numberLines" min="0" ng-model="$ctrl.campaign.maxNumOfLines" required>
       </div>
       <div ng-messages="formCampaign.numberLines.$error" ng-show="formCampaign.$submitted">
         <p ng-message="required">Max Number is required</p>
@@ -29,7 +25,7 @@
                 class="form-control"
                 ng-options="o.name for o in $ctrl.ivrScripts track by o.name"
                 ng-model="$ctrl.campaign.ivrscript" required>
-        </select>                                   
+        </select>
       </div>
       <div ng-messages="formCampaign.campaignIVR.$error" ng-show="formCampaign.$submitted">
         <p ng-message="required">This field is required</p>
