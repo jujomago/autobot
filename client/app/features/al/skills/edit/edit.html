@@ -1,4 +1,5 @@
 <h3 class="title_section">Skill: <span>{{::$ctrl.selectedSkill.name}} </span></h3>
+<abx-message msg="$ctrl.message"></abx-message>
 <abx-load-indicator ng-hide="$ctrl.found"> </abx-load-indicator>
 <uib-tabset active="active1" justified="false" ng-hide="!$ctrl.found">
     <uib-tab index="0" heading="Details" select="$ctrl.showSkill()">
