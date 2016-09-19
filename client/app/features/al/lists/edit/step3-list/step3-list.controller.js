@@ -283,8 +283,7 @@ class ListComponent {
     this.sendContact.importData.values = items;
 
     if(_$stateParams.settings.listUpdateSettings){
-      console.log('uploadContacts update');
-
+    
       //UPDATE
       listUpdateSettings = _$stateParams.settings.listUpdateSettings;
       this.sendContact.listUpdateSettings = listUpdateSettings;
@@ -293,10 +292,7 @@ class ListComponent {
       }else{
         this.sendContact.listUpdateSettings.fieldsMapping = _$stateParams.settings.fieldsMapping;
       }
-
-      console.log('this.sendContact');
-      console.log(this.sendContact);
-      
+   
       this.sending= true;
       return _ListService.addContacts(this.sendContact)
           .then(response=>{  

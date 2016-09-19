@@ -4,9 +4,7 @@
     function _csvToJSON(rawFile, delimiter, hasHeaders) {
         console.log(`calling to csvToJson with delimiter ${delimiter} and hasHeaders ${hasHeaders}`);
         let lines = rawFile.trim().split('\n');
-        let result = [];
-
-        console.log(lines);
+        let result = [];      
 
         if (!hasHeaders) {
             result = lines.map(el => {
@@ -101,10 +99,9 @@
                  if(row.number1==='' && row.number2==='' && row.number3===''){
                      resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
                 }       
-            }
-             
+            }     
 
-            // 3 numbers are mapped
+           
             _.each(row,(value,key)=>{                    
                 switch (key) {
                     case 'Balance':
@@ -335,9 +332,6 @@
         setStateParams(stateParams) {
             this.getContactFiels();
 
-            console.log('setStateParams');
-            console.log(stateParams);
-
             if(stateParams.name){
                 this.listName = stateParams.name;
             }
@@ -427,11 +421,8 @@
         matchSmart() {
             console.log('matchSmart');        
             if (this.hasHeader === true) {
-                this.changeDelimiter();         
-                console.log('jsonHeaders');
-                console.log(this.jsonHeaders);    
+                this.changeDelimiter();                      
                
-
                 //BUG:1498 - The fields mapped does not display as selected.
                 angular.forEach(this.contactFields, (el,index) => {
                         if (this.jsonHeaders.indexOf(el.name) >= 0 && el.hasOwnProperty('isKey') &&  el.mappedName===null)  {                        
