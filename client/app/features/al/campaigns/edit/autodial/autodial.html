@@ -74,56 +74,21 @@
             <div class="panel-heading">
               <strong>Lists Available</strong>
             </div>
-            <div class="form-group text-center">
-                    <button type="submit" class="btn btn-black" ng-disabled="$ctrl.SubmitText=='Saving...'">{{$ctrl.SubmitText}}</button>
-                    <button type="button" class="btn btn-black" ui-sref="ap.al.campaigns">Cancel</button>
-            </div>
-        </form>
-    </uib-tab>
-    <uib-tab index="1" heading="Lists">
-      <div class="row  panel-full-height">
-            <div class="col-sm-12 col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <strong>Lists Assigned</strong>
-                    </div>
-                    <table  class="table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Action</th>
-                            </td>
-                        </thead>
-                        <tbody >
-                            <tr  ng-repeat="listItemAssigned in $ctrl.listsAssigned ">
-                                <td>{{listItemAssigned}}</td>
-                                <td><button class="btn btn-danger" ng-click="$ctrl.removeList(listItemAssigned)">Remove from Campaign</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="col col-xs-6">
-                <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <strong>Lists Available</strong>
-                        </div>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody >
-                                <tr ng-repeat="listItem in $ctrl.listsAvailable"  ng-show="listItem.size && $ctrl.listsAssigned.indexOf(listItem.name)<0">
-                                    <td>{{listItem.name}} {{listItem.size}} Record(s))</td>
-                                    <td><button class="btn btn-primary" ng-click="$ctrl.addList(listItem)">Add to Campaign</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-            </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th><th>Action</th>
+                </tr>
+              </thead>
+              <tbody >
+                <tr ng-repeat="listItem in $ctrl.listsAvailable"  ng-show="listItem.size && $ctrl.listsAssigned.indexOf(listItem.name)<0">
+                  <td>{{listItem.name}} {{listItem.size}} Record(s))</td>
+                  <td><button class="btn btn-primary" ng-click="$ctrl.addList(listItem)">Add to Campaign</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
+      </div>
     </uib-tab>
 </uib-tabset>

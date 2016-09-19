@@ -39,51 +39,50 @@
         </div>
       </form>
     </uib-tab>
-     <uib-tab index="1" heading="DNI(s)">
-        <div class="row  panel-full-height">
-            <div class="col-sm-12 col-md-6">
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <strong>DNI(s) Assigned</strong>
-                    </div>
-                    <table  class="table">
-                        <thead>
-                            <tr>
-                                <th>Number</th>
-                                <th>Action</th>
-                            </td>
-                        </thead>
-                        <tbody  ng-repeat="dniItemAssigned in $ctrl.dnisAssigned">
-                            <tr>
-                                <td>{{dniItemAssigned}}</td>
-                                <td><button class="btn btn-danger" ng-click="$ctrl.removeDni(dniItemAssigned)">Remove from Campaign</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+    <uib-tab index="1" heading="DNI(s)">
+      <div class="row  panel-full-height">
+        <div class="col-sm-12 col-md-6">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <strong>DNI(s) Assigned</strong>
             </div>
-            <div class="col col-xs-6">
-                <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <strong>DNI(s) Available</strong>
-                        </div>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Number</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody ng-repeat="dnisItem in $ctrl.dnisAvailable">
-                                <tr>
-                                    <td>{{dnisItem}}</td>
-                                    <td><button class="btn btn-primary" ng-click="$ctrl.addDnis(dnisItem)">Add to Campaign</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-            </div>
+            <table  class="table">
+              <thead>
+                <tr>
+                  <th>Number</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody  ng-repeat="dniItemAssigned in $ctrl.dnisAssigned">
+                <tr>
+                  <td>{{dniItemAssigned}}</td>
+                  <td><button class="btn btn-danger" ng-click="$ctrl.removeDni(dniItemAssigned)">Remove from Campaign</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <strong>DNI(s) Available</strong>
+            </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Number</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody ng-repeat="dnisItem in $ctrl.dnisAvailable">
+                <tr>
+                  <td>{{dnisItem}}</td>
+                  <td><button class="btn btn-primary" ng-click="$ctrl.addDnis(dnisItem)">Add to Campaign</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </uib-tab>
 </uib-tabset>
