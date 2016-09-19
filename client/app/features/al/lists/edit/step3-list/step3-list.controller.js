@@ -275,7 +275,7 @@ class ListComponent {
         });
         return elements;
     });
-// added space
+// added space antoher space
     items = _.map(list, value =>{
       return {item: value};     
     });
