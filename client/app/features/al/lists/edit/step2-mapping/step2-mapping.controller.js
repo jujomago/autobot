@@ -563,7 +563,7 @@
                         };          
                         
                         if (resultValidRowsFields.invalidRows.length === numRecords) {
-                            contentModal.body=`All ${numRecords} record(s) are invalids, try again`;
+                            contentModal.body=`There are no valid records in source file`;
                             contentModal.customFunction=function(){
                                 _$state.go('ap.al.lists');
                             };   
