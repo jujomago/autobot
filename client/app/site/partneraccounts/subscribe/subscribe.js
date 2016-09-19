@@ -3,7 +3,7 @@
 angular.module('fakiyaMainApp')
   .config(function ($stateProvider) {
     $stateProvider
-      .state('partnersubscribe', {
+      .state('ap.partnersubscribe', {
         url: '/:partnerId/:appName/partner/subscribe',
         template: '<accounts.partnersubscribe></accounts.partnersubscribe>'
       });

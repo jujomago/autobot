@@ -43,7 +43,7 @@ class PartnerAcoountsListComponent {
      _$state.go('ap.login', {partnerId: this.credentials.partnerId, appName: this.credentials.appName, username: user});
   }
   goToSubscribeAccount(){
-     _$state.go('partnersubscribe', {partnerId: this.credentials.partnerId, appName: this.credentials.appName});
+     _$state.go('ap.partnersubscribe', {partnerId: this.credentials.partnerId, appName: this.credentials.appName});
   }
 }
 PartnerAcoountsListComponent.$inject=['$location', '$state', '$stateParams', 'PartnersService'];
