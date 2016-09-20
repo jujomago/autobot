@@ -40,7 +40,7 @@ describe('CampaignProfile API Router:', function() {
     });
 
     it('should route to campaignProfile.controller.destroy', function() {
-      expect(routerStub.get
+      expect(routerStub.delete
         .withArgs('/:profileName', 'campaignProfileCtrl.destroy')
         ).to.have.been.calledOnce;
     });

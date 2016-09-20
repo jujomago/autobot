@@ -78,15 +78,12 @@ describe('User API Router:', function() {
   describe('POST /api/f9/users/skills/delete', function() {
 
     it('should route to user.controller.destroySkillUser', function() {
-      routerStub.post
-        .withArgs('/skills/delete', 'userCtrl.destroySkillUser')
-
+      routerStub.delete
+        .withArgs('/:username/skills', 'userCtrl.destroySkillUser')
         .should.have.been.calledOnce;
     });
-
   });
-  
-  
+
     describe('POST /api/f9/users/skills/add', function() {
 
     it('should route to user.controller.addSkillUser', function() {
