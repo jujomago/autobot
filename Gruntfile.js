@@ -851,16 +851,17 @@ module.exports = function (grunt) {
       }
 
     }
-    
-    else if (target === 'unit'){
+
+    else if (target === 'unit') {
       return grunt.task.run([
         'env:all',
         'env:test',
-        'mochaTest:unit'
+        'mochaTest:unit',
+        'karma'
       ]);
     }
-    
-    else if (target === 'integration'){
+
+    else if (target === 'integration') {
       return grunt.task.run([
         'env:all',
         'env:test',
