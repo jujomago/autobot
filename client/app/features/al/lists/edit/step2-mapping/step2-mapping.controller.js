@@ -564,8 +564,8 @@
                             contentModal.body=`There are no valid records in source file`;
                             contentModal.customFunction=function(){
                                 _$state.go('ap.al.lists');
-                            };   
-                            return null;
+                            };        
+                            dataToSend.resultMapping.rows=null;  
                         }else{
                             dataToSend.resultMapping.rows=resultValidRowsFields.validRows;               
                             contentModal.body=`Only ${resultValidRowsFields.validRows.length} of ${numRecords} records have been successfully read from file. ${resultValidRowsFields.validRows.length} valid Record(s) will be added to the list`;     
@@ -585,8 +585,10 @@
                          //BUG:1603 - The list flow does not completed when skipPreview
                         this.uploadContacts(dataToSend,_$stateParams.name);
                     }else{
-                        _AlertMessage(contentModal);                          
-                        _$state.go('ap.al.listsEdit-list', { settings: dataToSend, name: _$stateParams.name });
+                        _AlertMessage(contentModal); 
+                        if (resultValidRowsFields.validRows.length>0){                          
+                            _$state.go('ap.al.listsEdit-list', { settings: dataToSend, name: _$stateParams.name });
+                        }
                     }
        
                     return dataToSend;

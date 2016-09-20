@@ -961,7 +961,7 @@ describe('Component: al.lists.mapping', function () {
       });
 
 
-      it('All records does not have a valid phone number',()=>{      
+      it('all records does not have a valid phone number',()=>{      
 
           let mockCSV = `
           numero1,numero2,fName,lName,Compa,Correo
@@ -992,9 +992,15 @@ describe('Component: al.lists.mapping', function () {
 
 
           let resultFinish=MappingComponent.finishMap();
-          expect(resultFinish).to.equal(null); 
+          let rows=resultFinish.resultMapping.rows;
+          expect(rows).to.equal(null);
+          
+         
 
       });
+
+
+
   });
 
 });
