@@ -194,7 +194,7 @@
     }
     getDetail(item) {
       let typeEdit = item.type.toLowerCase();
-      _state.go('ap.al.campaignsEdit-' + typeEdit, { campaign: item });
+      _state.go('ap.al.campaignsEdit-' + typeEdit, { name: item.name });
     }
     
     filteringBySearch(){

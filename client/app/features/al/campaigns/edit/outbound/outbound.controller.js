@@ -21,10 +21,10 @@ class OutboundComponent {
   }
   
   $onInit(){
-    if(_stateParams.campaign!==null){
+    if(_stateParams.name!==null){
       console.log(_stateParams);
-      let campaignType=_stateParams.campaign.type.toLowerCase();
-      let campaignName=_stateParams.campaign.name;
+      let campaignType= 'outbound';
+      let campaignName=_stateParams.name;
       this.getCampaign(campaignType,campaignName);
       this.getAttachedLists(campaignName);
     }
@@ -142,7 +142,7 @@ class OutboundComponent {
     this.SubmitText='Saving...';
     return _CampaignService.updateOutBoundCampaign(this.campaign)
     .then(response=>{  
-      if(response.statusCode===200 && response.error===null){
+      if(response.statusCode===200 && response.errorMessage===null){
          let messageObj={show:true,type:'success',text:'Campaign "'+this.campaign.name+'" Updated'};
          _state.go('ap.al.campaigns', { message: messageObj });       
       }

@@ -6,7 +6,7 @@ describe('Component: al.campaigns.edit.outbound', function () {
   beforeEach(module('fakiyaMainApp'));
 
   var OutboundComponent, scope, endPointUrl , httpBackend;
-
+  let mockState;
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($componentController, $rootScope, $httpBackend, appConfig) {
     scope = $rootScope.$new();
@@ -14,9 +14,16 @@ describe('Component: al.campaigns.edit.outbound', function () {
     
     if(appConfig.apiUri){
        endPointUrl=appConfig.apiUri+'/f9/campaigns';
-    }          
+    }     
+    mockState = {
+        go: function(state, params){
+          this.state = state;
+          this.params = params;
+        }
+      };     
     OutboundComponent = $componentController('al.campaigns.edit.outbound', {
-      $scope: scope
+      $scope: scope,
+      $state: mockState
     });
     httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
 
@@ -46,10 +53,11 @@ describe('Component: al.campaigns.edit.outbound', function () {
             .respond(200,'null');
 
              OutboundComponent.update()
-            .then(response => {
-                 expect(response.statusCode).to.equal(200);
-                 expect(response.data).to.equal(null);
-                 expect(response.errorMessage).to.equal(null);
+            .then(() => {
+                 expect(mockState.state).to.equal('ap.al.campaigns');
+                 expect(mockState.params.message.show).to.equal(true);
+                 expect(mockState.params.message.type).to.equal('success');
+                 expect(mockState.params.message.text).to.equal('Campaign "Test" Updated');
              });
 
              httpBackend.flush();
