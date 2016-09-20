@@ -3,18 +3,18 @@
 <div class="subtitle_section">
     <h3 class="pull-left">List update</h3>
     <div class="pull-right">
-        <button class="btn btn-black btn-sm rigth-space-sm" ui-sref="underconstruction">Back</button>
-        <button class="btn btn-black btn-sm" ui-sref="ap.al.lists">Cancel</button>
+           <button class="btn btn-black btn-sm" ui-sref="ap.al.lists">Cancel</button>
     </div>
 </div>
 
 <abx-message msg="$ctrl.message"></abx-message>
+<abx-load-indicator ng-show="$ctrl.sending" text="Sending"  absolute="false"></abx-load-indicator>
+
 <div ng-if="!$ctrl.canMapping">Sorry you need a file to map</div>
-<div ng-if="$ctrl.canMapping">    
+<div ng-if="$ctrl.canMapping && !$ctrl.sending">
         <p>Set mapping from source fields to Contact fields:</p>
         <div class="header-table-mapping">
-
-            <div class="row">                  
+            <div class="row">
                     <div class="separator">
                         <span>Delimiter </span>
                         <select name="del" ng-model="$ctrl.selectedDelimiter" ng-change="$ctrl.changeDelimiter()" ng-options="delimiter.title for delimiter in $ctrl.delimiters"></select>
@@ -35,8 +35,7 @@
                       <span>Contact Field</span>
                       <select id="contactSelect" ng-model="$ctrl.contactFieldSelectedName" ng-options="str.name for str in $ctrl.contactFieldsNames"></select>
                     </div>
-                    <button class="btn btn-primary" ng-click="$ctrl.addMappingItem()">Add mapping item</button>                                    
-
+                    <button class="btn btn-primary" ng-click="$ctrl.addMappingItem()">Add mapping item</button>
             </div>
         </div>
         <abx-load-indicator ng-show="$ctrl.contactFields.length==0 && $ctrl.loadingContacts==true" text="Loading Contacts Fields" absolute="false"></abx-load-indicator>
@@ -55,7 +54,7 @@
                 </th>
             </thead>
             <tbody>
-                <tr ng-repeat="field in $ctrl.contactFields track by $index" ng-class="{'selectedRowMapped':$ctrl.seletedRowsMapped.indexOf($index)>=0}">
+                <tr ng-repeat="field in $ctrl.contactFields track by $index" ng-class="{'selected':$ctrl.seletedRowsMapped.indexOf($index)>=0}">
                     <td>
                         <select class="cell-select" ng-class="{'withArrow':field.mappedName===null}" ng-if="$ctrl.hasHeader" ng-model="field.mappedName" ng-options="o for o in $ctrl.jsonHeaders">
                             <option value=""></option>
@@ -73,6 +72,6 @@
             </tbody>
         </table>
         <div style="margin-bottom: 36px" class="text-center">
-            <button class="btn btn-black" ng-click="$ctrl.finishMap()" ng-disabled="$ctrl.contactFields.length<=0" ng-show="$ctrl.contactFields.length>0">Import</button>
+            <button class="btn btn-black" ng-click="$ctrl.finishMap()" ng-disabled="$ctrl.contactFields.length<=0"  ng-show="$ctrl.contactFields.length>0">Import</button>
         </div>
 </div>

@@ -4,7 +4,7 @@
     function _csvToJSON(rawFile, delimiter, hasHeaders) {
         console.log(`calling to csvToJson with delimiter ${delimiter} and hasHeaders ${hasHeaders}`);
         let lines = rawFile.trim().split('\n');
-        let result = [];
+        let result = [];      
 
         if (!hasHeaders) {
             result = lines.map(el => {
@@ -13,6 +13,10 @@
             });
         } else {
             var headers = lines[0].split(delimiter);        
+          /*  if(headers.length===1){
+                console.log('cant map with that deliminter');
+                return headers;
+            }*/
 
             for (var i = 1; i < lines.length; i++) {
                 var obj = {};
@@ -26,9 +30,9 @@
                     }    
                 }
                 result.push(obj);                             
-            }          
-        }
-        return result;
+            }        
+        } 
+        return result;      
     }
 
     function _aplyDemiliterCSV(rawCSV,delimiter,hasHeader) {       
@@ -43,9 +47,18 @@
         }       
     }
 
+    //BUG:1465 - The Contact uploads report does not accept valid numbers of the csv file.     
+    function _validateSingleRow(singleRow,validator,lodash){
+      
+        let row=singleRow;
+        let _ = lodash;
 
-    function _validateRowsFiels(lodash,rowsFields,validator){
-         let _ = lodash;
+
+        let resultValidSingleRow=[];
+        let resultValidation;
+
+        let allFieldsEmpty=_.every(singleRow,e=>(e===''));
+                
         function _fillResultsBools(key,value,result){
             if(!result){
                 let errorReason=`Field "${key}" has a invalid value "${value}"`; 
@@ -54,62 +67,82 @@
                 return {result:true};
             }  
         }
-               
-        function _validSingleRow(singleRow){
-            let resultValidSingleRow=[];
-            let resultValidation;
 
-            if(
-                (!singleRow.hasOwnProperty('number1') &&
-                !singleRow.hasOwnProperty('number2') &&
-                !singleRow.hasOwnProperty('number3'))||
-                (singleRow.number1==='' &&
-                 singleRow.number2==='' &&
-                 singleRow.number3==='')
-            ){
-                resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
-            }else{               
-
-                _.each(singleRow,(value,key)=>{                    
-                        switch (key) {
-                            case 'Balance':
-                                resultValidation=validator.balance(value);
-                                resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));                              
-                                break;  
-                            case 'number1':
-                                resultValidation=validator.phone(value);
-                                resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));
-                                                   
-                                break;
-                            case 'number2':
-                                resultValidation=validator.phone(value);
-                                resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));
-                                
-                                break;
-                            case 'number3':
-                                resultValidation=validator.phone(value);
-                                resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));
-                                
-                                break;
-                            case 'email':
-                                resultValidation=validator.email(value);
-                                resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));
-                                
-                                break;           
-                        }             
-                    });
+        if(allFieldsEmpty){
+            resultValidSingleRow.push({errorReason:'Record is empty.',result:false});
+        }else if(!row.hasOwnProperty('number1') &&  !row.hasOwnProperty('number2') && !row.hasOwnProperty('number3')){
+            resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
+        }else{               
+            if( 
+               ( (row.hasOwnProperty('number1') && row.number1==='') && !row.hasOwnProperty('number2') && !row.hasOwnProperty('number3') ) ||
+               ( (row.hasOwnProperty('number2') && row.number2==='') && !row.hasOwnProperty('number1') && !row.hasOwnProperty('number3') ) ||
+               ( (row.hasOwnProperty('number3') && row.number3==='') && !row.hasOwnProperty('number1') && !row.hasOwnProperty('number2') )
+              ){
+                     resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
+            }           
+            if(row.hasOwnProperty('number1') &&  row.hasOwnProperty('number2') && !row.hasOwnProperty('number3')){
+                if(row.number1==='' && row.number2===''){
+                     resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
+                }                
             }
+            if(row.hasOwnProperty('number1') &&  row.hasOwnProperty('number3') && !row.hasOwnProperty('number2')){
+                 if(row.number1==='' && row.number3===''){
+                     resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
+                }                      
+            }
+            if(row.hasOwnProperty('number2') &&  row.hasOwnProperty('number3') && !row.hasOwnProperty('number1')){
+                 if(row.number2==='' && row.number3===''){
+                     resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
+                }       
+            }
+            if(row.hasOwnProperty('number1') &&  row.hasOwnProperty('number2') && row.hasOwnProperty('number3')){
+                 if(row.number1==='' && row.number2==='' && row.number3===''){
+                     resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
+                }       
+            }     
 
-            return resultValidSingleRow;           
-        }
+           
+            _.each(row,(value,key)=>{                    
+                switch (key) {
+                    case 'Balance':
+                        resultValidation=validator.balance(value);
+                        resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));                              
+                        break;  
+                    case 'number1':
+                        resultValidation=validator.phone(value);
+                        resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));
+                                            
+                        break;
+                    case 'number2':
+                        resultValidation=validator.phone(value);
+                        resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));
+                        
+                        break;
+                    case 'number3':
+                        resultValidation=validator.phone(value);
+                        resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));
+                        
+                        break;
+                    case 'email':
+                        resultValidation=validator.email(value);
+                        resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));
+                        
+                        break;           
+                }             
+            });                        
+        }       
+        return resultValidSingleRow;           
+    }
 
+
+    function _validateRowsFiels(lodash,rowsFields,validator){      
+        let _ = lodash;
         let validRows=[];
         let invalidRows=[];
-        _.each(rowsFields,(el,i)=>{
 
-            let rowFieldObject=el;
-            let resultValidation=_validSingleRow(rowFieldObject);
-
+        _.each(rowsFields,(rowFieldObject,i)=>{
+            let resultValidation=_validateSingleRow(rowFieldObject,validator,_);
+      
             if(resultValidation.map(e=>e.result).indexOf(false)===-1){
                 validRows.push(rowFieldObject);
             }else{
@@ -178,12 +211,17 @@
 
 
         let _cleanNotNumbers = function (val) {
-            let firstChar=val.substr(0,1).replace(/[^\d\+]/g,'');
-            let cleaned=firstChar+val.substr(1,val.length).replace(/[^\d]/g, '');
-            return cleaned;
+            if(val){
+               let firstChar=val.substr(0,1).replace(/[^\d\+]/g,'');
+               let cleaned=firstChar+val.substr(1,val.length).replace(/[^\d]/g, '');
+               return cleaned;
+            }
+            return '';
+            
         };
 
-        let _jsonRecordsToFieldsRecords = function (jrecord) {            
+        let _jsonRecordsToFieldsRecords = function (jrecord) {  
+         
             let fr = {};           
             _.each(mappedFiedlsUniq, el => {
                
@@ -251,16 +289,17 @@
     }
 
     let _$stateParams, _$state;
-    let _AlertMessage,_ContactFieldsService, _;
+    let _AlertMessage,_ContactFieldsService, _ListService, _;
 
     class MapFieldsController {
 
-        constructor($stateParams, AlertMessage, $state, ContactFieldsService, ValidatorService, lodash) {
+        constructor($stateParams, $state, lodash, ContactFieldsService, ListsService, ValidatorService, AlertMessage) {
             _ = lodash;
             _$stateParams = $stateParams;
             _AlertMessage = AlertMessage;
             _$state = $state;
-            _ContactFieldsService = ContactFieldsService;       
+            _ContactFieldsService = ContactFieldsService;
+            _ListService = ListsService;       
             this.ValidatorService=ValidatorService;     
             this.hasHeader = true;
             this.delimiters = [
@@ -282,6 +321,7 @@
             this.jsonCSV = [];
             this.jsonHeaders = [];
             this.seletedRowsMapped=[];
+            this.sending = false;
 
         }
 
@@ -291,6 +331,7 @@
 
         setStateParams(stateParams) {
             this.getContactFiels();
+
             if(stateParams.name){
                 this.listName = stateParams.name;
             }
@@ -302,6 +343,7 @@
                     this.rawCSV = stateParams.settings.csvData;
                     this.jsonCSV = _aplyDemiliterCSV(this.rawCSV, 
                     this.customDelimiterDefaultSymbol, this.hasHeader);
+
                     if (this.hasHeader) {
                         this.jsonHeaders = Object.keys(this.jsonCSV[0]);
                     } else {
@@ -358,36 +400,61 @@
             this.changeDelimiter();
 
         } 
-        changeDelimiter() {
+        changeDelimiter() {            
+            this.clearMapping();
+
+               console.log('enter here 1');
+                console.log(this.selectedDelimiter);
+
             this.customDelimiterEnabled = (this.selectedDelimiter.title === 'Custom');
             if (this.customDelimiterEnabled) {
-                this.jsonCSV=_aplyDemiliterCSV(this.rawCSV,this.customDelimiterDefaultSymbol,this.hasHeader);
+                this.jsonCSV=_aplyDemiliterCSV(this.rawCSV,this.customDelimiterDefaultSymbol,this.hasHeader);    
             } else {
+                console.log('enter here');
+                console.log(this.selectedDelimiter);
                 this.jsonCSV=_aplyDemiliterCSV(this.rawCSV,this.selectedDelimiter.symbol,this.hasHeader);
             }
+
+            if(this.jsonCSV.length===1){                
+                this.jsonHeaders=this.jsonCSV;
+            }else{
+                this.jsonHeaders=Object.keys(this.jsonCSV[0]);
+            }   
+            console.log(`posibleHeaders:  ${this.jsonHeaders} `);
+
         }
 
         matchSmart() {
+            console.log('matchSmart');        
             if (this.hasHeader === true) {
-                this.changeDelimiter();
-
-                let posibleHeaders = Object.keys(this.jsonCSV[0]);
-                console.log(`posibleHeaders:  ${posibleHeaders} `);
-
+                this.changeDelimiter();                      
+               
+                //BUG:1498 - The fields mapped does not display as selected.
                 angular.forEach(this.contactFields, (el,index) => {
-                    if (posibleHeaders.indexOf(el.name) >= 0 && el.hasOwnProperty('isKey') && el.mappedName===null)  {                        
-                        el.mappedName = el.name;
-                        this.seletedRowsMapped.push(index);
-                    }
+                        if (this.jsonHeaders.indexOf(el.name) >= 0 && 
+                            el.hasOwnProperty('isKey') &&  
+                            el.mappedName===null)  {                        
+                            el.mappedName = el.name;
+                            this.seletedRowsMapped.push(index);
+                        }
                 });
 
-                let contentModal={
-                      title:'Message',
-                      body:`${this.seletedRowsMapped.length} item(s) have(s) been successfully mapped.\n
-                      All affected items have been selected`
-                };
-                 _AlertMessage(contentModal);     
-                return this.contactFields;
+                //BUG:1604 - The message for mapped fields does not behave as the java app.
+                let mappedFiedls = _getMappedFiels(this.hasHeader, this.contactFields, 'nouniq', _);
+                if(mappedFiedls.length===0){                    
+                        _AlertMessage({
+                        title:'Message',
+                        body:'Unfortunately, nothing can be mapped automatically'
+                    });  
+                    return mappedFiedls;
+                }else{
+                    _AlertMessage({
+                        title:'Message',
+                        body:`${this.seletedRowsMapped.length} item(s) have(s) been successfully mapped.\n
+                        All affected items have been selected`
+                        });     
+                    return this.contactFields;
+                }              
 
             } else {               
                 console.log('the feature smart match is just for header enabled');
@@ -442,7 +509,7 @@
         }
 
         finishMap() {
-
+            
             let fieldsKeys = _.filter(this.contactFields, { 'isKey': true });
             let checkSelectedKeys = _checkSelectedFieldKeys(this.hasHeader, this.contactFields, _);
 
@@ -458,7 +525,7 @@
                     let keyNames = _.chain(this.contactFields)
                         .filter({ isKey: true })
                         .map('name').value();
-                    _getRowsFields(this.hasHeader, this.contactFields, this.jsonCSV, _);
+                   
                     let dataToSend = {
                         resultMapping: {
                             keys: keyNames,
@@ -473,21 +540,19 @@
                         dataToSend.listUpdateSettings = _$stateParams.settings.listUpdateSettings;
                     }
 
-                   let rowsFields=_getRowsFields(this.hasHeader, this.contactFields, this.jsonCSV, _);
-                   console.log('rows Fields');
-                   console.log(rowsFields);
+                     let rowsFields=_getRowsFields(this.hasHeader, this.contactFields, this.jsonCSV, _);                
 
-                   let resultValidRowsFields=_validateRowsFiels(_,rowsFields,this.ValidatorService);                  
+                     let resultValidRowsFields=_validateRowsFiels(_,rowsFields,this.ValidatorService);                  
                         
-                    let contentModal={
-                      title:'Summary'
-                    };
-                    let numRecords=rowsFields.length;
+                     let contentModal={
+                         title:'Summary'
+                     };
+                     let numRecords=rowsFields.length;
                   
-                  if(resultValidRowsFields.invalidRows.length===0){
-                       dataToSend.resultMapping.rows=resultValidRowsFields.validRows; 
-                      contentModal.body=`All ${numRecords} record(s) have been successfully read from file. Records will be added to the list`;
-                  }else{
+                     if(resultValidRowsFields.invalidRows.length===0){
+                        dataToSend.resultMapping.rows=resultValidRowsFields.validRows; 
+                        contentModal.body=`All ${numRecords} record(s) have been successfully read from file. Records will be added to the list`;
+                     } else {
                         contentModal.textCloseBtn='Close';
                         contentModal.listDetail={
                                 headerList:'Invalid records',
@@ -496,10 +561,11 @@
                         };          
                         
                         if (resultValidRowsFields.invalidRows.length === numRecords) {
-                            contentModal.body=`All ${numRecords} record(s) are invalids, try again`;
+                            contentModal.body=`There are no valid records in source file`;
                             contentModal.customFunction=function(){
                                 _$state.go('ap.al.lists');
-                            };   
+                            };        
+                            dataToSend.resultMapping.rows=null;  
                         }else{
                             dataToSend.resultMapping.rows=resultValidRowsFields.validRows;               
                             contentModal.body=`Only ${resultValidRowsFields.validRows.length} of ${numRecords} records have been successfully read from file. ${resultValidRowsFields.validRows.length} valid Record(s) will be added to the list`;     
@@ -507,19 +573,24 @@
                    
                         for (var r = 0; r < resultValidRowsFields.invalidRows.length; r++) {
                             let lineError=resultValidRowsFields.invalidRows[r].lineError;
-                            let joinedErrors=resultValidRowsFields.invalidRows[r].errors.join(' ; ');
-                            
+                            let joinedErrors=resultValidRowsFields.invalidRows[r].errors.join(' ; ');                            
                             contentModal.listDetail.rows.push({'line':lineError,'errors':joinedErrors});
-                        }
-                    
+                        }                    
                     }
-                    _AlertMessage(contentModal);       
 
-                    // this data goes to table (next step)
                     console.log('=== DATA FOR NEXT STEPP===');
-                    console.log(dataToSend);
-
-                   _$state.go('ap.al.listsEdit-list', { settings: dataToSend, name: _$stateParams.name });
+                    console.log(dataToSend);                   
+                                       
+                    if(_$stateParams.settings.skipPreview===true){
+                         //BUG:1603 - The list flow does not completed when skipPreview
+                        this.uploadContacts(dataToSend,_$stateParams.name);
+                    }else{
+                        _AlertMessage(contentModal); 
+                        if (resultValidRowsFields.validRows.length>0){                          
+                            _$state.go('ap.al.listsEdit-list', { settings: dataToSend, name: _$stateParams.name });
+                        }
+                    }
+       
                     return dataToSend;
                 } else {
                     let keyNamesNotMapped = _.map(checkSelectedKeys, 'name');
@@ -532,20 +603,62 @@
                     noneMapped = _.reject(this.contactFields, { 'mappedName': null });
                 } else {
                     noneMapped = _.reject(this.contactFields, { 'mappedIndex': 0 });
-                }
-
-                if (noneMapped.length !== 0) {
-                    this.message.text = 'At least one field must be marked as key';
-                } else {
-                    this.message.text = 'At least one source fields should be mapped to Contact Field';
-                }
-
-                this.message.show = true;
-                this.message.type = 'warning';
-                this.message.expires = 8000;
-
+                }                
+                let message =(noneMapped.length !== 0)?'At least one field must be marked as key':'At least one source fields should be mapped to Contact Field';
+                this.message = { show: true, type: 'warning', text:message, expires: 8000 };
                 return null;
             }
+        }
+        //BUG:1603-The list flow does not completed when skipPreview
+        uploadContacts(dataToSend,listName){
+                this.sending= true;   
+                let dataContact={};
+
+                dataContact.listName=listName;
+                if(dataToSend.listUpdateSettings){
+                    dataContact.listUpdateSettings=dataToSend.listUpdateSettings;
+                    dataContact.listUpdateSettings.fieldsMapping=dataToSend.fieldsMapping;
+                }else{                
+                    dataContact.listDeleteSettings=dataToSend.listDeleteSettings;
+                    dataContact.listDeleteSettings.fieldsMapping=dataToSend.fieldsMapping;
+                }
+
+                dataContact.importData={values:_.map(dataToSend.resultMapping.rows,el=>( {'item':_.map(el,elem=>elem)}) )};
+                   
+                console.log('dataContact');
+                console.log(dataContact);
+
+                if(dataToSend.listUpdateSettings){
+                    return _ListService.addContacts(dataContact)
+                            .then(response=>{  
+                                if(response.statusCode === 201){
+                                    if(response.data.return.identifier){
+                                        this.sending= false;
+                                        _$state.go('ap.al.lists', {name: dataContact.listName, identifier: response.data.return.identifier, isUpdate: true});     
+                                    }
+                                }
+                                else{                                
+                                    let theMsg= response.errorMessage; 
+                                    this.message={ show: true, type: 'danger', text: theMsg, expires: 5000 };
+                                }
+                                return response;
+                            });
+                }else{
+                    return _ListService.deleteContacts(dataContact)
+                        .then(response=>{  
+                            if(response.statusCode === 200){
+                                if(response.data.return.identifier){
+                                    this.sending= false;
+                                 //   _$state.go('ap.al.lists', {name: dataContact.listName, identifier: response.data.return.identifier, isUpdate: false});     
+                                }
+                            }
+                            else{                             
+                                let theMsg= response.errorMessage; 
+                                this.message={ show: true, type: 'danger', text: theMsg, expires: 5000 };
+                            }
+                            return response;
+                    });
+                }
         }
 
         addMappingItem() {
@@ -595,9 +708,10 @@
                 }
             }
         }
+
     }
 
-    MapFieldsController.$inject = ['$stateParams', 'AlertMessage', '$state', 'ContactFieldsService','ValidatorService', 'lodash'];
+    MapFieldsController.$inject = ['$stateParams', '$state', 'lodash', 'ContactFieldsService', 'ListsService', 'ValidatorService', 'AlertMessage'];
 
     angular.module('fakiyaMainApp')
         .component('al.lists.mapping', {
