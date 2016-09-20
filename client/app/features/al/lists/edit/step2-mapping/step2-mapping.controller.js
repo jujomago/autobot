@@ -540,19 +540,19 @@
                         dataToSend.listUpdateSettings = _$stateParams.settings.listUpdateSettings;
                     }
 
-                   let rowsFields=_getRowsFields(this.hasHeader, this.contactFields, this.jsonCSV, _);                
+                     let rowsFields=_getRowsFields(this.hasHeader, this.contactFields, this.jsonCSV, _);                
 
-                   let resultValidRowsFields=_validateRowsFiels(_,rowsFields,this.ValidatorService);                  
+                     let resultValidRowsFields=_validateRowsFiels(_,rowsFields,this.ValidatorService);                  
                         
-                    let contentModal={
-                      title:'Summary'
-                    };
-                    let numRecords=rowsFields.length;
+                     let contentModal={
+                         title:'Summary'
+                     };
+                     let numRecords=rowsFields.length;
                   
-                  if(resultValidRowsFields.invalidRows.length===0){
-                       dataToSend.resultMapping.rows=resultValidRowsFields.validRows; 
-                      contentModal.body=`All ${numRecords} record(s) have been successfully read from file. Records will be added to the list`;
-                  }else{
+                     if(resultValidRowsFields.invalidRows.length===0){
+                        dataToSend.resultMapping.rows=resultValidRowsFields.validRows; 
+                        contentModal.body=`All ${numRecords} record(s) have been successfully read from file. Records will be added to the list`;
+                     } else {
                         contentModal.textCloseBtn='Close';
                         contentModal.listDetail={
                                 headerList:'Invalid records',
@@ -565,6 +565,7 @@
                             contentModal.customFunction=function(){
                                 _$state.go('ap.al.lists');
                             };   
+                            return null;
                         }else{
                             dataToSend.resultMapping.rows=resultValidRowsFields.validRows;               
                             contentModal.body=`Only ${resultValidRowsFields.validRows.length} of ${numRecords} records have been successfully read from file. ${resultValidRowsFields.validRows.length} valid Record(s) will be added to the list`;     
@@ -574,14 +575,12 @@
                             let lineError=resultValidRowsFields.invalidRows[r].lineError;
                             let joinedErrors=resultValidRowsFields.invalidRows[r].errors.join(' ; ');                            
                             contentModal.listDetail.rows.push({'line':lineError,'errors':joinedErrors});
-                        }
-                    
+                        }                    
                     }
 
                     console.log('=== DATA FOR NEXT STEPP===');
                     console.log(dataToSend);                   
-                    
-                   
+                                       
                     if(_$stateParams.settings.skipPreview===true){
                          //BUG:1603 - The list flow does not completed when skipPreview
                         this.uploadContacts(dataToSend,_$stateParams.name);
