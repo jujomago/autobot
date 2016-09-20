@@ -378,9 +378,39 @@ describe('Component: al.lists.mapping', function () {
 
     });
 
+    it('matchSmart when nothing none field can be mapped automatically', () => {
 
-  });
-  */
+     let mockCSV = `
+      numero1,numero2,fName,lName,Compa,Correo
+      7777777777,+233552234,Josue,Mancilla, Sinapsysit,josue@gmail.com
+      3333333333,53,Boris,Bachas,ninguna,boris@gmail.com         
+    `;
+      MappingComponent.setStateParams({
+        name:'testListName',
+        settings:{ 
+              csvData: mockCSV, 
+              listDeleteSettings:mockDeleteSettigs 
+        }      
+      });      
+      MappingComponent.hasHeader=true;
+
+      expect(MappingComponent.hasHeader).to.equal(true);
+
+      MappingComponent.contactFields = [
+        {'name': 'number1' ,mappedName:null, isKey:false},      
+        {'name': 'number2' ,mappedName:null , isKey:true },      
+        {'name': 'number3',mappedName:null , isKey:true  },
+        {'name': 'first_name',mappedName:null , isKey:false },      
+        {'name': 'last_name' ,mappedName:null, isKey:true },
+        {'name': 'company' ,mappedName:null ,isKey:false }
+      ];
+
+      let matchedFiedls=MappingComponent.matchSmart();
+      expect(matchedFiedls).to.have.lengthOf(0);
+
+    });
+  });  
+*/
  // TODO: Solve problem with lodash(_.filter)
 /*describe('#nextStep', () => {
 

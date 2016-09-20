@@ -431,7 +431,9 @@
                
                 //BUG:1498 - The fields mapped does not display as selected.
                 angular.forEach(this.contactFields, (el,index) => {
-                        if (this.jsonHeaders.indexOf(el.name) >= 0 && el.hasOwnProperty('isKey') &&  el.mappedName===null)  {                        
+                        if (this.jsonHeaders.indexOf(el.name) >= 0 && 
+                            el.hasOwnProperty('isKey') &&  
+                            el.mappedName===null)  {                        
                             el.mappedName = el.name;
                             this.seletedRowsMapped.push(index);
                         }
@@ -444,7 +446,7 @@
                         title:'Message',
                         body:'Unfortunately, nothing can be mapped automatically'
                     });  
-                    return null;
+                    return mappedFiedls;
                 }else{
                     _AlertMessage({
                         title:'Message',
@@ -538,8 +540,7 @@
                         dataToSend.listUpdateSettings = _$stateParams.settings.listUpdateSettings;
                     }
 
-                   let rowsFields=_getRowsFields(this.hasHeader, this.contactFields, this.jsonCSV, _);
-                
+                   let rowsFields=_getRowsFields(this.hasHeader, this.contactFields, this.jsonCSV, _);                
 
                    let resultValidRowsFields=_validateRowsFiels(_,rowsFields,this.ValidatorService);                  
                         
@@ -571,16 +572,14 @@
                    
                         for (var r = 0; r < resultValidRowsFields.invalidRows.length; r++) {
                             let lineError=resultValidRowsFields.invalidRows[r].lineError;
-                            let joinedErrors=resultValidRowsFields.invalidRows[r].errors.join(' ; ');
-                            
+                            let joinedErrors=resultValidRowsFields.invalidRows[r].errors.join(' ; ');                            
                             contentModal.listDetail.rows.push({'line':lineError,'errors':joinedErrors});
                         }
                     
                     }
 
                     console.log('=== DATA FOR NEXT STEPP===');
-                    console.log(dataToSend);
-                    
+                    console.log(dataToSend);                   
                     
                    
                     if(_$stateParams.settings.skipPreview===true){
@@ -603,18 +602,9 @@
                     noneMapped = _.reject(this.contactFields, { 'mappedName': null });
                 } else {
                     noneMapped = _.reject(this.contactFields, { 'mappedIndex': 0 });
-                }
-
-                if (noneMapped.length !== 0) {
-                    this.message.text = 'At least one field must be marked as key';
-                } else {
-                    this.message.text = 'At least one source fields should be mapped to Contact Field';
-                }
-
-                this.message.show = true;
-                this.message.type = 'warning';
-                this.message.expires = 8000;
-
+                }                
+                let message =(noneMapped.length !== 0)?'At least one field must be marked as key':'At least one source fields should be mapped to Contact Field';
+                this.message = { show: true, type: 'warning', text:message, expires: 8000 };
                 return null;
             }
         }
