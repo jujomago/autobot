@@ -639,7 +639,7 @@ describe('Component: al.lists.mapping', function () {
       ];     
       expect(MappingComponent.finishMap()).to.equal(null);
       expect(this.message.show).to.equal(true);
-      expect(this.message.text).to.equal('Contact Fields 'number2 ,  first_name' are marked as keys but has no mapped source field/index');
+      expect(this.message.text).to.equal('Contact Fields "number2 ,  first_name" are marked as keys but has no mapped source field/index');
       expect(this.message.expires).to.equal(8000);
    });
 
@@ -658,7 +658,7 @@ describe('Component: al.lists.mapping', function () {
       ];     
       expect(MappingComponent.finishMap()).to.equal(null);
       expect(this.message.show).to.equal(true);
-      expect(this.message.text).to.equal('Contact Fields 'number2 ,  company' are marked as keys but has no mapped source field/index');
+      expect(this.message.text).to.equal('Contact Fields "number2 ,  company" are marked as keys but has no mapped source field/index');
       expect(this.message.expires).to.equal(8000);
   });
 
@@ -675,7 +675,7 @@ describe('Component: al.lists.mapping', function () {
       ];     
       expect(MappingComponent.finishMap()).to.equal(null);
       expect(this.message.show).to.equal(true);
-      expect(this.message.text).to.equal('Contact Fields 'number2 ,  last_name' are marked as keys but has no mapped source field/index');
+      expect(this.message.text).to.equal('Contact Fields "number2 ,  last_name" are marked as keys but has no mapped source field/index');
       expect(this.message.expires).to.equal(8000);
   });
 
