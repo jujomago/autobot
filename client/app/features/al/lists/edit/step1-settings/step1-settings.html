@@ -26,41 +26,63 @@
 			<div class="well settings-well" ng-show="$ctrl.deleteSelected">
 				<h4>Actions for list update:</h4>
 	           	<div>
-       				<input type="radio" ng-model="$ctrl.listDeleteSettings.listDeleteMode" value='DELETE_ALL'> Remove all matching records from list
+	           		<label>
+       					<input type="radio" ng-model="$ctrl.listDeleteSettings.listDeleteMode" value='DELETE_ALL'> Remove all matching records from list
+       				</label>
 	            </div>
 	            <div>
+	            	<label>
       				 <input type="radio" ng-model="$ctrl.listDeleteSettings.listDeleteMode" value='DELETE_EXCEPT_FIRST'> Remove all matching list records and add first (oldest) matching Contact Record to list
+	            	</label>
 	            </div>
 			</div>
 			<div class="well settings-well" ng-show="$ctrl.updateSelected">
 				<h4>Action for list update:</h4>
 	           	<div class="sub-option">
-       				<input type="radio" ng-model="$ctrl.listUpdateSettings.listAddMode" value='ADD_FIRST'> Add first (oldest) matching Contact Record to the list
+	           		<label>
+       					<input type="radio" ng-model="$ctrl.listUpdateSettings.listAddMode" value='ADD_FIRST'> Add first (oldest) matching Contact Record to the list
+       				</label>
 	            </div>
 	            <div class="sub-option">
-      				 <input type="radio" ng-model="$ctrl.listUpdateSettings.listAddMode" value='ADD_ALL'> Add all matching Contact Records (in case of multiple records) to the list
+	            	<label>
+      				 	<input type="radio" ng-model="$ctrl.listUpdateSettings.listAddMode" value='ADD_ALL'> Add all matching Contact Records (in case of multiple records) to the list
+      				</label>
 	            </div>
 	            <div class="sub-option">
-      				 <input type="radio" ng-model="$ctrl.listUpdateSettings.listAddMode" value='ADD_IF_SOLE_CRM_MATCH'> Skip list record if multiple matches are found in Contact
+	            	<label>
+      				 	<input type="radio" ng-model="$ctrl.listUpdateSettings.listAddMode" value='ADD_IF_SOLE_CRM_MATCH'> Skip list record if multiple matches are found in Contact
+      				</label>
 	            </div>
 	            <div>
-      				 <input type="checkbox" ng-model="$ctrl.listUpdateSettings.cleanListBeforeUpdate"> Delete all list records before update. Warning: some reporting data will be lost
+	            	<label>
+      				 	<input type="checkbox" ng-model="$ctrl.listUpdateSettings.cleanListBeforeUpdate"> Delete all list records before update. Warning: some reporting data will be lost
+      				</label>
 	            </div>
 	            <h4>Actions for Contact update</h4>
 	            <div>
-      				 <input type="checkbox" ng-model="$ctrl.listUpdateSettings.crmAddMode" ng-false-value="'DONT_ADD'"  ng-true-value="'ADD_NEW'"> Add new Record if matching key is not found in Contacts
+	            	<label>
+      				 	<input type="checkbox" ng-model="$ctrl.listUpdateSettings.crmAddMode" ng-false-value="'DONT_ADD'"  ng-true-value="'ADD_NEW'"> Add new Record if matching key is not found in Contacts
+      				 </label>
 	            </div>
 	            <div>
-      				 <input type="checkbox" ng-model="$ctrl.updateRecords" ng-change="$ctrl.setUpdateValue()"> Update existing Contact Record(s) with matching key
+	            	<label>
+      				 	<input type="checkbox" ng-model="$ctrl.updateRecords" ng-change="$ctrl.setUpdateValue()"> Update existing Contact Record(s) with matching key
+      				 </label>
 	            </div>
 	            <div class="sub-option">
-      				 <input type="radio" ng-disabled="!$ctrl.updateRecords" ng-model="$ctrl.listUpdateSettings.crmUpdateMode" value='UPDATE_FIRST'> First (oldest) matching record
+      				<label>
+      				 	<input type="radio" ng-disabled="!$ctrl.updateRecords" ng-model="$ctrl.listUpdateSettings.crmUpdateMode" value='UPDATE_FIRST'> First (oldest) matching record
+      				 </label>
 	            </div>
 	            <div class="sub-option">
-      				 <input type="radio" ng-disabled="!$ctrl.updateRecords" ng-model="$ctrl.listUpdateSettings.crmUpdateMode" value='UPDATE_ALL'> All matching records (in case of multiple matches)
+	            	<label>
+      				 	<input type="radio" ng-disabled="!$ctrl.updateRecords" ng-model="$ctrl.listUpdateSettings.crmUpdateMode" value='UPDATE_ALL'> All matching records (in case of multiple matches)
+      				 </label>
 	            </div>
 	            <div class="sub-option">
-      				 <input type="radio" ng-disabled="!$ctrl.updateRecords" ng-model="$ctrl.listUpdateSettings.crmUpdateMode" value='UPDATE_SOLE_MATCHES'> Only if single match in Contacts
+	            	<label>
+      				 	<input type="radio" ng-disabled="!$ctrl.updateRecords" ng-model="$ctrl.listUpdateSettings.crmUpdateMode" value='UPDATE_SOLE_MATCHES'> Only if single match in Contacts
+      				 </label>
 	            </div>
 			</div>
 		</div>
