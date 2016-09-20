@@ -64,7 +64,7 @@ class NavbarController {
     let encodedURL=_Base64Manager.encode(_$location.url());
     return _authService.logout()
         .then(response => {         
-          if (response.statusCode === 200) {           
+          if (response.status === 200) {           
             _$location.url('/login').search({url: encodedURL});              
           }                   
           return response;

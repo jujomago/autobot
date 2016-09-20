@@ -141,7 +141,7 @@ describe('Component: NavbarController', function() {
      _$httpBackend.verifyNoOutstandingRequest();
   });
   
-  describe('#controllerLogout',()=>{
+  describe('#controllerLogout',()=> {
       it('=> User should logout successfully',()=>{
          _$cookies.put('auth_token','a345fc56786b7b4545');
          _$httpBackend.whenGET(endPointUrl+'/auth/logout').respond(200,
