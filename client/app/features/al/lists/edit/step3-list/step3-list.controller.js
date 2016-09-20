@@ -275,14 +275,14 @@ class ListComponent {
         });
         return elements;
     });
-// added space antoher space
+
     items = _.map(list, value =>{
       return {item: value};     
     });
 
     this.sendContact.importData.values = items;
 
-    if(_$stateParams.settings.listUpdateSettings){    
+    if(_$stateParams.settings.listUpdateSettings){
       //UPDATE
       listUpdateSettings = _$stateParams.settings.listUpdateSettings;
       this.sendContact.listUpdateSettings = listUpdateSettings;
