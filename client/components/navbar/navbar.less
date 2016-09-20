@@ -9,8 +9,7 @@
     position: absolute;
     margin-top: 0;
     left: 20%;
-    right: 20%;
-    
+    right: 20%;   
   }  
 }
 .navbar{
@@ -65,7 +64,7 @@
     .dropdown-menu {
       background-color: #000000;
       color: #ffffff;
-      min-width: 580px;
+      
       padding: 0 20px 50px;
       .border-right {
         border-right: 1px solid #666666;
@@ -214,6 +213,10 @@
       }
       .new-apps {
         padding: 0 0 0 50px;
+        @media (max-width: 768px) 
+        {
+          padding: 0 0 0 20px;
+        }
         .newapps-title {
           overflow: hidden;
           display: block;
@@ -266,7 +269,7 @@
         padding-bottom: -0px;
       }
     }
-  .full-menu {
+    .full-menu {
         left: -160px;
         min-width: 850px;
         padding: 0 20px 40px 20px;
