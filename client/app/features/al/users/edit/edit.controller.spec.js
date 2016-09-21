@@ -342,6 +342,7 @@ describe('Component: al.users.edit', function () {
             userName: 'daniel.c@autoboxcorp.com'
           }, 1).then(r=>{
               expect(r.statusCode).to.equal(500);
+              expect(EditComponent.toggleSkillRow).to.equal(-1);
           });
         expect(window.confirm.calledOnce).to.equal(true);
         _$httpBackend.flush();

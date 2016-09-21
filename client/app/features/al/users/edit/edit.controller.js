@@ -307,7 +307,6 @@
                             return response;
                         })
                         .catch(error => {
-                            this.SubmitText = 'Save';
                             this.toggleSkillRow = -1;
                             this.message = { show: true, type:'danger', text: error.errorMessage };
                             return error;
