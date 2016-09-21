@@ -1,6 +1,6 @@
 <h3 class="title_section">List: <span>{{$ctrl.listName}}</span></h3>
 
-<div class="subtitle_section">
+<div class="subtitle_section" ng-if="!$ctrl.sending">
     <h3 class="pull-left">List update</h3>
     <div class="pull-right">
            <button class="btn btn-black btn-sm" ui-sref="ap.al.lists">Cancel</button>
@@ -8,7 +8,7 @@
 </div>
 
 <abx-message msg="$ctrl.message"></abx-message>
-<abx-load-indicator ng-show="$ctrl.sending" text="Sending"  absolute="false"></abx-load-indicator>
+<abx-load-indicator ng-show="$ctrl.sending" text="Sending"></abx-load-indicator>
 
 <div ng-if="!$ctrl.canMapping">Sorry you need a file to map</div>
 <div ng-if="$ctrl.canMapping && !$ctrl.sending">
@@ -21,7 +21,7 @@
                     </div>
                     <div class="separator">
                         <span>Custom </span>
-                        <input type="text" ng-model="$ctrl.customDelimiterDefaultSymbol" maxlength="1" ng-change="$ctrl.changeDelimiter()" ng-disabled="!$ctrl.customDelimiterEnabled">
+                        <input type="text" class="symbol-delimiter" ng-model="$ctrl.customDelimiterDefaultSymbol" maxlength="1" ng-change="$ctrl.changeDelimiter()" ng-disabled="!$ctrl.customDelimiterEnabled">
                     </div>
                     <label class="separator">
                         <input type="checkbox" ng-model="$ctrl.hasHeader" ng-change="$ctrl.changeHeaderValue()">Has header

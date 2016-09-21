@@ -1,15 +1,3 @@
-@-moz-document url-prefix() {
-    .al-theme {
-        /*Only for Firefox text-indent property is a singular in the browsers*/
-        /*This CSS is for
-        bug 1472: Admin Console: manual mapping: The Source field name does not align with the column title.
-        for horizontal align of cell mapping*/
-        .cell-select{
-            padding-left: 7px;
-            text-indent: -2px;
-        }
-    }
-}
 // all styles for admin lite theme
 .al-theme {
     // applies to all tables, wrap long texts
@@ -313,6 +301,10 @@
                 margin-bottom: 0;
                 &>div{
                     color: #666;
+                    &>label{
+                        font-weight: normal;
+                        margin-bottom: 0px;
+                    }
                 }
             }
         }
@@ -555,7 +547,7 @@
              select{
                  width: 120px;
              }
-             input[type=text]{
+             .symbol-delimiter{
                  width: 40px;
                  text-align: center;
              }
@@ -752,5 +744,18 @@
     .light-label{
         font-weight: normal;
         margin-bottom: 0px;
+    }
+}
+
+@-moz-document url-prefix() {
+    .al-theme {
+        /*Only for Firefox text-indent property is a singular in the browsers*/
+        /*This CSS is for
+        bug 1472: Admin Console: manual mapping: The Source field name does not align with the column title.
+        for horizontal align of cell mapping*/
+        .cell-select{
+            padding-left: 7px;
+            text-indent: -2px;
+        }
     }
 }
