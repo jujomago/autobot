@@ -13,11 +13,6 @@
             });
         } else {
             var headers = lines[0].split(delimiter);        
-          /*  if(headers.length===1){
-                console.log('cant map with that deliminter');
-                return headers;
-            }*/
-
             for (var i = 1; i < lines.length; i++) {
                 var obj = {};
                 var currentline = lines[i].split(delimiter);
@@ -48,7 +43,7 @@
     }
 
     //BUG:1465 - The Contact uploads report does not accept valid numbers of the csv file.     
-    function _validateSingleRow(singleRow,validator,lodash){
+    function _validateSingleRow(lodash,singleRow,validator,actionList){
       
         let row=singleRow;
         let _ = lodash;
@@ -70,36 +65,39 @@
 
         if(allFieldsEmpty){
             resultValidSingleRow.push({errorReason:'Record is empty.',result:false});
-        }else if(!row.hasOwnProperty('number1') &&  !row.hasOwnProperty('number2') && !row.hasOwnProperty('number3')){
+        }else if(!row.hasOwnProperty('number1') &&  !row.hasOwnProperty('number2') && !row.hasOwnProperty('number3') && actionList==='update'){
             resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
-        }else{               
-            if( 
-               ( (row.hasOwnProperty('number1') && row.number1==='') && !row.hasOwnProperty('number2') && !row.hasOwnProperty('number3') ) ||
-               ( (row.hasOwnProperty('number2') && row.number2==='') && !row.hasOwnProperty('number1') && !row.hasOwnProperty('number3') ) ||
-               ( (row.hasOwnProperty('number3') && row.number3==='') && !row.hasOwnProperty('number1') && !row.hasOwnProperty('number2') )
-              ){
-                     resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
-            }           
-            if(row.hasOwnProperty('number1') &&  row.hasOwnProperty('number2') && !row.hasOwnProperty('number3')){
-                if(row.number1==='' && row.number2===''){
-                     resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
-                }                
-            }
-            if(row.hasOwnProperty('number1') &&  row.hasOwnProperty('number3') && !row.hasOwnProperty('number2')){
-                 if(row.number1==='' && row.number3===''){
-                     resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
-                }                      
-            }
-            if(row.hasOwnProperty('number2') &&  row.hasOwnProperty('number3') && !row.hasOwnProperty('number1')){
-                 if(row.number2==='' && row.number3===''){
-                     resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
-                }       
-            }
-            if(row.hasOwnProperty('number1') &&  row.hasOwnProperty('number2') && row.hasOwnProperty('number3')){
-                 if(row.number1==='' && row.number2==='' && row.number3===''){
-                     resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
-                }       
-            }     
+        }else{
+            //Bug 1465 - Admin Console: Contact upload report:  The Contact uploads report does not accept valid numbers of the csv file.
+            if(actionList==='update'){               
+                if( 
+                ( (row.hasOwnProperty('number1') && row.number1==='') && !row.hasOwnProperty('number2') && !row.hasOwnProperty('number3') ) ||
+                ( (row.hasOwnProperty('number2') && row.number2==='') && !row.hasOwnProperty('number1') && !row.hasOwnProperty('number3') ) ||
+                ( (row.hasOwnProperty('number3') && row.number3==='') && !row.hasOwnProperty('number1') && !row.hasOwnProperty('number2') )
+                ){
+                        resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
+                }           
+                if(row.hasOwnProperty('number1') &&  row.hasOwnProperty('number2') && !row.hasOwnProperty('number3')){
+                    if(row.number1==='' && row.number2===''){
+                        resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
+                    }                
+                }
+                if(row.hasOwnProperty('number1') &&  row.hasOwnProperty('number3') && !row.hasOwnProperty('number2')){
+                    if(row.number1==='' && row.number3===''){
+                        resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
+                    }                      
+                }
+                if(row.hasOwnProperty('number2') &&  row.hasOwnProperty('number3') && !row.hasOwnProperty('number1')){
+                    if(row.number2==='' && row.number3===''){
+                        resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
+                    }       
+                }
+                if(row.hasOwnProperty('number1') &&  row.hasOwnProperty('number2') && row.hasOwnProperty('number3')){
+                    if(row.number1==='' && row.number2==='' && row.number3===''){
+                        resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
+                    }       
+                }    
+            } 
 
            
             _.each(row,(value,key)=>{                    
@@ -135,13 +133,13 @@
     }
 
 
-    function _validateRowsFiels(lodash,rowsFields,validator){      
+    function _validateRowsFiels(lodash,rowsFields,validator,actionList){      
         let _ = lodash;
         let validRows=[];
         let invalidRows=[];
 
         _.each(rowsFields,(rowFieldObject,i)=>{
-            let resultValidation=_validateSingleRow(rowFieldObject,validator,_);
+            let resultValidation=_validateSingleRow(_,rowFieldObject,validator,actionList);
       
             if(resultValidation.map(e=>e.result).indexOf(false)===-1){
                 validRows.push(rowFieldObject);
@@ -322,6 +320,7 @@
             this.jsonHeaders = [];
             this.seletedRowsMapped=[];
             this.sending = false;
+            this.actionList='update';
 
         }
 
@@ -343,7 +342,9 @@
                     this.rawCSV = stateParams.settings.csvData;
                     this.jsonCSV = _aplyDemiliterCSV(this.rawCSV, 
                     this.customDelimiterDefaultSymbol, this.hasHeader);
-
+                    if(stateParams.settings.listDeleteSettings){
+                         this.actionList='remove';
+                    }                 
                     if (this.hasHeader) {
                         this.jsonHeaders = Object.keys(this.jsonCSV[0]);
                     } else {
@@ -392,7 +393,7 @@
                     this.message = { show: true, type: 'warning', text: e };
                     return e;
                 });
-        }
+        }        
         changeHeaderValue() {
             if (this.hasHeader === false) {
                 this.clearMapping();
@@ -400,12 +401,18 @@
             this.changeDelimiter();
 
         } 
-        changeDelimiter() {            
-            this.clearMapping();
+        changeDelimiter() {
+            let mappedFiedls = _getMappedFiels(this.hasHeader, this.contactFields, 'nouniq', _);
+            //BUG:1501 - The smart mapping action is being performed for "Contact Field" who has performed a manual mapping by the user.
+            if(mappedFiedls.length===0 || this.selectedDelimiter.title==='Custom'){
+                console.log('clearing');
+                this.clearMapping();                
+            }       
 
-               console.log('enter here 1');
-                console.log(this.selectedDelimiter);
-
+            console.log('enter here 1');
+            console.log(this.selectedDelimiter);
+            
+            this.seletedRowsMapped=[];  
             this.customDelimiterEnabled = (this.selectedDelimiter.title === 'Custom');
             if (this.customDelimiterEnabled) {
                 this.jsonCSV=_aplyDemiliterCSV(this.rawCSV,this.customDelimiterDefaultSymbol,this.hasHeader);    
@@ -427,8 +434,8 @@
         matchSmart() {
             console.log('matchSmart');        
             if (this.hasHeader === true) {
-                this.changeDelimiter();                      
-               
+                this.changeDelimiter();    
+
                 //BUG:1498 - The fields mapped does not display as selected.
                 angular.forEach(this.contactFields, (el,index) => {
                         if (this.jsonHeaders.indexOf(el.name) >= 0 && 
@@ -440,13 +447,12 @@
                 });
 
                 //BUG:1604 - The message for mapped fields does not behave as the java app.
-                let mappedFiedls = _getMappedFiels(this.hasHeader, this.contactFields, 'nouniq', _);
-                if(mappedFiedls.length===0){                    
-                        _AlertMessage({
+                 if(this.seletedRowsMapped.length===0){                       
+                    _AlertMessage({
                         title:'Message',
                         body:'Unfortunately, nothing can be mapped automatically'
                     });  
-                    return mappedFiedls;
+                    return this.seletedRowsMapped;
                 }else{
                     _AlertMessage({
                         title:'Message',
@@ -483,7 +489,7 @@
 
             if(countKeys>0 && countKeys<13){
                 let dataToSend = {};
-                if (_$stateParams.settings.listDeleteSettings) {
+                if (this.actionList==='remove') {
                     dataToSend.listDeleteSettings = _$stateParams.settings.listDeleteSettings;
                     dataToSend.fields = keysFields;
                 } else {
@@ -509,11 +515,10 @@
         }
 
         finishMap() {
-            
             let fieldsKeys = _.filter(this.contactFields, { 'isKey': true });
             let checkSelectedKeys = _checkSelectedFieldKeys(this.hasHeader, this.contactFields, _);
 
-            if (_$stateParams.settings.listDeleteSettings) {
+            if (this.actionList==='remove') {
                 this.contactFields = fieldsKeys;
             }
             if(fieldsKeys.length>0){
@@ -534,7 +539,7 @@
                         fieldsMapping: _getFieldsEntries(this.hasHeader, this.contactFields, this.jsonCSV, _)
                     };
 
-                    if (_$stateParams.settings.listDeleteSettings) {
+                    if (this.actionList==='remove') {
                         dataToSend.listDeleteSettings = _$stateParams.settings.listDeleteSettings;
                     } else {
                         dataToSend.listUpdateSettings = _$stateParams.settings.listUpdateSettings;
@@ -542,7 +547,7 @@
 
                      let rowsFields=_getRowsFields(this.hasHeader, this.contactFields, this.jsonCSV, _);                
 
-                     let resultValidRowsFields=_validateRowsFiels(_,rowsFields,this.ValidatorService);                  
+                     let resultValidRowsFields=_validateRowsFiels(_,rowsFields,this.ValidatorService,this.actionList);                  
                         
                      let contentModal={
                          title:'Summary'
@@ -649,7 +654,7 @@
                             if(response.statusCode === 200){
                                 if(response.data.return.identifier){
                                     this.sending= false;
-                                 //   _$state.go('ap.al.lists', {name: dataContact.listName, identifier: response.data.return.identifier, isUpdate: false});     
+                                    _$state.go('ap.al.lists', {name: dataContact.listName, identifier: response.data.return.identifier, isUpdate: false});     
                                 }
                             }
                             else{                             
