@@ -1,7 +1,7 @@
 @-moz-document url-prefix() {
     .al-theme {
         /*Only for Firefox text-indent property is a singular in the browsers*/
-        /*This CSS is for 
+        /*This CSS is for
         bug 1472: Admin Console: manual mapping: The Source field name does not align with the column title.
         for horizontal align of cell mapping*/
         .cell-select{
@@ -42,6 +42,7 @@
         padding: 0 32px;
         height: 30px;
         line-height: 30px;
+        width: 120px;
         transition: all .2s ease-out;
         &:hover, &:active {
             background: #666;
@@ -111,8 +112,8 @@
     }
     // circle for close modals
     .circle_close {
-        font-size: 25px;
-        width: 50px;
+        margin: 56px 0 0;
+        width: 20px;
         height: 20px;
         background: url('@{images_al_path}/CloseIcon-Default.png') no-repeat center center;
         display: inline-block;
@@ -146,6 +147,7 @@
             margin-bottom: 50px;
             font-size: 14px;
             overflow: hidden;
+            clear: both;
         }
     }
     .remove-spaces-inline{
@@ -178,7 +180,6 @@
         color: #666;
         line-height: 49px;
         text-align: center;
-        margin-top: 10%;
     }
     .sortColumn:hover {
         cursor: pointer;
@@ -367,23 +368,16 @@
             box-shadow: none;
             border: none;
         }
-        .modal-input{
-            width: 60%;
-        }
         .medium-input{
             margin-top: 20px;
         }
         .modal-dialog{
-            margin: 60px auto;
-            margin-right: 0;
-            width: 70%;
-
+          width: 400px;
+          margin: 0 auto;
         }
         .modal-header{
             border: none;
             .title_section{
-
-                margin-top: 35px;
                 margin-bottom: 2px;
             }
         }
@@ -392,28 +386,21 @@
             opacity: 0.9;
         }
         .modal-button-container {
-
             text-align: center;
-            display: block;
-            width: 60%;
             margin-top: 30px;
-
             &>.btn-blue{
                 margin-left: 10px;
                 margin-right: 10px;
-                width: 100px;
+                width: 120px;
             }
         }
         p{
             padding-left: 0;
-
         }
         .error-modal{
             color: #e64b3b;
         }
         .error-message{
-
-            width: 60%;
             margin-top: 20px;
         }
     }
@@ -440,14 +427,9 @@
         }
         .modal-header{
             border: none;
-            padding: 15px 0;
             .title_section{
-                margin-top: 35px;
                 margin-bottom: 2px;
             }
-        }
-        .modal-body{
-            padding: 20px 0;
         }
         .modal-backdrop.in {
             opacity: 0.9;
@@ -462,7 +444,7 @@
             &>.btn-blue{
                 margin-left: 10px;
                 margin-right: 10px;
-                width: 100px;
+                width: 120px;
             }
         }
         p{
