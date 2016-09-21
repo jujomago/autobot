@@ -314,6 +314,7 @@
                             }
                             return response;
                         }).catch(err => {
+                            this.toggleSkillRow = -1;
                               console.error(err);
                               let textError = _getErrorMessage(err.data.body);
                               this.message = { show: true, type: 'danger', text: textError, expires:8000};
