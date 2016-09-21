@@ -21,7 +21,7 @@
                     </div>
                     <div class="separator">
                         <span>Custom </span>
-                        <input type="text" ng-model="$ctrl.customDelimiterDefaultSymbol" maxlength="1" ng-change="$ctrl.changeDelimiter()" ng-disabled="!$ctrl.customDelimiterEnabled">
+                        <input type="text" class="symbol-delimiter" ng-model="$ctrl.customDelimiterDefaultSymbol" maxlength="1" ng-change="$ctrl.changeDelimiter()" ng-disabled="!$ctrl.customDelimiterEnabled">
                     </div>
                     <label class="separator">
                         <input type="checkbox" ng-model="$ctrl.hasHeader" ng-change="$ctrl.changeHeaderValue()">Has header
