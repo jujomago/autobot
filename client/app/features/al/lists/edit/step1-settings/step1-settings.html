@@ -106,7 +106,9 @@
 			</div>
 			<p ng-show="!$ctrl.csvFile && $ctrl.sent" class="file-empty-error">This field is required</p>
 			<div class='upload-checkbox'>
-  				 <input type="checkbox" ng-model="$ctrl.settingsParams.skipPreview"> Skip preview of uploaded records (recommended for large files)
+				<label>
+  				 	<input type="checkbox" ng-model="$ctrl.settingsParams.skipPreview"> Skip preview of uploaded records (recommended for large files)
+  				 </label>
             </div>
 			<div class="text-center">
 				<button ng-click="$ctrl.sendFile()" class="btn btn-black btn-sm-fixed">Continue</button>
