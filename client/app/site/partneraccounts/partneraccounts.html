@@ -8,9 +8,9 @@
 				{{$ctrl.partnerName}}<span> accounts</span>
 			</h3>
 			<ul class="list-group account-list">
-				<li class="list-group-item"  ng-repeat="item in $ctrl.accountsList" ng-click="$ctrl.goToLoginAccount(item.username)">
+				<li class="list-group-item"  ng-repeat="item in $ctrl.accountsList | orderBy: 'username'" ng-click="$ctrl.goToLoginAccount(item.username)">
 						<img ng-src="assets/al/images/{{item.avatar}}" abx-default-image-switch="assets/al/images/avatar-default.png" alt="avatar" class="img-circle fixed-avatar">
-						{{item.username}}
+						{{item.username | limitTo:40 }}{{ item.username.length > 40 ? '...' : ''}}
 				</li>
 			</ul>
 		</div>
