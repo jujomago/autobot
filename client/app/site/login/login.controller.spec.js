@@ -91,7 +91,7 @@ describe('Component: LoginController', function() {
           httpBackend.flush();
       });  
 
-      it('=> User logged in Successfully with credentials and redirected to default page (/ap/al/skills) empty url param',()=>{       
+      it('=> User logged in Successfully with credentials and redirected to default page (underconstruction) empty url param',()=>{       
 
           _mockStateParams.url = null;
           loginComponent.username='admin@autoboxcorp.com';
@@ -114,12 +114,12 @@ describe('Component: LoginController', function() {
           .then(response=>{
               expect(response.status).to.equal(200);
               expect(_$cookies.get('auth_token')).to.equal('2032820asdfka0s0293ma002');
-              expect(_mockLocation.url).to.equal('/ap/al/skills');
+              expect(_mockLocation.url).to.equal('/underconstruction');
           });
 
           httpBackend.flush();
       });
-      it('=> User logged in Successfully with credentials and redirected to default page (/ap/al/skills) corrupted URL',()=>{       
+      it('=> User logged in Successfully with credentials and redirected to default page (underconstruction) corrupted URL',()=>{       
 
           _mockStateParams.url = 'CORRUPTED_URL';
           loginComponent.username='admin@autoboxcorp.com';
@@ -142,7 +142,7 @@ describe('Component: LoginController', function() {
           .then(response=>{
               expect(response.status).to.equal(200);
               expect(_$cookies.get('auth_token')).to.equal('2032820asdfka0s0293ma002');
-              expect(_mockLocation.url).to.equal('/ap/al/skills');
+              expect(_mockLocation.url).to.equal('/underconstruction');
           });
 
           httpBackend.flush();
