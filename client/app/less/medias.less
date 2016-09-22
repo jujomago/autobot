@@ -9,30 +9,39 @@
     }
 }
 
-@media (min-width: 1200px) {
-    .centerSubmenu
-    {
-        left: 23%;  
-        right: 23%;      
-    }
-}
 // BUG: 1477 My apps submenu. size IPAD
-@media (max-width: 768px) {    
+@media (max-width: 768px) {
     .my-apps .col-sm-12
     {
         padding-left: 3px;
         padding-right: 3px;
-    }   
+    }
     .navbar-nav .centerSubmenu
-    {        
+    {
       overflow-y: scroll;
       height: 450px !important;
     }
+    .al-theme .noresults {
+      margin-top: 35%;
+    }
 }
-@media (min-width: 768px) {    
+@media (min-width: 768px) {
     .my-apps .col-sm-12
     {
         padding-left: 1px;
         padding-right: 1px;
-    }        
+    }
+    .al-theme .noresults {
+      margin-top: 25%;
+    }
+}
+@media (min-width: 1200px) {
+    .centerSubmenu
+    {
+        left: 23%;
+        right: 23%;
+    }
+    .al-theme .noresults {
+      margin-top: 15%;
+    }
 }
