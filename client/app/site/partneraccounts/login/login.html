@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1 partner-login-container">
+	<div class="partner-login-container">
 		<img src="assets/{{$ctrl.credentials.appName}}/images/logo-sm.jpg" alt="Five9" class="fixed-logo">
 		<abx-message msg="$ctrl.message"></abx-message>
 		<h3>Sign in to continue</h3>
@@ -10,7 +10,7 @@
 			<img src="assets/al/images/avatar-default.png" class="img-circle fixed-avatar">
 			<label>{{$ctrl.credentials.username}}</label>
 		</div>
-		<form name="loginForm" class="custom_form form-horizontal" novalidate autocomplete="off"  ng-submit="loginForm.$valid && $ctrl.login()">
+		<form name="loginForm" class="login-form" novalidate autocomplete="off"  ng-submit="loginForm.$valid && $ctrl.login()">
 			<div class="inputminimal" ng-class="{ 'has-error': loginForm.password.$invalid && loginForm.$submitted }">
 		        <label for="firstName">Password</label>
 		            <input autofocus type="password" name="password" id="password" ng-model="$ctrl.credentials.password" maxlength="250" required>
