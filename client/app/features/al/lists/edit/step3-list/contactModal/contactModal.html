@@ -28,6 +28,11 @@
                             ng-required="$ctrl.phoneRequired"
                             ng-change="$ctrl.phoneChanged()"
                             abx-check-phone="/^[^A-Za-zñÑ´ç`_.,\¿¡*~&%#,|_':;?[/}=\]&quot;{*>!\\<^]*$/"/>
+                      <div ng-if="form.type == 'date-text'" class="datepicker-container">
+                      <span class="datepicker-button">
+                        <button type="button" class="btn btn-default" ng-click="$ctrl.openDatePicker($index)"><i class="glyphicon glyphicon-calendar"></i></button>
+                      </span>
+                     </div>
                      <input ng-if="form.type == 'date-text'"
                             type="{{form.type}}"
                             name="{{form.name}}"
@@ -48,9 +53,6 @@
                                id="$ctrl.dates[$index].time"
                                ng-model="$ctrl.dates[$index].time"
                                placeholder="HH:mm:ss" min="00:00:00" max="23:00:00"/>
-                      </span>
-                      <span class="datepicker-button">
-                        <button type="button" class="btn btn-default" ng-click="$ctrl.openDatePicker($index)"><i class="glyphicon glyphicon-calendar"></i></button>
                       </span>
                      </div>
                 </div>
