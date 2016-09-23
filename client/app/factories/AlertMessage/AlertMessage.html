@@ -24,9 +24,9 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="itemList in content.listDetail.rows">
-                        <td ng-repeat="item in itemList">
+                        <td ng-repeat="item in itemList" class="wrapText">
                             <span ng-if="$even">{{item}}</span>
-                            <a ng-if="$odd" title="{{item}}">{{item}}</a>
+                            <a class="label-tooltip" ng-if="$odd" title="{{item}}">{{item}}</a>
                         </td>
                     </tr>
                 </tbody>
