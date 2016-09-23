@@ -1,6 +1,6 @@
 'use strict';
 
-describe.only('Service: Validator', function () {
+describe('Service: Validator', function () {
 
   // load the service's module
   beforeEach(module('fakiyaMainApp'));
