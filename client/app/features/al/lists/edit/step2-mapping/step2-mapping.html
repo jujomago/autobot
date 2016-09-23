@@ -45,7 +45,7 @@
                     <span ng-show="$ctrl.hasHeader">name</span>
                     <span ng-show="!$ctrl.hasHeader">index</span>
                 </th>
-                <th class="capitalize">Contact field</th>
+                <th class="capitalize capitalize-contact">Contact field</th>
                 <th width="100" class="text-center">
                     Key
                 </th>
@@ -61,7 +61,7 @@
                         </select>
                         <abx-number-updown class="number-updown-width" ng-model="field.mappedIndex" max-value="256" ng-if="!$ctrl.hasHeader"></abx-number-updown>
                     </td>
-                    <td class="capitalize">{{field.name}}</td>
+                    <td class="capitalize capitalize-contact">{{field.name}}</td>
                     <td class="text-center">
                         <input ng-if="field.isKey!=undefined" class="cell-checkbox" type="checkbox" ng-model="field.isKey">
                     </td>
