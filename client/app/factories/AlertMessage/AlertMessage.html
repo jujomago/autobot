@@ -25,7 +25,8 @@
                 <tbody>
                     <tr ng-repeat="itemList in content.listDetail.rows">
                         <td ng-repeat="item in itemList">
-                            {{item}}
+                            <span ng-if="$even">{{item}}</span>
+                            <a ng-if="$odd" title="{{item}}">{{item}}</a>
                         </td>
                     </tr>
                 </tbody>
