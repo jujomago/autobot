@@ -10,8 +10,22 @@
 }
 
 @media (min-width: 1200px) {
-   #main-container .submenucustomize .navbar-nav .centerSubmenu
+    .centerSubmenu
     {
-        left: 285px;
+        left: 23%;  
+        right: 23%;  
     }
+}
+// BUG: 1477 My apps submenu. size IPAD
+@media (max-width: 768px) {   
+    .my-apps .col-sm-12
+    {
+        padding-left: 1px;
+        padding-right: 1px;
+    } 
+    .navbar-nav .centerSubmenu
+    {        
+      overflow-y: scroll;
+      height: 450px !important;
+    }       
 }
