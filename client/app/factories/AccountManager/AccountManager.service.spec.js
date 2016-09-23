@@ -47,7 +47,7 @@ describe('Service:AccountManager', function () {
     _$httpBackend.whenGET(_endPointUrl+'/partner/sf/lastusedaccount').respond(200, {username: ''});
     _AccountManager.getLastPartnerAccount('sf', 'app1')
     .then(() => {
-      expect(mockState.state).to.equal('partneraccounts');  
+      expect(mockState.state).to.equal('ap.partneraccounts');  
       expect(mockState.params.partnerId).to.equal('sf');
       expect(mockState.params.appName).to.equal('app1');
     });
@@ -58,7 +58,7 @@ describe('Service:AccountManager', function () {
     _$httpBackend.whenGET(_endPointUrl+'/partner/f9/lastusedaccount').respond(500, {error: 'Internal Server Error'});
     _AccountManager.getLastPartnerAccount('f9', 'al')
     .then(() => {
-      expect(mockState.state).to.equal('partneraccounts');  
+      expect(mockState.state).to.equal('ap.partneraccounts');  
       expect(mockState.params.partnerId).to.equal('f9');
       expect(mockState.params.appName).to.equal('al');
     });

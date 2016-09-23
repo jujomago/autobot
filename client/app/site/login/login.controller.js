@@ -23,31 +23,19 @@
         'password': this.password
       };
       return _auth.login(credentials)
-        .then(response => {
-          if (response.status === 200) {
-            let userApp = {
-              'partnerId': 'f9',
-              'appName': 'al',
-              'username': 'five9_1@five.com',
-              'password': '123456'
-            };
-            return _auth.loginApplication(userApp);
-          }
-          throw response;
-        })
-        .then(response => {    
-          let decoded;
-          if(_$stateParams.url && (decoded = _Base64Manager.decode(_$stateParams.url))){
-            _$location.url(decoded).search('url', null);
-          }else{
-            _$location.url('/underconstruction').search('url', null);
-          }
-          return response;
-        })
-        .catch(e => {         
-          this.message = { show: true, text: e.errorMessage || e, type: 'danger' };        
-          return e;
-        });
+      .then(response => {    
+        let decoded;
+        if(_$stateParams.url && (decoded = _Base64Manager.decode(_$stateParams.url))){
+          _$location.url(decoded).search('url', null);
+        }else{
+          _$location.url('/underconstruction').search('url', null);
+        }
+        return response;
+      })
+      .catch(e => {         
+        this.message = { show: true, text: e.errorMessage || e, type: 'danger' };        
+        return e;
+      });
     }
   }
 
