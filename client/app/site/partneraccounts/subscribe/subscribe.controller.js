@@ -35,7 +35,7 @@ let _PartnersService, _GetHomePage;
       });
     }
     goToAllAccounts(){
-       _$state.go('partneraccounts', {partnerId: this.partnerInfo.partnerId, appName: this.partnerInfo.appName});
+       _$state.go('ap.partneraccounts', {partnerId: this.partnerInfo.partnerId, appName: this.partnerInfo.appName});
     }
     subscribe(){
       this.sendingInfo = true;
@@ -49,7 +49,7 @@ let _PartnersService, _GetHomePage;
         this.message = {show: true, type: 'danger', expires: 5000, text: error.errorMessage};
       });
     }
-  
+
 
   }
 
