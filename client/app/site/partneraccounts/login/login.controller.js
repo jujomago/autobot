@@ -35,14 +35,14 @@
 	  		_$state.go(_GetHomePage.of(this.credentials.appName));
 	  		return response;
 	  	})
-	  	.catch(error =>{    
+	  	.catch(error =>{
 	  	  this.sendingInfo = false;
           this.message={ show: true, type: 'danger', text: error.errorMessage};
           return error;
-        });  
+        });
 	  }
 	  goToAllAccounts(){
-	  	_$state.go('partneraccounts', {partnerId: this.credentials.partnerId, appName: this.credentials.appName});
+	  	_$state.go('ap.partneraccounts', {partnerId: this.credentials.partnerId, appName: this.credentials.appName});
 	  }
 	}
 	LoginComponent.$inject = ['$state', '$stateParams', 'PartnersService', 'GetHomePage'];

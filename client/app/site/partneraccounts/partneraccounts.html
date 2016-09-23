@@ -1,4 +1,3 @@
-<navbar></navbar>
 <div class="partneraccounts-page">
 	<div class="partner-accounts-list">
 		<img ng-src="assets/{{$ctrl.credentials.appName}}/images/logo-sm.jpg" alt="Five9" class="fixed-logo">
@@ -10,7 +9,7 @@
 			<ul class="list-group account-list">
 				<li class="list-group-item"  ng-repeat="item in $ctrl.accountsList | orderBy: 'username'" ng-click="$ctrl.goToLoginAccount(item.username)">
 						<img ng-src="assets/al/images/{{item.avatar}}" abx-default-image-switch="assets/al/images/avatar-default.png" alt="avatar" class="img-circle fixed-avatar">
-						{{item.username | limitTo:40 }}{{ item.username.length > 40 ? '...' : ''}}
+						{{ item.username | limitTo:38 }}{{ item.username.length > 38 ? '...' : ''}}
 				</li>
 			</ul>
 		</div>
@@ -26,9 +25,4 @@
 			<a href ng-click="$ctrl.goToSubscribeAccount()" class="text-center">Add new account</a>
 		</div>
 	</div>
-	<div id="autobox-footer">
-    <div id="footer-text">
-      <p>&copy; 2016 AutoBox LLC. All Rights Reserved</p>
-    </div>
-  </div>
 </div>
