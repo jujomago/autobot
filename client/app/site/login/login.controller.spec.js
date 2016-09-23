@@ -73,14 +73,6 @@ describe('Component: LoginController', function() {
             'password': loginComponent.password
           }).respond('2032820asdfka0s0293ma002');
 
-          httpBackend.expectPOST(endPointUrl+'/admin/users/auth',{
-              'partnerId': 'f9',
-              'appName': 'al',
-              'username': 'five9_1@five.com',
-              'password': '123456'
-          }).respond(200);
-          
-
           loginComponent.login()
           .then(response=>{
               expect(response.status).to.equal(200);
@@ -102,12 +94,6 @@ describe('Component: LoginController', function() {
             'password': loginComponent.password
           }).respond('2032820asdfka0s0293ma002');
 
-          httpBackend.expectPOST(endPointUrl+'/admin/users/auth',{
-              'partnerId': 'f9',
-              'appName': 'al',
-              'username': 'five9_1@five.com',
-              'password': '123456'
-          }).respond(200);
           
 
           loginComponent.login()
@@ -129,13 +115,6 @@ describe('Component: LoginController', function() {
             'username': loginComponent.username,
             'password': loginComponent.password
           }).respond('2032820asdfka0s0293ma002');
-
-          httpBackend.expectPOST(endPointUrl+'/admin/users/auth',{
-              'partnerId': 'f9',
-              'appName': 'al',
-              'username': 'five9_1@five.com',
-              'password': '123456'
-          }).respond(200);
           
 
           loginComponent.login()

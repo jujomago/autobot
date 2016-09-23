@@ -9,12 +9,12 @@ angular.module('fakiyaMainApp')
             $state.go('ap.login', { partnerId: partnerId, appName: appName, username: response.data.username });
           }
           else {
-            $state.go('partneraccounts', { partnerId: partnerId, appName: appName });
+            $state.go('ap.partneraccounts', { partnerId: partnerId, appName: appName });
           }
           return response;
         })
         .catch(error => {
-          $state.go('partneraccounts', { partnerId: partnerId, appName: appName });
+          $state.go('ap.partneraccounts', { partnerId: partnerId, appName: appName });
           return error;
         });
     }
