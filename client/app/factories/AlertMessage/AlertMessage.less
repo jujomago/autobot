@@ -57,4 +57,34 @@
       text-align: left;
       vertical-align: middle;
     }
+
+    .table-summary{
+        border: 1px solid @gray;
+        border-top:0;
+        caption,thead th{
+            background: @lightgray;
+            font-family: BrandonRegular;
+            padding-top: 15px;
+            padding-left: 8px;
+        }
+        caption{
+            text-align: left;
+            font-weight: bold;
+            padding-top: 15px;
+            padding-left: 8px;
+        }
+        thead  tr th{
+            font-size: 14px;
+        }
+        .label-tooltip{
+            white-space: nowrap;
+            
+            color: inherit;
+        }
+        .wrapText{
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+    }
 }
+
