@@ -49,7 +49,7 @@
                 </th>
             </thead>
             <tbody>
-                <tr ng-repeat="(key, item) in ( $ctrl.filteredList=($ctrl.list | filter:$ctrl.search) |  limitTo:$ctrl.numPerPage:$ctrl.beginNext) track by $index" ng-click="$ctrl.selectedContact($index+$ctrl.beginNext, item)" ng-dblClick="$ctrl.editContact()">
+                <tr ng-repeat="(key, item) in ( $ctrl.filteredList=($ctrl.list | filter:$ctrl.search) |  limitTo:$ctrl.numPerPage:$ctrl.beginNext) track by $index" ng-click="$ctrl.selectedContact($index+$ctrl.beginNext, item)" ng-dblclick="$ctrl.editContact()">
                     <td ng-repeat="header in $ctrl.importData.fields" ng-class="{'row-selected': $ctrl.selectedArray.indexOf(key+$ctrl.beginNext) != -1}">
                         <label class="light-label" ng-if="header.type == 'DATE_TIME'">
                             {{item[header.name] | date:'MM-dd-yyyy HH:mm:ss'}}
