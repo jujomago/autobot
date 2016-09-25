@@ -37,9 +37,7 @@
             let result = { data: null, statusCode: 200, errorMessage: null };
             return _$http.post(this.endPointUrl + '/auth/login', credentials)
                 .then(response => {
-                    if (response.status === 200) {
-                         console.log('login del service');
-                        console.log(_$cookies.get('auth_token'));                         
+                    if (response.status === 200) {                       
                         if (!_$cookies.get('auth_token')) {   
                             _setCookieToken(response.data,'session');                         
                             _authManager.authenticate();
