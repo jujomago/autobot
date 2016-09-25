@@ -673,7 +673,6 @@
 
             let idx = _.findIndex(this.contactFields, { 'name': this.contactFieldSelectedName.name });
             if (idx >= 0) {
-
                 this.contactFields.splice((idx + 1), 0, clonedItem);
             } else {
                 console.log('not found field, inserted first');
@@ -681,6 +680,7 @@
                 this.contactFields.unshift(clonedItem);
                 // push first
             }
+            this.seletedRowsMapped=[];
             console.log(`the index found is ${idx}`);
             return idx;
         }
@@ -702,11 +702,13 @@
                 }
                 this.contactFields.splice(this.selectedRow, 1);
                 this.selectedRow = -1;
+                this.seletedRowsMapped=[];
                 return true;
             } else {
                 if (goingToDelete) {
                     this.contactFields.splice(this.selectedRow, 1);
                     this.selectedRow = -1;
+                    this.seletedRowsMapped=[];
                     return true;
                 } else {
                     return false;
