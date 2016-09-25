@@ -190,7 +190,10 @@ class ListComponent {
     this.openModal();
   }
 
-  editContact(){
+  editContact(item){
+    if(item){
+      this.contact = item;
+    }
     this.method = 'update';
     this.openModal();
   }
