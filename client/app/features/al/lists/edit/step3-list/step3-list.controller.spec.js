@@ -132,6 +132,23 @@ describe('Component: al.lists.edit', function () {
 
   });
 
+
+  describe('#editContact', () => {
+
+    it('Should change contact', () => {
+      ListComponent.contact = null;
+      ListComponent.editContact({number1: '9876543219'});
+      expect(ListComponent.contact.number1).to.equal('9876543219');
+    });
+
+    it('Should not change contact', () => {
+      ListComponent.contact = {number1: '9876543217'};
+      ListComponent.editContact();
+      expect(ListComponent.contact.number1).to.equal('9876543217');
+    });
+
+  });
+
   //TODO
   //This method uses lodash and we have issues with it, this test will be 
   //fix in another user story
