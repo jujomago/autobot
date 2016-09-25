@@ -769,6 +769,7 @@ describe('Component: al.lists.mapping', function () {
         expect(MappingComponent.contactFields).to.have.lengthOf(6);
         expect(MappingComponent.addMappingItem()).to.equal(3);
         expect(MappingComponent.contactFields).to.have.lengthOf(7);
+        expect(MappingComponent.seletedRowsMapped).to.have.lengtOf(0);
     });
 
     it('A contact field that does not exists should be added to list at first position',()=>{
@@ -785,6 +786,8 @@ describe('Component: al.lists.mapping', function () {
         expect(MappingComponent.addMappingItem()).to.equal(-1);
         expect(MappingComponent.contactFields).to.have.lengthOf(6);
         expect(MappingComponent.contactFields[0].name).to.equal('first_name');
+        expect(MappingComponent.seletedRowsMapped).to.have.lengtOf(0);
+        
     });
 
 
@@ -1021,7 +1024,8 @@ describe('Component: al.lists.mapping', function () {
       expect(MappingComponent.removeSelectedItem()).to.equal(true);
       expect(MappingComponent.selectedRow).to.equal(-1);
       expect(MappingComponent.contactFields).to.have.lengthOf(5);  
-
+      expect(MappingComponent.seletedRowsMapped).to.have.lengtOf(0);
+      
  
    });
 
@@ -1056,7 +1060,8 @@ describe('Component: al.lists.mapping', function () {
         {'name': 'number1' , mappedName:null , mappedIndex:0}
       ]); 
       expect(MappingComponent.contactFields).to.have.lengthOf(3);  
-
+      expect(MappingComponent.seletedRowsMapped).to.have.lengtOf(0);
+      
    });
 
 
@@ -1076,7 +1081,7 @@ describe('Component: al.lists.mapping', function () {
       expect(MappingComponent.contactFields).to.have.lengthOf(6);    
       expect(MappingComponent.removeSelectedItem()).to.equal(false);      
       expect(MappingComponent.contactFields).to.have.lengthOf(6);    
- 
+      expect(MappingComponent.seletedRowsMapped).to.have.lengthOf(0);
    });
 
   }); 
