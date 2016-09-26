@@ -94,6 +94,16 @@ describe('Component: contactModalComponent', function () {
       name: 'email',
       system: true,
       type: 'EMAIL'
+    },
+    {
+      displayAs: 'Short',
+      isKey: false,
+      mapTo: 'None',
+      mappedIndex: 0,
+      mappedName: 'Balance',
+      name: 'Balance',
+      system: true,
+      type: 'CURRENCY'
     }
     ];
     validation = _ContactModalComponent.getValidation(fields);
@@ -102,7 +112,8 @@ describe('Component: contactModalComponent', function () {
       [
         {name: 'number1', type: 'tel'},
         {name: 'first_name', type: 'text', maxlength: 250},
-        {name: 'email', type: 'email', maxlength: 250}
+        {name: 'email', type: 'email', maxlength: 250},
+        {name: 'balance', type: 'number'}
       ]
     );
   });

@@ -102,6 +102,8 @@ class ContactModalComponent {
           break;
         case 'DATE_TIME': typeInput = 'date-text';
           break;
+        case 'CURRENCY': typeInput = 'number';
+          break;
         default:
           typeInput = 'text';
           break;
