@@ -7,7 +7,7 @@
     date.d = d.getDate();
     date.m = d.getMonth();
     date.y = d.getFullYear();
-    
+
     if(!d && !t){
       return dateTime;
     }
@@ -25,7 +25,7 @@
 
   function _getTime(dates, contact){
     let hours;
-    let minutes; 
+    let minutes;
     let seconds;
     dates.map((value, key)=>{
       if(contact[value.name] !== '' && contact[value.name] !== null){
@@ -40,7 +40,7 @@
   }
 class ContactModalComponent {
   constructor() {
-  	   this.message = { show: false }; 
+  	   this.message = { show: false };
   }
 
   $onInit(){
@@ -60,8 +60,10 @@ class ContactModalComponent {
     this.phoneRequired = (this.manual && this.method === 'create') ? true : false;
     console.log(`phoneRequired ${this.phoneRequired}`);
     //this.phoneRequired=false;
-
-    this.contactModal = angular.copy(this.edit.contact);
+    this.contactModal = [];
+    if(this.method === 'update'){
+        this.contactModal = angular.copy(this.edit.contact);
+    }
 
     this.formDataModal = this.getValidation(this.fields);
 
@@ -90,7 +92,7 @@ class ContactModalComponent {
     }
 
     fields.map((value, key)=>{
-      
+
       switch(value.type){
         case 'PHONE': typeInput = 'tel';
           break;
@@ -110,19 +112,17 @@ class ContactModalComponent {
       if(typeInput === 'date-text'){
         this.dates[key] = {opened: false, name: value.name, time: '', date: ''};
       }
-     
+
 
       if(typeInput === 'tel'){
          if(atLeastRequireOnePhone){
-            this.phoneRequired=true;        
+            this.phoneRequired=true;
         }
         validation.push({'name': value.name, 'type': typeInput});
       }else{
-        validation.push({'name': value.name, 'type': typeInput, 'maxlength': 250});  
+        validation.push({'name': value.name, 'type': typeInput, 'maxlength': 250});
       }
     });
-
- 
     return validation;
   }
 
@@ -136,9 +136,9 @@ class ContactModalComponent {
       if(this.dates.length>0){
         this.dates.map((value)=>{
         if(value.date !== '' && value.date !== null){
-          this.contact[value.name] = _parseDate(value.date, value.time);  
+          this.contact[value.name] = _parseDate(value.date, value.time);
         }
-      });	
+      });
       }
       this.instance.close(this.contact);
     }
@@ -160,7 +160,7 @@ class ContactModalComponent {
           numbers = angular.element('input[type="tel"]');
       numbers.map((key, value)=>{
         if(angular.element(value).val()){
-          data.push(angular.element(value).val());  
+          data.push(angular.element(value).val());
         }
       });
 
@@ -180,7 +180,7 @@ angular.module('fakiyaMainApp')
     require: {
       edit: '?^al.lists.edit.list',
     }
-    
+
 });
 
 })();

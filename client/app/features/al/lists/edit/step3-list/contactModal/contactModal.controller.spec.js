@@ -14,31 +14,31 @@ describe('Component: contactModalComponent', function () {
     fields = [
       {
       displayAs: 'Short',
-      isKey: true, 
-      mapTo: 'None', 
-      mappedIndex: 0, 
-      mappedName: 'number1', 
-      name: 'number1', 
+      isKey: true,
+      mapTo: 'None',
+      mappedIndex: 0,
+      mappedName: 'number1',
+      name: 'number1',
       system: true,
       type: 'PHONE'
     },
     {
       displayAs: 'Short',
-      isKey: false, 
-      mapTo: 'None', 
-      mappedIndex: 0, 
-      mappedName: 'first_name', 
-      name: 'first_name', 
+      isKey: false,
+      mapTo: 'None',
+      mappedIndex: 0,
+      mappedName: 'first_name',
+      name: 'first_name',
       system: true,
       type: 'STRING'
     },
     {
       displayAs: 'Short',
-      isKey: false, 
-      mapTo: 'None', 
-      mappedIndex: 0, 
-      mappedName: 'email', 
-      name: 'email', 
+      isKey: false,
+      mapTo: 'None',
+      mappedIndex: 0,
+      mappedName: 'email',
+      name: 'email',
       system: true,
       type: 'EMAIL'
     }
@@ -59,7 +59,7 @@ describe('Component: contactModalComponent', function () {
       numbers: numbers,
       dates: dates
     });
-  
+
   }));
 
   it('#getValidation should return a form valid inputs (Manual)', function () {
@@ -67,31 +67,31 @@ describe('Component: contactModalComponent', function () {
     let fields = [
       {
       displayAs: 'Short',
-      isKey: true, 
-      mapTo: 'None', 
-      mappedIndex: 0, 
-      mappedName: 'number1', 
-      name: 'number1', 
+      isKey: true,
+      mapTo: 'None',
+      mappedIndex: 0,
+      mappedName: 'number1',
+      name: 'number1',
       system: true,
       type: 'PHONE'
     },
     {
       displayAs: 'Short',
-      isKey: false, 
-      mapTo: 'None', 
-      mappedIndex: 0, 
-      mappedName: 'first_name', 
-      name: 'first_name', 
+      isKey: false,
+      mapTo: 'None',
+      mappedIndex: 0,
+      mappedName: 'first_name',
+      name: 'first_name',
       system: true,
       type: 'STRING'
     },
     {
       displayAs: 'Short',
-      isKey: false, 
-      mapTo: 'None', 
-      mappedIndex: 0, 
-      mappedName: 'email', 
-      name: 'email', 
+      isKey: false,
+      mapTo: 'None',
+      mappedIndex: 0,
+      mappedName: 'email',
+      name: 'email',
       system: true,
       type: 'EMAIL'
     }
@@ -113,31 +113,31 @@ describe('Component: contactModalComponent', function () {
     let fields = [
       {
       displayAs: 'Short',
-      isKey: true, 
-      mapTo: 'None', 
-      mappedIndex: 0, 
-      mappedName: 'number1', 
-      name: 'number1', 
+      isKey: true,
+      mapTo: 'None',
+      mappedIndex: 0,
+      mappedName: 'number1',
+      name: 'number1',
       system: true,
       type: 'PHONE'
     },
     {
       displayAs: 'Short',
-      isKey: false, 
-      mapTo: 'None', 
-      mappedIndex: 0, 
-      mappedName: 'first_name', 
-      name: 'first_name', 
+      isKey: false,
+      mapTo: 'None',
+      mappedIndex: 0,
+      mappedName: 'first_name',
+      name: 'first_name',
       system: true,
       type: 'STRING'
     },
     {
       displayAs: 'Short',
-      isKey: false, 
-      mapTo: 'None', 
-      mappedIndex: 0, 
-      mappedName: 'email', 
-      name: 'email', 
+      isKey: false,
+      mapTo: 'None',
+      mappedIndex: 0,
+      mappedName: 'email',
+      name: 'email',
       system: true,
       type: 'EMAIL'
     }
@@ -178,13 +178,13 @@ describe('Component: contactModalComponent', function () {
     _ContactModalComponent.contact=contact;
     _ContactModalComponent.instance = modalInstance;
     _ContactModalComponent.dates = [];
- 
+
 
     modalInstance.result
     .then(result => {
-          console.log('theresult'); 
+          console.log('theresult');
            console.log(result);
-         expect(result).to.equal( _ContactModalComponent.contact); 
+         expect(result).to.equal( _ContactModalComponent.contact);
     });
     _ContactModalComponent.save();
   });
@@ -200,17 +200,29 @@ describe('Component: contactModalComponent', function () {
     };
     _ContactModalComponent.instance = modalInstance;
     _ContactModalComponent.dates = [];
- 
+
 
     modalInstance.result
     .then(result => {
-          console.log('theresult'); 
+          console.log('theresult');
            console.log(result);
-         expect(result).to.equal(null); 
+         expect(result).to.equal(null);
     });
     _ContactModalComponent.save();
   });
-
+  
+  it('should return an empty contact form to create a new contact', function () {
+   let modalInstance = _$uibModal.open({
+                         controllerAs: '$ctrl',
+                         template: '<al.lists.contact-modal></al.lists.contact-modal>',
+                       });
+   expect(method).to.equal('create');
+   _ContactModalComponent.contact = {};
+   modalInstance.result
+   .then(result => {
+       expect(result).to.eql(_ContactModalComponent.contact);
+     });
+   });
 
    it('should return a contact to be updated', function () {
     let modalInstance = _$uibModal.open({
