@@ -119,9 +119,9 @@ class ContactModalComponent {
          if(atLeastRequireOnePhone){
             this.phoneRequired=true;
         }
-        validation.push({'name': value.name, 'type': typeInput, 'min-length': 10, 'max-lentgh': 20});
+        validation.push({'name': value.name, 'type': typeInput});
       }else{
-        validation.push({'name': value.name, 'type': typeInput, 'min-length': 5, 'max-lentgh': 50});
+        validation.push({'name': value.name, 'type': typeInput, 'maxlength': 250}); 
       }
     });
 
