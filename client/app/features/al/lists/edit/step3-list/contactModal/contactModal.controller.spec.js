@@ -101,7 +101,7 @@ describe('Component: contactModalComponent', function () {
       mapTo: 'None',
       mappedIndex: 0,
       mappedName: 'Balance',
-      name: 'email',
+      name: 'Balance',
       system: true,
       type: 'CURRENCY'
     }
