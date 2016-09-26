@@ -11,13 +11,15 @@
 			<label>{{$ctrl.credentials.username}}</label>
 		</div>
 		<form name="loginForm" class="login-form" novalidate autocomplete="off"  ng-submit="loginForm.$valid && $ctrl.login()">
-			<div class="inputminimal" ng-class="{ 'has-error': loginForm.password.$invalid && loginForm.$submitted }">
-		        <label for="firstName">Password</label>
-		            <input autofocus type="password" name="password" id="password" ng-model="$ctrl.credentials.password" maxlength="250" required>
-		    </div>
-		    <div ng-messages="loginForm.password.$error" class="text-left" ng-show="loginForm.$submitted" >
-                    <p class="" ng-message="required">This field is required</p>
-            	</div>
+			<div class="input-container">
+				<div class="inputminimal" ng-class="{ 'has-error': loginForm.password.$invalid && loginForm.$submitted }">
+			        <label for="firstName">Password</label>
+			            <input autofocus type="password" name="password" id="password" ng-model="$ctrl.credentials.password" maxlength="250" required>
+			    </div>
+			    <div ng-messages="loginForm.password.$error" class="text-left" ng-show="loginForm.$submitted" >
+	                    <p class="" ng-message="required">This field is required</p>
+	            </div>
+            </div>
 		    <div class="login-button-container">
 			    <button class="btn btn-black" type="submit" ng-disabled = "$ctrl.sendingInfo">Sign in</button>
 			    <a href ng-click="$ctrl.goToAllAccounts()">Sign in with a diferent account</a>
