@@ -43,6 +43,12 @@
                             is-open="$ctrl.dates[$index].opened"
                             readonly=""
                             />
+                    <input ng-if="form.type == 'currency'"
+                            type="{{form.type}}"
+                            name="{{form.name}}"      
+                            id="{{form.name}}"
+                            ng-model="$ctrl.dates[$index].date"    
+                            />
                      <div ng-if="form.type == 'date-text'" class="datetime-button">
                       <span class="timepicker-input">
                         <input type="time"
