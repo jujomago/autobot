@@ -53,8 +53,8 @@
                     Actions
                 </th>
             </thead>
-            <tbody>
-                <tr ng-repeat="field in $ctrl.contactFields track by $index" ng-class="{'selected':$ctrl.seletedRowsMapped.indexOf($index)>=0}">
+            <tbody id="table_mapping_body">
+                <tr ng-repeat="field in $ctrl.contactFields track by $index" ng-class="{'selected':(($ctrl.seletedRowsMapped.indexOf($index)>=0)||$ctrl.selectedRow===$index)}">
                     <td>
                         <select class="cell-select" ng-class="{'withArrow':field.mappedName===null}" ng-if="$ctrl.hasHeader" ng-model="field.mappedName" ng-options="o for o in $ctrl.jsonHeaders">
                             <option value=""></option>
@@ -66,7 +66,7 @@
                         <input ng-if="field.isKey!=undefined" class="cell-checkbox" type="checkbox" ng-model="field.isKey">
                     </td>
                     <td class="text-center">
-                        <a href class="circle_delete" ng-click="$ctrl.selectedRow=$index;$ctrl.removeSelectedItem()" ng-hide="$ctrl.selectedRow==$index "></a>
+                        <a href class="circle_delete" ng-click="$ctrl.selectedRow=$index;$ctrl.removeSelectedItem()"></a>
                     </td>
                 </tr>
             </tbody>
