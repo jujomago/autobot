@@ -16,7 +16,7 @@ function _formatDate(date, formatDate, formatTime){
   let hours = _pad(date.getHours());
   let minutes = _pad(date.getMinutes());
   let seconds = _pad(date.getSeconds());
-  
+
   switch(formatTime){
     case 'HH:mm:ss.SSS': time = hours + ':' + minutes + ':' + seconds;
     break;
@@ -55,7 +55,7 @@ function _formatDate(date, formatDate, formatTime){
     break;
     case 'MM-dd': formatedDate = month + '-' + day + '-' + year + ' ' + time;
     break;
-    default: formatedDate = month + '-' + day + '-' + year + ' ' + time; 
+    default: formatedDate = month + '-' + day + '-' + year + ' ' + time;
     break;
   }
 
@@ -63,7 +63,7 @@ function _formatDate(date, formatDate, formatTime){
 }
 class ListComponent {
   constructor($state, $stateParams, $filter, $uibModal, ListsService, ConfirmAsync, ContactFieldsService, lodash) {
-      
+
       this.importData = {fields: [], keys: [], rows: []};
       this.currentPage = 1;
       this.sortKey = '';
@@ -71,7 +71,7 @@ class ListComponent {
       this.numPerPage = 10;
       this.beginNext = 0;
       this.quantities = [5, 10, 15, 20];
-      this.message = { show: false }; 
+      this.message = { show: false };
       this.search= '';
       this.filteredList=[];
       this.list = [];
@@ -98,7 +98,7 @@ class ListComponent {
       _ConfirmAsync = ConfirmAsync;
       _ContactFieldsService = ContactFieldsService;
       _ = lodash;
-      
+
       if(_$stateParams.settings){
         if(_$stateParams.settings.resultMapping){
           this.importData.fields = _$stateParams.settings.resultMapping.headerFields;
@@ -113,7 +113,7 @@ class ListComponent {
         }
 
         this.sendContact.listName = _$stateParams.name;
-        this.typeUpdate = (_$stateParams.settings.listUpdateSettings) ? true : false;               
+        this.typeUpdate = (_$stateParams.settings.listUpdateSettings) ? true : false;
       }else{
         let theMsg = 'Bad params';
         this.error = true;
@@ -135,7 +135,7 @@ class ListComponent {
 
   shuffleList(){
     return _ConfirmAsync('Really shuffle this list?')
-          .then(() => {                 
+          .then(() => {
             this.selected = '';
             this.selectedOld = '';
             this.selectedArray = [];
@@ -149,7 +149,7 @@ class ListComponent {
   }
 
   getSort(param){
-    return (param === this.sortKey) ? true: false;    
+    return (param === this.sortKey) ? true: false;
   }
 
   getMax(){
@@ -175,7 +175,7 @@ class ListComponent {
       if(contact !== this.selectedOld){
         this.selectedArray.push(contact);
       }
-      
+
       this.selected = contact;
       this.selectedOld = contact;
     }
@@ -186,7 +186,7 @@ class ListComponent {
 
   insertContact(){
     this.selected = '';
-    this.method = 'create'; 
+    this.method = 'create';
     this.openModal();
   }
 
@@ -200,10 +200,10 @@ class ListComponent {
 
   deleteContact(){
     return _ConfirmAsync('Delete selected row(s)?')
-          .then(() => {                 
+          .then(() => {
             let tempList = [];
             tempList = this.list.filter((el, key)=>{
-            return (this.selectedArray.indexOf(key) === -1);     
+            return (this.selectedArray.indexOf(key) === -1);
             });
 
             this.list = tempList;
@@ -260,7 +260,7 @@ class ListComponent {
   }
 
   uploadContacts(){
-    
+
     let list = [];
     let items = [];
     let elements = [];
@@ -280,7 +280,7 @@ class ListComponent {
     });
 
     items = _.map(list, value =>{
-      return {item: value};     
+      return {item: value};
     });
 
     this.sendContact.importData.values = items;
@@ -297,16 +297,16 @@ class ListComponent {
       console.log(this.sendContact);
       this.sending= true;
       return _ListService.addContacts(this.sendContact)
-          .then(response=>{  
+          .then(response=>{
               if(response.statusCode === 201){
                   if(response.data.return.identifier){
                     this.sending= false;
-                    _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: true});     
+                    _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: true});
                   }
               }
               else{
                 this.SubmitText='Save';
-                let theMsg= response.errorMessage; 
+                let theMsg= response.errorMessage;
                 this.message={ show: true, type: 'danger', text: theMsg, expires: 5000 };
               }
               return response;
@@ -324,16 +324,16 @@ class ListComponent {
       console.log(this.sendContact);
       this.sending= true;
       return _ListService.deleteContacts(this.sendContact)
-          .then(response=>{  
+          .then(response=>{
               if(response.statusCode === 200){
                   if(response.data.return.identifier){
                     this.sending= false;
-                    _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: false});     
+                    _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: false});
                   }
               }
               else{
                 this.SubmitText='Save';
-                let theMsg= response.errorMessage; 
+                let theMsg= response.errorMessage;
                 this.message={ show: true, type: 'danger', text: theMsg, expires: 5000 };
               }
               return response;
@@ -348,7 +348,7 @@ class ListComponent {
   initArrays() {
       let cont = 1;
       let listManual = {};
-      console.log('initialized arrays');      
+      console.log('initialized arrays');
       if (this.contactFields) {
         this.loadingContacts = false;
         _.map(this.contactFields, value=>{
