@@ -61,7 +61,7 @@ class ContactModalComponent {
     console.log(`phoneRequired ${this.phoneRequired}`);
     //this.phoneRequired=false;
 
-    this.contactModal = [];
+    this.contactModal = {};
     if(this.method === 'update'){
         this.contactModal = angular.copy(this.edit.contact);
     }
