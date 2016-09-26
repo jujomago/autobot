@@ -39,12 +39,12 @@
                       </div>
                       <div ng-repeat="item in (value.filtered = (value | filter:nav.search))" class="app-container">
                         <a ng-if="item.app.appName == 'al'" ng-href="/ap/{{item.app.appName}}/skills" ng-click="nav.myAppsCollapsed = true">
-                          <img src="/assets/al/images/logo.jpg" alt=""/>
-                          <span>{{item.app.appFullName}}</span>
+                          <img src="/assets/al/images/logo.jpg" alt="" class="pull-left"/>
+                          <p>{{item.app.appFullName}}</p>
                         </a>
                         <a ng-if="item.app.appName != 'al'" ng-href="/underconstruction" ng-click="nav.myAppsCollapsed = true">
-                          <img src="/assets/al/images/logo.jpg" alt=""/>
-                          <span>{{item.app.appFullName}}</span>
+                          <img src="/assets/al/images/logo.jpg" alt="" class="pull-left"/>
+                          <p>{{item.app.appFullName}}</p>
                         </a>
                       </div>                      
                     </div>

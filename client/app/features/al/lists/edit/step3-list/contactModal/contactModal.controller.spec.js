@@ -97,11 +97,12 @@ describe('Component: contactModalComponent', function () {
     }
     ];
     validation = _ContactModalComponent.getValidation(fields);
+
     expect(validation).to.eql(
       [
-        {'name': 'number1', 'type': 'tel',  'min-length': 10, 'max-lentgh': 20},
-        {'name': 'first_name', 'type': 'text', 'min-length': 5, 'max-lentgh': 50},
-        {'name': 'email', 'type': 'email',  'min-length': 5, 'max-lentgh': 50},
+        {name: 'number1', type: 'tel'},
+        {name: 'first_name', type: 'text', maxlength: 250},
+        {name: 'email', type: 'email', maxlength: 250}
       ]
     );
   });
@@ -144,9 +145,9 @@ describe('Component: contactModalComponent', function () {
     validation = _ContactModalComponent.getValidation(fields);
     expect(validation).to.eql(
       [
-        {'name': 'number1', 'type': 'tel',  'min-length': 10, 'max-lentgh': 20},
-        {'name': 'first_name', 'type': 'text',  'min-length': 5, 'max-lentgh': 50},
-        {'name': 'email', 'type': 'email', 'min-length': 5, 'max-lentgh': 50},
+        {name: 'number1', type: 'tel'},
+        {name: 'first_name', type: 'text', maxlength: 250},
+        {name: 'email', type: 'email', maxlength: 250}
       ]
     );
   });
