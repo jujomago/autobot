@@ -39,7 +39,8 @@ angular.module('fakiyaMainApp')
 	.config(configInterceptor)
 	.run(function(authManager,jwtHelper,$cookies,$interval,AuthService){
 		let minutes = 5 * 60 * 1000; //every 5 minutes
-		$interval(()=>{				
+	
+		function _checTokenRenew(){					
 				console.log('checking if token should be renewed');
 				let token=$cookies.get('auth_token');
 				if(token){
@@ -61,8 +62,11 @@ angular.module('fakiyaMainApp')
 						}
 				}else{
 					console.warn('no exists cookie token!!');
-				}				
-		}, minutes);
+				}	
+		}
+		_checTokenRenew();
+		$interval(_checTokenRenew,minutes);
+		
 		
 		// Listen for 401 unauthorized requests and redirect
 		// the user to the login page
