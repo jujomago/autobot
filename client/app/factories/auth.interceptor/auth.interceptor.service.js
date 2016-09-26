@@ -8,20 +8,22 @@ function configInterceptor($httpProvider,jwtOptionsProvider,appConfig){
    
    jwtOptionsProvider.config({
 	  whiteListedDomains: [hostname],
-	  unauthenticatedRedirector:['$cookies','authManager','$location',function($cookies,authManager,$location){
-	  	  console.log('cleaning old expired cookie');
-		  $cookies.remove('auth_token');
+	  unauthenticatedRedirector:['$cookies','$location','authManager','jwtHelper',function($cookies,$location,authManager,jwtHelper){
+	  	  let token=$cookies.get('auth_token');
+		  if(token && jwtHelper.isTokenExpired(token) ){
+			  console.log('cleaning old expired cookie');
+			  $cookies.remove('auth_token');
+		  }
           authManager.unauthenticate();
 		  $location.path('/login'); 
 	  }],	
 	 
-      tokenGetter:['$cookies','options',function($cookies,options) {
-			let idToken=$cookies.get('auth_token'); 	
-
+      tokenGetter:['$cookies','options',function($cookies,options) {    
+			let idToken=$cookies.get('auth_token'); 				
 			let endUrl= /[^.]+$/.exec(options.url);
 		
 			if (endUrl[0] === 'html' || endUrl[0] === 'json') {
-			return null;
+				return null;
 			}
 
 			return idToken;
