@@ -14,7 +14,7 @@
                 <label for="{{form.name}}">{{form.name | removeUnderscore}}<span ng-if="form.required"> (key)</span></label>
                 <div>
                      <input type="{{form.type}}"
-                            ng-if="form.type != 'date-text' && form.type != 'tel'"
+                            ng-if="form.type != 'date-text' && form.type != 'tel' && form.type != 'number'"
                             name="{{form.name}}"                        
                             id="{{form.name}}"
                             ng-model="$ctrl.contact[form.name]"
@@ -43,11 +43,12 @@
                             is-open="$ctrl.dates[$index].opened"
                             readonly=""
                             />
-                    <input ng-if="form.type == 'currency'"
+                    <input ng-if="form.type == 'number'"
                             type="{{form.type}}"
                             name="{{form.name}}"      
                             id="{{form.name}}"
-                            ng-model="$ctrl.dates[$index].date"    
+                            ng-model="$ctrl.contact[form.name]"  
+                            min="0"
                             />
                      <div ng-if="form.type == 'date-text'" class="datetime-button">
                       <span class="timepicker-input">
