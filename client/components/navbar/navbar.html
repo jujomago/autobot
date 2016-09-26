@@ -16,7 +16,7 @@
           <a class="dropdown-toggle" role="button">My apps</a>
           <ul class="dropdown-menu submenu centerSubmenu" uib-collapse="nav.myAppsCollapsed">
           <div class="col-sm-12">
-            <div class="col-sm-7 my-apps" ng-class="{'border-right': nav.total > nav.newApps.length}">
+            <div class="col-sm-7 my-apps" ng-class="{'border-right': nav.total > nav.quantity}">
               <div class="col-sm-12" ng-show="nav.myAppsFromService.length > 0">
                 <div class="col-sm-12 myapps-title">
                   <div class="pull-left">
@@ -53,7 +53,7 @@
                 <p class="link"><a ui-sref="apps">See all apps</a></p>
               </div>
             </div>
-            <div class="col-sm-5 new-apps" ng-class="{'border-left': nav.total <= nav.newApps.length}">
+            <div class="col-sm-5 new-apps" ng-class="{'border-left': nav.total <= nav.quantity}">
               <div class="newapps-title">
                 <div class="pull-left">
                   <h4>
