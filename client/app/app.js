@@ -11,14 +11,17 @@ angular.module('fakiyaMainApp', [
   'ngMessages',
   'angular-jwt'
 ])
-  .config(function ($urlRouterProvider, $locationProvider, $httpProvider) {
+  .config(function ($urlRouterProvider, $locationProvider, $httpProvider, $urlMatcherFactoryProvider) {
     $urlRouterProvider.otherwise('/');
+    // Fix for bug 1691: URL should not be case-sensitive
+    $urlMatcherFactoryProvider.caseInsensitive(true);
     $locationProvider.html5Mode(true);
     /*This change with httpProvider is for
     bug 1682: Admin Console: access flow:  The Admin console is displayed when the user does not logged in.
     bug 1683: Admin Console: access flow:  The form for create is being displaying.
     bug 1684: Admin Console: access flow:  The submenu is being displaying.
     */
+
     $httpProvider.defaults.cache = false;
     if (!$httpProvider.defaults.headers.get) {
       $httpProvider.defaults.headers.get = {};
