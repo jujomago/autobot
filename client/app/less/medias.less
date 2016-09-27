@@ -18,8 +18,9 @@
     }
     .navbar-nav .centerSubmenu
     {
-      overflow-y: scroll;
-      height: 450px !important;
+      overflow-y: auto;;
+      max-height: 470px;
+      //height: 450px !important;
     }
 }
 @media (min-width: 768px) {
@@ -32,8 +33,9 @@
 @media (max-height: 700px) {
     .navbar-nav .centerSubmenu
     {
-      overflow-y: scroll;
-      height: 350px !important;
+      overflow-y: auto;
+      max-height: 370px;
+      //height: 350px !important;
     }
 }
 @media (min-width: 1200px) {
@@ -41,5 +43,12 @@
     {
         left: 23%;
         right: 23%;
+    }
+}
+@media (min-width: 1500px) {
+    .centerSubmenu
+    {
+        left: 310px !important;
+        right: 310px !important;
     }
 }
