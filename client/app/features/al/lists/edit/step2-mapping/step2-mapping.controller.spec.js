@@ -1002,6 +1002,46 @@ describe('Component: al.lists.mapping', function () {
 
       });
 
+      it('When remove numbers are not required',()=>{      
+
+          let mockCSV = `
+          numero1,numero2,fName,lName,Compa,Correo
+          ,,Josue,Mancilla, Sinapsysit,josue@gmail.com,
+          74345786434,011467,Boris,Bachas,ninguna,boris@gmail.com,
+          ,,Boris,Bachas,ninguna,boris@gmail.com,
+          124652,0111,Boris,Bachas,ninguna,boris@gmail.com         
+          `;
+          
+          MappingComponent.setStateParams({
+            name:'testListName',
+            settings:{ 
+                  csvData: mockCSV, 
+                  listDeleteSettings:mockDeleteSettigs 
+            }      
+          });      
+          MappingComponent.hasHeader=true;
+          expect(MappingComponent.hasHeader).to.equal(true);
+
+          MappingComponent.contactFields = [
+            {'name': 'number1' ,mappedName:numero1, isKey:false},      
+            {'name': 'number2' ,mappedName:numero2 , isKey:true },      
+            {'name': 'number3',mappedName:null , isKey:true  },
+            {'name': 'first_name',mappedName:fName , isKey:false },      
+            {'name': 'last_name' ,mappedName:null, isKey:true },
+            {'name': 'company' ,mappedName:Compa ,isKey:false }
+          ];
+
+
+          let resultFinish=MappingComponent.finishMap();
+          let rows=resultFinish.resultMapping.rows;
+          expect(rows).to.have.lengthOf(2);
+          
+          expect(rows[0]).to.eql({'number1':'','number2':'','first_name':'Josue',company:'Sinapsysit'});
+          expect(rows[1]).to.eql({'number1':'','number2':'','first_name':'Boris',company:'ninguna'});
+
+      });
+
+
 
 
   });
