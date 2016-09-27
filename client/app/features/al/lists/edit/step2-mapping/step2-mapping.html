@@ -53,8 +53,8 @@
                     Actions
                 </th>
             </thead>
-            <tbody>
-                <tr ng-repeat="field in $ctrl.contactFields track by $index" ng-class="{'selected':$ctrl.seletedRowsMapped.indexOf($index)>=0}">
+            <tbody id="table_mapping_body">
+                <tr ng-repeat="field in $ctrl.contactFields track by $index" ng-class="{'selected':(($ctrl.selectedRowsMapped.indexOf($index)>=0)||$ctrl.selectedRow===$index)}">
                     <td>
                         <select class="cell-select" ng-class="{'withArrow':field.mappedName===null}" ng-if="$ctrl.hasHeader" ng-model="field.mappedName" ng-options="o for o in $ctrl.jsonHeaders">
                             <option value=""></option>

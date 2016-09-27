@@ -63,7 +63,7 @@
             }  
         }
 
-        if(allFieldsEmpty){
+        if(allFieldsEmpty && actionList==='update'){
             resultValidSingleRow.push({errorReason:'Record is empty.',result:false});
         }else if(!row.hasOwnProperty('number1') &&  !row.hasOwnProperty('number2') && !row.hasOwnProperty('number3') && actionList==='update'){
             resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
@@ -128,7 +128,7 @@
                         break;           
                 }             
             });                        
-        }       
+        }
         return resultValidSingleRow;           
     }
 
