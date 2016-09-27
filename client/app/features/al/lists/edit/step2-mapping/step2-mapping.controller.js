@@ -133,22 +133,25 @@
     }
 
 
-    function _validateRowsFiels(lodash,rowsFields,validator,actionList){      
+    function _validateRowsFiels(lodash,rowsFields,validator,actionList,skipPreview){      
         let _ = lodash;
         let validRows=[];
         let invalidRows=[];
-
-        _.each(rowsFields,(rowFieldObject,i)=>{
-            let resultValidation=_validateSingleRow(_,rowFieldObject,validator,actionList);
-      
-            if(resultValidation.map(e=>e.result).indexOf(false)===-1){
-                validRows.push(rowFieldObject);
-            }else{
-                let errorsReasonsFiltered=resultValidation.filter(elem=>elem.errorReason);
-                let justTextErrors=errorsReasonsFiltered.map(a=>a.errorReason);
-                invalidRows.push({lineError:i+1,errors:justTextErrors});
-            }                         
-        });
+        if(skipPreview===true){
+            validRows=rowsFields;
+        }else{
+            _.each(rowsFields,(rowFieldObject,i)=>{
+                let resultValidation=_validateSingleRow(_,rowFieldObject,validator,actionList);
+        
+                if(resultValidation.map(e=>e.result).indexOf(false)===-1){
+                    validRows.push(rowFieldObject);
+                }else{
+                    let errorsReasonsFiltered=resultValidation.filter(elem=>elem.errorReason);
+                    let justTextErrors=errorsReasonsFiltered.map(a=>a.errorReason);
+                    invalidRows.push({lineError:i+1,errors:justTextErrors});
+                }                         
+            });
+        }
 
         return {
             validRows:validRows,
@@ -570,7 +573,7 @@
 
                      let rowsFields=_getRowsFields(this.hasHeader, this.contactFields, this.jsonCSV, _);                
 
-                     let resultValidRowsFields=_validateRowsFiels(_,rowsFields,this.ValidatorService,this.actionList);                  
+                     let resultValidRowsFields=_validateRowsFiels(_,rowsFields,this.ValidatorService,this.actionList,_$stateParams.settings.skipPreview);                  
                         
                      let contentModal={
                          title:'Summary'
