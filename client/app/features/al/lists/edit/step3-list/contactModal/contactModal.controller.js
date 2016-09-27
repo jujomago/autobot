@@ -56,7 +56,6 @@ class ContactModalComponent {
     this.fields = this.edit.importData.fields;
 
     this.method = this.edit.method;
-
     this.phoneRequired = (this.manual && this.method === 'create') ? true : false;
     console.log(`phoneRequired ${this.phoneRequired}`);
     //this.phoneRequired=false;
@@ -118,7 +117,7 @@ class ContactModalComponent {
 
 
       if(typeInput === 'tel'){
-         if(atLeastRequireOnePhone){
+         if(atLeastRequireOnePhone && this.method!=='update'){
             this.phoneRequired=true;
         }
         validation.push({'name': value.name, 'type': typeInput});

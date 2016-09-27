@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Component: contactModalComponent', function () {
+describe('Component:contactModalComponent', function () {
 
   // load the controller's module
   beforeEach(module('fakiyaMainApp'));
@@ -107,14 +107,16 @@ describe('Component: contactModalComponent', function () {
     }
     ];
     validation = _ContactModalComponent.getValidation(fields);
+    _ContactModalComponent.method = 'create';
     expect(validation).to.eql(
       [
         {name: 'number1', type: 'tel'},
         {name: 'first_name', type: 'text', maxlength: 250},
         {name: 'email', type: 'email', maxlength: 250},
-        {name: 'balance', type: 'number'}
+        {name: 'Balance', type: 'number', maxlength: 250}
       ]
     );
+    expect(_ContactModalComponent.phoneRequired).to.equal(true);
   });
 
   it('#getValidation should return a form valid inputs (Mapping)', function () {
