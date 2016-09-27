@@ -25,7 +25,7 @@ module.exports = {
             ignoreBaseNameSpaces: true // child xml atributes don't need tns prefix
         }
         req.partnerCretentials.username = 'trueforce@blueruby.info';
-        req.partnerCretentials.passwd = 'five9demo';
+        req.partnerCretentials.passwd = 'Five9@demo';
         next();
     }
 }
