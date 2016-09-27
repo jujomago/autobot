@@ -68,8 +68,9 @@
       .border-right {
         border-right: 1px solid #666666;
       }
-      .border-left {
+      .new-apps {
         border-left: 1px solid #666666;
+        margin-left: -1px;
       }
       .no-apps {
         .link {
@@ -254,6 +255,10 @@
             }
             .app-full {
                 font-weight: bold;
+                cursor: pointer;
+                &:hover {
+                  color: @blue;
+                }
               }
             .partner-full {
                 padding-left: 50px;
