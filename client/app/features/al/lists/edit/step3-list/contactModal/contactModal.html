@@ -56,13 +56,15 @@
                                name="$ctrl.dates[$index].time"
                                id="$ctrl.dates[$index].time"
                                ng-model="$ctrl.dates[$index].time"
-                               placeholder="HH:mm:ss" min="00:00:00" max="23:00:00"/>
+                               placeholder="HH:mm:ss" min="00:00:00" max="23:00:00"
+                               ng-required="$ctrl.dates[$index].date"/>
                       </span>
                      </div>
                 </div>
             </div>
             <div class="errorMessagesModal" ng-messages="formList[form.name].$error"  ng-show='formList.$submitted || formList[form.name].$dirty'>             
                   <p nf-if="form.type == 'email'" ng-message="email">This field must be an email address</p>
+                  <p nf-if="form.type == 'date-text'" ng-message="date-text">Tcontact Field last_sms has an invalid value, invalid time. Please correct it.</p>
                   <p ng-message="required">The Contact Record does not have any number</p>
                   <p ng-message="usphoneValidator">Contact Field number has an invalid value. Number must either be 10 digits for dialing within North America, or begin with "011" for International number. International number length should be no more than 20 digits. Please correct it</p>
             </div>
