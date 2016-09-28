@@ -1,20 +1,22 @@
 'use strict';
 
-describe('Directive: abxNoSpecialCharacter', function () {
+describe.only('Directive: abxNoSpecialCharacter', function () {
 
   // load the directive's module
   beforeEach(module('fakiyaMainApp'));
 
- /* var element,
+  let element,
     scope;
 
   beforeEach(inject(function ($rootScope) {
     scope = $rootScope.$new();
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<abx-no-special-character></abx-no-special-character>');
+  it('should restrict special chars on input', inject(function ($compile) {
+    element = angular.element('<input class="search" abx-no-special-character="/^[a-zA-Z0-9\s]*$/" value="probando +- ando">');
     element = $compile(element)(scope);
-    expect(element.text()).to.equal('this is the abxNoSpecialCharacter directive');
-  }));*/
+    console.log('===== element val =====')
+    console.log(element.val());
+    //expect(element.text()).to.equal('this is the abxNoSpecialCharacter directive');
+  }));
 });
