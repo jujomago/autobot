@@ -23,17 +23,17 @@
         'password': this.password
       };
       return _auth.login(credentials)
-      .then(response => {    
+      .then(response => {
         let decoded;
         if(_$stateParams.url && (decoded = _Base64Manager.decode(_$stateParams.url))){
           _$location.url(decoded).search('url', null);
         }else{
-          _$location.url('/underconstruction').search('url', null);
+          _$location.url('/dashboard').search('url', null);
         }
         return response;
       })
-      .catch(e => {         
-        this.message = { show: true, text: e.errorMessage || e, type: 'danger' };        
+      .catch(e => {
+        this.message = { show: true, text: e.errorMessage || e, type: 'danger' };
         return e;
       });
     }
