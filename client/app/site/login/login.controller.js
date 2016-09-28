@@ -13,12 +13,12 @@
     }
 
     autentichate() {
-       
+
       if (this.username === 'admin@autoboxcorp.com' && this.password === 'Password1') {
-        this.state.go('ap.al.skills');
+        this.state.go('ap.dashboard');
       } else {
         this.message = { show: true, text: 'Invalid username and/or password. Please try again', type: 'danger'};
-  
+
         if(this.password){
             this.cleanWrognPassword=true;
             this.password = '';
