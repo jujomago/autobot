@@ -1,6 +1,6 @@
 'use strict';
 
-describe.only('Directive: abxNoSpecialCharacter', function () {
+describe('Directive: abxNoSpecialCharacter', function () {
 
   // load the directive's module
   beforeEach(module('fakiyaMainApp'));
@@ -12,11 +12,32 @@ describe.only('Directive: abxNoSpecialCharacter', function () {
     scope = $rootScope.$new();
   }));
 
-  it('should restrict special chars on input', inject(function ($compile) {
-    element = angular.element('<input class="search" abx-no-special-character="/^[a-zA-Z0-9\s]*$/" value="probando +- ando">');
+  it('should allow numbers and letters', inject(function ($compile) {
+    scope.testInput='';
+    element = angular.element('<input type="text" abx-no-special-character="/^[a-zA-Z0-9\s]*$/" ng-model="testInput">');
     element = $compile(element)(scope);
-    console.log('===== element val =====')
-    console.log(element.val());
-    //expect(element.text()).to.equal('this is the abxNoSpecialCharacter directive');
+    scope.$apply();
+    element.isolateScope().ngModel='123456789abcadfew';
+    scope.$digest();
+    expect(element.isolateScope().ngModel).to.equal('123456789abcadfew');
   }));
+  it('should not allow simbols or signs', inject(function ($compile) {
+    scope.testInput='';
+    element = angular.element('<input type="text" abx-no-special-character="/^[a-zA-Z0-9\s]*$/" ng-model="testInput">');
+    element = $compile(element)(scope);
+    scope.$apply();
+    element.isolateScope().ngModel='-+*//(^$#@!@)';
+    scope.$digest();
+    expect(element.isolateScope().ngModel).to.not.equal('');
+  }));
+  it('should allow uppercase letters', inject(function ($compile) {
+    scope.testInput='';
+    element = angular.element('<input type="text" abx-no-special-character="/^[a-zA-Z0-9\s]*$/" ng-model="testInput">');
+    element = $compile(element)(scope);
+    scope.$apply();
+    element.isolateScope().ngModel='ABCDEFGHIJK';
+    scope.$digest();
+    expect(element.isolateScope().ngModel).to.equal('ABCDEFGHIJK');
+  }));
+
 });
