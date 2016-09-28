@@ -28,7 +28,7 @@
         if(_$stateParams.url && (decoded = _Base64Manager.decode(_$stateParams.url))){
           _$location.url(decoded).search('url', null);
         }else{
-          _$location.url('/dashboard').search('url', null);
+          _$location.url('/ap/dashboard').search('url', null);
         }
         return response;
       })

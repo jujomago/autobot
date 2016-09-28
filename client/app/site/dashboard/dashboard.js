@@ -3,7 +3,7 @@
 angular.module('fakiyaMainApp')
   .config(function ($stateProvider) {
     $stateProvider
-      .state('dashboard', {
+      .state('ap.dashboard', {
        url: '/dashboard',
        template: '<dashboard></dashboard>'
      });

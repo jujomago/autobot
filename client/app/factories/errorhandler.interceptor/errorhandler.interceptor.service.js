@@ -11,7 +11,7 @@ angular.module('fakiyaMainApp')
 			   if(AuthService.isAuthenticated() && (path==='/' || path==='/login') && config.url.indexOf('/api/')===-1)
 				{
 					//cooming soon this path will be redirect to dashboard
-					 $location.path('/dashboard');
+					 $location.path('/ap/dashboard');
 				}
                return config;
             },
