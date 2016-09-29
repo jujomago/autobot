@@ -71,6 +71,10 @@
       .border-left {
         border-left: 1px solid #666666;
       }
+      .new-apps {
+        border-left: 1px solid #666666;
+        margin-left: -1px;
+      }
       .no-apps {
         .link {
           margin-top: 15px;
@@ -254,6 +258,10 @@
             }
             .app-full {
                 font-weight: bold;
+                cursor: pointer;
+                &:hover {
+                  color: @blue;
+                }
               }
             .partner-full {
                 padding-left: 50px;
