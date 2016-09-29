@@ -12,7 +12,7 @@
                 return rowValues.map(rv => rv.trim());
             });
         } else {
-            var headers = lines[0].split(delimiter);        
+            let headers = lines[0].split(delimiter).map(e=>e.trim());
             for (var i = 1; i < lines.length; i++) {
                 var obj = {};
                 var currentline = lines[i].split(delimiter);
@@ -461,11 +461,14 @@
             if (this.hasHeader === true) {
                 this.changeDelimiter();    
 
+                let tempJsonHeaders=angular.copy(this.jsonHeaders);
+                tempJsonHeaders=tempJsonHeaders.map(e=>e.toUpperCase());
+       
                 //BUG:1498 - The fields mapped does not display as selected.
-                angular.forEach(this.contactFields, (el,index) => {
-                        if (this.jsonHeaders.indexOf(el.name) >= 0 && 
+                angular.forEach(this.contactFields, (el,index) => {    
+                        if (tempJsonHeaders.indexOf(el.name.toUpperCase()) >= 0 && 
                             el.hasOwnProperty('isKey') &&  
-                            el.mappedName===null)  {                        
+                            el.mappedName===null)  {                
                             el.mappedName = el.name;
                             this.selectedRowsMapped.push(index);
                         }
