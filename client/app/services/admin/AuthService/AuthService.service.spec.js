@@ -54,8 +54,6 @@ describe('Service: AuthService', function () {
 
           AuthService.login(credentials)
           .then(response=>{            
-              console.log('====================== LOGIN REPOSNSE ==============');
-              console.log(response);
               expect(response.status).to.equal(400);
               expect(response.data).to.equal('Login or password is incorrect or user is not active');
           });
