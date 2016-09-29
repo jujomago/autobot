@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Component: NavbarController', function() {
+describe('Component:NavbarController', function() {
 
   // load the controller's module
   beforeEach(module('fakiyaMainApp'));
@@ -12,7 +12,8 @@ describe('Component: NavbarController', function() {
                         'app':{
                           'appName': 'al', 
                           'appFullName': 'Admin Console',
-                          'description': 'My app 1 description'
+                          'description': 'My app 1 description',
+                          'appStatus': 1
                         },
                         'partner':{
                           'partnerName': 'f9',
@@ -23,7 +24,20 @@ describe('Component: NavbarController', function() {
                         'app':{
                           'appName': 'myapp2', 
                           'appFullName': 'My App2',
-                          'description': 'My app 2 description'
+                          'description': 'My app 2 description',
+                          'appStatus': 3
+                        },
+                        'partner':{
+                          'partnerName': 'f9',
+                          'partnerFullName': 'Five9'
+                        }
+                      },
+                      {
+                        'app':{
+                          'appName': 'myapp3', 
+                          'appFullName': 'My App3',
+                          'description': 'My app 3 description',
+                          'appStatus': 2
                         },
                         'partner':{
                           'partnerName': 'f9',
@@ -74,7 +88,7 @@ describe('Component: NavbarController', function() {
   //This test doesn't work because a related method uses lodash
   /*describe('#get Installed', () => {
     it('=> should get installed apps', () => {
-      _$httpBackend.whenGET('/assets/admin/json/installed.json').respond(mockAppsData);
+      _$httpBackend.whenGET(endPointUrl+'/admin/apps/filter?installed=true&size=100').respond(mockAppsData);
        NavbarController.getInstalled()
             .then(response => {
                 expect(response).to.not.equal(null);
@@ -87,7 +101,7 @@ describe('Component: NavbarController', function() {
       _$httpBackend.flush();
     });
     it('=> should return Status 500, error in update', () => {
-      _$httpBackend.whenGET('/assets/admin/json/installed.json').respond(500, 'Internal Server Error');
+      _$httpBackend.whenGET(endPointUrl+'/admin/apps/filter?installed=true&size=100').respond(500, 'Internal Server Error');
       NavbarController.getInstalled()
        .then(() =>{
           expect(NavbarController.myAppsFromService.length).to.equal(0);
@@ -96,9 +110,9 @@ describe('Component: NavbarController', function() {
     }); 
   });*/
 
-  describe('#get new Apps', () => {
-    it('=> should get new apps', () => {
-      _$httpBackend.whenGET(endPointUrl+'/admin/apps/notinstalled').respond(mockAppsData);
+  describe('#getNewest', () => {
+    it('should get new apps', () => {
+      _$httpBackend.whenGET(endPointUrl+'/admin/apps/filter?installed=false&size=5').respond(mockAppsData);
        NavbarController.getNewest()
             .then(response => {
                 expect(response).to.not.equal(null);
@@ -111,7 +125,7 @@ describe('Component: NavbarController', function() {
       _$httpBackend.flush();
     });
     it('=> should return Status 500, error in update', () => {
-      _$httpBackend.whenGET(endPointUrl+'/admin/apps/notinstalled').respond(500, 'Internal Server Error');
+      _$httpBackend.whenGET(endPointUrl+'/admin/apps/filter?installed=false&size=5').respond(500, 'Internal Server Error');
       NavbarController.getNewest()
        .then(() =>{
           expect(NavbarController.newApps.length).to.equal(0);

@@ -9,45 +9,42 @@ describe('Service: AppsService', function () {
   var _AppsService, _$httpBackend;
   var _endPointUrl;
   var mockAppsData = [
-                      {
-                        'partner': 'Five9',
-                        'apps': [
-                          {
-                            'app': [
-                              {
-                                'appFullName':'Admin Console',
-                                'appName':'al',
-                                'description': 'This is the description'
-                              }
-                            ],
-                            'installed': true,
-                            'partner': {
-                              'partnerFullName':'Five9',
-                              'partnerName':'Five9'
-                            }
-                          }
-                        ]
-                      },
-                      {
-                        'partner': 'SalesForce',
-                        'apps': [
-                          {
-                            'app': [
-                              {
-                                'appFullName':'XYZ App',
-                                'appName':'XYZApp',
-                                'description': 'This is the description'
-                              }
-                            ],
-                            'installed': true,
-                            'partner': {
-                              'partnerFullName':'Sales Force',
-                              'partnerName':'SalesForce'
-                            }
-                          }
-                        ]
-                      }
-                    ];
+    {
+      'app':{
+        'appName': 'AL',
+        'appFullName': 'Admin Console',
+        'description': 'My app 1 description',
+        'appStatus': 1
+      },
+      'partner':{
+        'partnerName': 'f9',
+        'partnerFullName': 'Five9'
+      }
+    },
+    {
+      'app':{
+        'appName': 'myapp2',
+        'appFullName': 'My App2',
+        'description': 'My app 2 description',
+        'appStatus': 1
+      },
+      'partner':{
+        'partnerName': 'sf',
+        'partnerFullName': 'SalesForce'
+      }
+  },
+  {
+      'app':{
+        'appName': 'myapp3',
+        'appFullName': 'My App3',
+        'description': 'My app 3 description',
+        'appStatus': 2
+      },
+      'partner':{
+        'partnerName': 'sf',
+        'partnerFullName': 'SalesForce'
+      }
+  }];
   beforeEach(inject(function (_AppsService_, $httpBackend, appConfig) {
     _AppsService = _AppsService_;
     _$httpBackend = $httpBackend;
@@ -59,119 +56,57 @@ describe('Service: AppsService', function () {
     _$httpBackend.verifyNoOutstandingRequest();
   });
 
-
-  it('should return apps', function () {
-    _$httpBackend.whenGET('/admin/apps').respond(mockAppsData);
-    _AppsService.getApps().then(apps => {
-        expect(null).to.not.equal(apps);
-        expect(undefined).to.not.equal(apps);
-        expect(apps.data.length).to.equal(2);
-        expect(apps.data[0].apps.length).to.equal(1);
-        expect(apps.data[1].apps.length).to.equal(1);
-        expect(apps.data[1].partner).to.equal('SalesForce');
-        expect(apps.data[0].partner).to.equal('Five9');
+  describe('#getApps',()=>{
+    it('should return apps', function () {
+      _$httpBackend.whenGET(_endPointUrl+'/filter?size=100').respond(mockAppsData);
+      _AppsService.getApps().then(apps => {
+          expect(null).to.not.equal(apps);
+          expect(undefined).to.not.equal(apps);
+          expect(apps.data.length).to.equal(2);
+          expect(apps.data[0].apps.length).to.equal(1);
+          expect(apps.data[1].apps.length).to.equal(1);
+          expect(apps.data[1].partner).to.equal('SalesForce');
+          expect(apps.data[0].partner).to.equal('Five9');
+      });
+      _$httpBackend.flush();
     });
-    //_$httpBackend.flush();
+    it('should return error getting apps', function () {
+      _$httpBackend.whenGET(_endPointUrl+'/filter?size=100').respond(500, {error: 'Internal Server Error'});
+      _AppsService.getApps().catch(error => {
+          expect(null).to.not.equal(error);
+          expect(undefined).to.not.equal(error);
+          expect(error.statusCode).to.equal(500);
+          expect(error.errorMessage).to.equal('Internal Server Error');
+      });
+      _$httpBackend.flush();
+    });
   });
-  it('should return error getting apps', function () {
-    _$httpBackend.whenGET('/admin/apps').respond(500, {error: 'Internal Server Error'});
-    _AppsService.getApps().catch(error => {
-        expect(null).to.not.equal(error);
-        expect(undefined).to.not.equal(error);
-        expect(error.statusCode).to.equal(500);
-        expect(error.errorMessage).to.equal('Internal Server Error');
+  describe('#getFilteredApps',()=>{
+    it('should return filtered apps with attributes', function () {
+      _$httpBackend.whenGET(_endPointUrl+'/filter?size=2&status=active').respond(200,mockAppsData);
+      _AppsService.getFilteredApps({size: 2, status: 'active'})
+      .then(apps => {
+          expect(null).to.not.equal(apps);
+          expect(undefined).to.not.equal(apps);
+          expect(apps.data.length).to.equal(2);
+          expect(apps.data[0].app.appName).to.equal('AL');
+          expect(apps.data[1].app.appName).to.equal('myapp2');
+          expect(apps.data[0].partner.partnerFullName).to.equal('Five9');
+          expect(apps.data[1].partner.partnerFullName).to.equal('SalesForce');
+      });
+      _$httpBackend.flush();
     });
-    //_$httpBackend.flush();
-  });
-
-  it('should return submenu installed apps', function () {
-    let installedApps = [
-    {
-      'app':{
-        'appName': 'AL',
-        'appFullName': 'Admin Console',
-        'description': 'My app 1 description'
-      },
-      'partner':{
-        'partnerName': 'f9',
-        'partnerFullName': 'Five9'
-      }
-    },
-    {
-      'app':{
-        'appName': 'myapp2',
-        'appFullName': 'My App2',
-        'description': 'My app 2 description'
-      },
-      'partner':{
-        'partnerName': 'f9',
-        'partnerFullName': 'Five9'
-      }
-    }];
-    _$httpBackend.whenGET(_endPointUrl+'/installed').respond(installedApps);
-    _AppsService.getInstalled().then(apps => {
-        expect(null).to.not.equal(apps);
-        expect(undefined).to.not.equal(apps);
-        expect(apps.data.length).to.equal(2);
-        expect(apps.data[0].partner.partnerFullName).to.equal('Five9');
+    it('should return submenu error', function () {
+      _$httpBackend.whenGET(_endPointUrl+'/filter?size=10&status=active&installed=true').respond(500, {error: 'Internal Server Error'});
+      _AppsService.getFilteredApps({size: 10, status: 'active', installed: true})
+      .catch(error => {
+          expect(null).to.not.equal(error);
+          expect(undefined).to.not.equal(error);
+          expect(error.statusCode).to.equal(500);
+          expect(error.errorMessage).to.equal('Internal Server Error');
+      });
+      _$httpBackend.flush();
     });
-    _$httpBackend.flush();
-  });
-  it('should return submenu error', function () {
-    _$httpBackend.whenGET(_endPointUrl+'/installed').respond(500, {error: 'Internal Server Error'});
-    _AppsService.getInstalled().catch(error => {
-        expect(null).to.not.equal(error);
-        expect(undefined).to.not.equal(error);
-        expect(error.statusCode).to.equal(500);
-        expect(error.errorMessage).to.equal('Internal Server Error');
-    });
-    _$httpBackend.flush();
-  });
-
-  it('should return submenu new apps', function () {
-    let newApps = [
-      {
-        'app':{
-          'appName': 'myapp4',
-          'appFullName': 'My App4',
-          'description': 'My app 4 description'
-        },
-        'partner':{
-          'partnerName': 'f9',
-          'partnerFullName': 'Five9'
-        }
-      },
-      {
-        'app':{
-          'appName': 'myapp5',
-          'appFullName': 'My App5',
-          'description': 'My app 5 description'
-        },
-        'partner':{
-          'partnerName': 'sf',
-          'partnerFullName': 'SalesForce'
-        }
-      }
-    ];
-    _$httpBackend.whenGET(_endPointUrl+'/notinstalled').respond(newApps);
-    _AppsService.getNewest().then(apps => {
-        expect(null).to.not.equal(apps);
-        expect(undefined).to.not.equal(apps);
-        expect(apps.data.length).to.equal(2);
-        expect(apps.data[1].partner.partnerFullName).to.equal('SalesForce');
-    });
-    _$httpBackend.flush();
-  });
-
-  it('should return submenu new apps error', function () {
-    _$httpBackend.whenGET(_endPointUrl+'/notinstalled').respond(500, {error: 'Internal Server Error'});
-    _AppsService.getNewest().catch(error => {
-        expect(null).to.not.equal(error);
-        expect(undefined).to.not.equal(error);
-        expect(error.statusCode).to.equal(500);
-        expect(error.errorMessage).to.equal('Internal Server Error');
-    });
-    _$httpBackend.flush();
   });
 
 });

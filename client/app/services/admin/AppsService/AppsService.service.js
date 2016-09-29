@@ -2,6 +2,11 @@
 (function () {
     let _lodash, _$parse;
     let _$http,_HandleError;
+    function _removeInactives(result){
+      return  result.filter(function( application ) {
+        return application.app.appStatus !== 2;
+      });
+    }
     class AppsService {
         constructor($http, HandleError, appConfig, lodash, $parse) {
             this.partners = [];
@@ -20,10 +25,11 @@
         }
         getApps() {
           let result = { data: null, statusCode: 200, errorMessage: null };
-          //return _$http.get('/assets/admin/json/apps.json')
-          return _$http.get(this.endPointUrl)
+          //this is temporal, when API correct the US 1711 this param size must be removed
+          let params = {size: 100};
+          return _$http.get(this.endPointUrl+'/filter',{params: params})
             .then(response => {
-              this.apps=this.groupBy(response.data);
+              this.apps=this.groupBy(_removeInactives(response.data));
         			var j = 0;
         			for(let partnerName in this.apps)
         			{
@@ -36,6 +42,15 @@
             })
             .catch(err => _HandleError(err, result));
         }
+        getFilteredApps(params){
+            let result = { data: null, statusCode: 200, errorMessage: null };
+            return _$http.get(this.endPointUrl+'/filter', {params: params})
+            .then(response => {
+                result.data = _removeInactives(response.data);
+                return result;
+            })
+            .catch(err => _HandleError(err, result));
+        }
         getApp(appName){
 
           let result = { data: null, statusCode: 200, errorMessage: null };
@@ -43,24 +58,6 @@
             .then(response => {
             	result.data = response.data;
             	return result;
-            })
-            .catch(err => _HandleError(err, result));
-        }
-        getInstalled(){
-            let result = { data: null, statusCode: 200, errorMessage: null };
-            return _$http.get(this.endPointUrl+'/installed')
-            .then(response => {
-                result.data = response.data;
-                return result;
-            })
-            .catch(err => _HandleError(err, result));
-        }
-        getNewest(){
-            let result = { data: null, statusCode: 200, errorMessage: null };
-            return _$http.get(this.endPointUrl+'/notinstalled')
-            .then(response => {
-                result.data = response.data;
-                return result;
             })
             .catch(err => _HandleError(err, result));
         }
