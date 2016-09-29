@@ -286,6 +286,28 @@
         return fieldsEntries;
     }
 
+
+    function _scrollRowIntoView(indexRow, container) {
+
+        let _container=angular.element(container);     
+        var domEl=_container.find('tr').get(indexRow);
+        if(!domEl) {         
+           _container.scrollTop(1000);
+        }else{
+            var containerTop = _container.scrollTop(); 
+            var containerBottom = containerTop + _container.height(); 
+            var elemTop = domEl.offsetTop;
+            var elemBottom = elemTop + angular.element(domEl).height();        
+            if (elemTop < containerTop) {
+                _container.scrollTop(elemTop);
+            } else if (elemBottom > containerBottom) {
+                _container.scrollTop(elemBottom - _container.height());
+            }
+        }
+    }
+
+
+
     let _$stateParams, _$state;
     let _AlertMessage,_ContactFieldsService, _ListService, _;
 
@@ -318,7 +340,7 @@
             this.selectedRow = -1;
             this.jsonCSV = [];
             this.jsonHeaders = [];
-            this.seletedRowsMapped=[];
+            this.selectedRowsMapped=[];
             this.sending = false;
             this.actionList='update';
 
@@ -412,7 +434,7 @@
             console.log('enter here 1');
             console.log(this.selectedDelimiter);
             
-            this.seletedRowsMapped=[];  
+            this.selectedRowsMapped=[];  
             this.customDelimiterEnabled = (this.selectedDelimiter.title === 'Custom');
             if (this.customDelimiterEnabled) {
                 this.jsonCSV=_aplyDemiliterCSV(this.rawCSV,this.customDelimiterDefaultSymbol,this.hasHeader);    
@@ -442,21 +464,21 @@
                             el.hasOwnProperty('isKey') &&  
                             el.mappedName===null)  {                        
                             el.mappedName = el.name;
-                            this.seletedRowsMapped.push(index);
+                            this.selectedRowsMapped.push(index);
                         }
                 });
 
                 //BUG:1604 - The message for mapped fields does not behave as the java app.
-                 if(this.seletedRowsMapped.length===0){                       
+                 if(this.selectedRowsMapped.length===0){                       
                     _AlertMessage({
                         title:'Message',
                         body:'Unfortunately, nothing can be mapped automatically'
                     });  
-                    return this.seletedRowsMapped;
+                    return this.selectedRowsMapped;
                 }else{
                     _AlertMessage({
                         title:'Message',
-                        body:`${this.seletedRowsMapped.length} item(s) have(s) been successfully mapped.\n
+                        body:`${this.selectedRowsMapped.length} item(s) have(s) been successfully mapped.\n
                         All affected items have been selected`
                         });     
                     return this.contactFields;
@@ -472,7 +494,8 @@
         clearMapping() {
             // TODO: Research _.fill() does not work;
             if (this.contactFields) {
-                this.seletedRowsMapped=[];
+                this.selectedRowsMapped=[];
+                this.selectedRow=-1;
                 this.contactFields.forEach((el) => {
                     el.mappedName = null;
                     el.mappedIndex = 0;
@@ -670,17 +693,24 @@
             console.log(`selected item ${angular.toJson(this.contactFieldSelectedName)}`);
 
             let clonedItem = angular.copy(this.contactFieldSelectedName);
-
             let idx = _.findIndex(this.contactFields, { 'name': this.contactFieldSelectedName.name });
             if (idx >= 0) {
-                this.contactFields.splice((idx + 1), 0, clonedItem);
+               
+                this.contactFields.splice(idx + 1, 0, clonedItem);
+                let numberRepeatFields=_.filter(this.contactFields,{ 'name': clonedItem.name }).length;
+                this.selectedRow=(idx+numberRepeatFields)-1;
+              
             } else {
                 console.log('not found field, inserted first');
                 clonedItem.isKey = false;
                 this.contactFields.unshift(clonedItem);
                 // push first
+                this.selectedRow=0;                
             }
-            this.seletedRowsMapped=[];
+            _scrollRowIntoView(this.selectedRow,'#table_mapping_body');
+
+            console.log(`selected row: ${this.selectedRow}`);
+            this.selectedRowsMapped=[];
             console.log(`the index found is ${idx}`);
             return idx;
         }
@@ -702,13 +732,13 @@
                 }
                 this.contactFields.splice(this.selectedRow, 1);
                 this.selectedRow = -1;
-                this.seletedRowsMapped=[];
+                this.selectedRowsMapped=[];
                 return true;
             } else {
                 if (goingToDelete) {
                     this.contactFields.splice(this.selectedRow, 1);
                     this.selectedRow = -1;
-                    this.seletedRowsMapped=[];
+                    this.selectedRowsMapped=[];
                     return true;
                 } else {
                     return false;

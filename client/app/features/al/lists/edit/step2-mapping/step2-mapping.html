@@ -21,7 +21,7 @@
                     </div>
                     <div class="separator">
                         <span>Custom </span>
-                        <input type="text" ng-model="$ctrl.customDelimiterDefaultSymbol" maxlength="1" ng-change="$ctrl.changeDelimiter()" ng-disabled="!$ctrl.customDelimiterEnabled">
+                        <input type="text" class="symbol-delimiter" ng-model="$ctrl.customDelimiterDefaultSymbol" maxlength="1" ng-change="$ctrl.changeDelimiter()" ng-disabled="!$ctrl.customDelimiterEnabled">
                     </div>
                     <label class="separator">
                         <input type="checkbox" ng-model="$ctrl.hasHeader" ng-change="$ctrl.changeHeaderValue()">Has header
@@ -66,7 +66,7 @@
                         <input ng-if="field.isKey!=undefined" class="cell-checkbox" type="checkbox" ng-model="field.isKey">
                     </td>
                     <td class="text-center">
-                        <a href class="circle_delete" ng-click="$ctrl.selectedRow=$index;$ctrl.removeSelectedItem()" ng-hide="$ctrl.selectedRow==$index "></a>
+                        <a href class="circle_delete" ng-click="$ctrl.selectedRow=$index;$ctrl.removeSelectedItem()"></a>
                     </td>
                 </tr>
             </tbody>
