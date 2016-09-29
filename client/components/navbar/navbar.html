@@ -7,11 +7,11 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a href="/ap/al/skills" class="logo">AutoBox</a>
+      <a href="/ap/dashboard" class="logo">AutoBox</a>
     </div>
     <div uib-collapse="nav.isCollapsed" class="navbar-collapse collapse submenucustomize" id="navbar-main">
       <ul class="nav navbar-nav">
-        <li ui-sref-active="active"><a href="/underconstruction">Dashboard</a></li>
+        <li ui-sref-active="active"><a href="/ap/dashboard">Dashboard</a></li>
         <li class="dropdown sub-menu-dropdown positionCustomize" ng-mouseenter="nav.changeFocus(false)" ng-mouseleave="nav.changeFocus(true)">
           <a class="dropdown-toggle" role="button">My apps</a>
           <ul class="dropdown-menu submenu centerSubmenu" uib-collapse="nav.myAppsCollapsed">
@@ -44,7 +44,7 @@
                         </a>
                       </div>
                     </div>
-                  </div>  
+                  </div>
                 </div>
               </div>
               <div ng-show="nav.myAppsFromService.length == 0">
@@ -72,17 +72,17 @@
                   <!--<a class="new-link">
                     <span class="app-full">{{app.app.appFullName}}</span>
                     <span class="partner-full">{{app.partner.partnerFullName}}</span>
-                  </a> --> 
-                  
+                  </a> -->
+
                     <span class="app-full">{{app.app.appFullName}}</span>
                     <span class="partner-full">{{app.partner.partnerFullName}}</span>
-                
+
                 </li>
               </ul>
             </div>
-            
+
           </div>
-          
+
           </ul>
         </li>
         <li><a href="/underconstruction">Reports</a></li>
