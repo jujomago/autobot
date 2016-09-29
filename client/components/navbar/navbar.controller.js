@@ -96,7 +96,7 @@ class NavbarController {
     _$state.go(_GetHomePage.of(selected.app.appName));
   }
   getInstalled(){
-    return _appsService.getFilteredApps({size: 100, installed: true})
+    return _appsService.getFilteredApps({installed: true, size: 100})
     .then(response => {
       this.myAppsFromService = response.data;
       this.myAppsSearch = this.myAppsFromService;
@@ -113,7 +113,7 @@ class NavbarController {
   }
 
   getNewest(){
-    return _appsService.getFilteredApps({installed: true, size: MAX_NEW_APPS_AMOUNT})
+    return _appsService.getFilteredApps({installed: false, size: MAX_NEW_APPS_AMOUNT})
     .then(response => {
       this.newApps = response.data;
       return response;
