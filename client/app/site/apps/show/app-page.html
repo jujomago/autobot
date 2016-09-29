@@ -7,14 +7,17 @@
         <div class="app-fixed-logo-container">
             <div class="app-page-img-container">
                 <img class="img-responsive" ng-src="assets/{{$ctrl.application.appName}}/images/logo-sm.jpg" abx-default-image-switch="/assets/default/images/logo-sm.jpg" alt="logo {{$ctrl.application.appFullName}}" />
-                <button class="btn btn-black" ng-show="$ctrl.application.isInstalled" ng-click="$ctrl.selectInstalledApp()">Open app</button>
-                <button class="btn btn-black" ng-show="!$ctrl.application.isInstalled" ui-sref="underconstruction">Get app</button>
-                <p ng-repeat="requirement in $ctrl.application.appRequirements">{{requirement}}</p>
+                <div ng-show="$ctrl.application.appStatus!==$ctrl.appStatus.COMING_SOON">
+                    <button class="btn btn-black" ng-show="$ctrl.application.isInstalled" ng-click="$ctrl.selectInstalledApp()">Open app</button>
+                    <button class="btn btn-black" ng-show="!$ctrl.application.isInstalled" ui-sref="underconstruction">Get app</button>
+                    <p ng-repeat="requirement in $ctrl.application.appRequirements">{{requirement}}</p>
+                </div>
             </div>
 
         </div>
         <div class="col-md-10 col-sm-9 app-page-detail">
             {{$ctrl.application.description}}
+            <div ng-show="$ctrl.application.appStatus!==$ctrl.appStatus.COMING_SOON">
                 <h4 class="app-page-subtitle">Screenshots</h4>
                 <div class="app-screens-container row">
                     <div class="app-screen-img col-sm-4">
@@ -27,7 +30,14 @@
                         <img  class="img-responsive" ng-src="assets/al/images/screenshots/app-screen3.jpg" alt="screen3">
                     </div>    
                                
-                </div>            
+                </div>
+            </div>
+            <div class="coming-soon-container" ng-show="$ctrl.application.appStatus===$ctrl.appStatus.COMING_SOON">
+                <div class="coming-soon">
+                    <h3>COMING SOON</h3>
+                    <p>Our exciting new app is coming soon, please comeback to check it out!</p>
+                </div>
+            </div>           
         </div>
       </div>
 </div>
