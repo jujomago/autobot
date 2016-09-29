@@ -60,7 +60,6 @@ describe('Service: AppsService', function () {
     it('should return apps', function () {
       _$httpBackend.whenGET(_endPointUrl+'/filter?size=100').respond(mockAppsData);
       _AppsService.getApps().then(apps => {
-        console.log(apps.data);
           expect(null).to.not.equal(apps);
           expect(undefined).to.not.equal(apps);
           expect(apps.data.length).to.equal(2);

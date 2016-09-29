@@ -23,7 +23,6 @@
             _$parse = $parse;
             _lodash = lodash;
         }
-        //This logic must be moved to controller and use the new method getFilteredApps
         getApps() {
           let result = { data: null, statusCode: 200, errorMessage: null };
           //this is temporal, when API correct the US 1711 this param size must be removed
