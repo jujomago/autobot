@@ -2,7 +2,6 @@
 
 describe('Directive: abxNoSpecialCharacter', function () {
 
-  // load the directive's module
   beforeEach(module('fakiyaMainApp'));
 
   var element,

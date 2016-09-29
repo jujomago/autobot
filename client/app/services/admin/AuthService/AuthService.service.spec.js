@@ -21,9 +21,6 @@ describe('Service: AuthService', function () {
     httpBackend.verifyNoOutstandingRequest();
   });
 
-  it('should do something', function () {
-    expect(!!AuthService).to.equal(true);
-  });
 
   describe('#login',()=>{
       it('=> User logged in Successfully with credentials',()=>{
@@ -33,13 +30,13 @@ describe('Service: AuthService', function () {
           };
 
          httpBackend.whenPOST(endPointUrl+'/auth/login',credentials).respond(200,
-           '2032820asdfka0s0293ma002'
+           'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyaWQiOiI1N2VkMTVhZDVhODBlMzAwMTBlMzRmZmQiLCJkb21haW4iOiJhdXRvYm94Y29ycC5jb20iLCJqdGkiOiJkYWFiMmNiMC04NjQ3LTExZTYtOTdlYi00ZDk5ZTgwYTc2MjciLCJzdWIiOiJ1c2VyZGFhYjJjYjAtODY0Ny0xMWU2LTk3ZWItNGQ5OWU4MGE3NjI3IiwiaWF0IjoxNDc1MTU1Mzg1LCJleHAiOjE0NzUxNTg5ODV9.ngdyU9uPVvrtlpzWnE8hQnC7hYf2HNzC3F5811g4T4jzrWN_WOHnHnR6zPJiFDo054jbGjSj0kzS0cuyLRCOp422O9LxP2r0LbapTEaGjwKZb-kr_KgwJyMsIMe4Rq9OhepQMpCV1Jr9jlmPm0lVhTNeKmQDWdOaY1IRinaKy-AsMgcP8mHVn8b7XPT7GUrwYYdKJrLmqzGMSoEzyDEIk-bUSFgcLiQ4axcdR5T_W_r7LaEIURFGdWPJgyoPqxJkNdKOwK9aawMOlQfeGASg14nMkDTfdyZMmuNhlhnnjhT1V_0yhHRXIavevn5HeR3259S7eZfwgkbvIzAhbVSX7A'
          );
 
           AuthService.login(credentials)
           .then(response=>{
               expect(response.status).to.equal(200);
-              expect(response.data).to.equal('2032820asdfka0s0293ma002');
+              expect(response.data).to.equal('eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyaWQiOiI1N2VkMTVhZDVhODBlMzAwMTBlMzRmZmQiLCJkb21haW4iOiJhdXRvYm94Y29ycC5jb20iLCJqdGkiOiJkYWFiMmNiMC04NjQ3LTExZTYtOTdlYi00ZDk5ZTgwYTc2MjciLCJzdWIiOiJ1c2VyZGFhYjJjYjAtODY0Ny0xMWU2LTk3ZWItNGQ5OWU4MGE3NjI3IiwiaWF0IjoxNDc1MTU1Mzg1LCJleHAiOjE0NzUxNTg5ODV9.ngdyU9uPVvrtlpzWnE8hQnC7hYf2HNzC3F5811g4T4jzrWN_WOHnHnR6zPJiFDo054jbGjSj0kzS0cuyLRCOp422O9LxP2r0LbapTEaGjwKZb-kr_KgwJyMsIMe4Rq9OhepQMpCV1Jr9jlmPm0lVhTNeKmQDWdOaY1IRinaKy-AsMgcP8mHVn8b7XPT7GUrwYYdKJrLmqzGMSoEzyDEIk-bUSFgcLiQ4axcdR5T_W_r7LaEIURFGdWPJgyoPqxJkNdKOwK9aawMOlQfeGASg14nMkDTfdyZMmuNhlhnnjhT1V_0yhHRXIavevn5HeR3259S7eZfwgkbvIzAhbVSX7A');
           });
 
           httpBackend.flush();
@@ -69,8 +66,8 @@ describe('Service: AuthService', function () {
 describe('#renewToken',()=>{
       it('=>Token is renewed succesfully, status 200',()=>{
 
-         let oldToken='eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyaWQiOiI1N2MyMjRmN2FlZjdiYzEwMDBjM2U3MmEiLCJkb21haW4iOiJhdXRvYm94Y29ycC5jb20iLC';
-         let newToken='j2NIl4nXwxItHYCQ6QYCHneTa5Hb8gSXhvXrsXrVxYLIqtu820gIUqEMYjKb09TmbQfegi3cJN8stfrqyDYWmHvFQC99kd08vS3gvjxA6IC6_aLPGYkiCQ86cRYO_Ahb2QBNCFHA_f_DPJb0O';
+         let oldToken='eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyaWQiOiI1N2VkMTVhZDVhODBlMzAwMTBlMzRmZmQiLCJkb21haW4iOiJhdXRvYm94Y29ycC5jb20iLCJqdGkiOiJkYWFiMmNiMC04NjQ3LTExZTYtOTdlYi00ZDk5ZTgwYTc2MjciLCJzdWIiOiJ1c2VyZGFhYjJjYjAtODY0Ny0xMWU2LTk3ZWItNGQ5OWU4MGE3NjI3IiwiaWF0IjoxNDc1MTU1Mzg1LCJleHAiOjE0NzUxNTg5ODV9.ngdyU9uPVvrtlpzWnE8hQnC7hYf2HNzC3F5811g4T4jzrWN_WOHnHnR6zPJiFDo054jbGjSj0kzS0cuyLRCOp422O9LxP2r0LbapTEaGjwKZb-kr_KgwJyMsIMe4Rq9OhepQMpCV1Jr9jlmPm0lVhTNeKmQDWdOaY1IRinaKy-AsMgcP8mHVn8b7XPT7GUrwYYdKJrLmqzGMSoEzyDEIk-bUSFgcLiQ4axcdR5T_W_r7LaEIURFGdWPJgyoPqxJkNdKOwK9aawMOlQfeGASg14nMkDTfdyZMmuNhlhnnjhT1V_0yhHRXIavevn5HeR3259S7eZfwgkbvIzAhbVSX7A';
+         let newToken='eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyaWQiOiI1N2VkMTVhZDVhODBlMzAwMTBlMzRmZmQiLCJkb21haW4iOiJhdXRvYm94Y29ycC5jb20iLCJqdGkiOiI4NDVjNTYzMC04NjQ4LTExZTYtOTdlYi00ZDk5ZTgwYTc2MjciLCJzdWIiOiJ1c2VyODQ1YzU2MzAtODY0OC0xMWU2LTk3ZWItNGQ5OWU4MGE3NjI3IiwiaWF0IjoxNDc1MTU1NjY5LCJleHAiOjE0NzUxNTkyNjl9.cdMtf_jLhh32-Ndp7d53fmxpWjq2n1DzG5Ys5-SkKocMlIIO3P-afzrVSCIz2dTe83EeyeCpmc_tDblygn5yCZsy2gRTCq-x7AAIRT8gyA9Cwj-derGwc9ytZ_DassnPrxNSJkHZAjP0xMf8JXFcFMggQslnP_aBByKTthNW92xQDRHfojCSH18IAiHXW0zz8i-RoTf_MgFVh25c1E8WCQxFS-7R0Tl6BTLsG-KKrZJmPhtnVcWnylicR9nedONNjJfe_fG1CA47M4P3Wr2VXLEUi4ypQTGH158c2wbuqjTa8AMa9qWMWioWfBN6xCKAaCkD8rNWTooGpIGMOTs-Sw';
          httpBackend.whenPUT(endPointUrl+'/auth/refresh-token',{token:oldToken}).respond(200,newToken);
 
           AuthService.renewToken(oldToken)
@@ -84,7 +81,7 @@ describe('#renewToken',()=>{
 
       it('=> Invaid token for renew, status 401',()=>{
          
-         let oldToken='eyJ0eXAiOiJKV1QiLCJhbGcsiOiJSUzI1NiJ9.eyJ1c2VyaWQiOiI1N2MyMjRmN2FlZjdiYzEwMDBjM2U3MmEiLCJkb21haW4iOiJhdXRvYm94Y29ycC5jb20iLC';
+         let oldToken='eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyaWQiOiI1N2VkMTVhZDVhODBlMzAwMTBlMzRmZmQiLCJkb21haW4iOiJhdXRvYm94Y29ycC5jb20iLCJqdGkiOiJkYWFiMmNiMC04NjQ3LTExZTYtOTdlYi00ZDk5ZTgwYTc2MjciLCJzdWIiOiJ1c2VyZGFhYjJjYjAtODY0Ny0xMWU2LTk3ZWItNGQ5OWU4MGE3NjI3IiwiaWF0IjoxNDc1MTU1Mzg1LCJleHAiOjE0NzUxNTg5ODV9.ngdyU9uPVvrtlpzWnE8hQnC7hYf2HNzC3F5811g4T4jzrWN_WOHnHnR6zPJiFDo054jbGjSj0kzS0cuyLRCOp422O9LxP2r0LbapTEaGjwKZb-kr_KgwJyMsIMe4Rq9OhepQMpCV1Jr9jlmPm0lVhTNeKmQDWdOaY1IRinaKy-AsMgcP8mHVn8b7XPT7GUrwYYdKJrLmqzGMSoEzyDEIk-bUSFgcLiQ4axcdR5T_W_r7LaEIURFGdWPJgyoPqxJkNdKOwK9aawMOlQfeGASg14nMkDTfdyZMmuNhlhnnjhT1V_0yhHRXIavevn5HeR3259S7eZfwgkbvIzAhbVSX7A';
                 
          httpBackend.whenPUT(endPointUrl+'/auth/refresh-token',{token:oldToken}).respond(401,{
             'error': 'invalid token'
