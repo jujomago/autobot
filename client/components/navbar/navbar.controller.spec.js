@@ -31,7 +31,7 @@ describe('Component: NavbarController', function() {
                         }
                       }
                     ];
-
+  let mockAlertMessage;
   beforeEach(inject(function ($controller, $rootScope, $httpBackend, $cookies, $state, _AppsService_, _AuthService_,appConfig) {
 
     _$scope = $rootScope.$new();
@@ -39,6 +39,7 @@ describe('Component: NavbarController', function() {
     _AppsService = _AppsService_;
     _AuthService = _AuthService_;
     _$state = $state;
+
     _mockLocation = {
       params: {},
       url: function(url){
@@ -54,13 +55,14 @@ describe('Component: NavbarController', function() {
       }
     };
     _$cookies = $cookies;
-
+    mockAlertMessage = sinon.stub();
     NavbarController = $controller('NavbarController', {
       $scope: _$scope,
       $location: _mockLocation,
       $stateParams: { message: null },
       $state: _$state,
       _appsService: _AppsService,
+      AlertMessage: mockAlertMessage
     });
     if(appConfig.apiUri){
           endPointUrl=appConfig.apiUri;
@@ -117,6 +119,42 @@ describe('Component: NavbarController', function() {
         _$httpBackend.flush();
     });  
   });
+
+  describe('#getProfile', () => {
+    it('should get the user profile', () => {
+      _$httpBackend.whenGET(endPointUrl+ '/admin/users/profile').respond(200,
+           {
+            email: 'user@test.com',
+            firstname: 'user',
+            avatar: null,
+            role: 'admin'
+           }
+         );
+       NavbarController.getProfile()
+            .then(() => {
+                expect(NavbarController.firstName).to.equal('user');
+                expect(NavbarController.avatar).to.equal(null);  
+             });
+      _$httpBackend.flush();
+    });
+    it('should display alert on status 500', () => {
+      _$httpBackend.whenGET(endPointUrl+ '/admin/users/profile').respond(500, {error: 'Internal Server Error'});
+      NavbarController.getProfile()
+       .then(() =>{
+          expect(mockAlertMessage.calledOnce).to.equal(true);
+       });
+        _$httpBackend.flush();
+    });  
+    it('should not display alert on status 401', () => {
+      _$httpBackend.whenGET(endPointUrl+ '/admin/users/profile').respond(401, {error: 'Unauthorized'});
+      NavbarController.getProfile()
+       .then(() =>{
+          expect(mockAlertMessage.called).to.equal(false);
+       });
+        _$httpBackend.flush();
+    });  
+  });
+
   //TODO
   //This test doesn't work because a related method uses lodash
   /*describe('#filteringBySearch', () => {

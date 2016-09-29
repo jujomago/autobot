@@ -96,13 +96,13 @@
         <li><a href="/underconstructtion">
             <img src="/assets/al/images/serverDefault.png" alt="server">
         </a></li>
-        <li class="dropdown" ng-mouseenter="nav.userOptionsCollapsed = false" ng-mouseleave="nav.userOptionsCollapsed = true">
-          <a href="#" class="dropdown-toggle" role="button">
-            <img src="assets/al/images/avatar.png" alt="avatar">
-            Jhon<span class="glyphicon glyphicon-chevron-up" ng-class="{'glyphicon-chevron-up':nav.userOptionsCollapsed,'glyphicon-chevron-down':!nav.userOptionsCollapsed}"></span>
+        <li class="dropdown" ng-click="nav.userOptionsCollapsed = !nav.userOptionsCollapsed"  abx-outside-click="nav.userOptionsCollapsed = true">
+          <a href="#" ng-class="{'active': !nav.userOptionsCollapsed}" class="dropdown-toggle" role="button" >
+            <img ng-src="{{nav.avatar?nav.avatar:'assets/al/images/avatar-default.png'}}" class="img-circle" alt="avatar">
+            <p class="name-container">{{nav.firstName | limitTo: 15}}{{ nav.firstName.length > 15 ? '...' : ''}}</p>
             </a>
           <ul class="dropdown-menu" uib-collapse="nav.userOptionsCollapsed">
-            <li><a href="/underconstruction">Settings</a></li>
+            <li><a ui-sref="underconstruction">Settings</a></li>
             <li><a href ng-click="nav.logout()">Logout</a></li>
           </ul>
         </li>

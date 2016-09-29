@@ -31,7 +31,7 @@ class NavbarController {
     this.partners = [];
     this.getter = 'partner.partnerFullName';
     this.message = { show: false };
-
+    this.firstName = '';
     this.menu = [{
       'title': 'Dashboard',
       'state': 'main',
@@ -88,6 +88,25 @@ class NavbarController {
   $onInit(){
     this.getInstalled();
     this.getNewest();
+    this.getProfile();
+  }
+  getProfile(){
+    return _authService.getProfile()
+    .then(response => {
+      this.firstName = response.data.firstname;
+      this.avatar = response.data.avatar;
+      return response;
+    })
+    .catch(error => {
+      if(error.statusCode !== 401){
+        let contentModal={ 
+          title:'Message',
+          body:'An unexpected error has ocurred. Please try again or contact us'
+        };
+        _AlertMessage(contentModal); 
+      }
+      return error;
+    });
   }
   selectApp(appName){
     _$state.go('ap.page',{appName: appName});

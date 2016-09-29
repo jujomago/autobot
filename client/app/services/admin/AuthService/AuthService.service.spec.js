@@ -178,6 +178,48 @@ describe('#renewToken',()=>{
 
   });
 
+  describe('#getProfile',()=>{
+      it('should get the current user profile',()=>{
+         
+         httpBackend.whenGET(endPointUrl+ '/admin/users/profile').respond(200,
+           {
+            email: 'user@test.com',
+            firstname: 'user',
+            avatar: null,
+            role: 'admin'
+           }
+         );
+          AuthService.getProfile()
+          .then(response=>{
+              expect(response.statusCode).to.equal(200);
+              expect(response.data.email).to.equal('user@test.com');
+              expect(response.data.firstname).to.equal('user');
+              expect(response.data.avatar).to.equal(null);
+              expect(response.data.role).to.equal('admin');
+              expect(response.errorMessage).to.equal(null);
+          });
+
+          httpBackend.flush();
+      });
+
+      it('should get a internal server error',()=>{
+         
+         httpBackend.whenGET(endPointUrl+ '/admin/users/profile').respond(500,
+           {error: 'Internal server error'}
+         );
+
+          AuthService.getProfile()
+          .then(response=>{
+              expect(response.data).to.equal(null);
+              expect(response.statusCode).to.equal(500);
+              expect(response.errorMessage).to.equal('Internal server error');
+          });
+
+          httpBackend.flush();
+      });
+
+  });
+
 
 
 });

@@ -80,6 +80,15 @@
                 })
                 .catch(err => _HandleError(err, result));
         }
+        getProfile(){
+            let result = { data: null, statusCode: 200, errorMessage: null };
+            return _$http.get(this.endPointUrl + '/admin/users/profile')
+                .then(response => {
+                    result.data = response.data;
+                    return result;
+                })
+                .catch(err => _HandleError(err, result));
+        }
     }
 
     AuthService.$inject = ['$cookies', '$http', 'appConfig', 'authManager', 'jwtHelper','HandleError'];
