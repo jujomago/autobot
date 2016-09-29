@@ -33,7 +33,11 @@
         return response;
       })
       .catch(e => {
-        this.message = { show: true, text: e.errorMessage || e, type: 'danger' };
+        this.message = { show: true, text: e.errorMessage || e, type: 'danger' };        
+        if(e.errorMessage=== undefined)
+        {
+            this.message.text='Unable to connect to the server. Please try again';
+        }
         return e;
       });
     }
