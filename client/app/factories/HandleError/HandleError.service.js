@@ -2,8 +2,7 @@
 
 angular.module('fakiyaMainApp')
   .factory('HandleError', function ($q) {
-    function handleError(err, result) {
-      console.log(err);
+    function handleError(err, result) {      
       if(err.status===-1)
       {
             result.errorMessage='Unable to connect to the server. Please try again';
