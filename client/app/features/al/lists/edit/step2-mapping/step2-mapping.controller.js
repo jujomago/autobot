@@ -205,13 +205,16 @@
     }
 
 
-    function _getRowsFields(hasHeader, contactFields, jsonCSV, lodash) {
+    function _getRowsFields(hasHeader, contactFields, jsonCSV, lodash,skipPreview) {
         let _ = lodash;
         let mappedFiedlsUniq = _getMappedFiels(hasHeader, contactFields, 'uniq', _);
         let mappedFiedlsAll = _getMappedFiels(hasHeader, contactFields, 'nouniq', _);
 
 
         let _cleanNotNumbers = function (val) {
+            if(skipPreview){
+                return val;
+            }
             if(val){
                let firstChar=val.substr(0,1).replace(/[^\d\+]/g,'');
                let cleaned=firstChar+val.substr(1,val.length).replace(/[^\d]/g, '');
@@ -574,7 +577,7 @@
                         dataToSend.listUpdateSettings = _$stateParams.settings.listUpdateSettings;
                     }
 
-                     let rowsFields=_getRowsFields(this.hasHeader, this.contactFields, this.jsonCSV, _);                
+                     let rowsFields=_getRowsFields(this.hasHeader, this.contactFields, this.jsonCSV, _,_$stateParams.settings.skipPreview);                
 
                      let resultValidRowsFields=_validateRowsFiels(_,rowsFields,this.ValidatorService,this.actionList,_$stateParams.settings.skipPreview);                  
                         

@@ -39,14 +39,25 @@
       items.push(result.uploadErrorsCount+' UPLOAD ERRORS FOUND');
     }
     if(result.uploadDuplicatesCount !== '0'){
-      items.push(result.uploadDuplicatesCount+' lines with duplicate keys found');
+      let totalDuplicatesCount=result.uploadDuplicatesCount;
+      if(result.warningsCount){
+        console.log('===============');
+        console.log(result.warningsCount.entry[0].value + 'lines with parse errors found');
+        console.log(totalDuplicatesCount-result.warningsCount.entry[0].value + 'lines with duplicate keys found');
+        console.log('======================='); 
+    }
+
+
       items.push(result.uploadDuplicatesCount+' ERRORS FOUND');
+      
+      items.push(result.uploadDuplicatesCount+' lines with duplicate keys found');    
     }
     else{
       items.push('No errors found');
     }
     if(result.warningsCount){
-      items.push(result.warningsCount.entry.length+' WARNINGS FOUND');
+      items.push(result.warningsCount.entry[0].value+' WARNINGS FOUND');
+      items.push(result.warningsCount.entry[0].value+' lines with import warning found');
     }
     else{
       items.push('No warnings found');
