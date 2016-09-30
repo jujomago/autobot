@@ -34,7 +34,7 @@
       })
       .catch(e => {
         this.message = { show: true, text: e.errorMessage || e, type: 'danger' };        
-        if(e.errorMessage=== undefined)
+        if(!e.errorMessage)
         {
             this.message.text='Unable to connect to the server. Please try again';
         }
