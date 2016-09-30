@@ -19,4 +19,12 @@ describe('Service: HandleError', function () {
     });
   });
 
+  it('should respond error message when there is an error server', function () {
+    new HandleError({data: {error: 'some error'}, status: -1}, {errorMessage: null, statusCode: 0})
+    .catch(error =>{
+      expect(error.errorMessage).to.equal('some error');
+      expect(error.status).to.equal(-1);
+    });
+  });
+
 });
