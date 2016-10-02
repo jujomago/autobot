@@ -32,35 +32,36 @@
     }
     return message;
   }
-  function _getListItems(result){
+  function _getListItems(result,isUpdate){
     let items=[];
     items.push(_getSummaryFirstRow(result));
-    if(result.uploadErrorsCount !== '0'){
-      items.push(result.uploadErrorsCount+' UPLOAD ERRORS FOUND');
-    }
-    if(result.uploadDuplicatesCount !== '0'){
-      let totalDuplicatesCount=result.uploadDuplicatesCount;
-      if(result.warningsCount){
-        console.log('===============');
-        console.log(result.warningsCount.entry[0].value + 'lines with parse errors found');
-        console.log(totalDuplicatesCount-result.warningsCount.entry[0].value + 'lines with duplicate keys found');
-        console.log('======================='); 
-    }
 
+    let uploadDuplicatesCount=Number(result.uploadDuplicatesCount);
+    let uploadErrorsCount=Number(result.uploadErrorsCount);
+    let warningsCount=result.warningsCount;
 
-      items.push(result.uploadDuplicatesCount+' ERRORS FOUND');
-      
-      items.push(result.uploadDuplicatesCount+' lines with duplicate keys found');    
+    if(!isUpdate){
+      let errorsFoundQty=uploadDuplicatesCount+uploadErrorsCount;
+      items.push(`${errorsFoundQty} ERRORS FOUND`);
+      items.push(`${uploadErrorsCount} lines with parse erros found`);
+      items.push(`${uploadDuplicatesCount} lines with duplicate keys found`);
+    }else{
+        if(uploadErrorsCount !== 0){
+          items.push(result.uploadErrorsCount+' UPLOAD ERRORS FOUND');
+        }
+        if(uploadDuplicatesCount !== 0){
+          items.push(`${uploadDuplicatesCount} ERRORS FOUND`);
+          items.push(`${uploadDuplicatesCount} lines with duplicate keys found`);    
+        }
+        else{
+          items.push('No errors found');
+        }       
     }
-    else{
-      items.push('No errors found');
-    }
-    if(result.warningsCount){
-      items.push(result.warningsCount.entry[0].value+' WARNINGS FOUND');
-      items.push(result.warningsCount.entry[0].value+' lines with import warning found');
-    }
-    else{
-      items.push('No warnings found');
+     if(warningsCount){
+          items.push(`${warningsCount.entry[0].value} WARNINGS FOUND`);
+          items.push(`${warningsCount.entry[0].value} lines with import warning found`);
+    }else{
+         items.push('No warnings found');
     }
     return items;
   }
@@ -75,7 +76,7 @@
     }
     content.body = body;
 
-    content.list = _getListItems(result);
+    content.list = _getListItems(result,isUpdate);
     return content;
   }
   class ListComponent {
