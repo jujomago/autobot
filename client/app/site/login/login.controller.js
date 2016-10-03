@@ -33,7 +33,7 @@
         return response;
       })
       .catch(e => {
-        this.message = { show: true, text: e.errorMessage || e, type: 'danger' };
+        this.message = { show: true, text: e.errorMessage || e, type: 'danger' };   
         return e;
       });
     }

@@ -10,7 +10,7 @@ describe('Component: LoginController', function() {
   var loginComponent;
   var state;
   var _mockStateParams, _mockLocation;
-  var _$cookies;
+  var _$cookies; 
   var httpBackend;
   var endPointUrl;
 
@@ -126,6 +126,22 @@ describe('Component: LoginController', function() {
 
           httpBackend.flush();
       });
+      it('should respond error message when there is an error server', function () {
+        loginComponent.username='admin@autoboxcorp.com';
+          loginComponent.password='Password1';  
+
+          httpBackend.whenPOST(endPointUrl+'/auth/login',{
+            'username': loginComponent.username,
+            'password': loginComponent.password
+          }).respond({error: {errorMessage:'Unable to connect to the server. Please try again', status:-1}});
+        
+        loginComponent.login()
+        .then(error =>{                   
+          expect(error.errorMessage).to.equal('Unable to connect to the server. Please try again');
+          expect(error.status).to.equal(-1);
+        });
+         httpBackend.flush();
+  });
  
   });
 
