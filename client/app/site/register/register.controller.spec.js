@@ -7,7 +7,7 @@ describe('Component: RegisterController', function() {
   beforeEach(module('stateMock'));
 
   var scope;
-  var loginComponent;
+  var registerComponent;
   var state;
   var _mockStateParams, _mockLocation;
   var _$cookies;
@@ -39,7 +39,7 @@ describe('Component: RegisterController', function() {
       _$cookies = $cookies;
       scope = $rootScope.$new();
       state = $state;
-      loginComponent = $componentController('login', {
+      registerComponent = $componentController('register', {
         $http: $http,
         $scope: scope,
         $stateParams: _mockStateParams,
@@ -61,67 +61,18 @@ describe('Component: RegisterController', function() {
   });
 
 
-  describe('#controllerlogin',()=>{
-      it('=> User logged in Successfully with credentials and redirected to /ap/al/lists',()=>{
+  describe('register autobox user',()=>{
+      it('Use API to create a new Autobox user',()=>{
+          registerComponent.company='Autobox';
+          registerComponent.email='admin2@autoboxcorp.com';
+          registerComponent.firstName='Name User';
+          registerComponent.lastName='LastName User';
 
-
-          loginComponent.username='admin@autoboxcorp.com';
-          loginComponent.password='Password1';
-
-          httpBackend.whenPOST(endPointUrl+'/auth/login',{
-            'username': loginComponent.username,
-            'password': loginComponent.password
-          }).respond('2032820asdfka0s0293ma002');
-
-          loginComponent.login()
+          registerComponent.register()
           .then(response=>{
               expect(response.status).to.equal(200);
               expect(_$cookies.get('auth_token')).to.equal('2032820asdfka0s0293ma002');
               expect(_mockLocation.url).to.equal('/ap/al/lists');
-          });
-
-          httpBackend.flush();
-      });
-
-      it('=> User logged in Successfully with credentials and redirected to default page (underconstruction) empty url param',()=>{
-
-          _mockStateParams.url = null;
-          loginComponent.username='admin@autoboxcorp.com';
-          loginComponent.password='Password1';
-
-          httpBackend.whenPOST(endPointUrl+'/auth/login',{
-            'username': loginComponent.username,
-            'password': loginComponent.password
-          }).respond('2032820asdfka0s0293ma002');
-
-
-
-          loginComponent.login()
-          .then(response=>{
-              expect(response.status).to.equal(200);
-              expect(_$cookies.get('auth_token')).to.equal('2032820asdfka0s0293ma002');
-              expect(_mockLocation.url).to.equal('/underconstruction');
-          });
-
-          httpBackend.flush();
-      });
-      it('=> User logged in Successfully with credentials and redirected to default page (underconstruction) corrupted URL',()=>{
-
-          _mockStateParams.url = 'CORRUPTED_URL';
-          loginComponent.username='admin@autoboxcorp.com';
-          loginComponent.password='Password1';
-
-          httpBackend.whenPOST(endPointUrl+'/auth/login',{
-            'username': loginComponent.username,
-            'password': loginComponent.password
-          }).respond('2032820asdfka0s0293ma002');
-
-
-          loginComponent.login()
-          .then(response=>{
-              expect(response.status).to.equal(200);
-              expect(_$cookies.get('auth_token')).to.equal('2032820asdfka0s0293ma002');
-              expect(_mockLocation.url).to.equal('/underconstruction');
           });
 
           httpBackend.flush();
