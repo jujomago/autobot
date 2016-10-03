@@ -34,8 +34,6 @@
         if (rawCSV) {
             delimiter = delimiter || '\n';
             let jsonCSV = _csvToJSON(rawCSV, delimiter, hasHeader);
-            console.log('after applyed delimiter');
-            console.log(jsonCSV);
             return jsonCSV;
         }else{
             console.log('rawCSV is not set');
@@ -570,7 +568,7 @@
                         },
                         fieldsMapping: _getFieldsEntries(this.hasHeader, this.contactFields, this.jsonCSV, _)
                     };
-
+                    
                     if (this.actionList==='remove') {
                         dataToSend.listDeleteSettings = _$stateParams.settings.listDeleteSettings;
                     } else {
