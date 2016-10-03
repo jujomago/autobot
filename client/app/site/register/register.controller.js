@@ -6,10 +6,10 @@
   class RegisterController {
 
     constructor($location, $stateParams, AuthService, Base64Manager) {
-      this.company = "";
-      this.email = "";
-      this.firstname = "";
-      this.lastname = "";
+      this.company = '';
+      this.email = '';
+      this.firstname = '';
+      this.lastname = '';
       this.companies = [];
       this.message = { show: false };
       this.required = true;
@@ -43,7 +43,7 @@
       this.required = true;
       return _auth.register(reg)
       .then(response => {
-        this.message = { show: false }
+        this.message = { show: false };
         return response;
       })
       .catch(e => {

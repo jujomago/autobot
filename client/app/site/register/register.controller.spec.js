@@ -6,10 +6,11 @@ describe('Component: RegisterController', function() {
   beforeEach(module('fakiyaMainApp'));
   beforeEach(module('stateMock'));
 
-  var scope;
+  var registerInfo;
   var registerComponent;
+  var scope;
   var state;
-  var _mockStateParams, _mockLocation;
+  var _mockStateParams;
   var _$cookies;
   var httpBackend;
   var endPointUrl;
@@ -25,59 +26,33 @@ describe('Component: RegisterController', function() {
     appConfig) {
       httpBackend = _$httpBackend_;
       _mockStateParams = {url: 'L2FwL2FsL2xpc3Rz'};
-      _mockLocation = {
-        url: function(url){
-          if(!url){
-            return this.url;
-          }
-          else{
-            this.url = url;
-            return {search: function(){}};
-          }
-        }
-      };
       _$cookies = $cookies;
       scope = $rootScope.$new();
-      state = $state;
       registerComponent = $componentController('register', {
         $http: $http,
         $scope: scope,
-        $stateParams: _mockStateParams,
-        $location: _mockLocation
-      });
+        $stateParams: _mockStateParams
+      })
+      registerInfo = {
+        email:'admin2@autoboxcorp.com',
+        company: 'Autobox',
+        firstname: 'User Name',
+        lastname:'LastName'
+      };
 
       if(appConfig.apiUri){
           endPointUrl=appConfig.apiUri;
       }
-
-
-      httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
-
+      httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(201);
   }));
-
-
-  afterEach(function () {
-     httpBackend.verifyNoOutstandingRequest();
-  });
-
 
   describe('register autobox user',()=>{
       it('Use API to create a new Autobox user',()=>{
-          registerComponent.company='Autobox';
-          registerComponent.email='admin2@autoboxcorp.com';
-          registerComponent.firstName='Name User';
-          registerComponent.lastName='LastName User';
-
-          registerComponent.register()
+          registerComponent.register(registerInfo)
           .then(response=>{
-              expect(response.status).to.equal(200);
-              expect(_$cookies.get('auth_token')).to.equal('2032820asdfka0s0293ma002');
-              expect(_mockLocation.url).to.equal('/ap/al/lists');
+              expect(response.status).to.equal(201);
           });
-
           httpBackend.flush();
       });
-
   });
-
 });

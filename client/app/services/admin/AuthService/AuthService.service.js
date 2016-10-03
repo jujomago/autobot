@@ -48,20 +48,16 @@
                 .catch(err => _HandleError(err, result));
         }
         register(reg) {
-          console.log("SERVICE");
-          console.log(reg);
             let result = { data: null, statusCode: 200, errorMessage: null };
             return _$http.post(this.endPointUrl + '/admin/temporaryusers', reg)
                 .then(response => {
                     if (response.status === 201) {
-                        console.log("REGISTER SUCCESS");
                         return response;
                     }
                 })
                 .catch(err => _HandleError(err, result));
         }
         getCompanies() {
-          console.log("COMPANIES");
             let result = { data: null, statusCode: 200, errorMessage: null };
             return _$http.get(this.endPointUrl + '/admin/companies')
                 .then(response => {
