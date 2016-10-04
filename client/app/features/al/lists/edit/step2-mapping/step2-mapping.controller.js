@@ -696,12 +696,15 @@
             console.log(`selected item ${angular.toJson(this.contactFieldSelectedName)}`);
 
             let clonedItem = angular.copy(this.contactFieldSelectedName);
-            let idx = _.findIndex(this.contactFields, { 'name': this.contactFieldSelectedName.name });
+             //BUG 1685 and 1861: the new item is not display selected
+            let idx = _.findLastIndex(this.contactFields, { 'name': this.contactFieldSelectedName.name });
             if (idx >= 0) {
                
                 this.contactFields.splice(idx + 1, 0, clonedItem);
                 let numberRepeatFields=_.filter(this.contactFields,{ 'name': clonedItem.name }).length;
-                this.selectedRow=(idx+numberRepeatFields)-1;
+                //BUG 1861: the selected field remains selected             
+                let idy = _.findIndex(this.contactFields, { 'name': this.contactFieldSelectedName.name });
+                this.selectedRow = (idy+numberRepeatFields)-1; 
               
             } else {
                 console.log('not found field, inserted first');
