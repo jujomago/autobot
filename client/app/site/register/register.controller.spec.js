@@ -32,7 +32,9 @@ describe('Component: RegisterController', function() {
         $http: $http,
         $scope: scope,
         $stateParams: _mockStateParams
-      })
+      });
+      messageSuccess = false;
+      message = {show:false};
       registerInfo = {
         email:'admin2@autoboxcorp.com',
         company: 'Autobox',
@@ -51,7 +53,7 @@ describe('Component: RegisterController', function() {
         registerComponent.getCompanies()
         .then(response=>{
             expect(response.status).to.equal(200);
-            expect(response.data).to.equal(array);
+            expect(response.data.companyName).to.equal('Autobox');
         });
         httpBackend.flush();
       });
@@ -61,6 +63,8 @@ describe('Component: RegisterController', function() {
           registerComponent.register()
           .then(response=>{
               expect(response.status).to.equal(201);
+              expect(messageSuccess).to.equal(true);
+              expect(message).to.equal({show:false});
           });
           httpBackend.flush();
       });
