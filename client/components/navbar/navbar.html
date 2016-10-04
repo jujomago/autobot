@@ -13,7 +13,7 @@
       <ul class="nav navbar-nav">
         <li ui-sref-active="active"><a href="/ap/dashboard"><p class="aligned-items">Dashboard</p></a></li>
         <li class="dropdown sub-menu-dropdown positionCustomize" ng-mouseenter="nav.changeFocus(false)" ng-mouseleave="nav.changeFocus(true)">
-          <a class="dropdown-toggle" role="button"><p class="aligned-items">My apps</p></a>
+          <a class="dropdown-toggle" role="button" ui-sref="ap.apps"><p class="aligned-items">My apps</p></a>
           <ul class="dropdown-menu submenu centerSubmenu" uib-collapse="nav.myAppsCollapsed">
           <div class="col-sm-12">
             <div class="col-sm-7 my-apps" ng-class="{'border-right': nav.total > nav.quantity}">
@@ -50,7 +50,7 @@
               <div ng-show="nav.myAppsFromService.length == 0">
                 <p>Still haven't tried any app?</p>
                 <p>We Have many apps you can review</p>
-                <p class="link"><a ui-sref="apps">See all apps</a></p>
+                <p class="link"><a ui-sref="ap.apps">See all apps</a></p>
               </div>
             </div>
             <div class="col-sm-5 new-apps" ng-class="{'border-left': nav.total <= nav.quantity}">
@@ -61,7 +61,7 @@
                   </h4>
                 </div>
                 <div class="pull-right link-see-all">
-                  <h6><a ui-sref="apps">View all</a></h6>
+                  <h6><a ui-sref="ap.apps">View all</a></h6>
                 </div>
               </div>
               <ul>
@@ -85,15 +85,15 @@
 
           </ul>
         </li>
-        <li><a href="/underconstruction"><p class="aligned-items">Reports</p></a></li>
+        <li><a ui-sref="ap.underconstruction"><p class="aligned-items">Reports</p></a></li>
       </ul>
       <ul class="nav navbar-nav nav-icons navbar-right">
         <li>
-          <a href="/underconstruction">
+          <a ui-sref="ap.underconstruction">
             <img src="/assets/al/images/chatDefault.png" alt="chat" />
           </a>
         </li>
-        <li><a href="/underconstructtion">
+        <li><a ui-sref="ap.underconstruction">
             <img src="/assets/al/images/serverDefault.png" alt="server">
         </a></li>
         <li class="dropdown" ng-click="nav.userOptionsCollapsed = !nav.userOptionsCollapsed"  abx-outside-click="nav.userOptionsCollapsed = true">
@@ -102,7 +102,7 @@
             <p class="name-container">{{nav.firstName | limitTo: 15}}{{ nav.firstName.length > 15 ? '...' : ''}}</p>
             </a>
           <ul class="dropdown-menu" uib-collapse="nav.userOptionsCollapsed">
-            <li><a ui-sref="underconstruction">Settings</a></li>
+            <li><a ui-sref="ap.underconstruction">Settings</a></li>
             <li><a href ng-click="nav.logout()">Logout</a></li>
           </ul>
         </li>

@@ -4,7 +4,7 @@ angular.module('fakiyaMainApp')
   .config(function ($stateProvider) {
     $stateProvider
 
-      .state('underconstruction', {
+      .state('ap.underconstruction', {
        url: '/underconstruction',
        template: '<underconstruction></underconstruction>'
       

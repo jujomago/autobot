@@ -57,6 +57,7 @@ describe('Component: LoginController', function() {
 
 
   afterEach(function () {
+     _$cookies.remove('auth_token');
      httpBackend.verifyNoOutstandingRequest();
   });
   

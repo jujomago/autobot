@@ -44,7 +44,7 @@ describe('Component:PartnerCreateComponent', function () {
         _PartnerSubscribeComponent.credentials.appName = 'cj';
         _PartnerSubscribeComponent.subscribe()
         .then(() => {
-          expect(_mockState.path).to.equal('underconstruction');
+          expect(_mockState.path).to.equal('ap.underconstruction');
         });
         _$httpBackend.flush();
       });

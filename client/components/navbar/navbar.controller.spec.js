@@ -190,6 +190,7 @@ describe('Component:NavbarController', function() {
 
   });*/
   afterEach(function () {
+    _$cookies.remove('auth_token')
      _$httpBackend.verifyNoOutstandingRequest();
   });
   

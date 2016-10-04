@@ -287,13 +287,15 @@
     }
 
 
-    function _scrollRowIntoView(indexRow, container) {
+    function _scrollRowIntoView(indexRow, container,$timeout) {
 
         let _container=angular.element(container);     
         var domEl=_container.find('tr').get(indexRow);
-        if(!domEl) {         
-           _container.scrollTop(1000);
-        }else{
+         if(!domEl) {                 
+           let timer = $timeout(function(){
+               _container.scrollTop(2000);
+               $timeout.cancel( timer );
+           },1);
             var containerTop = _container.scrollTop(); 
             var containerBottom = containerTop + _container.height(); 
             var elemTop = domEl.offsetTop;
@@ -310,14 +312,15 @@
 
     let _$stateParams, _$state;
     let _AlertMessage,_ContactFieldsService, _ListService, _;
-
+    let _$timeout;
     class MapFieldsController {
 
-        constructor($stateParams, $state, lodash, ContactFieldsService, ListsService, ValidatorService, AlertMessage) {
+        constructor($stateParams, $state, $timeout, lodash, ContactFieldsService, ListsService, ValidatorService, AlertMessage) {
             _ = lodash;
             _$stateParams = $stateParams;
             _AlertMessage = AlertMessage;
             _$state = $state;
+            _$timeout = $timeout;
             _ContactFieldsService = ContactFieldsService;
             _ListService = ListsService;       
             this.ValidatorService=ValidatorService;     
@@ -693,12 +696,15 @@
             console.log(`selected item ${angular.toJson(this.contactFieldSelectedName)}`);
 
             let clonedItem = angular.copy(this.contactFieldSelectedName);
-            let idx = _.findIndex(this.contactFields, { 'name': this.contactFieldSelectedName.name });
+             //BUG 1685 and 1861: the new item is not display selected
+            let idx = _.findLastIndex(this.contactFields, { 'name': this.contactFieldSelectedName.name });
             if (idx >= 0) {
                
                 this.contactFields.splice(idx + 1, 0, clonedItem);
                 let numberRepeatFields=_.filter(this.contactFields,{ 'name': clonedItem.name }).length;
-                this.selectedRow=(idx+numberRepeatFields)-1;
+                //BUG 1861: the selected field remains selected             
+                let idy = _.findIndex(this.contactFields, { 'name': this.contactFieldSelectedName.name });
+                this.selectedRow = (idy+numberRepeatFields)-1; 
               
             } else {
                 console.log('not found field, inserted first');
@@ -707,7 +713,7 @@
                 // push first
                 this.selectedRow=0;                
             }
-            _scrollRowIntoView(this.selectedRow,'#table_mapping_body');
+            _scrollRowIntoView(this.selectedRow,'#table_mapping_body',_$timeout);
 
             console.log(`selected row: ${this.selectedRow}`);
             this.selectedRowsMapped=[];
@@ -748,7 +754,7 @@
 
     }
 
-    MapFieldsController.$inject = ['$stateParams', '$state', 'lodash', 'ContactFieldsService', 'ListsService', 'ValidatorService', 'AlertMessage'];
+    MapFieldsController.$inject = ['$stateParams', '$state', '$timeout','lodash', 'ContactFieldsService', 'ListsService', 'ValidatorService', 'AlertMessage'];
 
     angular.module('fakiyaMainApp')
         .component('al.lists.mapping', {

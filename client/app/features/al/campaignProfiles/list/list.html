@@ -9,7 +9,7 @@
             <input type="search" ng-model="$ctrl.search.name" class="searchbox" placeholder="Search" ng-change="$ctrl.filteringBySearch()">
             <span class="glyphicon glyphicon-search"></span>
         </div>
-        <button class="btn btn-black pull-right" ui-sref="underconstruction">New</button>
+        <button class="btn btn-black pull-right" ui-sref="ap.underconstruction">New</button>
     </div>
 
     <table class="table table-striped" ng-show="$ctrl.campaignProfiles.length">
@@ -35,7 +35,7 @@
 
                   <!--  While API complete this endpoint
                   <a href ng-click="$ctrl.deleteCampaignProfile(item,$index)" ng-class="{'disabled-x-circle': $ctrl.deletedRow === item.name, 'circle_delete': $ctrl.deletedRow !== item.name}" ng-disabled="$ctrl.deletedRow === item.name"></a> -->
-                  <a href ui-sref="underconstruction" ng-class="{'disabled-x-circle': $ctrl.deletedRow === item.name, 'circle_delete': $ctrl.deletedRow !== item.name}" ng-disabled="$ctrl.deletedRow === item.name"></a>
+                  <a href ui-sref="ap.underconstruction" ng-class="{'disabled-x-circle': $ctrl.deletedRow === item.name, 'circle_delete': $ctrl.deletedRow !== item.name}" ng-disabled="$ctrl.deletedRow === item.name"></a>
 
                 </td>
             </tr>
