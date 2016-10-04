@@ -7,11 +7,11 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a href="/ap/al/skills" class="logo">AutoBox</a>
+      <a href="/ap/dashboard" class="logo">AutoBox</a>
     </div>
     <div uib-collapse="nav.isCollapsed" class="navbar-collapse collapse submenucustomize" id="navbar-main">
       <ul class="nav navbar-nav">
-        <li ui-sref-active="active"><a href="/underconstruction">Dashboard</a></li>
+        <li ui-sref-active="active"><a href="/ap/dashboard">Dashboard</a></li>
         <li class="dropdown sub-menu-dropdown positionCustomize" ng-mouseenter="nav.changeFocus(false)" ng-mouseleave="nav.changeFocus(true)">
           <a class="dropdown-toggle" role="button">My apps</a>
           <ul class="dropdown-menu submenu centerSubmenu" uib-collapse="nav.myAppsCollapsed">
@@ -44,7 +44,7 @@
                         </a>
                       </div>
                     </div>
-                  </div>  
+                  </div>
                 </div>
               </div>
               <div ng-show="nav.myAppsFromService.length == 0">
@@ -65,24 +65,24 @@
                 </div>
               </div>
               <ul>
-                <li ng-repeat="app in nav.newApps | limitTo:nav.quantity" ng-click="nav.selectApp(app.app.appName)">
+                <li ng-repeat="app in nav.newApps" ng-click="nav.selectApp(app.app.appName)">
                   <a class="new-img">
                     <img src="/assets/{{app.app.appName}}/images/logo-sm.jpg" abx-default-image-switch="/assets/default/images/logo-sm.jpg" alt=""/>
                   </a>
                   <!--<a class="new-link">
                     <span class="app-full">{{app.app.appFullName}}</span>
                     <span class="partner-full">{{app.partner.partnerFullName}}</span>
-                  </a> --> 
-                  
+                  </a> -->
+
                     <span class="app-full">{{app.app.appFullName}}</span>
                     <span class="partner-full">{{app.partner.partnerFullName}}</span>
-                
+
                 </li>
               </ul>
             </div>
-            
+
           </div>
-          
+
           </ul>
         </li>
         <li><a href="/underconstruction">Reports</a></li>
@@ -96,13 +96,13 @@
         <li><a href="/underconstructtion">
             <img src="/assets/al/images/serverDefault.png" alt="server">
         </a></li>
-        <li class="dropdown" ng-mouseenter="nav.userOptionsCollapsed = false" ng-mouseleave="nav.userOptionsCollapsed = true">
-          <a href="#" class="dropdown-toggle" role="button">
-            <img src="assets/al/images/avatar.png" alt="avatar">
-            Jhon<span class="glyphicon glyphicon-chevron-up" ng-class="{'glyphicon-chevron-up':nav.userOptionsCollapsed,'glyphicon-chevron-down':!nav.userOptionsCollapsed}"></span>
+        <li class="dropdown" ng-click="nav.userOptionsCollapsed = !nav.userOptionsCollapsed"  abx-outside-click="nav.userOptionsCollapsed = true">
+          <a href="#" ng-class="{'active': !nav.userOptionsCollapsed}" class="dropdown-toggle" role="button" >
+            <img ng-src="{{nav.avatar?nav.avatar:'assets/al/images/avatar-default.png'}}" class="img-circle" alt="avatar">
+            <p class="name-container">{{nav.firstName | limitTo: 15}}{{ nav.firstName.length > 15 ? '...' : ''}}</p>
             </a>
           <ul class="dropdown-menu" uib-collapse="nav.userOptionsCollapsed">
-            <li><a href="/underconstruction">Settings</a></li>
+            <li><a ui-sref="underconstruction">Settings</a></li>
             <li><a href ng-click="nav.logout()">Logout</a></li>
           </ul>
         </li>

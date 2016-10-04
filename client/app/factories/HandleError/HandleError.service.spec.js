@@ -19,4 +19,12 @@ describe('Service: HandleError', function () {
     });
   });
 
+  it('should respond error message when there is an error server', function () {
+    new HandleError({data: {error: 'Unable to connect to the server. Please try again'}, status: -1}, {errorMessage: null, statusCode: 0})
+    .catch(error =>{
+      expect(error.errorMessage).to.equal('Unable to connect to the server. Please try again');
+      expect(error.status).to.equal(-1);
+    });
+  });
+
 });

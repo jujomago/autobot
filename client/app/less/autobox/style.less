@@ -15,6 +15,31 @@ html, body, #main-container,  #main-container > .container-fluid{
         }
        
     }
+    ul.navbar-nav{
+        .dropdown{
+            &>a{
+                &:hover, &:focus{
+                    color: #fff;
+                }
+                &.dropdown-toggle{  
+                    padding-left: 18px;  
+                    &.active{
+                        color: @blue;
+                    }   
+                    &>img{
+                        width: 25px;
+                        height: 25px;
+                    }
+                    &>p{
+                        display: inline-block;
+                        vertical-align: middle;
+                        margin-bottom: 0;
+                    }
+                }
+                
+            }
+        }
+    }
     footer, .navbar, .navbar > .container-fluid {
         background:@black;
     }

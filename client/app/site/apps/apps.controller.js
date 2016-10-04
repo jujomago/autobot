@@ -3,10 +3,11 @@
 	let _$state;
 	let _GetHomePage;
 	class AppsComponent {
-	constructor($state, AppsService, GetHomePage) {
+	constructor($state, AppsService, GetHomePage, EnumManager) {
 		this.partners = [];
 		this.message = {show: false};
 		this.AppsService = AppsService;
+		this.appStatus = EnumManager.getEnums();
 		_$state = $state;
 		_GetHomePage = GetHomePage;
 	}
@@ -29,7 +30,7 @@
 		});
 	}
 }
-	AppsComponent.$inject = ['$state', 'AppsService', 'GetHomePage'];
+	AppsComponent.$inject = ['$state', 'AppsService', 'GetHomePage', 'EnumManager'];
 	angular.module('fakiyaMainApp')
 	  .component('apps', {
 	    templateUrl: 'app/site/apps/apps.html',

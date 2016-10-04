@@ -5,6 +5,7 @@ let _lodash;
 let _appsService;
 let _$filter, _$parse, _$state;
 let _AlertMessage;
+const MAX_NEW_APPS_AMOUNT = 5;
 class NavbarController {
 
   constructor($filter, $parse, $location, $state, lodash, AuthService, AppsService, Base64Manager, GetHomePage, AlertMessage) {
@@ -18,7 +19,6 @@ class NavbarController {
     _authService=AuthService;    
     this.myAppsCollapsed = true;
     this.isFocus=false;
-    this.quantity = 4;
     this.search = {app: {appFullName: ''}};
     this.appsLoaded = false;
     _lodash = lodash;
@@ -31,7 +31,7 @@ class NavbarController {
     this.partners = [];
     this.getter = 'partner.partnerFullName';
     this.message = { show: false };
-
+    this.firstName = '';
     this.menu = [{
       'title': 'Dashboard',
       'state': 'main',
@@ -88,6 +88,25 @@ class NavbarController {
   $onInit(){
     this.getInstalled();
     this.getNewest();
+    this.getProfile();
+  }
+  getProfile(){
+    return _authService.getProfile()
+    .then(response => {
+      this.firstName = response.data.firstname;
+      this.avatar = response.data.avatar;
+      return response;
+    })
+    .catch(error => {
+      if(error.statusCode !== 401){
+        let contentModal={ 
+          title:'Message',
+          body:'An unexpected error has ocurred. Please try again or contact us'
+        };
+        _AlertMessage(contentModal); 
+      }
+      return error;
+    });
   }
   selectApp(appName){
     _$state.go('ap.page',{appName: appName});
@@ -96,7 +115,8 @@ class NavbarController {
     _$state.go(_GetHomePage.of(selected.app.appName));
   }
   getInstalled(){
-    return _appsService.getInstalled().then(response => {
+    return _appsService.getFilteredApps({installed: true, size: 100})
+    .then(response => {
       this.myAppsFromService = response.data;
       this.myAppsSearch = this.myAppsFromService;
       this.myAppsSearch = this.groupBy(this.myAppsSearch);
@@ -112,7 +132,8 @@ class NavbarController {
   }
 
   getNewest(){
-    return _appsService.getNewest().then(response => {
+    return _appsService.getFilteredApps({installed: false, size: MAX_NEW_APPS_AMOUNT})
+    .then(response => {
       this.newApps = response.data;
       return response;
     })

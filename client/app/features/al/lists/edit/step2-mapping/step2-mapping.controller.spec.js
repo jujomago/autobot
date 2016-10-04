@@ -1064,8 +1064,7 @@ describe('Component: al.lists.mapping', function () {
       expect(MappingComponent.removeSelectedItem()).to.equal(true);
       expect(MappingComponent.selectedRow).to.equal(-1);
       expect(MappingComponent.contactFields).to.have.lengthOf(5);  
-      expect(MappingComponent.seletedRowsMapped).to.have.lengtOf(0);
-      
+      expect(MappingComponent.selectedRowsMapped).to.have.lengthOf(0);      
  
    });
 
@@ -1100,7 +1099,7 @@ describe('Component: al.lists.mapping', function () {
         {'name': 'number1' , mappedName:null , mappedIndex:0}
       ]); 
       expect(MappingComponent.contactFields).to.have.lengthOf(3);  
-      expect(MappingComponent.seletedRowsMapped).to.have.lengtOf(0);
+      expect(MappingComponent.selectedRowsMapped).to.have.lengthOf(0);
       
    });
 
@@ -1121,7 +1120,7 @@ describe('Component: al.lists.mapping', function () {
       expect(MappingComponent.contactFields).to.have.lengthOf(6);    
       expect(MappingComponent.removeSelectedItem()).to.equal(false);      
       expect(MappingComponent.contactFields).to.have.lengthOf(6);    
-      expect(MappingComponent.seletedRowsMapped).to.have.lengthOf(0);
+      expect(MappingComponent.selectedRowsMapped).to.have.lengthOf(0);
    });
 
   }); 

@@ -14,8 +14,13 @@
 						<h3>{{item.app.appFullName}}</h3>
 					</div>
 					<p>{{ item.app.description | limitTo: 170 }} {{ item.app.description.length > 190 ? '...' : ''}}</p>
-					<button type="button" ng-click="$ctrl.selectInstalledApp(item.app.appName)" class="btn btn-black" ng-show="item.installed">Open app</button>
-					<button type="button" ui-sref="underconstruction" class="btn btn-black" ng-show="!item.installed">Get app</button>
+					<div ng-show="item.app.appStatus!==$ctrl.appStatus.COMING_SOON">
+						<button type="button" ng-click="$ctrl.selectInstalledApp(item.app.appName)" class="btn btn-black fixed-center-bottom" ng-show="item.installed">Open app</button>
+						<button type="button" ui-sref="underconstruction" class="btn btn-black fixed-center-bottom" ng-show="!item.installed">Get app</button>
+					</div>
+					<div ng-show="item.app.appStatus===$ctrl.appStatus.COMING_SOON">
+						<p class="fixed-center-bottom coming-soon-message">Coming soon</p>
+					</div>
 				</div>
 			</div>
 		</div>
