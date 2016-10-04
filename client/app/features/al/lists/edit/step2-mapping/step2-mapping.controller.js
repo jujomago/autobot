@@ -287,13 +287,15 @@
     }
 
 
-    function _scrollRowIntoView(indexRow, container) {
+    function _scrollRowIntoView(indexRow, container,$timeout) {
 
         let _container=angular.element(container);     
         var domEl=_container.find('tr').get(indexRow);
-        if(!domEl) {         
-           _container.scrollTop(1000);
-        }else{
+         if(!domEl) {                 
+           let timer = $timeout(function(){
+               _container.scrollTop(2000);
+               $timeout.cancel( timer );
+           },1);
             var containerTop = _container.scrollTop(); 
             var containerBottom = containerTop + _container.height(); 
             var elemTop = domEl.offsetTop;
@@ -310,14 +312,15 @@
 
     let _$stateParams, _$state;
     let _AlertMessage,_ContactFieldsService, _ListService, _;
-
+    let _$timeout;
     class MapFieldsController {
 
-        constructor($stateParams, $state, lodash, ContactFieldsService, ListsService, ValidatorService, AlertMessage) {
+        constructor($stateParams, $state, $timeout, lodash, ContactFieldsService, ListsService, ValidatorService, AlertMessage) {
             _ = lodash;
             _$stateParams = $stateParams;
             _AlertMessage = AlertMessage;
             _$state = $state;
+            _$timeout = $timeout;
             _ContactFieldsService = ContactFieldsService;
             _ListService = ListsService;       
             this.ValidatorService=ValidatorService;     
@@ -707,7 +710,7 @@
                 // push first
                 this.selectedRow=0;                
             }
-            _scrollRowIntoView(this.selectedRow,'#table_mapping_body');
+            _scrollRowIntoView(this.selectedRow,'#table_mapping_body',_$timeout);
 
             console.log(`selected row: ${this.selectedRow}`);
             this.selectedRowsMapped=[];
@@ -748,7 +751,7 @@
 
     }
 
-    MapFieldsController.$inject = ['$stateParams', '$state', 'lodash', 'ContactFieldsService', 'ListsService', 'ValidatorService', 'AlertMessage'];
+    MapFieldsController.$inject = ['$stateParams', '$state', '$timeout','lodash', 'ContactFieldsService', 'ListsService', 'ValidatorService', 'AlertMessage'];
 
     angular.module('fakiyaMainApp')
         .component('al.lists.mapping', {
