@@ -210,7 +210,7 @@
 
 
         let _cleanNotNumbers = function (val) {
-            if(skipPreview){
+            if(skipPreview){               
                 return val;
             }
             if(val){
@@ -511,8 +511,6 @@
         }
 
         nextStep() {
-            console.log('next Step');
-            console.log(this.contactFields);
 
             let keysFields = _.filter(this.contactFields,{'isKey': true});  
             let countKeys= keysFields.length;       
@@ -568,7 +566,7 @@
                         },
                         fieldsMapping: _getFieldsEntries(this.hasHeader, this.contactFields, this.jsonCSV, _)
                     };
-                    
+
                     if (this.actionList==='remove') {
                         dataToSend.listDeleteSettings = _$stateParams.settings.listDeleteSettings;
                     } else {
@@ -576,14 +574,12 @@
                     }
 
                      let rowsFields=_getRowsFields(this.hasHeader, this.contactFields, this.jsonCSV, _,_$stateParams.settings.skipPreview);                
-
-                     let resultValidRowsFields=_validateRowsFiels(_,rowsFields,this.ValidatorService,this.actionList,_$stateParams.settings.skipPreview);                  
-                        
+                     let resultValidRowsFields=_validateRowsFiels(_,rowsFields,this.ValidatorService,this.actionList,_$stateParams.settings.skipPreview);
                      let contentModal={
                          title:'Summary'
                      };
                      let numRecords=rowsFields.length;
-                  
+
                      if(resultValidRowsFields.invalidRows.length===0){
                         dataToSend.resultMapping.rows=resultValidRowsFields.validRows; 
                         contentModal.body=`All ${numRecords} record(s) have been successfully read from file. Records will be added to the list`;
@@ -633,7 +629,7 @@
                     return null;
                 }
             } else {
-                let noneMapped;
+                  let noneMapped;
                 if (this.hasHeader) {
                     noneMapped = _.reject(this.contactFields, { 'mappedName': null });
                 } else {
