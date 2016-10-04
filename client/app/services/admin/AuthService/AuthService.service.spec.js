@@ -16,7 +16,7 @@ describe('Service: AuthService', function () {
         endPointUrl=appConfig.apiUri;
     }
   }));
-  
+
   afterEach(function () {
     httpBackend.verifyNoOutstandingRequest();
   });
@@ -56,7 +56,7 @@ describe('Service: AuthService', function () {
          );
 
           AuthService.login(credentials)
-          .then(response=>{            
+          .then(response=>{
               expect(response.status).to.equal(400);
               expect(response.data).to.equal('Login or password is incorrect or user is not active');
           });
@@ -64,6 +64,57 @@ describe('Service: AuthService', function () {
           httpBackend.flush();
       });
 
+  });
+
+  describe('#register',()=>{
+      it('Register new Autobox user',()=>{
+           let registerInfo = {
+             'email':'admin2@autoboxcorp.com',
+             'company': 'Autobox',
+             'firstname': 'User Name',
+             'lastname':'LastName'
+           };
+
+         httpBackend.whenPOST(endPointUrl+'/admin/temporaryusers',registerInfo).respond(201,
+           '2032820asdfka0s0293ma002'
+         );
+          AuthService.register(registerInfo)
+          .then(response=>{
+              expect(response.status).to.equal(201);
+          });
+          httpBackend.flush();
+      });
+
+      it('user already created',()=>{
+         let registerInfo = {
+            'email':'admin2@autoboxcorp.com',
+            'company': 'Autobox',
+            'firstname': 'User Name',
+            'lastname':'LastName'
+         };
+         httpBackend.whenPOST(endPointUrl+'/admin/temporaryusers',registerInfo).respond(400,
+           'The email is already in use in an existent account.'
+         );
+          AuthService.register(registerInfo)
+          .then(response=>{
+              expect(response.status).to.equal(400);
+              expect(response.data).to.equal('The email is already in use in an existent account.');
+          });
+          httpBackend.flush();
+      });
+  });
+
+  describe('#getCompanies',()=>{
+      it('Get companies list to be showed into the dropdown',()=>{
+         httpBackend.whenPOST(endPointUrl+'/admin/companies').respond(200,
+           '2032820asdfka0s0293ma002'
+         );
+          AuthService.getCompanies()
+          .then(response=>{
+              expect(response.status).to.equal(200);
+          });
+          httpBackend.flush();
+      });
   });
 
 describe('#renewToken',()=>{
@@ -83,15 +134,15 @@ describe('#renewToken',()=>{
       });
 
       it('=> Invaid token for renew, status 401',()=>{
-         
+
          let oldToken='eyJ0eXAiOiJKV1QiLCJhbGcsiOiJSUzI1NiJ9.eyJ1c2VyaWQiOiI1N2MyMjRmN2FlZjdiYzEwMDBjM2U3MmEiLCJkb21haW4iOiJhdXRvYm94Y29ycC5jb20iLC';
-                
+
          httpBackend.whenPUT(endPointUrl+'/auth/refresh-token',{token:oldToken}).respond(401,{
             'error': 'invalid token'
          });
 
           AuthService.renewToken(oldToken)
-          .then(response=>{ 
+          .then(response=>{
               expect(response.status).to.equal(401);
               expect(response.data.error).to.equal('invalid token');
           });
@@ -142,7 +193,7 @@ describe('#renewToken',()=>{
             expect(response.data.statusText).to.equal('Internal server error');
             expect(response.status).to.equal(500);
           });
-         
+
 
           httpBackend.flush();
       });
@@ -150,7 +201,7 @@ describe('#renewToken',()=>{
   });
   describe('#logout',()=>{
       it('=> User should logout successfully',()=>{
-         
+
          httpBackend.whenGET(endPointUrl+'/auth/logout').respond(200,
            'The user was logged out succesfully'
          );
@@ -165,7 +216,7 @@ describe('#renewToken',()=>{
       });
 
       it('=> User should get a logout error',()=>{
-         
+
          httpBackend.whenGET(endPointUrl+'/auth/logout').respond(500,
            {statusText: 'Internal server error'}
          );

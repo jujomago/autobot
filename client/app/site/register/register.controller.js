@@ -24,12 +24,11 @@
     getCompanies() {
       return _auth.getCompanies()
       .then(response => {
-        this.companies = response.data;
-        console.log(this.companies);
+        this.companies = response;
         return response;
       })
       .catch(e => {
-        this.message = { show: true, text: e.errorMessage || e, type: 'danger' };
+        this.message = { show: true, text: e.errorMessage };
         return e;
       });
     }
@@ -47,7 +46,7 @@
         return response;
       })
       .catch(e => {
-        this.message = { show: true, text: e.errorMessage || e, type: 'danger' };
+        this.message = { show: true, text: e.errorMessage };
         return e;
       });
     }

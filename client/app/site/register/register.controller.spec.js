@@ -46,9 +46,18 @@ describe('Component: RegisterController', function() {
       httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(201);
   }));
 
+  describe('getCompanies',()=>{
+      it('get companies for dropdown', ()=>{
+        registerComponent.getCompanies()
+        .then(response=>{
+            expect(response.status).to.equal(200);
+        });
+        httpBackend.flush();
+      });
+  });
   describe('register autobox user',()=>{
-      it('Use API to create a new Autobox user',()=>{
-          registerComponent.register(registerInfo)
+      it('Register new Autobox user',()=>{
+          registerComponent.register()
           .then(response=>{
               expect(response.status).to.equal(201);
           });

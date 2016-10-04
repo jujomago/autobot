@@ -52,7 +52,7 @@
             return _$http.post(this.endPointUrl + '/admin/temporaryusers', reg)
                 .then(response => {
                     if (response.status === 201) {
-                        return response;
+                      return response;
                     }
                 })
                 .catch(err => _HandleError(err, result));
@@ -62,7 +62,7 @@
             return _$http.get(this.endPointUrl + '/admin/companies')
                 .then(response => {
                     if (response.status === 200) {
-                        return response;
+                      return response.data;
                     }
                 })
                 .catch(err => _HandleError(err, result));

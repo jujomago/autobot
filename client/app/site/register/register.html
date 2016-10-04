@@ -6,16 +6,12 @@
       <select name="company" ng-model="$ctrl.company" ng-required="required">
         <option ng-repeat="company in $ctrl.companies" value="{{company._id}}" required>{{company.companyName}}</option>
       </select>
-      <p>&nbsp;</p>
       <label>Email</label>
       <input ng-model="$ctrl.email" name="email" ng-required="required">
-      <p>&nbsp;</p>
       <label>First name</label>
       <input ng-model="$ctrl.firstname" name="firstname" maxlength="50" ng-required="required">
-      <p>&nbsp;</p>
       <label>Last name</label>
       <input ng-model="$ctrl.lastname" name="lastname" maxlength="50" ng-required="required">
-      <p>&nbsp;</p>
       <button id="sign-button" type="submit" class="btn btn-default center-block">Sign In</button>
     </form>
   </div>
