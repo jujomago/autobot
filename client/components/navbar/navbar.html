@@ -11,9 +11,9 @@
     </div>
     <div uib-collapse="nav.isCollapsed" class="navbar-collapse collapse submenucustomize" id="navbar-main">
       <ul class="nav navbar-nav">
-        <li ui-sref-active="active"><a href="/ap/dashboard">Dashboard</a></li>
+        <li ui-sref-active="active"><a href="/ap/dashboard"><p class="aligned-items">Dashboard</p></a></li>
         <li class="dropdown sub-menu-dropdown positionCustomize" ng-mouseenter="nav.changeFocus(false)" ng-mouseleave="nav.changeFocus(true)">
-          <a class="dropdown-toggle" role="button">My apps</a>
+          <a class="dropdown-toggle" role="button"><p class="aligned-items">My apps</p></a>
           <ul class="dropdown-menu submenu centerSubmenu" uib-collapse="nav.myAppsCollapsed">
           <div class="col-sm-12">
             <div class="col-sm-7 my-apps" ng-class="{'border-right': nav.total > nav.quantity}">
@@ -85,7 +85,7 @@
 
           </ul>
         </li>
-        <li><a href="/underconstruction">Reports</a></li>
+        <li><a href="/underconstruction"><p class="aligned-items">Reports</p></a></li>
       </ul>
       <ul class="nav navbar-nav nav-icons navbar-right">
         <li>
