@@ -778,7 +778,7 @@ describe('Component: al.lists.mapping', function () {
     });
   });
 
-  describe('#addMappingItem', () => {
+  describe.only('#addMappingItem', () => {
     it('A contact field that exists should be added to list', () => {
       MappingComponent.contactFields = [
         { 'name': 'number1', mappedName: null, mappedIndex: 0 },
@@ -1302,4 +1302,5 @@ describe('Component: al.lists.mapping', function () {
       _$httpBackend.flush();
     });
   });*/
+  
 });
