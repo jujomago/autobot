@@ -814,6 +814,26 @@ describe('Component: al.lists.mapping', function () {
       expect(MappingComponent.selectedRowsMapped).to.have.lengthOf(0);
 
     });
+
+       it('A contact field that exists should be added to the last position', () => {
+      MappingComponent.contactFields = [
+        { 'name': 'number1', mappedName: null, mappedIndex: 0 },  
+        { 'name': 'number1', mappedName: null, mappedIndex: 0 }, 
+        { 'name': 'number1', mappedName: null, mappedIndex: 0 },      
+        { 'name': 'number2', mappedName: null, mappedIndex: 0 },
+        { 'name': 'number3', mappedName: null, mappedIndex: 0 },
+        { 'name': 'first_name', mappedName: null, mappedIndex: 0 },
+        { 'name': 'last_name', mappedName: null, mappedIndex: 0 },
+        { 'name': 'company', mappedName: null, mappedIndex: 0 }
+      ];
+
+
+      MappingComponent.contactFieldSelectedName = { name: 'number1', mappedName: null, mappedIndex: 0 };
+      expect(MappingComponent.contactFields).to.have.lengthOf(8);
+      expect(MappingComponent.addMappingItem()).to.equal(2);
+      expect(MappingComponent.contactFields).to.have.lengthOf(9);
+      expect(MappingComponent.selectedRowsMapped).to.have.lengthOf(0);
+    });
   });
 
   describe('#removeSelectedItem', () => {
