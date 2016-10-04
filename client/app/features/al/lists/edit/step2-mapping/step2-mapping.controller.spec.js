@@ -778,7 +778,7 @@ describe('Component: al.lists.mapping', function () {
     });
   });
 
-  describe.only('#addMappingItem', () => {
+  describe('#addMappingItem', () => {
     it('A contact field that exists should be added to list', () => {
       MappingComponent.contactFields = [
         { 'name': 'number1', mappedName: null, mappedIndex: 0 },
