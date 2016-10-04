@@ -185,9 +185,7 @@ describe('Component: al.skills.edit', function () {
                 
                     EditComponent.selectedSkill.name='Marketing';
             
-                                
-                let headerRequiredForDelete={'Content-Type':'application/json;charset=utf-8','Accept':'application/json, text/plain, */*','appName':''};
-        
+            
                 httpBackend.whenDELETE(endPointUrl+'/testName/skills').respond(204,'');
 
 
