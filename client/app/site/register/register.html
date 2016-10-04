@@ -2,6 +2,7 @@
     <h1>CREATE USER</h1>
     <form  name="formRegister"  ng-submit="formRegister.$valid && $ctrl.register()">
       <abx-message msg="$ctrl.message"></abx-message>
+      <div class="success" ng-show="$ctrl.successMessage">SUCCESS</div>
       <label>Company</label>
       <select name="company" ng-model="$ctrl.company" ng-required="required">
         <option ng-repeat="company in $ctrl.companies" value="{{company._id}}" required>{{company.companyName}}</option>
@@ -12,6 +13,6 @@
       <input ng-model="$ctrl.firstname" name="firstname" maxlength="50" ng-required="required">
       <label>Last name</label>
       <input ng-model="$ctrl.lastname" name="lastname" maxlength="50" ng-required="required">
-      <button id="sign-button" type="submit" class="btn btn-default center-block">Sign In</button>
+      <button id="sign-button" type="submit" class="btn btn-default center-block">Create</button>
     </form>
   </div>

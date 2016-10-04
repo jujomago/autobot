@@ -51,6 +51,7 @@ describe('Component: RegisterController', function() {
         registerComponent.getCompanies()
         .then(response=>{
             expect(response.status).to.equal(200);
+            expect(response.data).to.equal(array);
         });
         httpBackend.flush();
       });

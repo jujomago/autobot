@@ -48,7 +48,7 @@
                 .catch(err => _HandleError(err, result));
         }
         register(reg) {
-            let result = { data: null, statusCode: 200, errorMessage: null };
+            let result = { data: null, statusCode: 201, errorMessage: null };
             return _$http.post(this.endPointUrl + '/admin/temporaryusers', reg)
                 .then(response => {
                     if (response.status === 201) {

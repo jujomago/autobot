@@ -103,12 +103,23 @@ describe('Service: AuthService', function () {
 
   describe('#getCompanies',()=>{
       it('Get companies list to be showed into the dropdown',()=>{
-         httpBackend.whenPOST(endPointUrl+'/admin/companies').respond(200,
+         httpBackend.whenGET(endPointUrl+'/admin/companies').respond(200,
            '2032820asdfka0s0293ma002'
          );
           AuthService.getCompanies()
           .then(response=>{
               expect(response.status).to.equal(200);
+              expect(response.data).to.equal(array);
+          });
+          httpBackend.flush();
+      });
+      it('Get companies empty list',()=>{
+         httpBackend.whenGET(endPointUrl+'/admin/companies').respond(400,
+           '2032820asdfka0s0293ma002'
+         );
+          AuthService.getCompanies()
+          .then(response=>{
+              expect(response.status).to.equal(400);
           });
           httpBackend.flush();
       });

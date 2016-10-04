@@ -12,6 +12,7 @@
       this.lastname = '';
       this.companies = [];
       this.message = { show: false };
+      this.successMessage = false;
       this.required = true;
       _auth = AuthService;
       _$location = $location;
@@ -43,6 +44,7 @@
       return _auth.register(reg)
       .then(response => {
         this.message = { show: false };
+        this.successMessage = true;
         return response;
       })
       .catch(e => {
