@@ -777,44 +777,44 @@ describe('Component: al.lists.mapping', function () {
 
     });
   });
-  
-  describe('#addMappingItem',()=>{
-      it('A contact field that exists should be added to list',()=>{
-          MappingComponent.contactFields = [
-            {'name': 'number1' , mappedName:null , mappedIndex:0 },
-            {'name': 'number2' , mappedName:null , mappedIndex:0 },
-            {'name': 'number3' , mappedName:null , mappedIndex:0 },
-            {'name': 'first_name' , mappedName:null , mappedIndex:0 },
-            {'name': 'last_name' , mappedName:null , mappedIndex:0 },
-            {'name': 'company' , mappedName:null , mappedIndex:0 }
-          ];
-         
-  
-          MappingComponent.contactFieldSelectedName={name:'first_name',mappedName:null,mappedIndex:0};
-          expect(MappingComponent.contactFields).to.have.lengthOf(6);
-          expect(MappingComponent.addMappingItem()).to.equal(3);
-          expect(MappingComponent.contactFields).to.have.lengthOf(7);
-          expect(MappingComponent.selectedRowsMapped).to.have.lengthOf(0);
-      });
-  
-      it('A contact field that does not exists should be added to list at first position',()=>{
-          MappingComponent.contactFields = [
-            {'name': 'number1' , mappedName:null , mappedIndex:0 },
-            {'name': 'number2' , mappedName:null , mappedIndex:0 },
-            {'name': 'number3' , mappedName:null , mappedIndex:0 },        
-            {'name': 'last_name' , mappedName:null , mappedIndex:0 },
-            {'name': 'company' , mappedName:null , mappedIndex:0 }
-          ];
-  
-          MappingComponent.contactFieldSelectedName={name:'first_name',mappedName:null,mappedIndex:0};
-          expect(MappingComponent.contactFields).to.have.lengthOf(5);
-          expect(MappingComponent.addMappingItem()).to.equal(-1);
-          expect(MappingComponent.contactFields).to.have.lengthOf(6);
-          expect(MappingComponent.contactFields[0].name).to.equal('first_name');
-          expect(MappingComponent.selectedRowsMapped).to.have.lengthOf(0);
-          
-      });
-   });
+
+  describe('#addMappingItem', () => {
+    it('A contact field that exists should be added to list', () => {
+      MappingComponent.contactFields = [
+        { 'name': 'number1', mappedName: null, mappedIndex: 0 },
+        { 'name': 'number2', mappedName: null, mappedIndex: 0 },
+        { 'name': 'number3', mappedName: null, mappedIndex: 0 },
+        { 'name': 'first_name', mappedName: null, mappedIndex: 0 },
+        { 'name': 'last_name', mappedName: null, mappedIndex: 0 },
+        { 'name': 'company', mappedName: null, mappedIndex: 0 }
+      ];
+
+
+      MappingComponent.contactFieldSelectedName = { name: 'first_name', mappedName: null, mappedIndex: 0 };
+      expect(MappingComponent.contactFields).to.have.lengthOf(6);
+      expect(MappingComponent.addMappingItem()).to.equal(3);
+      expect(MappingComponent.contactFields).to.have.lengthOf(7);
+      expect(MappingComponent.selectedRowsMapped).to.have.lengthOf(0);
+    });
+
+    it('A contact field that does not exists should be added to list at first position', () => {
+      MappingComponent.contactFields = [
+        { 'name': 'number1', mappedName: null, mappedIndex: 0 },
+        { 'name': 'number2', mappedName: null, mappedIndex: 0 },
+        { 'name': 'number3', mappedName: null, mappedIndex: 0 },
+        { 'name': 'last_name', mappedName: null, mappedIndex: 0 },
+        { 'name': 'company', mappedName: null, mappedIndex: 0 }
+      ];
+
+      MappingComponent.contactFieldSelectedName = { name: 'first_name', mappedName: null, mappedIndex: 0 };
+      expect(MappingComponent.contactFields).to.have.lengthOf(5);
+      expect(MappingComponent.addMappingItem()).to.equal(-1);
+      expect(MappingComponent.contactFields).to.have.lengthOf(6);
+      expect(MappingComponent.contactFields[0].name).to.equal('first_name');
+      expect(MappingComponent.selectedRowsMapped).to.have.lengthOf(0);
+
+    });
+  });
 
   describe('#removeSelectedItem', () => {
     it('remove selected item from table', () => {
@@ -1131,18 +1131,18 @@ describe('Component: al.lists.mapping', function () {
       let rows = resultFinish.resultMapping.rows;
       expect(rows).to.have.lengthOf(2);
 
-      expect(rows[0]).to.eql({ 'number1': '', 'number2': ''});
-      expect(rows[1]).to.eql({ 'number1': '', 'number2': ''});
+      expect(rows[0]).to.eql({ 'number1': '', 'number2': '' });
+      expect(rows[1]).to.eql({ 'number1': '', 'number2': '' });
 
     });
 
   });
-  // TODO: Solve problem with lodash(_.map) 
+
   /*describe('#uploadContacts', () => {
-    
-     it('remove contacts to list', () => {    
-    
-       let mockCSV = `
+
+    it('remove contacts to list', () => {
+
+      let mockCSV = `
          phono
          123456456545
          11111111111
@@ -1159,54 +1159,62 @@ describe('Component: al.lists.mapping', function () {
          01156878945635
          001987565841665
          00115665748987563`;
-     
-       let mockDeleteSettings={
-         listDeleteMode:'DELETE_ALL',
-         fieldsMapping:[{'fieldName':'number1','key':true,'columnNumber':1}]
-       };
- 
- 
-       MappingComponent.setStateParams({settings: {
-           csvData: mockCSV, 
-           listDeleteSettings:mockDeleteSettings 
-       }});
- 
- 
-      let dataToSend={
-        'resultMapping':{
-          'keys':['number1'],
-          'headerFields':[{
-            'displayAs':'Long',
-            'mapTo':'None',
-            'name':'number1',
-            'system':true,
-            'type':'PHONE',
-            'mappedName':'phono\r',
-            'mappedIndex':0,
-            'isKey':true}
-           ],
-          'rows':[{'number1':'01156878945635'}]
-         },
-         'fieldsMapping':mockDeleteSettings.fieldsMapping,
-         'listDeleteSettings':mockDeleteSettings
-     };
- 
-       _$httpBackend.whenDELETE(endPointUrl).respond(200, {return: {identifier: 'ad-fg-js'}});
- 
-       MappingComponent.uploadContacts(dataToSend,'testList')
-         .then(response => {
-           expect(response.statusCode).to.equal(200);
-           expect(response.errorMessage).to.equal(null);
-           expect(response.data.return.identifier).should.not.equal(null);
-           expect(response.data.return.identifier).to.equal('ad-fg-js');
-         });
- 
-        _$httpBackend.flush();
-     });
- 
-     it('add contacts to list', () => {    
-    
-       let mockCSV = `
+
+      let mockDeleteSettings = {
+        listDeleteMode: 'DELETE_ALL',
+        fieldsMapping: [{ 'fieldName': 'number1', 'key': true, 'columnNumber': 1 }]
+      };
+
+
+      MappingComponent.setStateParams({
+        settings: {
+          csvData: mockCSV,
+          listDeleteSettings: mockDeleteSettings
+        }
+      });
+
+
+      let dataToSend = {
+        'resultMapping': {
+          'keys': ['number1'],
+          'headerFields': [{
+            'displayAs': 'Long',
+            'mapTo': 'None',
+            'name': 'number1',
+            'system': true,
+            'type': 'PHONE',
+            'mappedName': 'phono\r',
+            'mappedIndex': 0,
+            'isKey': true
+          }
+          ],
+          'rows': [{ 'number1': '01156878945635' }]
+        },
+        'fieldsMapping': mockDeleteSettings.fieldsMapping,
+        'listDeleteSettings': mockDeleteSettings
+      };	
+			_$httpBackend.expectGET(endPointUrl).respond(200);
+
+      _$httpBackend.whenDELETE('http://localhost:9000/api/f9/lists/contacts/delete').respond(200, { return: { identifier: 'ad-fg-js' } });
+
+      MappingComponent.uploadContacts(dataToSend, 'testList')
+        .then(response => {
+					console.log('el reponse');
+					console.log(response);
+
+
+          expect(response.statusCode).to.equal(200);
+          expect(response.errorMessage).to.equal(null);
+          expect(response.data.return.identifier).should.not.equal(null);
+          expect(response.data.return.identifier).to.equal('ad-fg-js');
+        });
+
+      _$httpBackend.flush();
+    });
+
+    it('add contacts to list', () => {
+
+      let mockCSV = `
          phono
          123456456545
          11111111111
@@ -1223,53 +1231,55 @@ describe('Component: al.lists.mapping', function () {
          01156878945635
          001987565841665
          00115665748987563`;
-     
-       let mockUpdateSettings={
-         cleanListBeforeUpdate:false,
-         crmAddMode:'ADD_NEW',
-         crmUpdateMode:'UPDATE_FIRST',
-         listAddMode:'ADD_FIRST',
-         fieldsMapping:[{'fieldName':'number1','key':true,'columnNumber':1}]
-       };
- 
- 
-       MappingComponent.setStateParams({settings: {
-           csvData: mockCSV, 
-           listUpdateSettings:mockUpdateSettings 
-       }});
- 
- 
-      let dataToSend={
-        'resultMapping':{
-          'keys':['number1'],
-          'headerFields':[{
-            'displayAs':'Long',
-            'mapTo':'None',
-            'name':'number1',
-            'system':true,
-            'type':'PHONE',
-            'mappedName':'phono\r',
-            'mappedIndex':0,
-            'isKey':true}
-           ],
-          'rows':[{'number1':'01156878945635'}]
-         },
-         'fieldsMapping':mockDeleteSettigs.fieldsMapping,
-         'listUpdateSettings':mockDeleteSettigs
-     };
-     
-       _$httpBackend.whenDELETE(endPointUrl).respond(201, {return: {identifier: 'ad-wfg-js'}});
- 
-       MappingComponent.uploadContacts(dataToSend,'testList')
-         .then(response => {
-           expect(response.statusCode).to.equal(201);
-           expect(response.errorMessage).to.equal(null);
-           expect(response.data.return.identifier).should.not.equal(null);
-           expect(response.data.return.identifier).to.equal('ad-wfg-js');
-         });
- 
-        _$httpBackend.flush();
-     });
- 
-   });*/
+
+      let mockUpdateSettings = {
+        cleanListBeforeUpdate: false,
+        crmAddMode: 'ADD_NEW',
+        crmUpdateMode: 'UPDATE_FIRST',
+        listAddMode: 'ADD_FIRST',
+        fieldsMapping: [{ 'fieldName': 'number1', 'key': true, 'columnNumber': 1 }]
+      };
+
+
+      MappingComponent.setStateParams({
+        settings: {
+          csvData: mockCSV,
+          listUpdateSettings: mockUpdateSettings
+        }
+      });
+
+
+      let dataToSend = {
+        'resultMapping': {
+          'keys': ['number1'],
+          'headerFields': [{
+            'displayAs': 'Long',
+            'mapTo': 'None',
+            'name': 'number1',
+            'system': true,
+            'type': 'PHONE',
+            'mappedName': 'phono\r',
+            'mappedIndex': 0,
+            'isKey': true
+          }
+          ],
+          'rows': [{ 'number1': '01156878945635' }]
+        },
+        'fieldsMapping': mockDeleteSettigs.fieldsMapping,
+        'listUpdateSettings': mockDeleteSettigs
+      };
+
+      _$httpBackend.whenDELETE(endPointUrl).respond(201, { return: { identifier: 'ad-wfg-js' } });
+
+      MappingComponent.uploadContacts(dataToSend, 'testList')
+        .then(response => {
+          expect(response.statusCode).to.equal(201);
+          expect(response.errorMessage).to.equal(null);
+          expect(response.data.return.identifier).should.not.equal(null);
+          expect(response.data.return.identifier).to.equal('ad-wfg-js');
+        });
+
+      _$httpBackend.flush();
+    });
+  });*/
 });
