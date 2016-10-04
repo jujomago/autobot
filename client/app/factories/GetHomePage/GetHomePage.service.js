@@ -8,7 +8,7 @@ angular.module('fakiyaMainApp')
         case 'al':
           return 'ap.al.skills';
         default:
-          return 'underconstruction';
+          return 'ap.underconstruction';
       }
     }
 

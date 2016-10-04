@@ -16,7 +16,7 @@ describe('Service:GetHomePage', function () {
   });
 
   it('should return underconstruction', function () {
-    expect(GetHomePage.of('qsc')).to.equal('underconstruction');
+    expect(GetHomePage.of('qsc')).to.equal('ap.underconstruction');
   });
 
 });
