@@ -10,46 +10,68 @@
     return (Math.floor(index/numPerPage)+1);
   }
   function _getSummaryFirstRow(result){
+
+    let crmRecordsInserted=Number(result.crmRecordsInserted);
+    let crmRecordsUpdated=Number(result.crmRecordsUpdated);
+    let listRecordsDeleted=Number(result.listRecordsDeleted);
+    let listRecordsInserted=Number(result.listRecordsInserted);
     let message = '';
-    if(result.crmRecordsInserted === '0' && result.crmRecordsUpdated === '0' && result.listRecordsDeleted === '0' && result
-      .listRecordsInserted === '0'){
+    if(crmRecordsInserted === 0 && crmRecordsUpdated === 0 && listRecordsDeleted === 0 && listRecordsInserted === 0){
       message+= 'Nothing was changed during the update.';
     }
-    if(result.crmRecordsInserted !== '0'){
-      message+='Contact Records inserted: '+result.crmRecordsInserted+', ';
+    if(listRecordsDeleted !== 0){
+      message+=listRecordsDeleted+' Call List records deleted, ';
     }
-    if(result.crmRecordsUpdated !== '0'){
-      message+='Contact Records updated: '+result.crmRecordsUpdated+', ';
+    if(listRecordsInserted !== 0){
+      message+=listRecordsInserted+' Call List records inserted, ';
     }
-    if(result.listRecordsDeleted !== '0'){
-      message+='Call List records deleted: '+result.listRecordsDeleted+', ';
+    if(crmRecordsInserted !== 0){
+      message+=crmRecordsInserted+' Contact Records inserted';
     }
-    if(result.listRecordsInserted !== '0'){
-      message+='Call List records inserted: '+result.listRecordsInserted;
+    if(crmRecordsUpdated !== 0){
+      message+=crmRecordsUpdated+' Contact Records updated';
     }
+   
     if(message[message.length-1]===' '){
       message = message.substring(0, message.length - 2);
     }
     return message;
   }
-  function _getListItems(result){
+  function _getListItems(result,isUpdate){
     let items=[];
     items.push(_getSummaryFirstRow(result));
-    if(result.uploadErrorsCount !== '0'){
-      items.push(result.uploadErrorsCount+' UPLOAD ERRORS FOUND');
+
+    let uploadDuplicatesCount=Number(result.uploadDuplicatesCount);
+    let uploadErrorsCount=Number(result.uploadErrorsCount);
+    let warningsCount=result.warningsCount;
+
+    if(!isUpdate){
+      let errorsFoundQty=uploadDuplicatesCount+uploadErrorsCount;
+      items.push(`${errorsFoundQty} ERRORS FOUND`);
+      if(uploadErrorsCount!==0){
+        items.push(`${uploadErrorsCount} lines with parse erros found`);
+      }
+      if(uploadDuplicatesCount!==0){
+        items.push(`${uploadDuplicatesCount} lines with duplicate keys found`);
+      }      
+      
+    }else{
+        if(uploadErrorsCount !== 0){
+          items.push(result.uploadErrorsCount+' UPLOAD ERRORS FOUND');
+        }
+        if(uploadDuplicatesCount !== 0){
+          items.push(`${uploadDuplicatesCount} ERRORS FOUND`);
+          items.push(`${uploadDuplicatesCount} lines with duplicate keys found`);    
+        }
+        else{
+          items.push('No errors found');
+        }       
     }
-    if(result.uploadDuplicatesCount !== '0'){
-      items.push(result.uploadDuplicatesCount+' lines with duplicate keys found');
-      items.push(result.uploadDuplicatesCount+' ERRORS FOUND');
-    }
-    else{
-      items.push('No errors found');
-    }
-    if(result.warningsCount){
-      items.push(result.warningsCount.entry.length+' WARNINGS FOUND');
-    }
-    else{
-      items.push('No warnings found');
+     if(warningsCount){
+          items.push(`${warningsCount.entry[0].value} WARNINGS FOUND`);
+          items.push(`${warningsCount.entry[0].value} lines with import warning found`);
+    }else{
+         items.push('No warnings found');
     }
     return items;
   }
@@ -64,7 +86,7 @@
     }
     content.body = body;
 
-    content.list = _getListItems(result);
+    content.list = _getListItems(result,isUpdate);
     return content;
   }
   class ListComponent {

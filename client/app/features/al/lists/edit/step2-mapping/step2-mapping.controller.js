@@ -12,7 +12,7 @@
                 return rowValues.map(rv => rv.trim());
             });
         } else {
-            var headers = lines[0].split(delimiter);        
+            let headers = lines[0].split(delimiter).map(e=>e.trim());
             for (var i = 1; i < lines.length; i++) {
                 var obj = {};
                 var currentline = lines[i].split(delimiter);
@@ -34,8 +34,6 @@
         if (rawCSV) {
             delimiter = delimiter || '\n';
             let jsonCSV = _csvToJSON(rawCSV, delimiter, hasHeader);
-            console.log('after applyed delimiter');
-            console.log(jsonCSV);
             return jsonCSV;
         }else{
             console.log('rawCSV is not set');
@@ -133,22 +131,25 @@
     }
 
 
-    function _validateRowsFiels(lodash,rowsFields,validator,actionList){      
+    function _validateRowsFiels(lodash,rowsFields,validator,actionList,skipPreview){      
         let _ = lodash;
         let validRows=[];
         let invalidRows=[];
-
-        _.each(rowsFields,(rowFieldObject,i)=>{
-            let resultValidation=_validateSingleRow(_,rowFieldObject,validator,actionList);
-      
-            if(resultValidation.map(e=>e.result).indexOf(false)===-1){
-                validRows.push(rowFieldObject);
-            }else{
-                let errorsReasonsFiltered=resultValidation.filter(elem=>elem.errorReason);
-                let justTextErrors=errorsReasonsFiltered.map(a=>a.errorReason);
-                invalidRows.push({lineError:i+1,errors:justTextErrors});
-            }                         
-        });
+        if(skipPreview===true){
+            validRows=rowsFields;
+        }else{
+            _.each(rowsFields,(rowFieldObject,i)=>{
+                let resultValidation=_validateSingleRow(_,rowFieldObject,validator,actionList);
+        
+                if(resultValidation.map(e=>e.result).indexOf(false)===-1){
+                    validRows.push(rowFieldObject);
+                }else{
+                    let errorsReasonsFiltered=resultValidation.filter(elem=>elem.errorReason);
+                    let justTextErrors=errorsReasonsFiltered.map(a=>a.errorReason);
+                    invalidRows.push({lineError:i+1,errors:justTextErrors});
+                }                         
+            });
+        }
 
         return {
             validRows:validRows,
@@ -202,13 +203,16 @@
     }
 
 
-    function _getRowsFields(hasHeader, contactFields, jsonCSV, lodash) {
+    function _getRowsFields(hasHeader, contactFields, jsonCSV, lodash,skipPreview) {
         let _ = lodash;
         let mappedFiedlsUniq = _getMappedFiels(hasHeader, contactFields, 'uniq', _);
         let mappedFiedlsAll = _getMappedFiels(hasHeader, contactFields, 'nouniq', _);
 
 
         let _cleanNotNumbers = function (val) {
+            if(skipPreview){               
+                return val;
+            }
             if(val){
                let firstChar=val.substr(0,1).replace(/[^\d\+]/g,'');
                let cleaned=firstChar+val.substr(1,val.length).replace(/[^\d]/g, '');
@@ -458,11 +462,14 @@
             if (this.hasHeader === true) {
                 this.changeDelimiter();    
 
+                let tempJsonHeaders=angular.copy(this.jsonHeaders);
+                tempJsonHeaders=tempJsonHeaders.map(e=>e.toUpperCase());
+       
                 //BUG:1498 - The fields mapped does not display as selected.
-                angular.forEach(this.contactFields, (el,index) => {
-                        if (this.jsonHeaders.indexOf(el.name) >= 0 && 
+                angular.forEach(this.contactFields, (el,index) => {    
+                        if (tempJsonHeaders.indexOf(el.name.toUpperCase()) >= 0 && 
                             el.hasOwnProperty('isKey') &&  
-                            el.mappedName===null)  {                        
+                            el.mappedName===null)  {                
                             el.mappedName = el.name;
                             this.selectedRowsMapped.push(index);
                         }
@@ -504,8 +511,6 @@
         }
 
         nextStep() {
-            console.log('next Step');
-            console.log(this.contactFields);
 
             let keysFields = _.filter(this.contactFields,{'isKey': true});  
             let countKeys= keysFields.length;       
@@ -568,15 +573,13 @@
                         dataToSend.listUpdateSettings = _$stateParams.settings.listUpdateSettings;
                     }
 
-                     let rowsFields=_getRowsFields(this.hasHeader, this.contactFields, this.jsonCSV, _);                
-
-                     let resultValidRowsFields=_validateRowsFiels(_,rowsFields,this.ValidatorService,this.actionList);                  
-                        
+                     let rowsFields=_getRowsFields(this.hasHeader, this.contactFields, this.jsonCSV, _,_$stateParams.settings.skipPreview);                
+                     let resultValidRowsFields=_validateRowsFiels(_,rowsFields,this.ValidatorService,this.actionList,_$stateParams.settings.skipPreview);
                      let contentModal={
                          title:'Summary'
                      };
                      let numRecords=rowsFields.length;
-                  
+
                      if(resultValidRowsFields.invalidRows.length===0){
                         dataToSend.resultMapping.rows=resultValidRowsFields.validRows; 
                         contentModal.body=`All ${numRecords} record(s) have been successfully read from file. Records will be added to the list`;
@@ -626,7 +629,7 @@
                     return null;
                 }
             } else {
-                let noneMapped;
+                  let noneMapped;
                 if (this.hasHeader) {
                     noneMapped = _.reject(this.contactFields, { 'mappedName': null });
                 } else {
