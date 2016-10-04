@@ -7,17 +7,19 @@ describe('Service: AuthService', function () {
 
   // instantiate service
   var AuthService, httpBackend,endPointUrl;
+  var _$cookies;
 
-  beforeEach(inject(function (_AuthService_,$httpBackend,appConfig) {
+  beforeEach(inject(function (_AuthService_,$httpBackend,$cookies,appConfig) {
     AuthService = _AuthService_;
     httpBackend=$httpBackend;
-
+    _$cookies = $cookies;
     if(appConfig.apiUri){
         endPointUrl=appConfig.apiUri;
     }
   }));
 
   afterEach(function () {
+   _$cookies.remove('auth_token');
     httpBackend.verifyNoOutstandingRequest();
   });
 
