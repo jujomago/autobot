@@ -105,8 +105,8 @@
 				<input type="file" id="csv-file" abx-read-file="$ctrl.csvFile">
 			</div>
 			<p ng-show="!$ctrl.csvFile && $ctrl.sent" class="file-empty-error">This field is required</p>
-			<div class="upload-checkbox row">
-				<label class="col-md-6">
+			<div class="upload-checkbox">
+				<label>
   				 	<input type="checkbox" ng-model="$ctrl.settingsParams.skipPreview"> Skip preview of uploaded records (recommended for large files)
   				 </label>
             </div>
