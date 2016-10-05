@@ -12,7 +12,7 @@
                 return rowValues.map(rv => rv.trim());
             });
         } else {
-            var headers = lines[0].split(delimiter);        
+            let headers = lines[0].split(delimiter).map(e=>e.trim());
             for (var i = 1; i < lines.length; i++) {
                 var obj = {};
                 var currentline = lines[i].split(delimiter);
@@ -34,8 +34,6 @@
         if (rawCSV) {
             delimiter = delimiter || '\n';
             let jsonCSV = _csvToJSON(rawCSV, delimiter, hasHeader);
-            console.log('after applyed delimiter');
-            console.log(jsonCSV);
             return jsonCSV;
         }else{
             console.log('rawCSV is not set');
@@ -44,10 +42,8 @@
 
     //BUG:1465 - The Contact uploads report does not accept valid numbers of the csv file.     
     function _validateSingleRow(lodash,singleRow,validator,actionList){
-      
         let row=singleRow;
         let _ = lodash;
-
 
         let resultValidSingleRow=[];
         let resultValidation;
@@ -56,8 +52,8 @@
                 
         function _fillResultsBools(key,value,result){
             if(!result){
-                let errorReason=`Field "${key}" has a invalid value "${value}"`; 
-                return {errorReason:errorReason,result:false};
+               let errorReason=`Field "${key}" has a invalid value "${value}"`; 
+               return {errorReason:errorReason,result:false};
             }else{
                 return {result:true};
             }  
@@ -102,29 +98,25 @@
            
             _.each(row,(value,key)=>{                    
                 switch (key) {
-                    case 'Balance':
-                        resultValidation=validator.balance(value);
-                        resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));                              
-                        break;  
                     case 'number1':
                         resultValidation=validator.phone(value);
-                        resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));
+                        resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));     
                                             
                         break;
                     case 'number2':
                         resultValidation=validator.phone(value);
                         resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));
-                        
+                       
                         break;
                     case 'number3':
                         resultValidation=validator.phone(value);
                         resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));
-                        
+                      
                         break;
                     case 'email':
                         resultValidation=validator.email(value);
                         resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));
-                        
+                   
                         break;           
                 }             
             });                        
@@ -133,22 +125,25 @@
     }
 
 
-    function _validateRowsFiels(lodash,rowsFields,validator,actionList){      
+    function _validateRowsFiels(lodash,rowsFields,validator,actionList,skipPreview){      
         let _ = lodash;
         let validRows=[];
         let invalidRows=[];
-
-        _.each(rowsFields,(rowFieldObject,i)=>{
-            let resultValidation=_validateSingleRow(_,rowFieldObject,validator,actionList);
-      
-            if(resultValidation.map(e=>e.result).indexOf(false)===-1){
-                validRows.push(rowFieldObject);
-            }else{
-                let errorsReasonsFiltered=resultValidation.filter(elem=>elem.errorReason);
-                let justTextErrors=errorsReasonsFiltered.map(a=>a.errorReason);
-                invalidRows.push({lineError:i+1,errors:justTextErrors});
-            }                         
-        });
+        if(skipPreview===true){
+          validRows=rowsFields;
+        }else{
+            _.each(rowsFields,(rowFieldObject,i)=>{
+                let resultValidation=_validateSingleRow(_,rowFieldObject,validator,actionList);
+        
+                if(resultValidation.map(e=>e.result).indexOf(false)===-1){
+                    validRows.push(rowFieldObject);
+                }else{
+                    let errorsReasonsFiltered=resultValidation.filter(elem=>elem.errorReason);
+                    let justTextErrors=errorsReasonsFiltered.map(a=>a.errorReason);
+                    invalidRows.push({lineError:i+1,errors:justTextErrors});
+                }                         
+            });
+       }
 
         return {
             validRows:validRows,
@@ -202,13 +197,16 @@
     }
 
 
-    function _getRowsFields(hasHeader, contactFields, jsonCSV, lodash) {
+    function _getRowsFields(hasHeader, contactFields, jsonCSV, lodash,skipPreview) {
         let _ = lodash;
         let mappedFiedlsUniq = _getMappedFiels(hasHeader, contactFields, 'uniq', _);
         let mappedFiedlsAll = _getMappedFiels(hasHeader, contactFields, 'nouniq', _);
 
 
         let _cleanNotNumbers = function (val) {
+            if(skipPreview){               
+                return val;
+            }
             if(val){
                let firstChar=val.substr(0,1).replace(/[^\d\+]/g,'');
                let cleaned=firstChar+val.substr(1,val.length).replace(/[^\d]/g, '');
@@ -290,18 +288,20 @@
     function _scrollRowIntoView(indexRow, container,$timeout) {
 
         let _container=angular.element(container);     
-        var domEl=_container.find('tr').get(indexRow);
-         if(!domEl) {                 
+        var domEl=_container.find('tr').get(indexRow);      
+        //BUG 1685: Admin console. List Add new item .  
+        if(!domEl) {                 
            let timer = $timeout(function(){
                _container.scrollTop(2000);
                $timeout.cancel( timer );
-           },1);
+           },1);               
+        }else{
             var containerTop = _container.scrollTop(); 
             var containerBottom = containerTop + _container.height(); 
             var elemTop = domEl.offsetTop;
             var elemBottom = elemTop + angular.element(domEl).height();        
             if (elemTop < containerTop) {
-                _container.scrollTop(elemTop);
+                _container.scrollTop(elemTop-60);
             } else if (elemBottom > containerBottom) {
                 _container.scrollTop(elemBottom - _container.height());
             }
@@ -311,8 +311,8 @@
 
 
     let _$stateParams, _$state;
-    let _AlertMessage,_ContactFieldsService, _ListService, _;
     let _$timeout;
+    let _AlertMessage,_ContactFieldsService, _ListService, _;    
     class MapFieldsController {
 
         constructor($stateParams, $state, $timeout, lodash, ContactFieldsService, ListsService, ValidatorService, AlertMessage) {
@@ -320,7 +320,7 @@
             _$stateParams = $stateParams;
             _AlertMessage = AlertMessage;
             _$state = $state;
-            _$timeout = $timeout;
+            _$timeout=$timeout;           
             _ContactFieldsService = ContactFieldsService;
             _ListService = ListsService;       
             this.ValidatorService=ValidatorService;     
@@ -461,11 +461,14 @@
             if (this.hasHeader === true) {
                 this.changeDelimiter();    
 
+                let tempJsonHeaders=angular.copy(this.jsonHeaders);
+                tempJsonHeaders=tempJsonHeaders.map(e=>e.toUpperCase());
+       
                 //BUG:1498 - The fields mapped does not display as selected.
-                angular.forEach(this.contactFields, (el,index) => {
-                        if (this.jsonHeaders.indexOf(el.name) >= 0 && 
+                angular.forEach(this.contactFields, (el,index) => {    
+                        if (tempJsonHeaders.indexOf(el.name.toUpperCase()) >= 0 && 
                             el.hasOwnProperty('isKey') &&  
-                            el.mappedName===null)  {                        
+                            el.mappedName===null)  {                
                             el.mappedName = el.name;
                             this.selectedRowsMapped.push(index);
                         }
@@ -507,8 +510,6 @@
         }
 
         nextStep() {
-            console.log('next Step');
-            console.log(this.contactFields);
 
             let keysFields = _.filter(this.contactFields,{'isKey': true});  
             let countKeys= keysFields.length;       
@@ -571,15 +572,13 @@
                         dataToSend.listUpdateSettings = _$stateParams.settings.listUpdateSettings;
                     }
 
-                     let rowsFields=_getRowsFields(this.hasHeader, this.contactFields, this.jsonCSV, _);                
-
-                     let resultValidRowsFields=_validateRowsFiels(_,rowsFields,this.ValidatorService,this.actionList);                  
-                        
+                     let rowsFields=_getRowsFields(this.hasHeader, this.contactFields, this.jsonCSV, _,_$stateParams.settings.skipPreview);                
+                     let resultValidRowsFields=_validateRowsFiels(_,rowsFields,this.ValidatorService,this.actionList,_$stateParams.settings.skipPreview);
                      let contentModal={
                          title:'Summary'
                      };
                      let numRecords=rowsFields.length;
-                  
+
                      if(resultValidRowsFields.invalidRows.length===0){
                         dataToSend.resultMapping.rows=resultValidRowsFields.validRows; 
                         contentModal.body=`All ${numRecords} record(s) have been successfully read from file. Records will be added to the list`;
@@ -629,7 +628,7 @@
                     return null;
                 }
             } else {
-                let noneMapped;
+                  let noneMapped;
                 if (this.hasHeader) {
                     noneMapped = _.reject(this.contactFields, { 'mappedName': null });
                 } else {
@@ -694,18 +693,15 @@
 
         addMappingItem() {
             console.log(`selected item ${angular.toJson(this.contactFieldSelectedName)}`);
-
             let clonedItem = angular.copy(this.contactFieldSelectedName);
-             //BUG 1685 and 1861: the new item is not display selected
+            //BUG 1685 and 1861: the new item is not display selected
             let idx = _.findLastIndex(this.contactFields, { 'name': this.contactFieldSelectedName.name });
-            if (idx >= 0) {
-               
+            if (idx >= 0) {                
                 this.contactFields.splice(idx + 1, 0, clonedItem);
-                let numberRepeatFields=_.filter(this.contactFields,{ 'name': clonedItem.name }).length;
+                let numberRepeatFields=_.filter(this.contactFields,{ 'name': clonedItem.name }).length;   
                 //BUG 1861: the selected field remains selected             
                 let idy = _.findIndex(this.contactFields, { 'name': this.contactFieldSelectedName.name });
-                this.selectedRow = (idy+numberRepeatFields)-1; 
-              
+                this.selectedRow = (idy+numberRepeatFields)-1;     
             } else {
                 console.log('not found field, inserted first');
                 clonedItem.isKey = false;
