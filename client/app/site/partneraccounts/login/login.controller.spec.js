@@ -61,7 +61,7 @@ describe('Component: LoginComponent', function () {
         _LoginComponent.credentials.appName = 'cj';
         _LoginComponent.login()
         .then(() => {
-          expect(_mockState.path).to.equal('underconstruction');
+          expect(_mockState.path).to.equal('ap.underconstruction');
         });
         _$httpBackend.flush();
       });
