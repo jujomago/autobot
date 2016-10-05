@@ -99,7 +99,7 @@ module.exports = function (grunt) {
         files: [
           '{.tmp,<%= yeoman.client %>}/{app,components}/**/*.{css,html}',
           '{.tmp,<%= yeoman.client %>}/{app,components}/**/!(*.spec|*.mock).js',
-          '<%= yeoman.client %>/assets/images/{,*//*}*.{png,jpg,jpeg,gif,webp,svg}'
+          '<%= yeoman.client %>/assets/{,*//*}*.{png,jpg,jpeg,gif,webp,svg}'
         ],
         options: {
           livereload: true
@@ -250,7 +250,7 @@ module.exports = function (grunt) {
       dist: {
         src: [
           '<%= yeoman.dist %>/<%= yeoman.client %>/!(bower_components){,*/}*.{js,css}',
-          '<%= yeoman.dist %>/<%= yeoman.client %>/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+          '<%= yeoman.dist %>/<%= yeoman.client %>/assets/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
       }
     },
@@ -273,15 +273,15 @@ module.exports = function (grunt) {
       options: {
         assetsDirs: [
           '<%= yeoman.dist %>/<%= yeoman.client %>',
-          '<%= yeoman.dist %>/<%= yeoman.client %>/assets/images'
+          '<%= yeoman.dist %>/<%= yeoman.client %>/assets'
         ],
         // This is so we update image references in our ng-templates
         patterns: {
           css: [
-            [/(assets\/images\/.*?\.(?:gif|jpeg|jpg|png|webp|svg))/gm, 'Update the CSS to reference our revved images']
+            [/(assets\/.+?\/images\/.*?.(?:gif|jpeg|jpg|png|webp|svg))/gm, 'Update the CSS to reference our revved images']
           ],
           js: [
-            [/(assets\/images\/.*?\.(?:gif|jpeg|jpg|png|webp|svg))/gm, 'Update the JS to reference our revved images']
+            [/(assets\/.+?\/images\/.*?.(?:gif|jpeg|jpg|png|webp|svg))/gm, 'Update the JS to reference our revved images']
           ]
         }
       }
@@ -292,9 +292,9 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: '<%= yeoman.client %>/assets/images',
+          cwd: '<%= yeoman.client %>/assets',
           src: '{,*/}*.{png,jpg,jpeg,gif,svg}',
-          dest: '<%= yeoman.dist %>/<%= yeoman.client %>/assets/images'
+          dest: '<%= yeoman.dist %>/<%= yeoman.client %>/assets'
         }]
       }
     },
@@ -378,9 +378,8 @@ module.exports = function (grunt) {
             '*.{ico,png,txt}',
             '.htaccess',
             'bower_components/**/*',
-            'assets/images/{,*/}*.{webp}',
-            'assets/fonts/**/*',
-            'assets/al/**/*',
+            'assets/{,*/}*.{webp}',
+            'assets/**/*',
             'index.html'
           ]
         }, {
@@ -394,7 +393,6 @@ module.exports = function (grunt) {
             src: [
               'package.json',
               '<%= yeoman.server %>/**/*',
-              '!<%= yeoman.server %>**/api/**',
               '!<%= yeoman.server %>/config/local.env.sample.js'
             ]
           }]
@@ -617,9 +615,9 @@ module.exports = function (grunt) {
             ]
           ]
         }
-      },          
-      // Inject component less into app.less
+      },
 
+            // Inject component less into app.less
       less: {
         options: {
           transform: function(filePath) {
@@ -638,6 +636,7 @@ module.exports = function (grunt) {
           ]
         }
       },
+
       // Inject component css into index.html
       css: {
         options: {
@@ -662,7 +661,7 @@ module.exports = function (grunt) {
       your_target: {
         files: [
           { src: '<%= yeoman.dist %>/<%= yeoman.client %>/app/**/*.js' },
-          { src: ['<%= yeoman.dist %>/<%= yeoman.server %>/**/*.js', '!<%= yeoman.server %>/**/api/**/*' ] }
+          { src: '<%= yeoman.dist %>/<%= yeoman.server %>/**/*.js' }
         ]
       }
     },
@@ -850,6 +849,7 @@ module.exports = function (grunt) {
           'istanbul_check_coverage'
         ]);
       }
+
     }
 
     else if (target === 'unit') {
@@ -889,7 +889,7 @@ module.exports = function (grunt) {
     'ngAnnotate',
     'copy:dist',
     'babel:server',
-    //'strip_code',
+    'strip_code',
     'cdnify',
     'cssmin',
     'uglify',
