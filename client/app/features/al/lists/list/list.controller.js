@@ -26,7 +26,7 @@
       message+=listRecordsInserted+' Call List records inserted, ';
     }
     if(crmRecordsInserted !== 0){
-      message+=crmRecordsInserted+' Contact Records inserted';
+      message+=crmRecordsInserted+' Contact Records inserted, ';
     }
     if(crmRecordsUpdated !== 0){
       message+=crmRecordsUpdated+' Contact Records updated';

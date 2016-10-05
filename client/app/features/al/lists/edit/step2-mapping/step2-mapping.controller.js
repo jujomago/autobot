@@ -42,10 +42,8 @@
 
     //BUG:1465 - The Contact uploads report does not accept valid numbers of the csv file.     
     function _validateSingleRow(lodash,singleRow,validator,actionList){
-      
         let row=singleRow;
         let _ = lodash;
-
 
         let resultValidSingleRow=[];
         let resultValidation;
@@ -54,8 +52,8 @@
                 
         function _fillResultsBools(key,value,result){
             if(!result){
-                let errorReason=`Field "${key}" has a invalid value "${value}"`; 
-                return {errorReason:errorReason,result:false};
+               let errorReason=`Field "${key}" has a invalid value "${value}"`; 
+               return {errorReason:errorReason,result:false};
             }else{
                 return {result:true};
             }  
@@ -100,29 +98,25 @@
            
             _.each(row,(value,key)=>{                    
                 switch (key) {
-                    case 'Balance':
-                        resultValidation=validator.balance(value);
-                        resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));                              
-                        break;  
                     case 'number1':
                         resultValidation=validator.phone(value);
-                        resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));
+                        resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));     
                                             
                         break;
                     case 'number2':
                         resultValidation=validator.phone(value);
                         resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));
-                        
+                       
                         break;
                     case 'number3':
                         resultValidation=validator.phone(value);
                         resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));
-                        
+                      
                         break;
                     case 'email':
                         resultValidation=validator.email(value);
                         resultValidSingleRow.push(_fillResultsBools(key,value,resultValidation));
-                        
+                   
                         break;           
                 }             
             });                        
@@ -136,7 +130,7 @@
         let validRows=[];
         let invalidRows=[];
         if(skipPreview===true){
-            validRows=rowsFields;
+          validRows=rowsFields;
         }else{
             _.each(rowsFields,(rowFieldObject,i)=>{
                 let resultValidation=_validateSingleRow(_,rowFieldObject,validator,actionList);
@@ -149,7 +143,7 @@
                     invalidRows.push({lineError:i+1,errors:justTextErrors});
                 }                         
             });
-        }
+       }
 
         return {
             validRows:validRows,
