@@ -67,6 +67,17 @@
                 })
                 .catch(err => _HandleError(err, result));
         }
+        activate(activationCode) {
+            let result = { data: null, statusCode: 200, errorMessage: null };
+            console.log(activationCode);
+            return _$http.post(this.endPointUrl + '/admin/temporaryusers/'+activationCode)
+                .then(response => {
+                    if (response.status === 200) {
+                      return response;
+                    }
+                })
+                .catch(err => _HandleError(err, result));
+        }
         renewToken(oldToken) {
             let result = { data: null, statusCode: 200, errorMessage: null };
             return _$http.put(this.endPointUrl + '/auth/refresh-token', { token: oldToken })
