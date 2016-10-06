@@ -84,7 +84,7 @@
                    // console.log('response');
                     // response when creating new stuff, RETURNS NOTHING
                     if (response.statusCode === 201 && response.data === null) {                        
-                        console.log('added OK');
+                        
                         let index = this.filteredUsers.indexOf(userObj);
                         this.filteredUsers.splice(index, 1);
                         this.toggleUserItem.item = -1;

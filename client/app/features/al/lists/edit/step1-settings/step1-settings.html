@@ -89,7 +89,7 @@
 		<div class="checkbox fixed-margin-15">
             <label>
                 <input type="checkbox" ng-model="$ctrl.disposition.agentMustConfirm"> Check records in DNC list
-            </label>
+            </label>			
         </div>
 		<div ng-show="$ctrl.optionButtons" class="settings-button-container">
 			<button ng-click="$ctrl.nextStep()" class="btn btn-black">Input records manually</button>
@@ -102,7 +102,7 @@
 				<input type="file" id="csv-file" abx-read-file="$ctrl.csvFile">
 			</div>
 			<p ng-show="!$ctrl.csvFile && $ctrl.sent" class="file-empty-error">This field is required</p>
-			<div class='upload-checkbox'>
+			<div class="upload-checkbox">
 				<label>
   				 	<input type="checkbox" ng-model="$ctrl.settingsParams.skipPreview"> Skip preview of uploaded records (recommended for large files)
   				 </label>

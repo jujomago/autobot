@@ -158,7 +158,7 @@ describe('Component: al.skills.edit', function () {
                     level:1,
                     skillName:EditComponent.selectedSkill.name,
                     userName:'testName'}
-                ).respond(null);
+                ).respond(201);
                
                                                              
                let addUsertoSkillPromise=EditComponent.addUsertoSkill({userName:'testName'},10);     
@@ -185,13 +185,8 @@ describe('Component: al.skills.edit', function () {
                 
                     EditComponent.selectedSkill.name='Marketing';
             
-                                
-                let headerRequiredForDelete={'Content-Type':'application/json;charset=utf-8','Accept':'application/json, text/plain, */*','appName':''};
-        
-                httpBackend.when('DELETE',endPointUrl+'/testName/skills', {
-                        skillName:EditComponent.selectedSkill.name,
-                        userName:'testName'
-                    },headerRequiredForDelete).respond(204,'');
+            
+                httpBackend.whenDELETE(endPointUrl+'/testName/skills').respond(204,'');
 
 
                     httpBackend.expectGET(endPointUrl).respond({});      
