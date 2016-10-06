@@ -339,7 +339,8 @@
             this.customDelimiterDefaultSymbol = ',';
             this.customDelimiterEnabled = false;
             this.contactFields = [];
-
+            this.selectedRowRemovedIndex=-1;
+            this.selectedRowRemovedName='';
             this.message = { show: false };
             this.loadingContacts = true;
             this.canMapping = false;
@@ -701,9 +702,28 @@
 
         addMappingItem() {
             console.log(`selected item ${angular.toJson(this.contactFieldSelectedName)}`);
-            let clonedItem = angular.copy(this.contactFieldSelectedName);
+            let clonedItem; 
+            let idx;
+            if(this.selectedRowRemovedIndex===-1)
+            {
+                idx = _.findLastIndex(this.contactFields, { 'name': this.contactFieldSelectedName.name });
+                clonedItem = angular.copy(this.contactFieldSelectedName);                
+            }
+            else{
+                idx = this.selectedRowRemovedIndex-1;
+                clonedItem = this.selectedRowRemovedName;  
+                let numberRepeatFields=_.filter(this.contactFields,{ 'name': clonedItem.name }).length;                 
+                if(numberRepeatFields===0)
+                {
+                    clonedItem.isKey = false;
+                }
+                else{
+                    delete clonedItem.isKey;
+                }  
+            }  
+            this.selectedRowRemovedIndex=-1; 
+            this.selectedRowRemovedName =[]; 
             //BUG 1685 and 1861: the new item is not display selected
-            let idx = _.findLastIndex(this.contactFields, { 'name': this.contactFieldSelectedName.name });
             if (idx >= 0) {                
                 this.contactFields.splice(idx + 1, 0, clonedItem);
                 let numberRepeatFields=_.filter(this.contactFields,{ 'name': clonedItem.name }).length;   
@@ -740,12 +760,16 @@
                         this.contactFields[posibleNext].isKey = false;
                     }
                 }
+                this.selectedRowRemovedIndex = this.selectedRow;
+                this.selectedRowRemovedName = this.contactFields[this.selectedRowRemovedIndex];
                 this.contactFields.splice(this.selectedRow, 1);
                 this.selectedRow = -1;
                 this.selectedRowsMapped=[];
                 return true;
             } else {
                 if (goingToDelete) {
+                    this.selectedRowRemovedIndex = this.selectedRow;
+                    this.selectedRowRemovedName = this.contactFields[this.selectedRowRemovedIndex];
                     this.contactFields.splice(this.selectedRow, 1);
                     this.selectedRow = -1;
                     this.selectedRowsMapped=[];
