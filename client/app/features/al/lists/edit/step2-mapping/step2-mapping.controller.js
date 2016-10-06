@@ -18,11 +18,11 @@
                 var currentline = lines[i].split(delimiter);
 
                 for (var j = 0; j < headers.length; j++) {
-                    try{
-                        obj[headers[j]] = currentline[j].trim();
-                    }catch(e){
-                        obj[headers[j]] = currentline[0];
-                    }    
+                    if(!currentline[j]){
+                         obj[headers[j]]='';
+                    }else{
+                         obj[headers[j]] = currentline[j].trim();
+                    }
                 }
                 result.push(obj);                             
             }        
@@ -59,7 +59,7 @@
             }  
         }
 
-        if(allFieldsEmpty && actionList==='update'){
+        if(allFieldsEmpty){
             resultValidSingleRow.push({errorReason:'Record is empty.',result:false});
         }else if(!row.hasOwnProperty('number1') &&  !row.hasOwnProperty('number2') && !row.hasOwnProperty('number3') && actionList==='update'){
             resultValidSingleRow.push({errorReason:'Record must have at least one phone number.',result:false});
@@ -125,7 +125,7 @@
     }
 
 
-    function _validateRowsFiels(lodash,rowsFields,validator,actionList,skipPreview){      
+    function _validateRowsFiels(lodash,rowsFields,validator,actionList,keyNames,skipPreview){      
         let _ = lodash;
         let validRows=[];
         let invalidRows=[];
@@ -133,10 +133,13 @@
           validRows=rowsFields;
         }else{
             _.each(rowsFields,(rowFieldObject,i)=>{
-                let resultValidation=_validateSingleRow(_,rowFieldObject,validator,actionList);
-        
+                let resultValidation=_validateSingleRow(_,rowFieldObject,validator,actionList);              
                 if(resultValidation.map(e=>e.result).indexOf(false)===-1){
-                    validRows.push(rowFieldObject);
+                    if(actionList==='remove'){                     
+                        validRows.push(_.pick(rowFieldObject,keyNames));
+                    }else{
+                        validRows.push(rowFieldObject);
+                    }                   
                 }else{
                     let errorsReasonsFiltered=resultValidation.filter(elem=>elem.errorReason);
                     let justTextErrors=errorsReasonsFiltered.map(a=>a.errorReason);
@@ -204,7 +207,7 @@
 
 
         let _cleanNotNumbers = function (val) {
-            if(skipPreview){               
+            if(skipPreview){
                 return val;
             }
             if(val){
@@ -213,7 +216,7 @@
                return cleaned;
             }
             return '';
-            
+                        
         };
 
         let _jsonRecordsToFieldsRecords = function (jrecord) {  
@@ -545,35 +548,39 @@
             let fieldsKeys = _.filter(this.contactFields, { 'isKey': true });
             let checkSelectedKeys = _checkSelectedFieldKeys(this.hasHeader, this.contactFields, _);
 
-            if (this.actionList==='remove') {
-                this.contactFields = fieldsKeys;
-            }
             if(fieldsKeys.length>0){
                 if(fieldsKeys.length>12){
                     this.message = { show: true, type: 'warning', text: `No more than 12 fields can be marked as a key`, expires: 8000 };
                     return null;
                 }
                 if (checkSelectedKeys.length === 0) {
-                    let keyNames = _.chain(this.contactFields)
-                        .filter({ isKey: true })
-                        .map('name').value();
-                   
-                    let dataToSend = {
-                        resultMapping: {
-                            keys: keyNames,
-                            headerFields: _getMappedFiels(this.hasHeader, this.contactFields, 'uniq', _)
-                        },
-                        fieldsMapping: _getFieldsEntries(this.hasHeader, this.contactFields, this.jsonCSV, _)
-                    };
+                     let dataToSend = {};
+                    let keyNames = _.map(fieldsKeys,'name');
 
+                    
+                    let rowsFields=_getRowsFields(this.hasHeader, this.contactFields, this.jsonCSV, _,_$stateParams.settings.skipPreview);
+                    let resultValidRowsFields=_validateRowsFiels(_,rowsFields,this.ValidatorService,this.actionList,keyNames,_$stateParams.settings.skipPreview);
+                    console.log('resultValidRowsFields');
+                    console.log(resultValidRowsFields);
+
+                    let lastPartTitle='';
                     if (this.actionList==='remove') {
                         dataToSend.listDeleteSettings = _$stateParams.settings.listDeleteSettings;
+                        lastPartTitle='removed from';
+                        this.contactFields = fieldsKeys;
                     } else {
                         dataToSend.listUpdateSettings = _$stateParams.settings.listUpdateSettings;
+                        lastPartTitle='added to';
                     }
+                     
+                    dataToSend.resultMapping = {
+                        keys: keyNames,
+                        headerFields: _getMappedFiels(this.hasHeader, this.contactFields, 'uniq', _)
+                    };
+                    dataToSend.fieldsMapping=_getFieldsEntries(this.hasHeader, this.contactFields, this.jsonCSV, _);                  
 
-                     let rowsFields=_getRowsFields(this.hasHeader, this.contactFields, this.jsonCSV, _,_$stateParams.settings.skipPreview);                
-                     let resultValidRowsFields=_validateRowsFiels(_,rowsFields,this.ValidatorService,this.actionList,_$stateParams.settings.skipPreview);
+
+
                      let contentModal={
                          title:'Summary'
                      };
@@ -581,7 +588,8 @@
 
                      if(resultValidRowsFields.invalidRows.length===0){
                         dataToSend.resultMapping.rows=resultValidRowsFields.validRows; 
-                        contentModal.body=`All ${numRecords} record(s) have been successfully read from file. Records will be added to the list`;
+                        
+                        contentModal.body=`All ${numRecords} record(s) have been successfully read from file. Records will be ${lastPartTitle} the list "${_$stateParams.name}"`;
                      } else {
                         contentModal.textCloseBtn='Close';
                         contentModal.listDetail={
@@ -598,7 +606,7 @@
                             dataToSend.resultMapping.rows=null;  
                         }else{
                             dataToSend.resultMapping.rows=resultValidRowsFields.validRows;               
-                            contentModal.body=`Only ${resultValidRowsFields.validRows.length} of ${numRecords} records have been successfully read from file. ${resultValidRowsFields.validRows.length} valid Record(s) will be added to the list`;     
+                            contentModal.body=`Only ${resultValidRowsFields.validRows.length} of ${numRecords} records have been successfully read from file. ${resultValidRowsFields.validRows.length} valid Record(s) will be ${lastPartTitle} the list "${_$stateParams.name}"`;     
                         }  
                    
                         for (var r = 0; r < resultValidRowsFields.invalidRows.length; r++) {
