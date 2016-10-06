@@ -43,7 +43,7 @@ describe('Service:PartnersService', function () {
   describe('#get Account for a partner', () => {
     it('should return at least one account', function () {
         _$httpBackend.whenGET(_endPointUrl+'/partners/f9/accounts').respond({username:'XYZ', avatar:null});
-        _PartnersService.getPartnerAccounts()
+        _PartnersService.getPartnerAccounts('f9')
         .then(result => {
             expect(result.data.length).to.not.equal(0);
         });
@@ -51,7 +51,7 @@ describe('Service:PartnersService', function () {
     });
     it('should return unexpected server error', function () {
         _$httpBackend.whenGET(_endPointUrl+'/partners/f9/accounts').respond(500, {error: 'Internal Server Error'});
-        _PartnersService.getPartnerAccounts()
+        _PartnersService.getPartnerAccounts('f9')
         .catch(error => {
             expect(error.errorMessage).to.equal('Internal Server Error');
             expect(error.statusCode).to.equal(500);

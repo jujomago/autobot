@@ -230,8 +230,8 @@ describe('Component: al.lists.list', function () {
           expect(response.summaryMessage.title).to.equal('Summary');
           expect(response.summaryMessage.body).to.equal('Update for list "testList" has been succesfully completed.');
           expect(response.summaryMessage.list[0]).to.equal('Nothing was changed during the update.');
-          expect(response.summaryMessage.list[1]).to.equal('5 lines with duplicate keys found');
-          expect(response.summaryMessage.list[2]).to.equal('5 ERRORS FOUND');
+          expect(response.summaryMessage.list[1]).to.equal('5 ERRORS FOUND');
+          expect(response.summaryMessage.list[2]).to.equal('5 lines with duplicate keys found');
           expect(response.summaryMessage.list[3]).to.equal('No warnings found');
           expect(response.statusCode).to.equal(200);
           expect(mockModal.open.calledOnce).to.equal(true);
@@ -264,10 +264,11 @@ describe('Component: al.lists.list', function () {
         .then(response => {
           expect(response.summaryMessage.title).to.equal('Summary');
           expect(response.summaryMessage.body).to.equal('Delete for list "testList" has been succesfully completed.');
-          expect(response.summaryMessage.list[0]).to.equal('Call List records deleted: 7');
-          expect(response.summaryMessage.list[1]).to.equal('7 lines with duplicate keys found');
-          expect(response.summaryMessage.list[2]).to.equal('7 ERRORS FOUND');
-          expect(response.summaryMessage.list[3]).to.equal('2 WARNINGS FOUND');
+          expect(response.summaryMessage.list[0]).to.equal('7 Call List records deleted');
+          expect(response.summaryMessage.list[1]).to.equal('7 ERRORS FOUND');
+          expect(response.summaryMessage.list[2]).to.equal('7 lines with duplicate keys found');
+          expect(response.summaryMessage.list[3]).to.equal('warning 1 WARNINGS FOUND');
+          expect(response.summaryMessage.list[4]).to.equal('warning 1 lines with import warning found');
           expect(response.statusCode).to.equal(200);
           expect(mockModal.open.calledOnce).to.equal(true);
           expect(_Global.proccessIsRunning).to.equal(false);
@@ -299,7 +300,7 @@ describe('Component: al.lists.list', function () {
         .then(response => {
           expect(response.summaryMessage.title).to.equal('Summary');
           expect(response.summaryMessage.body).to.equal('Update for list "testList" has been succesfully completed.');
-          expect(response.summaryMessage.list[0]).to.equal('Contact Records updated: 5, Call List records deleted: 7, Call List records inserted: 3');
+          expect(response.summaryMessage.list[0]).to.equal('7 Call List records deleted, 3 Call List records inserted, 5 Contact Records updated');
           expect(response.summaryMessage.list[1]).to.equal('No errors found');
           expect(response.summaryMessage.list[2]).to.equal('No warnings found');
          expect(response.statusCode).to.equal(200);

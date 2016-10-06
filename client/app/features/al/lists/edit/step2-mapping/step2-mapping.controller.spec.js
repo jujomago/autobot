@@ -38,7 +38,7 @@ describe('Component: al.lists.mapping', function () {
       lodash = _lodash_;
 
       if (appConfig.apiUri) {
-        endPointUrl = appConfig.apiUri + '/f9/contactfields';
+        endPointUrl = appConfig.apiUri + '/f9/contacts/fields';
       }
 
 
@@ -778,7 +778,7 @@ describe('Component: al.lists.mapping', function () {
     });
   });
 
-  describe.only('#addMappingItem', () => {
+  describe('#addMappingItem', () => {
     it('A contact field that exists should be added to list', () => {
       MappingComponent.contactFields = [
         { 'name': 'number1', mappedName: null, mappedIndex: 0 },
@@ -815,7 +815,7 @@ describe('Component: al.lists.mapping', function () {
 
     });
 
-       it('A contact field that exists should be added to the last position', () => {
+      it('A contact field that exists should be added to the last position', () => {
       MappingComponent.contactFields = [
         { 'name': 'number1', mappedName: null, mappedIndex: 0 },  
         { 'name': 'number1', mappedName: null, mappedIndex: 0 }, 
@@ -1302,5 +1302,5 @@ describe('Component: al.lists.mapping', function () {
       _$httpBackend.flush();
     });
   });*/
-  
+
 });
