@@ -517,10 +517,10 @@
 
             let keysFields = _.filter(this.contactFields,{'isKey': true});  
             let countKeys= keysFields.length;       
-
+          
             if(countKeys>0 && countKeys<13){
                 let dataToSend = {};
-                if (this.actionList==='remove') {
+                if ( _$stateParams.settings.listDeleteSettings) {
                     dataToSend.listDeleteSettings = _$stateParams.settings.listDeleteSettings;
                     dataToSend.fields = keysFields;
                 } else {
@@ -565,7 +565,7 @@
                     console.log(resultValidRowsFields);
 
                     let lastPartTitle='';
-                    if (this.actionList==='remove') {
+                    if (_$stateParams.settings.listDeleteSettings) {
                         dataToSend.listDeleteSettings = _$stateParams.settings.listDeleteSettings;
                         lastPartTitle='removed from';
                         this.contactFields = fieldsKeys;
