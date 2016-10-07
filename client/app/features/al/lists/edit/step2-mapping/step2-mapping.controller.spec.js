@@ -209,16 +209,18 @@ describe('Component: al.lists.mapping', function () {
       expect(MappingComponent.jsonCSV).to.not.equal(null);
       expect(MappingComponent.jsonCSV).to.be.instanceof(Array);
       expect(MappingComponent.jsonCSV).to.have.lengthOf(2);
+
+
       expect(MappingComponent.jsonCSV).to.eql([
         {
           'number1,number3,first': '7777777777,+233552234,Josue,Mancilla, Sinapsysit,josue@gmail.com',
-          'name,last': '        7777777777,+233552234,Josue,Mancilla, Sinapsysit,josue@gmail.com',
-          'name,company,email': '        7777777777,+233552234,Josue,Mancilla, Sinapsysit,josue@gmail.com'
+          'name,last': '',
+          'name,company,email': ''
         },
         {
           'number1,number3,first': '3333333333,53,Boris,Bachas,ninguna,boris@gmail.com',
-          'name,last': '        3333333333,53,Boris,Bachas,ninguna,boris@gmail.com',
-          'name,company,email': '        3333333333,53,Boris,Bachas,ninguna,boris@gmail.com'
+          'name,last': '',
+          'name,company,email': ''
         }
       ]);
 
@@ -298,6 +300,34 @@ describe('Component: al.lists.mapping', function () {
 
       expect(MappingComponent.jsonHeaders).to.eql(['number1', 'number3', 'first_name', 'last_name', 'company', 'email']);
     });
+
+
+    it('Records that not have all columns should be filled with empty', () => {
+
+      let mockCSV = `
+      number1,number2,number3,first_name,last_name,company,email
+      7777777777,5654565456,233552234,,, Sinapsysit
+      3333333333,,5368754635        
+    `;
+
+      MappingComponent.setStateParams({
+        settings: {
+          csvData: mockCSV,
+          listDeleteSettings: mockDeleteSettigs
+        }
+      });
+
+      MappingComponent.selectedDelimiter.title = 'Comma';
+      expect(MappingComponent.selectedDelimiter.title).to.not.equal('Custom');
+     // MappingComponent.changeDelimiter();
+
+      expect(MappingComponent.jsonHeaders).to.eql(['number1', 'number3', 'first_name', 'last_name', 'company', 'email']);
+    });
+
+
+
+
+
 
   });
 
@@ -1150,13 +1180,13 @@ describe('Component: al.lists.mapping', function () {
       let resultFinish = MappingComponent.finishMap();
       let rows = resultFinish.resultMapping.rows;
       expect(rows).to.have.lengthOf(2);
-
       expect(rows[0]).to.eql({ 'number1': '', 'number2': '' });
       expect(rows[1]).to.eql({ 'number1': '', 'number2': '' });
-
     });
-
   });
+
+
+
 
   /*describe('#uploadContacts', () => {
 
