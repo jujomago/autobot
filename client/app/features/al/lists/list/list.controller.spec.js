@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Component: al.lists.list', function () {
+describe('Component:al.lists.list', function () {
 
   // load the controller's module
   beforeEach(module('fakiyaMainApp'));
@@ -220,6 +220,7 @@ describe('Component: al.lists.list', function () {
                         warningsCount: null
                     }
       });
+      _$httpBackend.whenGET(endPointUrl+'/testList').respond(200, {return: [{size: 20}]});
       mockListData.return[5].size = 20;
       ListComponent.lists = mockListData.return;
       let promise = ListComponent.getResult('123-abc-456','testList', true);
@@ -255,6 +256,7 @@ describe('Component: al.lists.list', function () {
                         warningsCount: {entry: [{value: 'warning 1'},{value: 'warning 2'}]}
                     }
       });
+      _$httpBackend.whenGET(endPointUrl+'/testList').respond(200, {return: [{size: 13}]});
       mockListData.return[5].size = 20;
       ListComponent.lists = mockListData.return;
       let promise = ListComponent.getResult('123-abc-456','testList', false);
@@ -290,10 +292,10 @@ describe('Component: al.lists.list', function () {
                         warningsCount: null
                     }
       });
+      _$httpBackend.whenGET(endPointUrl+'/testList').respond(200, {return: [{size: 20}]});
       mockListData.return[5].size = 20;
       ListComponent.lists = mockListData.return;
       let promise =ListComponent.getResult('123-abc-456','testList', true);
-      ListComponent.lists[5].name = 'NewList';
       expect(_Global.proccessIsRunning).to.equal(true);
       expect(ListComponent.lists[5].size).to.equal(20);
       promise
