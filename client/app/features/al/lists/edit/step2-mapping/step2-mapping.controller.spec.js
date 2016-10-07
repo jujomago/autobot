@@ -209,16 +209,18 @@ describe('Component: al.lists.mapping', function () {
       expect(MappingComponent.jsonCSV).to.not.equal(null);
       expect(MappingComponent.jsonCSV).to.be.instanceof(Array);
       expect(MappingComponent.jsonCSV).to.have.lengthOf(2);
+
+
       expect(MappingComponent.jsonCSV).to.eql([
         {
           'number1,number3,first': '7777777777,+233552234,Josue,Mancilla, Sinapsysit,josue@gmail.com',
-          'name,last': '        7777777777,+233552234,Josue,Mancilla, Sinapsysit,josue@gmail.com',
-          'name,company,email': '        7777777777,+233552234,Josue,Mancilla, Sinapsysit,josue@gmail.com'
+          'name,last': '',
+          'name,company,email': ''
         },
         {
           'number1,number3,first': '3333333333,53,Boris,Bachas,ninguna,boris@gmail.com',
-          'name,last': '        3333333333,53,Boris,Bachas,ninguna,boris@gmail.com',
-          'name,company,email': '        3333333333,53,Boris,Bachas,ninguna,boris@gmail.com'
+          'name,last': '',
+          'name,company,email': ''
         }
       ]);
 
@@ -299,6 +301,30 @@ describe('Component: al.lists.mapping', function () {
       expect(MappingComponent.jsonHeaders).to.eql(['number1', 'number3', 'first_name', 'last_name', 'company', 'email']);
     });
 
+
+    it('Records that not have all columns should be filled with empty', () => {
+
+      let mockCSV = `
+      number1,number2,number3,first_name,last_name,company,email
+      7777777777,5654565456,233552234,,, Sinapsysit
+      3333333333,,5368754635        
+    `;
+
+      MappingComponent.setStateParams({
+        settings: {
+          csvData: mockCSV,
+          listDeleteSettings: mockDeleteSettigs
+        }
+      });
+      MappingComponent.selectedDelimiter.title = 'Comma';
+      expect(MappingComponent.selectedDelimiter.title).to.not.equal('Custom');
+
+      expect(MappingComponent.jsonCSV).to.have.lengthOf(2);
+      expect(MappingComponent.jsonHeaders).to.eql(['number1', 'number2', 'number3', 'first_name', 'last_name', 'company', 'email']);
+      expect(MappingComponent.jsonCSV[0]).to.eql({number1: '7777777777', number2: '5654565456', number3: '233552234', 'first_name': '', 'last_name': '', company: 'Sinapsysit', email: ''});
+      expect(MappingComponent.jsonCSV[1]).to.eql({number1: '3333333333', number2: '', number3: '5368754635', 'first_name': '', 'last_name': '', company: '', email: ''});
+     
+    });
   });
 
   describe('#matchSmart', () => {
@@ -758,6 +784,37 @@ describe('Component: al.lists.mapping', function () {
       expect(MappingComponent.message.type).to.equal('warning');
 
     });
+
+    it('When is remove and csv have records with colums empty, rows should be null', () => {
+
+      let mockCSV = `
+          number1,number2,number3,fist_name,last_name,company
+          ,,,,,
+          ,,,,,        
+          `;
+
+
+      MappingComponent.contactFields = [
+        { name: 'number1', mappedName: 'number1', isKey: true },
+        { name: 'number2', mappedName: 'number2', isKey: false },
+        { name: 'number3', mappedName: 'number3', isKey: false },
+        { name: 'first_name', mappedName: 'first_name', isKey: false },
+        { name: 'last_name', mappedName: 'last_name', isKey: false },
+        { name: 'company', mappedName: 'company', isKey: false }
+      ];
+
+      MappingComponent.setStateParams({
+        name: 'testListName',
+        settings: {
+          csvData: mockCSV,
+          listDeleteSettings: mockDeleteSettigs
+        }
+      });
+
+        let resultFinish = MappingComponent.finishMap();
+       expect(resultFinish.resultMapping.rows).to.equal(null);
+    });
+   
   });
 
   describe('#addMappingItem', () => {
@@ -957,7 +1014,7 @@ describe('Component: al.lists.mapping', function () {
   });
 
 
-  describe('Support more formats in phone numbers in 2 columns of CSV', function () {
+  describe.only('Support more formats in phone numbers in 2 columns of CSV', function () {
     it('Number Phones with non numeric characters should be cleaned and validated', () => {
 
       let mockCSV = `
@@ -1114,7 +1171,6 @@ describe('Component: al.lists.mapping', function () {
         name: 'testListName',
         settings: {
           csvData: mockCSV,
-          listDeleteSettings: mockDeleteSettigs
         }
       });
       MappingComponent.hasHeader = true;
@@ -1132,13 +1188,18 @@ describe('Component: al.lists.mapping', function () {
       let resultFinish = MappingComponent.finishMap();
       let rows = resultFinish.resultMapping.rows;
       expect(rows).to.have.lengthOf(2);
+      console.log('the rorws --------------------');
+      console.log(rows);
+
+
 
       expect(rows[0]).to.eql({ 'number1': '', 'number2': '' });
       expect(rows[1]).to.eql({ 'number1': '', 'number2': '' });
-
     });
-
   });
+
+
+
 
   /*describe('#uploadContacts', () => {
 
