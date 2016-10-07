@@ -9,11 +9,7 @@ function configInterceptor($httpProvider,jwtOptionsProvider,appConfig){
    jwtOptionsProvider.config({
 	  whiteListedDomains: [hostname],
 	  unauthenticatedRedirector:['$cookies','$location','authManager','jwtHelper',function($cookies,$location,authManager,jwtHelper){
-	  	  let token=$cookies.get('auth_token');
-		  if(token && jwtHelper.isTokenExpired(token) ){
-			  console.log('cleaning old expired cookie');
-			  $cookies.remove('auth_token');
-		  }
+		  $cookies.remove('auth_token');
           authManager.unauthenticate();
 		  $location.path('/login'); 
 	  }],	
