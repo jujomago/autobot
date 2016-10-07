@@ -1014,7 +1014,7 @@ describe('Component: al.lists.mapping', function () {
   });
 
 
-  describe.only('Support more formats in phone numbers in 2 columns of CSV', function () {
+  describe('Support more formats in phone numbers in 2 columns of CSV', function () {
     it('Number Phones with non numeric characters should be cleaned and validated', () => {
 
       let mockCSV = `
