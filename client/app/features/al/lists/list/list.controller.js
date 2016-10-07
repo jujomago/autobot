@@ -180,6 +180,19 @@
           return error;
         });
     }
+    updateList(listName, index, summaryMessage) {
+      return _ListsService.getList(listName)
+        .then(response => {
+          console.log(response);
+          response.summaryMessage = summaryMessage;
+          this.lists[index].size = response.data[0].size;
+          this.processedRow = null;
+          _Global.proccessIsRunning = false;
+          this.selectedRow = listName;
+          _AlertMessage(response.summaryMessage);
+          return response;
+        });
+    }
 
     updateListRecord(list){
       _$state.go('ap.al.listsEdit', {name: list, isUpdate: true});
@@ -250,14 +263,9 @@
           }
         })
         .then(response =>{
-          response.summaryMessage = _formatMessage(response.data, isUpdate, listName);
-          _AlertMessage(response.summaryMessage);
+          let summaryMessage = _formatMessage(response.data, isUpdate, listName);
           let index = _myIndex(this.lists, _$stateParams.name);
-          this.updateRowSize(index, response.data);
-          this.processedRow = null;
-          _Global.proccessIsRunning = false;
-          this.selectedRow = listName;
-          return response;
+          return this.updateList(listName ,index, summaryMessage);
         })
        .catch(error =>{
           this.message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
