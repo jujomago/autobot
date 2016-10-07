@@ -15,14 +15,14 @@
             let headers = lines[0].split(delimiter).map(e=>e.trim());
             for (var i = 1; i < lines.length; i++) {
                 var obj = {};
-                var currentline = lines[i].split(delimiter);
+                var currentline = lines[i].split(delimiter);               
 
                 for (var j = 0; j < headers.length; j++) {
                     if(!currentline[j]){
                          obj[headers[j]]='';
                     }else{
                          obj[headers[j]] = currentline[j].trim();
-                    }
+                    }  
                 }
                 result.push(obj);                             
             }        
@@ -517,10 +517,10 @@
 
             let keysFields = _.filter(this.contactFields,{'isKey': true});  
             let countKeys= keysFields.length;       
-
+          
             if(countKeys>0 && countKeys<13){
                 let dataToSend = {};
-                if (this.actionList==='remove') {
+                if ( _$stateParams.settings.listDeleteSettings) {
                     dataToSend.listDeleteSettings = _$stateParams.settings.listDeleteSettings;
                     dataToSend.fields = keysFields;
                 } else {
@@ -565,7 +565,7 @@
                     console.log(resultValidRowsFields);
 
                     let lastPartTitle='';
-                    if (this.actionList==='remove') {
+                    if (_$stateParams.settings.listDeleteSettings) {
                         dataToSend.listDeleteSettings = _$stateParams.settings.listDeleteSettings;
                         lastPartTitle='removed from';
                         this.contactFields = fieldsKeys;
@@ -724,7 +724,6 @@
             this.selectedRowRemovedIndex=-1; 
             this.selectedRowRemovedName =[]; 
             //BUG 1685 and 1861: the new item is not display selected
-            
             if (idx >= 0) {                
                 this.contactFields.splice(idx + 1, 0, clonedItem);
                 let numberRepeatFields=_.filter(this.contactFields,{ 'name': clonedItem.name }).length;   
