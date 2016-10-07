@@ -1,53 +1,48 @@
-@width0: 400px;
-.activation-page {
-  margin-top: 50px;
-  margin-bottom: 70px;
-  #sign-up {
-    .inputminimal{
-      position: relative;
-      margin-bottom: 20px;
-    }
-    &.has-error {
-      p[ng-message] {
-        color: #d73030;
-        max-width: 400px;
-        margin: 0;
-        position: absolute;
-        left: 0;
-        top: 100%;
-        font-family: BrandonRegular;
-      }
-    }
-    p {
-      color: #d73030;
-    }
-    .alert{
-      margin: 0 auto 22px;
-      display: block;
-      text-align: center;
-      background: none;
-      color: red;
-      border: 0;
-      font-size: 20px;
-      padding: 0;
-      font-family: BrandonRegular;
-    }
-  }
 
-  .visually-hidden {
-    clip: rect(0 0 0 0);
-    clip: rect(0, 0, 0, 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-  }
-  .text-center {
-    margin-bottom: 15px;
+.navbar{
+  border-radius: 0;
+}
+.container-fluid{
+  padding: 0;
+}
+.row{
+  height: 93%;
+  margin: 0;
+}
+.activation-container {
+  width: 400px;
+  margin: 30px auto;
+  p {
+    text-align: center;
   }
   h3{
     font-family: BrandonRegular;
+    text-align: center;
+  }
+  .avatar-container{
+    margin: 20px 171px 0;
+  }
+  .avatar-info{
+    margin-bottom: 10px;
+    label{
+      text-align: center;
+      width: 400px;
+    }
+  }
+  .btn-black{
+    width: 120px;
+    border-radius: 0;
+    border: 0 transparent;
+    margin: 10px 140px;
+    background-color: #000;
+    text-decoration: none;
+    font-size: 14px;
+    color: #FFF;
+  }
+  .inputminimal input.confirm{
+    width: 270px;
+  }
+  .has-error ~ div[ng-messages] p{
+    text-align: left;
   }
 }

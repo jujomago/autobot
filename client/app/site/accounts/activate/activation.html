@@ -13,37 +13,39 @@
     <p>Please enter your information before start using Autobox</p>
 		<div class="avatar-container">
 			<img src="assets/al/images/avatar-default.png" class="img-circle fixed-avatar">
-      <label>{{$ctrl.credentials.company}}</label>
-      <label>{{$ctrl.credentials.username}}</label>
 		</div>
-		<form name="activationForm" class="activation-form" novalidate autocomplete="off"  ng-submit="activationForm.$valid && $ctrl.activation()">
+    <div class="avatar-info">
+      <label>{{$ctrl.newAccount.company.companyName}}</label>
+      <label>{{$ctrl.newAccount.email}}</label>
+    </div>
+    <form name="activationForm" class="activation-form" novalidate autocomplete="off"  ng-submit="activationForm.$valid && $ctrl.createUser()">
 			<div class="input-container">
         <div class="inputminimal" ng-class="{ 'has-error': activationForm.firstName.$invalid && activationForm.$submitted }">
           <label for="firstName">First name*</label>
-			    <input autofocus name="First name" id="firstName" ng-model="$ctrl.credentials.firstName" maxlength="250" required>
+			    <input autofocus name="First name" id="firstName" ng-model="$ctrl.newAccount.firstname" maxlength="250" required>
 			  </div>
-			  <div ng-messages="activationForm.firstName.$error" class="text-left" ng-show="activationForm.$submitted" >
+			  <div ng-messages="activationForm.firstName.$error" ng-show="activationForm.$submitted" >
 	         <p class="" ng-message="required">This field is required</p>
 	      </div>
         <div class="inputminimal" ng-class="{ 'has-error': activationForm.lastName.$invalid && activationForm.$submitted }">
           <label for="firstName">Last name*</label>
-			    <input name="lastName" id="lastName" ng-model="$ctrl.credentials.lastName" maxlength="250" required>
+			    <input name="lastName" id="lastName" ng-model="$ctrl.newAccount.lastname" maxlength="250" required>
 			  </div>
-			  <div ng-messages="activationForm.lastName.$error" class="text-left" ng-show="activationForm.$submitted" >
+			  <div ng-messages="activationForm.lastName.$error" ng-show="activationForm.$submitted" >
 	         <p class="" ng-message="required">This field is required</p>
 	      </div>
         <div class="inputminimal" ng-class="{ 'has-error': activationForm.password.$invalid && activationForm.$submitted }">
           <label for="firstName">Password*</label>
-			    <input type="password" name="password" id="password" ng-model="$ctrl.credentials.password" maxlength="250" required>
+			    <input type="password" name="password" id="password" ng-model="$ctrl.newAccount.password" maxlength="250" required>
 			  </div>
-			  <div ng-messages="activationForm.password.$error" class="text-left" ng-show="activationForm.$submitted" >
+			  <div ng-messages="activationForm.password.$error" ng-show="activationForm.$submitted" >
 	         <p ng-message="required">This field is required</p>
 	      </div>
-				<div class="inputminimal" ng-class="{ 'has-error': activationForm.password.$invalid && activationForm.$submitted }">
+				<div class="inputminimal" ng-class="{ 'has-error': activationForm.confirmPassword.$invalid && activationForm.$submitted }">
           <label for="firstName">Confirm Password*</label>
-			    <input type="password" name="confirmPassword" id="confirmPassword" ng-model="$ctrl.credentials.confirmPassword" maxlength="250" required>
+			    <input class="confirm" type="password" name="confirmPassword" id="confirmPassword" ng-model="$ctrl.newAccount.confirmPassword" maxlength="250" required>
 			  </div>
-			  <div ng-messages="activationForm.confirmPassword.$error" class="text-left" ng-show="activationForm.$submitted" >
+			  <div ng-messages="activationForm.confirmPassword.$error" ng-show="activationForm.$submitted" >
 	         <p ng-message="required">This field is required</p>
 	      </div>
       </div>

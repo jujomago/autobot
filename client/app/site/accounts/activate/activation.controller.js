@@ -9,6 +9,7 @@
       this.message = { show: false };
       _auth = AuthService;
       _$location = $location;
+      this.activationCode = $location.$$search.activationCode;
       _$stateParams = $stateParams;
       _Base64Manager = Base64Manager;
     }
@@ -16,10 +17,28 @@
       this.activation();
     }
     activation() {
-      console.log("ACTIVATION");
-      return _auth.activate('09JXW7vjB0QGjlgZQTHdrttXv2QxwWCktBcegrrf6LPk7oWwO5rV8sPt')
+      return _auth.activate('09Jc3mty3wKJxu22q3pfxvG6jlaR7swM8tEJ6gYCuDURuJ6tmWzp8wsy')
+      //return _auth.activate(this.activationCode)
       .then(response => {
-        console.log(response);
+        this.newAccount = response;
+        return response;
+      })
+      .catch(e => {
+        this.message = { show: true, text: e.errorMessage };
+        return e;
+      });
+    }
+    createUser() {
+      console.log("CREATE NEW USER");
+      this.newUser = {
+        activationCode: '09Jc3mty3wKJxu22q3pfxvG6jlaR7swM8tEJ6gYCuDURuJ6tmWzp8wsy',
+        firstName: this.newAccount.firstname,
+        lastName: this.newAccount.lastname,
+        password: this.newAccount.password
+      }
+      return _auth.createUser(this.newUser)
+      //return _auth.activate(this.activationCode)
+      .then(response => {
         return response;
       })
       .catch(e => {

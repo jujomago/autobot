@@ -70,9 +70,21 @@
         activate(activationCode) {
             let result = { data: null, statusCode: 200, errorMessage: null };
             console.log(activationCode);
-            return _$http.post(this.endPointUrl + '/admin/temporaryusers/'+activationCode)
+            return _$http.get(this.endPointUrl + '/admin/temporaryusers/'+activationCode)
                 .then(response => {
                     if (response.status === 200) {
+                      return response.data;
+                    }
+                })
+                .catch(err => _HandleError(err, result));
+        }
+        createUser(newuser) {
+            let result = { data: null, statusCode: 201, errorMessage: null };
+            console.log(newuser);
+            return _$http.post(this.endPointUrl + '/admin/users', newuser)
+                .then(response => {
+                    if (response.status === 201) {
+                      console.log("SUCCESSSSSS");
                       return response;
                     }
                 })
