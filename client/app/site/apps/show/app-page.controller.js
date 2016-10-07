@@ -16,12 +16,16 @@
 		$onInit() {
 			this.getApp();
 		}
+		selectNoInstalledApp(){
+			_$state.go('ap.partneraccounts', { partnerId: this.partner.partnerName, appName: this.application.appName });
+		}
 		selectInstalledApp(){
 			_$state.go(_GetHomePage.of(this.application.appName));
 		}
 		getApp() {
 			return _AppsService.getApp(this.appName)
 				.then(response => {
+					this.partner = response.data.partner;
 					this.application=response.data.app;
 					this.application.isInstalled = response.data.installed;
 					return response;
