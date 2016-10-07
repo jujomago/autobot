@@ -1171,6 +1171,7 @@ describe('Component: al.lists.mapping', function () {
         name: 'testListName',
         settings: {
           csvData: mockCSV,
+          listDeleteSettings: mockDeleteSettigs
         }
       });
       MappingComponent.hasHeader = true;
@@ -1188,11 +1189,6 @@ describe('Component: al.lists.mapping', function () {
       let resultFinish = MappingComponent.finishMap();
       let rows = resultFinish.resultMapping.rows;
       expect(rows).to.have.lengthOf(2);
-      console.log('the rorws --------------------');
-      console.log(rows);
-
-
-
       expect(rows[0]).to.eql({ 'number1': '', 'number2': '' });
       expect(rows[1]).to.eql({ 'number1': '', 'number2': '' });
     });
