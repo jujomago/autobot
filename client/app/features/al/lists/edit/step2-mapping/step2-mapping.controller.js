@@ -135,11 +135,11 @@
             _.each(rowsFields,(rowFieldObject,i)=>{
                 let resultValidation=_validateSingleRow(_,rowFieldObject,validator,actionList);              
                 if(resultValidation.map(e=>e.result).indexOf(false)===-1){
-                    if(actionList==='remove'){                     
-                        validRows.push(_.pick(rowFieldObject,keyNames));
-                    }else{
+                   // if(actionList==='remove'){                     
+                     //   validRows.push(_.pick(rowFieldObject,keyNames));
+                   // }else{
                         validRows.push(rowFieldObject);
-                    }                   
+                   // }                   
                 }else{
                     let errorsReasonsFiltered=resultValidation.filter(elem=>elem.errorReason);
                     let justTextErrors=errorsReasonsFiltered.map(a=>a.errorReason);
@@ -281,8 +281,8 @@
             return fieldEntry;
         });
 
-        console.log('result Fields Entries');
-        console.log(fieldsEntries);
+       // console.log('result Fields Entries');
+       // console.log(fieldsEntries);
 
         return fieldsEntries;
     }
@@ -522,11 +522,12 @@
                 let dataToSend = {};
                 if ( _$stateParams.settings.listDeleteSettings) {
                     dataToSend.listDeleteSettings = _$stateParams.settings.listDeleteSettings;
-                    dataToSend.fields = keysFields;
+                    //dataToSend.fields = keysFields;
                 } else {
                     dataToSend.listUpdateSettings = _$stateParams.settings.listUpdateSettings;
-                    dataToSend.fields = this.contactFields;                   
+                                   
                 }
+                   dataToSend.fields = this.contactFields;   
 
                 _$state.go('ap.al.listsEdit-list', {settings:dataToSend, name: _$stateParams.name, manual: true});  
                  return dataToSend;
@@ -561,14 +562,14 @@
                     
                     let rowsFields=_getRowsFields(this.hasHeader, this.contactFields, this.jsonCSV, _,_$stateParams.settings.skipPreview);
                     let resultValidRowsFields=_validateRowsFiels(_,rowsFields,this.ValidatorService,this.actionList,keyNames,_$stateParams.settings.skipPreview);
-                    console.log('resultValidRowsFields');
-                    console.log(resultValidRowsFields);
+                     console.log('resultValidRowsFields');
+                     console.log(resultValidRowsFields);
 
                     let lastPartTitle='';
                     if (_$stateParams.settings.listDeleteSettings) {
                         dataToSend.listDeleteSettings = _$stateParams.settings.listDeleteSettings;
                         lastPartTitle='removed from';
-                        this.contactFields = fieldsKeys;
+                      //  this.contactFields = fieldsKeys;
                     } else {
                         dataToSend.listUpdateSettings = _$stateParams.settings.listUpdateSettings;
                         lastPartTitle='added to';
@@ -617,7 +618,7 @@
                         }                    
                     }
 
-                    console.log('=== DATA FOR NEXT STEPP===');
+                    console.log('=== DATA FOR STEP 3===');
                     console.log(dataToSend);                   
                                        
                     if(_$stateParams.settings.skipPreview===true){
@@ -625,7 +626,7 @@
                         this.uploadContacts(dataToSend,_$stateParams.name);
                     }else{
                         _AlertMessage(contentModal); 
-                        if (resultValidRowsFields.validRows.length>0){                          
+                        if (resultValidRowsFields.validRows.length>0){         
                             _$state.go('ap.al.listsEdit-list', { settings: dataToSend, name: _$stateParams.name });
                         }
                     }

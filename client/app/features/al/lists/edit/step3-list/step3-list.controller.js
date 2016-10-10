@@ -99,21 +99,45 @@ class ListComponent {
       _ContactFieldsService = ContactFieldsService;
       _ = lodash;
 
+      console.log('=========RECEIVED PARAMS =============');
+      console.log(_$stateParams.settings);
+
+
       if(_$stateParams.settings){
+
+
+        this.sendContact.listName = _$stateParams.name;
+        this.typeUpdate = (_$stateParams.settings.listUpdateSettings) ? true : false;
+
         if(_$stateParams.settings.resultMapping){
-          this.importData.fields = _$stateParams.settings.resultMapping.headerFields;
+
+          if(this.typeUpdate){
+           this.importData.fields = _$stateParams.settings.resultMapping.headerFields;
+          }else{
+            let headerFields=_$stateParams.settings.resultMapping.headerFields;            
+            this.importData.fields =  _.filter(headerFields, { 'isKey': true });
+          }
+          
           this.importData.keys = _$stateParams.settings.resultMapping.keys;
           this.importData.rows = _$stateParams.settings.resultMapping.rows;
           this.list = this.importData.rows;
           this.loaded = true;
+          console.log('importData in step3');
+          console.log(this.importData);
         }else{
           this.manual = true;
-          this.contactFields = _$stateParams.settings.fields;
+          if(this.typeUpdate){
+            this.contactFields = _$stateParams.settings.fields;
+          }else{
+            this.contactFields =_.filter(_$stateParams.settings.fields, { 'isKey': true });
+          }
+   
           this.initArrays();
         }
 
-        this.sendContact.listName = _$stateParams.name;
-        this.typeUpdate = (_$stateParams.settings.listUpdateSettings) ? true : false;
+   
+
+
       }else{
         let theMsg = 'Bad params';
         this.error = true;
@@ -294,6 +318,7 @@ class ListComponent {
       }else{
         this.sendContact.listUpdateSettings.fieldsMapping = _$stateParams.settings.fieldsMapping;
       }
+      console.log('DATA TOS SEND ENDPOINT UPDATE');
       console.log(this.sendContact);
       this.sending= true;
       return _ListService.addContacts(this.sendContact)
@@ -321,6 +346,7 @@ class ListComponent {
       }else{
         this.sendContact.listDeleteSettings.fieldsMapping = _$stateParams.settings.fieldsMapping;
       }
+       console.log('DATA TOS SEND ENDPOINT REMOVE');
       console.log(this.sendContact);
       this.sending= true;
       return _ListService.deleteContacts(this.sendContact)
