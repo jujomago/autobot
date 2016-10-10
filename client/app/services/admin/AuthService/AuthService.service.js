@@ -1,6 +1,6 @@
 'use strict';
 (() => {
-    let _$http, _$cookies, _authManager,_jwtHelper,_HandleError;
+    let _$http, _$cookies, _authManager,_jwtHelper,_HandleError,_$location;
 
     function _setCookieToken(token,type){
         console.log('setting cookie');
@@ -15,12 +15,13 @@
     }
     class AuthService {
 
-        constructor($cookies, $http, appConfig, authManager,jwtHelper,HandleError) {
+        constructor($cookies, $http, appConfig, authManager,jwtHelper,HandleError, $location) {
             _$http = $http;
             _$cookies = $cookies;
             _authManager = authManager;
             _jwtHelper=jwtHelper;
             _HandleError = HandleError;
+            _$location = $location;
             if (appConfig.apiUri) {
                 this.endPointUrl = appConfig.apiUri;
             }
@@ -69,7 +70,6 @@
         }
         activate(activationCode) {
             let result = { data: null, statusCode: 200, errorMessage: null };
-            console.log(activationCode);
             return _$http.get(this.endPointUrl + '/admin/temporaryusers/'+activationCode)
                 .then(response => {
                     if (response.status === 200) {
@@ -78,13 +78,11 @@
                 })
                 .catch(err => _HandleError(err, result));
         }
-        createUser(newuser) {
+        createUser(newuser, credentials) {
             let result = { data: null, statusCode: 201, errorMessage: null };
-            console.log(newuser);
             return _$http.post(this.endPointUrl + '/admin/users', newuser)
                 .then(response => {
                     if (response.status === 201) {
-                      console.log("SUCCESSSSSS");
                       return response;
                     }
                 })
@@ -134,7 +132,7 @@
         }
     }
 
-    AuthService.$inject = ['$cookies', '$http', 'appConfig', 'authManager', 'jwtHelper','HandleError'];
+    AuthService.$inject = ['$cookies', '$http', 'appConfig', 'authManager', 'jwtHelper','HandleError', '$location'];
 
     angular.module('fakiyaMainApp')
         .service('AuthService', AuthService);

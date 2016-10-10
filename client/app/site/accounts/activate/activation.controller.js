@@ -17,9 +17,9 @@
       this.activation();
     }
     activation() {
-      return _auth.activate('09Jc3mty3wKJxu22q3pfxvG6jlaR7swM8tEJ6gYCuDURuJ6tmWzp8wsy')
-      //return _auth.activate(this.activationCode)
+      return _auth.activate(this.activationCode)
       .then(response => {
+        console.log(response);
         this.newAccount = response;
         return response;
       })
@@ -29,16 +29,24 @@
       });
     }
     createUser() {
-      console.log("CREATE NEW USER");
-      this.newUser = {
-        activationCode: '09Jc3mty3wKJxu22q3pfxvG6jlaR7swM8tEJ6gYCuDURuJ6tmWzp8wsy',
+      let newUser = {
+        activationCode: this.activationCode,
         firstName: this.newAccount.firstname,
         lastName: this.newAccount.lastname,
         password: this.newAccount.password
       }
-      return _auth.createUser(this.newUser)
-      //return _auth.activate(this.activationCode)
+      let credentials = {
+            'username': this.newAccount.email,
+            'password': this.newAccount.password
+          };
+      return _auth.createUser(newUser, credentials)
       .then(response => {
+        console.log(response);
+        return _auth.login(credentials);
+      })
+      .then(response =>{
+        console.log(response);
+        _$location.path('/ap/dashboard');
         return response;
       })
       .catch(e => {
