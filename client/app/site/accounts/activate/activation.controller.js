@@ -34,12 +34,12 @@
         firstName: this.newAccount.firstname,
         lastName: this.newAccount.lastname,
         password: this.newAccount.password
-      }
+      };
       let credentials = {
             'username': this.newAccount.email,
             'password': this.newAccount.password
           };
-      return _auth.createUser(newUser, credentials)
+      return _auth.createUser(newUser)
       .then(response => {
         console.log(response);
         return _auth.login(credentials);
@@ -51,6 +51,10 @@
       })
       .catch(e => {
         this.message = { show: true, text: e.errorMessage };
+        if(response.status === '404'){
+          _$location.path('/404');
+        }
+        console.log(e);
         return e;
       });
     }
