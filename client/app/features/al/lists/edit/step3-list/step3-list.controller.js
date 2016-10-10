@@ -284,7 +284,7 @@ class ListComponent {
   }
 
   uploadContacts(){
-
+    
     let list = [];
     let items = [];
     let elements = [];
@@ -304,7 +304,7 @@ class ListComponent {
     });
 
     items = _.map(list, value =>{
-      return {item: value};
+      return {item: value};     
     });
 
     this.sendContact.importData.values = items;
@@ -318,23 +318,20 @@ class ListComponent {
       }else{
         this.sendContact.listUpdateSettings.fieldsMapping = _$stateParams.settings.fieldsMapping;
       }
-      console.log('DATA TOS SEND ENDPOINT UPDATE');
       console.log(this.sendContact);
       this.sending= true;
       return _ListService.addContacts(this.sendContact)
-          .then(response=>{
-              if(response.statusCode === 201){
-                  if(response.data.return.identifier){
-                    this.sending= false;
-                    _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: true});
-                  }
-              }
-              else{
-                this.SubmitText='Save';
-                let theMsg= response.errorMessage;
-                this.message={ show: true, type: 'danger', text: theMsg, expires: 5000 };
-              }
-              return response;
+      .then(response=>{  
+        if(response.data.return.identifier){
+          this.sending= false;
+          _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: true});
+        }
+        return response;
+      })
+      .catch(error =>{    
+        this.SubmitText='Save';
+        this.message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
+        return error;
       });
 
     }else{
@@ -346,23 +343,20 @@ class ListComponent {
       }else{
         this.sendContact.listDeleteSettings.fieldsMapping = _$stateParams.settings.fieldsMapping;
       }
-       console.log('DATA TOS SEND ENDPOINT REMOVE');
       console.log(this.sendContact);
       this.sending= true;
       return _ListService.deleteContacts(this.sendContact)
-          .then(response=>{
-              if(response.statusCode === 200){
-                  if(response.data.return.identifier){
-                    this.sending= false;
-                    _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: false});
-                  }
-              }
-              else{
-                this.SubmitText='Save';
-                let theMsg= response.errorMessage;
-                this.message={ show: true, type: 'danger', text: theMsg, expires: 5000 };
-              }
-              return response;
+      .then(response=>{  
+        if(response.data.return.identifier){
+          this.sending= false;
+          _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: false});
+        }
+        return response;
+      })
+      .catch(error =>{    
+        this.SubmitText='Save';
+        this.message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
+        return error;
       });
     }
   }
@@ -373,13 +367,19 @@ class ListComponent {
 
   initArrays() {
       let cont = 1;
+      let key = false;
       let listManual = {};
       console.log('initialized arrays');
       if (this.contactFields) {
         this.loadingContacts = false;
         _.map(this.contactFields, value=>{
+          if(value.name === 'number1'){
+            key = true;
+          }else{
+            key = false;
+          }
           listManual[value.name] = '';
-          this.fieldsMapping.push({columnNumber: cont, fieldName: value.name, key: value.isKey});
+          this.fieldsMapping.push({columnNumber: cont, fieldName: value.name, key: key});
           cont++;
         });
         this.importData.fields = this.contactFields;
