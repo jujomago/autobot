@@ -149,3 +149,7 @@ Example:
  Then you set up the /etc/default/docker with:
  DOCKER_OPTS="--dns 8.8.8.8 --dns 192.168.13.200 --dns 192.168.13.201"
  
+## Access to swagger endpoint
+
+1. The endpoint have an authentication by token, at the first, we need to generate the token with the endpoint /api/auth/login
+2. Access the endpoint, the endpoint can be accessed by the endpoint /api/swaggers and using the method GET (the best way to access the endpoint is by postman application)
