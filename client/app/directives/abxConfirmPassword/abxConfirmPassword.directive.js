@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('fakiyaMainApp', [])
+angular.module('fakiyaMainApp')
   .directive('pwCheck', [function () {
     return {
         require: 'ngModel',
@@ -13,5 +13,5 @@ angular.module('fakiyaMainApp', [])
                 });
             });
         }
-    }
+    };
 }]);
