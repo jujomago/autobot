@@ -59,6 +59,7 @@ angular.module('fakiyaMainApp')
       deleteInterval();
     };
     return {
-      checkToken: checkTokenRenew
+      checkToken: checkTokenRenew,
+      cancelRefresh: deleteInterval
     };
   });
