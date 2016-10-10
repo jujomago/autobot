@@ -34,7 +34,7 @@
         firstName: this.newAccount.firstname,
         lastName: this.newAccount.lastname,
         password: this.newAccount.password
-      }
+      };
       let credentials = {
             'username': this.newAccount.email,
             'password': this.newAccount.password
