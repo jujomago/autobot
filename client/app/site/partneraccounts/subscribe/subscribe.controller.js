@@ -1,6 +1,6 @@
 'use strict';
 let _$state;
-let _PartnersService, _GetHomePage;
+let _PartnersService, _GetHomePage, _EventBus;
 (function () {
   function _getPartnerName(partnerId){
     switch(partnerId){
@@ -11,9 +11,10 @@ let _PartnersService, _GetHomePage;
   }
   class SubscribeController {
 
-    constructor($state, $stateParams, PartnersService, GetHomePage) {
+    constructor($state, $stateParams, PartnersService, GetHomePage, EventBus) {
       _$state = $state;
       _PartnersService = PartnersService;
+      _EventBus = EventBus;
       this.credentials = {partnerId: $stateParams.partnerId, appName: $stateParams.appName, username: '', password: ''};
       this.message = { show: false };
       this.cleanWrongPassword=false;
@@ -25,6 +26,7 @@ let _PartnersService, _GetHomePage;
     login(){
       return _PartnersService.partnerLogin(this.credentials)
       .then(response => {
+        _EventBus.publish('apps.reload');
         _$state.go(_GetHomePage.of(this.credentials.appName));
         return response;
       })
@@ -53,7 +55,7 @@ let _PartnersService, _GetHomePage;
 
   }
 
-  SubscribeController.$inject = ['$state', '$stateParams', 'PartnersService', 'GetHomePage'];
+  SubscribeController.$inject = ['$state', '$stateParams', 'PartnersService', 'GetHomePage', 'EventBus'];
 
 
 angular.module('fakiyaMainApp')

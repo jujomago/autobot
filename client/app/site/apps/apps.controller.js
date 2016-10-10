@@ -17,6 +17,9 @@
 	selectInstalledApp(appName){
 		_$state.go(_GetHomePage.of(appName));
 	}
+	selectNoInstalledApp(item){
+		_$state.go('ap.partneraccounts', { partnerId: item.partner.partnerName, appName: item.app.appName });
+	}
 	getApps(){
 		return this.AppsService.getApps()
 		.then(response => {

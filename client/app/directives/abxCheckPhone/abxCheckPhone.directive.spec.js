@@ -101,5 +101,15 @@ describe('Directive: abxCheckPhone', function () {
       form.phone.$setViewValue('');
       expect(form.phone.$valid).to.equal(true);
   }));
-  
+  it('should be a valid International phone number 01123', inject(function ($compile) {
+      element = angular.element('<form name="form"><input abx-check-phone name="phone" ng-model="model.phone" type="tel"/></form>');
+      scope.model = {phone: null};
+      element = $compile(element)(scope);
+      form = scope.form;
+      form.phone.$setViewValue('01123');
+      expect(form.phone.$valid).to.equal(true);
+  }));
+
+
+
 });
