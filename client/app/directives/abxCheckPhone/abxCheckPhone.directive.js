@@ -26,12 +26,11 @@ angular.module('fakiyaMainApp')
 	            		ctrl.$setValidity('usphoneValidator', false);
 	            		return undefined;
 	            	}
-			    	if(numberParsed.length === 10){
-						number = new RegExp(/^\d+(-\d+)*$/);
+			    	if(numberParsed.length <= 10 && numberParsed.substr(0,3)!=='011'){
+						number = new RegExp(/^[2-9]{1}[0-9]{9}$/im);
 					}else{
-						number = new RegExp(/^(011)(?:[0-9] ?){6,14}[0-9]$/);
+						number = new RegExp(/^(?:011)(?:[. ()-]*\d){2,17}[. ()-]*$/g);
 					}
-					
 					valid = (number.test(numberParsed)) ? true: false;
 					ctrl.$setValidity('usphoneValidator', valid);
 					

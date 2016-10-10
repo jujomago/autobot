@@ -1,85 +1,41 @@
 <div class="modal-header">
-    <button type="button" class="close circle_close edit-modal-x" ng-click="$ctrl.cancel()"></button>
-    <h3 ng-show="$ctrl.method==='update'" class="modal-title">Edit contact</h3>
-    <h3 ng-show="$ctrl.method==='create'" class="modal-title">Add new contact</h3>
+	<button type="button" class="close circle_close edit-modal-x" ng-click="$ctrl.cancel()"></button>
+	<h3 ng-show="$ctrl.method==='update'" class="modal-title">Edit contact</h3>
+	<h3 ng-show="$ctrl.method==='create'" class="modal-title">Add new contact</h3>
 </div>
 <div class="modal-body">
-   
-  <abx-message msg="$ctrl.message"></abx-message>
+	<abx-message msg="$ctrl.message"></abx-message>
 
-    <form name="formList" novalidate ng-submit="formList.$valid && $ctrl.save()" class="custom_form form-horizontal">
-        <div class="contact-model-form">
-          <div ng-repeat="form in $ctrl.formDataModal" >
-            <div class="inputminimal" ng-class="{ 'has-error': formList[form.name].$invalid && formList.$submitted }">
-                <label for="{{form.name}}">{{form.name | removeUnderscore}}<span ng-if="form.required"> (key)</span></label>
-                <div>
-                     <input type="{{form.type}}"
-                            ng-if="form.type != 'date-text' && form.type != 'tel' && form.type != 'number'"
-                            name="{{form.name}}"                        
-                            id="{{form.name}}"
-                            ng-model="$ctrl.contact[form.name]"
-                            maxlength="{{form.maxlength}}"                           
-                           />
-                     <input type="{{form.type}}"
-                            ng-if="form.type == 'tel' "
-                            name="{{form.name}}"                          
-                            id="{{form.name}}"
-                            ng-model="$ctrl.contact[form.name]"
-                            ng-required="$ctrl.phoneRequired"
-                            ng-change="$ctrl.phoneChanged()"
-                            abx-check-phone="/^[^A-Za-zñÑ´ç`_.,\¿¡*~&%#,|_':;?[/}=\]&quot;{*>!\\<^]*$/"/>
-                      <div ng-if="form.type == 'date-text'" class="datepicker-container">
-                      <span class="datepicker-button">
-                        <button type="button" class="btn btn-default" ng-click="$ctrl.openDatePicker($index)"><i class="glyphicon glyphicon-calendar"></i></button>
-                      </span>
-                     </div>
-                     <input ng-if="form.type == 'date-text'"
-                            type="{{form.type}}"
-                            name="{{form.name}}"      
-                            id="{{form.name}}"
-                            ng-model="$ctrl.dates[$index].date"                           
-                            uib-datepicker-popup="MM-dd-yyyy"
-                            datepicker-options="$ctrl.dateOptions"
-                            is-open="$ctrl.dates[$index].opened"
-                            readonly=""
-                            />
-                            <input ng-if="form.type == 'number'"
-                            type="{{form.type}}"
-                            name="{{form.name}}"      
-                            id="{{form.name}}"
-                            ng-model="$ctrl.contact[form.name]"  
-                            ng-pattern="/^[0-9]{0,3}(\.[0-9]{0,2})?$/" 
-                            min="0"
-                            />
-                     <div ng-if="form.type == 'date-text'" class="datetime-button">
-                      <span class="timepicker-input">
-                        <input type="time"
-                               name="$ctrl.dates[$index].time"
-                               id="$ctrl.dates[$index].time"
-                               ng-model="$ctrl.dates[$index].time"
-                               placeholder="HH:mm:ss" min="00:00:00" max="23:00:00"
-                               ng-required="$ctrl.dates[$index].date"/>
-                      </span>
-                     </div>
-                </div>
-            </div>
-            <div class="errorMessagesModal" ng-messages="formList[form.name].$error"  ng-show='formList.$submitted || formList[form.name].$dirty'>                             
-                  <p ng-if="form.type == 'email'" ng-message="email">This field must be an email address</p>
-                  <p ng-if="form.type == 'number'" ng-show="!formList.{{form.name}}.$valid">Contact Field "{{form.name}}" has an invalid value. Invalid number. Please correct it</p>                   
-                  <p ng-message="required">The Contact Record does not have any number</p>
-                  <p ng-message="usphoneValidator">Contact Field number has an invalid value. Number must either be 10 digits for dialing within North America, or begin with "011" for International number. International number length should be no more than 20 digits. Please correct it</p>
-            </div>  
-            <div class="errorMessagesModal" ng-messages="formList[form.name].$error"  ng-show='formList.$submitted'>    
-              <p ng-if="form.type == 'date-text'" ng-show="!$ctrl.dates[$index].time.$valid">The contact Field "{{form.name}}" has an invalid value, invalid time. Please correct it.</p>
-            </div>          
-          </div>
-        </div>
-        <div class="form-group contact-buttons">
-          <div class="text-center remove-spaces-inline">
-            <button ng-if="$ctrl.method == 'create'" class="btn btn-blue" type="submit">Insert</button>
-            <button ng-if="$ctrl.method == 'update'" class="btn btn-blue" type="submit">Edit</button>
-            <a class="btn btn-blue" ng-click="$ctrl.cancel()">Cancel</a>
-          </div>
-        </div>
-    </form>
+	<form name="formList" novalidate ng-submit="formList.$valid && $ctrl.save()" class="custom_form form-horizontal">
+		<div class="contact-model-form">
+			<div ng-repeat="form in $ctrl.formDataModal">
+				<div class="inputminimal" ng-class="{ 'has-error': formList[form.name].$invalid && formList.$submitted }">
+					<label for="{{form.name}}">{{form.name | removeUnderscore}}<span ng-if="form.required"> (key)</span></label>					
+					<span ng-if="form.type==='tel'">
+						<input type="tel" name="{{form.name}}" ng-model="$ctrl.contact[form.name]" ng-required="$ctrl.phoneRequired" ng-change="$ctrl.phoneChanged()" abx-check-phone="/^[^A-Za-zñÑ´ç`_.,\¿¡*~&%#,|_':;?[/}=\]&quot;{*>!\\<^]*$/" />
+					</span>
+					<span ng-if="form.type==='email'">
+						<input type="email" name="{{form.name}}" ng-model="$ctrl.contact[form.name]" ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/"/>
+					</span>
+					<span ng-if="form.type==='text'">
+						<input type="text" name="{{form.name}}" ng-model="$ctrl.contact[form.name]" maxlength="{{form.maxlength}}" />
+					</span>				
+				</div>
+				<div class="errorMessagesModal" ng-messages="formList[form.name].$error" ng-show="formList.$submitted || formList[form.name].$dirty">
+					<p ng-message="required">The Contact Record does not have any number</p>
+					<p ng-message="pattern">This field must be an email address</p>					
+					<p ng-message="usphoneValidator">Contact Field number has an invalid value. Number must either be 10 digits for dialing within North America, or begin
+						with "011" for International number. International number length should be no more than 20 digits. Please correct it</p>
+				</div>
+			</div>
+		</div>
+		<div class="form-group contact-buttons">
+			<div class="text-center remove-spaces-inline">
+				<button ng-if="$ctrl.method == 'create'" class="btn btn-blue" type="submit">Insert</button>
+				<button ng-if="$ctrl.method == 'update'" class="btn btn-blue" type="submit">Edit</button>
+				<a class="btn btn-blue" ng-click="$ctrl.cancel()">Cancel</a>
+			</div>
+		</div>
+	</form>
 </div>
+
