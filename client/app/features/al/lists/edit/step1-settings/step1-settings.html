@@ -97,12 +97,12 @@
 			class="btn btn-black">Import source file</button>
 		</div>
 		<div ng-show="$ctrl.fileSelected" class="settings-container">
-			<div class='settings-file-container'>
+			<div class="settings-file-container">
 				<label>Import source file:</label><a href="" ng-click='$ctrl.browseFile()'>{{$ctrl.csvFile?$ctrl.csvFile.name:'Choose File...'}}</a>
 				<input type="file" id="csv-file" abx-read-file="$ctrl.csvFile">
 			</div>
 			<p ng-show="!$ctrl.csvFile && $ctrl.sent" class="file-empty-error">This field is required</p>
-			<div class="upload-checkbox">
+			<div class="upload-checkbox" ng-hide="true">
 				<label>
   				 	<input type="checkbox" ng-model="$ctrl.settingsParams.skipPreview"> Skip preview of uploaded records (recommended for large files)
   				 </label>

@@ -5,11 +5,11 @@ let _lodash;
 let _appsService;
 let _$filter, _$parse, _$state;
 let _AlertMessage, _RefreshToken;
+let $ctrl;
 const MAX_NEW_APPS_AMOUNT = 5;
 class NavbarController {
 
-  constructor($filter, $parse, $location, $state, lodash, AuthService, AppsService, Base64Manager, GetHomePage, AlertMessage, RefreshToken) {
-
+  constructor($filter, $parse, $location, $state, lodash, AuthService, AppsService, Base64Manager, GetHomePage, AlertMessage, EventBus, RefreshToken) {
     this.isCollapsed = true;
     _Base64Manager = Base64Manager;
     _GetHomePage = GetHomePage;
@@ -33,6 +33,7 @@ class NavbarController {
     this.message = { show: false };
     this.firstName = '';
     _RefreshToken = RefreshToken;
+    $ctrl = this;
     this.menu = [{
       'title': 'Dashboard',
       'state': 'main',
@@ -59,6 +60,9 @@ class NavbarController {
     this.myApps = [];
 
     this.newApps = [];
+    EventBus.subscribe('apps.reload', function(){
+      $ctrl.loadApps();
+    });
  }
 
   logout(){
@@ -86,10 +90,12 @@ class NavbarController {
           return e;
         }); 
   }
-  
-  $onInit(){
+  loadApps(){
     this.getInstalled();
     this.getNewest();
+  }
+  $onInit(){
+    this.loadApps();
     this.getProfile();
   }
   getProfile(){
@@ -185,7 +191,7 @@ class NavbarController {
 
 }
 
-NavbarController.$inject=['$filter','$parse' , '$location', '$state','lodash', 'AuthService', 'AppsService', 'Base64Manager', 'GetHomePage','AlertMessage', 'RefreshToken'];
+NavbarController.$inject=['$filter','$parse' , '$location', '$state','lodash', 'AuthService', 'AppsService', 'Base64Manager', 'GetHomePage','AlertMessage', 'EventBus', 'RefreshToken'];
 
 angular.module('fakiyaMainApp')
   .controller('NavbarController', NavbarController);

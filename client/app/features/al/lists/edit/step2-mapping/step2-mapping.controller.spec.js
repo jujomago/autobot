@@ -209,16 +209,18 @@ describe('Component: al.lists.mapping', function () {
       expect(MappingComponent.jsonCSV).to.not.equal(null);
       expect(MappingComponent.jsonCSV).to.be.instanceof(Array);
       expect(MappingComponent.jsonCSV).to.have.lengthOf(2);
+
+
       expect(MappingComponent.jsonCSV).to.eql([
         {
           'number1,number3,first': '7777777777,+233552234,Josue,Mancilla, Sinapsysit,josue@gmail.com',
-          'name,last': '        7777777777,+233552234,Josue,Mancilla, Sinapsysit,josue@gmail.com',
-          'name,company,email': '        7777777777,+233552234,Josue,Mancilla, Sinapsysit,josue@gmail.com'
+          'name,last': '',
+          'name,company,email': ''
         },
         {
           'number1,number3,first': '3333333333,53,Boris,Bachas,ninguna,boris@gmail.com',
-          'name,last': '        3333333333,53,Boris,Bachas,ninguna,boris@gmail.com',
-          'name,company,email': '        3333333333,53,Boris,Bachas,ninguna,boris@gmail.com'
+          'name,last': '',
+          'name,company,email': ''
         }
       ]);
 
@@ -299,6 +301,30 @@ describe('Component: al.lists.mapping', function () {
       expect(MappingComponent.jsonHeaders).to.eql(['number1', 'number3', 'first_name', 'last_name', 'company', 'email']);
     });
 
+
+    it('Records that not have all columns should be filled with empty', () => {
+
+      let mockCSV = `
+      number1,number2,number3,first_name,last_name,company,email
+      7777777777,5654565456,233552234,,, Sinapsysit
+      3333333333,,5368754635        
+    `;
+
+      MappingComponent.setStateParams({
+        settings: {
+          csvData: mockCSV,
+          listDeleteSettings: mockDeleteSettigs
+        }
+      });
+      MappingComponent.selectedDelimiter.title = 'Comma';
+      expect(MappingComponent.selectedDelimiter.title).to.not.equal('Custom');
+
+      expect(MappingComponent.jsonCSV).to.have.lengthOf(2);
+      expect(MappingComponent.jsonHeaders).to.eql(['number1', 'number2', 'number3', 'first_name', 'last_name', 'company', 'email']);
+      expect(MappingComponent.jsonCSV[0]).to.eql({number1: '7777777777', number2: '5654565456', number3: '233552234', 'first_name': '', 'last_name': '', company: 'Sinapsysit', email: ''});
+      expect(MappingComponent.jsonCSV[1]).to.eql({number1: '3333333333', number2: '', number3: '5368754635', 'first_name': '', 'last_name': '', company: '', email: ''});
+     
+    });
   });
 
   describe('#matchSmart', () => {
@@ -495,6 +521,7 @@ describe('Component: al.lists.mapping', function () {
 
       let dataToSendTest = MappingComponent.nextStep();
       expect(dataToSendTest.fields).to.have.lengthOf(24);
+      
       expect(dataToSendTest.fields[0]).to.eql({ 'name': 'number1', 'isKey': true });
       expect(dataToSendTest.fields[1]).to.eql({ 'name': 'number2', 'isKey': false });
       expect(dataToSendTest.fields[2]).to.eql({ 'name': 'number3', 'isKey': false });
@@ -519,6 +546,7 @@ describe('Component: al.lists.mapping', function () {
       expect(dataToSendTest.fields[21]).to.eql({ 'name': 'last_agent', 'isKey': false });
       expect(dataToSendTest.fields[22]).to.eql({ 'name': 'last_campaign', 'isKey': false });
       expect(dataToSendTest.fields[23]).to.eql({ 'name': 'last_sms', 'isKey': false });
+
 
     });
 
@@ -555,10 +583,32 @@ describe('Component: al.lists.mapping', function () {
 
       let dataToSendTest = MappingComponent.nextStep();
       expect(dataToSendTest.fields).to.have.lengthOf(24);
+      
       expect(dataToSendTest.fields[0]).to.eql({ 'name': 'number1', 'isKey': true });
       expect(dataToSendTest.fields[1]).to.eql({ 'name': 'number2', 'isKey': false });
       expect(dataToSendTest.fields[2]).to.eql({ 'name': 'number3', 'isKey': false });
       expect(dataToSendTest.fields[3]).to.eql({ 'name': 'first_name', 'isKey': true });
+      expect(dataToSendTest.fields[4]).to.eql({ 'name': 'last_name', 'isKey': true });
+      expect(dataToSendTest.fields[5]).to.eql({ 'name': 'company', 'isKey': false });
+      expect(dataToSendTest.fields[6]).to.eql({ 'name': 'street', 'isKey': false });
+      expect(dataToSendTest.fields[7]).to.eql({ 'name': 'city', 'isKey': false });
+      expect(dataToSendTest.fields[8]).to.eql({ 'name': 'state', 'isKey': false });
+      expect(dataToSendTest.fields[9]).to.eql({ 'name': 'Zip', 'isKey': false });
+      expect(dataToSendTest.fields[10]).to.eql({ 'name': 'Balance', 'isKey': false });
+      expect(dataToSendTest.fields[11]).to.eql({ 'name': 'Product', 'isKey': false });
+      expect(dataToSendTest.fields[12]).to.eql({ 'name': 'salesforce_id', 'isKey': true });
+      expect(dataToSendTest.fields[13]).to.eql({ 'name': 'thread_url', 'isKey': false });
+      expect(dataToSendTest.fields[14]).to.eql({ 'name': 'Dial Status', 'isKey': false });
+      expect(dataToSendTest.fields[15]).to.eql({ 'name': 'email', 'isKey': false });
+      expect(dataToSendTest.fields[16]).to.eql({ 'name': 'Widgets', 'isKey': false });
+      expect(dataToSendTest.fields[17]).to.eql({ 'name': 'sms_body', 'isKey': false });
+      expect(dataToSendTest.fields[18]).to.eql({ 'name': 'short_code', 'isKey': false });
+      expect(dataToSendTest.fields[19]).to.eql({ 'name': 'date_received', 'isKey': false });
+      expect(dataToSendTest.fields[20]).to.eql({ 'name': 'last_disposition', 'isKey': false });
+      expect(dataToSendTest.fields[21]).to.eql({ 'name': 'last_agent', 'isKey': false });
+      expect(dataToSendTest.fields[22]).to.eql({ 'name': 'last_campaign', 'isKey': false });
+      expect(dataToSendTest.fields[23]).to.eql({ 'name': 'last_sms', 'isKey': false });
+
     });
 
   });
@@ -589,7 +639,7 @@ describe('Component: al.lists.mapping', function () {
 
     it('contacts fields key valids and send delete settings', () => {
       MappingComponent.contactFields = [
-        { name: 'number2', mappedName: 'llave2', isKey: true },
+        { name: 'number2', mappedName: 'number3', isKey: true },
         { name: 'number3', mappedName: null },
         { name: 'first_name', mappedName: 'first_name' },
         { name: 'last_name', mappedName: 'last_name', isKey: true },
@@ -598,8 +648,8 @@ describe('Component: al.lists.mapping', function () {
 
       let mockCSV = `
         number1,number3,first_name,last_name,company,email
-        7777777777,+233552234,Josue,Mancilla, Sinapsysit,josue@gmail.com
-        3333333333,53,Boris,Bachas,ninguna,boris@gmail.com         
+        7777777777,5565456545,Josue,Mancilla, Sinapsysit,josue@gmail.com
+        3333333333,2235489789,Boris,Bachas,ninguna,boris@gmail.com         
       `;
 
       MappingComponent.setStateParams({
@@ -621,20 +671,23 @@ describe('Component: al.lists.mapping', function () {
       expect(undefined).to.equal(resultFinish.listUpdateSettings);
       expect(resultFinish.listDeleteSettings).to.eql(mockDeleteSettigs);
 
-      expect(headerFields).to.have.lengthOf(2);
+      expect(headerFields).to.have.lengthOf(4);
       expect(resultFinish.resultMapping.keys).to.eql(['number2', 'last_name']);
 
       expect(headerFields[0].name).to.equal('number2');
-      expect(headerFields[1].name).to.equal('last_name');
+      expect(headerFields[1].name).to.equal('first_name');
 
-      expect(fieldsMapping).to.have.lengthOf(2);
-      expect(fieldsMapping[0]).to.eql({ fieldName: 'number2', key: true, columnNumber: 0 });
-      expect(fieldsMapping[1]).to.eql({ fieldName: 'last_name', key: true, columnNumber: 4 });
+      expect(fieldsMapping).to.have.lengthOf(4);
+      expect(fieldsMapping[0]).to.eql({ fieldName: 'number2', key: true, columnNumber: 2 });
+
+     expect(fieldsMapping[1]).to.eql({ fieldName: 'first_name', key:undefined, columnNumber: 3 });
+     expect(fieldsMapping[2]).to.eql({ fieldName: 'last_name', key: true, columnNumber: 4 });
+     expect(fieldsMapping[3]).to.eql({ fieldName: 'company',  key:undefined, columnNumber: 5 });  
 
 
       expect(rows).to.have.lengthOf(2);
-      expect(rows[0]).to.eql({ number2: '', 'last_name': 'Mancilla' });
-      expect(rows[1]).to.eql({ number2: '', 'last_name': 'Bachas' });
+      expect(rows[0]).to.eql({ 'number2': '5565456545', 'first_name': 'Josue', 'last_name': 'Mancilla','company': 'Sinapsysit'});
+      expect(rows[1]).to.eql({ 'number2': '2235489789',  'first_name': 'Boris', 'last_name': 'Bachas', 'company': 'ninguna'});
     });
 
     it('contacts fields key invalid, return false', () => {
@@ -728,7 +781,14 @@ describe('Component: al.lists.mapping', function () {
 
 
       let resultFinish = MappingComponent.finishMap();
-      expect(resultFinish.resultMapping.headerFields).to.eql([{ name: 'number2', mappedName: 'llave', isKey: true }]);
+
+
+      expect(resultFinish.resultMapping.headerFields).to.eql([
+        { name: 'number2', mappedName: 'llave', isKey: true },
+        { name: 'first_name', mappedName: 'first_name'},
+        { name: 'last_name', mappedName: 'last_name'},
+        { name: 'company', mappedName: 'company'}        
+      ]);
     });
 
     it('When there is no keys selected in mapping, should show a message warning', () => {
@@ -776,6 +836,37 @@ describe('Component: al.lists.mapping', function () {
       expect(MappingComponent.message.type).to.equal('warning');
 
     });
+
+    it('When is remove and csv have records with colums empty, rows should be null', () => {
+
+      let mockCSV = `
+          number1,number2,number3,fist_name,last_name,company
+          ,,,,,
+          ,,,,,        
+          `;
+
+
+      MappingComponent.contactFields = [
+        { name: 'number1', mappedName: 'number1', isKey: true },
+        { name: 'number2', mappedName: 'number2', isKey: false },
+        { name: 'number3', mappedName: 'number3', isKey: false },
+        { name: 'first_name', mappedName: 'first_name', isKey: false },
+        { name: 'last_name', mappedName: 'last_name', isKey: false },
+        { name: 'company', mappedName: 'company', isKey: false }
+      ];
+
+      MappingComponent.setStateParams({
+        name: 'testListName',
+        settings: {
+          csvData: mockCSV,
+          listDeleteSettings: mockDeleteSettigs
+        }
+      });
+
+        let resultFinish = MappingComponent.finishMap();
+       expect(resultFinish.resultMapping.rows).to.equal(null);
+    });
+   
   });
 
   describe('#addMappingItem', () => {
@@ -1148,15 +1239,16 @@ describe('Component: al.lists.mapping', function () {
       ];
 
       let resultFinish = MappingComponent.finishMap();
+
       let rows = resultFinish.resultMapping.rows;
       expect(rows).to.have.lengthOf(2);
-
-      expect(rows[0]).to.eql({ 'number1': '', 'number2': '' });
-      expect(rows[1]).to.eql({ 'number1': '', 'number2': '' });
-
+      expect(rows[0]).to.eql({ 'number1': '', 'number2': '' ,  'first_name': 'Josue', 'company': 'Sinapsysit' });
+      expect(rows[1]).to.eql({ 'number1': '', 'number2': '' , 'first_name': 'Boris','company': 'ninguna'});
     });
-
   });
+
+
+
 
   /*describe('#uploadContacts', () => {
 
