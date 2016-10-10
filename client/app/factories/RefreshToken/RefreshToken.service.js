@@ -1,9 +1,8 @@
 'use strict';
 
 angular.module('fakiyaMainApp')
-  .factory('RefreshToken', function (jwtHelper,$cookies,$interval,$window,$state,AuthService) {
-    const LIFE_TIME = 30;
-    const TOKEN_LIFE_TIME = 60;
+  .factory('RefreshToken', function (jwtHelper,$cookies,$interval,$window,$location,AuthService) {
+    const LIFE_TIME = 59;
     let interval;
     let token, remainingMinutes;
     function deleteInterval(){
@@ -29,7 +28,7 @@ angular.module('fakiyaMainApp')
       })
       .catch(() => {
         $cookies.remove('auth_token');
-        $state.go('login');
+        $location.path('/login');
       });
     }
     function createInterval(){
@@ -52,7 +51,6 @@ angular.module('fakiyaMainApp')
         }else{
           console.warn('no exists cookie token!!');
           deleteInterval();
-          $state.go('login');
         } 
     }
     $window.onbeforeunload = function () {

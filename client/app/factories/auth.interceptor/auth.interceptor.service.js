@@ -8,7 +8,7 @@ function configInterceptor($httpProvider,jwtOptionsProvider,appConfig){
    
    jwtOptionsProvider.config({
 	  whiteListedDomains: [hostname],
-	  unauthenticatedRedirector:['$cookies','$location','authManager','jwtHelper',function($cookies,$location,authManager,jwtHelper){
+	  unauthenticatedRedirector:['$cookies','$location','authManager',function($cookies,$location,authManager){
 		  $cookies.remove('auth_token');
           authManager.unauthenticate();
 		  $location.path('/login'); 

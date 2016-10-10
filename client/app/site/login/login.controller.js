@@ -25,7 +25,7 @@
       };
       return _auth.login(credentials)
       .then(response => {
-        //_RefreshToken.checkToken();
+        _RefreshToken.checkToken();
         let decoded;
         if(_$stateParams.url && (decoded = _Base64Manager.decode(_$stateParams.url))){
           _$location.url(decoded).search('url', null);

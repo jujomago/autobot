@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('fakiyaMainApp')
-	.factory('ErrorHandlerInterceptor', ['$q', '$location', '$injector', function ($q, $location, $injector,$cookies) {
+	.factory('ErrorHandlerInterceptor', ['$q', '$location', '$injector', function ($q, $location, $injector) {
 
 		return {
 			request: function(config) {
