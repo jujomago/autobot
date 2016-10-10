@@ -7,18 +7,27 @@
 			<div class="row apps-container">
 				<div class="col-md-2-5 col-sm-6 col-xs-12" ng-repeat="item in partner.apps | orderBy: 'app.appFullName'">
 					<div class="image-container">
-						<img ng-src="assets/{{item.app.appName}}/images/logo-sm.jpg" abx-default-image-switch="/assets/default/images/logo-sm.jpg">
+							<a ui-sref="ap.page({appName: item.app.appName})">
+								<img ng-src="assets/{{item.app.appName}}/images/logo-sm.jpg"
+									 abx-default-image-switch="/assets/default/images/logo-sm.jpg">
+							</a>
 					</div>
 					<div class="title-container">
-						<h3>{{item.app.appFullName}}</h3>
+						<a ui-sref="ap.page({appName: item.app.appName})">
+							<h3>{{item.app.appFullName}}</h3>
+						</a>
 					</div>
-					<p>{{ item.app.description | limitTo: 170 }} {{ item.app.description.length > 190 ? '...' : ''}}</p>
+					<a ui-sref="ap.page({appName: item.app.appName})">
+						<p>{{ item.app.description | limitTo: 170 }} {{ item.app.description.length > 190 ? '...' : ''}}</p>
+					</a>
 					<div ng-show="item.app.appStatus!==$ctrl.appStatus.COMING_SOON">
 						<button type="button" ng-click="$ctrl.selectInstalledApp(item.app.appName)" class="btn btn-black fixed-center-bottom" ng-show="item.installed">Open app</button>
 						<button type="button" ng-click="$ctrl.selectNoInstalledApp(item)" class="btn btn-black fixed-center-bottom" ng-show="!item.installed">Get app</button>
 					</div>
 					<div ng-show="item.app.appStatus===$ctrl.appStatus.COMING_SOON">
-						<p class="fixed-center-bottom coming-soon-message">Coming soon</p>
+						<a ui-sref="ap.page({appName: item.app.appName})">
+							<p class="fixed-center-bottom coming-soon-message">Coming soon</p>
+						</a>
 					</div>
 				</div>
 			</div>
