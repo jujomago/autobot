@@ -78,7 +78,7 @@
                 })
                 .catch(err => _HandleError(err, result));
         }
-        createUser(newuser, credentials) {
+        createUser(newuser) {
             let result = { data: null, statusCode: 201, errorMessage: null };
             return _$http.post(this.endPointUrl + '/admin/users', newuser)
                 .then(response => {

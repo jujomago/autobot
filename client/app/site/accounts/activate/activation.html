@@ -42,16 +42,18 @@
 		      	</div>
 				<div class="inputminimal" ng-class="{ 'has-error': activationForm.confirmPassword.$invalid && activationForm.$submitted }">
 	          		<label for="firstName">Confirm Password*</label>
-				    <input class="confirm" type="password" name="confirmPassword" id="confirmPassword" ng-model="$ctrl.newAccount.confirmPassword" maxlength="250" required>
+				    <input class="confirm" type="password" name="confirmPassword" id="confirmPassword" ng-model="$ctrl.newAccount.confirmPassword" maxlength="250" pw-check="password" required>
 				</div>
 				<div ng-messages="activationForm.confirmPassword.$error" ng-show="activationForm.$submitted" >
 		        	<p ng-message="required">This field is required</p>
 		      	</div>
+		      	<div class="msg-block" ng-show="activationForm.$error"> 
+		      	<p class="msg-error" ng-show="activationForm.confirmPassword.$error.pwmatch">Passwords don't match.</p> 
 	    	</div>
 			<div class="login-button-container">
 	        	<button class="btn btn-black" type="submit" ng-disabled = "$ctrl.sendingInfo">Save and Login</button>
 			</div>
 		</form>
-	</div>
+	</div></div>
 </div>
 <footer></footer>
