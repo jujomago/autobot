@@ -21,28 +21,28 @@
 			<div class="input-container">
 	        	<div class="inputminimal" ng-class="{ 'has-error': activationForm.firstName.$invalid && activationForm.$submitted }">
 	        		<label for="firstName">First name*</label>
-				    <input autofocus name="First name" id="firstName" ng-model="$ctrl.newAccount.firstname" maxlength="250" required>
+				    <input autofocus name="firstName" id="firstName" ng-model="$ctrl.newAccount.firstname" maxlength="50" required>
 				</div>
-				<div ng-messages="activationForm.firstName.$error" ng-show="activationForm.$submitted" >
+				<div ng-messages="activationForm.lastName.$error" ng-show="activationForm.$submitted" >
 		        	<p class="" ng-message="required">This field is required</p>
 		      	</div>
 	        	<div class="inputminimal" ng-class="{ 'has-error': activationForm.lastName.$invalid && activationForm.$submitted }">
 	          		<label for="firstName">Last name*</label>
-				    <input name="lastName" id="lastName" ng-model="$ctrl.newAccount.lastname" maxlength="250" required>
+				    <input name="lastName" id="lastName" ng-model="$ctrl.newAccount.lastname" maxlength="50" required>
 				</div>
 				<div ng-messages="activationForm.lastName.$error" ng-show="activationForm.$submitted" >
 		        	<p class="" ng-message="required">This field is required</p>
 		      	</div>
 	        	<div class="inputminimal" ng-class="{ 'has-error': activationForm.password.$invalid && activationForm.$submitted }">
 	          		<label for="firstName">Password*</label>
-				    <input type="password" name="password" id="password" ng-model="$ctrl.newAccount.password" maxlength="250" required>
+				    <input type="password" name="password" id="password" ng-model="$ctrl.newAccount.password" maxlength="20" required>
 				</div>
 				<div ng-messages="activationForm.password.$error" ng-show="activationForm.$submitted" >
 		        	<p ng-message="required">This field is required</p>
 		      	</div>
 				<div class="inputminimal" ng-class="{ 'has-error': activationForm.confirmPassword.$invalid && activationForm.$submitted }">
 	          		<label for="firstName">Confirm Password*</label>
-				    <input class="confirm" type="password" name="confirmPassword" id="confirmPassword" ng-model="$ctrl.newAccount.confirmPassword" maxlength="250" pw-check="password" required>
+				    <input class="confirm" type="password" name="confirmPassword" id="confirmPassword" ng-model="$ctrl.newAccount.confirmPassword" maxlength="20" pw-check="password" required>
 				</div>
 				<div ng-messages="activationForm.confirmPassword.$error" ng-show="activationForm.$submitted" >
 		        	<p ng-message="required">This field is required</p>
