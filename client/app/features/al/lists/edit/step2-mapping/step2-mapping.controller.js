@@ -266,10 +266,10 @@
         let mappedFiedls = _getMappedFiels(hasHeader, contactFields, 'uniq', lodash);
         let _ = lodash;
 
-        fieldsEntries = _.map(mappedFiedls, el => {
+        fieldsEntries = _.map(mappedFiedls, (el,indexEl) => {
             let cn;
             if (hasHeader) {
-                cn = Object.keys(jsonCSV[0]).indexOf(el.mappedName) + 1;
+                   cn = indexEl+1;
             } else {
                 cn = el.mappedIndex;
             }
