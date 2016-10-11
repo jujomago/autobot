@@ -2,7 +2,7 @@
 
 angular.module('fakiyaMainApp')
   .factory('RefreshToken', function (jwtHelper,$cookies,$interval,$window,$location,AuthService) {
-    const LIFE_TIME = 59;
+    const LIFE_TIME = 30;
     let interval;
     let token, remainingMinutes;
     function deleteInterval(){
