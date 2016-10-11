@@ -2,10 +2,10 @@
 
 (function () {
 
-  let _auth,_Base64Manager, _$location, _$stateParams;
+  let _auth,_Base64Manager, _$location, _$stateParams, _RefreshToken;
   class LoginController {
 
-    constructor($location, $stateParams, AuthService, Base64Manager) {
+    constructor($location, $stateParams, AuthService, Base64Manager, RefreshToken) {
 
       this.username = '';
       this.password = '';
@@ -14,6 +14,7 @@
       _$location = $location;
       _$stateParams = $stateParams;
       _Base64Manager = Base64Manager;
+      _RefreshToken = RefreshToken;
     }
 
     login() {
@@ -24,6 +25,7 @@
       };
       return _auth.login(credentials)
       .then(response => {
+        _RefreshToken.checkToken();
         let decoded;
         if(_$stateParams.url && (decoded = _Base64Manager.decode(_$stateParams.url))){
           _$location.url(decoded).search('url', null);
@@ -39,7 +41,7 @@
     }
   }
 
-  LoginController.$inject = ['$location', '$stateParams', 'AuthService', 'Base64Manager'];
+  LoginController.$inject = ['$location', '$stateParams', 'AuthService', 'Base64Manager', 'RefreshToken'];
 
 
 

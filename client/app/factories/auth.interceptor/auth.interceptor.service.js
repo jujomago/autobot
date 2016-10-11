@@ -8,12 +8,8 @@ function configInterceptor($httpProvider,jwtOptionsProvider,appConfig){
    
    jwtOptionsProvider.config({
 	  whiteListedDomains: [hostname],
-	  unauthenticatedRedirector:['$cookies','$location','authManager','jwtHelper',function($cookies,$location,authManager,jwtHelper){
-	  	  let token=$cookies.get('auth_token');
-		  if(token && jwtHelper.isTokenExpired(token) ){
-			  console.log('cleaning old expired cookie');
-			  $cookies.remove('auth_token');
-		  }
+	  unauthenticatedRedirector:['$cookies','$location','authManager',function($cookies,$location,authManager){
+		  $cookies.remove('auth_token');
           authManager.unauthenticate();
 		  $location.path('/login'); 
 	  }],	
@@ -37,36 +33,9 @@ configInterceptor.$inject = ['$httpProvider','jwtOptionsProvider','appConfig'];
 
 angular.module('fakiyaMainApp')
 	.config(configInterceptor)
-	.run(function(authManager,jwtHelper,$cookies,$interval,AuthService){
-		let minutes = 5 * 60 * 1000; //every 5 minutes
-	
-		function _checTokenRenew(){					
-				console.log('checking if token should be renewed');
-				let token=$cookies.get('auth_token');
-				if(token){
-						var tokenDate = jwtHelper.getTokenExpirationDate(token);
-						
-						let today=new Date(); 
-						let expDate=new Date(tokenDate);
-					
-						let diff = expDate.getTime() - today.getTime();    	
-						let remainingMinutes= Math.round(diff / 60000);
-
-						console.log(`remainingMinutes ${remainingMinutes}`);
-
-						if(remainingMinutes<=30){
-							console.info('CALLING RENEW TOKEN');
-							AuthService.renewToken(token);
-						}else{
-							console.info(`token can survive ${remainingMinutes-30} minutes more`);
-						}
-				}else{
-					console.warn('no exists cookie token!!');
-				}	
-		}
-		_checTokenRenew();
-		$interval(_checTokenRenew,minutes);
+	.run(function(authManager, RefreshToken){
 		
+		RefreshToken.checkToken();
 		
 		// Listen for 401 unauthorized requests and redirect
 		// the user to the login page

@@ -4,13 +4,12 @@ let _$location, _authService, _Base64Manager, _GetHomePage;
 let _lodash;
 let _appsService;
 let _$filter, _$parse, _$state;
-let _AlertMessage;
+let _AlertMessage, _RefreshToken;
 let $ctrl;
 const MAX_NEW_APPS_AMOUNT = 5;
 class NavbarController {
 
-  constructor($filter, $parse, $location, $state, lodash, AuthService, AppsService, Base64Manager, GetHomePage, AlertMessage, EventBus) {
-
+  constructor($filter, $parse, $location, $state, lodash, AuthService, AppsService, Base64Manager, GetHomePage, AlertMessage, EventBus, RefreshToken) {
     this.isCollapsed = true;
     _Base64Manager = Base64Manager;
     _GetHomePage = GetHomePage;
@@ -33,6 +32,7 @@ class NavbarController {
     this.getter = 'partner.partnerFullName';
     this.message = { show: false };
     this.firstName = '';
+    _RefreshToken = RefreshToken;
     $ctrl = this;
     this.menu = [{
       'title': 'Dashboard',
@@ -69,7 +69,8 @@ class NavbarController {
     let encodedURL=_Base64Manager.encode(_$location.url());
     return _authService.logout()
         .then(response => {         
-          if (response.status === 200) {           
+          if (response.status === 200) {
+            _RefreshToken.cancelRefresh();        
             _$location.url('/login').search({url: encodedURL});              
           }                   
           return response;
@@ -190,7 +191,7 @@ class NavbarController {
 
 }
 
-NavbarController.$inject=['$filter','$parse' , '$location', '$state','lodash', 'AuthService', 'AppsService', 'Base64Manager', 'GetHomePage','AlertMessage', 'EventBus'];
+NavbarController.$inject=['$filter','$parse' , '$location', '$state','lodash', 'AuthService', 'AppsService', 'Base64Manager', 'GetHomePage','AlertMessage', 'EventBus', 'RefreshToken'];
 
 angular.module('fakiyaMainApp')
   .controller('NavbarController', NavbarController);

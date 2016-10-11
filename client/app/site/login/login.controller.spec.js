@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Component: LoginController', function() {
+describe('Component:LoginController', function() {
 
   // load the controller's module
   beforeEach(module('fakiyaMainApp'));
@@ -13,6 +13,7 @@ describe('Component: LoginController', function() {
   var _$cookies; 
   var httpBackend;
   var endPointUrl;
+  let mockRefreshToken;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function(
@@ -36,6 +37,9 @@ describe('Component: LoginController', function() {
           }
         }
       };
+      mockRefreshToken = {
+        checkToken: sinon.stub()
+      };
       _$cookies = $cookies;
       scope = $rootScope.$new();
       state = $state;
@@ -43,7 +47,8 @@ describe('Component: LoginController', function() {
         $http: $http,
         $scope: scope,
         $stateParams: _mockStateParams,
-        $location: _mockLocation
+        $location: _mockLocation,
+        RefreshToken: mockRefreshToken
       });
 
       if(appConfig.apiUri){
@@ -77,6 +82,7 @@ describe('Component: LoginController', function() {
           loginComponent.login()
           .then(response=>{
               expect(response.status).to.equal(200);
+              expect(mockRefreshToken.checkToken.calledOnce).to.equal(true);
               expect(_$cookies.get('auth_token')).to.equal('eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyaWQiOiI1N2VkMTVhZDVhODBlMzAwMTBlMzRmZmQiLCJkb21haW4iOiJhdXRvYm94Y29ycC5jb20iLCJqdGkiOiI4NDVjNTYzMC04NjQ4LTExZTYtOTdlYi00ZDk5ZTgwYTc2MjciLCJzdWIiOiJ1c2VyODQ1YzU2MzAtODY0OC0xMWU2LTk3ZWItNGQ5OWU4MGE3NjI3IiwiaWF0IjoxNDc1MTU1NjY5LCJleHAiOjE0NzUxNTkyNjl9.cdMtf_jLhh32-Ndp7d53fmxpWjq2n1DzG5Ys5-SkKocMlIIO3P-afzrVSCIz2dTe83EeyeCpmc_tDblygn5yCZsy2gRTCq-x7AAIRT8gyA9Cwj-derGwc9ytZ_DassnPrxNSJkHZAjP0xMf8JXFcFMggQslnP_aBByKTthNW92xQDRHfojCSH18IAiHXW0zz8i-RoTf_MgFVh25c1E8WCQxFS-7R0Tl6BTLsG-KKrZJmPhtnVcWnylicR9nedONNjJfe_fG1CA47M4P3Wr2VXLEUi4ypQTGH158c2wbuqjTa8AMa9qWMWioWfBN6xCKAaCkD8rNWTooGpIGMOTs-Sw');
               expect(_mockLocation.url).to.equal('/ap/al/lists');
           });
@@ -100,6 +106,7 @@ describe('Component: LoginController', function() {
           loginComponent.login()
           .then(response=>{
               expect(response.status).to.equal(200);
+              expect(mockRefreshToken.checkToken.calledOnce).to.equal(true);
               expect(_$cookies.get('auth_token')).to.equal('eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyaWQiOiI1N2VkMTVhZDVhODBlMzAwMTBlMzRmZmQiLCJkb21haW4iOiJhdXRvYm94Y29ycC5jb20iLCJqdGkiOiI4NDVjNTYzMC04NjQ4LTExZTYtOTdlYi00ZDk5ZTgwYTc2MjciLCJzdWIiOiJ1c2VyODQ1YzU2MzAtODY0OC0xMWU2LTk3ZWItNGQ5OWU4MGE3NjI3IiwiaWF0IjoxNDc1MTU1NjY5LCJleHAiOjE0NzUxNTkyNjl9.cdMtf_jLhh32-Ndp7d53fmxpWjq2n1DzG5Ys5-SkKocMlIIO3P-afzrVSCIz2dTe83EeyeCpmc_tDblygn5yCZsy2gRTCq-x7AAIRT8gyA9Cwj-derGwc9ytZ_DassnPrxNSJkHZAjP0xMf8JXFcFMggQslnP_aBByKTthNW92xQDRHfojCSH18IAiHXW0zz8i-RoTf_MgFVh25c1E8WCQxFS-7R0Tl6BTLsG-KKrZJmPhtnVcWnylicR9nedONNjJfe_fG1CA47M4P3Wr2VXLEUi4ypQTGH158c2wbuqjTa8AMa9qWMWioWfBN6xCKAaCkD8rNWTooGpIGMOTs-Sw');
               expect(_mockLocation.url).to.equal('/ap/dashboard');
           });
@@ -121,6 +128,7 @@ describe('Component: LoginController', function() {
           loginComponent.login()
           .then(response=>{
               expect(response.status).to.equal(200);
+              expect(mockRefreshToken.checkToken.calledOnce).to.equal(true);
               expect(_$cookies.get('auth_token')).to.equal('eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyaWQiOiI1N2VkMTVhZDVhODBlMzAwMTBlMzRmZmQiLCJkb21haW4iOiJhdXRvYm94Y29ycC5jb20iLCJqdGkiOiI4NDVjNTYzMC04NjQ4LTExZTYtOTdlYi00ZDk5ZTgwYTc2MjciLCJzdWIiOiJ1c2VyODQ1YzU2MzAtODY0OC0xMWU2LTk3ZWItNGQ5OWU4MGE3NjI3IiwiaWF0IjoxNDc1MTU1NjY5LCJleHAiOjE0NzUxNTkyNjl9.cdMtf_jLhh32-Ndp7d53fmxpWjq2n1DzG5Ys5-SkKocMlIIO3P-afzrVSCIz2dTe83EeyeCpmc_tDblygn5yCZsy2gRTCq-x7AAIRT8gyA9Cwj-derGwc9ytZ_DassnPrxNSJkHZAjP0xMf8JXFcFMggQslnP_aBByKTthNW92xQDRHfojCSH18IAiHXW0zz8i-RoTf_MgFVh25c1E8WCQxFS-7R0Tl6BTLsG-KKrZJmPhtnVcWnylicR9nedONNjJfe_fG1CA47M4P3Wr2VXLEUi4ypQTGH158c2wbuqjTa8AMa9qWMWioWfBN6xCKAaCkD8rNWTooGpIGMOTs-Sw');
               expect(_mockLocation.url).to.equal('/ap/dashboard');
           });
@@ -134,12 +142,12 @@ describe('Component: LoginController', function() {
           httpBackend.whenPOST(endPointUrl+'/auth/login',{
             'username': loginComponent.username,
             'password': loginComponent.password
-          }).respond({error: {errorMessage:'Unable to connect to the server. Please try again', status:-1}});
+          }).respond(-1);
         
         loginComponent.login()
-        .then(data =>{               
-          expect(data.data.error.errorMessage).to.equal('Unable to connect to the server. Please try again');
-          expect(data.data.error.status).to.equal(-1);
+        .then(error =>{                   
+          expect(error.errorMessage).to.equal('Unable to connect to the server. Please try again');
+          expect(error.statusCode).to.equal(-1);
         });
          httpBackend.flush();
   });
