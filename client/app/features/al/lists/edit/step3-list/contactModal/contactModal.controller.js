@@ -53,7 +53,7 @@ class ContactModalComponent {
 
     this.manual = this.edit.manual;
 
-    this.fields = this.edit.importData.fields;
+    this.fields = this.edit.headerFields;
 
     this.method = this.edit.method;
     this.phoneRequired = (this.manual && this.method === 'create') ? true : false;
@@ -61,6 +61,17 @@ class ContactModalComponent {
     //this.phoneRequired=false;
 
     this.contactModal = {};
+    this.edit.headerFields.forEach(e=>{
+      this.contactModal[e.name]='';
+    });
+
+    console.log('on Init');
+    console.log(this.fields);
+    if(this.edit.action==='deleteList'){
+      this.fields=this.fields.filter(e=>e.isKey);
+    }
+
+
     if(this.method === 'update'){
         this.contactModal = angular.copy(this.edit.contact);
     }
@@ -143,6 +154,15 @@ class ContactModalComponent {
         }
       });
       }
+      console.log('object keys');
+      console.log(Object.keys(this.contact));
+      this.edit.headerFields.forEach(e=>{
+         console.log(e.name);
+        if(Object.keys(this.contact).indexOf(e.name)===-1){
+          this.contact[e.name]='';
+        }
+      });
+
       this.instance.close(this.contact);
     }
  }

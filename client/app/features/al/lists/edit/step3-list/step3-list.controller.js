@@ -90,6 +90,8 @@ class ListComponent {
       this.error = false;
       this.loaded = false;
       this.typeUpdate = false;
+      this.headerFields=[];
+      this.action='updateList';
       _$state = $state;
       _$stateParams = $stateParams;
       _$filter = $filter;
@@ -102,7 +104,9 @@ class ListComponent {
       console.log('=========RECEIVED PARAMS =============');
       console.log(_$stateParams.settings);
 
-
+      if(_$stateParams.settings.listDeleteSettings){
+        this.action='deleteList';
+      }
       if(_$stateParams.settings){
 
 
@@ -110,6 +114,7 @@ class ListComponent {
         this.typeUpdate = (_$stateParams.settings.listUpdateSettings) ? true : false;
 
         if(_$stateParams.settings.resultMapping){
+          this.headerFields=_$stateParams.settings.resultMapping.headerFields;
 
           if(this.typeUpdate){
            this.importData.fields = _$stateParams.settings.resultMapping.headerFields;
@@ -254,6 +259,7 @@ class ListComponent {
 
     this.modalInstance.result
         .then(result => {
+            console.log('resulado modal');
             console.log(result);
             if(typeof result !== 'undefined' && Object.keys(result).length > 0){
               if(this.method === 'create'){
@@ -293,21 +299,14 @@ class ListComponent {
 
     let mainList = angular.copy(this.list);
 
-    list = _.map(mainList, value => {
-        elements = _.map(value, (elem) => {
-            if(elem instanceof Date){
-              elem = _formatDate(elem, 'd', 'h');
-            }
-            return elem;
-        });
-        return elements;
+    _.each(mainList,e=>{
+        items.push(_.values(e));
+    });
+    _.each(items,it=>{
+       this.sendContact.importData.values.push({item:it});     
     });
 
-    items = _.map(list, value =>{
-      return {item: value};     
-    });
 
-    this.sendContact.importData.values = items;
 
     if(_$stateParams.settings.listUpdateSettings){
       //UPDATE
