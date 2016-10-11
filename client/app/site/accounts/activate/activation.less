@@ -5,19 +5,8 @@
 .container-fluid{
   padding: 0;
 }
-@media (min-width: 768px) {
-  .activation{
-    height: 86%;
-    min-height:583px;
-    margin: 0;
-  }
-}
-@media (min-width: 1310px) {
-  .activation{
-    height: 88%;
-    min-height:768px;
-    margin: 0;
-  }
+.activation{
+  margin: 0;
 }
 .activation-container {
   width: 400px;
@@ -63,5 +52,15 @@
   .msg-error{
     text-align:left;
     color:#d73030;
+  }
+}
+activation footer.activation{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+@media (max-height: 678px) {
+  activation footer.activation{
+    bottom: -15px;
   }
 }
