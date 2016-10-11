@@ -6,8 +6,6 @@
   padding: 0;
 }
 .activation{
-  height: 88%;
-  min-height:768px;
   margin: 0;
 }
 .activation-container {
@@ -54,5 +52,15 @@
   .msg-error{
     text-align:left;
     color:#d73030;
+  }
+}
+activation footer.activation{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+@media (max-height: 678px) {
+  activation footer.activation{
+    bottom: -15px;
   }
 }
