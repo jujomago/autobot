@@ -9,7 +9,7 @@
       this.message = { show: false };
       _auth = AuthService;
       _$location = $location;
-      this.activationCode = $location.$$search.activationCode;
+      this.activationCode = $stateParams.activationCode;
       _$stateParams = $stateParams;
       _Base64Manager = Base64Manager;
     }
