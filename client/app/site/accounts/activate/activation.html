@@ -23,7 +23,7 @@
 	        		<label for="firstName">First name*</label>
 				    <input autofocus name="firstName" id="firstName" ng-model="$ctrl.newAccount.firstname" maxlength="50" required>
 				</div>
-				<div ng-messages="activationForm.lastName.$error" ng-show="activationForm.$submitted" >
+				<div ng-messages="activationForm.firstName.$error" ng-show="activationForm.$submitted" >
 		        	<p class="" ng-message="required">This field is required</p>
 		      	</div>
 	        	<div class="inputminimal" ng-class="{ 'has-error': activationForm.lastName.$invalid && activationForm.$submitted }">
