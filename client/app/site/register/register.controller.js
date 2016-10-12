@@ -13,6 +13,7 @@
       this.companies = [];
       this.message = { show: false };
       this.successMessage = false;
+      this.executeSave=false;
       this.required = true;
       _auth = AuthService;
       _$location = $location;
@@ -32,8 +33,16 @@
         this.message = { show: true, text: e.errorMessage };
         return e;
       });
+    }    
+    clearInput()
+    {
+      this.company='';
+      this.email='';
+      this.firstname='';
+      this.lastname='';            
     }
     register() {
+      this.executeSave=true;
       let reg = {
         'email': this.email,
         'company': this.company,
@@ -45,10 +54,14 @@
       .then(response => {
         this.message = { show: false };
         this.successMessage = true;
+        this.executeSave=false; 
+        this.clearInput();
         return response;
       })
       .catch(e => {
         this.message = { show: true, text: e.errorMessage };
+        this.successMessage = false;
+        this.executeSave=false; 
         return e;
       });
     }
