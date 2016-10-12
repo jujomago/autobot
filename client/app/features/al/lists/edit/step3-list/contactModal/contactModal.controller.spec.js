@@ -190,7 +190,7 @@ describe('Component:contactModalComponent', function () {
     _ContactModalComponent.contact=contact;
     _ContactModalComponent.instance = modalInstance;
     _ContactModalComponent.dates = [];
-
+    _ContactModalComponent.headerFields=[{}];
 
     modalInstance.result
     .then(result => {
@@ -212,7 +212,7 @@ describe('Component:contactModalComponent', function () {
     };
     _ContactModalComponent.instance = modalInstance;
     _ContactModalComponent.dates = [];
-
+    _ContactModalComponent.headerFields=[{}];
 
     modalInstance.result
     .then(result => {
@@ -242,6 +242,7 @@ describe('Component:contactModalComponent', function () {
                           template: '<al.lists.contact-modal></al.lists.contact-modal>',
                         });
     _ContactModalComponent.instance = modalInstance;
+    _ContactModalComponent.headerFields=[{}];
     _ContactModalComponent.dates = [];
     _ContactModalComponent.contact = {number1: '2025550185', number2: '2025550186'};
     modalInstance.result

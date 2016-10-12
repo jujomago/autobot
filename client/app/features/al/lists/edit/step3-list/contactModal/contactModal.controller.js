@@ -54,7 +54,7 @@ class ContactModalComponent {
     this.manual = this.edit.manual;
 
     this.fields = this.edit.headerFields;
-
+    this.headerFields = this.edit.headerFields;
     this.method = this.edit.method;
     this.phoneRequired = (this.manual && this.method === 'create') ? true : false;
     console.log(`phoneRequired ${this.phoneRequired}`);
@@ -156,7 +156,7 @@ class ContactModalComponent {
       }
       console.log('object keys');
       console.log(Object.keys(this.contact));
-      this.edit.headerFields.forEach(e=>{
+      this.headerFields.forEach(e=>{
          console.log(e.name);
         if(Object.keys(this.contact).indexOf(e.name)===-1){
           this.contact[e.name]='';
