@@ -60,7 +60,7 @@ describe('Component: al.lists.edit', function () {
 
     ListComponent = $componentController('al.lists.edit.list', {
       $scope: scope,
-      $stateParams: { message: null },
+      $stateParams: { message: null , settings: { listDeleteSettings:''}},
       $state: state,
       $timeout: timeout,
       ContactFieldsService: ContactFieldsService,

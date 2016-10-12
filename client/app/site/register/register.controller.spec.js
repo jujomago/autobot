@@ -12,7 +12,7 @@ describe('Component: RegisterController', function() {
   var _mockStateParams;
   var _$cookies;
   var httpBackend;
-  var endPointUrl;  
+  var endPointUrl;
   // Initialize the controller and a mock scope
   beforeEach(inject(function(
     _$httpBackend_,
@@ -30,14 +30,14 @@ describe('Component: RegisterController', function() {
         $http: $http,
         $scope: scope,
         $stateParams: _mockStateParams
-      });   
+      });
       if(appConfig.apiUri){
           endPointUrl=appConfig.apiUri;
-          
+
       }
       httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(201);
   }));
-  afterEach(function () {     
+  afterEach(function () {
      httpBackend.verifyNoOutstandingRequest();
   });
 
@@ -45,7 +45,7 @@ describe('Component: RegisterController', function() {
       it('get companies for dropdown', ()=>{
           httpBackend.whenGET(endPointUrl+'/admin/companies').respond(
               { data: { _id:'57f66733237e6e1100228806', companyName:'autoboxcorp-compay'},status:200}
-          );          
+          );
         registerComponent.getCompanies()
         .then(response=>{
             expect(response.status).to.equal(200);
@@ -65,12 +65,11 @@ describe('Component: RegisterController', function() {
           registerComponent.email='email@domain.com';
           registerComponent.company='autobox';
           registerComponent.firstname='nameuser';
-          registerComponent.lastname='lastnameuser';          
+          registerComponent.lastname='lastnameuser';
           httpBackend.whenPOST(endPointUrl+'/admin/temporaryusers',reg).respond(201, { }
-          );           
+          );
           registerComponent.register()
-          .then(response=>{   
-                                     
+          .then(response=>{
               expect(response.status).to.equal(201);
               expect(registerComponent.successMessage).to.equal(true);
               expect(registerComponent.message).to.eql({show:false});

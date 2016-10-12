@@ -1,0 +1,67 @@
+
+.navbar{
+  border-radius: 0;
+}
+.container-fluid{
+  padding: 0;
+}
+.activation{
+  margin: 0;
+}
+.activation-container {
+  width: 400px;
+  margin: 50px auto;
+  p {
+    text-align: center;
+  }
+  h3{
+    font-family: BrandonRegular;
+    text-align: center;
+  }
+  .avatar-container{
+    margin: 20px 171px 0;
+  }
+  .avatar-info{
+    margin-bottom: 10px;
+    label{
+      text-align: center;
+      width: 400px;
+    }
+  }
+  .btn-black{
+    width: 120px;
+    border-radius: 0;
+    border: 0 transparent;
+    margin: 10px 140px;
+    background-color: #000;
+    text-decoration: none;
+    font-size: 14px;
+    color: #FFF;
+  }
+  .inputminimal{
+    margin-top:20px;
+    margin-bottom:5px;
+    input.confirm{
+      width: 270px;
+    }
+  }
+  .has-error ~ div[ng-messages] p{
+    text-align: left;
+    margin-bottom:0px;
+  }
+  .msg-error{
+    text-align:left;
+    color:#d73030;
+  }
+}
+activation footer.activation{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+@media (max-height: 710px) {
+  activation footer.activation{
+    bottom: -41px;
+    position: relative;
+  }
+}

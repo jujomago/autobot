@@ -17,6 +17,7 @@ angular.module('fakiyaMainApp')
             },
 			responseError: function error(response) {
 				switch (response.status) {
+
 					case 404:
 						$location.path('/404');
 						break;

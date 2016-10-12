@@ -45,7 +45,7 @@ describe('Component:NavbarController', function() {
                         }
                       }
                     ];
-  let mockAlertMessage;
+  let mockAlertMessage, mockRefreshToken;
   beforeEach(inject(function ($controller, $rootScope, $httpBackend, $cookies, $state, _AppsService_, _AuthService_,appConfig) {
 
     _$scope = $rootScope.$new();
@@ -68,6 +68,9 @@ describe('Component:NavbarController', function() {
         };
       }
     };
+    mockRefreshToken = {
+      cancelRefresh: sinon.stub()
+    };
     _$cookies = $cookies;
     mockAlertMessage = sinon.stub();
     NavbarController = $controller('NavbarController', {
@@ -76,7 +79,8 @@ describe('Component:NavbarController', function() {
       $stateParams: { message: null },
       $state: _$state,
       _appsService: _AppsService,
-      AlertMessage: mockAlertMessage
+      AlertMessage: mockAlertMessage,
+      RefreshToken: mockRefreshToken
     });
     if(appConfig.apiUri){
           endPointUrl=appConfig.apiUri;
@@ -190,7 +194,7 @@ describe('Component:NavbarController', function() {
 
   });*/
   afterEach(function () {
-    _$cookies.remove('auth_token')
+    _$cookies.remove('auth_token');
      _$httpBackend.verifyNoOutstandingRequest();
   });
   
@@ -203,6 +207,7 @@ describe('Component:NavbarController', function() {
           NavbarController.logout()
           .then(response=>{
               expect(response.status).to.equal(200);
+              expect(mockRefreshToken.cancelRefresh.calledOnce).to.equal(true);
               expect(response.data).to.equal('The user was logged out succesfully');
               expect(_mockLocation.url).to.equal('/login');
               expect(_mockLocation.params.url).to.equal('L2FwL2FsL2xpc3Rz');
