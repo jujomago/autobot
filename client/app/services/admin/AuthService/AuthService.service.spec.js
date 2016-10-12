@@ -109,9 +109,8 @@ describe('Service: AuthService', function () {
            '2032820asdfka0s0293ma002'
          );
           AuthService.getCompanies()
-          .then(response=>{
-              expect(response.status).to.equal(200);
-              expect(response.data).to.equal(array);
+          .then(response=>{                         
+              expect(response).to.equal('2032820asdfka0s0293ma002');
           });
           httpBackend.flush();
       });
