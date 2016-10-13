@@ -8,8 +8,7 @@ describe('Component: ActivationController', function() {
 
   var scope;
   var activactionComponent;
-  var state;
-  var _mockStateParams, _mockLocation;
+  var _mockStateParams;
   var _$cookies;
   var httpBackend;
   var endPointUrl;

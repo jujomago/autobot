@@ -3,64 +3,6 @@
 let _ConfirmAsync, _ListService, _, _ContactFieldsService;
 let _$state, _$stateParams, _$filter, _$uibModal;
 
-function _pad(num){
-  return (num < 10) ? '0'+num : num;
-}
-
-function _formatDate(date, formatDate, formatTime){
-  let formatedDate = '';
-  let time = '';
-  let month = _pad(date.getMonth()+1);
-  let day = _pad(date.getDate());
-  let year = _pad(date.getFullYear());
-  let hours = _pad(date.getHours());
-  let minutes = _pad(date.getMinutes());
-  let seconds = _pad(date.getSeconds());
-
-  switch(formatTime){
-    case 'HH:mm:ss.SSS': time = hours + ':' + minutes + ':' + seconds;
-    break;
-    case 'HH:mm': time = hours + ':' + minutes;
-    break;
-    case 'hh:mm a': time = hours + ':' + minutes;
-    break;
-    case 'HH': time = hours;
-    break;
-    case 'hh a': time = hours;
-    break;
-    case 'H:mm': time = hours + ':' + minutes;
-    break;
-    case 'h:mm a': time = hours + ':' + minutes;
-    break;
-    default: time = hours + ':' + minutes + ':' + seconds;
-    break;
-  }
-
-  switch(formatDate){
-    case 'yyyy-MM-dd': formatedDate = year + '-' + month + '-' + day + ' ' + time;
-    break;
-    case 'MM/dd/yyyy': formatedDate = month + '/' + day + '/' + year + ' ' + time;
-    break;
-    case 'MM-dd-yyyy': formatedDate = month + '-' + day + '-' + year + ' ' + time;
-    break;
-    case 'MM-dd/yy': formatedDate = month + '-' + day + '/' + year + ' ' + time;
-    break;
-    case 'MMM dd': formatedDate = month + ' ' + day + ' ' + time;
-    break;
-    case 'yyyy': formatedDate = year + ' ' + time;
-    break;
-    case 'dd MMM': formatedDate = day + '-' + month + ' ' + time;
-    break;
-    case 'dd-MM': formatedDate = month + '-' + day + '-' + year + ' ' + time;
-    break;
-    case 'MM-dd': formatedDate = month + '-' + day + '-' + year + ' ' + time;
-    break;
-    default: formatedDate = month + '-' + day + '-' + year + ' ' + time;
-    break;
-  }
-
-  return formatedDate;
-}
 class ListComponent {
   constructor($state, $stateParams, $filter, $uibModal, ListsService, ConfirmAsync, ContactFieldsService, lodash) {
 
@@ -290,10 +232,8 @@ class ListComponent {
   }
 
   uploadContacts(){
-    
-    let list = [];
+
     let items = [];
-    let elements = [];
     let listUpdateSettings;
     let listDeleteSettings;
 
