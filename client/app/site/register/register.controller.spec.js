@@ -8,7 +8,6 @@ describe('Component: RegisterController', function() {
 
   var registerComponent;
   var scope;
-  var state;
   var _mockStateParams;
   var _$cookies;
   var httpBackend;
