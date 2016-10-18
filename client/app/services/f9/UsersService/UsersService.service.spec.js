@@ -45,6 +45,57 @@ describe('Service: UsersService', function () {
         });
     });
 
+    describe('#getUser', () => {
+        it('should return a User', function () {
+            let username='nelson2@autoboxcorp.com';
+            httpBackend.whenGET(endPointUrl+'/'+username).respond(200,{
+                return: [
+                    {
+                    'active': true,
+                    'canChangePassword': true,
+                    'EMail': 'nelson2@autoboxcorp.com',
+                    'extension': 10,
+                    'firstName': 'Nelson',
+                    'fullName': 'Nelson Araoz',
+                    'IEXScheduled': false,
+                    'id': '2546070',
+                    'lastName': 'Araoz',
+                    'mustChangePassword': false,
+                    'startDate': '2016-10-17T07:00:00.000Z',
+                    'userName': 'nelson2@autoboxcorp.com'
+                    }
+                ]
+            });
+
+
+            UsersService.getUser(username).then(response => {
+                expect(response.userName).to.equal(username);
+                expect(response).to.have.property('EMail');
+                expect(response).to.have.property('id');
+                expect(response).to.have.property('fullName');              
+            });
+            httpBackend.flush();
+        });
+
+        it('should return an error', function () {
+            let username='nelson2@autoboxcorp.com';
+            httpBackend.whenGET(endPointUrl+'/'+username).respond(500,'some error from server');
+
+
+            UsersService.getUser(username)
+            .then(null)
+            .catch(error=>{                
+                expect(error.data).to.equal(null);
+                expect(error.statusCode).to.equal(500);
+                expect(error.errorMessage).to.equal('some error from server');
+            });
+            httpBackend.flush();
+        });
+    });
+
+
+
+
     describe('#getUserDetail', () => {
         it('should return user detail', function () {
             httpBackend.whenGET(endPointUrl + '/detail/josue@autoboxcorp.com').respond({
