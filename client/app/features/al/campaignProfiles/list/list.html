@@ -31,11 +31,9 @@
                     {{item.name}}
                 </td>
                 <td class="" href ng-click="$ctrl.myIndex(item.name)">{{item.description}}</td>
-                <td class="text-center">
-
-                  <!--  While API complete this endpoint
-                  <a href ng-click="$ctrl.deleteCampaignProfile(item,$index)" ng-class="{'disabled-x-circle': $ctrl.deletedRow === item.name, 'circle_delete': $ctrl.deletedRow !== item.name}" ng-disabled="$ctrl.deletedRow === item.name"></a> -->
-                  <a href ui-sref="ap.underconstruction" ng-class="{'disabled-x-circle': $ctrl.deletedRow === item.name, 'circle_delete': $ctrl.deletedRow !== item.name}" ng-disabled="$ctrl.deletedRow === item.name"></a>
+                <td class="text-center">                 
+                  
+                  <a href ng-click="$ctrl.deleteCampaignProfile(item,$index)" ng-class="{'disabled-x-circle': $ctrl.deletedRow === item.name, 'circle_delete': $ctrl.deletedRow !== item.name}" ng-disabled="$ctrl.deletedRow === item.name"></a>                
 
                 </td>
             </tr>
