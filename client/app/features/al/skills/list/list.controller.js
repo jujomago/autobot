@@ -41,6 +41,7 @@
         }
         $onInit() {
             this.getSkills();
+            this.sortColumn('skill.name');
         }
 
         getSkills() {
@@ -61,7 +62,7 @@
         }
 
         sortColumn(columnName) {
-            if (columnName !== undefined && columnName) {
+            if (columnName !== undefined && columnName) { 
                 console.log('sorting:' + columnName);
                 this.sortKey = columnName;
                 this.reverse = !this.reverse;
