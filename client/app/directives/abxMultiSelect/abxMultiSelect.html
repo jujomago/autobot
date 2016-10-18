@@ -1,0 +1,13 @@
+<div class="btn-group" ng-class="{open: open}" style="width: 100%;">
+	<a class="btn btn-small" style="width: 90%;">---Select---</a> 
+	<a class="btn btn-small dropdown-toggle" ng-click="openDropdown()" style="width: 40px;" >
+		<span class="caret"></span>
+	</a> 
+	<ul class="dropdown-menu" aria-labelledby="dropdownMenu" style="position: absolute; width: 90%;"> 
+		<li style="cursor:pointer;" ng-repeat="option in options">
+			<a ng-click="toggleSelectItem(option)">
+				<span ng-class="getClassName(option)" aria-hidden="true"></span> {{option[value]}}
+			</a>
+		</li> 
+	</ul> 
+</div>

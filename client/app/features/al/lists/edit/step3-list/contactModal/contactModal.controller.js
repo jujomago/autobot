@@ -41,6 +41,7 @@
 class ContactModalComponent {
   constructor() {
   	   this.message = { show: false };
+
   }
 
   $onInit(){
@@ -48,11 +49,12 @@ class ContactModalComponent {
   	this.instance = this.edit.modalInstance;
 
     this.numbers = [];
-
+    this.opened = [];
     this.dates = [];
 
     this.manual = this.edit.manual;
-
+    this.contactFields = this.edit.contactFields;
+    console.log(this.contactFields);
     this.fields = this.edit.headerFields;
     this.headerFields = this.edit.headerFields;
     this.method = this.edit.method;
@@ -91,8 +93,8 @@ class ContactModalComponent {
       startingDay: 1,
       showWeeks: false
     };
+    this.multiset=[];
   }
-
   getValidation(fields){
     let validation = [];
     let typeInput;
@@ -172,7 +174,7 @@ class ContactModalComponent {
   }
 
   openDatePicker(index) {
-    this.dates[index].opened = true;
+    this.opened[index] = true;
   }
 
   phoneChanged(){

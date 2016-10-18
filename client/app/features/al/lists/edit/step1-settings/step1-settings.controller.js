@@ -32,7 +32,7 @@
     }
     class SettingsComponent {   
 
-        constructor($state, $stateParams, ListsService) {
+        constructor($state, $stateParams, ListsService, FieldValidator) {
             _ListsService=ListsService;
             _$state = $state;
             _$stateParams = $stateParams;
@@ -50,6 +50,32 @@
         }
 
         $onInit() {
+            this.SelectedCountries = [{
+        "id": 1,
+            "name": "India"
+    }, {
+        "id": 3,
+            "name": "Japan"
+    }, {
+        "id": 5,
+            "name": "Germany"
+    }];
+    this.MasterCountries = [{
+        "id": 1,
+            "name": "India"
+    }, {
+        "id": 2,
+            "name": "America"
+    }, {
+        "id": 3,
+            "name": "Japan"
+    }, {
+        "id": 4,
+            "name": "China"
+    }, {
+        "id": 5,
+            "name": "Germany"
+    }]
             if(_$stateParams.name){  
               if(_$stateParams.isUpdate){
                 this.selectUpdate();
@@ -153,7 +179,7 @@
     }
 
 
-    SettingsComponent.$inject = ['$state', '$stateParams', 'ListsService'];
+    SettingsComponent.$inject = ['$state', '$stateParams', 'ListsService', 'FieldValidator'];
 
     angular.module('fakiyaMainApp')
         .component('al.lists.settings', {

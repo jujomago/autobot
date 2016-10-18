@@ -61,23 +61,30 @@
       <script src="bower_components/ngstorage/ngStorage.js"></script>
       <script src="bower_components/angular-messages/angular-messages.js"></script>
       <script src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
+      <script src="bower_components/angular-ui-mask/dist/mask.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:js(.tmp) app/app.js -->
       <script src="app/app.js"></script>
       <!-- injector:js -->
       <script src="components/util/util.module.js"></script>
-      <script src="app/features/al/lists/list/list.controller.js"></script>
+      <script src="app/features/al/lists/create/create.js"></script>
       <script src="app/directives/abxConfirmPassword/abxConfirmPassword.directive.js"></script>
+      <script src="app/directives/abxDatePicker/abxDatePicker.directive.js"></script>
+      <script src="app/directives/abxDatetimePicker/abxDatetimePicker.directive.js"></script>
       <script src="app/directives/abxDefaultImageSwitch/abxDefaultImageSwitch.directive.js"></script>
+      <script src="app/directives/abxFieldValidator/abxFieldValidator.directive.js"></script>
       <script src="app/directives/abxLoadIndicator/abxLoadIndicator.directive.js"></script>
       <script src="app/directives/abxMessage/abxMessage.directive.js"></script>
+      <script src="app/directives/abxMultiSelect/abxMultiSelect.directive.js"></script>
       <script src="app/directives/abxNoSpecialCharacter/abxNoSpecialCharacter.directive.js"></script>
+      <script src="app/directives/abxNumberField/abxNumberField.directive.js"></script>
       <script src="app/directives/abxNumberUpdown/abxNumberUpdown.directive.js"></script>
       <script src="app/directives/abxOutsideClick/abxOutsideClick.directive.js"></script>
       <script src="app/directives/abxPatternFilter/abxPatternFilter.directive.js"></script>
       <script src="app/directives/abxReadFile/abxReadFile.directive.js"></script>
       <script src="app/directives/abxSidebar/abxSidebar.directive.js"></script>
+      <script src="app/directives/abxTimePicker/abxTimePicker.directive.js"></script>
       <script src="app/factories/AccountManager/AccountManager.service.js"></script>
       <script src="app/factories/AlertMessage/AlertMessage.service.js"></script>
       <script src="app/factories/Base64Manager/Base64Manager.service.js"></script>
@@ -85,6 +92,18 @@
       <script src="app/factories/EnumManager/EnumManager.service.js"></script>
       <script src="app/factories/EventAggregator/EventAggregator.service.js"></script>
       <script src="app/factories/EventBus/EventBus.service.js"></script>
+      <script src="app/factories/FieldValidator/FieldValidator.service.js"></script>
+      <script src="app/factories/FieldValidator/strategies/CurrencyStrategy/CurrencyStrategy.service.js"></script>
+      <script src="app/factories/FieldValidator/strategies/DateStrategy/DateStrategy.service.js"></script>
+      <script src="app/factories/FieldValidator/strategies/EmailStrategy/EmailStrategy.service.js"></script>
+      <script src="app/factories/FieldValidator/strategies/NumberStrategy/NumberStrategy.service.js"></script>
+      <script src="app/factories/FieldValidator/strategies/PercentStrategy/PercentStrategy.service.js"></script>
+      <script src="app/factories/FieldValidator/strategies/PhoneStrategy/PhoneStrategy.service.js"></script>
+      <script src="app/factories/FieldValidator/strategies/StringStrategy/StringStrategy.service.js"></script>
+      <script src="app/factories/FieldValidator/strategies/TimeStrategy/TimeStrategy.service.js"></script>
+      <script src="app/factories/FieldValidator/strategies/UrlStrategy/UrlStrategy.service.js"></script>
+      <script src="app/factories/FieldValidator/templates/DefaultValidator/DefaultValidator.service.js"></script>
+      <script src="app/factories/FieldValidator/templates/Validator.js"></script>
       <script src="app/factories/GetHomePage/GetHomePage.service.js"></script>
       <script src="app/factories/Global/Global.service.js"></script>
       <script src="app/factories/HandleError/HandleError.service.js"></script>
@@ -117,7 +136,7 @@
       <script src="app/features/al/dispositions/list/list.controller.js"></script>
       <script src="app/features/al/dispositions/list/list.js"></script>
       <script src="app/features/al/lists/create/create.controller.js"></script>
-      <script src="app/features/al/lists/create/create.js"></script>
+      <script src="app/directives/abxCheckPhone/abxCheckPhone.directive.js"></script>
       <script src="app/features/al/lists/edit/step1-settings/step1-settings.controller.js"></script>
       <script src="app/features/al/lists/edit/step1-settings/step1-settings.js"></script>
       <script src="app/features/al/lists/edit/step2-mapping/step2-mapping.controller.js"></script>
@@ -126,7 +145,7 @@
       <script src="app/features/al/lists/edit/step3-list/contactModal/contactModal.js"></script>
       <script src="app/features/al/lists/edit/step3-list/step3-list.controller.js"></script>
       <script src="app/features/al/lists/edit/step3-list/step3-list.js"></script>
-      <script src="app/directives/abxCheckPhone/abxCheckPhone.directive.js"></script>
+      <script src="app/features/al/lists/list/list.controller.js"></script>
       <script src="app/features/al/lists/list/list.js"></script>
       <script src="app/features/al/skills/create/create.controller.js"></script>
       <script src="app/features/al/skills/create/create.js"></script>

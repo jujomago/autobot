@@ -1,0 +1,13 @@
+<div class="datepicker-container">
+  <span class="datepicker-button">
+    <button type="button" class="btn btn-default" ng-click="openDatePicker()"><i class="glyphicon glyphicon-calendar"></i></button>
+  </span>
+  <input
+    abx-field-validator="validator" strategy="{{strategy}}"
+    ng-model="date"
+    uib-datepicker-popup="{{dateFormat}}"
+    is-open="opened"
+    readonly=""
+    name="{{name}}"
+	>
+</div>

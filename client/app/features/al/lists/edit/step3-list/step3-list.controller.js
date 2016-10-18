@@ -6,7 +6,43 @@ let _$state, _$stateParams, _$filter, _$uibModal;
 function _pad(num){
   return (num < 10) ? '0'+num : num;
 }
+function _getSets(field) {
+    if(!field.restrictions){
+      return;
+    }
+    let set = field.restrictions.filter(r => (r.type === 'Set' || r.type === 'Multiset'));
+    if(set.length>0){
+      field.dataSet = set;
+      field.realType = field.type;
+      field.type = set[0].type.toUpperCase();
+      field.restrictions = field.restrictions.filter(r => (r.type !== 'Set' && r.type !== 'Multiset'))
+    }
+}
+function _formatExist(field, key){
+  if(!field.restrictions){
+      return;
+    }
+  let result = field.restrictions.find(e => e.type === key);
 
+  return result?result.value:null;
+}
+function _extractFormats(field) {
+    if(_formatExist(field, 'Required') !== null){
+      field.required = true;
+    }
+    let result=_formatExist(field, 'CurrencyType')
+    if(result !== null){
+      field.currencyType = result;
+    }
+    result=_formatExist(field, 'DateFormat')
+    if(result !== null){
+      field.dateFormat = result;
+    }
+    result=_formatExist(field, 'TimeFormat')
+    if(result !== null){
+      field.timeFormat = result;
+    }
+}
 function _formatDate(date, formatDate, formatTime){
   let formatedDate = '';
   let time = '';
@@ -149,7 +185,22 @@ class ListComponent {
         this.message={ show: true, type: 'warning', text: theMsg, expires: 3000};
       }
   }
-
+  $onInit(){
+    this.getContactFields();
+  }
+  getContactFields() {
+    return _ContactFieldsService.getContactFields()
+    .then(response => {
+        this.contactFields = response.data.filter(e => (e.mapTo === 'None'));
+        this.contactFields.map(_getSets);
+        this.contactFields.map(_extractFormats);
+        return response;
+    })
+    .catch(error => {
+        this.message = { show: true, type: 'danger', text: error.errorMessage };
+        return e;
+    });
+  }    
   sortColumn(columnName) {
       if (columnName !== undefined && columnName) {
           console.log('sorting:' + columnName);
