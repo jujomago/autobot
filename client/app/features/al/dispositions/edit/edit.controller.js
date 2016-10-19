@@ -2,7 +2,7 @@
 (function(){
 	let _DispositionsService, _$state;
 	function setDispositionParams(disposition,params){
-		disposition.typeParameters={allowChangeTimer: params.allowChangeTimer, attempts: params.attempts, timer: params.timer, useTimer: params.useTimer};
+		disposition.typeParameters={allowChangeTimer: params.allowChangeTimer, attempts: isNaN(params.attempts)?1:params.attempts*1, timer: params.timer, useTimer: params.useTimer};
 	}
 
 	class EditComponent {
@@ -105,7 +105,7 @@
 		            if(response.statusCode===200){
 		                this.message = {
 		                    type: 'success',
-		                    text: 'Disposition Updated SuccessFully'
+		                    text: 'Disposition Updated Successfully'
 		                };
 		                _$state.go('ap.al.dispositions', { message: this.message });   
 		            }

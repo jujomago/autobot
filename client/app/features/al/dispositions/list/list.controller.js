@@ -78,7 +78,7 @@
                             let index = this.dispositions.indexOf(item);
                             this.dispositions.splice(index, 1);
                             this.toggleDispositionRow = -1;
-                            this.message = { show: true, type: 'success', text: 'Disposition Deleted', expires: 3000 };
+                            this.message = { show: true, type: 'success', text: 'Disposition Deleted Successfully', expires: 3000 };
                             return response;
                         }).catch(error => {
                             this.toggleDispositionRow = -1;

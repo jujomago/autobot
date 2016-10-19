@@ -2,7 +2,7 @@
 <div id="alert-container"></div>
 <h3 class="title_section">User: <span>New user</span></h3>
 <div class="alert alert-warning" ng-show="$ctrl.showWarningRolMessage">
-  You must select at least one rol
+  You must select at least one Role
 </div>
 <div class="alert alert-warning" ng-show="$ctrl.showWarningUserMessage">
   You must complete all users fields
@@ -30,15 +30,10 @@
       <p ng-message="required">This field is required</p>
     </div>
     <div class="inputminimal"  ng-class="{ 'has-error': userForm.extension.$invalid && userForm.$submitted }">
-      <label for="extension" >Extension*</label>
+      <label for="extension" >Extension</label>
       <div>
-        <input type="text"  name="extension" id="extension" required ng-model="$ctrl.newUser.extension"  ng-minlength="4" ng-maxlength="4">
+        <input type="text"  name="extension" id="extension" disabled ng-model="$ctrl.newUser.extension"  ng-minlength="4" ng-maxlength="4">
       </div>
-    </div>
-    <div ng-messages="userForm.extension.$error" ng-show="userForm.$submitted">
-      <p ng-message="required">This field is required</p>
-      <p ng-message="maxlength">This field is too long, just 4 digits</p>
-      <p ng-message="minlength">This field is too short, 4 digits required</p>
     </div>
     <div class="inputminimal"  ng-class="{ 'has-error': userForm.EMail.$invalid && userForm.$submitted }">
       <label for="EMail" >Email*</label>
@@ -66,6 +61,7 @@
                name="userName"
                id="userName"
                required
+               disabled
                ng-model="$ctrl.newUser.userName"
                ng-change="$ctrl.fillPass()"
                ng-minlength="6" >
@@ -126,7 +122,7 @@
          </a>
        </div>
      </div>
-     <div class="col col-md-3">      
+     <div class="col col-md-3">
          <h4>Roles Assigned</h4>
          <div class="list-group">
            <a href="#"  class="list-group-item" ng-repeat="userRol in $ctrl.userRoles" ng-click="$ctrl.getPermissions(userRol)" ng-class="{'active':($index==$ctrl.userRolSelectedIndex)}">
@@ -136,13 +132,13 @@
          <button type="button" class="btn btn-danger" ng-show="$ctrl.userRolSelectedIndex>=0 && $ctrl.userRoles.length>0" ng-click="$ctrl.deleteSelectedRol()">Delete</button>
      </div>
      <div class="col" ng-class="{'col-md-9':($ctrl.allRoles.length==0),'col-md-6':($ctrl.allRoles.length>0)}" >
-         <h4>Permissions:</h4>
+         <h4 ng-show="$ctrl.permissionTitle">Permissions:</h4>
          <div class="checkbox" ng-repeat="(per,val) in $ctrl.rolSelectedPermissions" ng-if="per!=='permissions'">
            <label><input type="checkbox" ng-model="$ctrl.rolSelectedPermissions[per]">{{per | camelToHuman}}</label>
          </div>
          <div class="checkbox" ng-repeat="permission in $ctrl.rolSelectedPermissions.permissions">
            <label><input type="checkbox" ng-model="permission.value">{{permission.type | camelToHuman}}</label>
-         </div>      
+         </div>
      </div>
    </div>
  </uib-tab>
