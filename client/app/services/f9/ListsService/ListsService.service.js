@@ -12,10 +12,13 @@
             _$http = $http;
         }
 
-        getList(name) {
-
+        getList(name, config) {
+            if(!config){
+                config = {};
+            }
+            console.log(config);
             var result = { data: null, statusCode: 200, errorMessage: '' };
-            return _$http.get(this.endPointUrl + '/' + name)
+            return _$http.get(this.endPointUrl + '/' + name, config)
                 .then(response => {
                     if (response.data) {
                         result.data = response.data.return;

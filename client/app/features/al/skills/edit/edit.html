@@ -53,11 +53,11 @@
                             </button>
                             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="button{{user.id}}">
                                 <li role="menuitem">
-                                    <a href="#" ng-click="$ctrl.showUserInfo(user.userName,$index)">Get Detail UserName</a>
+                                    <a href="#" ng-click="$ctrl.showUserInfo(user.userName,$index)">Get Detail Username</a>
                                 </li>
                                 <li class="divider"></li>
                                 <li role="menuitem">
-                                    <a href="#" ng-click="$ctrl.deleteUserfromSkill(user,$index)">Remove UserName</a>
+                                    <a href="#" ng-click="$ctrl.deleteUserfromSkill(user,$index)">Remove Username</a>
                                 </li>
                             </ul>
                         </div>
@@ -70,7 +70,7 @@
                 </h4>
                 <div class="panel panel-info" ng-show="$ctrl.filteredUsers.length>0">
                     <div class="panel-heading">
-                        <strong>Users UnAssigned</strong>
+                        <strong>Users Unassigned</strong>
                     </div>
                     <div class="form-group well well-sm">
                       <label>Search UserName</label>

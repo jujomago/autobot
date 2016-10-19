@@ -27,6 +27,9 @@
       return _auth.getCompanies()
       .then(response => {
         this.companies = response;
+        if(this.companies.length>0){
+          this.company = this.companies[0]._id;
+        }
         return response;
       })
       .catch(e => {

@@ -25,6 +25,7 @@ angular.module('fakiyaMainApp')
 						let appRouteKey =JSON.parse(response.data.error);
 						let AccountManager = $injector.get('AccountManager');
 						AccountManager.getLastPartnerAccount(appRouteKey.partnerName,appRouteKey.appName);
+						response.data.error='Session expired';
 						break;
 				}
 

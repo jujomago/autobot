@@ -25,8 +25,8 @@
             this.toggleUserItem = { item: -1 };
             this.toggleUserNameItem = -1;
 
-            this.showPanelInfo = false;  
-            this.message={show:false};             
+            this.showPanelInfo = false;
+            this.message={show:false};
             this.SubmitText = 'Save';
         }
 
@@ -43,7 +43,7 @@
                 })
                 .catch(error => {
                     this.message={show:true,type:'danger',text: error.errorMessage};
-                    return error;  
+                    return error;
                 });
         }
         save() {
@@ -54,14 +54,14 @@
                 .then(() => {
                     var messageObj = {
                         type: 'success',
-                        text: 'Skill Updated SuccessFully'
+                        text: 'Skill Updated Successfully'
                     };
                     _$state.go('ap.al.skills', { message: messageObj });
                     this.SubmitText = 'Saved';
                 }).catch(error => {
                     this.message={show:true,type:'danger',text: error.errorMessage};
-                    this.SubmitText = 'Save';  
-                    return error;  
+                    this.SubmitText = 'Save';
+                    return error;
                 });
         }
         cancel() {
@@ -78,19 +78,19 @@
                 userName: userObj.userName
             };
 
-  
+
             return _UsersService.addSkilltoUser(userSkillObj)
                 .then(response => {
                    // console.log('response');
                     // response when creating new stuff, RETURNS NOTHING
-                    if (response.statusCode === 201 && response.data === null) {                        
-                        
+                    if (response.statusCode === 201 && response.data === null) {
+
                         let index = this.filteredUsers.indexOf(userObj);
                         this.filteredUsers.splice(index, 1);
                         this.toggleUserItem.item = -1;
-                        
-                        this.message={show:true,type:'success',text:'User Added Sucessfully',expires:2000};
-                     
+
+                        this.message={show:true,type:'success',text:'User Added Successfully',expires:2000};
+
                         this.UsersNamesSkills.push(userObj);
                         return true;
                     }
@@ -98,7 +98,7 @@
                 })
                 .catch(error => {
                     this.message={show:true,type:'danger',text: error.errorMessage};
-                    return error;  
+                    return error;
                 });
         }
         deleteUserfromSkill(user, i) {
@@ -115,25 +115,25 @@
             return _UsersService.deleteSkillfromUser(userSkillObj)
                 .then(response => {
 
-                    if (response.statusCode === 204 && response.data === null ){ 
+                    if (response.statusCode === 204 && response.data === null ){
                         console.log('deleted OK');
-                        
+
                         this.showPanelInfo=false;
-                                               
+
                         let index = this.UsersNamesSkills.indexOf(user);
                         this.UsersNamesSkills.splice(index, 1);
                         this.toggleUserNameItem = -1;
-                        
-                        this.message={show:true,type:'success',text:'User Removed Sucessfully',expires:2000};
-                    
-                        this.listUsers();     
+
+                        this.message={show:true,type:'success',text:'User Removed Successfully',expires:2000};
+
+                        this.listUsers();
                         return response;
                     }
                    return null;
                 })
                 .catch(error => {
                     this.message={show:true,type:'danger',text: error.errorMessage};
-                    return error;  
+                    return error;
                 });
         }
 
@@ -149,19 +149,19 @@
                 })
                 .catch(error => {
                     this.message={show:true,type:'danger',text: error.errorMessage};
-                    return error;  
+                    return error;
                 });
         }
         listUsers() {
             this.filteredUsers = [];
             _UsersService.getUsers()
-                .then(_users => {                                           
+                .then(_users => {
                     this.userslist = _users.data;
                     this.filterUsersBounded(this.userslist);
                 })
                 .catch(error => {
                     this.message={show:true,type:'danger',text: error.errorMessage};
-                });         
+                });
         }
         filterUsersBounded(rawUserList) {
             if (this.UsersNamesSkills.length === 0) {

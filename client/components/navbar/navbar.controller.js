@@ -140,7 +140,7 @@ class NavbarController {
   }
 
   getNewest(){
-    return _appsService.getFilteredApps({installed: false, size: MAX_NEW_APPS_AMOUNT})
+    return _appsService.getFilteredApps({installed: false})
     .then(response => {
       this.newApps = response.data;
       return response;

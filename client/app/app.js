@@ -28,7 +28,7 @@ angular.module('fakiyaMainApp', [
     }
     // disable IE ajax request caching
     $httpProvider.defaults.headers.get['If-Modified-Since'] = '0';
-  }).run(function (lodash, $window, Global) { // jshint ignore:line
+  }).run(function (lodash, $window, Global, $rootScope, $injector) { // jshint ignore:line
     //this method is only for run the lodash deletion
     //TODO: Remove or Evaluate this block after Event Bus is implemented
     $window.onbeforeunload = function () {
@@ -36,4 +36,21 @@ angular.module('fakiyaMainApp', [
         return 'You have updating processes in progress';
       }
     };
+    
+    //------
+    $rootScope.$on('$stateChangeStart', function (event,toState,toParams) {
+      if(!toParams.isLoggedIn && toState.name.indexOf('al')>-1){
+        let state = $injector.get('$state');
+        let ListService=$injector.get('ListsService');
+        event.preventDefault();
+        ListService.getList('%$&unexisting_list)(*&^%^', {headers: {appName: 'al'}})
+       .catch(error => {
+        if(error.statusCode!==409){
+          toParams.isLoggedIn = true;
+          state.go(toState.name,toParams);
+        }
+       });
+      }
+      return true;
+    });
   });
