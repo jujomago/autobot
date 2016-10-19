@@ -42,6 +42,7 @@
     }
     $onInit() {
       this.getCampaigns();
+      this.sortColumn('name');
     }
  
     getCampaigns() {

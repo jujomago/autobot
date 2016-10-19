@@ -43,6 +43,7 @@
         }
 
         $onInit() {
+            this.sortColumn('userName');
             return _UsersService.getUsers()
                 .then(_users => {
                     console.log('in client');
