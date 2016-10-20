@@ -6,7 +6,6 @@ angular.module('fakiyaMainApp')
         var sessionInjector = {
             request: function(config) {
                 let path =$location.path();
-                console.log('Current url path: ' + path);
                 if (config.url.indexOf('/api/') > -1) {
                     let match = path.match(/ap\/([^\/]+)\/?(.*)$/);
                     if(!config.headers.appName){
@@ -17,7 +16,6 @@ angular.module('fakiyaMainApp')
                             config.headers.appName = '';
                         }
                     }
-                    console.log(' url intercepted: ' + config.url);
                 }
 
                 return config;

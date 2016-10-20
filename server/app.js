@@ -25,7 +25,6 @@ function startServer() {
     console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
   });
 }
-
 setImmediate(startServer);
 
 // Expose app

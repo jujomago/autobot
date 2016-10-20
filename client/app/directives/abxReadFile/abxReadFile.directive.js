@@ -8,22 +8,20 @@ angular.module('fakiyaMainApp')
       },
       restrict: 'A',
       link: function (scope, element) {
-        element.bind('change', function (changeEvent) {           
+        element.bind('change', function (changeEvent) {
             var file;
             file=changeEvent.target.files[0];
             if(file){
-              console.log(file);
               ReadFile.readAsText(file, scope)
               .then(function(result) {
-                console.log(result);
-                  scope.abxReadFile = {data: result, size: file.size, type: file.type, name: file.name};
+                scope.abxReadFile = {data: result, size: file.size, type: file.type, name: file.name};
               });
             }
             else{
               scope.$apply(function () {
-                scope.abxReadFile = null;  
+                scope.abxReadFile = null;
               });
-              
+
             }
         });
       }

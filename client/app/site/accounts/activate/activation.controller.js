@@ -19,7 +19,6 @@
     activation() {
       return _auth.activate(this.activationCode)
       .then(response => {
-        console.log(response);
         this.newAccount = response;
         return response;
       })
@@ -41,11 +40,9 @@
           };
       return _auth.createUser(newUser)
       .then(response => {
-        console.log(response);
         return _auth.login(credentials);
       })
       .then(response =>{
-        console.log(response);
         _$location.path('/ap/dashboard');
         return response;
       })
@@ -54,7 +51,6 @@
         if(e.status === '404'){
           _$location.path('/404');
         }
-        console.log(e);
         return e;
       });
     }

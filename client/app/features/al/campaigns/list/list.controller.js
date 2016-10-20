@@ -7,8 +7,6 @@
 
   class ListComponent {
     constructor($state, $stateParams, $timeout, $filter, ConfirmAsync, CampaignService) {
-      console.log('contrusctor Campaign ListComponent');
-
       this.campaigns = [];
       this.currentPage = 1;
       this.sortKey = '';
@@ -35,8 +33,6 @@
 
 
       if (_stateParams.message !== null) {
-        console.log('stateParams');
-        console.log(_stateParams);
          this.message={ show: true, type: _stateParams.message.type, text: _stateParams.message.text, expires:3000};
       }
     }
@@ -59,14 +55,11 @@
     }
 
     pageChanged() {
-      console.log('Page changed to: ' + this.currentPage);
       this.beginNext = (this.currentPage - 1) * this.numPerPage;
-      console.log('beginNext:' + this.beginNext);
     }
 
     sortColumn(columnName) {
       if (columnName !== undefined && columnName) {
-        //   console.log('sorting:' + columnName);
         this.sortKey = columnName;
         this.reverse = !this.reverse;
         this.campaigns = this.filter('orderBy')(this.campaigns, this.sortKey, this.reverse);
@@ -86,16 +79,13 @@
           return _CampaignService.deleteCampaign(campaign.name);
         })
         .then(response => {
-          console.log('response in client');
-          console.log(response);
-
           if (response.statusCode === 204) {
             let index = this.campaigns.indexOf(campaign);
 
             this.campaigns.splice(index, 1);
             this.toggleCampaignRow = -1;
             this.message={ show: true,
-                           type: 'success', 
+                           type: 'success',
                            text: 'Campaign Deleted Successfully',
                            expires:3000};
            // this.showMessage('success','Campaign "' + campaign.name + '" Deleted',3000);

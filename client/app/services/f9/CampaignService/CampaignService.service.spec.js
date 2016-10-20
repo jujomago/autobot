@@ -27,7 +27,6 @@ describe('Service: CampaignService', function () {
 
   describe('#getCampagins', () => {
     it('=> should return array of campaigns', () => {
-      console.log ('The endPointUrl IS '+endPointUrl);
       httpBackend.when('GET', endPointUrl).respond({
         return: [
           {
@@ -95,21 +94,20 @@ describe('Service: CampaignService', function () {
 
   describe('#getIVRScripts', () => {
     it('=> should return array of ivrscripts', () => {
-      console.log ('The endPointUrl IS '+endPointUrl);
       httpBackend.when('GET', endPointUrl+'/ivrscripts').respond({
         return: [
           {
-            'description': 'Main Script',          
+            'description': 'Main Script',
             'name': 'Main Script',
             'xmlDefinition': '...'
           },
           {
-            'description': 'Option 2',          
+            'description': 'Option 2',
             'name': 'Main.MakeMoney',
             'xmlDefinition': '...'
           },
           {
-            'description': 'Option 1',          
+            'description': 'Option 1',
             'name': 'Main.WhoTo',
             'xmlDefinition': '...'
           }]
@@ -146,11 +144,11 @@ describe('Service: CampaignService', function () {
       httpBackend.flush();
     });
   });
-  
+
   describe('#createCampaign', () => {
 
     it('=> should return error statusCode 201, Created Ok (inbound)', () => {
-      
+
       let newCampaign = {
         autoRecord:true,
         description:'campaign test',
@@ -158,15 +156,15 @@ describe('Service: CampaignService', function () {
         noOutOfNumbersAlert:true,
         name:'Campaign Test',
         type: 'inbound',
-        ivrscript:{                
+        ivrscript:{
             name: 'Main.Oracle'
-        }             
+        }
       };
 
       httpBackend.whenPOST(endPointUrl+'/inbound').respond(201, null);
 
       CampaignService.createCampaign(newCampaign)
-        .then(response => {  
+        .then(response => {
           expect(response).to.be.property('statusCode');
           expect(response.statusCode).to.equal(201);
           expect(response.data).to.equal(null);
@@ -176,20 +174,20 @@ describe('Service: CampaignService', function () {
       httpBackend.flush();
     });
     it('=> should return error statusCode 201, Created Ok (outbound)', () => {
-      
+
       let newCampaign = {
         autoRecord:true,
         description:'campaign test',
         dnisAsAni:true,
         noOutOfNumbersAlert:true,
         name:'Campaign Test',
-        type: 'outbound',            
+        type: 'outbound',
       };
 
       httpBackend.whenPOST(endPointUrl+'/outbound').respond(201, null);
 
       CampaignService.createCampaign(newCampaign)
-        .then(response => {  
+        .then(response => {
           expect(response).to.be.property('statusCode');
           expect(response.statusCode).to.equal(201);
           expect(response.data).to.equal(null);
@@ -200,7 +198,7 @@ describe('Service: CampaignService', function () {
     });
 
     it('=> should return error statusCode 201, Created Ok (autodial)', () => {
-      
+
       let newCampaign = {
         autoRecord:true,
         description:'campaign test',
@@ -208,15 +206,15 @@ describe('Service: CampaignService', function () {
         noOutOfNumbersAlert:true,
         name:'Campaign Test',
         type: 'autodial',
-        ivrscript:{                
+        ivrscript:{
             name: 'Main.Oracle'
-        }             
+        }
       };
 
       httpBackend.whenPOST(endPointUrl+'/autodial').respond(201, null);
 
       CampaignService.createCampaign(newCampaign)
-        .then(response => {  
+        .then(response => {
           expect(response).to.be.property('statusCode');
           expect(response.statusCode).to.equal(201);
           expect(response.data).to.equal(null);
@@ -231,7 +229,7 @@ describe('Service: CampaignService', function () {
   describe('#updateOutBoundCampaign', () => {
 
     it('=> should return error statusCode 200, Updated Ok', () => {
-      
+
       let Campaign = {
           name:'Name',
           description:'Some description',
@@ -241,13 +239,13 @@ describe('Service: CampaignService', function () {
           maxQueueTime:{
             minutes:10,
             seconds:20
-          }         
+          }
       };
 
       httpBackend.whenPUT(endPointUrl+'/outbound/Name').respond(200, null);
 
       CampaignService.updateOutBoundCampaign(Campaign)
-        .then(response => {  
+        .then(response => {
           expect(response).to.be.property('statusCode');
           expect(response.statusCode).to.equal(200);
           expect(response.data).to.equal(null);
@@ -262,22 +260,22 @@ describe('Service: CampaignService', function () {
   describe('#updateAutoDialCampaign', () => {
 
     it('=> should return error statusCode 200, Updated Ok', () => {
-      
+
       let Campaign = {
           autoRecord:true,
           description:'campaign test',
           dnisAsAni:true,
           noOutOfNumbersAlert:true,
           name:'Test',
-          ivrscript:{                
+          ivrscript:{
               name: 'Main.Oracle'
-          }               
+          }
       };
 
       httpBackend.whenPUT(endPointUrl+'/autodial/Test').respond(200, null);
 
       CampaignService.updateAutoDialCampaign(Campaign)
-        .then(response => {  
+        .then(response => {
           expect(response).to.be.property('statusCode');
           expect(response.statusCode).to.equal(200);
           expect(response.data).to.equal(null);
@@ -288,15 +286,15 @@ describe('Service: CampaignService', function () {
     });
 
   });
-  
+
   describe('#updateInBoundCampaign', () => {
 
     it('=> should return error statusCode 200, Updated Ok', () => {
-      
+
       let Campaign = {
           autoRecord:true,
           description:'campaign test',
-          ivrscript:{                
+          ivrscript:{
               name: 'Main.Oracle'
           },
           maxNumOfLines:23,
@@ -306,7 +304,7 @@ describe('Service: CampaignService', function () {
       httpBackend.whenPUT(endPointUrl+'/inbound/Test').respond(200, null);
 
       CampaignService.updateInBoundCampaign(Campaign)
-        .then(response => {  
+        .then(response => {
           expect(response).to.be.property('statusCode');
           expect(response.statusCode).to.equal(200);
           expect(response.data).to.equal(null);
@@ -316,8 +314,8 @@ describe('Service: CampaignService', function () {
       httpBackend.flush();
     });
 
-  });  
-  
+  });
+
 
 
   describe('#deleteCampaign', () => {
@@ -355,8 +353,8 @@ describe('Service: CampaignService', function () {
       httpBackend.flush();
     });
   });
-  
 
-  
-  
+
+
+
 });

@@ -3,11 +3,9 @@
     let _$http, _$cookies, _authManager,_jwtHelper,_HandleError,_$location;
 
     function _setCookieToken(token,type){
-        console.log('setting cookie');
         if(type==='persistent'){
             let tokenDate = _jwtHelper.getTokenExpirationDate(token);
             let expDate=new Date(tokenDate);
-            console.log(`token expDate ${expDate}`);
             _$cookies.put('auth_token',token,{'expires': expDate});
         }else{
             _$cookies.put('auth_token',token);
@@ -114,7 +112,6 @@
             let result = { data: null, statusCode: 200, errorMessage: null };
             return _$http.get(this.endPointUrl + '/auth/logout')
                 .then(response => {
-                    console.log('removing cookie');
                     _$cookies.remove('auth_token');
                     _authManager.unauthenticate();
                     return response;

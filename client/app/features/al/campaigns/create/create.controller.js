@@ -21,7 +21,6 @@
         }
 
         checkRadio(){
-            console.log('checking radio');
             if(this.newCampaign.type!=='outbound'){
 
                 if(this.ivrScripts.length===0 && !this.loadingIVR){
@@ -39,7 +38,6 @@
            this.loadingIVR=true;
            return _CampaignService.getIVRScripts()
                 .then(response => {
-                    console.log('response in client');
                     if (response.statusCode === 200) {
                        this.ivrScripts=response.data;
                        this.newCampaign.ivrscript=this.ivrScripts[0];
@@ -61,10 +59,7 @@
             this.SubmitText = 'Saving...';
             return _CampaignService.createCampaign(this.newCampaign)
                 .then(response=>{
-                    console.log('first then response');
-                    console.log(response);
                     if(response.statusCode===201){
-                        console.log('created campaign');
                         var messageObj = {
                             type: 'success',
                             text: 'Campaign Created Successfully'
