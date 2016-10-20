@@ -22,7 +22,9 @@ angular.module('fakiyaMainApp')
                 $scope.open = !$scope.open;
 
             };
-
+            $scope.getItems = function(){
+                return $scope.model.map(function(item){return item.value;}).join(';');
+            }
             $scope.selectAll = function () {
 
                 $scope.model = [];
@@ -40,29 +42,26 @@ angular.module('fakiyaMainApp')
                 $scope.model = [];
 
             };
-
             $scope.toggleSelectItem = function (option) {
 
                 var intIndex = -1;
-
                 angular.forEach($scope.model, function (item, index) {
 
-                    if (item[$scope.id] == option[$scope.id]) {
+                    if (item[$scope.id] === option[$scope.id]) {
 
                         intIndex = index;
 
                     }
 
                 });
-
                 if (intIndex >= 0) {
 
                     $scope.model.splice(intIndex, 1);
 
                 } else {
-
+                    
                     $scope.model.push(option);
-
+                    
                 }
 
             };

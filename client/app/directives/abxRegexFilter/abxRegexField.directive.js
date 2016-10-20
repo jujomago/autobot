@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('fakiyaMainApp')
-  .directive('abxNumberField', function () {
+  .directive('abxRegexFilter', function () {
     return {
       require: '?ngModel',
       restrict: 'A',
@@ -11,7 +11,10 @@ angular.module('fakiyaMainApp')
       }
       
       ngModelCtrl.$parsers.push(function(val) {
-        var clean = val.replace(/[^0-9.-]/g, '');
+        let regex = new RegExp(attrs.abxRegexFilter, 'g')
+        console.log(regex);
+        var clean = val.replace(regex, '');
+        console.log(clean);
         if (val !== clean) {
           ngModelCtrl.$setViewValue(clean);
           ngModelCtrl.$render();

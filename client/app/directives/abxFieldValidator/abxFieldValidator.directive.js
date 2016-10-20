@@ -19,7 +19,6 @@ angular.module('fakiyaMainApp')
         
         let restrictions = $parse(attrs.abxFieldValidator)(scope);
         ctrl.$parsers.push(function(value) {
-          console.log(value.$viewValue)
           let validateType = validator.validateType(value);
           if(!validateType){
             ctrl.$setValidity('abxtype', false);

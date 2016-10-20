@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: abxNumberField', function () {
+describe('Directive: abxRegexFilter', function () {
 
   // load the directive's module
   beforeEach(module('fakiyaMainApp'));
@@ -13,8 +13,8 @@ describe('Directive: abxNumberField', function () {
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<abx-number-field></abx-number-field>');
+    element = angular.element('<abx-regex-filter></abx-regex-filter>');
     element = $compile(element)(scope);
-    expect(element.text()).to.equal('this is the abxNumberField directive');
+    expect(element.text()).to.equal('this is the abxRegexFilter directive');
   }));
 });

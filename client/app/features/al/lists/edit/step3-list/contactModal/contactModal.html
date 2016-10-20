@@ -6,26 +6,26 @@
 <div class="modal-body">
 	<abx-message msg="$ctrl.message"></abx-message>
 
-	<form name="formList" novalidate ng-submit="formList.$valid && $ctrl.save()" class="custom_form form-horizontal">
+	<form name="formList" novalidate ng-submit="formList.$valid && $ctrl.save()" class="custom_form fields-form form-horizontal">
 		<div class="contact-model-form">
 			<div ng-repeat="form in $ctrl.contactFields">
 				<div class="inputminimal" ng-class="{ 'has-error': formList[form.name].$invalid && formList.$submitted }">
 					<label for="{{form.name}}">{{form.name | removeUnderscore}}<span ng-if="form.isKey"> (key)</span></label>					
-					<span>
+					<span ng-if="form.type!=='MULTISET'">
 						<input type="text" name="{{form.name}}" ng-model="$ctrl.contact[form.name]" abx-field-validator="form.restrictions" strategy="{{form.type}}" ng-trim="false" ng-if="form.type==='STRING' || form.type==='EMAIL' || form.type==='URL'"/>
-						<input type="text" name="{{form.name}}" ng-model="$ctrl.contact[form.name]" abx-field-validator="form.restrictions" strategy="{{form.type}}" ng-if="form.type==='PHONE'"/>
+						<input type="text" name="{{form.name}}" ng-model="$ctrl.contact[form.name]" abx-regex-filter="[^0-9+\-()]" abx-field-validator="form.restrictions" strategy="{{form.type}}" ng-if="form.type==='PHONE'"/>
 						<div abx-date-picker name="{{form.name}}" validator="form.restrictions" strategy="{{form.type}}" ng-if="form.type==='DATE'" ng-model="$ctrl.contact[form.name]" date-format="{{form.dateFormat}}"></div>
 						<abx-time-picker ng-if="form.type==='TIME'" ng-model="$ctrl.contact[form.name]" time-format="{{form.timeFormat}}"></abx-time-picker>
 						<abx-datetime-picker ng-if="form.type==='DATE_TIME'" ng-model="$ctrl.contact[form.name]" time-format="{{form.timeFormat}}" date-format="{{form.dateFormat}}"></abx-datetime-picker>
 
-                     	<input type="text" name="{{form.name}}" ng-model="$ctrl.contact[form.name]" abx-number-field abx-field-validator="form.restrictions" strategy="{{form.type}}" ng-if="form.type==='NUMBER' || form.type==='CURRENCY' || form.type==='PERCENT'"/>
+                     	<input type="text" name="{{form.name}}" ng-model="$ctrl.contact[form.name]" abx-regex-filter="[^0-9.-]" abx-field-validator="form.restrictions" strategy="{{form.type}}" ng-if="form.type==='NUMBER' || form.type==='CURRENCY' || form.type==='PERCENT'"/>
                      	<input type="checkbox" ng-model="$ctrl.contact[form.name]" ng-if="form.type==='BOOLEAN'">
                      	<select ng-options="item.value for item in form.dataSet track by item.value" ng-model="selected" ng-if="form.type==='SET'">
                      		<option value="" ng-if="!form.required"></option>
                      	</select>
-                     	<abx-multi-select model="$ctrl.multiset[form.name] " options="form.dataSet" id="value" value="value" ng-if="form.type==='MULTISET'"></abx-multi-select>
+                     	
 					</span>
-					{{$ctrl.contact[form.name]}}
+					<abx-multi-select model="$ctrl.multiset[form.name] " options="form.dataSet" id="value" value="value" ng-if="form.type==='MULTISET'"></abx-multi-select>
 				</div>
 				<div class="errorMessagesModal" ng-messages="formList[form.name].$error" ng-show="formList.$submitted || formList[form.name].$dirty">
 					<p ng-message="abxtype">type</p>
