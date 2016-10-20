@@ -16,7 +16,6 @@
             if(!config){
                 config = {};
             }
-            console.log(config);
             var result = { data: null, statusCode: 200, errorMessage: '' };
             return _$http.get(this.endPointUrl + '/' + name, config)
                 .then(response => {
@@ -55,14 +54,9 @@
                 .catch(err => _HandleError(err, result));
         }
         deleteList(list) {
-            console.log('list name in service');
-            console.log(list.name);
-      
             var result = { data: null, statusCode: 204, errorMessage: '' };
             return _$http.delete(this.endPointUrl +'/'+ list.name)
                 .then(response => {
-                    console.log('response in service');
-                    console.log(response);
                     if (response.status !== 204) {
                         result.statusCode = response.status;
                         result.data = response;
@@ -110,7 +104,7 @@
 
         deleteContacts(contacts) {
             var result = { data: null, statusCode: 200, errorMessage: '' };
-            
+
             return _$http({
                 method: 'DELETE',
                 url: this.endPointUrl +'/'+contacts.listName+'/records',

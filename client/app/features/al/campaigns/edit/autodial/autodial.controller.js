@@ -77,7 +77,6 @@ class AutodialComponent {
    getLists(){
         return _CampaignService.getLists()
           .then(response => {
-              console.log('response in client');
               if (response.statusCode === 200) {
                   this.listsAvailable=response.data;
 
@@ -94,13 +93,10 @@ class AutodialComponent {
    getAttachedLists(campaignName){
         return _CampaignService.getAttachedLists(campaignName)
           .then(response => {
-              console.log('response ATTACHED LISTS in client');
-                console.log(response);
               if (response.statusCode === 200) {
                   if(response.data){
                       this.listsAssigned=response.data.map(e=>e.listName);
                   }
-                  console.log(this.listsAssigned);
                   this.getLists();
               }
               return response;
@@ -115,13 +111,11 @@ class AutodialComponent {
   getIVRScripts() {
     return _CampaignService.getIVRScripts()
         .then(response => {
-            console.log('response in client');
             if (response.statusCode === 200) {
                 this.ivrScripts=response.data;
                 for (var i = 0; i < this.ivrScripts.length; i++) {
                   var el = this.ivrScripts[i];
                   if( el.name===this.campaign.ivrscript){
-                    console.log(el.name);
                     this.campaign.ivrscript=el;
                     break;
                   }
@@ -138,8 +132,6 @@ class AutodialComponent {
   getCampaign(type,name){
     return _CampaignService.getCampaign(type,name)
     .then(response=>{
-      console.log('response in client 1');
-      console.log(response.data);
       if(response.statusCode===200){
          this.campaign={
            name:response.data.name,
@@ -168,8 +160,6 @@ class AutodialComponent {
 
     return _CampaignService.updateAutoDialCampaign(this.campaign)
     .then(response=>{
-      console.log('response in client 1');
-      console.log(response);
       if(response.statusCode===200 && response.errorMessage===null){
          let messageObj={show:true,type:'success',text:'Campaign Updated Successfully'};
          _state.go('ap.al.campaigns', { message: messageObj });

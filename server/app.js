@@ -29,7 +29,6 @@ function startServer() {
 /*sqldb.sequelize.sync()
   .then(startServer)
   .catch(function(err) {
-    console.log('Server failed to start due to error: %s', err);
   });*/
 setImmediate(startServer);
 

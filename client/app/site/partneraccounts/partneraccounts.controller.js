@@ -39,7 +39,6 @@ class PartnerAcoountsListComponent {
       });
   }
   goToLoginAccount(user){
-    console.log(user);
      _$state.go('ap.login', {partnerId: this.credentials.partnerId, appName: this.credentials.appName, username: user});
   }
   goToSubscribeAccount(){

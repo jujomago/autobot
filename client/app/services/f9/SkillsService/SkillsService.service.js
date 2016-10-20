@@ -28,7 +28,7 @@
                 })
                 .catch(err => _HandleError(err, result));
         }
-        
+
         getSkillsInfo() {
 
             var result = { data: null, statusCode: 200, errorMessage: '' };
@@ -42,8 +42,8 @@
                 })
                 .catch(err => _HandleError(err, result));
         }
-        
-        
+
+
 
         getSkill(name) {
             var result = { data: null, statusCode: 200, errorMessage: '' };
@@ -73,8 +73,6 @@
             var result = { data: null, statusCode: 200, errorMessage: '' };
             return http.post(this.endPointUrl , skill)
                 .then(response => {
-                    console.log('response createSkill');
-                    console.log(response);
                     if (response.status !== 200) {
                         result.statusCode = response.data.statusCode;
                         result.errorMessage = response.data.body;
@@ -90,8 +88,6 @@
             var result = { data: null, statusCode: 204, errorMessage: '' };
             return http.delete(this.endPointUrl + '/' + skill.name)
                 .then(response => {
-                    console.log('response in service');
-                    console.log(response);
                     if (response.status !== 204) {
                         result.statusCode = response.status;
                         result.data = response;

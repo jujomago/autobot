@@ -11,10 +11,10 @@ describe('Component: al.campaigns.edit.inbound', function () {
   beforeEach(inject(function ($componentController, $rootScope, $httpBackend, appConfig) {
     scope = $rootScope.$new();
     httpBackend = $httpBackend;
-    
+
     if(appConfig.apiUri){
        endPointUrl=appConfig.apiUri+'/f9/campaigns';
-    } 
+    }
     mockState = {
         go: function(state, params){
           this.state = state;
@@ -26,7 +26,7 @@ describe('Component: al.campaigns.edit.inbound', function () {
       $state: mockState
     });
 
-             
+
     httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
 
   }));
@@ -35,7 +35,7 @@ describe('Component: al.campaigns.edit.inbound', function () {
   });
 
     describe('#getCampaign', () => {
-        it('=> should return data of campaign', () => {            
+        it('=> should return data of campaign', () => {
              httpBackend.whenGET(endPointUrl+'/inbound/BlueRubyDemo').respond(200,{
                                 return: {
                                     'description': '',
@@ -44,8 +44,8 @@ describe('Component: al.campaigns.edit.inbound', function () {
                                     'state': 'RUNNING',
                                     'trainingMode': true,
                                     'type': 'INBOUND',
-                                    'autoRecord': true,                             
-                                    'noOutOfNumbersAlert': true                                              
+                                    'autoRecord': true,
+                                    'noOutOfNumbersAlert': true
                                 }
                         });
 
@@ -60,28 +60,27 @@ describe('Component: al.campaigns.edit.inbound', function () {
              });
 
              httpBackend.flush();
-        });   
-    });  
-    
-    
-    
+        });
+    });
+
+
+
   describe('#getIVRScripts', () => {
     it('=> should return array of ivrscripts', () => {
-      console.log ('The endPointUrl IS '+endPointUrl);
       httpBackend.whenGET(endPointUrl+'/ivrscripts').respond({
         return: [
           {
-            'description': 'Main Script',          
+            'description': 'Main Script',
             'name': 'Main Script',
             'xmlDefinition': '...'
           },
           {
-            'description': 'Option 2',          
+            'description': 'Option 2',
             'name': 'Main.MakeMoney',
             'xmlDefinition': '...'
           },
           {
-            'description': 'Option 1',          
+            'description': 'Option 1',
             'name': 'Main.WhoTo',
             'xmlDefinition': '...'
           }]
@@ -121,7 +120,7 @@ describe('Component: al.campaigns.edit.inbound', function () {
   });
 
   describe('#getAttachedDnis', () => {
-         it('=> should return attached dnis numbers', () => {            
+         it('=> should return attached dnis numbers', () => {
              httpBackend.whenGET(endPointUrl+'/attached/dnis/TestInboundCampaignAutobox').respond(200,{
                                 return: [
                                   '9253574077',
@@ -135,60 +134,60 @@ describe('Component: al.campaigns.edit.inbound', function () {
                       '9255298354','9255298355', '9255298356', '9255298361', '9255298362',
                       '9255298363', '9255298364', '9255298365', '9255298367', '9255298368'
                   ]
-             });                                         
+             });
 
              InboundComponent.getAttachedDnis('TestInboundCampaignAutobox')
             .then(response => {
                  expect(response.statusCode).to.equal(200);
-                 expect(response.data).to.not.equal(null); 
+                 expect(response.data).to.not.equal(null);
                  expect(response.errorMessage).to.equal(null);
-                 expect(InboundComponent.dnisAssigned).to.have.lengthOf(3);  
-                 
+                 expect(InboundComponent.dnisAssigned).to.have.lengthOf(3);
+
              });
 
              httpBackend.flush();
-        });   
+        });
   });
-  
+
     describe('#getDnis', () => {
-         it('=> should return array of dnis numbers', () => {            
+         it('=> should return array of dnis numbers', () => {
              httpBackend.whenGET(endPointUrl+'/dnis').respond(200,{
                                 return: [
                                  '9253574016', '9253574078', '9252935008', '9252935009',  '9253574236',
-                                '9255298354','9255298355', '9255298356', '9255298361', '9255298362'                         
+                                '9255298354','9255298355', '9255298356', '9255298361', '9255298362'
                                 ]
-                        });                                      
+                        });
 
             InboundComponent.getDnis()
             .then(response => {
                  expect(response.statusCode).to.equal(200);
-                 expect(response.data).to.not.equal(null); 
+                 expect(response.data).to.not.equal(null);
                  expect(response.errorMessage).to.equal(null);
-                 expect(InboundComponent.dnisAvailable).to.have.lengthOf(10);  
-                 
+                 expect(InboundComponent.dnisAvailable).to.have.lengthOf(10);
+
              });
 
              httpBackend.flush();
-        });   
+        });
   });
-  
+
 
 
 
   describe('#update', () => {
 
         it('=> update status 200', () => {
-           
+
             InboundComponent.campaign = {
               autoRecord:true,
               description:'campaign test',
-              ivrscript:{                
+              ivrscript:{
                   name: 'Main.Oracle'
               },
               maxNumOfLines:23,
               name:'Test'
             };
-            
+
              httpBackend.whenPUT(endPointUrl+'/inbound/Test', InboundComponent.campaign)
             .respond(200,null);
 
@@ -203,19 +202,19 @@ describe('Component: al.campaigns.edit.inbound', function () {
 
              httpBackend.flush();
         });
-       
+
         it('=> update return error', () => {
-          
+
              InboundComponent.campaign = {
               autoRecord:true,
               description:'campaign test',
-              ivrscript:{                
+              ivrscript:{
                   name: 'Main.Oracle'
               },
               maxNumOfLines:23,
               name:'Test'
             };
-            
+
              httpBackend.whenPUT(endPointUrl+'/inbound/Test', InboundComponent.campaign)
             .respond(500,{
                         from: 'Error from Campaign Controller EndPoint',
@@ -234,63 +233,63 @@ describe('Component: al.campaigns.edit.inbound', function () {
              });
 
              httpBackend.flush();
-        });        
-    });  
-    
-    
+        });
+    });
+
+
     describe('#removeDni', () => {
-        it('=> should return status 200, removed dni OK', () => {  
-           
+        it('=> should return status 200, removed dni OK', () => {
+
             InboundComponent.campaign={
                 name:'SomeCampaignName'
             };
             InboundComponent.dnisAssigned=[55554444,55235555,222222];
-           
+
             expect(InboundComponent.dnisAssigned).to.include(55554444);
             expect(InboundComponent.dnisAvailable).to.not.include(55554444);
-            
-            httpBackend.whenDELETE(endPointUrl+'/dnis/SomeCampaignName').respond(200,'');             
-          
+
+            httpBackend.whenDELETE(endPointUrl+'/dnis/SomeCampaignName').respond(200,'');
+
              InboundComponent.removeDni(55554444)
             .then(response => {
                  expect(response.statusCode).to.equal(200);
-                 expect(response.data).to.equal(null); 
-                 expect(response.errorMessage).to.equal(null);        
+                 expect(response.data).to.equal(null);
+                 expect(response.errorMessage).to.equal(null);
                  expect(InboundComponent.dnisAssigned).to.not.include(55554444);
-                 expect(InboundComponent.dnisAvailable).to.include(55554444);           
+                 expect(InboundComponent.dnisAvailable).to.include(55554444);
              });
              httpBackend.flush();
         });
     });
-    
+
     describe('#addDnis', () => {
-       it('=> should return status 200, added dni OK', () => {  
-           
+       it('=> should return status 200, added dni OK', () => {
+
             InboundComponent.campaign={
                 name:'SomeCampaignName'
             };
-           
+
             InboundComponent.dnisAvailable=[55554444,43434343,222222];
-            
-           
+
+
             expect(InboundComponent.dnisAvailable).to.include(43434343);
             expect(InboundComponent.dnisAssigned).to.not.include(43434343);
-            
 
-            httpBackend.whenPOST(endPointUrl+'/dnis').respond(200,'');             
-          
+
+            httpBackend.whenPOST(endPointUrl+'/dnis').respond(200,'');
+
              InboundComponent.addDnis(43434343)
             .then(response => {
                  expect(response.statusCode).to.equal(200);
-                 expect(response.data).to.equal(null); 
-                 expect(response.errorMessage).to.equal(null);     
+                 expect(response.data).to.equal(null);
+                 expect(response.errorMessage).to.equal(null);
                  expect(InboundComponent.dnisAvailable).to.not.include(43434343);
-                 expect(InboundComponent.dnisAssigned).to.include(43434343);      
-                 
+                 expect(InboundComponent.dnisAssigned).to.include(43434343);
+
              });
 
              httpBackend.flush();
-        }); 
-    });   
+        });
+    });
 
 });

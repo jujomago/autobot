@@ -5,10 +5,8 @@ exports.getCache = function (key) {
         resolve(null);
         /*client[settings.soapMethod](settings.soapParams, (err, result) => {
             if (err !== null) {
-                console.log(settings.soapMethod + ' with error');
                 reject(result)
             } else {
-                console.log(settings.soapMethod + ' without error');
                 resolve(result);
             }
         });*/
