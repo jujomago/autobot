@@ -12,7 +12,7 @@
 				<div class="inputminimal" ng-class="{ 'has-error': formList[form.name].$invalid && formList.$submitted }">
 					<label for="{{form.name}}">{{form.name | removeUnderscore}}<span ng-if="form.isKey"> (key)</span></label>					
 					<span>
-						<input type="text" name="{{form.name}}" ng-model="$ctrl.contact[form.name]" abx-field-validator="form.restrictions" strategy="{{form.type}}" ng-if="form.type==='STRING' || form.type==='EMAIL' || form.type==='URL'"/>
+						<input type="text" name="{{form.name}}" ng-model="$ctrl.contact[form.name]" abx-field-validator="form.restrictions" strategy="{{form.type}}" ng-trim="false" ng-if="form.type==='STRING' || form.type==='EMAIL' || form.type==='URL'"/>
 						<input type="text" name="{{form.name}}" ng-model="$ctrl.contact[form.name]" abx-field-validator="form.restrictions" strategy="{{form.type}}" ng-if="form.type==='PHONE'"/>
 						<div abx-date-picker name="{{form.name}}" validator="form.restrictions" strategy="{{form.type}}" ng-if="form.type==='DATE'" ng-model="$ctrl.contact[form.name]" date-format="{{form.dateFormat}}"></div>
 						<abx-time-picker ng-if="form.type==='TIME'" ng-model="$ctrl.contact[form.name]" time-format="{{form.timeFormat}}"></abx-time-picker>
