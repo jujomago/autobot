@@ -43,9 +43,6 @@ class ListComponent {
       _ContactFieldsService = ContactFieldsService;
       _ = lodash;
 
-      console.log('=========RECEIVED PARAMS =============');
-      console.log(_$stateParams.settings);
-
       if(_$stateParams.settings.listDeleteSettings){
         this.action='deleteList';
       }
@@ -61,16 +58,14 @@ class ListComponent {
           if(this.typeUpdate){
            this.importData.fields = _$stateParams.settings.resultMapping.headerFields;
           }else{
-            let headerFields=_$stateParams.settings.resultMapping.headerFields;            
+            let headerFields=_$stateParams.settings.resultMapping.headerFields;
             this.importData.fields =  _.filter(headerFields, { 'isKey': true });
           }
-          
+
           this.importData.keys = _$stateParams.settings.resultMapping.keys;
           this.importData.rows = _$stateParams.settings.resultMapping.rows;
           this.list = this.importData.rows;
           this.loaded = true;
-          console.log('importData in step3');
-          console.log(this.importData);
         }else{
           this.manual = true;
           if(this.typeUpdate){
@@ -78,11 +73,11 @@ class ListComponent {
           }else{
             this.contactFields =_.filter(_$stateParams.settings.fields, { 'isKey': true });
           }
-   
+
           this.initArrays();
         }
 
-   
+
 
 
       }else{
@@ -94,7 +89,6 @@ class ListComponent {
 
   sortColumn(columnName) {
       if (columnName !== undefined && columnName) {
-          console.log('sorting:' + columnName);
           this.sortKey = columnName;
           this.list = _$filter('orderBy')(this.list, this.sortKey, this.reverse);
           this.reverse = !this.reverse;
@@ -150,9 +144,6 @@ class ListComponent {
       this.selected = contact;
       this.selectedOld = contact;
     }
-
-    console.log(this.selected);
-    console.log(this.selectedArray);
   }
 
   insertContact(){
@@ -201,8 +192,6 @@ class ListComponent {
 
     this.modalInstance.result
         .then(result => {
-            console.log('resulado modal');
-            console.log(result);
             if(typeof result !== 'undefined' && Object.keys(result).length > 0){
               if(this.method === 'create'){
                 if(this.manual){
@@ -223,7 +212,6 @@ class ListComponent {
             this.selectedArray = [];
             this.contact = {};
         }, ()=>{
-          console.log('Modal dismissed at: ' + new Date());
           this.selected = '';
           this.selectedOld = '';
           this.selectedArray = [];
@@ -243,7 +231,7 @@ class ListComponent {
         items.push(_.values(e));
     });
     _.each(items,it=>{
-       this.sendContact.importData.values.push({item:it});     
+       this.sendContact.importData.values.push({item:it});
     });
 
 
@@ -257,17 +245,16 @@ class ListComponent {
       }else{
         this.sendContact.listUpdateSettings.fieldsMapping = _$stateParams.settings.fieldsMapping;
       }
-      console.log(this.sendContact);
       this.sending= true;
       return _ListService.addContacts(this.sendContact)
-      .then(response=>{  
+      .then(response=>{
         if(response.data.return.identifier){
           this.sending= false;
           _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: true});
         }
         return response;
       })
-      .catch(error =>{    
+      .catch(error =>{
         this.SubmitText='Save';
         this.message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
         return error;
@@ -282,17 +269,16 @@ class ListComponent {
       }else{
         this.sendContact.listDeleteSettings.fieldsMapping = _$stateParams.settings.fieldsMapping;
       }
-      console.log(this.sendContact);
       this.sending= true;
       return _ListService.deleteContacts(this.sendContact)
-      .then(response=>{  
+      .then(response=>{
         if(response.data.return.identifier){
           this.sending= false;
           _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: false});
         }
         return response;
       })
-      .catch(error =>{    
+      .catch(error =>{
         this.SubmitText='Save';
         this.message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
         return error;
@@ -308,7 +294,6 @@ class ListComponent {
       let cont = 1;
       let key = false;
       let listManual = {};
-      console.log('initialized arrays');
       if (this.contactFields) {
         this.loadingContacts = false;
         _.map(this.contactFields, value=>{
@@ -342,9 +327,7 @@ class ListComponent {
   }
 
   pageChanged() {
-    console.log('Page changed to: ' + this.currentPage);
     this.beginNext = (this.currentPage - 1) * this.numPerPage;
-    console.log('beginNext:' + this.beginNext);
   }
 }
 ListComponent.$inject = ['$state', '$stateParams', '$filter', '$uibModal', 'ListsService', 'ConfirmAsync', 'ContactFieldsService', 'lodash'];

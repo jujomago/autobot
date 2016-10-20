@@ -3,8 +3,6 @@
     let _$state,_SkillsService;
     class CreateController {
         constructor($state, SkillsService) {
-
-            console.log('Component CreateController - al.skills.create');
             this.newSkill = {};
             _$state = $state;
             _SkillsService = SkillsService;

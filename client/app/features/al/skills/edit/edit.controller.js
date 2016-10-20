@@ -5,9 +5,6 @@
 
     class EditComponent {
         constructor($stateParams, $state, SkillsService, UsersService) {
-
-            console.log('Component EditComponent - al.skills.edit');
-
             _$state = $state;
             _SkillsService = SkillsService;
             _UsersService = UsersService;
@@ -33,8 +30,6 @@
         showSkill() {
             this.found = false;
             var nameSkill = this.nameSkill;
-            console.log('---------------');
-
             _SkillsService.getSkill(nameSkill)
                 .then(_skillInfo => {
                     this.found = true;
@@ -48,8 +43,6 @@
         }
         save() {
             this.SubmitText = 'Saving...';
-            console.log('before saving');
-            console.log(this.selectedSkill);
             _SkillsService.updateSkill(this.selectedSkill)
                 .then(() => {
                     var messageObj = {
@@ -81,7 +74,6 @@
 
             return _UsersService.addSkilltoUser(userSkillObj)
                 .then(response => {
-                   // console.log('response');
                     // response when creating new stuff, RETURNS NOTHING
                     if (response.statusCode === 201 && response.data === null) {
 
@@ -116,7 +108,6 @@
                 .then(response => {
 
                     if (response.statusCode === 204 && response.data === null ){
-                        console.log('deleted OK');
 
                         this.showPanelInfo=false;
 
@@ -143,7 +134,6 @@
             this.toggleUsernameLink = i;
             return _UsersService.getUser(username)
                 .then(_userInfo => {
-                  ///  console.log(_userInfo);
                     this.DetailUser = _userInfo;
                     return this.DetailUser;
                 })
@@ -192,9 +182,7 @@
         }
 
         pageChanged() {
-            console.log('Page changed to: ' + this.currentPage);
             this.beginNext = (this.currentPage - 1) * this.numPerPage;
-            console.log('beginNext:' + this.beginNext);
         }
 
     }

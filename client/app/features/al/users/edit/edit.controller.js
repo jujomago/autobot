@@ -8,7 +8,6 @@
 
         constructor($stateParams, $state,  $sessionStorage , $q, $filter, UsersService, SkillsService, ConfirmAsync, ModalManager) {
 
-            //  console.log('Component EditComponent - al.users.edit');
             _stateParams = $stateParams;
             _UsersService = UsersService;
             _SkillsService = SkillsService;
@@ -53,11 +52,9 @@
             })
             .then(()=>{
                 for (var key in this.userInfo.roles) {
-                    console.log('enter');
                     var rolValue = this.userInfo.roles[key];
                     this.storage.rolesPermissions[key]=rolValue;
                 }
-                console.log(this.storage.rolesPermissions);
                 return this.getAllSkills();
             })
             .then((skills)=>{
@@ -89,7 +86,6 @@
         getAllPermissions(){
           return _UsersService.getPermissions()
             .then(response => {
-            console.log('loaded permissions');
                this.storage.rolesPermissions = response;
                return response;
             });
@@ -98,7 +94,6 @@
         getAllSkills(){
              return _SkillsService.getSkills()
                 .then(response => {
-                    console.log('loaded skills');
                     return response;
                 })
                 .catch(error => {
@@ -110,7 +105,6 @@
         getUserDetail(userName){
              return _UsersService.getUserDetail(userName)
                 .then(_users => {
-                    console.log('loaded user detail');
                     this.found = true;
                     this.userInfo = _users;
                     this.userInfo.generalInfo.password = '**********';
@@ -168,9 +162,7 @@
 
            if (this.userRoles.length === 0) {
                 this.showWarningRolMessage = true;
-                console.warn('You must select at least one rol');
                 let deferred = this.qp.defer();
-                console.log ('Deferred value -->'+deferred);
                 deferred.resolve(null);
                 return deferred.promise;
             }else{
@@ -196,12 +188,8 @@
                       rolesToRemove: _rolesToRemove
                 };
 
-                console.log(reqFormat);
-
                 return _UsersService.updateUser(reqFormat)
                 .then(response=>{
-                    console.log('userInfo update:');
-                    console.log(response.data);
                     let messageObj={show:true,type:'success',text:'User Updated'};
                     _state.go('ap.al.users', { message: messageObj });
                     return response;
@@ -261,7 +249,6 @@
       getUserDetailSkill(userName){
              return _UsersService.getUserDetail(userName)
                 .then(_users => {
-                    console.log('loaded user detail');
                     this.found = true;
                     this.userInfo.skills = _users.skills;
                     this.userSkills = _users.skills;
@@ -276,7 +263,6 @@
       addSkillToUser(skill){
         return _UsersService.addSkilltoUser(skill)
                 .then(response => {
-                   console.log(response);
                    let theMsg = 'Skill added';
                    this.message={ show: true, type: 'success', text: theMsg, expires: 3000};
                    return response;
@@ -301,7 +287,6 @@
                                 this.message = { show: true, type: 'success', text: 'Skill Deleted', expires:3000 };
 
                             }else{
-                                console.log(response.statusCode);
                                 this.toggleSkillRow = -1;
 
                                 this.message = { show: true, type: 'danger', text: response.errorMessage, expires:8000};
@@ -322,7 +307,6 @@
       updateSkillFromUser(skill){
         return _UsersService.updateSkillfromUser(skill)
                 .then(response => {
-                   console.log(response);
                    let theMsg = 'Skill updated';
                    this.message={ show: true, type: 'success', text: theMsg, expires: 3000};
                    return response;
@@ -342,9 +326,7 @@
       }
 
        pageChanged() {
-        console.log('Page changed to: ' + this.currentPage);
         this.beginNext = (this.currentPage - 1) * this.numPerPage;
-        console.log('beginNext:' + this.beginNext);
        }
 
         getMax(){
@@ -356,7 +338,6 @@
 
         sortColumn(columnName) {
           if (columnName !== undefined && columnName) {
-            console.log('sorting:' + columnName);
             this.sortKey = columnName;
             this.reverse = !this.reverse;
             this.orderList(this.filteredSkills);

@@ -30,13 +30,11 @@ class InboundComponent {
   getIVRScripts() {
     return _CampaignService.getIVRScripts()
         .then(response => {
-            console.log('response in client');
             if (response.statusCode === 200) {
                 this.ivrScripts=response.data;
                 for (var i = 0; i < this.ivrScripts.length; i++) {
                   var el = this.ivrScripts[i];
                   if( el.name===this.campaign.ivrscript){
-                    console.log(el.name);
                     this.campaign.ivrscript=el;
                     break;
                   }
@@ -53,14 +51,11 @@ class InboundComponent {
   getAttachedDnis(campaignName){
         return _CampaignService.getAttachedDnis(campaignName)
           .then(response => {
-              console.log('response ATTACHED DNIS in client');
-              console.log(response);
               if (response.statusCode === 200) {
                    if(response.data){
                       this.dnisAssigned=response.data;
                    }
                 //   this.listsAssigned=response.data.map(e=>e.listName);
-                 //  console.log(this.listsAssigned);
                    this.getDnis();
               }
               return response;
@@ -73,8 +68,6 @@ class InboundComponent {
    getDnis(){
          return _CampaignService.getDNIS()
           .then(response => {
-              console.log('response  DNIS in client');
-                console.log(response);
               if (response.statusCode === 200) {
                    this.dnisAvailable=response.data;
               }
@@ -89,8 +82,6 @@ class InboundComponent {
   getCampaign(type,name){
     return _CampaignService.getCampaign(type,name)
     .then(response=>{
-      console.log('response in client 1');
-      console.log(response.data);
       if(response.statusCode===200){
          this.campaign={
            name:response.data.name,
@@ -164,8 +155,6 @@ class InboundComponent {
 
     return _CampaignService.updateInBoundCampaign(this.campaign)
     .then(response=>{
-      console.log('response in client 1');
-      console.log(response);
       if(response.statusCode===200 && response.errorMessage===null){
          let messageObj={show:true,type:'success',text:'Campaign Updated Successfully'};
          _state.go('ap.al.campaigns', { message: messageObj });

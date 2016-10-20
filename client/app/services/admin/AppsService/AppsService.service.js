@@ -33,7 +33,6 @@
         			var j = 0;
         			for(let partnerName in this.apps)
         			{
-        				console.log(this.apps);
         				this.partners[j] = {apps: this.apps[partnerName], partner: partnerName};
         				j++;
         			}

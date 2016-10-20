@@ -22,7 +22,6 @@ class OutboundComponent {
 
   $onInit(){
     if(_stateParams.name!==null){
-      console.log(_stateParams);
       let campaignType= 'outbound';
       let campaignName=_stateParams.name;
       this.getCampaign(campaignType,campaignName);
@@ -80,7 +79,6 @@ class OutboundComponent {
    getLists(){
         return _CampaignService.getLists()
           .then(response => {
-              console.log('response in client');
               if (response.statusCode === 200) {
                   this.listsAvailable=response.data;
               }
@@ -95,13 +93,10 @@ class OutboundComponent {
    getAttachedLists(campaignName){
         return _CampaignService.getAttachedLists(campaignName)
           .then(response => {
-              console.log('response ATTACHED LISTS in client');
-                console.log(response);
               if (response.statusCode === 200) {
                   if(response.data){
                       this.listsAssigned=response.data.map(e=>e.listName);
                   }
-                  console.log(this.listsAssigned);
                    this.getLists();
                 }
               return response;

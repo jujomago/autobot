@@ -194,8 +194,6 @@ describe('Component:contactModalComponent', function () {
 
     modalInstance.result
     .then(result => {
-          console.log('theresult');
-           console.log(result);
          expect(result).to.equal( _ContactModalComponent.contact);
     });
     _ContactModalComponent.save();
@@ -216,13 +214,11 @@ describe('Component:contactModalComponent', function () {
 
     modalInstance.result
     .then(result => {
-          console.log('theresult');
-           console.log(result);
          expect(result).to.equal(null);
     });
     _ContactModalComponent.save();
   });
-  
+
   it('should return an empty contact form to create a new contact', function () {
    let modalInstance = _$uibModal.open({
                          controllerAs: '$ctrl',

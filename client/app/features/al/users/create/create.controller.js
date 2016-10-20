@@ -50,8 +50,6 @@
             });
         }
         $onInit() {
-            console.log('loading roles');
-
             return _UsersService.getPermissions()
                 .then(response => {
                     this.storage.rolesPermissions = response;
@@ -61,9 +59,6 @@
                     this.message = { show: true, type: 'danger', text: error.errorMessage };
                     return error;
                 });
-
-            //   console.log(this.newUser);
-
         }
         fillUsrPass(){
           let val = this.newUser.EMail;
@@ -75,7 +70,6 @@
           this.newUser.password = val;
         }
         checkStepOne(form) {
-            //    console.log(form);
             this.showWarningUserMessage = (!form.$valid) ? true : false;
 
         }
@@ -119,10 +113,7 @@
 
                 if (this.userRoles.length === 0) {
                     this.showWarningRolMessage = true;
-                    console.warn('You must select at least one rol');
-
                     let deferred = _$q.defer();
-                    console.log('Deferred value -->' + deferred);
                     deferred.resolve(null);
                     return deferred.promise;
 
@@ -172,9 +163,6 @@
 
                         })
                         .catch(error => {
-
-                            console.error('error in client');
-                            console.log(error);
 
                             this.SubmitText = 'Save';
                             this.message = { show: true, type: 'danger', text: error.errorMessage };
