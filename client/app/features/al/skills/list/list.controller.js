@@ -6,15 +6,14 @@
 
     class ListComponent {   
 
-        constructor($state, $stateParams, $filter, ConfirmAsync, SkillsService) {
+        constructor($state, $stateParams, $filter,ConfirmAsync, SkillsService,Global) {
 
             console.log('Component ListComponent - al.skills.list');
 
              _ConfirmAsync=ConfirmAsync;
              _SkillsService=SkillsService;
              _$state = $state;
-             _$filter = $filter;
-
+             _$filter = $filter;            
             this.message = { show: false };
 
             if ($stateParams.message !== null) {
@@ -26,12 +25,12 @@
             this.search={skill:{name:''}};
             this.filteredSkills=[];        
             this.totalMin = false;
-
+            this.global = Global;
         }
-
+        
         init() {
             this.skills = [];
-            this.currentPage = 1;
+            this.currentPage = 1;            
             this.sortKey = '';
             this.reverse = true;
             this.numPerPage = 10;
@@ -116,7 +115,7 @@
     }
 
 
-    ListComponent.$inject = ['$state', '$stateParams', '$filter', 'ConfirmAsync', 'SkillsService'];
+    ListComponent.$inject = ['$state', '$stateParams', '$filter', 'ConfirmAsync', 'SkillsService','Global'];
 
     angular.module('fakiyaMainApp')
         .component('al.skills.list', {

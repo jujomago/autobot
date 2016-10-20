@@ -55,7 +55,7 @@
 
 
         <uib-pagination ng-if="$ctrl.campaignProfiles.length" total-items="$ctrl.campaignProfiles.length" ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
-    " boundary-links="true " ng-change="$ctrl.pageChanged()">
+    " boundary-links="true " max-size="$ctrl.global.maxSize" rotate="false" ng-change="$ctrl.pageChanged()">
         </uib-pagination>
 
         <div class="pull-right results_per_page" ng-show="$ctrl.campaignProfiles.length"><span>Show</span>

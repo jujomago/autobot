@@ -43,6 +43,7 @@ describe('Component: al.campaigns.list', function () {
     sandbox.restore();
   });
 
+  
   describe('#getCampaigns', () => {
 
     it('should return list array of campaigns', function () {

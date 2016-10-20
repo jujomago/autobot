@@ -2,11 +2,10 @@
 
 (function () {
 
-  let _state, _stateParams, _timeout, _CampaignService, _ConfirmAsync;
-
+  let _state, _stateParams, _timeout, _CampaignService, _ConfirmAsync,_Global;  
 
   class ListComponent {
-    constructor($state, $stateParams, $timeout, $filter, ConfirmAsync, CampaignService) {
+    constructor($state, $stateParams, $timeout, $filter, ConfirmAsync, CampaignService,Global) {
       console.log('contrusctor Campaign ListComponent');
 
       this.campaigns = [];
@@ -20,26 +19,27 @@
       this.toggleStatusRow=-1;
       this.message = { show: false }; 
       this.typeCampaignFilter = '';   
-     
+      this.global = Global;
       this.search={name:''};
       this.filteredCampaigns=[];
       this.filter = $filter;
       this.totalMin = false;
 
-
+      _Global = Global;
       _state = $state;
       _stateParams = $stateParams;
       _timeout = $timeout;
       _CampaignService = CampaignService;
       _ConfirmAsync = ConfirmAsync;
-
+     
 
       if (_stateParams.message !== null) {
         console.log('stateParams');
         console.log(_stateParams);
          this.message={ show: true, type: _stateParams.message.type, text: _stateParams.message.text, expires:3000};
-      }
+      }          
     }
+    
     $onInit() {
       this.getCampaigns();
     }
@@ -214,7 +214,7 @@
 
 
   }
-  ListComponent.$inject = ['$state', '$stateParams', '$timeout', '$filter', 'ConfirmAsync', 'CampaignService'];
+  ListComponent.$inject = ['$state', '$stateParams', '$timeout', '$filter', 'ConfirmAsync', 'CampaignService','Global'];
   angular.module('fakiyaMainApp')
     .component('al.campaigns.list', {
       templateUrl: 'app/features/al/campaigns/list/list.html',

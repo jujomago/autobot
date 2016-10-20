@@ -1,14 +1,13 @@
 'use strict';
 (function () {
 
-     let _$state,_SkillsService,_UsersService;
-
+     let _$state,_SkillsService,_UsersService;     
     class EditComponent {
-        constructor($stateParams, $state, SkillsService, UsersService) {
+        constructor($stateParams, $state, SkillsService, UsersService,Global) {
 
             console.log('Component EditComponent - al.skills.edit');
 
-            _$state = $state;
+            _$state = $state;            
             _SkillsService = SkillsService;
             _UsersService = UsersService;
             this.selectedSkill = {};
@@ -18,16 +17,16 @@
             this.UsersNamesSkills = [];
             this.filteredUsers = [];
             this.numPerPage = 10;
+            this.global = Global;
             this.beginNext = 0;
             this.currentPage = 1;
-
             this.toggleUsernameLink = -1;
             this.toggleUserItem = { item: -1 };
             this.toggleUserNameItem = -1;
 
             this.showPanelInfo = false;  
             this.message={show:false};             
-            this.SubmitText = 'Save';
+            this.SubmitText = 'Save';            
         }
 
         showSkill() {
@@ -199,7 +198,7 @@
 
     }
 
-    EditComponent.$inject = ['$stateParams', '$state', 'SkillsService', 'UsersService'];
+    EditComponent.$inject = ['$stateParams', '$state', 'SkillsService', 'UsersService','Global'];
     angular.module('fakiyaMainApp')
         .component('al.skills.edit', {
             templateUrl: 'app/features/al/skills/edit/edit.html',

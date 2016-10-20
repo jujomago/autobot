@@ -98,7 +98,7 @@
 
         <uib-pagination ng-show="$ctrl.filteredUsers.length"  total-items="$ctrl.filteredUsers.length " ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
         " boundary-links="true "
-        ng-change="$ctrl.pageChanged()" >
+        ng-change="$ctrl.pageChanged()" max-size="$ctrl.global.maxSize" rotate="false">
         </uib-pagination>
 
         <div class="pull-right results_per_page" ng-show="$ctrl.filteredUsers.length"><span>Show</span>

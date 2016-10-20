@@ -37,7 +37,6 @@ describe('Component: al.skills.edit', function () {
         httpBackend.verifyNoOutstandingRequest();
     });
 
-
     describe('#showUserInfo', () => {
         it('=> should return a valid user', function () {
             httpBackend.whenGET(endPointUrl + '/enrique').respond({

@@ -60,7 +60,8 @@
         <label class="pull-left" ng-show="$ctrl.filteredSkills.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.totalMin ? $ctrl.totalItems : $ctrl.getMax()}} of {{$ctrl.filteredSkills.length}}</label>
 
 
-        <uib-pagination ng-show="$ctrl.filteredSkills.length" total-items="$ctrl.filteredSkills.length" ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage" boundary-links="true " ng-change="$ctrl.pageChanged()">
+        <uib-pagination ng-show="$ctrl.filteredSkills.length" total-items="$ctrl.filteredSkills.length" ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage" boundary-links="true " ng-change="$ctrl.pageChanged()"
+        max-size="$ctrl.global.maxSize" rotate="false">
         </uib-pagination>
 
         <div class="pull-right results_per_page" ng-show="$ctrl.filteredSkills.length"><span>Show</span>

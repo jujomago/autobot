@@ -1,7 +1,7 @@
 'use strict';
 (function(){
-	let _$stateParams, _$state, _$filter;
-	let _CampaignProfilesService, _ConfirmAsync;
+	let _$stateParams, _$state, _$filter,_$scope;
+	let _CampaignProfilesService, _ConfirmAsync,_Global;
 	function _replaceUndefined(campaignProfile){
         if(!campaignProfile.description){
             campaignProfile.description = '';
@@ -9,7 +9,7 @@
         return campaignProfile;
     }
 	class ListComponent {
-		constructor($stateParams, $state, $filter, CampaignProfilesService, ConfirmAsync) {
+		constructor($stateParams, $state, $filter,$scope, CampaignProfilesService, ConfirmAsync,Global) {
 		    this.campaignProfiles = [];
 		    _$stateParams = $stateParams;
 		    this.message = { show: false }; 
@@ -18,18 +18,22 @@
 		    }
 		    _CampaignProfilesService = CampaignProfilesService;
 		    _$filter = $filter;
+			_$scope = $scope;
+			_Global=Global;
 		    this.currentPage = 1;
 		    this.sortKey = '';
 		    this.reverse = true;
 		    this.numPerPage = 10;
+			this.global = Global;
 		    this.beginNext = 0;
 		    this.quantities = [5, 10, 15, 20];
 		    this.deletedRow = null;
 		    this.search={name:''};
 		    this.originalCampaignProfiles=[];
 		    _$state = $state;
-		    _ConfirmAsync = ConfirmAsync;
+		    _ConfirmAsync = ConfirmAsync;			
 		}
+		
 		$onInit() {
 			this.getCampaignProfiles();
 		}
@@ -105,7 +109,7 @@
 			    });
 		}
 	}
-	ListComponent.$inject = ['$stateParams', '$state', '$filter', 'CampaignProfilesService', 'ConfirmAsync'];
+	ListComponent.$inject = ['$stateParams', '$state', '$filter', '$scope','CampaignProfilesService', 'ConfirmAsync','Global'];
 	angular.module('fakiyaMainApp')
 	  .component('al.campaignProfiles.list', {
 	    templateUrl: 'app/features/al/campaignProfiles/list/list.html',

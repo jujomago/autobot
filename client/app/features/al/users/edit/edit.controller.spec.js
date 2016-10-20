@@ -38,7 +38,6 @@ describe('Component: al.users.edit', function () {
     sandbox.restore();
   });
 
-
    describe('#Check contructor Vars', () => {
 
         it('Check initialization of variables', () => {

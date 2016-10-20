@@ -36,4 +36,16 @@ angular.module('fakiyaMainApp', [
         return 'You have updating processes in progress';
       }
     };
+    Global.maxSize=7;
+    angular.element($window).on('resize', function () {				
+				let widthWindow = $window.innerWidth;				       
+				if(widthWindow<=768)
+				{
+					Global.maxSize=3;                  
+				}
+				else
+				{
+					Global.maxSize=7;           
+				}
+			});      
   });

@@ -6,9 +6,11 @@
             disposition.description='';
         }
         return disposition;
-    }
+    }    
+    let _Global;
 	class ListComponent {
-		constructor($state, $stateParams, ConfirmAsync, DispositionsService) {
+		constructor($state, $stateParams, ConfirmAsync, DispositionsService,Global) {
+            
 			this.message = { show: false };
 			if ($stateParams.message !== null) {
 				this.message = { show: true, type: $stateParams.message.type, text: $stateParams.message.text,expires: 3000 };
@@ -18,18 +20,21 @@
 			this.init();
 			this.toggleSkillRow = -1;
 			_ConfirmAsync=ConfirmAsync;
+            _Global = Global;
+            this.global = Global;
 			this.search={name:''};
-			this.filteredDispositions=[];
+			this.filteredDispositions=[];            
 		}
 		init() {
 			this.dispositions = [];
-			this.currentPage = 1;
+			this.currentPage = 1;            
 			this.sortKey = '';
 			this.reverse = true;
 			this.numPerPage = 10;
 			this.beginNext = 0;
 			this.quantities = [5, 10, 15, 20];
 		}
+        
 		$onInit() {
             this.getDispositions();
             this.sortColumn('name');
@@ -102,7 +107,7 @@
              return false;
         }
 	}
-	ListComponent.$inject = ['$state', '$stateParams',  'ConfirmAsync' ,'DispositionsService',];
+	ListComponent.$inject = ['$state', '$stateParams', 'ConfirmAsync' ,'DispositionsService','Global'];
 	angular.module('fakiyaMainApp')
 	  .component('al.dispositions.list', {
 	    templateUrl: 'app/features/al/dispositions/list/list.html',
