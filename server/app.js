@@ -25,11 +25,6 @@ function startServer() {
     console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
   });
 }
-
-/*sqldb.sequelize.sync()
-  .then(startServer)
-  .catch(function(err) {
-  });*/
 setImmediate(startServer);
 
 // Expose app
