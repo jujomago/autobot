@@ -2,9 +2,26 @@
 (function(){
 let _ConfirmAsync, _ListService, _, _ContactFieldsService;
 let _$state, _$stateParams, _$filter, _$uibModal;
-
-function _pad(num){
-  return (num < 10) ? '0'+num : num;
+function _getFormatMultiset(field, value){
+  switch(field.realType){
+    case 'CURRENCY':
+      if(value.length>0){
+        return field.currencyType+value.map(function(item){return item.value;}).join(';'+field.currencyType)
+      }
+      else{
+        return '';
+      }
+    break;
+    case 'PERCENT':
+      if(value.length>0){
+        return value.map(function(item){return item.value;}).join('%;')+'%';
+      }
+      else{
+        return '';
+      }
+    break;
+  }
+  return null;
 }
 function _getSets(field) {
     if(!field.restrictions){
@@ -42,65 +59,18 @@ function _extractFormats(field) {
     if(result !== null){
       field.timeFormat = result;
     }
-}
-function _formatDate(date, formatDate, formatTime){
-  let formatedDate = '';
-  let time = '';
-  let month = _pad(date.getMonth()+1);
-  let day = _pad(date.getDate());
-  let year = _pad(date.getFullYear());
-  let hours = _pad(date.getHours());
-  let minutes = _pad(date.getMinutes());
-  let seconds = _pad(date.getSeconds());
-
-  switch(formatTime){
-    case 'HH:mm:ss.SSS': time = hours + ':' + minutes + ':' + seconds;
-    break;
-    case 'HH:mm': time = hours + ':' + minutes;
-    break;
-    case 'hh:mm a': time = hours + ':' + minutes;
-    break;
-    case 'HH': time = hours;
-    break;
-    case 'hh a': time = hours;
-    break;
-    case 'H:mm': time = hours + ':' + minutes;
-    break;
-    case 'h:mm a': time = hours + ':' + minutes;
-    break;
-    default: time = hours + ':' + minutes + ':' + seconds;
-    break;
-  }
-
-  switch(formatDate){
-    case 'yyyy-MM-dd': formatedDate = year + '-' + month + '-' + day + ' ' + time;
-    break;
-    case 'MM/dd/yyyy': formatedDate = month + '/' + day + '/' + year + ' ' + time;
-    break;
-    case 'MM-dd-yyyy': formatedDate = month + '-' + day + '-' + year + ' ' + time;
-    break;
-    case 'MM-dd/yy': formatedDate = month + '-' + day + '/' + year + ' ' + time;
-    break;
-    case 'MMM dd': formatedDate = month + ' ' + day + ' ' + time;
-    break;
-    case 'yyyy': formatedDate = year + ' ' + time;
-    break;
-    case 'dd MMM': formatedDate = day + '-' + month + ' ' + time;
-    break;
-    case 'dd-MM': formatedDate = month + '-' + day + '-' + year + ' ' + time;
-    break;
-    case 'MM-dd': formatedDate = month + '-' + day + '-' + year + ' ' + time;
-    break;
-    default: formatedDate = month + '-' + day + '-' + year + ' ' + time;
-    break;
-  }
-
-  return formatedDate;
+    result=_formatExist(field, 'MinValue')
+    if(result !== null){
+      field.minValue = result;
+    }
+    result=_formatExist(field, 'MaxValue')
+    if(result !== null){
+      field.maxValue = result;
+    }
 }
 class ListComponent {
   constructor($state, $stateParams, $filter, $uibModal, ListsService, ConfirmAsync, ContactFieldsService, lodash) {
 
-      this.importData = {fields: [], keys: [], rows: []};
       this.currentPage = 1;
       this.sortKey = '';
       this.reverse = false;
@@ -117,7 +87,6 @@ class ListComponent {
       this.selectedArray = [];
       this.method = 'create';
       this.manual = false;
-      this.sendContact = {listName: '', importData: { values: []}};
       this.contactFields = [];
       this.fieldsMapping = [];
       this.loadingContacts = true;
@@ -126,8 +95,7 @@ class ListComponent {
       this.error = false;
       this.loaded = false;
       this.typeUpdate = false;
-      this.headerFields=[];
-      this.action='updateList';
+      _ = lodash;
       _$state = $state;
       _$stateParams = $stateParams;
       _$filter = $filter;
@@ -135,65 +103,34 @@ class ListComponent {
       _ListService = ListsService;
       _ConfirmAsync = ConfirmAsync;
       _ContactFieldsService = ContactFieldsService;
-      _ = lodash;
-
-      console.log('=========RECEIVED PARAMS =============');
-      console.log(_$stateParams.settings);
-
-      if(_$stateParams.settings.listDeleteSettings){
-        this.action='deleteList';
-      }
-      if(_$stateParams.settings){
-
-
-        this.sendContact.listName = _$stateParams.name;
-        this.typeUpdate = (_$stateParams.settings.listUpdateSettings) ? true : false;
-
-        if(_$stateParams.settings.resultMapping){
-          this.headerFields=_$stateParams.settings.resultMapping.headerFields;
-
-          if(this.typeUpdate){
-           this.importData.fields = _$stateParams.settings.resultMapping.headerFields;
-          }else{
-            let headerFields=_$stateParams.settings.resultMapping.headerFields;            
-            this.importData.fields =  _.filter(headerFields, { 'isKey': true });
-          }
-          
-          this.importData.keys = _$stateParams.settings.resultMapping.keys;
-          this.importData.rows = _$stateParams.settings.resultMapping.rows;
-          this.list = this.importData.rows;
-          this.loaded = true;
-          console.log('importData in step3');
-          console.log(this.importData);
-        }else{
-          this.manual = true;
-          if(this.typeUpdate){
-            this.contactFields = _$stateParams.settings.fields;
-          }else{
-            this.contactFields =_.filter(_$stateParams.settings.fields, { 'isKey': true });
-          }
-   
-          this.initArrays();
-        }
-
-   
-
-
-      }else{
-        let theMsg = 'Bad params';
-        this.error = true;
-        this.message={ show: true, type: 'warning', text: theMsg, expires: 3000};
-      }
+      this.listName = _$stateParams.name;
+      this.sendContact = {listName: this.listName, importData: {values: []} }
+      this.listUpdateSettings = {cleanListBeforeUpdate: false, crmAddMode: 'ADD_NEW', crmUpdateMode: 'DONT_UPDATE', listAddMode: 'ADD_FIRST'};
+      
+      
   }
   $onInit(){
     this.getContactFields();
+  }
+  generateMapping(){
+    this.listUpdateSettings.fieldsMapping =[];
+    for(let i=0; i<this.contactFields.length;i++){
+      let key=false;
+      if(this.contactFields[i].name==='number1'){
+        key=true;
+      }
+      this.listUpdateSettings.fieldsMapping.push({columnNumber: i+1, fieldName: this.contactFields[i].name, key: key})
+    }
   }
   getContactFields() {
     return _ContactFieldsService.getContactFields()
     .then(response => {
         this.contactFields = response.data.filter(e => (e.mapTo === 'None'));
+        console.log(this.contactFields);
         this.contactFields.map(_getSets);
         this.contactFields.map(_extractFormats);
+        this.generateMapping();
+        this.loaded = true;
         return response;
     })
     .catch(error => {
@@ -274,6 +211,7 @@ class ListComponent {
     if(item){
       this.contact = item;
     }
+    this.selectedIndex = this.list.indexOf(this.contact);
     this.method = 'update';
     this.openModal();
   }
@@ -313,30 +251,25 @@ class ListComponent {
             console.log('resulado modal');
             console.log(result);
             if(typeof result !== 'undefined' && Object.keys(result).length > 0){
-              if(this.method === 'create'){
-                if(this.manual){
-                  let listManualCopy = angular.copy(this.listManual);
-                  _.map(result, (value, key)=>{
-                    listManualCopy[key] = value;
-                  }, this);
-                  this.list.push(listManualCopy);
-                }else{
-                  this.list.push(result);
-                }
-              }else{
-                angular.merge(this.contact, result);
-              }
+                  if(this.method==='create'){
+                    this.list.push(result);
+                  }
+                  else{
+                    this.list[this.selectedIndex] = result;
+                  }
             }
             this.selected = '';
             this.selectedOld = '';
             this.selectedArray = [];
             this.contact = {};
+            this.selectedIndex = -1;
         }, ()=>{
           console.log('Modal dismissed at: ' + new Date());
           this.selected = '';
           this.selectedOld = '';
           this.selectedArray = [];
           this.contact = {};
+          this.selectedIndex = -1;
         });
   }
 
@@ -349,7 +282,6 @@ class ListComponent {
     let listDeleteSettings;
 
     let mainList = angular.copy(this.list);
-
     _.each(mainList,e=>{
         items.push(_.values(e));
     });
@@ -357,17 +289,7 @@ class ListComponent {
        this.sendContact.importData.values.push({item:it});     
     });
 
-
-
-    if(_$stateParams.settings.listUpdateSettings){
-      //UPDATE
-      listUpdateSettings = _$stateParams.settings.listUpdateSettings;
-      this.sendContact.listUpdateSettings = listUpdateSettings;
-      if(this.manual){
-        this.sendContact.listUpdateSettings.fieldsMapping = this.fieldsMapping;
-      }else{
-        this.sendContact.listUpdateSettings.fieldsMapping = _$stateParams.settings.fieldsMapping;
-      }
+      this.sendContact.listUpdateSettings = this.listUpdateSettings;
       console.log(this.sendContact);
       this.sending= true;
       return _ListService.addContacts(this.sendContact)
@@ -384,59 +306,13 @@ class ListComponent {
         return error;
       });
 
-    }else{
-      //DELETE
-      listDeleteSettings = _$stateParams.settings.listDeleteSettings;
-      this.sendContact.listDeleteSettings = listDeleteSettings;
-      if(this.manual){
-        this.sendContact.listDeleteSettings.fieldsMapping = this.fieldsMapping;
-      }else{
-        this.sendContact.listDeleteSettings.fieldsMapping = _$stateParams.settings.fieldsMapping;
-      }
-      console.log(this.sendContact);
-      this.sending= true;
-      return _ListService.deleteContacts(this.sendContact)
-      .then(response=>{  
-        if(response.data.return.identifier){
-          this.sending= false;
-          _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: false});
-        }
-        return response;
-      })
-      .catch(error =>{    
-        this.SubmitText='Save';
-        this.message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
-        return error;
-      });
-    }
+    
   }
 
   cancelList(){
       _$state.go('ap.al.lists');
   }
 
-  initArrays() {
-      let cont = 1;
-      let key = false;
-      let listManual = {};
-      console.log('initialized arrays');
-      if (this.contactFields) {
-        this.loadingContacts = false;
-        _.map(this.contactFields, value=>{
-          if(value.name === 'number1'){
-            key = true;
-          }else{
-            key = false;
-          }
-          listManual[value.name] = '';
-          this.fieldsMapping.push({columnNumber: cont, fieldName: value.name, key: key});
-          cont++;
-        });
-        this.importData.fields = this.contactFields;
-        this.listManual = listManual;
-        this.loaded = true;
-      }
-  }
 
   filteringBySearch(){
     this.selected = '';
@@ -456,6 +332,27 @@ class ListComponent {
     console.log('Page changed to: ' + this.currentPage);
     this.beginNext = (this.currentPage - 1) * this.numPerPage;
     console.log('beginNext:' + this.beginNext);
+  }
+  formatField(field, value){
+    if(value){
+      if(field.type ==='MULTISET'){
+        return _getFormatMultiset(field, value) 
+      }
+      let type=field.type;
+      if(type ==='SET'){
+        type = field.realType;
+        value = value.value;
+      }
+      switch(type){
+        case 'CURRENCY':
+          return field.currencyType+value;
+        case 'PERCENT':
+          return value+'%';
+        case 'DATE':
+          return _$filter('date')(value, field.dateFormat)+' PST';
+      }
+    }
+    return value;
   }
 }
 ListComponent.$inject = ['$state', '$stateParams', '$filter', '$uibModal', 'ListsService', 'ConfirmAsync', 'ContactFieldsService', 'lodash'];

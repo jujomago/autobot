@@ -18,7 +18,8 @@ angular.module('fakiyaMainApp')
         let validator = FieldValidator.getMethods();
         
         let restrictions = $parse(attrs.abxFieldValidator)(scope);
-        ctrl.$parsers.push(function(value) {
+        let model = $parse(attrs.ngModel)(scope);
+        let validateField = function(value){
           let validateType = validator.validateType(value);
           if(!validateType){
             ctrl.$setValidity('abxtype', false);
@@ -28,23 +29,25 @@ angular.module('fakiyaMainApp')
           }
 
           if(restrictions && restrictions.length>0 && validateType){
-          	for(let i=0;i<restrictions.length;i++){
-          		let restriction = restrictions[i];
-          		let validate = validator[restriction.type];
+            for(let i=0;i<restrictions.length;i++){
+              let restriction = restrictions[i];
+              let validate = validator[restriction.type];
               
-          		if(validate){
+              if(validate){
 
-          			if(!validate(restriction.value, value)){
-          				ctrl.$setValidity('abx'+restriction.type.toLowerCase(), false);
-          			}
-          			else{
-          				ctrl.$setValidity('abx'+restriction.type.toLowerCase(), true);	
-          			}
-          		}
-          	}
+                if(!validate(restriction.value, value)){
+                  ctrl.$setValidity('abx'+restriction.type.toLowerCase(), false);
+                }
+                else{
+                  ctrl.$setValidity('abx'+restriction.type.toLowerCase(), true);  
+                }
+              }
+            }
           }
           return value;
-        });	
+        }
+        ctrl.$parsers.push(validateField);
+        validateField(model);	
       }
     };
   });

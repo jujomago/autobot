@@ -1,43 +1,6 @@
 'use strict';
 (function(){
-  function _parseDate(d, t){
-    let time = {h:'', m:'', s:''};
-    let date = {d:'', m:'', y:''};
-    let dateTime = new Date();
-    date.d = d.getDate();
-    date.m = d.getMonth();
-    date.y = d.getFullYear();
 
-    if(!d && !t){
-      return dateTime;
-    }
-
-    if(t){
-      time.h = t.getHours();
-      time.m = t.getMinutes();
-      time.s = t.getSeconds();
-      dateTime = new Date(date.y, date.m, date.d, time.h, time.m, time.s);
-    }else{
-      dateTime = new Date(date.y, date.m, date.d, '00', '00', '00');
-    }
-    return dateTime;
-  }
-
-  function _getTime(dates, contact){
-    let hours;
-    let minutes;
-    let seconds;
-    dates.map((value, key)=>{
-      if(contact[value.name] !== '' && contact[value.name] !== null){
-        hours = contact[value.name].getHours();
-        minutes = contact[value.name].getMinutes();
-        seconds = contact[value.name].getSeconds();
-        dates[key].date = contact[value.name];
-        dates[key].time = new Date(new Date(1970, 0, 1, hours, minutes, seconds));
-      }
-    });
-    return dates;
-  }
 class ContactModalComponent {
   constructor() {
   	   this.message = { show: false };
@@ -47,128 +10,63 @@ class ContactModalComponent {
   $onInit(){
 
   	this.instance = this.edit.modalInstance;
-
-    this.numbers = [];
-    this.opened = [];
-    this.dates = [];
-
-    this.manual = this.edit.manual;
     this.contactFields = this.edit.contactFields;
-    console.log(this.contactFields);
-    this.fields = this.edit.headerFields;
-    this.headerFields = this.edit.headerFields;
     this.method = this.edit.method;
     this.phoneRequired = (this.manual && this.method === 'create') ? true : false;
-    console.log(`phoneRequired ${this.phoneRequired}`);
-    //this.phoneRequired=false;
-
     this.contactModal = {};
-    this.edit.headerFields.forEach(e=>{
+    this.contactFields.forEach(e=>{
       this.contactModal[e.name]='';
     });
-
-    console.log('on Init');
-    console.log(this.fields);
-    if(this.edit.action==='deleteList'){
-      this.fields=this.fields.filter(e=>e.isKey);
-    }
-
-
     if(this.method === 'update'){
         this.contactModal = angular.copy(this.edit.contact);
     }
-    
-    this.formDataModal = this.getValidation(this.fields);
-
-    if(Object.keys(this.contactModal).length > 0){
-    	if(this.dates.lentgh>0){
-    		this.dates = _getTime(this.dates, this.contactModal);
-    	}
-    }
-
     this.contact = this.contactModal;
-
-    this.dateOptions = {
-      formatYear: 'yy',
-      startingDay: 1,
-      showWeeks: false
-    };
-    this.multiset=[];
+    console.log(this.edit.contactFields);
   }
-  getValidation(fields){
-    let validation = [];
-    let typeInput;
-    let atLeastRequireOnePhone=false;
 
-    if(fields.map(val=>val.name).indexOf('number1')>=0){
-      atLeastRequireOnePhone=true;
-    }
-
-    fields.map((value, key)=>{
-
-      switch(value.type){
-        case 'PHONE': typeInput = 'tel';
-          break;
-        case 'STRING': typeInput = 'text';
-          break;
-        case 'EMAIL': typeInput = 'email';
-          break;
-        case 'DATE_TIME': typeInput = 'date-text';
-          break;
-        case 'CURRENCY': typeInput = 'number';
-          break;
-        default:
-          typeInput = 'text';
-          break;
-      }
-
-    //  let required = (value.isKey) ? value.isKey: false;
-
-      if(typeInput === 'date-text'){
-        this.dates[key] = {opened: false, name: value.name, time: '', date: ''};
-      }
-
-
-      if(typeInput === 'tel'){
-         if(atLeastRequireOnePhone && this.method!=='update'){
-            this.phoneRequired=true;
-        }
-        validation.push({'name': value.name, 'type': typeInput});
-      }else{
-        validation.push({'name': value.name, 'type': typeInput, 'maxlength': 250}); 
-      }
-    });
-
-    return validation;
-  }
 
   save(){
-    console.log('save');
-    console.log(this.contact);
-    if(Object.keys(this.contact).length===0){
+    if(Object.keys(this.contact).filter(val => {return this.contact[val]!=='';}).length===0){
        this.message={ show: true, type: 'warning', text: 'Can\'t save empty Contact Record', expires: 3000};
-        this.instance.close(null);
-  }else{
-      if(this.dates.length>0){
-        this.dates.map((value)=>{
-        if(value.date !== '' && value.date !== null){
-          this.contact[value.name] = _parseDate(value.date, value.time);
-        }
-      });
-      }
-      console.log('object keys');
-      console.log(Object.keys(this.contact));
-      this.headerFields.forEach(e=>{
-         console.log(e.name);
-        if(Object.keys(this.contact).indexOf(e.name)===-1){
-          this.contact[e.name]='';
-        }
-      });
-
+    }
+    else if(this.contact.number1 === '' && this.contact.number2 === '' && this.contact.number3 === ''){
+       this.message={ show: true, type: 'warning', text: 'The Contact Record does not have any number', expires: 3000}; 
+    }
+    else{
       this.instance.close(this.contact);
     }
  }
-
+ getTypeMessage(field){
+  let type = 'field';
+  if(field.type==='PHONE'){
+    return 'Contact Field "'+field.name+'" has an invalid value. Number must either be 10 digits for dialing within North America, or begin with "011" for international number. International number length should be no more than 20 digits. Please correct it.'
+  }
+  else if(field.type === 'NUMBER' || field.type === 'PERCENT' || field.type === 'CURRENCY'){
+    type = 'number';
+  }
+  else if(field.type === 'EMAIL'){
+   type = 'email'; 
+  }
+  else if(field.type === 'URL'){
+    type = 'URL';
+  }
+  return 'Contact Field "'+field.name+'" has an invalid value. Invalid '+type+'. Please correct it.';
+ }
+ getMinMessage(field){
+  let type = 'field';
+  let chars ='';
+  if(field.type==='STRING' || field.type === 'EMAIL' || field.type === 'URL'){
+    type = 'String length';
+    chars = ' characters';
+  }
+  else if(field.type === 'NUMBER' || field.type === 'PERCENT' || field.type === 'CURRENCY'){
+    type = 'Number';
+  }
+  else if(field.type === 'DATE'){
+    type = 'Date';
+  }
+  return 'Contact Field "'+field.name+'" has an invalid value. '+type+' cannot be less than '+field.minValue+chars+'. Please correct it.';
+ }
   cancel(){
 	this.instance.dismiss('cancel');
   }

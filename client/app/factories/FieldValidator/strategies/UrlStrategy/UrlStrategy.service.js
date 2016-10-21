@@ -7,7 +7,7 @@ angular.module('fakiyaMainApp')
             return true;
         }
         let regex = new RegExp(/^(ftp|https?):\s*[^#\\\s]([^\\]*\s[^\\\s]|[^\\\s]*)$/g);     
-        console.log(regex.test);   
+        console.log(regex.test(value));   
         return regex.test(value);
     }
     let validateMinValue = function(min, value) {

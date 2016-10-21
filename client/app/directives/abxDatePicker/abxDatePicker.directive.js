@@ -5,6 +5,7 @@ angular.module('fakiyaMainApp')
     return {
       templateUrl: 'app/directives/abxDatePicker/abxDatePicker.html',
       restrict: 'A',
+      require: 'ngModel',
       scope: {
       	dateFormat: '@',
         name: '@',
@@ -13,6 +14,7 @@ angular.module('fakiyaMainApp')
         strategy: '@'
       },
       link: function (scope, element, attrs) {
+        
       	scope.openDatePicker = function(){
       		scope.opened = true;
       	}

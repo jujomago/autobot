@@ -17,17 +17,12 @@
 
             return _$http.get(this.endPointUrl)
                 .then(response => {
-                    console.log(response.data.return);
                     if (response.data) {
                         result.data = response.data.return;
                         return result;
                     }
                 })
-                .catch(error => {
-                    result.statusCode = error.status;
-                    result.errorMessage = error.data.body;
-                    return result;
-                });
+                .catch(err => _HandleError(err, result));
         }    
 
     }

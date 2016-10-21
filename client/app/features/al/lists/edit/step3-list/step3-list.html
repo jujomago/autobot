@@ -2,18 +2,12 @@
 
 <abx-message msg="$ctrl.message"></abx-message>
 
-<div class="mywell text-right" ng-if="$ctrl.error">
-    <a class="btn btn-black btn-fixed-80" ng-click="$ctrl.cancelList()">Cancel</a>
-</div>
 
-<abx-load-indicator ng-show="!$ctrl.manual && ($ctrl.list.length==0 && $ctrl.message.show)" text="Loading List"></abx-load-indicator>
-
-<abx-load-indicator ng-show="$ctrl.manual && $ctrl.loadingContacts" text="Loading List"></abx-load-indicator>
+<abx-load-indicator ng-show="!$ctrl.loaded" text="Loading List"></abx-load-indicator>
 
 <abx-load-indicator ng-show="$ctrl.sending" text="Sending"></abx-load-indicator>
 
 <div ng-show="!$ctrl.sending && $ctrl.loaded" class="edit-list margin-with-footer">
-
     <div class="pull-left">
         <div class="mywell list-title-mapp">
             <h3 ng-if="$ctrl.typeUpdate">List Update</h3>
@@ -43,19 +37,19 @@
     <div class="table-responsive table-x-scroll" ng-show="$ctrl.list.length>0">
         <table class="table table-striped contact-list" ng-show="$ctrl.filteredList.length">
             <thead>
-                <th ng-click="$ctrl.sortColumn(header.name)" ng-repeat="header in $ctrl.importData.fields" class="sortColumn">
+                <th ng-click="$ctrl.sortColumn(header.name)" ng-repeat="header in $ctrl.contactFields" class="sortColumn">
                     {{header.name | removeUnderscore}}
                     <span class="glyphicon" ng-show="$ctrl.getSort(header.name)" ng-class="{'glyphicon-chevron-up':$ctrl.reverse,'glyphicon-chevron-down':!$ctrl.reverse}"></span>
                 </th>
             </thead>
             <tbody>
                 <tr ng-repeat="(key, item) in ( $ctrl.filteredList=($ctrl.list | filter:$ctrl.search) |  limitTo:$ctrl.numPerPage:$ctrl.beginNext) track by $index" ng-click="$ctrl.selectedContact($index+$ctrl.beginNext, item)" ng-dblclick="$ctrl.editContact(item)">
-                    <td ng-repeat="header in $ctrl.importData.fields" ng-class="{'row-selected': $ctrl.selectedArray.indexOf(key+$ctrl.beginNext) != -1}">
+                    <td ng-repeat="header in $ctrl.contactFields" ng-class="{'row-selected': $ctrl.selectedArray.indexOf(key+$ctrl.beginNext) != -1}">
                         <label class="light-label" ng-if="header.type == 'DATE_TIME'">
                             {{item[header.name] | date:'MM-dd-yyyy HH:mm:ss'}}
                         </label>
                         <label class="light-label">
-                            {{item[header.name]}}
+                            {{$ctrl.formatField(header, item[header.name])}}
                         </label>
                     </td>
                 </tr>
