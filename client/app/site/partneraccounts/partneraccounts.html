@@ -19,10 +19,10 @@
 				{{$ctrl.partnerName}}<span> accounts</span>
 			</h3>
 			<p>You have no {{$ctrl.partnerName}} accounts registered yet.</p>
-			<p>Please create a <a href ng-click="$ctrl.goToSubscribeAccount()" class="text-center">new account</a> before using Admin Console</p>
+			<p>Please create a <a href ng-click="$ctrl.goToSubscribeAccount()" class="text-center">{{$ctrl.partnerName}} credentials</a> before using Admin Console</p>
 		</div>
 		<div class="text-center">
-			<a href ng-click="$ctrl.goToSubscribeAccount()" class="text-center">Add new account</a>
+			<a href ng-click="$ctrl.goToSubscribeAccount()" class="text-center">Add {{$ctrl.partnerName}} account</a>
 		</div>
 	</div>
 </div>
