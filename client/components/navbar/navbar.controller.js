@@ -6,7 +6,7 @@ let _appsService;
 let _$filter, _$parse, _$state;
 let _AlertMessage, _RefreshToken;
 let $ctrl;
-const MAX_NEW_APPS_AMOUNT = 5;
+//const MAX_NEW_APPS_AMOUNT = 5;
 class NavbarController {
 
   constructor($filter, $parse, $location, $state, lodash, AuthService, AppsService, Base64Manager, GetHomePage, AlertMessage, EventBus, RefreshToken) {

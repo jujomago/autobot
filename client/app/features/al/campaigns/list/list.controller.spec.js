@@ -129,7 +129,7 @@ describe('Component: al.campaigns.list', function () {
         .then(() => {
           expect(ListComponent.message.show).to.equal(true);
           expect(ListComponent.message.type).to.equal('success');
-          expect(ListComponent.message.text).to.equal('Campaign "somecampaign" Deleted');
+          expect(ListComponent.message.text).to.equal('Campaign Deleted Successfully');
         });
 
       expect(window.confirm.calledOnce).to.equal(true);
@@ -192,8 +192,8 @@ describe('Component: al.campaigns.list', function () {
           expect(response.statusCode).to.equal(200);
           expect(item.state).to.equal('NOT_RUNNING');
           expect(item.statusBtnText).to.equal('Start');
-          expect(ListComponent.toggleStatusRow).to.equal(-1);          
-          expect(ListComponent.message).to.eql({show:true,type:'success',text:'Stopped Succesfully',expires:2000});
+          expect(ListComponent.toggleStatusRow).to.equal(-1);
+          expect(ListComponent.message).to.eql({show:true,type:'success',text:'Stopped Successfully',expires:2000});
         });        
         httpBackend.flush();
         
@@ -212,7 +212,7 @@ describe('Component: al.campaigns.list', function () {
           expect(item.state).to.equal('RUNNING');
           expect(item.statusBtnText).to.equal('Stop');
           expect(ListComponent.toggleStatusRow).to.equal(-1);
-          expect(ListComponent.message).to.eql({ show: true, type: 'success', text: 'Started Succesfully', expires: 2000 });
+          expect(ListComponent.message).to.eql({ show: true, type: 'success', text: 'Started Successfully', expires: 2000 });
         });
       httpBackend.flush();
 
