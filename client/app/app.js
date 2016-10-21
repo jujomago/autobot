@@ -39,7 +39,7 @@ angular.module('fakiyaMainApp', [
     Global.maxSize=7;
     angular.element($window).on('resize', function () {				
 				let widthWindow = $window.innerWidth;				       
-				if(widthWindow<=768)
+				if(widthWindow<=835)
 				{
 					Global.maxSize=3;                  
 				}
