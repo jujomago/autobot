@@ -69,8 +69,6 @@
 			return (total>this.filteredCampaignProfiles.length)?this.filteredCampaignProfiles.length+'':total;
 		}
 		filteringBySearch(){  
-			console.log('filteredCampaignProfiles');
-			console.log(this.filteredCampaignProfiles);
 			//this.campaignProfiles = _$filter('filter')(this.campaignProfiles, this.search);
 			//this.orderList(this.campaignProfiles);
 			if(this.search.name){               
