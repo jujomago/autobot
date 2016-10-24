@@ -4,15 +4,7 @@ let AuthService;
 class notfoundController {
   constructor($injector) {
     AuthService=$injector.get('AuthService');
-    this.isLoggedIn = false;
-    this.isNotLoggedIn = false;
-  }
-  $onInit(){
-    if(AuthService.isAuthenticated()){
-      this.isLoggedIn = true;
-    }else{
-      this.isNotLoggedIn = true;
-    }
+    this.isLoggedIn = AuthService.isAuthenticated();
   }
 }
 notfoundController.$inject = ['$injector'];
