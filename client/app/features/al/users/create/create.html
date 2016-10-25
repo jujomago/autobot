@@ -92,17 +92,20 @@
     </div>
     <div class="row no-margin">
       <div class="col-xs-9 col-md-10 col-lg-11">
-        <div class="inputminimal"  ng-class="{ 'has-error': userForm.password.$invalid && userForm.$submitted }">
-          <label for="Password">Password* </label>
-          <input type="password"
-                 class="form-control"
-                 name="password"
-                 id="password"
-                 required=""
-                 ng-model="$ctrl.newUser.password"
-                 autocomplete="false"
-                 disabled>
-      </div>
+        <div class="form-field"
+             ng-class="{ 'has-error': userForm.password.$invalid && userForm.$submitted }">
+          <label for="Password">Password*</label>
+          <span>
+            <input type="password"
+                   class="form-control"
+                   name="password"
+                   id="password"
+                   required=""
+                   ng-model="$ctrl.newUser.password"
+                   autocomplete="false"
+                   disabled>
+          </span>
+        </div>
      </div>
      <div class="col-xs-3 col-md-2 col-lg-1">
        <input type="button" class="btn-black" value="Change" ng-click="$ctrl.openModal()">
