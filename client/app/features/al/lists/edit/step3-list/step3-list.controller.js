@@ -1,28 +1,9 @@
 'use strict';
 (function(){
-let _ConfirmAsync, _ListService, _, _ContactFieldsService;
+let _ConfirmAsync, _ListService, _, _ContactFieldsService, ctrl, _FieldFormatter;
 let _$state, _$stateParams, _$filter, _$uibModal;
-function _getFormatMultiset(field, value){
-  switch(field.realType){
-    case 'CURRENCY':
-      if(value.length>0){
-        return field.currencyType+value.map(function(item){return item.value;}).join(';'+field.currencyType)
-      }
-      else{
-        return '';
-      }
-    break;
-    case 'PERCENT':
-      if(value.length>0){
-        return value.map(function(item){return item.value;}).join('%;')+'%';
-      }
-      else{
-        return '';
-      }
-    break;
-  }
-  return null;
-}
+
+
 function _getSets(field) {
     if(!field.restrictions){
       return;
@@ -69,7 +50,7 @@ function _extractFormats(field) {
     }
 }
 class ListComponent {
-  constructor($state, $stateParams, $filter, $uibModal, ListsService, ConfirmAsync, ContactFieldsService, lodash) {
+  constructor($state, $stateParams, $filter, $uibModal, ListsService, ConfirmAsync, ContactFieldsService, lodash, FieldFormatter) {
 
       this.currentPage = 1;
       this.sortKey = '';
@@ -95,6 +76,7 @@ class ListComponent {
       this.error = false;
       this.loaded = false;
       this.typeUpdate = false;
+      ctrl = this;
       _ = lodash;
       _$state = $state;
       _$stateParams = $stateParams;
@@ -102,6 +84,7 @@ class ListComponent {
       _$uibModal = $uibModal;
       _ListService = ListsService;
       _ConfirmAsync = ConfirmAsync;
+      _FieldFormatter = FieldFormatter;
       _ContactFieldsService = ContactFieldsService;
       this.listName = _$stateParams.name;
       this.sendContact = {listName: this.listName, importData: {values: []} }
@@ -252,7 +235,7 @@ class ListComponent {
             console.log(result);
             if(typeof result !== 'undefined' && Object.keys(result).length > 0){
                   if(this.method==='create'){
-                    this.list.push(result);
+                    this.list.push(angular.copy(result));
                   }
                   else{
                     this.list[this.selectedIndex] = result;
@@ -275,22 +258,25 @@ class ListComponent {
 
   uploadContacts(){
     
-    let list = [];
-    let items = [];
-    let elements = [];
+    let list = angular.copy(this.list);
     let listUpdateSettings;
     let listDeleteSettings;
 
-    let mainList = angular.copy(this.list);
-    _.each(mainList,e=>{
-        items.push(_.values(e));
+    let mainList =  list.map(item =>{
+        let keys = Object.keys(item);
+        for(let i=0;i<keys.length;i++){
+          let key = keys[i];
+          console.log(ctrl.contactFields[i])
+          console.log(item[key]);
+          item[key] =  ctrl.formatField(ctrl.contactFields[i], item[key]);
+        }
+        return item;
     });
-    _.each(items,it=>{
-       this.sendContact.importData.values.push({item:it});     
+    _.each(mainList,e=>{
+      this.sendContact.importData.values.push({item: _.values(e)});  
     });
 
       this.sendContact.listUpdateSettings = this.listUpdateSettings;
-      console.log(this.sendContact);
       this.sending= true;
       return _ListService.addContacts(this.sendContact)
       .then(response=>{  
@@ -334,28 +320,10 @@ class ListComponent {
     console.log('beginNext:' + this.beginNext);
   }
   formatField(field, value){
-    if(value){
-      if(field.type ==='MULTISET'){
-        return _getFormatMultiset(field, value) 
-      }
-      let type=field.type;
-      if(type ==='SET'){
-        type = field.realType;
-        value = value.value;
-      }
-      switch(type){
-        case 'CURRENCY':
-          return field.currencyType+value;
-        case 'PERCENT':
-          return value+'%';
-        case 'DATE':
-          return _$filter('date')(value, field.dateFormat)+' PST';
-      }
-    }
-    return value;
+    return _FieldFormatter.formatField(field, value);
   }
 }
-ListComponent.$inject = ['$state', '$stateParams', '$filter', '$uibModal', 'ListsService', 'ConfirmAsync', 'ContactFieldsService', 'lodash'];
+ListComponent.$inject = ['$state', '$stateParams', '$filter', '$uibModal', 'ListsService', 'ConfirmAsync', 'ContactFieldsService', 'lodash', 'FieldFormatter'];
 angular.module('fakiyaMainApp')
   .component('al.lists.edit.list', {
     templateUrl: 'app/features/al/lists/edit/step3-list/step3-list.html',

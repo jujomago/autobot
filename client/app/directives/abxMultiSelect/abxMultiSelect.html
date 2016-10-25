@@ -1,10 +1,10 @@
-<div class="btn-group" ng-class="{open: open}" style="width: 85%;">
-	<a class="btn btn-small" style="width: 95%;">{{getItems()}}</a> 
-	<a class="btn btn-small dropdown-toggle" ng-click="openDropdown()" style="width: 5%;" >
+<div class="btn-group multi-select-dropdown" ng-class="{open: open}" abx-outside-click="open=false">
+	<p class="btn btn-small multi-select-items" ng-click="openDropdown()">{{getItems()}}</p> 
+	<a class="btn btn-small dropdown-toggle" ng-click="openDropdown()">
 		<span class="caret"></span>
 	</a> 
-	<ul class="dropdown-menu" aria-labelledby="dropdownMenu" style="position: absolute; width: 100%;"> 
-		<li style="cursor:pointer;" ng-repeat="option in options">
+	<ul class="dropdown-menu" aria-labelledby="dropdownMenu"> 
+		<li  ng-repeat="option in options">
 			<a ng-click="toggleSelectItem(option)">
 				<span ng-class="getClassName(option)" aria-hidden="true"></span> {{option[value]}}
 			</a>

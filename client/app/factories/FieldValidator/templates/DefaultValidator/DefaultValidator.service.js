@@ -23,6 +23,7 @@ angular.module('fakiyaMainApp')
       return validator.test(value);
     }
     let validateRequired = function(required, value) {
+      console.log(value);
       let result = value?true:false;
       return result;
     }

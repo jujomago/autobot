@@ -20,16 +20,19 @@
 
                      	<input type="text" name="{{form.name}}" ng-model="$ctrl.contact[form.name]" abx-regex-filter="[^0-9.-]" abx-field-validator="form.restrictions" strategy="{{form.type}}" ng-if="form.type==='NUMBER' || form.type==='CURRENCY' || form.type==='PERCENT'"/>
                      	<input type="checkbox" ng-model="$ctrl.contact[form.name]" ng-if="form.type==='BOOLEAN'">
-                     	<select ng-options="item.value for item in form.dataSet track by item.value" ng-model="$ctrl.contact[form.name]" ng-if="form.type==='SET'">
+                     	<select ng-options="item.value for item in form.dataSet track by item.value" ng-model="$ctrl.contact[form.name]" name="{{form.name}}" ng-required="form.required?true:false" ng-if="form.type==='SET'">
                      		<option value="" ng-if="!form.required"></option>
                      	</select>
                      	
 					</span>
-					<abx-multi-select model="$ctrl.contact[form.name]" options="form.dataSet" id="value" value="value" ng-if="form.type==='MULTISET'"></abx-multi-select>
+					<abx-multi-select ng-model="$ctrl.contact[form.name]" options="form.dataSet" id="value" value="value" ng-if="form.type==='MULTISET'"></abx-multi-select>				
+					<input type="hidden" ng-model="$ctrl.contact[form.name]" name="{{form.name}}" abx-multiset-validator="form.restrictions" ng-if="form.type==='MULTISET'">
 				</div>
 				<div class="errorMessagesModal" ng-messages="formList[form.name].$error" ng-show="formList.$submitted || formList[form.name].$dirty">
 					<p ng-message="abxtype">{{$ctrl.getTypeMessage(form)}} type</p>
 					<p ng-message="abxrequired">required</p>
+					<p ng-message="required">required</p>
+					<p ng-message="minlength">required</p>
 					<p ng-message="abxminvalue">{{$ctrl.getMinMessage(form)}} min</p>
 					<p ng-message="abxmaxvalue">maxvalue</p>
 					<p ng-message="abxregexp">regexp</p>

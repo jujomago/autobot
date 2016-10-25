@@ -21,7 +21,6 @@ class ContactModalComponent {
         this.contactModal = angular.copy(this.edit.contact);
     }
     this.contact = this.contactModal;
-    console.log(this.edit.contactFields);
   }
 
 
@@ -33,7 +32,7 @@ class ContactModalComponent {
        this.message={ show: true, type: 'warning', text: 'The Contact Record does not have any number', expires: 3000}; 
     }
     else{
-      this.instance.close(this.contact);
+      this.instance.close(angular.copy(this.contact));
     }
  }
  getTypeMessage(field){
@@ -53,6 +52,21 @@ class ContactModalComponent {
   return 'Contact Field "'+field.name+'" has an invalid value. Invalid '+type+'. Please correct it.';
  }
  getMinMessage(field){
+  let type = 'field';
+  let chars ='';
+  if(field.type==='STRING' || field.type === 'EMAIL' || field.type === 'URL'){
+    type = 'String length';
+    chars = ' characters';
+  }
+  else if(field.type === 'NUMBER' || field.type === 'PERCENT' || field.type === 'CURRENCY'){
+    type = 'Number';
+  }
+  else if(field.type === 'DATE'){
+    type = 'Date';
+  }
+  return 'Contact Field "'+field.name+'" has an invalid value. '+type+' cannot be less than '+field.minValue+chars+'. Please correct it.';
+ }
+ getMaxMessage(field){
   let type = 'field';
   let chars ='';
   if(field.type==='STRING' || field.type === 'EMAIL' || field.type === 'URL'){

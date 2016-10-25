@@ -6,11 +6,10 @@ angular.module('fakiyaMainApp')
       restrict: 'A',
       link: function (scope, element, attributes) {
         let scopeExpression = attributes.abxOutsideClick;
-         $(document).bind('click', function(event){
+        let click = function(event){
             var isClickedElementChildOfPopup = element
             .find(event.target)
             .length > 0;
-
             if (!isClickedElementChildOfPopup){
                 //safe apply
                 //Solve Bug: 1862 Admin Console: Lists: Integrate with API:  The choose file link does not perform any action.
@@ -22,6 +21,10 @@ angular.module('fakiyaMainApp')
                   scope.$apply(scopeExpression);
                 }
             }
+        };
+         $(document).bind('click', click);
+        scope.$on('$destroy', function() {
+          $(document).unbind('click', click);
         });
       }
     };

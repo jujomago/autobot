@@ -5,7 +5,7 @@ angular.module('fakiyaMainApp')
     return {
         restrict: 'E',
         scope: {
-            model: '=',
+            ngModel: '=',
             options: '=',
             id: '@',
             value: '@'
@@ -14,8 +14,8 @@ angular.module('fakiyaMainApp')
         templateUrl: 'app/directives/abxMultiSelect/abxMultiSelect.html',
 
         controller: function ($scope) {
-        	if(!$scope.model){
-        		$scope.model = [];
+        	if(!$scope.ngModel){
+        		$scope.ngModel = [];
         	}
             $scope.openDropdown = function () {
 
@@ -23,15 +23,15 @@ angular.module('fakiyaMainApp')
 
             };
             $scope.getItems = function(){
-                return $scope.model.map(function(item){return item.value;}).join(';');
+                return $scope.ngModel.map(function(item){return item.value;}).join(';');
             }
             $scope.selectAll = function () {
 
-                $scope.model = [];
+                $scope.ngModel = [];
 
                 angular.forEach($scope.options, function (item, index) {
 
-                    $scope.model.push(item);
+                    $scope.ngModel.push(item);
 
                 });
 
@@ -39,13 +39,13 @@ angular.module('fakiyaMainApp')
 
             $scope.deselectAll = function () {
 
-                $scope.model = [];
+                $scope.ngModel = [];
 
             };
             $scope.toggleSelectItem = function (option) {
 
                 var intIndex = -1;
-                angular.forEach($scope.model, function (item, index) {
+                angular.forEach($scope.ngModel, function (item, index) {
 
                     if (item[$scope.id] === option[$scope.id]) {
 
@@ -56,11 +56,11 @@ angular.module('fakiyaMainApp')
                 });
                 if (intIndex >= 0) {
 
-                    $scope.model.splice(intIndex, 1);
+                    $scope.ngModel.splice(intIndex, 1);
 
                 } else {
                     
-                    $scope.model.push(option);
+                    $scope.ngModel.push(option);
                     
                 }
 
@@ -70,7 +70,7 @@ angular.module('fakiyaMainApp')
 
                 var varClassName = 'glyphicon glyphicon-remove-circle';
 
-                angular.forEach($scope.model, function (item, index) {
+                angular.forEach($scope.ngModel, function (item, index) {
 
                     if (item[$scope.id] == option[$scope.id]) {
 
