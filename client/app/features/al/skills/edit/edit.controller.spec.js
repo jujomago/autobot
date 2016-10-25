@@ -87,7 +87,7 @@ describe('Component: al.skills.edit', function () {
             addUsertoSkillPromise.then(response => {
                 expect(true).to.equal(response);
                 expect(EditComponent.toggleUserItem.item).to.equal(-1);
-             
+
                 expect(EditComponent.message).to.eql({ show: true, type: 'success', text: 'User Added Successfully', expires: 2000 });
 
             });
