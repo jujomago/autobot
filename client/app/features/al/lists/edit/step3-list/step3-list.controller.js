@@ -266,9 +266,7 @@ class ListComponent {
         let keys = Object.keys(item);
         for(let i=0;i<keys.length;i++){
           let key = keys[i];
-          console.log(ctrl.contactFields[i])
-          console.log(item[key]);
-          item[key] =  ctrl.formatField(ctrl.contactFields[i], item[key]);
+          item[key] =  _FieldFormatter.formatField(ctrl.contactFields[i], item[key]);
         }
         return item;
     });

@@ -29,7 +29,7 @@
             <button class="btn btn-black right-space-20 btn-fixed-80" ng-if="$ctrl.manual" ng-click="$ctrl.insertContact()">Insert</button>
             <button class="btn btn-black right-space-20 btn-fixed-80" ng-if="!$ctrl.manual" ng-click="$ctrl.insertContact()" ng-disabled="$ctrl.error">Insert</button>
             <button class="btn btn-black right-space-20 btn-fixed-80" ng-disabled="$ctrl.selectedArray.length === 0 || $ctrl.selectedArray.length > 1" ng-click="$ctrl.editContact()">Edit</button>
-            <button ng-class="{ 'btn btn-black btn-fixed-80': !$ctrl.typeUpdate , 'btn btn-black right-space-20 btn-fixed-80': $ctrl.typeUpdate }" ng-disabled="$ctrl.selectedArray.length < 1" ng-click="$ctrl.deleteContact()">Delete</button>
+            <button class="btn btn-black right-space-20 btn-fixed-80" ng-disabled="$ctrl.selectedArray.length < 1" ng-click="$ctrl.deleteContact()">Delete</button>
 <button class="btn btn-black btn-fixed-80" ng-click="$ctrl.shuffleList()" ng-disabled="$ctrl.filteredList.length <= 1">Shuffle</button>
         </div>
     </div>

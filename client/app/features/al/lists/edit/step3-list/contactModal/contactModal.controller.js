@@ -1,10 +1,9 @@
 'use strict';
 (function(){
-
 class ContactModalComponent {
-  constructor() {
+  constructor(FieldMessages) {
   	   this.message = { show: false };
-
+       this.FieldMessages = FieldMessages;
   }
 
   $onInit(){
@@ -35,52 +34,6 @@ class ContactModalComponent {
       this.instance.close(angular.copy(this.contact));
     }
  }
- getTypeMessage(field){
-  let type = 'field';
-  if(field.type==='PHONE'){
-    return 'Contact Field "'+field.name+'" has an invalid value. Number must either be 10 digits for dialing within North America, or begin with "011" for international number. International number length should be no more than 20 digits. Please correct it.'
-  }
-  else if(field.type === 'NUMBER' || field.type === 'PERCENT' || field.type === 'CURRENCY'){
-    type = 'number';
-  }
-  else if(field.type === 'EMAIL'){
-   type = 'email'; 
-  }
-  else if(field.type === 'URL'){
-    type = 'URL';
-  }
-  return 'Contact Field "'+field.name+'" has an invalid value. Invalid '+type+'. Please correct it.';
- }
- getMinMessage(field){
-  let type = 'field';
-  let chars ='';
-  if(field.type==='STRING' || field.type === 'EMAIL' || field.type === 'URL'){
-    type = 'String length';
-    chars = ' characters';
-  }
-  else if(field.type === 'NUMBER' || field.type === 'PERCENT' || field.type === 'CURRENCY'){
-    type = 'Number';
-  }
-  else if(field.type === 'DATE'){
-    type = 'Date';
-  }
-  return 'Contact Field "'+field.name+'" has an invalid value. '+type+' cannot be less than '+field.minValue+chars+'. Please correct it.';
- }
- getMaxMessage(field){
-  let type = 'field';
-  let chars ='';
-  if(field.type==='STRING' || field.type === 'EMAIL' || field.type === 'URL'){
-    type = 'String length';
-    chars = ' characters';
-  }
-  else if(field.type === 'NUMBER' || field.type === 'PERCENT' || field.type === 'CURRENCY'){
-    type = 'Number';
-  }
-  else if(field.type === 'DATE'){
-    type = 'Date';
-  }
-  return 'Contact Field "'+field.name+'" has an invalid value. '+type+' cannot be less than '+field.minValue+chars+'. Please correct it.';
- }
   cancel(){
 	this.instance.dismiss('cancel');
   }
@@ -110,6 +63,7 @@ class ContactModalComponent {
     }
   }
 }
+ContactModalComponent.$inject = ['FieldMessages'];
 angular.module('fakiyaMainApp')
   .component('al.lists.contactModal', {
     templateUrl: 'app/features/al/lists/edit/step3-list/contactModal/contactModal.html',

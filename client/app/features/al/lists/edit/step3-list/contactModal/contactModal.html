@@ -29,11 +29,11 @@
 					<input type="hidden" ng-model="$ctrl.contact[form.name]" name="{{form.name}}" abx-multiset-validator="form.restrictions" ng-if="form.type==='MULTISET'">
 				</div>
 				<div class="errorMessagesModal" ng-messages="formList[form.name].$error" ng-show="formList.$submitted || formList[form.name].$dirty">
-					<p ng-message="abxtype">{{$ctrl.getTypeMessage(form)}} type</p>
+					<p ng-message="abxtype">{{$ctrl.FieldMessages.getTypeMessage(form)}} type</p>
 					<p ng-message="abxrequired">required</p>
 					<p ng-message="required">required</p>
 					<p ng-message="minlength">required</p>
-					<p ng-message="abxminvalue">{{$ctrl.getMinMessage(form)}} min</p>
+					<p ng-message="abxminvalue">{{$ctrl.FieldMessages.getMinMessage(form)}} min</p>
 					<p ng-message="abxmaxvalue">maxvalue</p>
 					<p ng-message="abxregexp">regexp</p>
 					<p ng-message="abxprecision">precision</p>
