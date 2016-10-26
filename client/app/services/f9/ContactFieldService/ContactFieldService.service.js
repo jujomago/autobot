@@ -17,6 +17,7 @@
 
             return _$http.get(this.endPointUrl)
                 .then(response => {
+                    console.log(response.data.return);
                     if (response.data) {
                         result.data = response.data.return;
                         return result;

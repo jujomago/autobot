@@ -37,6 +37,7 @@ angular.module('fakiyaMainApp')
     }
     let validatePrecision = function(precision, value) {
       value = (value*1)+'';
+      value = value.replace('-', '');
       let result = value.split('.');
         return result[0].length<=precision;
     }

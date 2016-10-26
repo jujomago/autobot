@@ -5,24 +5,32 @@ let _$state, _$stateParams, _$filter, _$uibModal;
 
 
 function _getSets(field) {
-    if(!field.restrictions){
-      return;
-    }
-    let set = field.restrictions.filter(r => (r.type === 'Set' || r.type === 'Multiset'));
-    if(set.length>0){
-      field.dataSet = set;
-      field.realType = field.type;
-      field.type = set[0].type.toUpperCase();
-      field.restrictions = field.restrictions.filter(r => (r.type !== 'Set' && r.type !== 'Multiset'))
-    }
+    if(field.restrictions){
+      let set = field.restrictions.filter(r => (r.type === 'Set' || r.type === 'Multiset'));
+      if(set.length>0){
+        field.dataSet = set;
+        field.realType = field.type;
+        field.type = set[0].type.toUpperCase();
+        field.restrictions = field.restrictions.filter(r => (r.type !== 'Set' && r.type !== 'Multiset'))
+      }
+    } 
+    return field;
 }
 function _formatExist(field, key){
   if(!field.restrictions){
-      return;
+      return null;
     }
   let result = field.restrictions.find(e => e.type === key);
 
   return result?result.value:null;
+}
+function _getPresicion(field){
+  let resultPrescision = field.restrictions.find(e => e.type === 'Precision');
+  let resultScale = field.restrictions.find(e => e.type === 'Scale');
+  if(resultScale){
+    return resultPrescision.value*1-resultScale.value*1;
+  }
+  return resultPrescision;
 }
 function _extractFormats(field) {
     if(_formatExist(field, 'Required') !== null){
@@ -48,6 +56,17 @@ function _extractFormats(field) {
     if(result !== null){
       field.maxValue = result;
     }
+    result=_formatExist(field, 'Regexp')
+    if(result !== null){
+      field.regex = result;
+    }
+    result=_formatExist(field, 'Precision')
+    if(result !== null){
+      let resultPrescision = field.restrictions.findIndex(e => e.type === 'Precision');
+      field.restrictions[resultPrescision].value=_getPresicion(field);
+      field.regex = result;
+    }
+    return field;
 }
 class ListComponent {
   constructor($state, $stateParams, $filter, $uibModal, ListsService, ConfirmAsync, ContactFieldsService, lodash, FieldFormatter) {
@@ -109,9 +128,8 @@ class ListComponent {
     return _ContactFieldsService.getContactFields()
     .then(response => {
         this.contactFields = response.data.filter(e => (e.mapTo === 'None'));
+        this.contactFields  = this.contactFields.map(_getSets).map(_extractFormats);
         console.log(this.contactFields);
-        this.contactFields.map(_getSets);
-        this.contactFields.map(_extractFormats);
         this.generateMapping();
         this.loaded = true;
         return response;

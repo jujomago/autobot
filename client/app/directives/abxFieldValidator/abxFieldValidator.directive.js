@@ -20,30 +20,19 @@ angular.module('fakiyaMainApp')
         let restrictions = $parse(attrs.abxFieldValidator)(scope);
         let model = $parse(attrs.ngModel)(scope);
         let validateField = function(value){
-          let validateType = validator.validateType(value);
-          if(!validateType){
-            ctrl.$setValidity('abxtype', false);
-          }
-          else{
-            ctrl.$setValidity('abxtype', true);
-          }
-
-          if(restrictions && restrictions.length>0 && validateType){
-            for(let i=0;i<restrictions.length;i++){
-              let restriction = restrictions[i];
-              let validate = validator[restriction.type];
-              
-              if(validate){
-
-                if(!validate(restriction.value, value)){
-                  ctrl.$setValidity('abx'+restriction.type.toLowerCase(), false);
-                }
-                else{
-                  ctrl.$setValidity('abx'+restriction.type.toLowerCase(), true);  
-                }
-              }
+        let validateType = validator.validateType(value);
+        ctrl.$setValidity('abxtype', validateType);
+        if(restrictions && restrictions.length>0 && validateType){
+          for(let i=0;i<restrictions.length;i++){
+            let restriction = restrictions[i];
+            let validate = validator[restriction.type];  
+            if(validate){
+                let validateResult = validate(restriction.value, value);
+                let typeValidationResult = (restriction.type==='Required')?validateResult:!value||validateResult; 
+                ctrl.$setValidity('abx'+restriction.type.toLowerCase(), typeValidationResult);
             }
           }
+        }
           return value;
         }
         ctrl.$parsers.push(validateField);

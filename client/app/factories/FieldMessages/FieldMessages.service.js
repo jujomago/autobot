@@ -22,6 +22,7 @@ angular.module('fakiyaMainApp')
      function getMinMessage(field){
       let type = 'field';
       let chars ='';
+      let prefix = 'less';
       if(field.type==='STRING' || field.type === 'EMAIL' || field.type === 'URL'){
         type = 'String length';
         chars = ' characters';
@@ -31,8 +32,9 @@ angular.module('fakiyaMainApp')
       }
       else if(field.type === 'DATE'){
         type = 'Date';
+        prefix = 'earlier';
       }
-      return 'Contact Field "'+field.name+'" has an invalid value. '+type+' cannot be less than '+field.minValue+chars+'. Please correct it.';
+      return 'Contact Field "'+field.name+'" has an invalid value. '+type+' cannot be '+prefix+' than '+field.minValue+chars+'. Please correct it.';
      }
      function getMaxMessage(field){
       let type = 'field';
@@ -52,9 +54,17 @@ angular.module('fakiyaMainApp')
       }
       return 'Contact Field "'+field.name+'" has an invalid value. '+type+' cannot be '+prefix+' than '+field.minValue+chars+'. Please correct it.';
      }
+     function getRequiredMessage(field){
+      return 'Contact Field "'+field.name+'" has an invalid value. Value cannot be empty. Please correct it.';
+     }
+     function getRegexMessage(field){
+      return 'Contact Field "'+field.name+'" has an invalid value. Value does not match the pattern: '+field.regex+' Please correct it.';
+     }
     return {
       getTypeMessage: getTypeMessage,
       getMinMessage: getMinMessage,
-      getMaxMessage: getMaxMessage
+      getMaxMessage: getMaxMessage,
+      getRequiredMessage: getRequiredMessage,
+      getRegexMessage: getRegexMessage
     };
   });
