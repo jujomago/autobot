@@ -32,6 +32,7 @@ class NavbarController {
     this.getter = 'partner.partnerFullName';
     this.message = { show: false };
     this.firstName = '';
+    this.reportsCollapsed = true;
     _RefreshToken = RefreshToken;
     $ctrl = this;
     this.menu = [{
