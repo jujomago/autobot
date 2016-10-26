@@ -171,7 +171,7 @@ httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
                  expect(mockState.state).to.equal('ap.al.campaigns');
                  expect(mockState.params.message.show).to.equal(true);
                  expect(mockState.params.message.type).to.equal('success');
-                 expect(mockState.params.message.text).to.equal('Campaign "Test" Updated');
+                 expect(mockState.params.message.text).to.equal('Campaign Updated Successfully');
              });
 
              httpBackend.flush();
@@ -271,7 +271,7 @@ httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
                  expect(response.statusCode).to.equal(200);
                  expect(response.data).to.equal(null);
                  expect(response.errorMessage).to.equal(null);
-                 expect(AutodialComponent.message).to.eql({ show: true, type: 'success', text: 'List Added Correctly', expires:1500});
+                 expect(AutodialComponent.message).to.eql({ show: true, type: 'success', text: 'List Added Successfully', expires:1500});
              });
 
              httpBackend.flush();

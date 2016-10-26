@@ -87,7 +87,8 @@ describe('Component: al.skills.edit', function () {
             addUsertoSkillPromise.then(response => {
                 expect(true).to.equal(response);
                 expect(EditComponent.toggleUserItem.item).to.equal(-1);
-                expect(EditComponent.message).to.eql({ show: true, type: 'success', text: 'User Added Sucessfully', expires: 2000 });
+
+                expect(EditComponent.message).to.eql({ show: true, type: 'success', text: 'User Added Successfully', expires: 2000 });
 
             });
 
@@ -144,38 +145,6 @@ describe('Component: al.skills.edit', function () {
 
             httpBackend.flush();
         });
-
-
-
-           it('=> should return true when added',()=>{
-
-                EditComponent.selectedSkill.id=3;
-                EditComponent.selectedSkill.name='Marketing';
-
-                httpBackend.whenPOST(endPointUrl+'/testName/skills',{
-                    id:EditComponent.selectedSkill.id,
-                    level:1,
-                    skillName:EditComponent.selectedSkill.name,
-                    userName:'testName'}
-                ).respond(201);
-
-
-               let addUsertoSkillPromise=EditComponent.addUsertoSkill({userName:'testName'},10);
-
-                  expect(EditComponent.toggleUserItem).to.have.property('item',10);
-
-                 addUsertoSkillPromise.then(response=>{
-
-                       expect(true).to.equal(response);
-                       expect(EditComponent.toggleUserItem.item).to.equal(-1);
-                       expect(EditComponent.message).to.eql({show:true,type:'success',text:'User Added Sucessfully',expires:2000});
-
-                 });
-
-                httpBackend.flush();
-
-
-           });
     });
 
         describe('#deleteUserfromSkill',()=>{
@@ -197,15 +166,10 @@ describe('Component: al.skills.edit', function () {
 
 
                 deleteUserfromSkillPromise.then(response=>{
-
-
                         expect(response.statusCode).to.equal(204);
                         expect(EditComponent.toggleUserNameItem).to.equal(-1);
                         expect(EditComponent.showPanelInfo).to.equal(false);
-                        expect(EditComponent.message).to.eql({show:true,type:'success',text:'User Removed Sucessfully',expires:2000});
-
-
-
+                        expect(EditComponent.message).to.eql({show:true,type:'success',text:'User Removed Successfully',expires:2000});
                 });
 
                 httpBackend.flush();

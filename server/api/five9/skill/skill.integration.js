@@ -85,7 +85,7 @@ describe('Skill API:', function () {
                 })
                 .expect(200)
                 .expect('Content-Type', /json/)
-                .end((err, res) => {;
+                .end((err, res) => {
                     if (err) {
                         return done(err);
                     }
