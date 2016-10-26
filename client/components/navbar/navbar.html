@@ -86,6 +86,93 @@
           </ul>
         </li>
         <!--li><a ui-sref="ap.underconstruction"><p class="aligned-items">Reports</p></a></li-->
+        
+      </ul>
+      <ul class="nav navbar-nav dark-nav" ng-mouseenter="nav.reportsCollapsed = false" ng-mouseleave="nav.reportsCollapsed = true" >
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" role="button" >
+              <p class="aligned-items">Reports</p>
+              </a>
+            <ul class="dropdown-menu reports-menu" uib-collapse="nav.reportsCollapsed">
+              <li class="dropdown-submenu">
+                <a>Current</a>
+                <ul class="dropdown-menu">
+                  <li><a>Agents</a></li>
+                  <li><a>Closing</a></li>
+                  <li><a>Conference</a></li>
+                  <li><a>Queue</a></li>
+                  <li><a>On Call</a></li>
+                  <li><a>On Hold</a></li>
+                </ul>
+              </li>
+              <li class="dropdown-submenu">
+                <a>Efficiency</a>
+                <ul class="dropdown-menu">
+                  <li><a>AHT</a></li>
+                  <li><a>ASA</a></li>
+                  <li><a>ACS</a></li>
+                  <li><a>Close %</a></li>
+                  <li><a>Conv %</a></li>
+                  <li><a>Hold %</a></li>
+                  <li><a>Talk %</a></li>
+                  <li><a>Wait %</a></li>
+                </ul>
+              </li>
+              <li class="dropdown-submenu">
+                <a>Customer Journey</a>
+                <ul class="dropdown-menu">
+                  <li><a>All Channels</a></li>
+                  <li><a>Email</a></li>
+                  <li><a>Social</a></li>
+                  <li><a>Voice</a></li>
+                  <li><a>Retail</a></li>
+                  <li><a>SMS</a></li>
+                  <li><a>Web</a></li>
+                  <li><a>Mobile</a></li>
+                </ul>
+              </li>
+              <li class="dropdown-submenu">
+                <a>Revenue</a>
+                <ul class="dropdown-menu">
+                  <li><a>RPC</a></li>
+                  <li><a>RPH</a></li>
+                  <li><a>RPO/P</a></li>
+                  <li><a>Products</a></li>
+                </ul>
+              </li>
+              <li class="dropdown-submenu">
+                <a>Totals</a>
+                <ul class="dropdown-menu">
+                  <li><a>Abandon</a></li>
+                  <li><a>Answered Calls</a></li>
+                  <li><a>Close Time</a></li>
+                  <li><a>Contacts</a></li>
+                  <li><a>Hold Time</a></li>
+                  <li><a>Talk Time</a></li>
+                  <li><a>Unavailable Time</a></li>
+                  <li><a>Sales</a></li>
+                </ul>
+              </li>
+              <li class="dropdown-submenu">
+                <a>Lists</a>
+                <ul class="dropdown-menu">
+                  <li><a>Lists Penetration</a></li>
+                </ul>
+              </li>
+              <li><a>My Reports</a></li>
+              <li class="dropdown-submenu">
+                <a>Lists</a>
+                <ul class="dropdown-menu valid-links">
+                  <li><a ui-sref="ap.underconstruction">Customer Journey</a></li>
+                  <li><a ui-sref="ap.underconstruction">Scorecard KPI's</a></li>
+                  <li><a ui-sref="ap.underconstruction">Heat Maps</a></li>
+                  <li><a ui-sref="ap.underconstruction">Gauges</a></li>
+                  <li><a ui-sref="ap.underconstruction">Revenue</a></li>
+                </ul>
+              </li>
+            </ul>
+
+        </li>
       </ul>
       <ul class="nav navbar-nav nav-icons navbar-right">
         <li>
