@@ -5,7 +5,7 @@ angular.module('fakiyaMainApp')
         $stateProvider
             .state('score-cards-kpi', {
                 parent: 'dashboards',
-                url: '/',
+                url: '/score-cards-kpi',
                 template: '<scoreCardsKpi></scoreCardsKpi>'
             });
     });

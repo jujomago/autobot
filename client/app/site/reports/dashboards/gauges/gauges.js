@@ -5,7 +5,7 @@ angular.module('fakiyaMainApp')
         $stateProvider
             .state('gauges', {
                 parent: 'dashboards',
-                url: '/',
+                url: '/gauges',
                 template: '<gauges></gauges>'
             });
     });

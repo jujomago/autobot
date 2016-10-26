@@ -5,6 +5,6 @@ angular.module('fakiyaMainApp')
         $stateProvider
             .state('dashboards', {
                 parent: 'ap.reports',
-                url: '/'
+                url: '/dashboards'
             });
     });

@@ -5,7 +5,7 @@ angular.module('fakiyaMainApp')
         $stateProvider
             .state('head-maps', {
                 parent: 'dashboards',
-                url: '/',
+                url: '/head-maps',
                 template: '<headMaps></headMaps>'
             });
     });

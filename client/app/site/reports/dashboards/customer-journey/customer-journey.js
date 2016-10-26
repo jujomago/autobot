@@ -5,10 +5,7 @@ angular.module('fakiyaMainApp')
         $stateProvider
             .state('customer-journey', {
                 parent: 'dashboards',
-                url: '/',
+                url: '/customer-journey',
                 template: '<customerJourney></customerJourney>'
-                // templateUrl: '/reports/dashboards/customer-journey/customer-journey.html',
-                // controller: 'CustomerJourneyController',
-                // controllerAs: 'customerJourney'
             });
     });

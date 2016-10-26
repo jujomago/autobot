@@ -5,7 +5,7 @@ angular.module('fakiyaMainApp')
         $stateProvider
             .state('revenue', {
                 parent: 'dashboards',
-                url: '/',
+                url: '/revenue',
                 template: '<revenue></revenue>'
             });
     });
