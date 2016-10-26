@@ -3,9 +3,8 @@
 angular.module('fakiyaMainApp')
     .config(function ($stateProvider) {
         $stateProvider
-            .state('head-maps', {
-                parent: 'dashboards',
-                url: '/head-maps',
-                template: '<headMaps></headMaps>'
+            .state('ap.head-maps', {
+                url: '/reports/dashboards/head-maps',
+                template: '<head-maps></head-maps>'
             });
     });

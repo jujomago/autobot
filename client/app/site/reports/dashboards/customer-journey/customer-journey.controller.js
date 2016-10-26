@@ -3,7 +3,6 @@
 
     class CustomerJourneyComponent {
         constructor() {
-            console.log('Customer Journey Component');
         }
     }
 
