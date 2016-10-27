@@ -183,7 +183,7 @@
         <li><a ui-sref="ap.underconstruction">
             <img src="/assets/al/images/serverDefault.png" alt="server">
         </a></li>
-        <li class="dropdown" ng-click="nav.userOptionsCollapsed = !nav.userOptionsCollapsed"  abx-outside-click="nav.userOptionsCollapsed = true">
+        <li class="dropdown fixed-margin-50" ng-click="nav.userOptionsCollapsed = !nav.userOptionsCollapsed"  abx-outside-click="nav.userOptionsCollapsed = true">
           <a href="#" ng-class="{'active': !nav.userOptionsCollapsed}" class="dropdown-toggle options-container" role="button">
 
             <img  ng-if="nav.email==='gus@autoboxcorp.com'" src="assets/al/images/gusicon.png"  class="img-circle" alt="avatar">
@@ -192,7 +192,7 @@
             
             <p class="name-container">{{nav.firstName | limitTo: 15}}{{ nav.firstName.length > 15 ? '...' : ''}}</p>
             </a>
-          <ul class="dropdown-menu" uib-collapse="nav.userOptionsCollapsed">
+          <ul class="dropdown-menu no-margin-dropdown" uib-collapse="nav.userOptionsCollapsed">
             <li><a ui-sref="ap.underconstruction">Settings</a></li>
             <li><a href ng-click="nav.logout()">Logout</a></li>
           </ul>
