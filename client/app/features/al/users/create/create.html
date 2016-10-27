@@ -131,12 +131,13 @@
          </div>
          <button type="button" class="btn btn-danger" ng-show="$ctrl.userRolSelectedIndex>=0 && $ctrl.userRoles.length>0" ng-click="$ctrl.deleteSelectedRol()">Delete</button>
      </div>
-      <div class="pull-right linksUser">
+      
+     <div class="col" ng-class="{'col-md-9':($ctrl.allRoles.length==0),'col-md-6':($ctrl.allRoles.length>0)}" >
+         <h4 ng-show="$ctrl.permissionTitle">Permissions:
+           <div class="pull-right linksUser">
                 <a href="" ng-click="$ctrl.CheckClear($ctrl.lastUserRolSelected,'check')" ng-show="$ctrl.lastUserRolSelected!=''">Check all</a>
                 <a href="" ng-click="$ctrl.CheckClear($ctrl.lastUserRolSelected,'clear')" ng-show="$ctrl.lastUserRolSelected!=''">Clear all</a>                
-    </div>
-     <div class="col" ng-class="{'col-md-9':($ctrl.allRoles.length==0),'col-md-6':($ctrl.allRoles.length>0)}" >
-         <h4 ng-show="$ctrl.permissionTitle">Permissions:</h4>
+      </div></h4>
          <div class="checkbox" ng-repeat="(per,val) in $ctrl.rolSelectedPermissions" ng-if="per!=='permissions'">
            <label><input type="checkbox" ng-model="$ctrl.rolSelectedPermissions[per]">{{per | camelToHuman}}</label>
          </div>
