@@ -44,8 +44,13 @@
     }
   }
 }
-.reports-menu >li>a{
-  cursor: pointer;
+.dropdown-menu{
+  padding-bottom: 0;
+}
+.reports-menu{
+  & >li>a{
+    cursor: pointer;
+  }
 }
 .dark-nav{
   &>li.dropdown{
@@ -80,14 +85,19 @@
   margin: 0;
   font-size: 16px;
 }
-.dropdown>a.options-container{
-    margin-right: 50px;
-    padding-right: 0;
-    &>img{
-      margin-right: 0;
+.dropdown{
+  margin-right: 50px;
+    &>a.options-container{
+      padding-right: 0;
+      &>img{
+        margin-right: 0;
+      }
+      &>p.name-container{
+        margin-left: 5px;
+      }
     }
-    &>p.name-container{
-      margin-left: 5px;
+    &>ul.no-margin-dropdown{
+      right: -50px;
     }
 }
 .navbar-inverse .navbar-nav > li > a > p{
