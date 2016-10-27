@@ -6,7 +6,7 @@ angular.module('fakiyaMainApp')
       if(value ===''){
             return true;
         }
-        let regex = new RegExp(/^(ftp|https?):\s*[^#\\\s]([^\\]*\s[^\\\s]|[^\\\s]*)$/g);     
+        let regex = new RegExp(/^(ftp|https?):\s*[^#\\\s]([^\\]*\s[^\\\s][^\\\s]*|[^\\\s]*)$/g);     
         return regex.test(value);
     }
     let validateMinValue = function(min, value) {
