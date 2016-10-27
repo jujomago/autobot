@@ -23,12 +23,10 @@ angular.module('fakiyaMainApp')
       return validator.test(value);
     }
     let validateRequired = function(required, value) {
-      console.log(value);
       let result = value?true:false;
       return result;
     }
     let validateScale = function(scale, value) {
-      value = (value*1)+'';
       let result = value.split('.');
       if(result.length>1){
         return result[1].length<=scale;
@@ -36,10 +34,9 @@ angular.module('fakiyaMainApp')
       return true;
     }
     let validatePrecision = function(precision, value) {
-      value = (value*1)+'';
       value = value.replace('-', '');
       let result = value.split('.');
-        return result[0].length<=precision;
+      return result[0].length<=precision;
     }
     return function(){
      return {

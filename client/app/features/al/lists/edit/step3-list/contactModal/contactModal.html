@@ -15,7 +15,6 @@
 						<input type="text" name="{{form.name}}" ng-model="$ctrl.contact[form.name]" abx-field-validator="form.restrictions" strategy="{{form.type}}" ng-trim="false" ng-if="form.type==='STRING' || form.type==='EMAIL' || form.type==='URL'"/>
 						<input type="text" name="{{form.name}}" ng-model="$ctrl.contact[form.name]" abx-regex-filter="[^0-9+\-()]" abx-field-validator="form.restrictions" strategy="{{form.type}}" ng-if="form.type==='PHONE'"/>
 						<div abx-date-picker name="{{form.name}}" validator="form.restrictions" strategy="{{form.type}}" ng-if="form.type==='DATE'" ng-model="$ctrl.contact[form.name]" date-format="{{form.dateFormat}}"></div>
-						<abx-time-picker ng-if="form.type==='TIME'" ng-model="$ctrl.contact[form.name]" time-format="{{form.timeFormat}}"></abx-time-picker>
 						<abx-datetime-picker ng-if="form.type==='DATE_TIME'" ng-model="$ctrl.contact[form.name]" time-format="{{form.timeFormat}}" date-format="{{form.dateFormat}}"></abx-datetime-picker>
 
                      	<input type="text" name="{{form.name}}" ng-model="$ctrl.contact[form.name]" abx-regex-filter="[^0-9.-]" abx-field-validator="form.restrictions" strategy="{{form.type}}" ng-if="form.type==='NUMBER' || form.type==='CURRENCY' || form.type==='PERCENT'"/>
@@ -23,7 +22,7 @@
                      	<select ng-options="item.value for item in form.dataSet track by item.value" ng-model="$ctrl.contact[form.name]" name="{{form.name}}" ng-required="form.required?true:false" ng-if="form.type==='SET'">
                      		<option value="" ng-if="!form.required"></option>
                      	</select>
-                     	
+                     	<input type="text" name="{{form.name}}" ng-model="$ctrl.contact[form.name]" placeholder="{{form.timeFormat}}" ng-if="form.type==='TIME' || form.type==='TIME_PERIOD'"/>
 					</span>
 					<abx-multi-select ng-model="$ctrl.contact[form.name]" options="form.dataSet" id="value" value="value" ng-if="form.type==='MULTISET'"></abx-multi-select>				
 					<input type="hidden" ng-model="$ctrl.contact[form.name]" name="{{form.name}}" abx-multiset-validator="form.restrictions" ng-if="form.type==='MULTISET'">
@@ -35,8 +34,8 @@
 					<p ng-message="abxminvalue">{{$ctrl.FieldMessages.getMinMessage(form)}}</p>
 					<p ng-message="abxmaxvalue">{{$ctrl.FieldMessages.getMaxMessage(form)}}</p>
 					<p ng-message="abxregexp">{{$ctrl.FieldMessages.getRegexMessage(form)}}</p>
-					<p ng-message="abxprecision">precision</p>
-					<p ng-message="abxscale">scale</p>					
+					<p ng-message="abxprecision">{{$ctrl.FieldMessages.getPrecisionMessage(form)}}</p>
+					<p ng-message="abxscale">{{$ctrl.FieldMessages.getScaleMessage(form)}}</p>					
 				</div>
 			</div>
 		</div>

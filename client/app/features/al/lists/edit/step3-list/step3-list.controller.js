@@ -48,6 +48,10 @@ function _extractFormats(field) {
     if(result !== null){
       field.timeFormat = result;
     }
+    result=_formatExist(field, 'TimePeriodFormat')
+    if(result !== null){
+      field.timeFormat = result;
+    }
     result=_formatExist(field, 'MinValue')
     if(result !== null){
       field.minValue = result;
@@ -63,8 +67,13 @@ function _extractFormats(field) {
     result=_formatExist(field, 'Precision')
     if(result !== null){
       let resultPrescision = field.restrictions.findIndex(e => e.type === 'Precision');
-      field.restrictions[resultPrescision].value=_getPresicion(field);
-      field.regex = result;
+      let precision = _getPresicion(field);
+      field.restrictions[resultPrescision].value = precision;
+      field.precision = precision;
+    }
+    result=_formatExist(field, 'Scale')
+    if(result !== null){
+      field.scale = result;
     }
     return field;
 }

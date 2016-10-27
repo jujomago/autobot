@@ -11,6 +11,12 @@ angular.module('fakiyaMainApp')
         datetime: '=ngModel'
       },
       link: function (scope, element, attrs) {
+        scope.openDatePicker = function(){
+          scope.opened = true;
+        }
+        if(!scope.datetime){
+          scope.datetime = {};
+        }
       }
     };
   });

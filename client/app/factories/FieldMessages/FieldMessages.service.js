@@ -60,11 +60,19 @@ angular.module('fakiyaMainApp')
      function getRegexMessage(field){
       return 'Contact Field "'+field.name+'" has an invalid value. Value does not match the pattern: '+field.regex+' Please correct it.';
      }
+     function getPrecisionMessage(field){
+      return 'Contact Field "'+field.name+'" has an invalid value. Limit for digits before decimal point ('+field.precision+') has been reached. Please correct it.';
+     }
+     function getScaleMessage(field){
+      return 'Contact Field "'+field.name+'" has an invalid value. Limit for digits after decimal point ('+field.scale+') has been reached. Please correct it.';
+     }
     return {
       getTypeMessage: getTypeMessage,
       getMinMessage: getMinMessage,
       getMaxMessage: getMaxMessage,
       getRequiredMessage: getRequiredMessage,
-      getRegexMessage: getRegexMessage
+      getRegexMessage: getRegexMessage,
+      getPrecisionMessage: getPrecisionMessage,
+      getScaleMessage: getScaleMessage
     };
   });
