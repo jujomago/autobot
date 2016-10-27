@@ -303,6 +303,7 @@ class ListComponent {
 
       this.sendContact.listUpdateSettings = this.listUpdateSettings;
       this.sending= true;
+      console.log(this.sendContact);
       return _ListService.addContacts(this.sendContact)
       .then(response=>{  
         if(response.data.return.identifier){
