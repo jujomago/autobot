@@ -151,10 +151,9 @@
                             <input type="checkbox" ng-model="$ctrl.rolSelectedPermissions[per]">{{per | camelToHuman}}
                         </label>
                     </div>
-                    <div class="checkbox" ng-repeat="permission in $ctrl.rolSelectedPermissions.permissions">
-
+                    <div class="checkbox" ng-if="permission.type!=='NICEEnabled'" ng-repeat="permission in $ctrl.rolSelectedPermissions.permissions">
                         <label>
-                            <input type="checkbox" ng-model="permission.value">{{permission.type | camelToHuman}}
+                            <input type="checkbox" ng-model="permission.value" >{{permission.type | camelToHuman}}
                         </label>
                     </div>
             </div>
