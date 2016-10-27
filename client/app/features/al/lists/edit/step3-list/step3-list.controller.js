@@ -116,7 +116,7 @@ class ListComponent {
       _ContactFieldsService = ContactFieldsService;
       this.listName = _$stateParams.name;
       this.sendContact = {listName: this.listName, importData: {values: []} }
-      this.listUpdateSettings = {cleanListBeforeUpdate: false, crmAddMode: 'ADD_NEW', crmUpdateMode: 'DONT_UPDATE', listAddMode: 'ADD_FIRST'};
+      this.listUpdateSettings = {cleanListBeforeUpdate: false, crmAddMode: 'ADD_NEW', crmUpdateMode: 'UPDATE_FIRST', listAddMode: 'ADD_FIRST'};
       
       
   }
