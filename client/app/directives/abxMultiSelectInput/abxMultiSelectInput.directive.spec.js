@@ -1,10 +1,10 @@
 'use strict';
 
-describe('Directive: abxMultiSelect', function () {
+describe('Directive: abxMultiSelectInput', function () {
 
   // load the directive's module and view
   beforeEach(module('fakiyaMainApp'));
-  beforeEach(module('app/directives/abxMultiSelect/abxMultiSelect.html'));
+  beforeEach(module('app/directives/abxMultiSelectInput/abxMultiSelectInput.html'));
 
   var element, scope;
 
@@ -13,9 +13,9 @@ describe('Directive: abxMultiSelect', function () {
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<abx-multi-select></abx-multi-select>');
+    element = angular.element('<abx-multi-select-input></abx-multi-select-input>');
     element = $compile(element)(scope);
     scope.$apply();
-    expect(element.text()).to.equal('this is the abxMultiSelect directive');
+    expect(element.text()).to.equal('this is the abxMultiSelectInput directive');
   }));
 });

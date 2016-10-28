@@ -12,8 +12,6 @@ angular.module('fakiyaMainApp')
       	else{
       		attrs.strategy = attrs.strategy.charAt(0).toUpperCase() + attrs.strategy.slice(1).toLowerCase();
       	}
-      	if(attrs.strategy !== 'String' && attrs.strategy !== 'Number'  && attrs.strategy !== 'Phone' && attrs.strategy !== 'Date' && attrs.strategy !== 'Currency'&& attrs.strategy !== 'Percent' && attrs.strategy !== 'Email' && attrs.strategy !== 'Url' && attrs.strategy !== 'Multiset')
-      		return;
         FieldValidator.setStrategy(attrs.strategy);
         let validator = FieldValidator.getMethods();
         

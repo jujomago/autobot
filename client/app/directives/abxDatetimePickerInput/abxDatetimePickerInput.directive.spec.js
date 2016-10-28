@@ -1,10 +1,10 @@
 'use strict';
 
-describe('Directive: abxDatetimePicker', function () {
+describe('Directive: abxDatetimePickerInput', function () {
 
   // load the directive's module and view
   beforeEach(module('fakiyaMainApp'));
-  beforeEach(module('app/directives/abxDatetimePicker/abxDatetimePicker.html'));
+  beforeEach(module('app/directives/abxDatetimePickerInput/abxDatetimePickerInput.html'));
 
   var element, scope;
 
@@ -13,9 +13,9 @@ describe('Directive: abxDatetimePicker', function () {
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<abx-datetime-picker></abx-datetime-picker>');
+    element = angular.element('<abx-datetime-picker-input></abx-datetime-picker-input>');
     element = $compile(element)(scope);
     scope.$apply();
-    expect(element.text()).to.equal('this is the abxDatetimePicker directive');
+    expect(element.text()).to.equal('this is the abxDatetimePickerInput directive');
   }));
 });

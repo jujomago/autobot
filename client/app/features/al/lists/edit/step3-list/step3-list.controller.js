@@ -36,35 +36,35 @@ function _extractFormats(field) {
     if(_formatExist(field, 'Required') !== null){
       field.required = true;
     }
-    let result=_formatExist(field, 'CurrencyType')
+    let result=_formatExist(field, 'CurrencyType');
     if(result !== null){
       field.currencyType = result;
     }
-    result=_formatExist(field, 'DateFormat')
+    result=_formatExist(field, 'DateFormat');
     if(result !== null){
       field.dateFormat = result;
     }
-    result=_formatExist(field, 'TimeFormat')
+    result=_formatExist(field, 'TimeFormat');
     if(result !== null){
       field.timeFormat = result;
     }
-    result=_formatExist(field, 'TimePeriodFormat')
+    result=_formatExist(field, 'TimePeriodFormat');
     if(result !== null){
       field.timeFormat = result;
     }
-    result=_formatExist(field, 'MinValue')
+    result=_formatExist(field, 'MinValue');
     if(result !== null){
       field.minValue = result;
     }
-    result=_formatExist(field, 'MaxValue')
+    result=_formatExist(field, 'MaxValue');
     if(result !== null){
       field.maxValue = result;
     }
-    result=_formatExist(field, 'Regexp')
+    result=_formatExist(field, 'Regexp');
     if(result !== null){
       field.regex = result;
     }
-    result=_formatExist(field, 'Precision')
+    result=_formatExist(field, 'Precision');
     if(result !== null){
       let resultPrescision = field.restrictions.findIndex(e => e.type === 'Precision');
       let precision = _getPresicion(field);
@@ -103,7 +103,6 @@ class ListComponent {
       this.sending = false;
       this.error = false;
       this.loaded = false;
-      this.typeUpdate = false;
       ctrl = this;
       _ = lodash;
       _$state = $state;

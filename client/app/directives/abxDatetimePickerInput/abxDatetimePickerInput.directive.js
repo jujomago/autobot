@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('fakiyaMainApp')
-  .directive('abxDatetimePicker', function () {
+  .directive('abxDatetimePickerInput', function () {
     return {
-      templateUrl: 'app/directives/abxDatetimePicker/abxDatetimePicker.html',
-      restrict: 'EA',
+      templateUrl: 'app/directives/abxDatetimePickerInput/abxDatetimePickerInput.html',
+      restrict: 'E',
       scope: {
       	dateFormat: '@',
       	timeFormat: '@',

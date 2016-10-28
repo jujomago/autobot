@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('fakiyaMainApp')
-  .directive('abxMultiSelect', function () {
+  .directive('abxMultiSelectInput', function () {
     return {
         restrict: 'E',
         scope: {
@@ -11,7 +11,7 @@ angular.module('fakiyaMainApp')
             value: '@'
 
         },
-        templateUrl: 'app/directives/abxMultiSelect/abxMultiSelect.html',
+        templateUrl: 'app/directives/abxMultiSelectInput/abxMultiSelectInput.html',
 
         controller: function ($scope) {
         	if(!$scope.ngModel){
