@@ -18,7 +18,7 @@
             this.userRoles = ['Agent'];
             this.allRoles = ['Supervisor', 'Reporting'];
             this.permissionTitle = false;
-
+            this.lastUserRolSelected='';         
             this.SubmitText = 'Save';
             this.showWarningRolMessage = this.showWarningUserMessage = false;
             this.userRolSelectedIndex = -1;
@@ -169,6 +169,33 @@
                             return error;
                         });
                 }
+        }
+        CheckClear(rolName,action)
+        {   
+            let _rolName = rolName.toLowerCase();
+            let permissionsRol = this.storage.rolesPermissions[_rolName];            
+            if(_rolName==='agent')
+            {
+                if (action === 'check') {
+                    permissionsRol.alwaysRecorded = true;
+                    permissionsRol.attachVmToEmail = true;
+                    permissionsRol.sendEmailOnVm = true;
+                }
+                else
+                {
+                    permissionsRol.alwaysRecorded = false;
+                    permissionsRol.attachVmToEmail = false;
+                    permissionsRol.sendEmailOnVm = false;
+                }
+            }                    
+            permissionsRol.permissions.forEach(function(element) {
+                if (action === 'check') {
+                    element.value = true;
+                }
+                else{
+                    element.value = false;
+                }
+            }, this);             
         }
     }
     CreateComponent.$inject = ['$state', '$sessionStorage', '$q', 'UsersService', 'ModalManager'];

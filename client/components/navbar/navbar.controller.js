@@ -32,6 +32,7 @@ class NavbarController {
     this.getter = 'partner.partnerFullName';
     this.message = { show: false };
     this.firstName = '';
+    this.reportsCollapsed = true;
     _RefreshToken = RefreshToken;
     $ctrl = this;
     this.menu = [{
@@ -101,6 +102,7 @@ class NavbarController {
   getProfile(){
     return _authService.getProfile()
     .then(response => {
+      this.email=response.data.email;
       this.firstName = response.data.firstname;
       this.avatar = response.data.avatar;
       return response;

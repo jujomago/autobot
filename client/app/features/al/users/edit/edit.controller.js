@@ -27,7 +27,7 @@
             this.message = { show: false };
             this.rolSelectedPermissions = [];
             this.permissionTitle = false;
-
+            this.lastUserRolSelected='';
             this.filteredSkills=[];
             this.skills = [];
             this.currentPage = 1;
@@ -352,6 +352,34 @@
                 this.filteredSkills = _$filter('orderBy')(list, this.sortKey, this.reverse);
             }
         }
+
+        CheckClear(rolName,action)
+        {   
+            let permissionsRol = this.storage.rolesPermissions[rolName];
+            console.log(this.storage.rolesPermissions[rolName]);
+            if(rolName==='agent')
+            {
+                if (action === 'check') {
+                    permissionsRol.alwaysRecorded = true;
+                    permissionsRol.attachVmToEmail = true;
+                    permissionsRol.sendEmailOnVm = true;
+                }
+                else
+                {
+                    permissionsRol.alwaysRecorded = false;
+                    permissionsRol.attachVmToEmail = false;
+                    permissionsRol.sendEmailOnVm = false;
+                }
+            }                    
+            permissionsRol.permissions.forEach(function(element) {
+                if (action === 'check') {
+                    element.value = true;
+                }
+                else{
+                    element.value = false;
+                }
+            }, this);             
+        }        
     }
 
     EditComponent.$inject = ['$stateParams', '$state',  '$sessionStorage','$q', '$filter', 'UsersService', 'SkillsService', 'ConfirmAsync', 'ModalManager'];
