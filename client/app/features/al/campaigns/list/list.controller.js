@@ -7,8 +7,6 @@
 
   class ListComponent {
     constructor($state, $stateParams, $timeout, $filter, ConfirmAsync, CampaignService) {
-      console.log('contrusctor Campaign ListComponent');
-
       this.campaigns = [];
       this.currentPage = 1;
       this.sortKey = '';
@@ -18,9 +16,9 @@
       this.quantities = [5, 10, 15, 20];
       this.toggleCampaignRow = -1;
       this.toggleStatusRow=-1;
-      this.message = { show: false }; 
-      this.typeCampaignFilter = '';   
-     
+      this.message = { show: false };
+      this.typeCampaignFilter = '';
+
       this.search={name:''};
       this.filteredCampaigns=[];
       this.filter = $filter;
@@ -35,38 +33,33 @@
 
 
       if (_stateParams.message !== null) {
-        console.log('stateParams');
-        console.log(_stateParams);
          this.message={ show: true, type: _stateParams.message.type, text: _stateParams.message.text, expires:3000};
       }
     }
     $onInit() {
       this.getCampaigns();
     }
- 
+
     getCampaigns() {
       return _CampaignService.getCampaigns()
-        .then(response => {         
+        .then(response => {
           if (response.statusCode === 200) {
               this.campaigns = response.data;
-           } 
+           }
            return response;
         })
-       .catch(error =>{    
+       .catch(error =>{
           this.message={ show: true, type: 'danger', text: error.errorMessage };
           return error;
       });
     }
 
     pageChanged() {
-      console.log('Page changed to: ' + this.currentPage);
       this.beginNext = (this.currentPage - 1) * this.numPerPage;
-      console.log('beginNext:' + this.beginNext);
     }
 
     sortColumn(columnName) {
       if (columnName !== undefined && columnName) {
-        //   console.log('sorting:' + columnName);
         this.sortKey = columnName;
         this.reverse = !this.reverse;
         this.campaigns = this.filter('orderBy')(this.campaigns, this.sortKey, this.reverse);
@@ -75,34 +68,31 @@
         return false;
       }
     }
-    
+
 
 
 
     deleteCampaign(campaign, indexRow) {
-      return _ConfirmAsync('Are you sure to delete "' + campaign.name + '"?')          
+      return _ConfirmAsync('Are you sure to delete "' + campaign.name + '"?')
         .then(() => {
           this.toggleCampaignRow = indexRow;
           return _CampaignService.deleteCampaign(campaign.name);
         })
         .then(response => {
-          console.log('response in client');
-          console.log(response);
-
           if (response.statusCode === 204) {
             let index = this.campaigns.indexOf(campaign);
 
             this.campaigns.splice(index, 1);
             this.toggleCampaignRow = -1;
-            this.message={ show: true, 
-                           type: 'success', 
-                           text: 'Campaign "' + campaign.name + '" Deleted', 
+            this.message={ show: true,
+                           type: 'success',
+                           text: 'Campaign Deleted Successfully',
                            expires:3000};
-           // this.showMessage('success','Campaign "' + campaign.name + '" Deleted',3000);    
+           // this.showMessage('success','Campaign "' + campaign.name + '" Deleted',3000);
             return response;
-          } 
+          }
         })
-        .catch(error =>{    
+        .catch(error =>{
             this.message={ show: true, type: 'danger', text: error.errorMessage };
             return error;
         });
@@ -111,83 +101,83 @@
     verifyDependendies(campaign){
           if(campaign.type==='INBOUND'){
               // CHECK DNIS
-              return _CampaignService.getAttachedDnis(campaign.name);          
-              
+              return _CampaignService.getAttachedDnis(campaign.name);
+
           }else{
             //check lists
-             return _CampaignService.getAttachedLists(campaign.name);     
+             return _CampaignService.getAttachedLists(campaign.name);
           }
     }
 
     updateState(item, indexRow){
-     this.toggleStatusRow = indexRow;   
+     this.toggleStatusRow = indexRow;
      if(item.state==='RUNNING'){
         item.statusBtnText='Stopping';
      }
      else{
-        item.statusBtnText='Starting'; 
+        item.statusBtnText='Starting';
      }
      return this.verifyDependendies(item)
       .then(response=>{
-         if(response.data===null && response.statusCode===200){ 
-            if(item.type==='INBOUND'){     
+         if(response.data===null && response.statusCode===200){
+            if(item.type==='INBOUND'){
               this.message={ show: true, type: 'warning', text: 'No DNIS numbers attached to the campain', expires:5000 };
             }else{
               this.message={ show: true, type: 'warning', text: 'No Lists attrached to the campain', expires:5000 };
             }
 
         }
-        return response;   
+        return response;
       })
      .then(()=>{
-     
+
         if(item.state==='RUNNING'){
           return _CampaignService.stopCampaign(item.name)
           .then(response=>{
               if(response.statusCode===200){
-                item.state='NOT_RUNNING';  
-                item.statusBtnText='Start';  
-                this.toggleStatusRow = -1; 
-                 this.message={ show: true, 
-                           type: 'success', 
-                           text: 'Stopped Succesfully', 
-                           expires:2000};    
-                             
-              }      
+                item.state='NOT_RUNNING';
+                item.statusBtnText='Start';
+                this.toggleStatusRow = -1;
+                 this.message={ show: true,
+                           type: 'success',
+                           text: 'Stopped Successfully',
+                           expires:2000};
+
+              }
               return response;
           })
-          .catch(error =>{    
-              item.statusBtnText='Stop'; 
-              this.toggleStatusRow = -1; 
+          .catch(error =>{
+              item.statusBtnText='Stop';
+              this.toggleStatusRow = -1;
               this.message={ show: true, type: 'danger', text: error.errorMessage };
               return error;
           });
-           
-       }else{  
+
+       }else{
           return _CampaignService.startCampaign(item.name)
           .then(response=>{
               if(response.statusCode===200){
                 item.state='RUNNING';
                  item.statusBtnText='Stop';
-                this.toggleStatusRow = -1; 
-                this.message={ show: true, type: 'success', text: 'Started Succesfully', expires:2000 };
+                this.toggleStatusRow = -1;
+                this.message={ show: true, type: 'success', text: 'Started Successfully', expires:2000 };
               }
             return response;
           })
-          .catch(error =>{    
-              item.statusBtnText='Start'; 
-              this.toggleStatusRow = -1; 
+          .catch(error =>{
+              item.statusBtnText='Start';
+              this.toggleStatusRow = -1;
               this.message={ show: true, type: 'danger', text: error.errorMessage };
               return error;
-          });       
+          });
        }
      })
-      .catch(error =>{    
+      .catch(error =>{
           this.message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
           return error;
       });
 
-    }   
+    }
     getMax(){
         let total=this.currentPage*this.numPerPage;
         return (total>this.filteredCampaigns.length)?this.filteredCampaigns.length+'':total;
@@ -196,7 +186,7 @@
       let typeEdit = item.type.toLowerCase();
       _state.go('ap.al.campaignsEdit-' + typeEdit, { name: item.name });
     }
-    
+
     filteringBySearch(){
       this.beginNext = 0;
       this.currentPage = 1;

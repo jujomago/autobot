@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-    let _$http; 
+    let _$http;
     //let endPointUrl = 'http://localhost:9000/api/f9/users';
     let _HandleError;
     class UsersService {
@@ -52,7 +52,6 @@
             var result = { data: null, statusCode: 201, errorMessage: '' };
             return _$http.post(this.endPointUrl + '/' + userSkill.userName + '/skills', userSkill)
                 .then(response => {
-                    console.log(response);
                     if (response.status !== 201) {
                         result.statusCode = response.status;
                         result.data = response.data;
@@ -98,11 +97,9 @@
             return _$http.post(this.endPointUrl, userInfo)
                 .then(r => {
                     if (r.data.response) { // some error generally in response
-                        console.warn('Expected Error');
                         result.statusCode = r.data.response.statusCode;
                         result.errorMessage = r.data.body;
                     } else {
-                        console.log('Response userInfo');
                         result.data = r.data.return;
                     }
                     return result;
@@ -130,7 +127,6 @@
                         result.statusCode = response.status;
                         result.data = response.data;
                     }
-                    console.log('show response from delete user ' + result.data);
                     return result;
                 })
                 .catch(err => _HandleError(err, result));
@@ -154,4 +150,3 @@
         .service('UsersService', UsersService);
 
 })();
-

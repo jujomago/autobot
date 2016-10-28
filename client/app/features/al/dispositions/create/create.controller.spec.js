@@ -28,6 +28,7 @@ describe('Component:DispositionCreateComponent', function () {
     });
 
     httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
+    httpBackend.whenGET(appConfig.apiUri+'/f9/lists/%$&unexisting_list)(*&^%^').respond(200);
 
   }));
   describe('#timeField', () => {
@@ -78,7 +79,7 @@ describe('Component:DispositionCreateComponent', function () {
          expect(response.statusCode).to.equal(201);
          expect(response.data).to.equal(null);
          expect(response.errorMessage).to.equal(null);
-         expect(CreateComponent.message.text).to.equal('Disposition Created SuccessFully');
+         expect(CreateComponent.message.text).to.equal('Disposition Created Successfully');
       });
       httpBackend.flush();
     });

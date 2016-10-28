@@ -65,7 +65,7 @@
                 </div>
               </div>
               <ul>
-                <li ng-repeat="app in nav.newApps" ng-click="nav.selectApp(app.app.appName)">
+                <li ng-repeat="app in nav.newApps | limitTo: 5" ng-click="nav.selectApp(app.app.appName)">
                   <a class="new-img">
                     <img src="/assets/{{app.app.appName}}/images/logo-sm.jpg" abx-default-image-switch="/assets/default/images/logo-sm.jpg" alt=""/>
                   </a>
@@ -85,7 +85,7 @@
 
           </ul>
         </li>
-        <li><a ui-sref="ap.underconstruction"><p class="aligned-items">Reports</p></a></li>
+        <!--li><a ui-sref="ap.underconstruction"><p class="aligned-items">Reports</p></a></li-->
       </ul>
       <ul class="nav navbar-nav nav-icons navbar-right">
         <li>

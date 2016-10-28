@@ -14,7 +14,6 @@ import service from '../../../infrastructure/servicecall';
 
 // Gets a list of Dispositions
 export function index(req, res) {
-  console.log('SERVER test')
   var params = {}
   return service.f9CallService('getDispositions', params, '', req)
       .then(data => {
@@ -25,7 +24,6 @@ export function index(req, res) {
 // Create a Disposition from the API
 export function create(req, res) {
   var params = {disposition: req.body};
-  console.log(params);
   return service.f9CallService('createDisposition', params, '', req)
       .then(service.respondWithResult(res,201))
       .catch(service.handleError(res));
@@ -34,7 +32,7 @@ export function create(req, res) {
 export function update(req, res) {
   var paramsRename={dispositionName: req.body.oldName, dispositionNewName: req.body.name};
   var params ={disposition: req.body};
-  
+
   if(req.body.oldName===req.body.name){
     return service.f9CallService('modifyDisposition', params, '', req)
     .then(service.respondWithResult(res,200))
@@ -43,12 +41,12 @@ export function update(req, res) {
   else{
     return service.f9CallService('renameDisposition', paramsRename, '', req)
           .then(result => {
-            return service.f9CallService('modifyDisposition', params, '', req);        
+            return service.f9CallService('modifyDisposition', params, '', req);
           })
         .then(service.respondWithResult(res,200))
         .catch(service.handleError(res));
   }
-  
+
 }
 export function show(req, res) {
   var params ={dispositionName: req.params.dispositionName};

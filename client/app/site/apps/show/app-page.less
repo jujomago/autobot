@@ -47,26 +47,41 @@
           width: 130px;
         }
     }
-    @media (min-width: 768px){
+    .screen-container{
+      float: none;
+    }
+    @media (max-width: 768px){
       .col-sm-9{
-        width:71%;
+        width:100%;
+        float: none;
+        .screen-container{
+          float: left;
+        }
+        .col-sm-4{
+          width: 100%;
+        }
+      }
+    }
+    @media (min-width: 769px){
+      .col-sm-9{
+        width:68%;
       }
     }
     @media (min-width: 992px){
       .col-sm-9{
-        width:76%;
+        width:70%;
         padding-left:0;
         margin-left:20px;
       }
     }
     @media (min-width: 1217px){
       .col-sm-9{
-        width:80%;
+        width:76%;
       }
     }
-      @media (min-width: 1400px){
-        .col-sm-9{
-          width:83%;
+    @media (min-width: 1400px){
+      .col-sm-9{
+        width:80%;
       }
     }
     .app-screens-container{

@@ -3,20 +3,21 @@
 (function () {
 
     let _UsersService,_state,_$q,_ModalManager;
-    
+
     class CreateComponent {
 
         constructor($state, $sessionStorage, $q, UsersService, ModalManager) {
             _ModalManager = ModalManager;
-            this.storage = $sessionStorage;                  
+            this.storage = $sessionStorage;
             this.newUser = {
                 active: true,
                 mustChangePassword: true,
                 canChangePassword: true
             };
 
-            this.userRoles = [];
-            this.allRoles = ['Agent', 'Supervisor', 'Admin', 'Reporting'];
+            this.userRoles = ['Agent'];
+            this.allRoles = ['Supervisor', 'Reporting'];
+            this.permissionTitle = false;
 
             this.SubmitText = 'Save';
             this.showWarningRolMessage = this.showWarningUserMessage = false;
@@ -24,11 +25,11 @@
 
             this.rolSelectedPermissions = [];
             this.message = { show: false };
-            
+
             _UsersService = UsersService;
             _$q = $q;
             _state = $state;
-         
+
 
         }
         openModal(){
@@ -49,23 +50,26 @@
             });
         }
         $onInit() {
-            console.log('loading roles'); 
-
             return _UsersService.getPermissions()
                 .then(response => {
                     this.storage.rolesPermissions = response;
                     return response;
                 })
-                .catch(error => {                      
+                .catch(error => {
                     this.message = { show: true, type: 'danger', text: error.errorMessage };
                     return error;
                 });
-
-            //   console.log(this.newUser);
-
+        }
+        fillUsrPass(){
+          let val = this.newUser.EMail;
+          this.newUser.userName = val;
+          this.newUser.password = val;
+        }
+        fillPass(){
+          let val = this.newUser.userName;
+          this.newUser.password = val;
         }
         checkStepOne(form) {
-            //    console.log(form);
             this.showWarningUserMessage = (!form.$valid) ? true : false;
 
         }
@@ -86,6 +90,7 @@
                 this.userRoles.splice(this.userRolSelectedIndex, 1);
                 this.userRolSelectedIndex = -1;
                 this.rolSelectedPermissions = [];
+                this.permissionTitle = false;
                 return true;
             } else {
                 return false;
@@ -97,6 +102,7 @@
                 this.userRolSelectedIndex = this.userRoles.indexOf(rolName);
                 if (this.storage.rolesPermissions) {
                     this.rolSelectedPermissions = this.storage.rolesPermissions[rolName.toLowerCase()];
+                    this.permissionTitle = true;
                 }
                 return true;
             }
@@ -104,13 +110,10 @@
         }
 
         save() {
-                       
+
                 if (this.userRoles.length === 0) {
                     this.showWarningRolMessage = true;
-                    console.warn('You must select at least one rol');
-
                     let deferred = _$q.defer();
-                    console.log('Deferred value -->' + deferred);
                     deferred.resolve(null);
                     return deferred.promise;
 
@@ -119,14 +122,14 @@
                     this.showWarningRolMessage = false;
                     this.SubmitText = 'Saving...';
 
-                                        
-                    let _rolesToSet={};                
-                    this.userRoles.forEach((selectedRol)=>{      
-                        let selRol=selectedRol.toLowerCase();             
+
+                    let _rolesToSet={};
+                    this.userRoles.forEach((selectedRol)=>{
+                        let selRol=selectedRol.toLowerCase();
                         _rolesToSet[selRol]=this.storage.rolesPermissions[selRol];
-                    }, this); 
-                
-                    
+                    }, this);
+
+
                     var reqFormat = {
                         userInfo: {
                             generalInfo: this.newUser,
@@ -144,7 +147,7 @@
                                         type: 'success',
                                         text: 'User Created'
                                     };
-                                    this.newUser = {}; //clean object                        
+                                    this.newUser = {}; //clean object
                                     _state.go('ap.al.users', { message: messageObj });
                                     return response;
 
@@ -159,11 +162,8 @@
                             }
 
                         })
-                        .catch(error => {                      
+                        .catch(error => {
 
-                            console.error('error in client');
-                            console.log(error);
-                            
                             this.SubmitText = 'Save';
                             this.message = { show: true, type: 'danger', text: error.errorMessage };
                             return error;

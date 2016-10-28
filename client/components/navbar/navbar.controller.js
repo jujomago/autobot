@@ -6,7 +6,7 @@ let _appsService;
 let _$filter, _$parse, _$state;
 let _AlertMessage, _RefreshToken;
 let $ctrl;
-const MAX_NEW_APPS_AMOUNT = 5;
+//const MAX_NEW_APPS_AMOUNT = 5;
 class NavbarController {
 
   constructor($filter, $parse, $location, $state, lodash, AuthService, AppsService, Base64Manager, GetHomePage, AlertMessage, EventBus, RefreshToken) {
@@ -16,7 +16,7 @@ class NavbarController {
     this.userOptionsCollapsed = true;
     _$state = $state;
     _$location=$location;
-    _authService=AuthService;    
+    _authService=AuthService;
     this.myAppsCollapsed = true;
     this.isFocus=false;
     this.search = {app: {appFullName: ''}};
@@ -68,27 +68,27 @@ class NavbarController {
   logout(){
     let encodedURL=_Base64Manager.encode(_$location.url());
     return _authService.logout()
-        .then(response => {         
+        .then(response => {
           if (response.status === 200) {
-            _RefreshToken.cancelRefresh();        
-            _$location.url('/login').search({url: encodedURL});              
-          }                   
+            _RefreshToken.cancelRefresh();
+            _$location.url('/login').search({url: encodedURL});
+          }
           return response;
         })
-        .catch(e => {            
+        .catch(e => {
           let contentModal={ title:'Message',
                              body:`An unexpected error has ocurred. Please try again or contact us`
           };
-          _AlertMessage(contentModal); 
-                  
+          _AlertMessage(contentModal);
+
           if (e.status && e.data) {
             this.message = { show: true, text: e.data.statusText, type: 'danger' };
-          } 
+          }
           else {
             this.message = { show: true, text: e, type: 'danger' };
           }
           return e;
-        }); 
+        });
   }
   loadApps(){
     this.getInstalled();
@@ -107,11 +107,11 @@ class NavbarController {
     })
     .catch(error => {
       if(error.statusCode !== 401){
-        let contentModal={ 
+        let contentModal={
           title:'Message',
           body:'An unexpected error has ocurred. Please try again or contact us'
         };
-        _AlertMessage(contentModal); 
+        _AlertMessage(contentModal);
       }
       return error;
     });
@@ -133,20 +133,20 @@ class NavbarController {
       return response;
     })
     .catch(error => {
-      let theMsg= error.errorMessage; 
+      let theMsg= error.errorMessage;
       this.message={ show: true, type: 'danger', text: theMsg };
       return error;
     });
   }
 
   getNewest(){
-    return _appsService.getFilteredApps({installed: false, size: MAX_NEW_APPS_AMOUNT})
+    return _appsService.getFilteredApps({installed: false})
     .then(response => {
       this.newApps = response.data;
       return response;
     })
     .catch(error => {
-      let theMsg= error.errorMessage; 
+      let theMsg= error.errorMessage;
       this.message={ show: true, type: 'danger', text: theMsg };
       return error;
     });
@@ -170,21 +170,19 @@ class NavbarController {
     let getter = _$parse(this.getter);
     return _lodash.groupBy(list, function(item) {
         return getter(item);
-    });  
+    });
   }
 
   changeFocus(isCollapsed){
     if(isCollapsed===false){
       this.isFocus = angular.element('input.searchbox').is(':focus');
-      console.log('focus '+angular.element('input.searchbox').is(':focus'));
     }
-    
+
     angular.element('input').blur();
     this.myAppsCollapsed = isCollapsed;
     /** Bug 1476 when the user place the focus in an input, and perform an over action in the sub menu,the focus should not be lost. */
     if(isCollapsed&&this.isFocus===true){
       angular.element('input.searchbox').focus();
-      console.log('focus return');
     }
     return isCollapsed;
   }
