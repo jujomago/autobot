@@ -1,12 +1,85 @@
 'use strict';
 (function(){
-let _ConfirmAsync, _ListService, _, _ContactFieldsService;
+let _ConfirmAsync, _ListService, _, _ContactFieldsService, ctrl, _FieldFormatter;
 let _$state, _$stateParams, _$filter, _$uibModal;
 
-class ListComponent {
-  constructor($state, $stateParams, $filter, $uibModal, ListsService, ConfirmAsync, ContactFieldsService, lodash) {
 
-      this.importData = {fields: [], keys: [], rows: []};
+function _getSets(field) {
+    if(field.restrictions){
+      let set = field.restrictions.filter(r => (r.type === 'Set' || r.type === 'Multiset'));
+      if(set.length>0){
+        field.dataSet = set;
+        field.realType = field.type;
+        field.type = set[0].type.toUpperCase();
+        field.restrictions = field.restrictions.filter(r => (r.type !== 'Set' && r.type !== 'Multiset'))
+      }
+    }
+    return field;
+}
+function _formatExist(field, key){
+  if(!field.restrictions){
+      return null;
+    }
+  let result = field.restrictions.find(e => e.type === key);
+
+  return result?result.value:null;
+}
+function _getPresicion(field){
+  let resultPrescision = field.restrictions.find(e => e.type === 'Precision');
+  let resultScale = field.restrictions.find(e => e.type === 'Scale');
+  if(resultScale){
+    return resultPrescision.value*1-resultScale.value*1;
+  }
+  return resultPrescision;
+}
+function _extractFormats(field) {
+    if(_formatExist(field, 'Required') !== null){
+      field.required = true;
+    }
+    let result=_formatExist(field, 'CurrencyType');
+    if(result !== null){
+      field.currencyType = result;
+    }
+    result=_formatExist(field, 'DateFormat');
+    if(result !== null){
+      field.dateFormat = result;
+    }
+    result=_formatExist(field, 'TimeFormat');
+    if(result !== null){
+      field.timeFormat = result;
+    }
+    result=_formatExist(field, 'TimePeriodFormat');
+    if(result !== null){
+      field.timeFormat = result;
+    }
+    result=_formatExist(field, 'MinValue');
+    if(result !== null){
+      field.minValue = result;
+    }
+    result=_formatExist(field, 'MaxValue');
+    if(result !== null){
+      field.maxValue = result;
+    }
+    result=_formatExist(field, 'Regexp');
+    if(result !== null){
+      field.regex = result;
+    }
+    result=_formatExist(field, 'Precision');
+    if(result !== null){
+      let resultPrescision = field.restrictions.findIndex(e => e.type === 'Precision');
+      let precision = _getPresicion(field);
+      field.restrictions[resultPrescision].value = precision;
+      field.precision = precision;
+    }
+    result=_formatExist(field, 'Scale')
+    if(result !== null){
+      field.scale = result;
+    }
+    return field;
+}
+class ListComponent {
+  constructor($state, $stateParams, $filter, $uibModal, ListsService, ConfirmAsync, ContactFieldsService, lodash, FieldFormatter) {
+
       this.currentPage = 1;
       this.sortKey = '';
       this.reverse = false;
@@ -23,7 +96,6 @@ class ListComponent {
       this.selectedArray = [];
       this.method = 'create';
       this.manual = false;
-      this.sendContact = {listName: '', importData: { values: []}};
       this.contactFields = [];
       this.fieldsMapping = [];
       this.loadingContacts = true;
@@ -31,62 +103,50 @@ class ListComponent {
       this.sending = false;
       this.error = false;
       this.loaded = false;
-      this.typeUpdate = false;
-      this.headerFields=[];
-      this.action='updateList';
+      ctrl = this;
+      _ = lodash;
       _$state = $state;
       _$stateParams = $stateParams;
       _$filter = $filter;
       _$uibModal = $uibModal;
       _ListService = ListsService;
       _ConfirmAsync = ConfirmAsync;
+      _FieldFormatter = FieldFormatter;
       _ContactFieldsService = ContactFieldsService;
-      _ = lodash;
-
-      if(_$stateParams.settings.listDeleteSettings){
-        this.action='deleteList';
-      }
-      if(_$stateParams.settings){
+      this.listName = _$stateParams.name;
+      this.sendContact = {listName: this.listName, importData: {values: []} }
+      this.listUpdateSettings = {cleanListBeforeUpdate: false, crmAddMode: 'ADD_NEW', crmUpdateMode: 'UPDATE_FIRST', listAddMode: 'ADD_FIRST'};
 
 
-        this.sendContact.listName = _$stateParams.name;
-        this.typeUpdate = (_$stateParams.settings.listUpdateSettings) ? true : false;
-
-        if(_$stateParams.settings.resultMapping){
-          this.headerFields=_$stateParams.settings.resultMapping.headerFields;
-
-          if(this.typeUpdate){
-           this.importData.fields = _$stateParams.settings.resultMapping.headerFields;
-          }else{
-            let headerFields=_$stateParams.settings.resultMapping.headerFields;
-            this.importData.fields =  _.filter(headerFields, { 'isKey': true });
-          }
-
-          this.importData.keys = _$stateParams.settings.resultMapping.keys;
-          this.importData.rows = _$stateParams.settings.resultMapping.rows;
-          this.list = this.importData.rows;
-          this.loaded = true;
-        }else{
-          this.manual = true;
-          if(this.typeUpdate){
-            this.contactFields = _$stateParams.settings.fields;
-          }else{
-            this.contactFields =_.filter(_$stateParams.settings.fields, { 'isKey': true });
-          }
-
-          this.initArrays();
-        }
-
-
-
-
-      }else{
-        let theMsg = 'Bad params';
-        this.error = true;
-        this.message={ show: true, type: 'warning', text: theMsg, expires: 3000};
-      }
   }
-
+  $onInit(){
+    this.getContactFields();
+  }
+  generateMapping(){
+    this.listUpdateSettings.fieldsMapping =[];
+    for(let i=0; i<this.contactFields.length;i++){
+      let key=false;
+      if(this.contactFields[i].name==='number1'){
+        key=true;
+      }
+      this.listUpdateSettings.fieldsMapping.push({columnNumber: i+1, fieldName: this.contactFields[i].name, key: key})
+    }
+  }
+  getContactFields() {
+    return _ContactFieldsService.getContactFields()
+    .then(response => {
+        this.contactFields = response.data.filter(e => (e.mapTo === 'None'));
+        this.contactFields  = this.contactFields.map(_getSets).map(_extractFormats);
+        console.log(this.contactFields);
+        this.generateMapping();
+        this.loaded = true;
+        return response;
+    })
+    .catch(error => {
+        this.message = { show: true, type: 'danger', text: error.errorMessage };
+        return e;
+    });
+  }
   sortColumn(columnName) {
       if (columnName !== undefined && columnName) {
           this.sortKey = columnName;
@@ -156,6 +216,7 @@ class ListComponent {
     if(item){
       this.contact = item;
     }
+    this.selectedIndex = this.list.indexOf(this.contact);
     this.method = 'update';
     this.openModal();
   }
@@ -193,124 +254,69 @@ class ListComponent {
     this.modalInstance.result
         .then(result => {
             if(typeof result !== 'undefined' && Object.keys(result).length > 0){
-              if(this.method === 'create'){
-                if(this.manual){
-                  let listManualCopy = angular.copy(this.listManual);
-                  _.map(result, (value, key)=>{
-                    listManualCopy[key] = value;
-                  }, this);
-                  this.list.push(listManualCopy);
-                }else{
-                  this.list.push(result);
-                }
-              }else{
-                angular.merge(this.contact, result);
-              }
+                  if(this.method==='create'){
+                    this.list.push(angular.copy(result));
+                  }
+                  else{
+                    this.list[this.selectedIndex] = result;
+                  }
             }
             this.selected = '';
             this.selectedOld = '';
             this.selectedArray = [];
             this.contact = {};
+            this.selectedIndex = -1;
         }, ()=>{
           this.selected = '';
           this.selectedOld = '';
           this.selectedArray = [];
           this.contact = {};
+          this.selectedIndex = -1;
         });
   }
 
   uploadContacts(){
-
-    let items = [];
+    
+    let list = angular.copy(this.list);
     let listUpdateSettings;
     let listDeleteSettings;
 
-    let mainList = angular.copy(this.list);
-
+    let mainList =  list.map(item =>{
+        let keys = Object.keys(item);
+        for(let i=0;i<keys.length;i++){
+          let key = keys[i];
+          item[key] =  _FieldFormatter.formatField(ctrl.contactFields[i], item[key]);
+        }
+        return item;
+    });
     _.each(mainList,e=>{
-        items.push(_.values(e));
-    });
-    _.each(items,it=>{
-       this.sendContact.importData.values.push({item:it});
+      this.sendContact.importData.values.push({item: _.values(e)});
     });
 
-
-
-    if(_$stateParams.settings.listUpdateSettings){
-      //UPDATE
-      listUpdateSettings = _$stateParams.settings.listUpdateSettings;
-      this.sendContact.listUpdateSettings = listUpdateSettings;
-      if(this.manual){
-        this.sendContact.listUpdateSettings.fieldsMapping = this.fieldsMapping;
-      }else{
-        this.sendContact.listUpdateSettings.fieldsMapping = _$stateParams.settings.fieldsMapping;
-      }
+      this.sendContact.listUpdateSettings = this.listUpdateSettings;
       this.sending= true;
+      console.log(this.sendContact);
       return _ListService.addContacts(this.sendContact)
-      .then(response=>{
+      .then(response=>{  
         if(response.data.return.identifier){
           this.sending= false;
           _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: true});
         }
         return response;
       })
-      .catch(error =>{
+      .catch(error =>{    
         this.SubmitText='Save';
         this.message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
         return error;
       });
 
-    }else{
-      //DELETE
-      listDeleteSettings = _$stateParams.settings.listDeleteSettings;
-      this.sendContact.listDeleteSettings = listDeleteSettings;
-      if(this.manual){
-        this.sendContact.listDeleteSettings.fieldsMapping = this.fieldsMapping;
-      }else{
-        this.sendContact.listDeleteSettings.fieldsMapping = _$stateParams.settings.fieldsMapping;
-      }
-      this.sending= true;
-      return _ListService.deleteContacts(this.sendContact)
-      .then(response=>{
-        if(response.data.return.identifier){
-          this.sending= false;
-          _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: false});
-        }
-        return response;
-      })
-      .catch(error =>{
-        this.SubmitText='Save';
-        this.message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
-        return error;
-      });
-    }
+
   }
 
   cancelList(){
       _$state.go('ap.al.lists');
   }
 
-  initArrays() {
-      let cont = 1;
-      let key = false;
-      let listManual = {};
-      if (this.contactFields) {
-        this.loadingContacts = false;
-        _.map(this.contactFields, value=>{
-          if(value.name === 'number1'){
-            key = true;
-          }else{
-            key = false;
-          }
-          listManual[value.name] = '';
-          this.fieldsMapping.push({columnNumber: cont, fieldName: value.name, key: key});
-          cont++;
-        });
-        this.importData.fields = this.contactFields;
-        this.listManual = listManual;
-        this.loaded = true;
-      }
-  }
 
   filteringBySearch(){
     this.selected = '';
@@ -329,8 +335,11 @@ class ListComponent {
   pageChanged() {
     this.beginNext = (this.currentPage - 1) * this.numPerPage;
   }
+  formatField(field, value){
+    return _FieldFormatter.formatField(field, value);
+  }
 }
-ListComponent.$inject = ['$state', '$stateParams', '$filter', '$uibModal', 'ListsService', 'ConfirmAsync', 'ContactFieldsService', 'lodash'];
+ListComponent.$inject = ['$state', '$stateParams', '$filter', '$uibModal', 'ListsService', 'ConfirmAsync', 'ContactFieldsService', 'lodash', 'FieldFormatter'];
 angular.module('fakiyaMainApp')
   .component('al.lists.edit.list', {
     templateUrl: 'app/features/al/lists/edit/step3-list/step3-list.html',

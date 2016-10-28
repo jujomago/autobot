@@ -37,7 +37,6 @@
           <td class="text-center">
             <div ng-hide="$ctrl.processedRow === item.name">
               <button class="btn-row btn-primary btn-shared-row" ng-click="$ctrl.updateListRecord(item.name)">Update</button>
-                <button class="btn-row btn-danger btn-shared-row" ng-click="$ctrl.deleteListRecord(item.name)">Remove</button>
             </div>
             <div ng-show="$ctrl.processedRow === item.name">
               <i class="progress-icon"></i> Processing
