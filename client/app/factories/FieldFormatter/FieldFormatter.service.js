@@ -6,7 +6,7 @@ angular.module('fakiyaMainApp')
       switch(field.realType){
         case 'CURRENCY':
           if(value.length>0){
-            return field.currencyType+value.map(function(item){return item.value;}).join(';'+field.currencyType)
+            return field.currencyType+value.map(item =>{return item.value;}).join(';'+field.currencyType)
           }
           else{
             return '';
@@ -14,14 +14,14 @@ angular.module('fakiyaMainApp')
         break;
         case 'PERCENT':
           if(value.length>0){
-            return value.map(function(item){return item.value;}).join('%;')+'%';
+            return value.map(item =>{return item.value;}).join('%;')+'%';
           }
           else{
             return '';
           }
         break;
       }
-      return value.map(function(item){return item.value;}).join(';');
+      return value.map(item =>{return item.value;}).join(';');
     }
     function removeExtraPoints(value){
 
@@ -41,7 +41,7 @@ angular.module('fakiyaMainApp')
         type = field.realType;
         value = value.value;
       }
-      if(field.type === 'NUMBER' || field.type === 'PERCENT' || field.type === 'CURRENCY'){
+      if(['PERCENT','NUMBER','CURRENCY'].indexOf(field.type) > -1) {
         value = removeExtraPoints(value);
       }
       switch(type){

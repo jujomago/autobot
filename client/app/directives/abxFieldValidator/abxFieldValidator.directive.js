@@ -10,7 +10,7 @@ angular.module('fakiyaMainApp')
       		attrs.strategy = 'String';
       	}
       	else{
-      		attrs.strategy = attrs.strategy.charAt(0).toUpperCase() + attrs.strategy.slice(1).toLowerCase();
+      		attrs.strategy = attrs.strategy[0].toUpperCase() + attrs.strategy.slice(1).toLowerCase();
       	}
         FieldValidator.setStrategy(attrs.strategy);
         let validator = FieldValidator.getMethods();
