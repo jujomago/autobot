@@ -7,6 +7,7 @@ angular.module('fakiyaMainApp', [
   'ngSanitize',
   'ui.router',
   'ui.bootstrap',
+  'ui.mask',
   'ngStorage',
   'ngMessages',
   'angular-jwt'
@@ -28,8 +29,7 @@ angular.module('fakiyaMainApp', [
     }
     // disable IE ajax request caching
     $httpProvider.defaults.headers.get['If-Modified-Since'] = '0';
-  }).run(function (lodash, $window, Global) { // jshint ignore:line
-    //this method is only for run the lodash deletion
+  }).run(function ($window, Global) { // jshint ignore:line
     //TODO: Remove or Evaluate this block after Event Bus is implemented
     $window.onbeforeunload = function () {
       if(Global.proccessIsRunning){

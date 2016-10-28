@@ -74,7 +74,9 @@
         padding: 0;
         text-align: center;
     }
-
+    .btn-auto-size{
+        width: auto;
+    }
     .rigth-space-sm{
         margin-right: 10px;
     }
@@ -491,6 +493,32 @@
             }
             input{
               padding: 7px 10px 0;
+            }
+        }
+    }
+    .fields-form{
+        .inputminimal{
+            &>span{
+                display: block;
+                overflow: hidden;
+                margin: 0;
+                height: 100%;
+                input, select{
+                    padding: 0 10px 0;
+                    width: 100%;
+                    height: 100%;
+                }
+                input.form-boolean{
+                    height: 100%;
+                    display: inline-block;
+                    width: auto;
+                    vertical-align: middle;
+                    margin-top: 0;
+                    margin-left: 5px;
+                }
+                select{
+                    background: white;
+                }
             }
         }
     }

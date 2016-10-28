@@ -2,22 +2,15 @@
 
 <abx-message msg="$ctrl.message"></abx-message>
 
-<div class="mywell text-right" ng-if="$ctrl.error">
-    <a class="btn btn-black btn-fixed-80" ng-click="$ctrl.cancelList()">Cancel</a>
-</div>
 
-<abx-load-indicator ng-show="!$ctrl.manual && ($ctrl.list.length==0 && $ctrl.message.show)" text="Loading List"></abx-load-indicator>
-
-<abx-load-indicator ng-show="$ctrl.manual && $ctrl.loadingContacts" text="Loading List"></abx-load-indicator>
+<abx-load-indicator ng-show="!$ctrl.loaded" text="Loading Contact Fields"></abx-load-indicator>
 
 <abx-load-indicator ng-show="$ctrl.sending" text="Sending"></abx-load-indicator>
 
 <div ng-show="!$ctrl.sending && $ctrl.loaded" class="edit-list margin-with-footer">
-
     <div class="pull-left">
         <div class="mywell list-title-mapp">
-            <h3 ng-if="$ctrl.typeUpdate">List Update</h3>
-            <h3 ng-if="!$ctrl.typeUpdate">List Delete</h3>
+            <h3>List Update</h3>
         </div>
         <div class="mywell">
             <div class="searchbox_container search">
@@ -35,27 +28,24 @@
             <button class="btn btn-black right-space-20 btn-fixed-80" ng-if="$ctrl.manual" ng-click="$ctrl.insertContact()">Insert</button>
             <button class="btn btn-black right-space-20 btn-fixed-80" ng-if="!$ctrl.manual" ng-click="$ctrl.insertContact()" ng-disabled="$ctrl.error">Insert</button>
             <button class="btn btn-black right-space-20 btn-fixed-80" ng-disabled="$ctrl.selectedArray.length === 0 || $ctrl.selectedArray.length > 1" ng-click="$ctrl.editContact()">Edit</button>
-            <button ng-class="{ 'btn btn-black btn-fixed-80': !$ctrl.typeUpdate , 'btn btn-black right-space-20 btn-fixed-80': $ctrl.typeUpdate }" ng-disabled="$ctrl.selectedArray.length < 1" ng-click="$ctrl.deleteContact()">Delete</button>
-<button class="btn btn-black btn-fixed-80" ng-click="$ctrl.shuffleList()" ng-disabled="$ctrl.filteredList.length <= 1" ng-if="$ctrl.typeUpdate">Shuffle</button>
+            <button class="btn btn-black right-space-20 btn-fixed-80" ng-disabled="$ctrl.selectedArray.length < 1" ng-click="$ctrl.deleteContact()">Delete</button>
+<button class="btn btn-black btn-fixed-80" ng-click="$ctrl.shuffleList()" ng-disabled="$ctrl.filteredList.length <= 1">Shuffle</button>
         </div>
     </div>
 
     <div class="table-responsive table-x-scroll" ng-show="$ctrl.list.length>0">
         <table class="table table-striped contact-list" ng-show="$ctrl.filteredList.length">
             <thead>
-                <th ng-click="$ctrl.sortColumn(header.name)" ng-repeat="header in $ctrl.importData.fields" class="sortColumn">
+                <th ng-click="$ctrl.sortColumn(header.name)" ng-repeat="header in $ctrl.contactFields" class="sortColumn">
                     {{header.name | removeUnderscore}}
                     <span class="glyphicon" ng-show="$ctrl.getSort(header.name)" ng-class="{'glyphicon-chevron-up':$ctrl.reverse,'glyphicon-chevron-down':!$ctrl.reverse}"></span>
                 </th>
             </thead>
             <tbody>
                 <tr ng-repeat="(key, item) in ( $ctrl.filteredList=($ctrl.list | filter:$ctrl.search) |  limitTo:$ctrl.numPerPage:$ctrl.beginNext) track by $index" ng-click="$ctrl.selectedContact($index+$ctrl.beginNext, item)" ng-dblclick="$ctrl.editContact(item)">
-                    <td ng-repeat="header in $ctrl.importData.fields" ng-class="{'row-selected': $ctrl.selectedArray.indexOf(key+$ctrl.beginNext) != -1}">
-                        <label class="light-label" ng-if="header.type == 'DATE_TIME'">
-                            {{item[header.name] | date:'MM-dd-yyyy HH:mm:ss'}}
-                        </label>
+                    <td ng-repeat="header in $ctrl.contactFields" ng-class="{'row-selected': $ctrl.selectedArray.indexOf(key+$ctrl.beginNext) != -1}">
                         <label class="light-label">
-                            {{item[header.name]}}
+                            {{$ctrl.formatField(header, item[header.name])}}
                         </label>
                     </td>
                 </tr>
