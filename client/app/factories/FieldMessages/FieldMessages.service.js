@@ -5,7 +5,7 @@ angular.module('fakiyaMainApp')
       function getTypeMessage(field){
       let type = 'field';
       if(field.type==='PHONE'){
-        return 'Contact Field "'+field.name+'" has an invalid value. Number must either be 10 digits for dialing within North America, or begin with "011" for international number. International number length should be no more than 20 digits. Please correct it.'
+        return `Contact Field "${field.name}" has an invalid value. Number must either be 10 digits for dialing within North America, or begin with "011" for international number. International number length should be no more than 20 digits. Please correct it.`
       }
       else if(['PERCENT','NUMBER','CURRENCY'].indexOf(field.type) > -1) {
         type = 'number';
@@ -16,7 +16,7 @@ angular.module('fakiyaMainApp')
       else if(field.type === 'URL'){
         type = 'URL';
       }
-      return 'Contact Field "'+field.name+'" has an invalid value. Invalid '+type+'. Please correct it.';
+      return `Contact Field "${field.name}" has an invalid value. Invalid ${type}. Please correct it.`;
      }
      function getMinMessage(field){
       let type = 'field';
@@ -33,7 +33,7 @@ angular.module('fakiyaMainApp')
         type = 'Date';
         prefix = 'earlier';
       }
-      return 'Contact Field "'+field.name+'" has an invalid value. '+type+' cannot be '+prefix+' than '+field.minValue+chars+'. Please correct it.';
+      return `Contact Field "${field.name}" has an invalid value. ${type} cannot be ${prefix} than ${field.minValue}${chars}. Please correct it.`;
      }
      function getMaxMessage(field){
       let type = 'field';
@@ -51,19 +51,19 @@ angular.module('fakiyaMainApp')
         type = 'Date';
         prefix = 'later';
       }
-      return 'Contact Field "'+field.name+'" has an invalid value. '+type+' cannot be '+prefix+' than '+field.minValue+chars+'. Please correct it.';
+      return `Contact Field "${field.name}" has an invalid value. ${type} cannot be ${prefix} than ${field.maxValue}${chars}. Please correct it.`;
      }
      function getRequiredMessage(field){
-      return 'Contact Field "'+field.name+'" has an invalid value. Value cannot be empty. Please correct it.';
+      return `Contact Field "${field.name}" has an invalid value. Value cannot be empty. Please correct it.`;
      }
      function getRegexMessage(field){
-      return 'Contact Field "'+field.name+'" has an invalid value. Value does not match the pattern: '+field.regex+' Please correct it.';
+      return `Contact Field "${field.name}" has an invalid value. Value does not match the pattern: ${field.regex} Please correct it.`;
      }
      function getPrecisionMessage(field){
-      return 'Contact Field "'+field.name+'" has an invalid value. Limit for digits before decimal point ('+field.precision+') has been reached. Please correct it.';
+      return `Contact Field "${field.name}" has an invalid value. Limit for digits before decimal point (${field.precision}) has been reached. Please correct it.`;
      }
      function getScaleMessage(field){
-      return 'Contact Field "'+field.name+'" has an invalid value. Limit for digits after decimal point ('+field.scale+') has been reached. Please correct it.';
+      return `Contact Field "${field.name}" has an invalid value. Limit for digits after decimal point (${field.scale}) has been reached. Please correct it.`;
      }
     return {
       getTypeMessage: getTypeMessage,
