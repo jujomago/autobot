@@ -34,7 +34,7 @@ angular.module('fakiyaMainApp')
           }
         }
           return value;
-        }
+        };
         ctrl.$parsers.push(validateField);
         validateField(model);	
       }

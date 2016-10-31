@@ -11,7 +11,7 @@ function _getSets(field) {
         field.dataSet = set;
         field.realType = field.type;
         field.type = set[0].type.toUpperCase();
-        field.restrictions = field.restrictions.filter(r => (r.type !== 'Set' && r.type !== 'Multiset'))
+        field.restrictions = field.restrictions.filter(r => (r.type !== 'Set' && r.type !== 'Multiset'));
       }
     } 
     return field;
@@ -20,13 +20,13 @@ function _formatExist(field, key){
   if(!field.restrictions){
       return null;
     }
-  let result = field.restrictions.find(e => e.type === key);
+  let result = _.find(field.restrictions, e => e.type === key);
 
   return result?result.value:null;
 }
 function _getPresicion(field){
-  let resultPrescision = field.restrictions.find(e => e.type === 'Precision');
-  let resultScale = field.restrictions.find(e => e.type === 'Scale');
+  let resultPrescision = _.find(field.restrictions, e => e.type === 'Precision');
+  let resultScale = _.find(field.restrictions, e => e.type === 'Scale');
   if(resultScale){
     return resultPrescision.value*1-resultScale.value*1;
   }
@@ -71,7 +71,7 @@ function _extractFormats(field) {
       field.restrictions[resultPrescision].value = precision;
       field.precision = precision;
     }
-    result=_formatExist(field, 'Scale')
+    result=_formatExist(field, 'Scale');
     if(result !== null){
       field.scale = result;
     }
@@ -114,7 +114,7 @@ class ListComponent {
       _FieldFormatter = FieldFormatter;
       _ContactFieldsService = ContactFieldsService;
       this.listName = _$stateParams.name;
-      this.sendContact = {listName: this.listName, importData: {values: []} }
+      this.sendContact = {listName: this.listName, importData: {values: []} };
       this.listUpdateSettings = {cleanListBeforeUpdate: false, crmAddMode: 'ADD_NEW', crmUpdateMode: 'UPDATE_FIRST', listAddMode: 'ADD_FIRST'};
       
       
@@ -129,7 +129,7 @@ class ListComponent {
       if(this.contactFields[i].name==='number1'){
         key=true;
       }
-      this.listUpdateSettings.fieldsMapping.push({columnNumber: i+1, fieldName: this.contactFields[i].name, key: key})
+      this.listUpdateSettings.fieldsMapping.push({columnNumber: i+1, fieldName: this.contactFields[i].name, key: key});
     }
   }
   getContactFields() {
@@ -144,7 +144,7 @@ class ListComponent {
     })
     .catch(error => {
         this.message = { show: true, type: 'danger', text: error.errorMessage };
-        return e;
+        return error;
     });
   }    
   sortColumn(columnName) {
@@ -285,8 +285,6 @@ class ListComponent {
   uploadContacts(){
     
     let list = angular.copy(this.list);
-    let listUpdateSettings;
-    let listDeleteSettings;
 
     let mainList =  list.map(item =>{
         let keys = Object.keys(item);

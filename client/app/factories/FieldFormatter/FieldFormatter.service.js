@@ -6,7 +6,7 @@ angular.module('fakiyaMainApp')
       switch(field.realType){
         case 'CURRENCY':
           if(value.length>0){
-            return field.currencyType+value.map(item =>{return item.value;}).join(';'+field.currencyType)
+            return field.currencyType+value.map(item =>{return item.value;}).join(';'+field.currencyType);
           }
           else{
             return '';
@@ -34,7 +34,7 @@ angular.module('fakiyaMainApp')
     function formatField(field, value){
     if(value){
       if(field.type ==='MULTISET'){
-        return getFormatMultiset(field, value) 
+        return getFormatMultiset(field, value);
       }
       let type=field.type;
       if(type ==='SET'){
