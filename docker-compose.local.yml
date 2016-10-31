@@ -13,22 +13,22 @@ services:
         - "6379:6379"
 
   autobox-auth:
-    image: quay.io/abxbo/autobox-auth:latest
+    image: quay.io/abxbo/autobox-auth:latest.dev
     ports:
       - "3380"
     environment:
-      NODE_ENV: production
-      MONGO_URL: mongodb://mongo/autobox-prod-db
+      NODE_ENV: development
+      MONGO_URL: mongodb://mongo/autobox-dev-db
     links:
       - mongo
 
   autobox-api:
-    image: quay.io/abxbo/autobox-api:latest
+    image: quay.io/abxbo/autobox-api:latest.dev
     ports:
       - "9999:8080"
     environment:
-      NODE_ENV: production
-      MONGO_URL: mongodb://mongo/autobox-prod-db
+      NODE_ENV: development
+      MONGO_URL: mongodb://mongo/autobox-dev-db
       REDIS_HOST: redis
       REDIS_PORT: 6379
       AUTH_SERVER_URL: http://autobox-auth:3380
@@ -37,11 +37,3 @@ services:
       - redis
       - autobox-auth
 
-  autobox-web:
-    build: .
-    ports:
-      - "9990:8081"
-    environment:
-      API_ACCESS_URL: http://autobox-api:9999/api
-    links:
-      - autobox-api
