@@ -1,9 +1,11 @@
 'use strict';
 (function(){
+  let _FieldFormatter;
 class ContactModalComponent {
-  constructor(FieldMessages) {
+  constructor(FieldMessages, FieldFormatter) {
   	   this.message = { show: false };
        this.FieldMessages = FieldMessages;
+       _FieldFormatter = FieldFormatter;
   }
 
   $onInit(){
@@ -25,7 +27,13 @@ class ContactModalComponent {
     this.contact = this.contactModal;
   }
 
-
+  convertFields(){
+    let keys = Object.keys(this.contact);
+    for(let i=0;i<keys.length;i++){
+      let key = keys[i];
+      this.contact[key] = _FieldFormatter.removeExtraChars(this.contactFields[i], this.contact[key]);
+    }
+  }
   save(){
     if(Object.keys(this.contact).filter(val => {return this.contact[val]!=='';}).length===0){
        this.message={ show: true, type: 'warning', text: 'Can\'t save empty Contact Record', expires: 3000};
@@ -34,6 +42,7 @@ class ContactModalComponent {
        this.message={ show: true, type: 'warning', text: 'The Contact Record does not have any number', expires: 3000};
     }
     else{
+      this.convertFields();
       this.instance.close(angular.copy(this.contact));
     }
  }
@@ -65,7 +74,7 @@ class ContactModalComponent {
     }
   }
 }
-ContactModalComponent.$inject = ['FieldMessages'];
+ContactModalComponent.$inject = ['FieldMessages', 'FieldFormatter'];
 angular.module('fakiyaMainApp')
   .component('al.lists.contactModal', {
     templateUrl: 'app/features/al/lists/edit/step3-list/contactModal/contactModal.html',
