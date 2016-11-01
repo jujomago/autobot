@@ -2,9 +2,7 @@
 
 angular.module('fakiyaMainApp')
   .factory('DateStrategy', function (DefaultValidator) {
-  	let validateType = function(value){
-      console.log(typeof value);
-      console.log(value);
+  	let validateType = function(){
       return true;
     };
     let validateMinValue = function(min, value) {
