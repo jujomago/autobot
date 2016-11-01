@@ -1,3 +1,4 @@
+  <div class="registerContainer">
   <div class="register" ng-class="{'has-error': formRegister.$invalid}">
     <h1>CREATE USER</h1>
     <form  name="formRegister"  ng-submit="formRegister.$valid && $ctrl.register()">
@@ -15,4 +16,5 @@
       <input ng-model="$ctrl.lastname" name="lastname" maxlength="50" ng-required="required">
       <button id="sign-button" type="submit" ng-disabled="$ctrl.executeSave" class="btn btn-default center-block">Create</button>
     </form>
+  </div>
   </div>
