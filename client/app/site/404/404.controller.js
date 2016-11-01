@@ -1,6 +1,5 @@
 'use strict';
 (function(){
-let AuthService;
 class notfoundController {
   constructor(AuthService) {
     this.isLoggedIn = AuthService.isAuthenticated();
