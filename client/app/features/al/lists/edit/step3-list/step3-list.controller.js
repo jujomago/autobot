@@ -138,9 +138,9 @@ class ListComponent {
     .then(response => {
         this.contactFields = response.data.filter(e => (e.mapTo === 'None'));
         this.contactFields  = this.contactFields.map(_getSets).map(_extractFormats);
-        console.log(this.contactFields);
         this.generateMapping();
         this.loaded = true;
+        console.log(this.contactFields);
         return response;
     })
     .catch(error => {
@@ -228,13 +228,11 @@ class ListComponent {
   deleteContact(){
     return _ConfirmAsync('Delete selected row(s)?')
           .then(() => {
-            let tempList = [];
-            tempList = this.list.filter((el, key)=>{
+            let tempList = this.list.filter((el, key)=>{
             return (this.selectedArray.indexOf(key) === -1);
             });
 
             this.list = tempList;
-            this.importData.rows = this.list;
             this.selected = '';
             this.selectedOld = '';
             this.selectedArray = [];
@@ -257,8 +255,6 @@ class ListComponent {
 
     this.modalInstance.result
         .then(result => {
-            console.log('resulado modal');
-            console.log(result);
             if(typeof result !== 'undefined' && Object.keys(result).length > 0){
                   if(this.method==='create'){
                     this.list.unshift(angular.copy(result));
@@ -273,7 +269,6 @@ class ListComponent {
             this.contact = {};
             this.selectedIndex = -1;
         }, ()=>{
-          console.log('Modal dismissed at: ' + new Date());
           this.selected = '';
           this.selectedOld = '';
           this.selectedArray = [];

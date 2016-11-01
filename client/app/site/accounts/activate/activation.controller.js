@@ -51,7 +51,7 @@
       })
       .catch(e => {
         this.message = { show: true, text: e.errorMessage };
-        if(response.status === '404'){
+        if(e.status === '404'){
           _$location.path('/404');
         }
         console.log(e);
