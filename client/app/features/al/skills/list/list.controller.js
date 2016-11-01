@@ -38,6 +38,7 @@
         }
         $onInit() {
             this.getSkills();
+            this.sortColumn('skill.name');
         }
 
         getSkills() {
