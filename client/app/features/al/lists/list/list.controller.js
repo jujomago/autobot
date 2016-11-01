@@ -1,6 +1,6 @@
 'use strict';
 (function(){
-  let _ConfirmAsync, _ListsService, _AlertMessage, _Global, _ModalManager;
+  let _ConfirmAsync, _ListsService, _AlertMessage, _Global, _ModalManager, _Utils;
   let _$state,_$stateParams, _$filter;
   function _myIndex(lists ,name){
     //TODO: replace with return _lodash.findIndex(lists, function(list) { return list.name === name });
@@ -89,8 +89,18 @@
     content.list = _getListItems(result,isUpdate);
     return content;
   }
+
   class ListComponent {
-    constructor(ListsService,$stateParams,$state, $filter, ModalManager,ConfirmAsync, AlertMessage, Global) {
+    constructor(ListsService,
+                $stateParams,
+                $state,
+                $filter,
+                ModalManager,
+                ConfirmAsync,
+                AlertMessage,
+                Global,
+                Utils) {
+
         this.lists = [];
         _$stateParams = $stateParams;
         this.message = { show: false };
@@ -118,6 +128,7 @@
         _$state = $state;
         _ConfirmAsync = ConfirmAsync;
         _ListsService = ListsService;
+        _Utils = Utils;
     }
     $onInit() {
         let promiseLists = this.getLists();
@@ -193,11 +204,15 @@
         });
     }
 
-    updateListRecord(list){
-      _$state.go('ap.al.listsEdit', {name: list, isUpdate: true});
+    updateListRecord(item){
+      item.isUpdate = true;
+      _Utils.setDataShared('ListAction', item);
+      _$state.go('ap.al.listsEdit', {name: item.name, isUpdate: true});
     }
-    deleteListRecord(list){
-      _$state.go('ap.al.listsEdit', {name: list, isUpdate: false});
+    deleteListRecord(item){
+      item.isUpdate = false;
+      _Utils.setDataShared('ListAction', item);
+      _$state.go('ap.al.listsEdit', {name: item.name, isUpdate: false});
     }
     filteringBySearch(){
       this.lists = _$filter('filter')(this.originalLists, this.search);
@@ -273,7 +288,17 @@
     }
   }
 
-  ListComponent.$inject = ['ListsService','$stateParams','$state', '$filter', 'ModalManager', 'ConfirmAsync', 'AlertMessage', 'Global'];
+  ListComponent.$inject = [
+    'ListsService',
+    '$stateParams',
+    '$state',
+    '$filter',
+    'ModalManager',
+    'ConfirmAsync',
+    'AlertMessage',
+    'Global',
+    'Utils'
+  ];
 
   angular.module('fakiyaMainApp')
     .component('al.lists.list', {

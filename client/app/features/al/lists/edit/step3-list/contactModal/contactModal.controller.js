@@ -16,7 +16,10 @@ class ContactModalComponent {
     this.contactFields.forEach(e=>{
       this.contactModal[e.name]='';
     });
+
+    console.log('Method. ..',this.method);
     if(this.method === 'update'){
+
         this.contactModal = angular.copy(this.edit.contact);
     }
     this.contact = this.contactModal;
