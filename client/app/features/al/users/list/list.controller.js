@@ -38,6 +38,7 @@
         }
 
         $onInit() {
+            this.sortColumn('userName');
             return _UsersService.getUsers()
                 .then(_users => {
 
