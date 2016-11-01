@@ -37,12 +37,12 @@
         <table class="table table-striped contact-list" ng-show="$ctrl.filteredList.length">
             <thead>
                 <th ng-click="$ctrl.sortColumn(header.name)" ng-repeat="header in $ctrl.contactFields" class="sortColumn">
-                    {{header.name | removeUnderscore}}
+                    {{header.name | removeUnderscore}}<span ng-if="header.isKey" class="is-key-span">(key)</span>
                     <span class="glyphicon" ng-show="$ctrl.getSort(header.name)" ng-class="{'glyphicon-chevron-up':$ctrl.reverse,'glyphicon-chevron-down':!$ctrl.reverse}"></span>
                 </th>
             </thead>
             <tbody>
-                <tr ng-repeat="(key, item) in ( $ctrl.filteredList=($ctrl.list | filter:$ctrl.search) |  limitTo:$ctrl.numPerPage:$ctrl.beginNext) track by $index" ng-click="$ctrl.selectedContact($index+$ctrl.beginNext, item)" ng-dblclick="$ctrl.editContact(item)">
+                <tr ng-repeat="(key, item) in ( $ctrl.filteredList=($ctrl.list | filter:$ctrl.search ) |  limitTo:$ctrl.numPerPage:$ctrl.beginNext) track by $index" ng-click="$ctrl.selectedContact($index+$ctrl.beginNext, item)" ng-dblclick="$ctrl.editContact(item)">
                     <td ng-repeat="header in $ctrl.contactFields" ng-class="{'row-selected': $ctrl.selectedArray.indexOf(key+$ctrl.beginNext) != -1}">
                         <label class="light-label">
                             {{$ctrl.formatField(header, item[header.name])}}

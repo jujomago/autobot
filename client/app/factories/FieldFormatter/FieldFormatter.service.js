@@ -23,11 +23,23 @@ angular.module('fakiyaMainApp')
       }
       return value.map(item =>{return item.value;}).join(';');
     }
+    function removePhoneChars(value){
+      return value.replace(/[- () +]+/g, '');
+    }
     function removeExtraPoints(value){
 
       let result = value.split('.');
       if(result.length===1 || (result.length===2 && result[1]==='')){
         value = value.replace('.', '');
+      }
+      return value;
+    }
+    function removeExtraChars(field, value){
+      if(['PERCENT','NUMBER','CURRENCY'].indexOf(field.type) > -1) {
+        value = removeExtraPoints(value);
+      }
+      else if(field.type === 'PHONE'){
+        value = removePhoneChars(value);
       }
       return value;
     }
@@ -41,9 +53,7 @@ angular.module('fakiyaMainApp')
         type = field.realType;
         value = value.value;
       }
-      if(['PERCENT','NUMBER','CURRENCY'].indexOf(field.type) > -1) {
-        value = removeExtraPoints(value);
-      }
+      value = removeExtraChars(field, value);
       switch(type){
         case 'CURRENCY':
           return field.currencyType+value;
@@ -58,6 +68,7 @@ angular.module('fakiyaMainApp')
     return value;
     }
     return {
-      formatField: formatField
+      formatField: formatField,
+      removeExtraChars: removeExtraChars
     };
   });
