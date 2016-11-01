@@ -128,6 +128,7 @@ class ListComponent {
       let key=false;
       if(this.contactFields[i].name==='number1'){
         key=true;
+        this.contactFields[i].isKey = true;
       }
       this.listUpdateSettings.fieldsMapping.push({columnNumber: i+1, fieldName: this.contactFields[i].name, key: key})
     }
@@ -166,7 +167,6 @@ class ListComponent {
             this.selectedArray = [];
             this.contact = {};
             this.list = _.shuffle(this.list);
-            this.importData.rows = this.list;
           })
           .catch(() => {
               return false;
@@ -255,7 +255,7 @@ class ListComponent {
         .then(result => {
             if(typeof result !== 'undefined' && Object.keys(result).length > 0){
                   if(this.method==='create'){
-                    this.list.push(angular.copy(result));
+                    this.list.unshift(angular.copy(result));
                   }
                   else{
                     this.list[this.selectedIndex] = result;
