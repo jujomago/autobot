@@ -411,7 +411,7 @@
                     return response;
                 })
                 .catch(e => {
-                    this.message = { show: true, type: 'warning', text: e };
+                    this.message = { show: true, type: 'warning', text: e.errorMessage };
                     return e;
                 });
         }

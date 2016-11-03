@@ -11,7 +11,7 @@ function _getSets(field) {
         field.dataSet = set;
         field.realType = field.type;
         field.type = set[0].type.toUpperCase();
-        field.restrictions = field.restrictions.filter(r => (r.type !== 'Set' && r.type !== 'Multiset'))
+        field.restrictions = field.restrictions.filter(r => (r.type !== 'Set' && r.type !== 'Multiset'));
       }
     }
     return field;
@@ -20,13 +20,13 @@ function _formatExist(field, key){
   if(!field.restrictions){
       return null;
     }
-  let result = field.restrictions.find(e => e.type === key);
+  let result = _.find(field.restrictions, e => e.type === key);
 
   return result?result.value:null;
 }
 function _getPresicion(field){
-  let resultPrescision = field.restrictions.find(e => e.type === 'Precision');
-  let resultScale = field.restrictions.find(e => e.type === 'Scale');
+  let resultPrescision = _.find(field.restrictions, e => e.type === 'Precision');
+  let resultScale = _.find(field.restrictions, e => e.type === 'Scale');
   if(resultScale){
     return resultPrescision.value*1-resultScale.value*1;
   }
@@ -163,7 +163,7 @@ class ListComponent {
     })
     .catch(error => {
         this.message = { show: true, type: 'danger', text: error.errorMessage };
-        return e;
+        return error;
     });
   }
 
@@ -243,13 +243,11 @@ class ListComponent {
   deleteContact(){
     return _ConfirmAsync('Delete selected row(s)?')
           .then(() => {
-            let tempList = [];
-            tempList = this.list.filter((el, key)=>{
+            let tempList = this.list.filter((el, key)=>{
             return (this.selectedArray.indexOf(key) === -1);
             });
 
             this.list = tempList;
-            this.importData.rows = this.list;
             this.selected = '';
             this.selectedOld = '';
             this.selectedArray = [];
@@ -361,7 +359,9 @@ class ListComponent {
   }
 
   pageChanged() {
+    console.log('Page changed to: ' + this.currentPage);
     this.beginNext = (this.currentPage - 1) * this.numPerPage;
+    console.log('beginNext:' + this.beginNext);
   }
   formatField(field, value){
     return _FieldFormatter.formatField(field, value);

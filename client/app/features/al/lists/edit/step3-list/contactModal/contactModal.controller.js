@@ -18,10 +18,7 @@ class ContactModalComponent {
     this.contactFields.forEach(e=>{
       this.contactModal[e.name]='';
     });
-
-    console.log('Method. ..',this.method);
     if(this.method === 'update'){
-
         this.contactModal = angular.copy(this.edit.contact);
     }
     this.contact = this.contactModal;
@@ -50,29 +47,6 @@ class ContactModalComponent {
 	this.instance.dismiss('cancel');
   }
 
-  openDatePicker(index) {
-    this.opened[index] = true;
-  }
-
-  phoneChanged(){
-    let numbers;
-    let data = [];
-    let number1Exists=angular.element('input[name="number1"]').length;
-    if(number1Exists>0){
-          numbers = angular.element('input[type="tel"]');
-      numbers.map((key, value)=>{
-        if(angular.element(value).val()){
-          data.push(angular.element(value).val());
-        }
-      });
-
-      if(data.length > 0){
-        this.phoneRequired = false;
-      }else{
-        this.phoneRequired = true;
-      }
-    }
-  }
 }
 ContactModalComponent.$inject = ['FieldMessages', 'FieldFormatter'];
 angular.module('fakiyaMainApp')
