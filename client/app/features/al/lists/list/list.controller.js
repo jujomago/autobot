@@ -1,6 +1,6 @@
 'use strict';
 (function(){
-  let _ConfirmAsync, _ListsService, _AlertMessage, _Global, _ModalManager, _Utils;
+  let _ConfirmAsync, _ListsService, _AlertMessage, _Global, _ModalManager;
   let _$state,_$stateParams, _$filter;
   function _myIndex(lists ,name){
     //TODO: replace with return _lodash.findIndex(lists, function(list) { return list.name === name });
@@ -98,8 +98,7 @@
                 ModalManager,
                 ConfirmAsync,
                 AlertMessage,
-                Global,
-                Utils) {
+                Global) {
 
         this.lists = [];
         _$stateParams = $stateParams;
@@ -128,7 +127,6 @@
         _$state = $state;
         _ConfirmAsync = ConfirmAsync;
         _ListsService = ListsService;
-        _Utils = Utils;
     }
     $onInit() {
         let promiseLists = this.getLists();
@@ -205,14 +203,10 @@
     }
 
     updateListRecord(item){
-      item.isUpdate = true;
-      _Utils.setDataShared('ListAction', item);
-      _$state.go('ap.al.listsEdit', {name: item.name, isUpdate: true});
+      _$state.go('ap.al.listsEdit', {name: item.name, update: true});
     }
     deleteListRecord(item){
-      item.isUpdate = false;
-      _Utils.setDataShared('ListAction', item);
-      _$state.go('ap.al.listsEdit', {name: item.name, isUpdate: false});
+      _$state.go('ap.al.listsEdit', {name: item.name, update: false});
     }
     filteringBySearch(){
       this.lists = _$filter('filter')(this.originalLists, this.search);
@@ -296,8 +290,7 @@
     'ModalManager',
     'ConfirmAsync',
     'AlertMessage',
-    'Global',
-    'Utils'
+    'Global'
   ];
 
   angular.module('fakiyaMainApp')
