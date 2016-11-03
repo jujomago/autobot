@@ -6,9 +6,10 @@ describe('Service:DefaultValidator', function () {
   beforeEach(module('fakiyaMainApp'));
 
   // instantiate service
-  var DefaultValidator;
+  let DefaultValidator;
   beforeEach(inject(function (_DefaultValidator_) {
-    DefaultValidator = new _DefaultValidator_();
+    DefaultValidator = _DefaultValidator_;
+    DefaultValidator = new DefaultValidator();
   }));
   describe('#validateType', function () {
     it('should return false in validate by default', function () {

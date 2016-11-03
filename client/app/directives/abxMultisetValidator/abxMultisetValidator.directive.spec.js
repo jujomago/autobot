@@ -12,9 +12,30 @@ describe('Directive: MultisetValidator', function () {
     scope = $rootScope.$new();
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<-multiset-validator></-multiset-validator>');
+  it('should show invalid model because is required', inject(function ($compile) {
+    scope.restrictions = [{type: 'Required', value: ''}];
+    scope.model = '';
+    element = angular.element(
+      '<form name="form">' +
+      '<input ng-model="model" name="model" abx-multiset-validator="restrictions" />' +
+      '</form>');
     element = $compile(element)(scope);
-    expect(element.text()).to.equal('this is the MultisetValidator directive');
+    scope.$apply();
+    scope.model = [];
+    scope.$digest();
+    expect(scope.form.model.$valid).to.be.equal(false);
+  }));
+  it('should show valid model', inject(function ($compile) {
+    scope.restrictions = [{type: 'Required', value: ''}];
+    scope.model = '';
+    element = angular.element(
+      '<form name="form">' +
+      '<input ng-model="model" name="model" abx-multiset-validator="restrictions" />' +
+      '</form>');
+    element = $compile(element)(scope);
+    scope.$apply();
+    scope.model = [{value: 'some value'}];
+    scope.$digest();
+    expect(scope.form.model.$valid).to.be.equal(true);
   }));
 });

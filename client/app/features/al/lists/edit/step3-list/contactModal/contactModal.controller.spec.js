@@ -12,6 +12,33 @@ describe('Component:contactModalComponent', function () {
     string1: '',
     percent1: ''
   };
+  let mockFields = [
+  {
+    name: 'number1',
+    type: 'PHONE',
+     mapTo: 'None'
+   },
+   {
+    name: 'number2',
+    type: 'PHONE',
+     mapTo: 'None'
+   },
+   {
+    name: 'number3',
+    type: 'PHONE',
+     mapTo: 'None'
+   },
+   {
+    name: 'string1',
+    type: 'STRING',
+    mapTo: 'None'
+   },
+   {
+    name: 'percent1',
+    type: 'PERCENT',
+    mapTo: 'None'
+   }
+   ];
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($componentController) {
@@ -30,6 +57,21 @@ describe('Component:contactModalComponent', function () {
       ContactModalComponent.contact.string1 = 'some value';
       ContactModalComponent.save();
       expect(ContactModalComponent.message).to.deep.equal({ show: true, type: 'warning', text: 'The Contact Record does not have any number', expires: 3000});
+    });
+
+    it('Should return contact', () => {
+      ContactModalComponent.contactFields = mockFields;
+      ContactModalComponent.contact = mockContact;
+      ContactModalComponent.instance = {
+        result: '',
+        close: function(result){
+          this.result = result;
+        }
+      };
+      ContactModalComponent.contact.number1 = '(987)-654-3210';
+      ContactModalComponent.contact.string1 = ''; 
+      ContactModalComponent.save();
+      expect(ContactModalComponent.instance.result).to.deep.equal({number1: '9876543210',number2: '',number3: '',string1: '',percent1: ''});
     });
 
   });

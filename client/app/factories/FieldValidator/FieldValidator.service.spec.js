@@ -12,7 +12,7 @@ describe('Service:FieldValidator', function () {
   }));
 
   it('should have methods', function () {
-    FieldValidator.setStrategy('String')
+    FieldValidator.setStrategy('String');
     expect(FieldValidator.getMethods()).to.be.an('Object');
   });
   it('should unexisting startegy dont have any methods', function () {
