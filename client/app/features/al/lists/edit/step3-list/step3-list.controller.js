@@ -103,6 +103,7 @@ class ListComponent {
       this.sending = false;
       this.error = false;
       this.loaded = false;
+      this.isUpdate = true;
       ctrl = this;
       _ = lodash;
       _$state = $state;

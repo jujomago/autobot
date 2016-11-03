@@ -5,7 +5,7 @@ describe('Component:step3', function () {
   // load the controller's module
   beforeEach(module('fakiyaMainApp'));
 
-  let ListComponent, _$httpBackend;
+  let ListComponent, _$httpBackend, _$stateParams;
   let mockState, sandbox, _endPointUrl;
   let mockFields = [
   {
@@ -34,8 +34,9 @@ describe('Component:step3', function () {
     mapTo: 'LAST_DISPOSITION'
    }
    ];
-  beforeEach(inject(function ($componentController, $httpBackend, appConfig) {
+  beforeEach(inject(function ($componentController, $httpBackend, appConfig, $stateParams) {
     _$httpBackend = $httpBackend;
+    _$stateParams = $stateParams;
     mockState = {
       url: '',
       params: {},
@@ -44,7 +45,8 @@ describe('Component:step3', function () {
         this.params = params;
       }
     };
-    
+
+    _$stateParams.update = true;
 
     sandbox = sinon.sandbox.create();
 
@@ -53,7 +55,8 @@ describe('Component:step3', function () {
     }
 
     ListComponent = $componentController('al.lists.edit.list', {
-      $state: mockState
+      $state: mockState,
+      $stateParams: _$stateParams
     });
 
     _$httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
@@ -110,7 +113,7 @@ describe('Component:step3', function () {
 
   });
   describe('#getContactFields', () => {
-    it('Should get all map to none fields', () => {
+    it('Should get all map to none fields to Update List', () => {
       _$httpBackend.whenGET(_endPointUrl+'/f9/contacts/fields').respond(200, {return: mockFields});
       ListComponent.getContactFields()
       .then(()=>{
@@ -121,6 +124,20 @@ describe('Component:step3', function () {
       });
       _$httpBackend.flush();
     });
+
+    it('Should get all map to none fields to Delete List', () => {
+      _$httpBackend.whenGET(_endPointUrl+'/f9/contacts/fields').respond(200, {return: mockFields});
+      ListComponent.isUpdate = false;
+      ListComponent.getContactFields()
+        .then(()=>{
+          expect(ListComponent.contactFields.length).to.equal(1);
+          let expected = [{name: 'number1', type: 'PHONE', mapTo: 'None', isKey: true},{name: 'string1',type: 'STRING',mapTo: 'None'},{name: 'percent1', type: 'PERCENT',mapTo: 'None'},{name: 'date1', type: 'DATE', mapTo: 'None'}];
+          expect(ListComponent.contactFields).to.deep.equal([expected[0]]);
+          expect(ListComponent.loaded).to.equal(true);
+        });
+      _$httpBackend.flush();
+    });
+
     it('Should show error message', () => {
       _$httpBackend.whenGET(_endPointUrl+'/f9/contacts/fields').respond(500, {error: 'Internal Server Error'});
       ListComponent.getContactFields()
