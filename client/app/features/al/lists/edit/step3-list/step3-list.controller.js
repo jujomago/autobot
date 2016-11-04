@@ -128,8 +128,13 @@ class ListComponent {
   }
 
   $onInit(){
-    this.isUpdate = JSON.parse(_$stateParams.update);
+    //this.isUpdate = JSON.parse(_$stateParams.update);
+    this.isUpdate =  !isUndefinedOrNull(_$stateParams.update) && _$stateParams.update.toLoweCase() === 'true';
     this.getContactFields();
+  }
+
+  isUndefinedOrNull(obj) {
+    return angular.isUndefined(obj) || obj === null;
   }
 
   generateMapping(){
