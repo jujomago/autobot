@@ -1,7 +1,7 @@
 'use strict';
 (function(){
 let _ConfirmAsync, _ListService, _, _ContactFieldsService, ctrl, _FieldFormatter;
-let _$state, _$stateParams, _$filter, _$uibModal;
+let _$state, _$stateParams, _$filter, _ModalManager;
 
 
 function _getSets(field) {
@@ -78,7 +78,7 @@ function _extractFormats(field) {
     return field;
 }
 class ListComponent {
-  constructor($state, $stateParams, $filter, $uibModal, ListsService, ConfirmAsync, ContactFieldsService, lodash, FieldFormatter) {
+  constructor($state, $stateParams, $filter, ModalManager, ListsService, ConfirmAsync, ContactFieldsService, lodash, FieldFormatter) {
 
       this.currentPage = 1;
       this.sortKey = '';
@@ -108,7 +108,7 @@ class ListComponent {
       _$state = $state;
       _$stateParams = $stateParams;
       _$filter = $filter;
-      _$uibModal = $uibModal;
+      _ModalManager = ModalManager;
       _ListService = ListsService;
       _ConfirmAsync = ConfirmAsync;
       _FieldFormatter = FieldFormatter;
@@ -245,7 +245,7 @@ class ListComponent {
 
   openModal(){
 
-    this.modalInstance = _$uibModal.open({
+    this.modalInstance = _ModalManager.open({
       animation: false,
       size: 'md',
       controllerAs: '$ctrl',
@@ -341,7 +341,7 @@ class ListComponent {
     return _FieldFormatter.formatField(field, value);
   }
 }
-ListComponent.$inject = ['$state', '$stateParams', '$filter', '$uibModal', 'ListsService', 'ConfirmAsync', 'ContactFieldsService', 'lodash', 'FieldFormatter'];
+ListComponent.$inject = ['$state', '$stateParams', '$filter', 'ModalManager', 'ListsService', 'ConfirmAsync', 'ContactFieldsService', 'lodash', 'FieldFormatter'];
 angular.module('fakiyaMainApp')
   .component('al.lists.edit.list', {
     templateUrl: 'app/features/al/lists/edit/step3-list/step3-list.html',

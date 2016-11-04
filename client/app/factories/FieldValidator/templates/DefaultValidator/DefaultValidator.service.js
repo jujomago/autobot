@@ -18,7 +18,7 @@ angular.module('fakiyaMainApp')
       if(regex[regex.length-1]!=='$'){
         regex += '$';
       }
-      let validator = new RegExp(regex, 'i');
+      let validator = new RegExp(regex, 'g');
 
       return validator.test(value);
     };

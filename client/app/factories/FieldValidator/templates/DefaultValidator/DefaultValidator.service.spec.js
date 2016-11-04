@@ -39,6 +39,9 @@ describe('Service:DefaultValidator', function () {
     it('should return false with a invalid word', function () {
       expect(DefaultValidator.Regexp('a*b','aaaaba')).to.be.equal(false);
     });
+    it('should not be case sensitive', function () {
+      expect(DefaultValidator.Regexp('[a-z]*','aaaAab')).to.be.equal(false);
+    });
   });
   describe('#validateRequired', function () {
     it('should return true if value exists', function () {
