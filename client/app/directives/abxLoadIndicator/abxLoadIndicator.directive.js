@@ -27,7 +27,7 @@ angular.module('fakiyaMainApp')
 
           let heightViewPort=mainContainer.innerHeight();
 
-          let topOffset=Math.ceil((heightViewPort/2));
+          let topOffset=Math.ceil((heightViewPort/2)-50);
 
           loaderIndicator.css('top',topOffset);
 

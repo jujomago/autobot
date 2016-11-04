@@ -57,8 +57,10 @@
         line-height: 30px;
         transition: all .2s ease-out;
         &:hover, &:active, &:focus {
-            background: #666;
-            color: @white;
+            background: #000000;
+            color: @blue;
+            border-width: 1px;
+            border-color: @blue;
         }
     }
     //button template for list
@@ -393,6 +395,20 @@
 
     //add Modal transparent
     #modal-container{
+        div.modal-md{
+            width: 560px;
+            .modal-header{
+                padding: 15px 0 0;
+                .alert-danger, .alert-warning{
+                    margin-top: 10px;
+                }
+            } 
+            .modal-body{
+                margin-top: 30px;
+                padding: 0;
+            }
+
+        }
         .modal{
             overflow-y: hidden;
         }
@@ -409,10 +425,14 @@
           width: 400px;
           margin: 0 auto;
         }
+        .contact-model-form {
+            max-height: 400px;
+            overflow-y: auto;
+        }
         .modal-header{
             border: none;
             .title_section{
-                margin-bottom: 2px;
+                margin-bottom: 0;
             }
         }
 
@@ -433,9 +453,6 @@
         }
         .error-modal{
             color: #e64b3b;
-        }
-        .error-message{
-            margin-top: 20px;
         }
     }
 
@@ -798,9 +815,6 @@
         }
     }
 
-    .edit-modal-x{
-        margin-top: 10px;
-    }
     .full-page-loading >abx-load-indicator>.loader_indicator{
         width: 100%;
     }

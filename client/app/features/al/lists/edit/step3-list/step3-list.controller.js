@@ -251,7 +251,7 @@ class ListComponent {
       animation: false,
       size: 'md',
       controllerAs: '$ctrl',
-      appendTo: angular.element(document.querySelector('#edit-list')),
+      appendTo: angular.element('#modal-container'),
       template: '<al.lists.contact-modal></al.lists.contact-modal>'
     });
 
