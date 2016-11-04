@@ -21,7 +21,7 @@ describe('Service:PercentStrategy', function () {
     it('should return true without decimals', function () {
       expect(PercentStrategy.validateType('2')).to.be.equal(true);
     });
-    it('should return true with non numbers', function () {
+    it('should return false with non numbers', function () {
       expect(PercentStrategy.validateType('string')).to.be.equal(false);
     });
   });

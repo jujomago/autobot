@@ -38,7 +38,7 @@
         <table class="table table-striped contact-list" ng-show="$ctrl.filteredList.length">
             <thead>
                 <th ng-click="$ctrl.sortColumn(header.name)" ng-repeat="header in $ctrl.contactFields" class="sortColumn">
-                    {{header.name | removeUnderscore}}<span ng-if="header.isKey" class="is-key-span">(key)</span>
+                    {{header.name}}<span ng-if="header.isKey" class="is-key-span">(key)</span>
                     <span class="glyphicon" ng-show="$ctrl.getSort(header.name)" ng-class="{'glyphicon-chevron-up':$ctrl.reverse,'glyphicon-chevron-down':!$ctrl.reverse}"></span>
                 </th>
             </thead>
