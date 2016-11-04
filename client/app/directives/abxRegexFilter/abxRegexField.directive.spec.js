@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: abxRegexFilter', function () {
+describe('Directive:abxRegexFilter', function () {
 
   // load the directive's module
   beforeEach(module('fakiyaMainApp'));
@@ -12,9 +12,11 @@ describe('Directive: abxRegexFilter', function () {
     scope = $rootScope.$new();
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<abx-regex-filter></abx-regex-filter>');
-    element = $compile(element)(scope);
-    expect(element.text()).to.equal('this is the abxRegexFilter directive');
+  it('should accept only numbers', inject(function ($compile) {
+    element = $compile('<input abx-regex-filter="[^0-9]" ng-model="model">')(scope);
+    element.val('987654321').trigger('change');
+    expect(element.val()).to.equal('987654321');
+    element.val('no987654allowed321').trigger('change');
+    expect(element.val()).to.equal('987654321');
   }));
 });

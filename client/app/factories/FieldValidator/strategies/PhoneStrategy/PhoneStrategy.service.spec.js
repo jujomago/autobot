@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Service: PhoneStrategy', function () {
+describe('Service:PhoneStrategy', function () {
 
   // load the service's module
   beforeEach(module('fakiyaMainApp'));
@@ -8,11 +8,16 @@ describe('Service: PhoneStrategy', function () {
   // instantiate service
   var PhoneStrategy;
   beforeEach(inject(function (_PhoneStrategy_) {
-    PhoneStrategy = _PhoneStrategy_;
+    PhoneStrategy = _PhoneStrategy_.getMethods();
   }));
 
-  it('should do something', function () {
-    expect(!!PhoneStrategy).to.be.true;
+  describe('#validateType', function () {
+    it('should return false with a wrong phone', function () {
+      expect(PhoneStrategy.validateType('987-6-543(2111)')).to.be.equal(false);
+    });
+    it('should return true with valid phone', function () {
+      expect(PhoneStrategy.validateType('987-6-543-(211)')).to.be.equal(true);
+    });
   });
 
 });

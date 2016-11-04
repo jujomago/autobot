@@ -2,15 +2,15 @@
 
 angular.module('fakiyaMainApp')
   .factory('DefaultValidator', function () {
-    let validateType = function(value){
+    let validateType = function(){
       return false;
-    }
+    };
     let validateMinValue = function(min, value) {
       return value>=min;
-    }
+    };
     let validateMaxValue = function(max, value) {
       return value<=max;
-    }
+    };
     let validateRegexp = function(regex, value) {
       if(regex[0]!=='^'){
         regex = '^'+regex;
@@ -18,26 +18,26 @@ angular.module('fakiyaMainApp')
       if(regex[regex.length-1]!=='$'){
         regex += '$';
       }
-      let validator = new RegExp(regex, 'i');
+      let validator = new RegExp(regex, 'g');
 
       return validator.test(value);
-    }
+    };
     let validateRequired = function(required, value) {
       let result = value?true:false;
       return result;
-    }
+    };
     let validateScale = function(scale, value) {
       let result = value.split('.');
       if(result.length>1){
         return result[1].length<=scale;
       }
       return true;
-    }
+    };
     let validatePrecision = function(precision, value) {
       value = value.replace('-', '');
       let result = value.split('.');
       return result[0].length<=precision;
-    }
+    };
     return function(){
      return {
       validateType: validateType,
@@ -47,6 +47,6 @@ angular.module('fakiyaMainApp')
       Required: validateRequired,
       Precision: validatePrecision,
       Scale: validateScale
-    }
+    };
   };
   });

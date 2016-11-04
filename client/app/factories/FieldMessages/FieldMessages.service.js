@@ -5,7 +5,7 @@ angular.module('fakiyaMainApp')
       function getTypeMessage(field){
       let type = 'field';
       if(field.type==='PHONE'){
-        return `Contact Field "${field.name}" has an invalid value. Number must either be 10 digits for dialing within North America, or begin with "011" for international number. International number length should be no more than 20 digits. Please correct it.`
+        return `Contact Field "${field.name}" has an invalid value. Number must either be 10 digits for dialing within North America, or begin with "011" for international number. International number length should be no more than 20 digits. Please correct it.`;
       }
       else if(['PERCENT','NUMBER','CURRENCY'].indexOf(field.type) > -1) {
         type = 'number';

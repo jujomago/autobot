@@ -1,7 +1,7 @@
 'use strict';
 (function(){
 let _ConfirmAsync, _ListService, _, _ContactFieldsService, ctrl, _FieldFormatter;
-let _$state, _$stateParams, _$filter, _$uibModal;
+let _$state, _$stateParams, _$filter, _ModalManager;
 
 
 function _getSets(field) {
@@ -11,7 +11,7 @@ function _getSets(field) {
         field.dataSet = set;
         field.realType = field.type;
         field.type = set[0].type.toUpperCase();
-        field.restrictions = field.restrictions.filter(r => (r.type !== 'Set' && r.type !== 'Multiset'))
+        field.restrictions = field.restrictions.filter(r => (r.type !== 'Set' && r.type !== 'Multiset'));
       }
     }
     return field;
@@ -20,13 +20,13 @@ function _formatExist(field, key){
   if(!field.restrictions){
       return null;
     }
-  let result = field.restrictions.find(e => e.type === key);
+  let result = _.find(field.restrictions, e => e.type === key);
 
   return result?result.value:null;
 }
 function _getPresicion(field){
-  let resultPrescision = field.restrictions.find(e => e.type === 'Precision');
-  let resultScale = field.restrictions.find(e => e.type === 'Scale');
+  let resultPrescision = _.find(field.restrictions, e => e.type === 'Precision');
+  let resultScale = _.find(field.restrictions, e => e.type === 'Scale');
   if(resultScale){
     return resultPrescision.value*1-resultScale.value*1;
   }
@@ -71,14 +71,14 @@ function _extractFormats(field) {
       field.restrictions[resultPrescision].value = precision;
       field.precision = precision;
     }
-    result=_formatExist(field, 'Scale')
+    result=_formatExist(field, 'Scale');
     if(result !== null){
       field.scale = result;
     }
     return field;
 }
 class ListComponent {
-  constructor($state, $stateParams, $filter, $uibModal, ListsService, ConfirmAsync, ContactFieldsService, lodash, FieldFormatter) {
+  constructor($state, $stateParams, $filter, ModalManager, ListsService, ConfirmAsync, ContactFieldsService, lodash, FieldFormatter) {
 
       this.currentPage = 1;
       this.sortKey = '';
@@ -108,13 +108,13 @@ class ListComponent {
       _$state = $state;
       _$stateParams = $stateParams;
       _$filter = $filter;
-      _$uibModal = $uibModal;
+      _ModalManager = ModalManager;
       _ListService = ListsService;
       _ConfirmAsync = ConfirmAsync;
       _FieldFormatter = FieldFormatter;
       _ContactFieldsService = ContactFieldsService;
       this.listName = _$stateParams.name;
-      this.sendContact = {listName: this.listName, importData: {values: []} }
+      this.sendContact = {listName: this.listName, importData: {values: []} };
       this.listUpdateSettings = {cleanListBeforeUpdate: false, crmAddMode: 'ADD_NEW', crmUpdateMode: 'UPDATE_FIRST', listAddMode: 'ADD_FIRST'};
 
 
@@ -130,7 +130,7 @@ class ListComponent {
         key=true;
         this.contactFields[i].isKey = true;
       }
-      this.listUpdateSettings.fieldsMapping.push({columnNumber: i+1, fieldName: this.contactFields[i].name, key: key})
+      this.listUpdateSettings.fieldsMapping.push({columnNumber: i+1, fieldName: this.contactFields[i].name, key: key});
     }
   }
   getContactFields() {
@@ -138,14 +138,14 @@ class ListComponent {
     .then(response => {
         this.contactFields = response.data.filter(e => (e.mapTo === 'None'));
         this.contactFields  = this.contactFields.map(_getSets).map(_extractFormats);
-        console.log(this.contactFields);
         this.generateMapping();
         this.loaded = true;
+        console.log(this.contactFields);
         return response;
     })
     .catch(error => {
         this.message = { show: true, type: 'danger', text: error.errorMessage };
-        return e;
+        return error;
     });
   }
   sortColumn(columnName) {
@@ -224,13 +224,11 @@ class ListComponent {
   deleteContact(){
     return _ConfirmAsync('Delete selected row(s)?')
           .then(() => {
-            let tempList = [];
-            tempList = this.list.filter((el, key)=>{
+            let tempList = this.list.filter((el, key)=>{
             return (this.selectedArray.indexOf(key) === -1);
             });
 
             this.list = tempList;
-            this.importData.rows = this.list;
             this.selected = '';
             this.selectedOld = '';
             this.selectedArray = [];
@@ -243,7 +241,7 @@ class ListComponent {
 
   openModal(){
 
-    this.modalInstance = _$uibModal.open({
+    this.modalInstance = _ModalManager.open({
       animation: false,
       size: 'md',
       controllerAs: '$ctrl',
@@ -278,8 +276,6 @@ class ListComponent {
   uploadContacts(){
     
     let list = angular.copy(this.list);
-    let listUpdateSettings;
-    let listDeleteSettings;
 
     let mainList =  list.map(item =>{
         let keys = Object.keys(item);
@@ -339,7 +335,7 @@ class ListComponent {
     return _FieldFormatter.formatField(field, value);
   }
 }
-ListComponent.$inject = ['$state', '$stateParams', '$filter', '$uibModal', 'ListsService', 'ConfirmAsync', 'ContactFieldsService', 'lodash', 'FieldFormatter'];
+ListComponent.$inject = ['$state', '$stateParams', '$filter', 'ModalManager', 'ListsService', 'ConfirmAsync', 'ContactFieldsService', 'lodash', 'FieldFormatter'];
 angular.module('fakiyaMainApp')
   .component('al.lists.edit.list', {
     templateUrl: 'app/features/al/lists/edit/step3-list/step3-list.html',
