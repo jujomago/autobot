@@ -11,14 +11,14 @@
 		<div class="contact-model-form">
 			<div ng-repeat="form in $ctrl.contactFields">
 				<div class="inputminimal" ng-class="{ 'has-error': formList[form.name].$invalid && formList.$submitted }">
-					<label for="{{form.name}}">{{form.name | removeUnderscore}}</label>					
+					<label for="{{form.name}}">{{form.name}}</label>					
 					<span ng-if="form.type!=='MULTISET'">
-						<input type="text" name="{{form.name}}" ng-model="$ctrl.contact[form.name]" abx-field-validator="form.restrictions" strategy="{{form.type}}" ng-trim="false" maxlength="250" ng-if="form.type==='STRING' || form.type==='EMAIL' || form.type==='URL'"/>
-						<input type="text" name="{{form.name}}" ng-model="$ctrl.contact[form.name]" abx-regex-filter="[^0-9+\-()]" abx-field-validator="form.restrictions" strategy="{{form.type}}" ng-if="form.type==='PHONE'"/>
+						<input type="text" name="{{form.name}}" ng-model="$ctrl.contact[form.name]" abx-auto-focus = "$first" abx-field-validator="form.restrictions" strategy="{{form.type}}" ng-trim="false" maxlength="250" ng-if="form.type==='STRING' || form.type==='EMAIL' || form.type==='URL'"/>
+						<input type="text" name="{{form.name}}" ng-model="$ctrl.contact[form.name]" abx-auto-focus = "$first" abx-regex-filter="[^0-9+\-()]" abx-field-validator="form.restrictions" strategy="{{form.type}}" ng-if="form.type==='PHONE'"/>
 						<abx-date-picker-input name="{{form.name}}" validator="form.restrictions" strategy="{{form.type}}" ng-if="form.type==='DATE'" ng-model="$ctrl.contact[form.name]" date-format="{{form.dateFormat}}"></abx-date-picker-input>
 						<abx-datetime-picker-input ng-if="form.type==='DATE_TIME'" ng-model="$ctrl.contact[form.name]" time-format="{{form.timeFormat}}" date-format="{{form.dateFormat}}"></abx-datetime-picker-input>
 
-                     	<input type="text" name="{{form.name}}" ng-model="$ctrl.contact[form.name]" maxlength="18" abx-regex-filter="[^0-9.-]" abx-field-validator="form.restrictions" strategy="{{form.type}}" ng-if="form.type==='NUMBER' || form.type==='CURRENCY' || form.type==='PERCENT'"/>
+                     	<input type="text" name="{{form.name}}" ng-model="$ctrl.contact[form.name]" abx-auto-focus = "$first" maxlength="18" abx-regex-filter="[^0-9.-]" abx-field-validator="form.restrictions" strategy="{{form.type}}" ng-if="form.type==='NUMBER' || form.type==='CURRENCY' || form.type==='PERCENT'"/>
                      	<input type="checkbox" class="form-boolean" ng-model="$ctrl.contact[form.name]" ng-init="$ctrl.contact[form.name]=false" ng-if="form.type==='BOOLEAN'">
                      	<select ng-options="item.value for item in form.dataSet track by item.value" ng-model="$ctrl.contact[form.name]" name="{{form.name}}" ng-required="form.required?true:false" ng-if="form.type==='SET'">
                      		<option value="" ng-if="!form.required"></option>
@@ -41,9 +41,9 @@
 			</div>
 		</div>
 		<div class="text-center remove-spaces-inline modal-button-container">
-			<button ng-if="$ctrl.method == 'create'" class="btn btn-blue" type="submit">Insert</button>
-			<button ng-if="$ctrl.method == 'update'" class="btn btn-blue" type="submit">Edit</button>
+			<button class="btn btn-blue" type="submit">Save</button>
 			<a class="btn btn-blue" href ng-click="$ctrl.cancel()">Cancel</a>
+
 		</div>
 	</form>
 </div>

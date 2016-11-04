@@ -24,12 +24,12 @@ angular.module('fakiyaMainApp')
             };
             $scope.getItems = function(){
                 return $scope.ngModel.map(function(item){return item.value;}).join(';');
-            }
+            };
             $scope.selectAll = function () {
 
                 $scope.ngModel = [];
 
-                angular.forEach($scope.options, function (item, index) {
+                angular.forEach($scope.options, function (item) {
 
                     $scope.ngModel.push(item);
 
@@ -70,9 +70,9 @@ angular.module('fakiyaMainApp')
 
                 var varClassName = 'glyphicon glyphicon-remove-circle';
 
-                angular.forEach($scope.ngModel, function (item, index) {
+                angular.forEach($scope.ngModel, function (item) {
 
-                    if (item[$scope.id] == option[$scope.id]) {
+                    if (item[$scope.id] === option[$scope.id]) {
 
                         varClassName = 'glyphicon glyphicon-ok-circle';
 

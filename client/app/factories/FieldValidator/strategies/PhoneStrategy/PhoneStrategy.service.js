@@ -19,12 +19,12 @@ angular.module('fakiyaMainApp')
       }
       let valid = (number.test(numberParsed)) ? true: false;
       return valid;
-    }
+    };
     let getMethods = function(){
       let phoneMethods = new DefaultValidator();
       phoneMethods.validateType = validateType;
       return phoneMethods;
-    }
+    };
     return {
       getMethods: getMethods
     };
