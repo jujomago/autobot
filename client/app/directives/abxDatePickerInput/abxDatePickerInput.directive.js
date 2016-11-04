@@ -13,11 +13,11 @@ angular.module('fakiyaMainApp')
         validator: '=validator',
         strategy: '@'
       },
-      link: function (scope, element, attrs) {
+      link: function (scope) {
         
       	scope.openDatePicker = function(){
       		scope.opened = true;
-      	}
+      	};
       }
     };
   });

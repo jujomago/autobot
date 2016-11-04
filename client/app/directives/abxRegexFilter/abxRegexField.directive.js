@@ -11,7 +11,7 @@ angular.module('fakiyaMainApp')
       }
       
       ngModelCtrl.$parsers.push(function(val) {
-        let regex = new RegExp(attrs.abxRegexFilter, 'g')
+        let regex = new RegExp(attrs.abxRegexFilter, 'g');
         let clean = val.replace(regex, '');
         if (val !== clean) {
           ngModelCtrl.$setViewValue(clean);

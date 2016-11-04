@@ -12,10 +12,11 @@ describe('Directive: abxDatetimePickerInput', function () {
     scope = $rootScope.$new();
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<abx-datetime-picker-input></abx-datetime-picker-input>');
+  it('should open date picker', inject(function ($compile) {
+    element = angular.element('<abx-datetime-picker-input ng-model="model"></abx-datetime-picker-input>');
     element = $compile(element)(scope);
     scope.$apply();
-    expect(element.text()).to.equal('this is the abxDatetimePickerInput directive');
+    element.isolateScope().openDatePicker();
+    expect(element.isolateScope().opened).to.equal(true);
   }));
 });
