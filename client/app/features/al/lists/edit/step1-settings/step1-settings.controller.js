@@ -1,16 +1,19 @@
 'use strict';
 (function () {
     let _$state,_$stateParams;
-    class SettingsComponent {   
+    let _ListsService;
+    class SettingsComponent {
         constructor($state, $stateParams) {
             _$state = $state;
             _$stateParams = $stateParams;
             this.name = _$stateParams.name;
+            this.isUpdate = $stateParams.isUpdate;
+            this.advancedOptions = {isCollapsed: true};
         }
         sendConfiguration(){
           _$state.go('ap.al.listsEdit-list', {name: this.name});
         }
-        
+
     }
 
 

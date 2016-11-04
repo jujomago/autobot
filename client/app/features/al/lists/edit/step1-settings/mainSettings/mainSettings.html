@@ -1,10 +1,4 @@
-<h3 class="title_section">List: <span>{{$ctrl.name}}</span></h3>
-<div class="pull-right button-container" ng-hide="$ctrl.homeSelected">
-	<button ng-show="$ctrl.fileSelected" ng-click="$ctrl.goBack()" class="btn btn-black btn-sm-fixed">Back</button>
-	<button ng-click="$ctrl.cancelAction()" class="btn btn-black btn-sm-fixed">Cancel</button>
-</div>
-<main-settings></main-setting>
-<!--<div class="settings-options-container">
+<div class="settings-options-container">
 	<div class="settings-text">
 	<h3>List update</h3>
 	<p ng-show="!$ctrl.isUpdate">Select how would you like to remove your list records:</p>
@@ -65,7 +59,4 @@
 	  	<input type="checkbox"> Check records in DNC list
 		</label>
 	</div>
-</div>
---><div class="margin-with-footer settings-button-container">
-	<button ng-click="$ctrl.sendConfiguration()" class="btn btn-black btn-auto-size">Input records manually</button>
 </div>
