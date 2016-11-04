@@ -55,12 +55,12 @@
 
     <div class="mywell footer_table text-center" ng-show="$ctrl.list.length>0">
 
-        <div class="noresults" ng-show="!$ctrl.filteredList.length" ng-if="$ctrl.search">
+        <div class="no-margin-top noresults" ng-show="!$ctrl.filteredList.length" ng-if="$ctrl.search">
             <img src="assets/al/images/NoResultsIcon.png" alt="lupa">
             <p>We couldn't find what you are looking for</p>
         </div>
 
-        <label class="pull-left" ng-if="$ctrl.filteredList.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.getMax()}} of {{$ctrl.filteredList.length}}</label>
+        <label class="pull-left fixed-width-125" ng-if="$ctrl.filteredList.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.getMax()}} of {{$ctrl.filteredList.length}}</label>
 
         <uib-pagination ng-if="$ctrl.filteredList.length" total-items="$ctrl.filteredList.length" ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
     " boundary-links="true " ng-change="$ctrl.pageChanged()">
@@ -76,4 +76,4 @@
         <button class="btn btn-black" ng-click="$ctrl.uploadContacts()">Upload</button>
     </div>
 </div>
-<div id="edit-list"></div>
+<div id="modal-container"></div>

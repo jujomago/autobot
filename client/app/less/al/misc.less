@@ -56,9 +56,11 @@
         width: 120px;
         line-height: 30px;
         transition: all .2s ease-out;
-        &:hover, &:active {
-            background: #666;
-            color: @white;
+        &:hover, &:active, &:focus {
+            background: #000000;
+            color: @blue;
+            border-width: 1px;
+            border-color: @blue;
         }
     }
     //button template for list
@@ -97,8 +99,24 @@
     }
     .btn-shared-row{
         display: inline-block;
+        height: 20px;
+        width: 55px;
+        padding: 0;
+        font-size: 11px;
         margin-left: 3px;
         margin-right: 3px;
+    }
+    .fixed-width-125{
+        width: 125px;
+    }
+    div.no-margin-top{
+        margin-top: 0;
+    }
+    .abx-btn-md{
+        width: 80px;
+        height: 30px;
+        padding-left: 0px;
+        padding-right: 0px
     }
     // circle for delete in lists
     .circle_delete {
@@ -381,6 +399,20 @@
 
     //add Modal transparent
     #modal-container{
+        div.modal-md{
+            width: 560px;
+            .modal-header{
+                padding: 15px 0 0;
+                .alert-danger, .alert-warning{
+                    margin-top: 10px;
+                }
+            } 
+            .modal-body{
+                margin-top: 30px;
+                padding: 0;
+            }
+
+        }
         .modal{
             overflow-y: hidden;
         }
@@ -397,10 +429,14 @@
           width: 400px;
           margin: 0 auto;
         }
+        .contact-model-form {
+            max-height: 400px;
+            overflow-y: auto;
+        }
         .modal-header{
             border: none;
             .title_section{
-                margin-bottom: 2px;
+                margin-bottom: 0;
             }
         }
 
@@ -421,9 +457,6 @@
         }
         .error-modal{
             color: #e64b3b;
-        }
-        .error-message{
-            margin-top: 20px;
         }
     }
 
@@ -786,9 +819,6 @@
         }
     }
 
-    .edit-modal-x{
-        margin-top: 10px;
-    }
     .full-page-loading >abx-load-indicator>.loader_indicator{
         width: 100%;
     }
