@@ -90,10 +90,10 @@
         margin-right: 20px;
     }
     .reports-bg-color{
-        background: #F9FAFC;
+        background:@lightgray;
     }
     .reports-img{
-        margin-top: 15px;
+     //   margin-top: 15px;
         margin-bottom:50px;
         text-align: center;
         .img-responsive{
@@ -815,6 +815,240 @@
             display: none;
         }
     }
+
+    // ======= BETIN REPORTS STYLES ===============
+    .body-report{
+        padding: 0 50px 50px;
+    }
+
+    //TOOLBAR REPORTS
+     @height-toolbar:60px;
+    .toolbar-reports{
+        background: white;
+        border-bottom: 1px solid @gray;
+        height:  @height-toolbar;        
+        text-align: left; 
+        margin-bottom: 50px;
+        .toolbar-reports-title, .linkscontainer{
+            display: inline-block;
+            vertical-align: top;
+        }
+        .linkscontainer__item a{
+            line-height:@height-toolbar;
+            color:@black;   
+            font-family: BrandonMedium;         
+        }
+    }
+    .toolbar-reports-title{
+        background-color:@color-title-toolbar;
+        color: white;
+        width: 212px;
+        text-align: center;     
+        line-height:@height-toolbar - 1px;
+        height: 100%;
+        font-size: 21px; 
+        font-family: BrandonLight;
+        position:relative;
+        &:after{
+            display: block;
+            content: '';
+            position: absolute;
+            right: -7px;
+            top: 21px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 9px 0 9px 7px;
+            border-color: transparent transparent transparent @color-title-toolbar;        
+        }
+    }
+
+    //customer report arrows bar
+    .arrows-bar{
+         margin-bottom: 20px;
+         height: 34px;
+         display:flex;
+        .btn-black,.linkscontainer{
+            display: inline-block;
+            vertical-align: top;
+        }
+        .btn-black{
+            height: 34px;
+            padding: 0 30px;
+            width: auto;
+          
+        }
+        .linkscontainer{
+            flex:1;
+            .linkscontainer__item{
+                width:~"calc(94%/4)"; 
+                @media (max-width: 1520px) {
+                     width:~"calc(93%/4)"; 
+                }
+                @media (max-width: 1328px) {
+                     width:~"calc(92%/4)"; 
+                }
+                @media (max-width: 1186px) {
+                     width:~"calc(91%/4)"; 
+                }
+                @media (max-width: 1076px) {
+                     width:~"calc(90%/4)"; 
+                }
+                @media (max-width: 985px) {
+                     width:~"calc(89%/4)"; 
+                }
+                @media (max-width: 912px) {
+                     width:~"calc(88%/4)"; 
+                }
+                @media (max-width: 852px) {
+                     width:~"calc(87%/4)"; 
+                }
+                @media (max-width: 800px) {
+                     width:~"calc(86%/4)"; 
+                }
+                a{
+                    line-height:34px;
+                    color:white;
+                    
+                    &:hover{
+                        color:white;
+                    }     
+                }
+            }
+        }        
+    }   
+    // links Block
+    .linkscontainer{
+        list-style: none;
+        margin: 0;
+        padding: 0;    
+        font-size: 0;
+        height: 100%;
+        &--leftspace{
+            padding-left: 20px;
+            @media (max-width: 770px) {
+               padding-left:10px; 
+            }
+        }
+        &__item{
+            float: left;
+            font-size: 16px;
+            height: 100%;   
+            &--last{
+                padding-right: 0;
+            }         
+            >a{
+                display: block;
+                height: 100%;
+                padding: 0 15px;
+                &:hover{
+                    color:@color-title-toolbar; 
+                }                  
+            }
+            &--arrow{
+                position: relative;
+                background:@color-title-toolbar; 
+                margin:0 10px;
+                >a{
+                    //padding:0 80px;
+                    text-indent: 13px;
+                    text-align: center;
+                }
+                &:before,&:after{
+                    content:'';
+                    display: block;
+                    position: absolute;
+                    top:0;
+                    height: 100%;
+                    width: 0;
+                    height: 0;
+                    border-style: solid;
+                    border-width: 17px 0 17px 10px;                     
+                }
+                &:before{
+                    left:0;                          
+                    border-color: transparent transparent transparent @lightgray;        
+                }
+                &:after{
+                    right:-10px;       
+                    border-color: transparent transparent transparent @color-title-toolbar;   
+                }
+            }
+        }
+    }
+    .report-section{
+        overflow: hidden;
+      //  display: flex;
+    }
+
+    .listicons{
+        list-style: none;
+        padding: 0;     
+        li{
+            height: 26px;
+            line-height: 26px;
+            margin-bottom: 16px;
+            font-size: 16px;
+            font-family: BrandonRegular;
+            @media (max-width: 992px) {
+               display: inline-block;
+               margin-right: 26px;
+            }
+            >img{
+                 margin-right: 9px;
+                 margin-top: -3px;
+            }
+        }
+    }
+       
+    .customer-chart{
+        //float:left;
+          padding: 0;
+     //   flex: 1;
+    }    
+
+    //revenue boxes
+    .revenueboxes{
+        padding: 0 25px;
+
+        .col-sm-6,.col-sm-3{
+            padding: 0 25px;
+        }
+        .box{
+            background:white;
+            border: 1px solid red;
+        }
+    }
+
+    .tooltipreport{
+        background: #000;
+        color: white;
+        font-size: 13px;
+        padding: 10px;
+        display: inline-block;
+        position:absolute;
+        display:none;
+        &:before{
+            content:'';
+            display: block;
+            position: absolute;   
+            top: -10px;
+            left: 44%;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 8.5px 10px 8.5px;
+            border-color: transparent transparent #000 transparent;
+       
+        }
+        strong{
+            display: block;
+            color:#62BF92;
+        }         
+    }
+
+    // ====== END REPORT STYLES =========
+
 }
 @-moz-document url-prefix() {
     .al-theme {

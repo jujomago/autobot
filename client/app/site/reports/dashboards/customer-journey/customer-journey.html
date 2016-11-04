@@ -1,4 +1,107 @@
-<div class="content reports-img reports-bg-color">
-    <img class="img-responsive"
-         ng-src="assets/reports/images/customer-journey.jpg"/>
+<div class="reports-bg-color">
+    <nav class="toolbar-reports">
+        <div class="toolbar-reports-title">
+            My dashboard
+        </div>
+        <ul class="linkscontainer linkscontainer--leftspace">
+            <li class="linkscontainer__item"><a href="#">Customer Journey</a></li>
+            <li class="linkscontainer__item"><a href="#">Scorecar KPI's</a></li>
+            <li class="linkscontainer__item"><a href="#">Heat Maps</a></li>
+            <li class="linkscontainer__item"><a href="#">Gauges</a></li>
+            <li class="linkscontainer__item linkscontainer__item--last"><a href="#">Revenue</a></li>
+        </ul>
+    </nav>
+    <div class="body-report">
+             <nav class="arrows-bar">
+                <button class="btn btn-black">Edit</button>
+                <ul class="linkscontainer">
+                    <li class="linkscontainer__item linkscontainer__item--arrow">
+                        <a href="">Research</a></li>
+                    <li class="linkscontainer__item linkscontainer__item--arrow">
+                        <a href="">Select</a></li>
+                    <li class="linkscontainer__item linkscontainer__item--arrow">
+                        <a href="">Purchase</a></li>
+                    <li class="linkscontainer__item linkscontainer__item--arrow">
+                        <a href="">Service</a></li>
+                </ul>
+            </nav>
+            <section class="report-section">
+                <ul class="listicons col-md-2 col-lg-1">
+                    <li><img src="assets/reports/images/AB-App-CJIcons-Web.png" alt=""> Web</li>
+                    <li><img src="assets/reports/images/AB-App-CJIcons-Social.png" alt="">Social</li>
+                    <li><img src="assets/reports/images/AB-App-CJIcons-Voice.png" alt="">Voice</li>
+                    <li><img src="assets/reports/images/AB-App-CJIcons-Email.png" alt="">Email</li>
+                    <li><img src="assets/reports/images/AB-App-CJIcons-Mobile.png" alt="">Mobile</li>
+                    <li><img src="assets/reports/images/AB-App-CJIcons-SMS.png" alt="">SMS</li>
+                    <li><img src="assets/reports/images/AB-App-CJIcons-Retail.png" alt="">Retail</li>
+                </ul>
+                <div class="customer-chart col-md-10 col-lg-11">
+                    <img id="imgID" src="assets/reports/images/AB-App-CJGraph.png" class="img-responsive" alt="" usemap="#m_ABAppCJGraph" >
+                    <map name="m_ABAppCJGraph" id="m_ABAppCJGraph">
+                        <area id="circle4" shape="circle" coords="915,350, 18" href="javascript:;" alt="punto4" />
+                        <area id="circle3" shape="circle" coords="654,148, 19"  href="javascript:;"   alt="punto3" />
+                        <area id="circle2" shape="circle" coords="393,200, 19"  href="javascript:;"  alt="punto2" />
+                        <area id="circle1" shape="circle" coords="130,49, 18"  href="javascript:;"  alt="punto1" />
+                    </map>
+                </div>               
+            </section>          
+            <div id="tooltip1" class="tooltipreport">
+                <strong>Web</strong>
+                Sub Campaign:<br/>
+                Clicks:14,757<br/>
+                Impressions:5,841,257<br/>
+                CTR:0.27%<br/>
+                Ave: CPC: $0.59<br/>
+                Cost: $8,695,98
+            </div>
+            <div id="tooltip2" class="tooltipreport">
+                <strong>Emails</strong>
+                Sub Campaign:<br/>
+                Clicks:14,757<br/>
+                Impressions:5,841,257<br/>
+                CTR:0.27%<br/>
+                Ave: CPC: $0.59<br/>
+                Cost: $8,695,98
+            </div>
+            <div id="tooltip3" class="tooltipreport">
+                <strong>Voice</strong>
+                Sub Campaign:<br/>
+                Clicks:14,757<br/>
+                Impressions:5,841,257<br/>
+                CTR:0.27%<br/>
+                Ave: CPC: $0.59<br/>
+                Cost: $8,695,98
+            </div>
+            <div id="tooltip4" class="tooltipreport">
+                <strong>Retail</strong>
+                Sub Campaign:<br/>
+                Clicks:14,757<br/>
+                Impressions:5,841,257<br/>
+                CTR:0.27%<br/>
+                Ave: CPC: $0.59<br/>
+                Cost: $8,695,98
+            </div>
+    </div>
+    
+<!-- THIS SCRIPT IS JUST FOR DEMO PURPOSES, THIS WILL BE DELETED AFTER DEMO -->   
+<script>    
+!function(){"use strict";function a(){function a(){function a(a){function c(a){return a*b[1===(d=1-d)?"width":"height"]}var d=0;return a.split(",").map(Number).map(c).map(Math.floor).join(",")}for(var b={width:i.width/j.width,height:i.height/j.height},c=0;g>c;c++)f[c].coords=a(h[c])}function b(){j.onload=function(){(i.width!==j.width||i.height!==j.height)&&a()},j.src=i.src}function c(){function b(){clearTimeout(k),k=setTimeout(a,250)}window.addEventListener?window.addEventListener("resize",b,!1):window.attachEvent&&window.attachEvent("onresize",b)}function d(a){return a.coords.replace(/ *, */g,",").replace(/ +/g,",")}var e=this,f=e.getElementsByTagName("area"),g=f.length,h=Array.prototype.map.call(f,d),i=document.querySelector('img[usemap="#'+e.name+'"]'),j=new Image,k=null;b(),c()}function b(){function b(b){if(!b.tagName)throw new TypeError("Object is not a valid DOM element");if("MAP"!==b.tagName.toUpperCase())throw new TypeError("Expected <MAP> tag, found <"+b.tagName+">.");a.call(b)}return function(a){switch(typeof a){case"undefined":case"string":Array.prototype.forEach.call(document.querySelectorAll(a||"map"),b);break;case"object":b(a);break;default:throw new TypeError("Unexpected data type ("+typeof a+").")}}}"function"==typeof define&&define.amd?define([],b):"object"==typeof exports?module.exports=b():window.imageMapResize=b(),"jQuery"in window&&(jQuery.fn.imageMapResize=function(){return this.filter("map").each(a).end()})}();
+
+$(function(){
+     $('map').imageMapResize();
+     $('area').on('mouseenter',function(e){
+            e.preventDefault();           
+        //    console.log(e);            
+            let number=e.target.id[e.target.id.length-1];
+            let $curTooltip= $('#tooltip'+number);            
+            $curTooltip.show().css({'left':e.clientX-$curTooltip.width()+20,'top':e.clientY});  
+        //    return false;
+     }).on('mouseleave',function(e){
+          let number=e.target.id[e.target.id.length-1];
+          let $curTooltip= $('#tooltip'+number);
+           $curTooltip.hide().css({'top':0,'left':0});
+     });
+});
+</script>
+
 </div>
