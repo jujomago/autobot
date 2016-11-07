@@ -36,10 +36,10 @@
     }
 
 
-    MainSettings.$inject = ['$state', '$stateParams', ];
+    MainSettings.$inject = ['$state', '$stateParams' ];
 
     angular.module('fakiyaMainApp')
-        .component('main.settings', {
+        .component('mainSettings', {
             templateUrl: 'app/features/al/lists/edit/step1-settings/mainSettings/mainSettings.html',
             controller: MainSettings
         });
