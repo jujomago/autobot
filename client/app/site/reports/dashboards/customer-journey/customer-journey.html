@@ -89,17 +89,13 @@
 
 $(function(){
      $('map').imageMapResize();
-     $('area').on('mouseenter',function(e){
+     $('area').on('click',function(e){
             e.preventDefault();           
-        //    console.log(e);            
+             console.log(e);            
             let number=e.target.id[e.target.id.length-1];
-            let $curTooltip= $('#tooltip'+number);            
-            $curTooltip.show().css({'left':e.clientX-$curTooltip.width()+20,'top':e.clientY});  
-        //    return false;
-     }).on('mouseleave',function(e){
-          let number=e.target.id[e.target.id.length-1];
-          let $curTooltip= $('#tooltip'+number);
-           $curTooltip.hide().css({'top':0,'left':0});
+            let $curTooltip= $('#tooltip'+number);
+            $curTooltip.siblings('.tooltipreport').hide();            
+            $curTooltip.show().css({'left':e.clientX-($curTooltip.width()/2)-10,'top':e.clientY+15});         
      });
 });
 </script>
