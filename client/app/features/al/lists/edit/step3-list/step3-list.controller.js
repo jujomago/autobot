@@ -152,7 +152,17 @@ class ListComponent {
       if (columnName !== undefined && columnName) {
           console.log('sorting:' + columnName);
           this.sortKey = columnName;
-          this.list = _$filter('orderBy')(this.list, this.sortKey, this.reverse);
+          //this.list = _$filter('orderBy')(this.list, this.sortKey, this.reverse);
+          let reverse = this.reverse;
+          this.list = this.list.sort((itemA,itemB)=>{
+            if(reverse){
+              return itemA[columnName] > itemB[columnName];
+            }
+            else{
+              return itemA[columnName] < itemB[columnName];
+            }
+          });
+          console.log(this.list);
           this.reverse = !this.reverse;
           return true;
       } else {

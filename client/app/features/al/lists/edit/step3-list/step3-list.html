@@ -59,17 +59,18 @@
             <img src="assets/al/images/NoResultsIcon.png" alt="lupa">
             <p>We couldn't find what you are looking for</p>
         </div>
+        <div class="row abx-pagination-container text-center">
+            <label class="text-left col-sm-4 abx-pagination-left" ng-if="$ctrl.filteredList.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.getMax()}} of {{$ctrl.filteredList.length}}</label>
+            <div class="col-sm-4 abx-pagination-center">
+                <uib-pagination ng-if="$ctrl.filteredList.length" total-items="$ctrl.filteredList.length" ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
+                 " boundary-links="true " ng-change="$ctrl.pageChanged()">
+                 </uib-pagination>
+            </div>
+            <div class="text-right results_per_page col-sm-4 abx-pagination-right" ng-show="$ctrl.filteredList.length"><span>Show</span>
 
-        <label class="pull-left" ng-if="$ctrl.filteredList.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.getMax()}} of {{$ctrl.filteredList.length}}</label>
-
-        <uib-pagination ng-if="$ctrl.filteredList.length" total-items="$ctrl.filteredList.length" ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
-    " boundary-links="true " ng-change="$ctrl.pageChanged()">
-        </uib-pagination>
-
-        <div class="pull-right results_per_page" ng-show="$ctrl.filteredList.length"><span>Show</span>
-
-            <select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities" ng-change="$ctrl.pageChanged()">
-        </select> <span>results per page</span>
+                <select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities" ng-change="$ctrl.pageChanged()">
+            </select> <span>results per page</span>
+            </div>
         </div>
     </div>
     <div class="text-center" ng-show="$ctrl.list.length>0">
