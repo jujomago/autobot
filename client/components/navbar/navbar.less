@@ -11,10 +11,17 @@
     }
   }
   &>ul.valid-links{
+    width: auto;
+    min-width: auto;
     & > li > a{
       margin-top: -1px;
      cursor: pointer;
+     
     }
+    a:hover {
+      background: transparent;
+      color: @blue;
+     }
   }
   &:hover>.dropdown-menu{
     display:block;
@@ -58,8 +65,9 @@
     }
   }
 }
-.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus{
-  background: @blue;
+.dark-nav > .dropdown >.dropdown-menu > li > a:hover,.dark-nav > .dropdown>.dropdown-menu > li > a:focus{
+  background: transparent;
+  color: @blue;
 }
 .submenucustomize
 {
