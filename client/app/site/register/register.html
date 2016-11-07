@@ -2,8 +2,7 @@
   <div class="register" ng-class="{'has-error': formRegister.$invalid}">
     <h1>CREATE USER</h1>
     <form  name="formRegister"  ng-submit="formRegister.$valid && $ctrl.register()">
-      <abx-message msg="$ctrl.message"></abx-message>
-      <div class="success" ng-show="$ctrl.successMessage">SUCCESS</div>
+      <abx-message msg="$ctrl.message"></abx-message>     
       <label>Company</label>
       <select name="company" ng-model="$ctrl.company" ng-required="required">
         <option ng-repeat="company in $ctrl.companies" value="{{company._id}}" required>{{company.companyName}}</option>

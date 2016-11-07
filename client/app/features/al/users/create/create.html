@@ -14,20 +14,22 @@
     <div class="inputminimal" ng-class="{ 'has-error': userForm.firstName.$invalid && userForm.$submitted }">
       <label for="firstName" >First Name*</label>
       <div>
-        <input autofocus type="text" name="firstName" id="firstName" required ng-model="$ctrl.newUser.firstName">
+        <input autofocus type="text" name="firstName" id="firstName" required ng-model="$ctrl.newUser.firstName" maxlength="32">
       </div>
     </div>
-    <div ng-messages="userForm.firstName.$error" ng-show="userForm.$submitted">
+    <div class="file-empty-error" ng-messages="userForm.firstName.$error" ng-show="userForm.$submitted || userForm.firstName.$dirty">
       <p ng-message="required">This field is required</p>
+      <p ng-show="$ctrl.newUser.firstName.length===32">The max length is 32 for this field</p>
     </div>
     <div  class="inputminimal"  ng-class="{ 'has-error': userForm.lastName.$invalid && userForm.$submitted }">
       <label for="lastName" >Last Name*</label>
       <div>
-        <input type="text"  name="lastName" id="lastName"  ng-model="$ctrl.newUser.lastName" required>
+        <input type="text"  name="lastName" id="lastName" maxlength="32" ng-model="$ctrl.newUser.lastName" required>
       </div>
     </div>
-    <div ng-messages="userForm.lastName.$error" ng-show="userForm.$submitted">
+    <div class="file-empty-error" ng-messages="userForm.lastName.$error" ng-show="userForm.$submitted || userForm.lastName.$dirty">
       <p ng-message="required">This field is required</p>
+      <p ng-show="$ctrl.newUser.lastName.length===32">The max length is 32 for this field</p>
     </div>
     <div class="inputminimal"  ng-class="{ 'has-error': userForm.extension.$invalid && userForm.$submitted }">
       <label for="extension" >Extension</label>

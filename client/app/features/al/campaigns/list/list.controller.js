@@ -94,8 +94,8 @@
           }
         })
         .catch(error =>{
-            this.message={ show: true, type: 'danger', text: error.errorMessage };
-            return error;
+           if(error){ this.message={ show: true, type: 'danger', text: error.errorMessage || error }; }
+           return error;
         });
     }
 

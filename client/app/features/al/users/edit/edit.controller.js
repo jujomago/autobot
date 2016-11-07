@@ -105,11 +105,19 @@
         getUserDetail(userName){
              return _UsersService.getUserDetail(userName)
                 .then(_users => {
+                
                     this.found = true;
                     this.userInfo = _users;
                     this.userInfo.generalInfo.password = '**********';
                     this.userRoles = Object.keys(this.userInfo.roles);
                     this.userSkills = this.userInfo.skills;
+                    let extesionString=this.userInfo.generalInfo.extension.toString();
+                    if(extesionString.length<4){                        
+                        let cerosToAdd=new Array((4-extesionString.length)+1).join('0');
+                        this.userInfo.generalInfo.extension=cerosToAdd.concat(extesionString);
+                    }else if(extesionString.length>4){
+                        return false;
+                    }
 
                     let rolesAvailable = this.allRoles.filter(function(value) {
                         if(this.userRoles.indexOf(value) > -1){
@@ -190,7 +198,7 @@
 
                 return _UsersService.updateUser(reqFormat)
                 .then(response=>{
-                    let messageObj={show:true,type:'success',text:'User Updated'};
+                    let messageObj={show:true,type:'success',text:'User Updated Successfully'};
                     _state.go('ap.al.users', { message: messageObj });
                     return response;
                 })
@@ -263,7 +271,7 @@
       addSkillToUser(skill){
         return _UsersService.addSkilltoUser(skill)
                 .then(response => {
-                   let theMsg = 'Skill added';
+                   let theMsg = 'Skill Added Successfully';
                    this.message={ show: true, type: 'success', text: theMsg, expires: 3000};
                    return response;
                 })
@@ -284,7 +292,7 @@
                                 this.userSkills.splice(index, 1);
 
                                 this.toggleSkillRow = -1;
-                                this.message = { show: true, type: 'success', text: 'Skill Deleted', expires:3000 };
+                                this.message = { show: true, type: 'success', text: 'Skill Deleted Successfully', expires:3000 };
 
                             }else{
                                 this.toggleSkillRow = -1;
