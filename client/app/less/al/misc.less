@@ -71,11 +71,6 @@
         border: 0;
         width: 60px;
     }
-    .btn-sm{
-        width: 75px;
-        padding: 0;
-        text-align: center;
-    }
     .btn-auto-size{
         width: auto;
     }
@@ -88,6 +83,13 @@
             margin-top: 5px;
             font-weight: normal;
         }
+    }
+    .abx-pagination-left, .abx-pagination-center, .abx-pagination-right{
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .fixed-margin-bottom-65{
+        margin-bottom: 65px
     }
     .rigth-space-sm{
         margin-right: 10px;
@@ -181,8 +183,19 @@
     {
         h3{
             margin-top: 0;
-            margin-bottom: 50px;
+            margin-bottom: 0;
         }
+        margin-bottom: 35px;
+    }
+    .no-margin-bottom{
+        margin-bottom: 0px;
+    }
+    .mywell.fixed-margin-bottom-60{
+        margin-bottom: 60px;
+    }
+    .no-records-added{
+        color: #666666;
+        font-size: 21px;
     }
     .remove-spaces-inline{
         font-size: 0;
@@ -420,7 +433,7 @@
 
         }
         .modal{
-            overflow-y: hidden;
+            overflow-y: auto;
         }
         .modal-content{
             text-align: left;
@@ -816,12 +829,6 @@
     .edit-list{
         .pull-left h3{
             font-family: BrandonLight;
-        }
-        .search input{
-            top: -15px;
-        }
-        .search .glyphicon-search{
-            top: -6px;
         }
     }
 

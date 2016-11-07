@@ -152,7 +152,6 @@ class ListComponent {
       if (columnName !== undefined && columnName) {
           console.log('sorting:' + columnName);
           this.sortKey = columnName;
-          //this.list = _$filter('orderBy')(this.list, this.sortKey, this.reverse);
           let reverse = this.reverse;
           this.list = this.list.sort((itemA,itemB)=>{
             if(reverse){
@@ -162,7 +161,6 @@ class ListComponent {
               return itemA[columnName] < itemB[columnName];
             }
           });
-          console.log(this.list);
           this.reverse = !this.reverse;
           return true;
       } else {
@@ -316,7 +314,8 @@ class ListComponent {
       })
       .catch(error =>{    
         this.SubmitText='Save';
-        this.message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
+        let message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
+        _$state.go('ap.al.lists',{message: message});
         return error;
       });
 
