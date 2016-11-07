@@ -836,10 +836,17 @@
             display: inline-block;
             vertical-align: top;
         }
-        .linkscontainer__item a{
-            line-height:@height-toolbar;
-            color:@black;   
-            font-family: BrandonMedium;         
+        .linkscontainer__item{
+            a{
+                line-height:@height-toolbar;
+                color:@black;   
+                font-family: BrandonMedium;         
+            }
+            &--active{             
+                a{
+                    color:@blue; 
+                }
+            }   
         }
     }
 
