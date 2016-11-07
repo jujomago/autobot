@@ -821,7 +821,9 @@
      @height-toolbar:60px;
     
     .body-report{
-        padding: 0 50px 50px;
+        padding: 0 50px 75px;
+        max-width: 1280px;
+        margin: 0 auto;
     }
 
     .toolbar-reports{
@@ -870,6 +872,7 @@
          margin-bottom: 20px;
          height: 34px;
          display:flex;
+         clear: both;
         .btn-black,.linkscontainer{
             display: inline-block;
             vertical-align: top;
@@ -883,30 +886,28 @@
         .linkscontainer{
             flex:1;
             .linkscontainer__item{
-                width:~"calc(94%/4)"; 
-                @media (max-width: 1520px) {
-                     width:~"calc(93%/4)"; 
-                }
-                @media (max-width: 1328px) {
-                     width:~"calc(92%/4)"; 
-                }
+                width:~"calc(92%/4)";     
+            
                 @media (max-width: 1186px) {
                      width:~"calc(91%/4)"; 
                 }
                 @media (max-width: 1076px) {
                      width:~"calc(90%/4)"; 
                 }
-                @media (max-width: 985px) {
+                @media (max-width: 999px) {
                      width:~"calc(89%/4)"; 
                 }
-                @media (max-width: 912px) {
+                @media (max-width: 927px) {
                      width:~"calc(88%/4)"; 
                 }
-                @media (max-width: 852px) {
+                @media (max-width: 868px) {
                      width:~"calc(87%/4)"; 
-                }
+                }               
                 @media (max-width: 800px) {
                      width:~"calc(86%/4)"; 
+                }
+                @media (max-width: 774px) {
+                     width:~"calc(85%/4)"; 
                 }
                 a{
                     line-height:34px;
@@ -1045,6 +1046,85 @@
             display: block;
             color:#62BF92;
         }         
+    }
+
+    .reports{
+     
+        background: white;
+        border: 2px;
+        font-size: 9px;
+        float: left;
+        .buttonBlue {
+            border: none;
+            width: 60px;
+            height: 20px;
+            margin-left: 20px;
+            margin-right: 20px;
+            //margin-top: 10px;
+            margin-bottom: 10px;
+            background-color: #37A3DC;            
+                        
+            color: #FFFFFF;           
+        }
+        .buttonBlue2 {
+            margin-top: 20px;
+        }
+        .selectCustom{           
+            width: 140px;
+            margin-right: 10px;
+            border-color: #666;
+            background: white;            
+        }
+        .selectCustom2{            
+            width: 80px;
+            margin-right: 10px;
+            border-color: #666;
+            background: white;        
+        }
+        input[type=checkbox]{
+            //margin-top: 10px;
+            display: inline-block;
+            margin-left: 5px;
+            margin-right: 10px;
+            width: 15px;
+            height: 15px;
+        }
+        label{
+            display: inline-block;
+            margin-bottom: 5px;
+            //width: 70px;
+        } 
+        
+        .buttonBlack {
+            background: @black;
+            border: none;
+            color: @white;
+            display: block;
+            //padding: 0 32px;
+            margin-bottom: 10px;
+            margin-right: 20px;
+            height: 30px;
+            line-height: 30px;
+            width: 130px;
+            font-family: BrandonMedium;
+            font-size: 13px;        
+            &:hover, &:active {
+                background: #666;
+                color: @white;
+            }
+            &:disabled {
+                background: #ccc;
+                color:white;
+            }
+        }        
+    }
+    .reports-title
+    {
+        overflow: hidden;       
+        h3{
+            float: left;
+            margin-top: 0;
+        }     
     }
 
     // ====== END REPORT STYLES =========
