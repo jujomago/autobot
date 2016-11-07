@@ -97,6 +97,9 @@ $(function(){
             $curTooltip.siblings('.tooltipreport').hide();            
             $curTooltip.show().css({'left':e.clientX-($curTooltip.width()/2)-10,'top':e.clientY+15});         
      });
+     $(window).on('resize',function(){
+         $('.tooltipreport').hide();
+     })
 });
 </script>
 
