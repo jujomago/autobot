@@ -265,7 +265,7 @@ class ListComponent {
         .then(result => {
             if(typeof result !== 'undefined' && Object.keys(result).length > 0){
                   if(this.method==='create'){
-                    this.list.unshift(angular.copy(result));
+                    this.list.unshift(result);
                   }
                   else{
                     this.list[this.selectedIndex] = result;
@@ -276,6 +276,7 @@ class ListComponent {
             this.selectedArray = [];
             this.contact = {};
             this.selectedIndex = -1;
+            this.selectedContact(0, result);
         }, ()=>{
           this.selected = '';
           this.selectedOld = '';

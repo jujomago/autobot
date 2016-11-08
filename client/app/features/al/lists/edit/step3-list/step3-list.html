@@ -48,6 +48,7 @@
                     <td ng-repeat="header in $ctrl.contactFields" ng-class="{'row-selected': $ctrl.selectedArray.indexOf(key+$ctrl.beginNext) != -1}">
                         <label class="light-label">
                             {{$ctrl.formatField(header, item[header.name])}}
+                            
                         </label>
                     </td>
                 </tr>

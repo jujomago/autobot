@@ -3,6 +3,7 @@
 angular.module('fakiyaMainApp')
   .factory('UrlStrategy', function (DefaultValidator) {
     let validateType = function(value){
+      return true;
       if(value ===''){
             return true;
         }

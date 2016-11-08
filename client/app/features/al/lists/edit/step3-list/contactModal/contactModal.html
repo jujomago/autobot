@@ -2,13 +2,14 @@
 	<button type="button" class="close circle_close edit-modal-x" ng-click="$ctrl.cancel()"></button>
 	<h3 ng-show="$ctrl.method==='update'" class="title_section">Edit contact</h3>
 	<h3 ng-show="$ctrl.method==='create'" class="title_section">Add new contact</h3>
-	<abx-message msg="$ctrl.message"></abx-message>
+	
 </div>
 <div class="modal-body">
 	
 
 	<form name="formList" novalidate ng-submit="formList.$valid && $ctrl.save()" class="custom_form fields-form form-horizontal">
 		<div class="contact-model-form">
+			<abx-message msg="$ctrl.message"></abx-message>
 			<div ng-repeat="form in $ctrl.contactFields">
 				<div class="inputminimal" ng-class="{ 'has-error': formList[form.name].$invalid && formList.$submitted }">
 					<label for="{{form.name}}">{{form.name}}</label>					
