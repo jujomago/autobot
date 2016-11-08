@@ -42,6 +42,12 @@ describe('Service:DefaultValidator', function () {
     it('should not be case sensitive', function () {
       expect(DefaultValidator.Regexp('[a-z]*','aaaAab')).to.be.equal(false);
     });
+    it('should select only in predefined options', function () {
+      expect(DefaultValidator.Regexp('abc|def','abc')).to.be.equal(true);
+      expect(DefaultValidator.Regexp('abc|def','def')).to.be.equal(true);
+      expect(DefaultValidator.Regexp('abc|def','abcdef')).to.be.equal(false);
+      expect(DefaultValidator.Regexp('abc|def','acd')).to.be.equal(false);
+    });
   });
   describe('#validateRequired', function () {
     it('should return true if value exists', function () {

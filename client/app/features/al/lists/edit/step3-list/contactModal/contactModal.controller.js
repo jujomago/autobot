@@ -33,7 +33,7 @@ class ContactModalComponent {
   }
   setMessage(message){
     this.message={ show: true, type: 'danger', text: message, expires: 3000};
-    angular.element('.contact-model-form')[0].scrollTop = 0;
+    angular.element('.contact-model-form').scrollTop(0);
   }
   save(){
     if(Object.keys(this.contact).filter(val => {return this.contact[val]!=='';}).length===0){
