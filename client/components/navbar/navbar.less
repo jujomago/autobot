@@ -14,7 +14,7 @@
     width: auto;
     min-width: auto;
     & > li > a{
-      margin-top: -1px;
+      margin-top: 0px;
      cursor: pointer;
      
     }    
@@ -99,8 +99,11 @@
     display: inline-block;
     vertical-align: middle;
     margin-bottom: 0;
-    &.aligned-items{
+    &.aligned-items{      
       padding-top: 3px;
+    }
+    &:hover,&:focus,&:active {
+      color: @blue;
     }
 }
 .navbar > .container-fluid{
