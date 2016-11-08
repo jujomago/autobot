@@ -90,10 +90,10 @@
         margin-right: 20px;
     }
     .reports-bg-color{
-        background: #F9FAFC;
+        background:@lightgray;
     }
     .reports-img{
-        margin-top: 15px;
+     //   margin-top: 15px;
         margin-bottom:50px;
         text-align: center;
         .img-responsive{
@@ -815,6 +815,400 @@
             display: none;
         }
     }
+
+    // ======= BETIN REPORTS STYLES ===============
+    //TOOLBAR REPORTS
+     @height-toolbar:60px;
+    
+    .body-report{
+        padding: 0 50px 75px;
+        max-width: 1280px;
+        margin: 0 auto;
+    }
+
+    .toolbar-reports{
+        background: white;
+        border-bottom: 1px solid @gray;
+        height:  @height-toolbar;        
+        text-align: left; 
+        margin-bottom: 50px;
+        .toolbar-reports-title, .linkscontainer{
+            display: inline-block;
+            vertical-align: top;
+        }
+        .linkscontainer__item{
+            a{
+                line-height:@height-toolbar;
+                color:@black;   
+                font-family: BrandonMedium; 
+            }
+            &--active{             
+                a{
+                    color:@blue; 
+                }
+            }   
+        }
+    }
+
+    .toolbar-reports-title{
+        background-color:@blue;
+        color: white;
+        width: 212px;
+        text-align: center;     
+        line-height:@height-toolbar - 1px;
+        height: 100%;
+        font-size: 21px; 
+        font-family: BrandonLight;
+        position:relative;
+        &:after{
+            display: block;
+            content: '';
+            position: absolute;
+            right: -7px;
+            top: 21px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 9px 0 9px 7px;
+            border-color: transparent transparent transparent @blue;        
+        }
+    }
+
+    //customer report arrows bar
+    .arrows-bar{
+         margin-bottom: 20px;
+         height: 34px;
+         display:flex;
+         clear: both;
+        .btn-black,.linkscontainer{
+            display: inline-block;
+            vertical-align: top;
+        }
+        .btn-black{
+            height: 34px;
+            padding: 0 30px;
+            width: auto;
+          
+        }
+        .linkscontainer{
+            flex:1;
+            .linkscontainer__item{
+                width:~"calc(92.5%/4)";                
+                @media (max-width: 1268px) {
+                     width:~"calc(92%/4)"; 
+                }
+                @media (max-width: 1200px) {
+                     width:~"calc(91%/4)"; 
+                }
+                @media (max-width: 1090px) {
+                     width:~"calc(90%/4)"; 
+                }
+                @media (max-width: 999px) {
+                     width:~"calc(89%/4)"; 
+                }
+                @media (max-width: 927px) {
+                     width:~"calc(88%/4)"; 
+                }
+                @media (max-width: 868px) {
+                     width:~"calc(87%/4)"; 
+                }
+                @media (max-width: 815px) {
+                     width:~"calc(86%/4)"; 
+                }
+                @media (max-width: 774px) {
+                     width:~"calc(85%/4)"; 
+                }
+                a{
+                    line-height:34px;
+                    color:white;
+                    
+                    &:hover{
+                        color:white;
+                    }     
+                }
+            }
+        }        
+    }   
+    // links Block
+    .linkscontainer{
+        list-style: none;
+        margin: 0;
+        padding: 0;    
+        font-size: 0;
+        height: 100%;
+        &--leftspace{
+            padding-left: 20px;
+            @media (max-width: 778px) {
+               padding-left:10px; 
+            }
+        }
+        &__item{
+            float: left;
+            font-size: 16px;
+            height: 100%;   
+            &--last{
+                padding-right: 0;
+            }         
+            >a{
+                display: block;
+                height: 100%;
+                padding: 0 15px;
+                &:hover{
+                    color:@blue; 
+                }                  
+            }
+            &--arrow{
+                position: relative;
+                background:@blue; 
+                margin:0 10px;
+                >a{
+                    //padding:0 80px;
+                    text-indent: 13px;
+                    text-align: center;
+                }
+                &:before,&:after{
+                    content:'';
+                    display: block;
+                    position: absolute;
+                    top:0;
+                    height: 100%;
+                    width: 0;
+                    height: 0;
+                    border-style: solid;
+                    border-width: 17px 0 17px 10px;                     
+                }
+                &:before{
+                    left:0;                          
+                    border-color: transparent transparent transparent @lightgray;        
+                }
+                &:after{
+                    right:-10px;       
+                    border-color: transparent transparent transparent @blue;   
+                }
+            }
+        }
+    }
+    .report-section{
+        overflow: hidden;
+      //  display: flex;
+    }
+
+    .listicons{
+        list-style: none;
+        padding: 0;     
+        li{
+            height: 26px;
+            line-height: 26px;
+            margin-bottom: 16px;
+            font-size: 16px;
+            font-family: BrandonRegular;
+            @media (max-width: 992px) {
+               display: inline-block;
+               margin-right: 26px;
+            }
+            >img{
+                 margin-right: 9px;
+                 margin-top: -3px;
+            }
+        }
+    }
+       
+    .customer-chart{    
+        padding: 0;     
+    }    
+
+    //revenue boxes
+    .revenueboxes{   
+        margin-left: -25px;
+        margin-right: -25px;
+        clear:both;
+        overflow: hidden;
+       // margin-bottom: 30px;        
+        .col-sm-6,.col-sm-3{ 
+            padding: 0 25px;  
+        }      
+    }
+    .box-chart{
+        background:white;            
+        text-align: center;
+        >img{
+            display: inline;
+        }
+        strong{
+            font-family: BrandonLight;
+            color:@blue; 
+            font-size: 24px;
+        }   
+        p{
+            color:@grayforte;
+            margin-bottom: 0;
+            font-size: 18px;
+            font-family: BrandonLight;
+        }
+    }
+    .nomargincols{
+        overflow: hidden;
+        clear: both;
+        padding:18px 12px;
+        .col-md-3{
+            padding:0; 
+        }
+    }
+    .details_chart{
+        margin-top: 30px;
+        margin-left: -25px;
+        margin-right: -25px;
+        .col-md-6{
+            padding: 0 25px;
+            margin-bottom: 30px;
+        }
+        .box-chart{
+            padding: 12px 0;
+        }
+    }
+
+    .tooltipreport{
+        background: #000;
+        color: white;
+        font-size: 13px;
+        padding: 10px;
+        display: inline-block;
+        position:absolute;
+        display:none;
+        &:before{
+            content:'';
+            display: block;
+            position: absolute;   
+            top: -10px;
+            left: 44%;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 8.5px 10px 8.5px;
+            border-color: transparent transparent #000 transparent;
+       
+        }
+        strong{
+            display: block;
+            color:#62BF92;
+        }         
+    }
+    .input-form-body{
+        width: 100%;   
+        background: white;     
+        overflow: hidden;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #ececec;
+        margin-bottom: 30px;                
+    } 
+    .div-box{    
+        padding-top: 30px;
+        padding-bottom: 25px;
+        padding-left: 20px;    
+        border-left-width: 1px;
+        border-left-style: solid;
+        border-left-color: #ececec;
+        @media (max-width: 920px) {    
+            width: 100%;       
+            border-top-width: 1px;
+            border-top-style: solid;
+            border-top-color: #ececec;
+            border-left-width: 0px;
+            border-left-style: none;
+            border-left-color: transparent;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+    }  
+    .reports{
+        background: white;             
+        font-size: 9px;
+        float: left; 
+        .first-button{
+            margin-top: 20px;
+        }      
+        .last-button{
+            margin-bottom: 20px;
+        } 
+        .buttonBlue {
+            border: none;
+            width: 60px;
+            height: 20px;
+            margin-left: 20px;
+            margin-right: 20px;            
+            margin-bottom: 10px;
+            background-color: #37A3DC;            
+                        
+            color: #FFFFFF;           
+        }
+        .buttonBlue2 {
+            margin-top: 20px;
+        }
+        .selectCustom{           
+            width: 140px;
+            margin-right: 10px;
+            border-color: #666;
+            background: white;            
+        }
+        .selectCustom2{            
+            width: 80px;
+            margin-right: 10px;
+            border-color: #666;
+            background: white;        
+        }
+        input[type=checkbox]{
+            //margin-top: 10px;
+            display: inline-block;
+            margin-left: 5px;
+            margin-right: 10px;
+            width: 15px;
+            height: 15px;
+        }
+        label{
+            display: inline-block;
+            margin-bottom: 5px;
+            //width: 70px;
+        } 
+        
+        .buttonBlack {
+            background: @black;
+            border: none;
+            color: @white;
+            display: block;
+            //padding: 0 32px;
+            margin-bottom: 10px;
+            margin-right: 20px;
+            height: 30px;
+            line-height: 30px;
+            width: 130px;
+            font-family: BrandonMedium;
+            font-size: 13px;        
+            &:hover, &:active {
+                background: #666;
+                color: @white;
+            }
+            &:disabled {
+                background: #ccc;
+                color:white;
+            }
+            @media (max-width: 920px) {           
+                display: inline;
+            }
+        }        
+    }
+    .reports-title
+    {
+        overflow: hidden;       
+        h3{
+            float: left;
+            margin-top: 0;
+            margin-bottom: 30px;
+        }     
+    }
+
+    // ====== END REPORT STYLES =========
+
 }
 @-moz-document url-prefix() {
     .al-theme {
