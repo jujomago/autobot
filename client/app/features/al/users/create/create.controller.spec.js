@@ -287,8 +287,7 @@ describe('Component: al.users.create', function() {
                 expect(r).to.not.have.deep.property('roles.admin');
                 expect(r).to.not.have.deep.property('roles.reporting');
 
-                expect(Object.keys(CreateComponent.newUser)).to.have.lengthOf(0);
-                expect(CreateComponent.message).to.eql({ show: false });
+                expect(Object.keys(CreateComponent.newUser)).to.have.lengthOf(0);                              
 
             });
 

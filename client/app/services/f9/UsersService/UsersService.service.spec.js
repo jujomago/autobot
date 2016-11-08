@@ -45,6 +45,235 @@ describe('Service: UsersService', function () {
         });
     });
 
+    describe('#getUser', () => {
+        it('should return a User', function () {
+            let username='nelson2@autoboxcorp.com';
+            httpBackend.whenGET(endPointUrl+'/'+username).respond(200,{
+                return: [
+                    {
+                    'active': true,
+                    'canChangePassword': true,
+                    'EMail': 'nelson2@autoboxcorp.com',
+                    'extension': 10,
+                    'firstName': 'Nelson',
+                    'fullName': 'Nelson Araoz',
+                    'IEXScheduled': false,
+                    'id': '2546070',
+                    'lastName': 'Araoz',
+                    'mustChangePassword': false,
+                    'startDate': '2016-10-17T07:00:00.000Z',
+                    'userName': 'nelson2@autoboxcorp.com'
+                    }
+                ]
+            });
+
+
+            UsersService.getUser(username).then(response => {
+                expect(response.userName).to.equal(username);
+                expect(response).to.have.property('EMail');
+                expect(response).to.have.property('id');
+                expect(response).to.have.property('fullName');              
+            });
+            httpBackend.flush();
+        });
+
+        it('should return an error', function () {
+            let username='nelson2@autoboxcorp.com';
+            httpBackend.whenGET(endPointUrl+'/'+username).respond(500,'some error from server');
+
+
+            UsersService.getUser(username)
+            .then(null)
+            .catch(error=>{                
+                expect(error.data).to.equal(null);
+                expect(error.statusCode).to.equal(500);
+                expect(error.errorMessage).to.equal('some error from server');
+            });
+            httpBackend.flush();
+        });
+    });
+
+
+    describe('#createUser', () => {
+        it('should create a new User', function () {
+            let userInfo={
+                generalInfo:{
+                    EMail : 'jalguien@ada.com',
+                    active : true,
+                    canChangePassword : true,
+                    extension : '2346',
+                    firstName : 'Test User',
+                    lastName : 'ffff',
+                    mustChangePassword : true,
+                    password : '555666',
+                    serName : 'testuser889'
+                },
+                roles:{
+                    agent:{
+                        permissions:[
+                            {type : 'ReceiveTransfer', value : false},
+                            {type : 'MakeTransferToSkills', value : false}
+                        ]
+                    }
+                }
+            };
+
+            httpBackend.whenPOST(endPointUrl,userInfo).respond(201,{
+                return: userInfo
+            });
+
+            UsersService.createUser(userInfo)
+            .then(response => {
+                expect(response.errorMessage).to.equal('');
+                expect(response.data).to.have.property('generalInfo');
+                expect(response.data).to.have.property('roles');
+                expect(response.data.generalInfo).to.have.property('EMail');
+                expect(response.data.generalInfo).to.have.property('firstName');
+                expect(response.data.generalInfo).to.have.property('active');              
+            });
+            httpBackend.flush();
+        });
+
+       it('should return an error when create User', function () {
+
+              let userInfo={
+                generalInfo:{
+                    EMail : 'jalguien@ada.com',
+                    active : true,
+                    canChangePassword : true,
+                    extension : '2346',
+                    firstName : 'Test User',
+                    lastName : 'ffff',
+                    mustChangePassword : true,
+                    password : '555666',
+                    userName : 'testuser889'
+                },
+                roles:{
+                    agent:{
+                        permissions:[
+                            {type : 'ReceiveTransfer', value : false},
+                            {type : 'MakeTransferToSkills', value : false}
+                        ]
+                    }
+                }
+            };
+
+            httpBackend.whenPOST(endPointUrl,userInfo).respond(500,'javax.ejb.CreateException: The name testuser is already in use, please choose something else.');
+            UsersService.createUser(userInfo)
+            .then(null)
+            .catch(error=>{                
+                expect(error.data).to.equal(null);
+                expect(error.statusCode).to.equal(500);
+                expect(error.errorMessage).to.equal('javax.ejb.CreateException: The name testuser is already in use, please choose something else.');
+            });
+            httpBackend.flush();
+        });
+    });
+
+    describe('#updateUser', () => {
+        it('should upate a User', function () {
+            let userInfo={
+                userGeneralInfo:{
+                    EMail : 'jalguien@ada.com',
+                    active : true,
+                    canChangePassword : true,
+                    extension : '2346',
+                    firstName : 'Test User',
+                    lastName : 'ffff',
+                    mustChangePassword : true,
+                    password : '555666',
+                    userName : 'testuser889'
+                },
+                rolesToSet:{
+                    agent:{
+                        permissions:[
+                            {type : 'ReceiveTransfer', value : false},
+                            {type : 'MakeTransferToSkills', value : false}
+                        ]
+                    }
+                }
+            };
+
+            httpBackend.whenPUT(endPointUrl+'/'+userInfo.userGeneralInfo.userName,userInfo).respond(200,{
+                return: {
+                    generalInfo:{
+                        EMail : 'jalguien@ada.com',
+                        active : true,
+                        canChangePassword : true,
+                        extension : '2346',
+                        firstName : 'Test User',
+                        lastName : 'ffff',
+                        mustChangePassword : true,
+                        password : '555666',
+                        userName : 'testuser889'
+                    },
+                    roles:{
+                        agent:{
+                            permissions:[
+                                {type : 'ReceiveTransfer', value : false},
+                                {type : 'MakeTransferToSkills', value : false}
+                            ]
+                        }
+                    }
+                }
+            });
+
+            UsersService.updateUser(userInfo)
+            .then(response => {             
+                expect(response.errorMessage).to.equal('');
+                expect(response.data).to.have.property('generalInfo');
+                expect(response.data).to.have.property('roles');
+                expect(response.data.generalInfo).to.have.property('EMail');
+                expect(response.data.generalInfo).to.have.property('firstName');
+                expect(response.data.generalInfo).to.have.property('active');         
+            });
+            httpBackend.flush();
+        });
+    });
+
+     describe('#getPermissions', () => {
+        it('should return all persmissions', function () {
+            httpBackend.whenGET('/assets/al/json/roles.json').respond(200,{
+                reporting:{
+                    permissions:[
+                            {type : 'ReceiveTransfer', value : false},
+                            {type : 'MakeTransferToSkills', value : false}
+                    ]
+                },
+                agent:{
+                    permissions:[
+                        {type : 'ReceiveTransfer', value : false},
+                        {type : 'MakeTransferToSkills', value : false}
+                    ]
+                },
+                supervisor:{
+                    permissions:[
+                        {type : 'ReceiveTransfer', value : false},
+                        {type : 'MakeTransferToSkills', value : false}
+                    ]
+                },
+                admin:{
+                    permissions:[
+                        {type : 'ReceiveTransfer', value : false},
+                        {type : 'MakeTransferToSkills', value : false}
+                    ]
+                }
+            });
+            UsersService.getPermissions()
+            .then(response => {           
+                expect(response).to.have.property('reporting');
+                expect(response).to.have.property('admin');
+                expect(response).to.have.property('reporting');
+                expect(response).to.have.property('admin');
+                expect(response).to.have.deep.property('reporting.permissions');
+                expect(response).to.have.deep.property('admin.permissions');
+                expect(response).to.have.deep.property('reporting.permissions');
+                expect(response).to.have.deep.property('admin.permissions');
+            });
+            httpBackend.flush();
+        });
+    });
+
     describe('#getUserDetail', () => {
         it('should return user detail', function () {
             httpBackend.whenGET(endPointUrl + '/detail/josue@autoboxcorp.com').respond({

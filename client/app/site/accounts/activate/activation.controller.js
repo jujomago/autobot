@@ -40,6 +40,9 @@
           };
       return _auth.createUser(newUser)
       .then(() => {
+        return _auth.logout();
+      })
+      .then(() => {        
         return _auth.login(credentials);
       })
       .then(response =>{

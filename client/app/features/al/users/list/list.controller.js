@@ -38,6 +38,7 @@
         }
 
         $onInit() {
+            this.sortColumn('userName');
             return _UsersService.getUsers()
                 .then(_users => {
 
@@ -67,7 +68,7 @@
                                 this.usersList.splice(index, 1);
                                 this.toogleUserRow = -1;
 
-                                this.message = { show: true, type: 'success', text: 'User "'+user.userName+'" Deleted' };
+                                this.message = { show: true, type: 'success', text: 'User Deleted Successfully' };
 
                                 _timeout(() => {
                                     this.message.show = false;

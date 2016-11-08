@@ -24,9 +24,14 @@
 
             this.showPanelInfo = false;
             this.message={show:false};
-            this.SubmitText = 'Save';
+            this.SubmitText = 'Save';            
         }
 
+        $onInit() {
+            this.showSkill();
+            this.listUsers();
+        }
+        
         showSkill() {
             this.found = false;
             var nameSkill = this.nameSkill;
@@ -144,14 +149,18 @@
         }
         listUsers() {
             this.filteredUsers = [];
-            _UsersService.getUsers()
-                .then(_users => {
+
+            return _UsersService.getUsers()
+                .then(_users => {          
                     this.userslist = _users.data;
                     this.filterUsersBounded(this.userslist);
+                    return _users;
                 })
                 .catch(error => {
                     this.message={show:true,type:'danger',text: error.errorMessage};
-                });
+                    return error;
+                });         
+
         }
         filterUsersBounded(rawUserList) {
             if (this.UsersNamesSkills.length === 0) {
