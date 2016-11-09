@@ -46,11 +46,10 @@ class ContactModalComponent {
       this.convertFields();
       this.instance.close(angular.copy(this.contact));
     }
- }
+  }
   cancel(){
 	this.instance.dismiss('cancel');
   }
-
 }
 ContactModalComponent.$inject = ['FieldMessages', 'FieldFormatter'];
 angular.module('fakiyaMainApp')

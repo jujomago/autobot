@@ -77,7 +77,6 @@ function _extractFormats(field) {
     }
     return field;
 }
-
 class ListComponent {
   constructor($state, $stateParams, $filter, ModalManager, ListsService, ConfirmAsync, ContactFieldsService, lodash, FieldFormatter) {
 

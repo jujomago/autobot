@@ -51,7 +51,6 @@ describe('Component:contactModalComponent', function () {
       ContactModalComponent.save();
       expect(ContactModalComponent.message).to.deep.equal({ show: true, type: 'danger', text: 'Can\'t save empty Contact Record', expires: 3000});
     });
-
     it('Should not save a contact without numbers', () => {
       ContactModalComponent.contact = mockContact;
       ContactModalComponent.contact.string1 = 'some value';
@@ -73,6 +72,5 @@ describe('Component:contactModalComponent', function () {
       ContactModalComponent.save();
       expect(ContactModalComponent.instance.result).to.deep.equal({number1: '9876543210',number2: '',number3: '',string1: '',percent1: ''});
     });
-
   });
 });
