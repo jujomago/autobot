@@ -8,8 +8,7 @@ describe('Component: ActivationController', function() {
 
   var scope;
   var activactionComponent;
-  var state;
-  var _mockStateParams, _mockLocation;
+  var _mockStateParams;
   var _$cookies;
   var httpBackend;
   var endPointUrl;
@@ -68,6 +67,29 @@ describe('Component: ActivationController', function() {
       });
   });
 
+  describe('create',()=>{
+      it('create an user',()=>{         
+          activactionComponent.activationCode='abcd1234567';  
+          activactionComponent.newAccount.firstname = 'Jhon'; 
+          activactionComponent.newAccount.lastname = 'smith';
+          activactionComponent.newAccount.password = 'abc123';
+          activactionComponent.newAccount.email ='osmar@gmail.com';     
+          let newUser = {
+              activationCode: activactionComponent.activationCode,
+              firstName: activactionComponent.newAccount.firstname,
+              lastName: activactionComponent.newAccount.lastname,
+              password: activactionComponent.newAccount.password
+          };         
+          httpBackend.whenPOST(endPointUrl+'/admin/users',newUser).respond( {status:201});
+          httpBackend.whenGET(endPointUrl+'/auth/logout').respond( {status:200});  
+          httpBackend.whenPOST(endPointUrl+'/auth/login').respond( {status:200});          
+          activactionComponent.createUser()
+          .then(response=>{               
+              expect(response.status).to.equal(200);                        
+          });
+          httpBackend.flush();
+      });
+  });
 });
 
 

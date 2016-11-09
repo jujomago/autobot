@@ -3,8 +3,6 @@
     let _$state,_SkillsService;
     class CreateController {
         constructor($state, SkillsService) {
-
-            console.log('Component CreateController - al.skills.create');
             this.newSkill = {};
             _$state = $state;
             _SkillsService = SkillsService;
@@ -13,22 +11,22 @@
             this.message={show:false};
         }
 
-        save() {              
+        save() {
                 this.SubmitText = 'Saving...';
-                _SkillsService.createSkill(this.newSkill)
+                return _SkillsService.createSkill(this.newSkill)
                 .then(() => {
                     this.showSuccessMessage = true;
                     this.SubmitText = 'Saved';
                     var messageObj = {
                         type: 'success',
-                        text: 'Skill Created SuccessFully'
+                        text: 'Skill Created Successfully'
                     };
                     _$state.go('ap.al.skills', { message: messageObj });
                 }).catch(error => {
                     this.message={show:true,type:'danger',text: error.errorMessage};
                     this.SubmitText = 'Save';
-                    return error;  
-                });           
+                    return error;
+                });
         }
         cancel() {
             _$state.go('ap.al.skills');

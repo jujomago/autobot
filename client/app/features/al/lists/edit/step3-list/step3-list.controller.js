@@ -77,6 +77,7 @@ function _extractFormats(field) {
     }
     return field;
 }
+
 class ListComponent {
   constructor($state, $stateParams, $filter, ModalManager, ListsService, ConfirmAsync, ContactFieldsService, lodash, FieldFormatter) {
 
@@ -150,7 +151,6 @@ class ListComponent {
   }    
   sortColumn(columnName) {
       if (columnName !== undefined && columnName) {
-          console.log('sorting:' + columnName);
           this.sortKey = columnName;
           let reverse = this.reverse;
           this.list = this.list.sort((itemA,itemB)=>{
@@ -213,9 +213,6 @@ class ListComponent {
       this.selected = contact;
       this.selectedOld = contact;
     }
-
-    console.log(this.selected);
-    console.log(this.selectedArray);
   }
 
   insertContact(){
@@ -289,7 +286,6 @@ class ListComponent {
   uploadContacts(){
     
     let list = angular.copy(this.list);
-
     let mainList =  list.map(item =>{
         let keys = Object.keys(item);
         for(let i=0;i<keys.length;i++){
@@ -306,27 +302,24 @@ class ListComponent {
       this.sending= true;
       console.log(this.sendContact);
       return _ListService.addContacts(this.sendContact)
-      .then(response=>{  
+      .then(response=>{
         if(response.data.return.identifier){
           this.sending= false;
           _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: true});
         }
         return response;
       })
-      .catch(error =>{    
+      .catch(error =>{
         this.SubmitText='Save';
         let message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
         _$state.go('ap.al.lists',{message: message});
         return error;
       });
-
-    
   }
 
   cancelList(){
       _$state.go('ap.al.lists');
   }
-
 
   filteringBySearch(){
     this.selected = '';
@@ -343,9 +336,7 @@ class ListComponent {
   }
 
   pageChanged() {
-    console.log('Page changed to: ' + this.currentPage);
     this.beginNext = (this.currentPage - 1) * this.numPerPage;
-    console.log('beginNext:' + this.beginNext);
   }
   formatField(field, value){
     return _FieldFormatter.formatField(field, value);

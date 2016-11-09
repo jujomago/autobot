@@ -13,6 +13,16 @@
             <div class="mywell list-title-mapp">
                 <h3>List Update</h3>
             </div>
+        </div>
+
+        <div class="pull-right">
+            <div class="mywell text-right">
+                <a class="btn btn-black btn-fixed-80" ng-click="$ctrl.cancelList()">Cancel</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="pull-left">
             <div class="mywell">
                 <div class="searchbox_container search">
                     <input type="search" ng-model="$ctrl.search" class="searchbox" placeholder="Search" ng-change="$ctrl.filteringBySearch()">
@@ -22,9 +32,6 @@
         </div>
 
         <div class="pull-right">
-            <div class="mywell text-right">
-                <a class="btn btn-black btn-fixed-80" ng-click="$ctrl.cancelList()">Cancel</a>
-            </div>
             <div class="mywell remove-spaces-inline" ng-show="!$ctrl.loadingContacts || !$ctrl.manual">
                 <button class="btn btn-black right-space-20 btn-fixed-80" ng-if="$ctrl.manual" ng-click="$ctrl.insertContact()">Insert</button>
                 <button class="btn btn-black right-space-20 btn-fixed-80" ng-if="!$ctrl.manual" ng-click="$ctrl.insertContact()" ng-disabled="$ctrl.error">Insert</button>

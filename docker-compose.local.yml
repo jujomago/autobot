@@ -1,0 +1,39 @@
+version: '2'
+services:
+  mongo:
+    image: mongo:3.2.9
+    volumes:
+      - "/var/abx/mongodb:/data/db"
+    ports:
+      - "27017:27017"
+
+  redis:
+    image: redis:3.2.3
+    ports:
+        - "6379:6379"
+
+  autobox-auth:
+    image: quay.io/abxbo/autobox-auth:latest.dev
+    ports:
+      - "3380"
+    environment:
+      NODE_ENV: development
+      MONGO_URL: mongodb://mongo/autobox-dev-db
+    links:
+      - mongo
+
+  autobox-api:
+    image: quay.io/abxbo/autobox-api:latest.dev
+    ports:
+      - "9999:8080"
+    environment:
+      NODE_ENV: development
+      MONGO_URL: mongodb://mongo/autobox-dev-db
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      AUTH_SERVER_URL: http://autobox-auth:3380
+    links:
+      - mongo
+      - redis
+      - autobox-auth
+
