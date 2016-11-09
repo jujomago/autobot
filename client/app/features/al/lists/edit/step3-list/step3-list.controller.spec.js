@@ -147,7 +147,8 @@ describe('Component:step3', function () {
       ListComponent.sendContact = {listName: 'test'};
       ListComponent.uploadContacts()
       .then(()=>{
-        expect(ListComponent.message).to.deep.equal({ show: true, type: 'danger', text: 'Internal Server Error', expires: 5000 });
+        expect(ListComponent.SubmitText).to.equal('Save');
+        expect(mockState.params.message).to.deep.equal({ show: true, type: 'danger', text: 'Internal Server Error', expires: 5000 });
       });
       _$httpBackend.flush();
     });

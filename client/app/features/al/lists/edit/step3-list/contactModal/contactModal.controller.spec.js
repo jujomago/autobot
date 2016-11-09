@@ -49,13 +49,13 @@ describe('Component:contactModalComponent', function () {
     it('Should not save an empty contact', () => {
       ContactModalComponent.contact = mockContact;
       ContactModalComponent.save();
-      expect(ContactModalComponent.message).to.deep.equal({ show: true, type: 'warning', text: 'Can\'t save empty Contact Record', expires: 3000});
+      expect(ContactModalComponent.message).to.deep.equal({ show: true, type: 'danger', text: 'Can\'t save empty Contact Record', expires: 3000});
     });
     it('Should not save a contact without numbers', () => {
       ContactModalComponent.contact = mockContact;
       ContactModalComponent.contact.string1 = 'some value';
       ContactModalComponent.save();
-      expect(ContactModalComponent.message).to.deep.equal({ show: true, type: 'warning', text: 'The Contact Record does not have any number', expires: 3000});
+      expect(ContactModalComponent.message).to.deep.equal({ show: true, type: 'danger', text: 'The Contact Record does not have any number', expires: 3000});
     });
 
     it('Should return contact', () => {

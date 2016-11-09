@@ -151,7 +151,15 @@ class ListComponent {
   sortColumn(columnName) {
       if (columnName !== undefined && columnName) {
           this.sortKey = columnName;
-          this.list = _$filter('orderBy')(this.list, this.sortKey, this.reverse);
+          let reverse = this.reverse;
+          this.list = this.list.sort((itemA,itemB)=>{
+            if(reverse){
+              return itemA[columnName] > itemB[columnName];
+            }
+            else{
+              return itemA[columnName] < itemB[columnName];
+            }
+          });
           this.reverse = !this.reverse;
           return true;
       } else {
@@ -253,7 +261,7 @@ class ListComponent {
         .then(result => {
             if(typeof result !== 'undefined' && Object.keys(result).length > 0){
                   if(this.method==='create'){
-                    this.list.unshift(angular.copy(result));
+                    this.list.unshift(result);
                   }
                   else{
                     this.list[this.selectedIndex] = result;
@@ -264,6 +272,7 @@ class ListComponent {
             this.selectedArray = [];
             this.contact = {};
             this.selectedIndex = -1;
+            this.selectedContact(0, result);
         }, ()=>{
           this.selected = '';
           this.selectedOld = '';
@@ -301,7 +310,8 @@ class ListComponent {
       })
       .catch(error =>{
         this.SubmitText='Save';
-        this.message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
+        let message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
+        _$state.go('ap.al.lists',{message: message});
         return error;
       });
 
