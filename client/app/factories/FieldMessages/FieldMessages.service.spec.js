@@ -40,8 +40,8 @@ describe('Service:FieldMessages', function () {
       expect(FieldMessages.getMinMessage(field)).to.be.equal('Contact Field "email1" has an invalid value. String length cannot be less than 10 characters. Please correct it.');
     });
     it('should return message for date', function () {
-      let field = {type: 'DATE', name: 'date1', minValue: '2016-11-31'};
-      expect(FieldMessages.getMinMessage(field)).to.be.equal('Contact Field "date1" has an invalid value. Date cannot be earlier than 2016-11-31. Please correct it.');
+      let field = {type: 'DATE', name: 'date1', minValue: '2016-11-30'};
+      expect(FieldMessages.getMinMessage(field)).to.be.equal('Contact Field "date1" has an invalid value. Date cannot be earlier than 2016-11-29. Please correct it.');
     });
 
   });
@@ -55,8 +55,8 @@ describe('Service:FieldMessages', function () {
       expect(FieldMessages.getMaxMessage(field)).to.be.equal('Contact Field "email1" has an invalid value. String length cannot be more than 10 characters. Please correct it.');
     });
     it('should return message for date', function () {
-      let field = {type: 'DATE', name: 'date1', maxValue: '2016-11-31'};
-      expect(FieldMessages.getMaxMessage(field)).to.be.equal('Contact Field "date1" has an invalid value. Date cannot be later than 2016-11-31. Please correct it.');
+      let field = {type: 'DATE', name: 'date1', maxValue: '2016-11-30'};
+      expect(FieldMessages.getMaxMessage(field)).to.be.equal('Contact Field "date1" has an invalid value. Date cannot be later than 2016-11-29. Please correct it.');
     });
 
   });

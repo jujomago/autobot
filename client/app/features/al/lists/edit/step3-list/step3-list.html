@@ -46,10 +46,7 @@
             <tbody>
                 <tr ng-repeat="(key, item) in ( $ctrl.filteredList=($ctrl.list | filter:$ctrl.search ) |  limitTo:$ctrl.numPerPage:$ctrl.beginNext) track by $index" ng-click="$ctrl.selectedContact($index+$ctrl.beginNext, item)" ng-dblclick="$ctrl.editContact(item)">
                     <td ng-repeat="header in $ctrl.contactFields" ng-class="{'row-selected': $ctrl.selectedArray.indexOf(key+$ctrl.beginNext) != -1}">
-                        <label class="light-label">
-                            {{$ctrl.formatField(header, item[header.name])}}
-                            
-                        </label>
+                        <span class="light-label show-all-spaces">{{$ctrl.formatField(header, item[header.name])}}</span>
                     </td>
                 </tr>
             </tbody>
