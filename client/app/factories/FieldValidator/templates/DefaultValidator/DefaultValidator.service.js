@@ -12,15 +12,8 @@ angular.module('fakiyaMainApp')
       return value<=max;
     };
     let validateRegexp = function(regex, value) {
-      if(regex[0]!=='^'){
-        regex = '^'+regex;
-      }
-      if(regex[regex.length-1]!=='$'){
-        regex += '$';
-      }
-      let validator = new RegExp(regex, 'g');
-
-      return validator.test(value);
+      regex = new RegExp(regex, 'g');
+      return (value.match(regex)||[]).length === 1 && value.replace(regex, '')==='';
     };
     let validateRequired = function(required, value) {
       let result = value?true:false;
