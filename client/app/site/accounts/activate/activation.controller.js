@@ -19,7 +19,6 @@
     activation() {
       return _auth.activate(this.activationCode)
       .then(response => {
-        console.log(response);
         this.newAccount = response;
         return response;
       })
@@ -40,12 +39,13 @@
             'password': this.newAccount.password
           };
       return _auth.createUser(newUser)
-      .then(response => {
-        console.log(response);
+      .then(() => {
+        return _auth.logout();
+      })
+      .then(() => {        
         return _auth.login(credentials);
       })
       .then(response =>{
-        console.log(response);
         _$location.path('/ap/dashboard');
         return response;
       })
@@ -54,7 +54,6 @@
         if(e.status === '404'){
           _$location.path('/404');
         }
-        console.log(e);
         return e;
       });
     }

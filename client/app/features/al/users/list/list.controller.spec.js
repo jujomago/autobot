@@ -59,7 +59,7 @@ describe('Component: al.users.list', function () {
         expect(response.statusCode).to.equal(204);
         expect(response.data).to.equal(null);
         expect(ListComponent.toogleUserRow).to.equal(-1);
-        expect(ListComponent.message).to.eql({ show: true, type: 'success', text: 'User "josue@autoboxcorp.com" Deleted' });
+        expect(ListComponent.message).to.eql({ show: true, type: 'success', text: 'User Deleted Successfully' });
 
       });
 

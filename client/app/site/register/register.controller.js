@@ -11,8 +11,8 @@
       this.firstname = '';
       this.lastname = '';
       this.companies = [];
-      this.message = { show: false };
-      this.successMessage = false;
+      this.message = { show: false,type:'success' };
+      //this.successMessage = false;
       this.executeSave=false;
       this.required = true;
       _auth = AuthService;
@@ -27,10 +27,13 @@
       return _auth.getCompanies()
       .then(response => {
         this.companies = response;
+        if(this.companies.length>0){
+          this.company = this.companies[0]._id;
+        }
         return response;
       })
       .catch(e => {
-        this.message = { show: true, text: e.errorMessage };
+        this.message = { show: true, type:'danger', text: e.errorMessage, expires:4000 };
         return e;
       });
     }    
@@ -51,16 +54,14 @@
       };
       this.required = true;
       return _auth.register(reg)
-      .then(response => {
-        this.message = { show: false };
-        this.successMessage = true;
+      .then(response => {        
+        this.message = { show: true, type:'success',text:'SUCCESS', expires:4000 };        
         this.executeSave=false; 
         this.clearInput();
         return response;
       })
       .catch(e => {
-        this.message = { show: true, text: e.errorMessage };
-        this.successMessage = false;
+        this.message = { show: true, type:'danger', text: e.errorMessage, expires:4000 };        
         this.executeSave=false; 
         return e;
       });

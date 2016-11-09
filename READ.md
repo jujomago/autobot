@@ -108,22 +108,18 @@ Ew==
 ## Intructions to pull and run the project images:
 1. Login into the docker registry (Ask for credentials to the registry administrator):
 >~$ docker login https://74.208.171.144
-2. Put the docker-compose.yml into a directory of your preference (It is a good idea to save it into the root directory of your project; in this way, you can track the file in GIT)   
-3. Enter to the directory where you put the `docker-compose.yml` and `docker-compose.dev.yml` files and run the following command to pull the images:
-
-In order to get production images you need run the next command:
->~$ docker-compose pull
+2. Put the docker-compose.local.yml into a directory of your preference (It is a good idea to save it into the root directory of your project; in this way, you can track the file in GIT)   
+3. Enter to the directory where you put the `docker-compose.local.yml` and run the following command to pull the images:
 
 In order to get development images you need run the next command:
->~$ docker-compose -f docker-compose.dev.yml pull
-4. Starts the container services in the background for production:
->~$ docker-compose up -d
-5. Starts the container services in the background for development:
->~$ docker-compose -f docker-compose.dev.yml up -d
-6. If you want to run development docker images, run the following command:
->docker-compose -f docker-compose.dev.yml up 
-7. Stop containers: 
->~$ docker-compose down
+>~$ docker-compose -f docker-compose.local.yml pull
+
+4. Starts the container services in the background for development:
+>~$ docker-compose -f docker-compose.local.yml up -d
+5. If you want to run development docker images, run the following command:
+>docker-compose -f docker-compose.local.yml up 
+6. Stop containers: 
+>~$ docker-compose -f docker-compose.local.yml down
 
 ## Testing with docker
 1. List the running containers:

@@ -20,6 +20,7 @@ class PartnerAcoountsListComponent {
     this.message = { show: false };
     this.accountsList = [];
     this.emptyPartnerAccounts = true;
+    this.found = false;
   }
   $onInit(){
 		this.getAccounts();
@@ -28,6 +29,7 @@ class PartnerAcoountsListComponent {
     return _PartnersService.getPartnerAccounts(_$stateParams.partnerId)
     .then(response => {
       this.accountsList = response.data;
+      this.found = true;
       if(this.accountsList.length === 0){
           this.emptyPartnerAccounts = null;
       }
@@ -39,7 +41,6 @@ class PartnerAcoountsListComponent {
       });
   }
   goToLoginAccount(user){
-    console.log(user);
      _$state.go('ap.login', {partnerId: this.credentials.partnerId, appName: this.credentials.appName, username: user});
   }
   goToSubscribeAccount(){

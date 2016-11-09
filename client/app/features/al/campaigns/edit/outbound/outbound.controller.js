@@ -1,6 +1,6 @@
 'use strict';
 (function(){
-  
+
 let  _CampaignService,_window, _timeout, _state,_stateParams;
 
 class OutboundComponent {
@@ -11,109 +11,104 @@ class OutboundComponent {
     _state=$state;
     _window = $window;
     _timeout=$timeout;
-    
+
     this.message = { show: false };
     this.campaign = {};
     this.SubmitText='Save';
     this.found=false;
     this.listsAssigned=[];
-    this.listsAvailable=[];      
+    this.listsAvailable=[];
   }
-  
+
   $onInit(){
     if(_stateParams.name!==null){
-      console.log(_stateParams);
       let campaignType= 'outbound';
       let campaignName=_stateParams.name;
       this.getCampaign(campaignType,campaignName);
       this.getAttachedLists(campaignName);
     }
   }
- 
+
   addList(listItem){
-      
+
       let listState=[{listName:listItem.name,campaignName:this.campaign.name}];
-      let requiredAddListFormat={ 
-          campaignName:this.campaign.name, 
-          lists: listState 
-       };         
+      let requiredAddListFormat={
+          campaignName:this.campaign.name,
+          lists: listState
+       };
 
      return _CampaignService.addLists(requiredAddListFormat)
      .then(response=>{
-        if (response.statusCode === 200){   
+        if (response.statusCode === 200){
             this.listsAssigned.unshift(listItem.name);
-            this.message={ show: true, type: 'success', text: 'List Added Correctly', expires:1500 };
+            this.message={ show: true, type: 'success', text: 'List Added Successfully', expires:1500 };
          //   this.showMessage('success','List Added Correctly',1500);
         }
         return response;
      })
-    .catch(error =>{    
+    .catch(error =>{
         this.message={ show: true, type: 'danger', text: error.errorMessage };
         return error;
     });
-      
+
   }
-       
+
    removeList(listItemAssigned){
      let requiredFormat={
        campaignName:this.campaign.name,
        lists:[listItemAssigned]
      };
       let indexElem = this.listsAssigned.indexOf(listItemAssigned);
-     
+
      return _CampaignService.removeLists(requiredFormat)
      .then(response=>{
-        if (response.statusCode === 200){            
+        if (response.statusCode === 200){
             this.listsAssigned.splice(indexElem, 1);
-            this.message={ show: true, type: 'success', text: 'List Removed Correctly', expires:1500 };
+            this.message={ show: true, type: 'success', text: 'List Removed Successfully', expires:1500 };
 //            this.showMessage('success','List Removed Correctly',1500);
         }
         return response;
      })
-     .catch(error =>{    
+     .catch(error =>{
           this.message={ show: true, type: 'danger', text: error.errorMessage };
           return error;
       });
-  }    
-   
-   
-   getLists(){           
+  }
+
+
+   getLists(){
         return _CampaignService.getLists()
           .then(response => {
-              console.log('response in client');
-              if (response.statusCode === 200) {                       
-                  this.listsAvailable=response.data;               
+              if (response.statusCode === 200) {
+                  this.listsAvailable=response.data;
               }
-              return response;                   
+              return response;
           })
-         .catch(error =>{    
+         .catch(error =>{
             this.message={ show: true, type: 'danger', text: error.errorMessage };
             return error;
          });
    }
-   
-   getAttachedLists(campaignName){           
+
+   getAttachedLists(campaignName){
         return _CampaignService.getAttachedLists(campaignName)
           .then(response => {
-              console.log('response ATTACHED LISTS in client');
-                console.log(response);       
-              if (response.statusCode === 200) {  
-                  if(response.data){                               
+              if (response.statusCode === 200) {
+                  if(response.data){
                       this.listsAssigned=response.data.map(e=>e.listName);
                   }
-                  console.log(this.listsAssigned);
-                   this.getLists();                  
+                   this.getLists();
                 }
-              return response;                   
+              return response;
           })
-          .catch(error =>{    
+          .catch(error =>{
               this.message={ show: true, type: 'danger', text: error.errorMessage };
               return error;
           });
    }
-   
-  
-  getCampaign(type,name){    
+
+
+  getCampaign(type,name){
     return _CampaignService.getCampaign(type,name)
     .then(response=>{
       if(response.statusCode===200){
@@ -132,29 +127,29 @@ class OutboundComponent {
          return response;
       }
     })
-    .catch(error =>{    
+    .catch(error =>{
         this.message={ show: true, type: 'danger', text: error.errorMessage };
         return error;
     });
   }
-  
-  update(){  
+
+  update(){
     this.SubmitText='Saving...';
     return _CampaignService.updateOutBoundCampaign(this.campaign)
-    .then(response=>{  
+    .then(response=>{
       if(response.statusCode===200 && response.errorMessage===null){
-         let messageObj={show:true,type:'success',text:'Campaign "'+this.campaign.name+'" Updated'};
-         _state.go('ap.al.campaigns', { message: messageObj });       
+         let messageObj={show:true,type:'success',text:'Campaign Updated Successfully'};
+         _state.go('ap.al.campaigns', { message: messageObj });
       }
       return response;
     })
-    .catch(error =>{  
-        this.SubmitText='Save';  
+    .catch(error =>{
+        this.SubmitText='Save';
         this.message={ show: true, type: 'danger', text: error.errorMessage };
         return error;
     });
 
-  }  
+  }
 }
  OutboundComponent.$inject = ['$state','$window','$timeout','$stateParams','CampaignService'];
 

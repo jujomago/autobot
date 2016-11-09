@@ -18,7 +18,6 @@ angular.module('fakiyaMainApp')
             var val = newValue || null;
             if (val === true) {
               let timeoutTime = scope.msgInfo.expires ? scope.msgInfo.expires : attrs.expires;
-              console.log('Value scope.msgInfo.expires ' + scope.msgInfo.expires);//$log.info
               if (timeoutTime) {
                 var timer = $timeout(function () {
                   scope.msgInfo.show = false;

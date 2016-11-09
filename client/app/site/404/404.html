@@ -1,13 +1,15 @@
-<div class="navbar">
+<div ng-if="!$ctrl.isLoggedIn" class="navbar">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a href="/ap/dashboard" class="logo">AutoBox</a>
+      <a href="/" class="logo">AutoBox</a>
     </div>
   </div>
 </div>
+<navbar ng-if="$ctrl.isLoggedIn"></navbar>
 <div class="notfound_parent">
 	<h3>404 ERROR </h3>
 	<p>The page you were looking for was not found</p>
-	<p class="small">Go back to <a href="/">Home</a></p>
+	<p class="small">Go back to <a ng-if="!$ctrl.isLoggedIn" href="/">Home page</a>
+                              <a ng-if="$ctrl.isLoggedIn" href="/ap/apps">Apps page</a></p>
 </div>
 <footer class="notfound"></footer>

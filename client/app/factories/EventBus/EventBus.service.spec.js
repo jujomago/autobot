@@ -15,7 +15,6 @@ describe('Service:EventBus', function () {
     let bus1 = EventBus;
     let bus2 = EventBus;
     bus1.subscribe('testEvent',function(event, testParam){
-      console.log(event.targetScope.$id);
       expect(testParam).to.be.equal('bus2');
     });
     bus2.publish('testEvent', 'bus2');

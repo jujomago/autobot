@@ -1,5 +1,5 @@
 <div class="full-page-loading">
-    <abx-load-indicator ng-show="!$ctrl.application.appFullName" text="Loading App"></abx-load-indicator>   
+    <abx-load-indicator ng-show="!$ctrl.application.appFullName" text="Loading App"></abx-load-indicator>
 </div>
 <div class="row app-page" ng-show="$ctrl.application.appFullName">
     <h3 class="title_section col-md-12 col-sm-12">Five9 <span>{{$ctrl.application.appFullName}}</span></h3>
@@ -17,27 +17,57 @@
         </div>
         <div class="col-md-10 col-sm-9 app-page-detail">
             {{$ctrl.application.description}}
-            <div ng-show="$ctrl.application.appStatus!==$ctrl.appStatus.COMING_SOON">
+            <div class="screen-container" ng-show="$ctrl.application.appStatus!==$ctrl.appStatus.COMING_SOON">
                 <h4 class="app-page-subtitle">Screenshots</h4>
                 <div class="app-screens-container row">
-                    <div class="app-screen-img col-sm-4">
+                    <div class="app-screen-img">
                         <img class="img-responsive" ng-src="assets/al/images/screenshots/app-screen1.jpg" alt="screen1">
                     </div>
-                     <div class="app-screen-img col-sm-4">
+                     <div class="app-screen-img">
                         <img class="img-responsive" ng-src="assets/al/images/screenshots/app-screen2.jpg" alt="screen2">
                     </div>
-                     <div class="app-screen-img col-sm-4">
+                     <div class="app-screen-img">
                         <img  class="img-responsive" ng-src="assets/al/images/screenshots/app-screen3.jpg" alt="screen3">
-                    </div>    
-                               
+                    </div>
+                </div>
+            </div>
+            <div class="screen-container" ng-if="$ctrl.application.appName === 'cj'">
+                <h4 class="app-page-subtitle">Screenshots</h4>
+                <div class="app-screens-container row">
+                    <div class="app-screen-img">
+                        <img class="img-responsive" ng-src="assets/cj/images/screenshots/app-screen1.jpg" alt="screen1">
+                    </div>
+                </div>
+            </div>
+            <div class="screen-container" ng-if="$ctrl.application.appName === 'sc'">
+                <h4 class="app-page-subtitle">Screenshots</h4>
+                <div class="app-screens-container row">
+                    <div class="app-screen-img">
+                        <img class="img-responsive" ng-src="assets/sc/images/screenshots/app-screen1.jpg" alt="screen1">
+                    </div>
+                </div>
+            </div>
+            <div class="screen-container" ng-if="$ctrl.application.appName === 'ra'">
+                <h4 class="app-page-subtitle">Screenshots</h4>
+                <div class="app-screens-container row">
+                    <div class="app-screen-img">
+                        <img class="img-responsive" ng-src="assets/ra/images/screenshots/app-screen1.jpg" alt="screen1">
+                    </div>
+                    <div class="app-screen-img">
+                        <img class="img-responsive" ng-src="assets/ra/images/screenshots/app-screen2.jpg" alt="screen1">
+                    </div>
+                    <div class="app-screen-img">
+                        <img class="img-responsive" ng-src="assets/ra/images/screenshots/app-screen3.jpg" alt="screen1">
+                    </div>
                 </div>
             </div>
             <div class="coming-soon-container" ng-show="$ctrl.application.appStatus===$ctrl.appStatus.COMING_SOON">
                 <div class="coming-soon">
-                    <h3>COMING SOON</h3>
+                    <h3 ng-if="$ctrl.application.appName === 'cj'">COMING WINTER 2016</h3>
+                    <h3 ng-if="$ctrl.application.appName !== 'cj'">COMING FALL 2016</h3>
                     <p>Our exciting new app is coming soon, please comeback to check it out!</p>
                 </div>
-            </div>           
+            </div>
         </div>
       </div>
 </div>
