@@ -4,7 +4,14 @@
   class HomePageController {
     constructor() {
       console.log('HomePageController');
+      this.submitText='Submit';
       
+    }
+    sendmail(){
+      console.log('now sending mail');
+      console.log(this.cform);
+      this.submitText='Submitting..';
+    
     }
   }
 

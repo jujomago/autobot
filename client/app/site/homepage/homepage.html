@@ -138,7 +138,7 @@
         <a href="mailto:info@autoboxcorp.com">info@autoboxcorp.com</a> with the subject line: &ldquo;I would like to join
         AutoBox's launch program&rdquo;</p>
     </div>
-<form class="contact-form" name="contactForm" novalidate ng-submit="$ctrl.sendmail()">
+<form class="contact-form" name="contactForm" novalidate ng-submit="contactForm.$valid && $ctrl.sendmail()">
 	<div class="row">
 		<div class="col-md-6">
 			<input placeholder="FIRST NAME *" type="text" name="firstName" maxlength="50" ng-model="$ctrl.cform.firstname" class="form-control autobox-textfield textfield-small center-block" 
@@ -146,24 +146,28 @@
 			<div ng-messages="contactForm.$submitted && contactForm.firstName.$error" class="errors-texts">		
 				<p ng-message="required">This field is required</p>
 			</div>
+		</div>
+		<div class="col-md-6">	
+			<input placeholder="LAST NAME *" type="text" maxlength="50" name="lastName" ng-model="$ctrl.cform.lastname"  class="form-control autobox-textfield textfield-small center-block" required>
+			<div ng-messages="contactForm.$submitted && contactForm.lastName.$error" class="errors-texts"> 		
+				<p ng-message="required">This field is required</p>
+			</div>			
+		</div>
+		<div class="col-md-6">
 			<input  placeholder="BUSSINESS EMAIL *" type="email" name="email" ng-model="$ctrl.cform.email" maxlength="50" ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/"  class="form-control autobox-textfield textfield-small center-block" required>
 			<div ng-messages="contactForm.$submitted && contactForm.email.$error" class="errors-texts">		
 				<p ng-message="required">This field is required</p>
 				<p ng-message="pattern">This field must be an email address</p>
 			</div>
 		</div>
-		<div class="col-md-6">
-			<input placeholder="LAST NAME *" type="text" maxlength="50" name="lastName" ng-model="$ctrl.cform.lastname"  class="form-control autobox-textfield textfield-small center-block" required>
-			<div ng-messages="contactForm.$submitted && contactForm.lastName.$error" class="errors-texts"> 		
-				<p ng-message="required">This field is required</p>
-			</div>
-			<input placeholder="PHONE" maxlength="20" type="text" name="text" ng-model="$ctrl.cform.tel"  class="form-control autobox-textfield textfield-small center-block" ng-pattern="/^[0-9]+$/" abx-digits-only >
+		<div class="col-md-6">	
+			<input placeholder="PHONE" maxlength="20" type="text" name="tel" ng-model="$ctrl.cform.tel"  class="form-control autobox-textfield textfield-small center-block" ng-pattern="/^\+?(?:[0-9]●?){5,20}[0-9]$/" >
 			<div ng-messages="contactForm.tel.$error" class="errors-texts">
-				<p ng-message="pattern">This phone number is not valid</p>
+				<p ng-message="pattern">This phone number is not valid</p>  
 			</div>
 		</div>
 	</div>
-	<div class="row "  style="margin-bottom: 50px;">
+	<div class="row"  style="margin-bottom: 30px;">
 		<div class="col-md-12">
 			<input placeholder="COMPANY"  maxlength="50" type="text" name="company"  ng-model="$ctrl.cform.company"  class="form-control autobox-textfield textfield-large center-block">	
 			<input placeholder="MESSAGE *" maxlength="250" type="text" name="message" ng-model="$ctrl.cform.message"  class="form-control autobox-textfield textfield-large center-block" required >
@@ -173,7 +177,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<button id="ab-submitbutton" type="submit" class="btn btn-default center-block">Submit</button>
+		<button id="ab-submitbutton" type="submit" ng-disabled="$ctrl.submitText=='Submitting..'" class="btn btn-default center-block">{{$ctrl.submitText}}</button>
 	</div>
 </form>
   </div>
