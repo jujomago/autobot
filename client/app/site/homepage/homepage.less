@@ -68,7 +68,7 @@ a:hover{
 }
 .autobox-textfield{
 
-	max-width: 400px;
+	//max-width: 400px;
 	height: 40px;
 	margin-bottom: 20px;
 	border-radius: 0px;
@@ -78,6 +78,9 @@ a:hover{
 	font-family: 'BrandonMedium';
 	color: #000000;
 	transition: none;
+	max-height: 100px;
+	overflow: hidden;
+	resize: none;
 }
 .autobox-textfield:focus
 {
@@ -137,6 +140,7 @@ text-decoration: none;
 	z-index: 100;
 	font-family: 'BrandonRegular';
 	font-size: 16px;
+	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.12);
 }
 #ab-header .navbar
 {
@@ -458,13 +462,9 @@ color: #36A3DC;
 	color: #666666;
 }
 .errors-texts{
-	max-width: 75%;
-		@media (min-width: 991px) {
-            max-width: none;
-        }	
-		@media (min-width: 1199px) {
-            max-width: 90%;
-        }		
+	@media (max-width: 991px) {
+          max-width: 75%;
+    }
 	margin: 0 auto;
 	p{
 		color: #e64b3b;
@@ -472,14 +472,14 @@ color: #36A3DC;
 		margin-top: -10px;
 	}
 }
+
 .contact-form{
-	.autobox-textfield{
-		max-width: 75%;
-		@media (min-width: 991px) {
-            max-width: none;
-        }	
-		@media (min-width: 1199px) {
-            max-width: 90%;
-        }		
+	.autobox-textfield{		
+		@media (max-width: 991px) {
+          max-width: 75%;
+        }
+	}
+	textarea{
+		height: 65px;
 	}
 }
