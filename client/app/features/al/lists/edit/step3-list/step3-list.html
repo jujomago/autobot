@@ -51,8 +51,11 @@
                 </th>
             </thead>
             <tbody>
-                <tr ng-repeat="(key, item) in ( $ctrl.filteredList=($ctrl.list | filter:$ctrl.search ) |  limitTo:$ctrl.numPerPage:$ctrl.beginNext) track by $index" ng-click="$ctrl.selectedContact($index+$ctrl.beginNext, item)" ng-dblclick="$ctrl.editContact(item)">
-                    <td ng-repeat="header in $ctrl.contactFields" ng-class="{'row-selected': $ctrl.selectedArray.indexOf(key+$ctrl.beginNext) != -1}">
+                <tr ng-repeat="(key, item) in ( $ctrl.filteredList=($ctrl.list | filter:$ctrl.search ) |  limitTo:$ctrl.numPerPage:$ctrl.beginNext) track by $index"
+                    ng-click="$ctrl.selectedContact($index+$ctrl.beginNext, item)"
+                    ng-dblclick="$ctrl.editContact(item)">
+                    <td ng-repeat="header in $ctrl.contactFields"
+                        ng-class="{'row-selected': $ctrl.selectedArray.indexOf(key+$ctrl.beginNext) != -1}">
                         <span class="light-label show-all-spaces">{{$ctrl.formatField(header, item[header.name])}}</span>
                     </td>
                 </tr>
@@ -67,10 +70,14 @@
             <p>We couldn't find what you are looking for</p>
         </div>
         <div class="row abx-pagination-container text-center">
-            <label class="text-left col-sm-4 abx-pagination-left" ng-if="$ctrl.filteredList.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.getMax()}} of {{$ctrl.filteredList.length}}</label>
+            <label class="text-left col-sm-4 abx-pagination-left"
+                   ng-if="$ctrl.filteredList.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.getMax()}} of {{$ctrl.filteredList.length}}</label>
             <div class="col-sm-4 abx-pagination-center">
-                <uib-pagination ng-if="$ctrl.filteredList.length" total-items="$ctrl.filteredList.length" ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
-                 " boundary-links="true " ng-change="$ctrl.pageChanged()">
+                <uib-pagination ng-if="$ctrl.filteredList.length"
+                                total-items="$ctrl.filteredList.length"
+                                ng-model="$ctrl.currentPage "
+                                items-per-page="$ctrl.numPerPage"
+                                boundary-links="true " ng-change="$ctrl.pageChanged()">
                  </uib-pagination>
             </div>
             <div class="text-right results_per_page col-sm-4 abx-pagination-right" ng-show="$ctrl.filteredList.length"><span>Show</span>

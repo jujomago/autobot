@@ -1,6 +1,6 @@
 'use strict';
 (function(){
-let _ConfirmAsync, _ListService, _, _ContactFieldsService, ctrl, _FieldFormatter;
+let _ConfirmAsync, _ListService, _, _ContactFieldsService, ctrl, _FieldFormatter, _Utils;
 let _$state, _$stateParams, _$filter, _ModalManager;
 
 
@@ -78,7 +78,7 @@ function _extractFormats(field) {
     return field;
 }
 class ListComponent {
-  constructor($state, $stateParams, $filter, ModalManager, ListsService, ConfirmAsync, ContactFieldsService, lodash, FieldFormatter) {
+  constructor($state, $stateParams, $filter, ModalManager, ListsService, ConfirmAsync, ContactFieldsService, lodash, FieldFormatter, Utils) {
 
       this.currentPage = 1;
       this.sortKey = '';
@@ -113,6 +113,7 @@ class ListComponent {
       _ConfirmAsync = ConfirmAsync;
       _FieldFormatter = FieldFormatter;
       _ContactFieldsService = ContactFieldsService;
+      _Utils = Utils;
       this.listName = _$stateParams.name;
       this.sendContact = {listName: this.listName, importData: {values: []} };
       this.listUpdateSettings = {cleanListBeforeUpdate: false, crmAddMode: 'ADD_NEW', crmUpdateMode: 'UPDATE_FIRST', listAddMode: 'ADD_FIRST'};
@@ -262,6 +263,8 @@ class ListComponent {
             if(typeof result !== 'undefined' && Object.keys(result).length > 0){
                   if(this.method==='create'){
                     this.list.unshift(result);
+                    this.currentPage = 1;
+                    this.pageChanged();
                   }
                   else{
                     this.list[this.selectedIndex] = result;
@@ -304,7 +307,12 @@ class ListComponent {
       .then(response=>{
         if(response.data.return.identifier){
           this.sending= false;
-          _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: true});
+          _Utils.setDataListAction({
+            name: this.sendContact.listName,
+            identifier: response.data.return.identifier,
+            isUpdate: true
+          });
+          _$state.go('ap.al.lists');
         }
         return response;
       })
@@ -341,7 +349,7 @@ class ListComponent {
     return _FieldFormatter.formatField(field, value);
   }
 }
-ListComponent.$inject = ['$state', '$stateParams', '$filter', 'ModalManager', 'ListsService', 'ConfirmAsync', 'ContactFieldsService', 'lodash', 'FieldFormatter'];
+ListComponent.$inject = ['$state', '$stateParams', '$filter', 'ModalManager', 'ListsService', 'ConfirmAsync', 'ContactFieldsService', 'lodash', 'FieldFormatter', 'Utils'];
 angular.module('fakiyaMainApp')
   .component('al.lists.edit.list', {
     templateUrl: 'app/features/al/lists/edit/step3-list/step3-list.html',
