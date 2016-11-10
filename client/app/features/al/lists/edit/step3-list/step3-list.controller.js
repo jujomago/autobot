@@ -151,7 +151,15 @@ class ListComponent {
   sortColumn(columnName) {
       if (columnName !== undefined && columnName) {
           this.sortKey = columnName;
-          this.list = _$filter('orderBy')(this.list, this.sortKey, this.reverse);
+          let reverse = this.reverse;
+          this.list = this.list.sort((itemA,itemB)=>{
+            if(reverse){
+              return itemA[columnName] > itemB[columnName];
+            }
+            else{
+              return itemA[columnName] < itemB[columnName];
+            }
+          });
           this.reverse = !this.reverse;
           return true;
       } else {
@@ -245,7 +253,7 @@ class ListComponent {
       animation: false,
       size: 'md',
       controllerAs: '$ctrl',
-      appendTo: angular.element(document.querySelector('#edit-list')),
+      appendTo: angular.element('#modal-container'),
       template: '<al.lists.contact-modal></al.lists.contact-modal>'
     });
 
@@ -253,7 +261,7 @@ class ListComponent {
         .then(result => {
             if(typeof result !== 'undefined' && Object.keys(result).length > 0){
                   if(this.method==='create'){
-                    this.list.unshift(angular.copy(result));
+                    this.list.unshift(result);
                   }
                   else{
                     this.list[this.selectedIndex] = result;
@@ -264,6 +272,7 @@ class ListComponent {
             this.selectedArray = [];
             this.contact = {};
             this.selectedIndex = -1;
+            this.selectedContact(0, result);
         }, ()=>{
           this.selected = '';
           this.selectedOld = '';
@@ -274,9 +283,8 @@ class ListComponent {
   }
 
   uploadContacts(){
-    
-    let list = angular.copy(this.list);
 
+    let list = angular.copy(this.list);
     let mainList =  list.map(item =>{
         let keys = Object.keys(item);
         for(let i=0;i<keys.length;i++){
@@ -293,26 +301,24 @@ class ListComponent {
       this.sending= true;
       console.log(this.sendContact);
       return _ListService.addContacts(this.sendContact)
-      .then(response=>{  
+      .then(response=>{
         if(response.data.return.identifier){
           this.sending= false;
           _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: true});
         }
         return response;
       })
-      .catch(error =>{    
+      .catch(error =>{
         this.SubmitText='Save';
-        this.message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
+        let message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
+        _$state.go('ap.al.lists',{message: message});
         return error;
       });
-
-
   }
 
   cancelList(){
       _$state.go('ap.al.lists');
   }
-
 
   filteringBySearch(){
     this.selected = '';

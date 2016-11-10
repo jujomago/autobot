@@ -14,20 +14,22 @@
     <div class="inputminimal" ng-class="{ 'has-error': userForm.firstName.$invalid && userForm.$submitted }">
       <label for="firstName" >First Name*</label>
       <div>
-        <input autofocus type="text" name="firstName" id="firstName" required ng-model="$ctrl.newUser.firstName">
+        <input autofocus type="text" name="firstName" id="firstName" required ng-model="$ctrl.newUser.firstName" maxlength="32">
       </div>
     </div>
-    <div ng-messages="userForm.firstName.$error" ng-show="userForm.$submitted">
+    <div class="file-empty-error" ng-messages="userForm.firstName.$error" ng-show="userForm.$submitted || userForm.firstName.$dirty">
       <p ng-message="required">This field is required</p>
+      <p ng-show="$ctrl.newUser.firstName.length===32">The max length is 32 for this field</p>
     </div>
     <div  class="inputminimal"  ng-class="{ 'has-error': userForm.lastName.$invalid && userForm.$submitted }">
       <label for="lastName" >Last Name*</label>
       <div>
-        <input type="text"  name="lastName" id="lastName"  ng-model="$ctrl.newUser.lastName" required>
+        <input type="text"  name="lastName" id="lastName" maxlength="32" ng-model="$ctrl.newUser.lastName" required>
       </div>
     </div>
-    <div ng-messages="userForm.lastName.$error" ng-show="userForm.$submitted">
+    <div class="file-empty-error" ng-messages="userForm.lastName.$error" ng-show="userForm.$submitted || userForm.lastName.$dirty">
       <p ng-message="required">This field is required</p>
+      <p ng-show="$ctrl.newUser.lastName.length===32">The max length is 32 for this field</p>
     </div>
     <div class="inputminimal"  ng-class="{ 'has-error': userForm.extension.$invalid && userForm.$submitted }">
       <label for="extension" >Extension</label>
@@ -125,18 +127,23 @@
      <div class="col col-md-3">
          <h4>Roles Assigned</h4>
          <div class="list-group">
-           <a href="#"  class="list-group-item" ng-repeat="userRol in $ctrl.userRoles" ng-click="$ctrl.getPermissions(userRol)" ng-class="{'active':($index==$ctrl.userRolSelectedIndex)}">
+           <a href="#"  class="list-group-item" ng-repeat="userRol in $ctrl.userRoles" ng-click="$ctrl.getPermissions(userRol);$ctrl.lastUserRolSelected=userRol" ng-class="{'active':($index==$ctrl.userRolSelectedIndex)}">
              {{userRol}}
            </a>
          </div>
          <button type="button" class="btn btn-danger" ng-show="$ctrl.userRolSelectedIndex>=0 && $ctrl.userRoles.length>0" ng-click="$ctrl.deleteSelectedRol()">Delete</button>
      </div>
+      
      <div class="col" ng-class="{'col-md-9':($ctrl.allRoles.length==0),'col-md-6':($ctrl.allRoles.length>0)}" >
-         <h4 ng-show="$ctrl.permissionTitle">Permissions:</h4>
+         <h4 ng-show="$ctrl.permissionTitle">Permissions:
+           <div class="pull-right linksUser">
+                <a href="" ng-click="$ctrl.CheckClear($ctrl.lastUserRolSelected,'check')" ng-show="$ctrl.lastUserRolSelected!=''">Check all</a>
+                <a href="" ng-click="$ctrl.CheckClear($ctrl.lastUserRolSelected,'clear')" ng-show="$ctrl.lastUserRolSelected!=''">Clear all</a>                
+      </div></h4>
          <div class="checkbox" ng-repeat="(per,val) in $ctrl.rolSelectedPermissions" ng-if="per!=='permissions'">
            <label><input type="checkbox" ng-model="$ctrl.rolSelectedPermissions[per]">{{per | camelToHuman}}</label>
          </div>
-         <div class="checkbox" ng-repeat="permission in $ctrl.rolSelectedPermissions.permissions">
+         <div class="checkbox" ng-if="permission.type!=='NICEEnabled'" ng-repeat="permission in $ctrl.rolSelectedPermissions.permissions">
            <label><input type="checkbox" ng-model="permission.value">{{permission.type | camelToHuman}}</label>
          </div>
      </div>

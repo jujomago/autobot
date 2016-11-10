@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('fakiyaMainApp')
-  .factory('FieldMessages', function () {
+  .factory('FieldMessages', function ($filter) {
       function getTypeMessage(field){
       let type = 'field';
       if(field.type==='PHONE'){
@@ -22,6 +22,7 @@ angular.module('fakiyaMainApp')
       let type = 'field';
       let chars ='';
       let prefix = 'less';
+      let value = field.minValue;
       if(['STRING','EMAIL','URL'].indexOf(field.type) > -1) {
         type = 'String length';
         chars = ' characters';
@@ -31,14 +32,17 @@ angular.module('fakiyaMainApp')
       }
       else if(field.type === 'DATE'){
         type = 'Date';
+        let date = new Date(field.minValue);
+        value = $filter('date')((new Date(date.valueOf() + (date.getTimezoneOffset()-1440) * 60000 )), 'yyyy-MM-dd'); 
         prefix = 'earlier';
       }
-      return `Contact Field "${field.name}" has an invalid value. ${type} cannot be ${prefix} than ${field.minValue}${chars}. Please correct it.`;
+      return `Contact Field "${field.name}" has an invalid value. ${type} cannot be ${prefix} than ${value}${chars}. Please correct it.`;
      }
      function getMaxMessage(field){
       let type = 'field';
       let chars ='';
       let prefix = 'more';
+      let value = field.maxValue;
       if(['STRING','EMAIL','URL'].indexOf(field.type) > -1) {
         type = 'String length';
         chars = ' characters';
@@ -49,9 +53,11 @@ angular.module('fakiyaMainApp')
       }
       else if(field.type === 'DATE'){
         type = 'Date';
+        let date = new Date(field.maxValue);
+        value = $filter('date')((new Date(date.valueOf() + (date.getTimezoneOffset()-1440) * 60000 )), 'yyyy-MM-dd');  
         prefix = 'later';
       }
-      return `Contact Field "${field.name}" has an invalid value. ${type} cannot be ${prefix} than ${field.maxValue}${chars}. Please correct it.`;
+      return `Contact Field "${field.name}" has an invalid value. ${type} cannot be ${prefix} than ${value}${chars}. Please correct it.`;
      }
      function getRequiredMessage(field){
       return `Contact Field "${field.name}" has an invalid value. Value cannot be empty. Please correct it.`;

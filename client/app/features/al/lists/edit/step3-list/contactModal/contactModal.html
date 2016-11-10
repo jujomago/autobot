@@ -1,17 +1,19 @@
 <div class="modal-header">
 	<button type="button" class="close circle_close edit-modal-x" ng-click="$ctrl.cancel()"></button>
-	<h3 ng-show="$ctrl.method==='update'" class="modal-title">Edit contact</h3>
-	<h3 ng-show="$ctrl.method==='create'" class="modal-title">Add new contact</h3>
+	<h3 ng-show="$ctrl.method==='update'" class="title_section">Edit contact</h3>
+	<h3 ng-show="$ctrl.method==='create'" class="title_section">Add new contact</h3>
+	
 </div>
 <div class="modal-body">
-	<abx-message msg="$ctrl.message"></abx-message>
+	
 
 	<form name="formList" novalidate ng-submit="formList.$valid && $ctrl.save()" class="custom_form fields-form form-horizontal">
 		<div class="contact-model-form">
+			<abx-message msg="$ctrl.message"></abx-message>
 			<div ng-repeat="form in $ctrl.contactFields">
 				<div class="inputminimal" ng-class="{ 'has-error': formList[form.name].$invalid && formList.$submitted }">
 					<label for="{{form.name}}">{{form.name}}</label>					
-					<span ng-if="form.type!=='MULTISET'">
+					<span ng-class="{'multiple-select': form.type==='MULTISET'}">
 						<input type="text" name="{{form.name}}" ng-model="$ctrl.contact[form.name]" abx-auto-focus = "$first" abx-field-validator="form.restrictions" strategy="{{form.type}}" ng-trim="false" maxlength="250" ng-if="form.type==='STRING' || form.type==='EMAIL' || form.type==='URL'"/>
 						<input type="text" name="{{form.name}}" ng-model="$ctrl.contact[form.name]" abx-auto-focus = "$first" abx-regex-filter="[^0-9+\-()]" abx-field-validator="form.restrictions" strategy="{{form.type}}" ng-if="form.type==='PHONE'"/>
 						<abx-date-picker-input name="{{form.name}}" validator="form.restrictions" strategy="{{form.type}}" ng-if="form.type==='DATE'" ng-model="$ctrl.contact[form.name]" date-format="{{form.dateFormat}}"></abx-date-picker-input>
@@ -23,9 +25,10 @@
                      		<option value="" ng-if="!form.required"></option>
                      	</select>
                      	<input type="text" name="{{form.name}}" ng-model="$ctrl.contact[form.name]" placeholder="{{form.timeFormat}}" ng-if="form.type==='TIME' || form.type==='TIME_PERIOD'"/>
+                     	<abx-multi-select-input ng-model="$ctrl.contact[form.name]" options="form.dataSet" id="value" value="value" ng-if="form.type==='MULTISET'"></abx-multi-select-input>				
+						<input type="hidden" ng-model="$ctrl.contact[form.name]" name="{{form.name}}" abx-multiset-validator="form.restrictions" ng-if="form.type==='MULTISET'">
 					</span>
-					<abx-multi-select-input ng-model="$ctrl.contact[form.name]" options="form.dataSet" id="value" value="value" ng-if="form.type==='MULTISET'"></abx-multi-select-input>				
-					<input type="hidden" ng-model="$ctrl.contact[form.name]" name="{{form.name}}" abx-multiset-validator="form.restrictions" ng-if="form.type==='MULTISET'">
+					
 				</div>
 				<div class="errorMessagesModal" ng-messages="formList[form.name].$error" ng-show="formList.$submitted || formList[form.name].$dirty">
 					<p ng-message="abxtype">{{$ctrl.FieldMessages.getTypeMessage(form)}}</p>
@@ -39,11 +42,10 @@
 				</div>
 			</div>
 		</div>
-		<div class="form-group contact-buttons">
-			<div class="text-center remove-spaces-inline">
-				<button class="btn btn-blue" type="submit">Save</button>
-				<a class="btn btn-blue" ng-click="$ctrl.cancel()">Cancel</a>
-			</div>
+		<div class="text-center remove-spaces-inline modal-button-container">
+			<button class="btn btn-blue" type="submit">Save</button>
+			<a class="btn btn-blue" href ng-click="$ctrl.cancel()">Cancel</a>
+
 		</div>
 	</form>
 </div>

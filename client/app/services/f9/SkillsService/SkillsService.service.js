@@ -36,7 +36,7 @@
             return http.get(this.endPointUrl+'/skillsInfo')
                 .then(response => {
                     if (response.data) {
-                        result.data = response.data.return;
+                        result.data = response.data.return;                      
                         return result;
                     }
                 })

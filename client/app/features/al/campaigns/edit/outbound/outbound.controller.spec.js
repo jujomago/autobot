@@ -57,7 +57,7 @@ describe('Component: al.campaigns.edit.outbound', function () {
                  expect(mockState.state).to.equal('ap.al.campaigns');
                  expect(mockState.params.message.show).to.equal(true);
                  expect(mockState.params.message.type).to.equal('success');
-                 expect(mockState.params.message.text).to.equal('Campaign "Test" Updated');
+                 expect(mockState.params.message.text).to.equal('Campaign Updated Successfully');
              });
 
              httpBackend.flush();
@@ -212,7 +212,7 @@ describe('Component: al.campaigns.edit.outbound', function () {
                  expect(response.statusCode).to.equal(200);
                  expect(response.data).to.equal(null); 
                  expect(response.errorMessage).to.equal(null);        
-                 expect(OutboundComponent.message).to.eql({ show: true, type: 'success', text: 'List Removed Correctly', expires:1500});                    
+                 expect(OutboundComponent.message).to.eql({ show: true, type: 'success', text: 'List Removed Successfully', expires:1500});                    
                  
              });
 

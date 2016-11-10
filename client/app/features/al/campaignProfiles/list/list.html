@@ -25,18 +25,14 @@
             </th>
         </thead>
         <tbody>
-            <tr ng-repeat="item in ($ctrl.campaignProfiles |  limitTo:$ctrl.numPerPage:$ctrl.beginNext) "
+               <tr ng-repeat="item in ($ctrl.filteredCampaignProfiles = ($ctrl.campaignProfiles | filter:$ctrl.search | orderBy:$ctrl.sortKey:$ctrl.reverse) | limitTo:$ctrl.numPerPage:$ctrl.beginNext)"
                 ng-class="{ 'danger' : $ctrl.deletedRow === item.name}">
                 <td class="">
                     {{item.name}}
                 </td>
                 <td class="" href ng-click="$ctrl.myIndex(item.name)">{{item.description}}</td>
-                <td class="text-center">
-
-                  <!--  While API complete this endpoint
-                  <a href ng-click="$ctrl.deleteCampaignProfile(item,$index)" ng-class="{'disabled-x-circle': $ctrl.deletedRow === item.name, 'circle_delete': $ctrl.deletedRow !== item.name}" ng-disabled="$ctrl.deletedRow === item.name"></a> -->
-                  <a href ui-sref="ap.underconstruction" ng-class="{'disabled-x-circle': $ctrl.deletedRow === item.name, 'circle_delete': $ctrl.deletedRow !== item.name}" ng-disabled="$ctrl.deletedRow === item.name"></a>
-
+                <td class="text-center">                                   
+                  <a href ng-click="$ctrl.deleteCampaignProfile(item,$index)" ng-class="{'disabled-x-circle': $ctrl.deletedRow === item.name, 'circle_delete': $ctrl.deletedRow !== item.name}" ng-disabled="$ctrl.deletedRow === item.name"></a>
                 </td>
             </tr>
         </tbody>
@@ -44,21 +40,21 @@
 
     <div class="mywell footer_table text-center">
 
-        <div class="noresults" ng-show="!$ctrl.campaignProfiles.length" ng-if="$ctrl.search.name">
+        <div class="noresults" ng-show="!$ctrl.filteredCampaignProfiles.length" ng-if="$ctrl.search.name">
             <img src="assets/al/images/NoResultsIcon.png" alt="lupa">
             <p>We couldn't find what you are looking for</p>
         </div>
 
 
-        <label class="pull-left" ng-if="$ctrl.campaignProfiles.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.getMax()}} of {{$ctrl.campaignProfiles.length}}</label>
+        <label class="pull-left" ng-if="$ctrl.filteredCampaignProfiles.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.totalMin ? $ctrl.totalItems : $ctrl.getMax()}}  of {{$ctrl.filteredCampaignProfiles.length}}</label>
 
 
 
-        <uib-pagination ng-if="$ctrl.campaignProfiles.length" total-items="$ctrl.campaignProfiles.length" ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
+        <uib-pagination ng-if="$ctrl.filteredCampaignProfiles.length" total-items="$ctrl.filteredCampaignProfiles.length" ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
     " boundary-links="true " ng-change="$ctrl.pageChanged()">
         </uib-pagination>
 
-        <div class="pull-right results_per_page" ng-show="$ctrl.campaignProfiles.length"><span>Show</span>
+        <div class="pull-right results_per_page" ng-show="$ctrl.filteredCampaignProfiles.length"><span>Show</span>
 
             <select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities" ng-change="$ctrl.pageChanged()">
         </select> <span>results per page</span>

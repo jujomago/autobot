@@ -6,7 +6,7 @@ let _appsService;
 let _$filter, _$parse, _$state;
 let _AlertMessage, _RefreshToken;
 let $ctrl;
-const MAX_NEW_APPS_AMOUNT = 5;
+//const MAX_NEW_APPS_AMOUNT = 5;
 class NavbarController {
 
   constructor($filter, $parse, $location, $state, lodash, AuthService, AppsService, Base64Manager, GetHomePage, AlertMessage, EventBus, RefreshToken) {
@@ -32,6 +32,7 @@ class NavbarController {
     this.getter = 'partner.partnerFullName';
     this.message = { show: false };
     this.firstName = '';
+    this.reportsCollapsed = true;
     _RefreshToken = RefreshToken;
     $ctrl = this;
     this.menu = [{
@@ -101,6 +102,7 @@ class NavbarController {
   getProfile(){
     return _authService.getProfile()
     .then(response => {
+      this.email=response.data.email;
       this.firstName = response.data.firstname;
       this.avatar = response.data.avatar;
       return response;
