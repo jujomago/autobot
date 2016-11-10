@@ -1,12 +1,15 @@
+.longlinewithdots(){
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
 .multi-select-dropdown{
 	width: 100%;
 	&>p.multi-select-items{
 		padding-left: 10px;
 		width: 95%;
 		text-align: left;
-		white-space: nowrap;
-    	overflow: hidden;
-    	text-overflow: ellipsis;
+		.longlinewithdots;
 	}
 	&>a.dropdown-toggle{
 		width: 5%;
@@ -18,9 +21,7 @@
 		&>li{
 			cursor:pointer;
 			&>a{
-				white-space: nowrap;
-			    overflow: hidden;
-			    text-overflow: ellipsis;
+				.longlinewithdots;
 			}
 		}
 	}
