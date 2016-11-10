@@ -57,6 +57,10 @@ describe('Service:FieldFormatter', function () {
       let field = {name: 'field1', type: 'PHONE'};
       expect(FieldFormatter.removeExtraChars(field, '(987)-654-3210')).to.be.equal('9876543210');
     });
+    it('should trim start and end spaces', function () {
+      let field = {name: 'field1', type: 'STRING'};
+      expect(FieldFormatter.removeExtraChars(field, '     test      ')).to.be.equal('test');
+    });
 
   });
 
