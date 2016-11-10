@@ -24,9 +24,14 @@
 
             this.showPanelInfo = false;
             this.message={show:false};
-            this.SubmitText = 'Save';
+            this.SubmitText = 'Save';            
         }
 
+        $onInit() {
+            this.showSkill();
+            this.listUsers();
+        }
+        
         showSkill() {
             this.found = false;
             var nameSkill = this.nameSkill;

@@ -24,12 +24,12 @@
             </div>
             <div class="radio regular-radio inline-radio">
               <label>
-                <input type="radio" ng-model="$ctrl.disposition.agentMustCompleteWorksheet" ng-value='true'> Agent Must Complete Worksheet
+                <input type="radio" ng-model="$ctrl.disposition.agentMustCompleteWorksheet" ng-value="true"> Agent Must Complete Worksheet
               </label>
             </div>
             <div class="radio regular-radio inline-radio">
               <label>
-                <input type="radio" ng-model="$ctrl.disposition.agentMustCompleteWorksheet" ng-value='false'> Worksheet Cannot Be Used With This Disposition
+                <input type="radio" ng-model="$ctrl.disposition.agentMustCompleteWorksheet" ng-value="false"> Worksheet Cannot Be Used With This Disposition
               </label>
             </div>
             <div class="checkbox">
@@ -48,9 +48,9 @@
       <uib-tab index="1" heading="Type" select="$ctrl.checkStepOne(dispositionForm)">
         <div class="row">
           <div class="disposition-type-item">
-            <div class="disposition-type-header ">
-              <input type="radio" ng-model="$ctrl.disposition.type" value='RedialNumber' ng-change="$ctrl.clearGroup()"> Redial Number
-  	        </div>
+            <label class="disposition-type-header">              
+              <input type="radio" ng-model="$ctrl.disposition.type" value="RedialNumber" ng-change="$ctrl.clearGroup()"> Redial Number
+  	        </label>
   	        <div class="disposition-type-body">
   	           <div class="checkbox">
                  <label>
@@ -64,10 +64,10 @@
   	                   		<abx-number-updown ng-model="$ctrl.redial.timer.days" ng-disabled="$ctrl.disposition.type!='RedialNumber' || !$ctrl.redial.useTimer" min-value="$ctrl.minOfDays($ctrl.redial.timer)" max-value="$ctrl.maxOfDays($ctrl.redial.timer)"></abx-number-updown>
   	                 </div>
   	                 <div class="timer-items">
-  	                    <abx-number-updown ng-model="$ctrl.redial.timer.hours" ng-disabled="$ctrl.disposition.type!='RedialNumber' || !$ctrl.redial.useTimer" min-value="$ctrl.minOfHours($ctrl.redial.timer)" max-value=23></abx-number-updown>
+  	                    <abx-number-updown ng-model="$ctrl.redial.timer.hours" ng-disabled="$ctrl.disposition.type!='RedialNumber' || !$ctrl.redial.useTimer" min-value="$ctrl.minOfHours($ctrl.redial.timer)" max-value="23"></abx-number-updown>
   	                 </div>
   	                 <div class="timer-items" >
-  	                   		<abx-number-updown ng-model="$ctrl.redial.timer.minutes" ng-disabled="$ctrl.disposition.type!='RedialNumber' || !$ctrl.redial.useTimer" min-value="$ctrl.minOfMinutes($ctrl.redial.timer)" max-value=59></abx-number-updown>
+  	                   		<abx-number-updown ng-model="$ctrl.redial.timer.minutes" ng-disabled="$ctrl.disposition.type!='RedialNumber' || !$ctrl.redial.useTimer" min-value="$ctrl.minOfMinutes($ctrl.redial.timer)" max-value="59"></abx-number-updown>
   	                 </div>
   	              </div>
   	           </div>
@@ -76,7 +76,7 @@
       	          <label>Number of Attempts:</label>
       	          <div class="timer-container">
       	             <div class="timer-items">
-      	                     <abx-number-updown ng-model='$ctrl.redial.attempts' min-value="1" max-length="2" ng-disabled="$ctrl.disposition.type!='RedialNumber' || !$ctrl.redial.useTimer" max-value=99></abx-number-updown>
+      	                     <abx-number-updown ng-model="$ctrl.redial.attempts" min-value="1" max-length="2" ng-disabled="$ctrl.disposition.type!='RedialNumber' || !$ctrl.redial.useTimer" max-value="99"></abx-number-updown>
       	             </div>
       	          </div>
               </div>
@@ -88,9 +88,9 @@
   	       </div>
          </div>
          <div class="disposition-type-item">
-  	        <div class="disposition-type-header ">
+  	        <label class="disposition-type-header ">
   	           <input type="radio" ng-model="$ctrl.disposition.type" value="DoNotDial" ng-change="$ctrl.clearGroup()"> Do Not Dial Number for Campaign
-            </div>
+            </label>
   	        <div class="disposition-type-body">
   	           <div class="checkbox">
                  <label>
@@ -104,10 +104,10 @@
   	                    <abx-number-updown ng-model="$ctrl.notDial.timer.days" ng-disabled="$ctrl.disposition.type!='DoNotDial' || !$ctrl.notDial.useTimer" min-value="$ctrl.minOfDays($ctrl.notDial.timer)" max-value="$ctrl.maxOfDays($ctrl.notDial.timer)"></abx-number-updown>
   	                 </div>
   	                 <div class="timer-items">
-  	                    <abx-number-updown ng-model="$ctrl.notDial.timer.hours" ng-disabled="$ctrl.disposition.type!='DoNotDial' || !$ctrl.notDial.useTimer" min-value="$ctrl.minOfHours($ctrl.notDial.timer)" max-value=23></abx-number-updown>
+  	                    <abx-number-updown ng-model="$ctrl.notDial.timer.hours" ng-disabled="$ctrl.disposition.type!='DoNotDial' || !$ctrl.notDial.useTimer" min-value="$ctrl.minOfHours($ctrl.notDial.timer)" max-value="23"></abx-number-updown>
   	                 </div>
   	                 <div class="timer-items" >
-  	                    <abx-number-updown ng-model="$ctrl.notDial.timer.minutes" ng-disabled="$ctrl.disposition.type!='DoNotDial' || !$ctrl.notDial.useTimer" min-value="$ctrl.minOfMinutes($ctrl.notDial.timer)" max-value=59></abx-number-updown>
+  	                    <abx-number-updown ng-model="$ctrl.notDial.timer.minutes" ng-disabled="$ctrl.disposition.type!='DoNotDial' || !$ctrl.notDial.useTimer" min-value="$ctrl.minOfMinutes($ctrl.notDial.timer)" max-value="59"></abx-number-updown>
   	                 </div>
   	              </div>
   	          </div>
@@ -119,9 +119,9 @@
   	      </div>
         </div>
         <div class="disposition-type-item">
-  	       <div class="disposition-type-header ">
-  	          <input type="radio" ng-model="$ctrl.groupActive" value='finalDisp' ng-change="$ctrl.finalDispActive()"> Final Disposition for Contact Record
-  	       </div>
+  	       <label class="disposition-type-header ">
+  	          <input type="radio" ng-model="$ctrl.groupActive" value="finalDisp" ng-change="$ctrl.finalDispActive()"> Final Disposition for Contact Record
+  	       </label>
   	       <div class="disposition-type-body">
   	          <div class="checkbox">
                 <label>
@@ -131,9 +131,9 @@
             </div>
           </div>
           <div class="disposition-type-item">
-  	         <div class="disposition-type-header ">
+  	         <label class="disposition-type-header ">
   	            <input type="radio" ng-model="$ctrl.groupActive" value="dnc" ng-change="$ctrl.disposition.type='AddActiveNumber'"> Add Number(s) to DNC List
-  	         </div>
+  	         </label>
   	         <div class="disposition-type-body">
   	            <div class="radio regular-radio">
                   <label>

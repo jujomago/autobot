@@ -836,15 +836,22 @@
             display: inline-block;
             vertical-align: top;
         }
-        .linkscontainer__item a{
-            line-height:@height-toolbar;
-            color:@black;   
-            font-family: BrandonMedium;         
+        .linkscontainer__item{
+            a{
+                line-height:@height-toolbar;
+                color:@black;   
+                font-family: BrandonMedium; 
+            }
+            &--active{             
+                a{
+                    color:@blue; 
+                }
+            }   
         }
     }
 
     .toolbar-reports-title{
-        background-color:@color-title-toolbar;
+        background-color:@blue;
         color: white;
         width: 212px;
         text-align: center;     
@@ -863,7 +870,7 @@
             height: 0;
             border-style: solid;
             border-width: 9px 0 9px 7px;
-            border-color: transparent transparent transparent @color-title-toolbar;        
+            border-color: transparent transparent transparent @blue;        
         }
     }
 
@@ -886,12 +893,14 @@
         .linkscontainer{
             flex:1;
             .linkscontainer__item{
-                width:~"calc(92%/4)";     
-            
-                @media (max-width: 1186px) {
+                width:~"calc(92.5%/4)";                
+                @media (max-width: 1268px) {
+                     width:~"calc(92%/4)"; 
+                }
+                @media (max-width: 1200px) {
                      width:~"calc(91%/4)"; 
                 }
-                @media (max-width: 1076px) {
+                @media (max-width: 1090px) {
                      width:~"calc(90%/4)"; 
                 }
                 @media (max-width: 999px) {
@@ -902,8 +911,8 @@
                 }
                 @media (max-width: 868px) {
                      width:~"calc(87%/4)"; 
-                }               
-                @media (max-width: 800px) {
+                }
+                @media (max-width: 815px) {
                      width:~"calc(86%/4)"; 
                 }
                 @media (max-width: 774px) {
@@ -929,7 +938,7 @@
         height: 100%;
         &--leftspace{
             padding-left: 20px;
-            @media (max-width: 770px) {
+            @media (max-width: 778px) {
                padding-left:10px; 
             }
         }
@@ -945,12 +954,12 @@
                 height: 100%;
                 padding: 0 15px;
                 &:hover{
-                    color:@color-title-toolbar; 
+                    color:@blue; 
                 }                  
             }
             &--arrow{
                 position: relative;
-                background:@color-title-toolbar; 
+                background:@blue; 
                 margin:0 10px;
                 >a{
                     //padding:0 80px;
@@ -974,7 +983,7 @@
                 }
                 &:after{
                     right:-10px;       
-                    border-color: transparent transparent transparent @color-title-toolbar;   
+                    border-color: transparent transparent transparent @blue;   
                 }
             }
         }
@@ -1009,15 +1018,52 @@
     }    
 
     //revenue boxes
-    .revenueboxes{
-        padding: 0 25px;
-
-        .col-sm-6,.col-sm-3{
-            padding: 0 25px;
+    .revenueboxes{   
+        margin-left: -25px;
+        margin-right: -25px;
+        clear:both;
+        overflow: hidden;
+       // margin-bottom: 30px;        
+        .col-sm-6,.col-sm-3{ 
+            padding: 0 25px;  
+        }      
+    }
+    .box-chart{
+        background:white;            
+        text-align: center;
+        >img{
+            display: inline;
         }
-        .box{
-            background:white;
-            border: 1px solid red;
+        strong{
+            font-family: BrandonLight;
+            color:@blue; 
+            font-size: 24px;
+        }   
+        p{
+            color:@grayforte;
+            margin-bottom: 0;
+            font-size: 18px;
+            font-family: BrandonLight;
+        }
+    }
+    .nomargincols{
+        overflow: hidden;
+        clear: both;
+        padding:18px 12px;
+        .col-md-3{
+            padding:0; 
+        }
+    }
+    .details_chart{
+        margin-top: 30px;
+        margin-left: -25px;
+        margin-right: -25px;
+        .col-md-6{
+            padding: 0 25px;
+            margin-bottom: 30px;
+        }
+        .box-chart{
+            padding: 12px 0;
         }
     }
 
@@ -1063,7 +1109,6 @@
         border-left-width: 1px;
         border-left-style: solid;
         border-left-color: #ececec;
-
         @media (max-width: 920px) {    
             width: 100%;       
             border-top-width: 1px;

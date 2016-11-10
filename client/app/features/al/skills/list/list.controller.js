@@ -77,7 +77,7 @@
                             let index = this.skills.indexOf(item);
                             this.skills.splice(index, 1);
                             this.toggleSkillRow = -1;
-                            this.message = { show: true, type: 'success', text: 'Skill Deleted', expires:3000 };
+                            this.message = { show: true, type: 'success', text: 'Skill Deleted Successfully', expires:3000 };
                             return response;
                         }).catch(error => {
                             this.toggleSkillRow = -1;
