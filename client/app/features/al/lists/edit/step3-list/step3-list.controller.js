@@ -263,6 +263,8 @@ class ListComponent {
             if(typeof result !== 'undefined' && Object.keys(result).length > 0){
                   if(this.method==='create'){
                     this.list.unshift(result);
+                    this.currentPage = 1;
+                    this.pageChanged();
                   }
                   else{
                     this.list[this.selectedIndex] = result;
