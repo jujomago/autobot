@@ -255,11 +255,7 @@
             {
                 "type": "ChangePreviewPreferences",
                 "value": false
-            },
-            {
-                "type": "NICEEnabled",
-                "value": false
-            },
+            },            
             {
                 "type": "ScreenRecording",
                 "value": false

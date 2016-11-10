@@ -14,7 +14,7 @@ describe('Directive: abxAutoFocus', function () {
   it('should return focused element name', inject(function ($compile) {
     element = angular.element('<input name="focus">');
     element.appendTo(document.body);
-    element.attr("abx-auto-focus", "true");
+    element.attr('abx-auto-focus', 'true');
     element = $compile(element)(scope);
     scope.$apply();
     expect(window.document.activeElement.name).to.be.equal('focus');

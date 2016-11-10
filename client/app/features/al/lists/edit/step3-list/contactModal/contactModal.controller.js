@@ -31,22 +31,25 @@ class ContactModalComponent {
       this.contact[key] = _FieldFormatter.removeExtraChars(this.contactFields[i], this.contact[key]);
     }
   }
+  setMessage(message){
+    this.message={ show: true, type: 'danger', text: message, expires: 3000};
+    angular.element('.contact-model-form').scrollTop(0);
+  }
   save(){
     if(Object.keys(this.contact).filter(val => {return this.contact[val]!=='';}).length===0){
-       this.message={ show: true, type: 'warning', text: 'Can\'t save empty Contact Record', expires: 3000};
+      this.setMessage('Can\'t save empty Contact Record');
     }
     else if(this.contact.number1 === '' && this.contact.number2 === '' && this.contact.number3 === ''){
-       this.message={ show: true, type: 'warning', text: 'The Contact Record does not have any number', expires: 3000};
+      this.setMessage('The Contact Record does not have any number');
     }
     else{
       this.convertFields();
       this.instance.close(angular.copy(this.contact));
     }
- }
+  }
   cancel(){
 	this.instance.dismiss('cancel');
   }
-
 }
 ContactModalComponent.$inject = ['FieldMessages', 'FieldFormatter'];
 angular.module('fakiyaMainApp')

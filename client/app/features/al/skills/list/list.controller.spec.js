@@ -75,7 +75,30 @@ describe('Component: al.skills.list', function () {
        expect(window.confirm.calledOnce).to.equal(true);
         
         httpBackend.flush();
-     });       
+     });   
+
+      
+     it('skill cant be deleted, returned error 500',()=>{
+       
+        httpBackend.whenDELETE(endPointUrl+'/Demo2').respond(500,'Some error from server');  
+       
+        sandbox.stub(window, 'confirm').returns(true);
+
+        let item={skill:{name:'Demo2'}};
+                                   
+        ListComponent.deleteSkill(item,5)
+        .then(response=>{   
+            expect(ListComponent.toggleSkillRow).to.equal(-1);            
+            expect(response.statusCode).to.equal(500);
+            expect(response.data).to.equal(null);
+            expect(response.errorMessage).to.equal('Some error from server');
+ 
+        });
+        
+       expect(window.confirm.calledOnce).to.equal(true);
+        
+        httpBackend.flush();
+     });        
   
   });
   
@@ -101,12 +124,29 @@ describe('Component: al.skills.list', function () {
       httpBackend.flush();
     });
 
+    it('Skill List cant be returned by error server', () => {
+      httpBackend.whenGET(endPointUrl+'/skillsInfo').respond(500,'Some error from Server');
+      
+      expect(ListComponent.message.show).to.equal(false);
+      expect(ListComponent.skills).to.have.lengthOf(0);
+      
+      var getSkills = ListComponent.getSkills();
+     
+      getSkills.then(_skills => {     
+            expect(ListComponent.skills).to.have.lengthOf(0);     
+            expect(_skills.statusCode).to.equal(500);  
+            expect(_skills.errorMessage).to.equal('Some error from Server');
+            expect(_skills.data).to.equal(null);  
+            expect(ListComponent.message).to.eql({ show: true, type: 'danger', text: _skills.errorMessage });
+      });
+
+      httpBackend.flush();
+    });
+
+
 
   });
 
-   
-   
- 
     
 
   describe('#sortColumn', () => {

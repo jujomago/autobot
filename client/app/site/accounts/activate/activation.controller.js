@@ -39,7 +39,10 @@
             'password': this.newAccount.password
           };
       return _auth.createUser(newUser)
-      .then(response => {
+      .then(() => {
+        return _auth.logout();
+      })
+      .then(() => {        
         return _auth.login(credentials);
       })
       .then(response =>{

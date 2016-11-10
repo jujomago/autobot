@@ -5,11 +5,11 @@ describe('Component: skillModalComponent', function () {
   // load the controller's module
   beforeEach(module('fakiyaMainApp'));
 
-  var _SkillModalComponent, _$uibModal, skills, skill, level;
+  var _SkillModalComponent, _ModalManager, skills, skill, level;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($componentController, $uibModal) {
-    _$uibModal = $uibModal;
+  beforeEach(inject(function ($componentController,ModalManager) {
+    _ModalManager = ModalManager;
     skills = [
       {name: 'Sales'},
       {name: 'Marketing'}
@@ -25,7 +25,7 @@ describe('Component: skillModalComponent', function () {
   }));
 
   it('should return null if close modal', function () {
-    let modalInstance = _$uibModal.open({
+    let modalInstance = _ModalManager.open({
                           controllerAs: '$ctrl',
                           template: '<al.users.skill-modal></al.users.skill-modal>',
                         });
@@ -35,5 +35,19 @@ describe('Component: skillModalComponent', function () {
         expect(result).to.equal(null);
     });
     _SkillModalComponent.cancel();
+  });
+
+  it('should return on save', function () {
+    let modalInstance = _ModalManager.open({
+                          controllerAs: '$ctrl',
+                          template: '<al.users.skill-modal></al.users.skill-modal>',
+                        });
+  _SkillModalComponent.skillList={skillName:'Test',leve:1};
+   _SkillModalComponent.instance = modalInstance;
+    modalInstance.result
+    .then(result => {
+        expect(result).to.equal(_SkillModalComponent.skillList);   
+    });
+    _SkillModalComponent.save();
   });
 });

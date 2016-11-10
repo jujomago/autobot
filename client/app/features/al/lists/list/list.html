@@ -12,7 +12,7 @@
       <input type="search" ng-model="$ctrl.search.name" class="searchbox" placeholder="Search" ng-change="$ctrl.filteringBySearch()">
       <span class="glyphicon glyphicon-search"></span>
     </div>
-    <button class="btn btn-black pull-right" ng-click="$ctrl.openModal()">New</button>
+    <button class="btn btn-black abx-btn-md pull-right" ng-click="$ctrl.openModal()">New</button>
   </div>
   <table class="table table-striped" ng-show="$ctrl.lists.length">
     <thead>
@@ -56,7 +56,7 @@
         <img src="assets/al/images/NoResultsIcon.png" alt="lupa">
         <p>We couldn't find what you are looking for</p>
       </div>
-      <label class="pull-left" ng-if="$ctrl.lists.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.getMax()}} of {{$ctrl.lists.length}}</label>
+      <label class="pull-left fixed-width-125 text-left" ng-if="$ctrl.lists.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.getMax()}} of {{$ctrl.lists.length}}</label>
       <uib-pagination ng-if="$ctrl.lists.length"
                       total-items="$ctrl.lists.length"
                       ng-model="$ctrl.currentPage"

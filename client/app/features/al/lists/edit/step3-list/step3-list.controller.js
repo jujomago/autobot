@@ -1,6 +1,6 @@
 'use strict';
 (function(){
-let _ConfirmAsync, _ListService, _, _ContactFieldsService, ctrl, _FieldFormatter;
+let _ConfirmAsync, _ListService, _, _ContactFieldsService, ctrl, _FieldFormatter, _Utils;
 let _$state, _$stateParams, _$filter, _ModalManager;
 
 
@@ -78,7 +78,7 @@ function _extractFormats(field) {
     return field;
 }
 class ListComponent {
-  constructor($state, $stateParams, $filter, ModalManager, ListsService, ConfirmAsync, ContactFieldsService, lodash, FieldFormatter) {
+  constructor($state, $stateParams, $filter, ModalManager, ListsService, ConfirmAsync, ContactFieldsService, lodash, FieldFormatter, Utils) {
 
       this.currentPage = 1;
       this.sortKey = '';
@@ -114,6 +114,7 @@ class ListComponent {
       _ConfirmAsync = ConfirmAsync;
       _FieldFormatter = FieldFormatter;
       _ContactFieldsService = ContactFieldsService;
+      _Utils = Utils;
       this.listName = _$stateParams.name;
       this.sendContact = {listName: this.listName, importData: {values: []} }
       this.listUpdateSettings = {
@@ -171,7 +172,15 @@ class ListComponent {
   sortColumn(columnName) {
       if (columnName !== undefined && columnName) {
           this.sortKey = columnName;
-          this.list = _$filter('orderBy')(this.list, this.sortKey, this.reverse);
+          let reverse = this.reverse;
+          this.list = this.list.sort((itemA,itemB)=>{
+            if(reverse){
+              return itemA[columnName] > itemB[columnName];
+            }
+            else{
+              return itemA[columnName] < itemB[columnName];
+            }
+          });
           this.reverse = !this.reverse;
           return true;
       } else {
@@ -265,7 +274,7 @@ class ListComponent {
       animation: false,
       size: 'md',
       controllerAs: '$ctrl',
-      appendTo: angular.element(document.querySelector('#edit-list')),
+      appendTo: angular.element('#modal-container'),
       template: '<al.lists.contact-modal></al.lists.contact-modal>'
     });
 
@@ -273,7 +282,9 @@ class ListComponent {
         .then(result => {
             if(typeof result !== 'undefined' && Object.keys(result).length > 0){
                   if(this.method==='create'){
-                    this.list.unshift(angular.copy(result));
+                    this.list.unshift(result);
+                    this.currentPage = 1;
+                    this.pageChanged();
                   }
                   else{
                     this.list[this.selectedIndex] = result;
@@ -284,6 +295,7 @@ class ListComponent {
             this.selectedArray = [];
             this.contact = {};
             this.selectedIndex = -1;
+            this.selectedContact(0, result);
         }, ()=>{
           this.selected = '';
           this.selectedOld = '';
@@ -335,7 +347,8 @@ class ListComponent {
         return response;
       }).catch(error =>{
         this.SubmitText='Save';
-        this.message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
+        let message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
+        _$state.go('ap.al.lists',{message: message});
         return error;
       });
   }
@@ -343,7 +356,6 @@ class ListComponent {
   cancelList(){
       _$state.go('ap.al.lists');
   }
-
 
   filteringBySearch(){
     this.selected = '';
@@ -366,7 +378,7 @@ class ListComponent {
     return _FieldFormatter.formatField(field, value);
   }
 }
-ListComponent.$inject = ['$state', '$stateParams', '$filter', 'ModalManager', 'ListsService', 'ConfirmAsync', 'ContactFieldsService', 'lodash', 'FieldFormatter'];
+ListComponent.$inject = ['$state', '$stateParams', '$filter', 'ModalManager', 'ListsService', 'ConfirmAsync', 'ContactFieldsService', 'lodash', 'FieldFormatter', 'Utils'];
 angular.module('fakiyaMainApp')
   .component('al.lists.edit.list', {
     templateUrl: 'app/features/al/lists/edit/step3-list/step3-list.html',

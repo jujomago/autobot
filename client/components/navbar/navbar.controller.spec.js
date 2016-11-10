@@ -116,7 +116,7 @@ describe('Component:NavbarController', function() {
 
   describe('#getNewest', () => {
     it('should get new apps', () => {
-      _$httpBackend.whenGET(endPointUrl+'/admin/apps/filter?installed=false&size=5').respond(mockAppsData);
+      _$httpBackend.whenGET(endPointUrl+'/admin/apps/filter?installed=false').respond(mockAppsData);
        NavbarController.getNewest()
             .then(response => {
                 expect(response).to.not.equal(null);
@@ -129,7 +129,7 @@ describe('Component:NavbarController', function() {
       _$httpBackend.flush();
     });
     it('=> should return Status 500, error in update', () => {
-      _$httpBackend.whenGET(endPointUrl+'/admin/apps/filter?installed=false&size=5').respond(500, 'Internal Server Error');
+      _$httpBackend.whenGET(endPointUrl+'/admin/apps/filter?installed=false').respond(500, 'Internal Server Error');
       NavbarController.getNewest()
        .then(() =>{
           expect(NavbarController.newApps.length).to.equal(0);

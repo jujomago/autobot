@@ -1,6 +1,6 @@
 'use strict';
 (function(){
-  let _ConfirmAsync, _ListsService, _AlertMessage, _Global, _ModalManager;
+  let _ConfirmAsync, _ListsService, _AlertMessage, _Global, _ModalManager, _Utils;
   let _$state,_$stateParams, _$filter;
   function _myIndex(lists ,name){
     //TODO: replace with return _lodash.findIndex(lists, function(list) { return list.name === name });
@@ -91,15 +91,7 @@
   }
 
   class ListComponent {
-    constructor(ListsService,
-                $stateParams,
-                $state,
-                $filter,
-                ModalManager,
-                ConfirmAsync,
-                AlertMessage,
-                Global) {
-
+    constructor(ListsService,$stateParams,$state, $filter, ModalManager,ConfirmAsync, AlertMessage, Global, Utils) {
         this.lists = [];
         _$stateParams = $stateParams;
         this.message = { show: false };
@@ -112,6 +104,7 @@
         _AlertMessage = AlertMessage;
         _ModalManager = ModalManager;
         _Global = Global;
+        _Utils = Utils;
         this.currentPage = 1;
         this.sortKey = '';
         this.reverse = true;
@@ -129,22 +122,24 @@
         _ListsService = ListsService;
     }
     $onInit() {
-        let promiseLists = this.getLists();
-        let identifier = _$stateParams.identifier;
-        _$stateParams.identifier = null;
-        if(identifier){
-          promiseLists.then(() =>{
-            this.goToProcessedRow();
-            this.getResult(identifier, _$stateParams.name, _$stateParams.isUpdate);
-          });
+        let promiseLists = this.getLists(),
+            listModified = _Utils.getDataListAction();
+
+        if (!_Utils.isUndefinedOrNull(listModified)) {
+            _Utils.setDataListAction(null);
+
+            promiseLists.then(() =>{
+                this.goToProcessedRow(listModified.name);
+                this.getResult(listModified.identifier, listModified.name, listModified.isUpdate);
+              });
         }
 
     }
-    goToProcessedRow(){
-      let index =  _myIndex(this.lists, _$stateParams.name);
+    goToProcessedRow(listName){
+      let index =  _myIndex(this.lists, listName);
       this.currentPage = _myPage(index, this.numPerPage);
       this.pageChanged();
-      this.processedRow = _$stateParams.name;
+      this.processedRow = listName;
     }
     goToSelectedRow(){
       let index =  _myIndex(this.lists, this.selectedRow.listName);
@@ -272,7 +267,7 @@
         })
         .then(response =>{
           let summaryMessage = _formatMessage(response.data, isUpdate, listName);
-          let index = _myIndex(this.lists, _$stateParams.name);
+          let index = _myIndex(this.lists, listName);
           return this.updateList(listName ,index, summaryMessage);
         })
        .catch(error =>{
@@ -282,16 +277,7 @@
     }
   }
 
-  ListComponent.$inject = [
-    'ListsService',
-    '$stateParams',
-    '$state',
-    '$filter',
-    'ModalManager',
-    'ConfirmAsync',
-    'AlertMessage',
-    'Global'
-  ];
+  ListComponent.$inject = ['ListsService','$stateParams','$state', '$filter', 'ModalManager', 'ConfirmAsync', 'AlertMessage', 'Global', 'Utils'];
 
   angular.module('fakiyaMainApp')
     .component('al.lists.list', {
