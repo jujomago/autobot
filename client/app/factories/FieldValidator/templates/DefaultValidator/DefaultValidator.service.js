@@ -13,6 +13,7 @@ angular.module('fakiyaMainApp')
     };
     let validateRegexp = function(regex, value) {
       regex = new RegExp(regex, 'g');
+      value = value.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
       return (value.match(regex)||[]).length === 1 && value.replace(regex, '')==='';
     };
     let validateRequired = function(required, value) {

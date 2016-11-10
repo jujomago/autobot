@@ -57,10 +57,7 @@
         line-height: 30px;
         transition: all .2s ease-out;
         &:hover, &:active, &:focus {
-            background: #000000;
-            color: @blue;
-            border-width: 1px;
-            border-color: @blue;
+            background: #0187d0;
         }
     }
     //button template for list
@@ -292,6 +289,9 @@
         &:disabled {
             background: #99cfec;
         }
+        &:hover, &:active, &:focus {
+            background: #0187d0;
+        }
     }
     .table-hover tr {
         cursor: pointer;
@@ -432,7 +432,9 @@
         width: 90px;
         padding: 0;
     }
-
+    .show-all-spaces{
+        white-space: pre;
+    }
     //add Modal transparent
     #modal-container{
         div.modal-md{
@@ -486,11 +488,21 @@
                 margin-left: 10px;
                 margin-right: 10px;
                 width: 120px;
+                &:hover, &:active, &:focus {
+                    background: #000000;
+                    color: @blue;
+                    border-width: 1px;
+                    border-color: @blue;
+                }
             }
         }
         p{
             padding-left: 0;
+            &.multi-select-items{
+                padding-left: 10px;
+            }
         }
+
         .error-modal{
             color: #e64b3b;
         }
@@ -580,6 +592,9 @@
                 overflow: hidden;
                 margin: 0;
                 height: 100%;
+                &.multiple-select{
+                    height: auto;
+                }
                 input, select{
                     padding: 0 10px 0;
                     width: 100%;

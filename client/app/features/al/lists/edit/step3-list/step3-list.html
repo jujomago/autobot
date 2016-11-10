@@ -1,4 +1,4 @@
-<h3 class="title_section">Lists: <span>{{$ctrl.sendContact.listName}}</span></h3>
+<h3 class="title_section">List: <span>{{$ctrl.sendContact.listName}}</span></h3>
 
 <abx-message msg="$ctrl.message"></abx-message>
 
@@ -13,6 +13,16 @@
             <div class="mywell list-title-mapp">
                 <h3>List Update</h3>
             </div>
+        </div>
+
+        <div class="pull-right">
+            <div class="mywell text-right">
+                <a class="btn btn-black btn-fixed-80" ng-click="$ctrl.cancelList()">Cancel</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="pull-left">
             <div class="mywell">
                 <div class="searchbox_container search">
                     <input type="search" ng-model="$ctrl.search" class="searchbox" placeholder="Search" ng-change="$ctrl.filteringBySearch()">
@@ -22,9 +32,6 @@
         </div>
 
         <div class="pull-right">
-            <div class="mywell text-right">
-                <a class="btn btn-black btn-fixed-80" ng-click="$ctrl.cancelList()">Cancel</a>
-            </div>
             <div class="mywell remove-spaces-inline" ng-show="!$ctrl.loadingContacts || !$ctrl.manual">
                 <button class="btn btn-black right-space-20 btn-fixed-80" ng-if="$ctrl.manual" ng-click="$ctrl.insertContact()">Insert</button>
                 <button class="btn btn-black right-space-20 btn-fixed-80" ng-if="!$ctrl.manual" ng-click="$ctrl.insertContact()" ng-disabled="$ctrl.error">Insert</button>
@@ -46,10 +53,7 @@
             <tbody>
                 <tr ng-repeat="(key, item) in ( $ctrl.filteredList=($ctrl.list | filter:$ctrl.search ) |  limitTo:$ctrl.numPerPage:$ctrl.beginNext) track by $index" ng-click="$ctrl.selectedContact($index+$ctrl.beginNext, item)" ng-dblclick="$ctrl.editContact(item)">
                     <td ng-repeat="header in $ctrl.contactFields" ng-class="{'row-selected': $ctrl.selectedArray.indexOf(key+$ctrl.beginNext) != -1}">
-                        <label class="light-label">
-                            {{$ctrl.formatField(header, item[header.name])}}
-                            
-                        </label>
+                        <span class="light-label show-all-spaces">{{$ctrl.formatField(header, item[header.name])}}</span>
                     </td>
                 </tr>
             </tbody>

@@ -314,13 +314,11 @@ class ListComponent {
         _$state.go('ap.al.lists',{message: message});
         return error;
       });
-
   }
 
   cancelList(){
       _$state.go('ap.al.lists');
   }
-
 
   filteringBySearch(){
     this.selected = '';
