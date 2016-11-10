@@ -1,6 +1,6 @@
 'use strict';
 (function(){
-let _ConfirmAsync, _ListService, _, _ContactFieldsService, ctrl, _FieldFormatter;
+let _ConfirmAsync, _ListService, _, _ContactFieldsService, ctrl, _FieldFormatter, _Utils;
 let _$state, _$stateParams, _$filter, _ModalManager;
 
 
@@ -13,7 +13,7 @@ function _getSets(field) {
         field.type = set[0].type.toUpperCase();
         field.restrictions = field.restrictions.filter(r => (r.type !== 'Set' && r.type !== 'Multiset'));
       }
-    } 
+    }
     return field;
 }
 function _formatExist(field, key){
@@ -78,7 +78,7 @@ function _extractFormats(field) {
     return field;
 }
 class ListComponent {
-  constructor($state, $stateParams, $filter, ModalManager, ListsService, ConfirmAsync, ContactFieldsService, lodash, FieldFormatter) {
+  constructor($state, $stateParams, $filter, ModalManager, ListsService, ConfirmAsync, ContactFieldsService, lodash, FieldFormatter, Utils) {
 
       this.currentPage = 1;
       this.sortKey = '';
@@ -113,11 +113,12 @@ class ListComponent {
       _ConfirmAsync = ConfirmAsync;
       _FieldFormatter = FieldFormatter;
       _ContactFieldsService = ContactFieldsService;
+      _Utils = Utils;
       this.listName = _$stateParams.name;
       this.sendContact = {listName: this.listName, importData: {values: []} };
       this.listUpdateSettings = {cleanListBeforeUpdate: false, crmAddMode: 'ADD_NEW', crmUpdateMode: 'UPDATE_FIRST', listAddMode: 'ADD_FIRST'};
-      
-      
+
+
   }
   $onInit(){
     this.getContactFields();
@@ -147,7 +148,7 @@ class ListComponent {
         this.message = { show: true, type: 'danger', text: error.errorMessage };
         return error;
     });
-  }    
+  }
   sortColumn(columnName) {
       if (columnName !== undefined && columnName) {
           this.sortKey = columnName;
@@ -283,7 +284,7 @@ class ListComponent {
   }
 
   uploadContacts(){
-    
+
     let list = angular.copy(this.list);
     let mainList =  list.map(item =>{
         let keys = Object.keys(item);
@@ -294,7 +295,7 @@ class ListComponent {
         return item;
     });
     _.each(mainList,e=>{
-      this.sendContact.importData.values.push({item: _.values(e)});  
+      this.sendContact.importData.values.push({item: _.values(e)});
     });
 
       this.sendContact.listUpdateSettings = this.listUpdateSettings;
@@ -304,7 +305,12 @@ class ListComponent {
       .then(response=>{
         if(response.data.return.identifier){
           this.sending= false;
-          _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: true});
+          _Utils.setDataListAction({
+            name: this.sendContact.listName,
+            identifier: response.data.return.identifier,
+            isUpdate: true
+          });
+          _$state.go('ap.al.lists');
         }
         return response;
       })
@@ -341,7 +347,7 @@ class ListComponent {
     return _FieldFormatter.formatField(field, value);
   }
 }
-ListComponent.$inject = ['$state', '$stateParams', '$filter', 'ModalManager', 'ListsService', 'ConfirmAsync', 'ContactFieldsService', 'lodash', 'FieldFormatter'];
+ListComponent.$inject = ['$state', '$stateParams', '$filter', 'ModalManager', 'ListsService', 'ConfirmAsync', 'ContactFieldsService', 'lodash', 'FieldFormatter', 'Utils'];
 angular.module('fakiyaMainApp')
   .component('al.lists.edit.list', {
     templateUrl: 'app/features/al/lists/edit/step3-list/step3-list.html',
