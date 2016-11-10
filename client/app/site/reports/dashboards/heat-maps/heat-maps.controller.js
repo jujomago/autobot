@@ -7,8 +7,8 @@
     }
 
     angular.module('fakiyaMainApp')
-        .component('headMaps', {
-            templateUrl: 'app/site/reports/dashboards/head-maps/head-maps.html',
+        .component('heatMaps', {
+            templateUrl: 'app/site/reports/dashboards/heat-maps/heat-maps.html',
             controller: HeadMapsComponent
         });
 })();
