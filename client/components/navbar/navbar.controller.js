@@ -4,12 +4,12 @@ let _$location, _authService, _Base64Manager, _GetHomePage;
 let _lodash;
 let _appsService;
 let _$filter, _$parse, _$state;
-let _AlertMessage, _RefreshToken;
+let _AlertDialog, _RefreshToken;
 let $ctrl;
 //const MAX_NEW_APPS_AMOUNT = 5;
 class NavbarController {
 
-  constructor($filter, $parse, $location, $state, lodash, AuthService, AppsService, Base64Manager, GetHomePage, AlertMessage, EventBus, RefreshToken) {
+  constructor($filter, $parse, $location, $state, lodash, AuthService, AppsService, Base64Manager, GetHomePage, AlertDialog, EventBus, RefreshToken) {
     this.isCollapsed = true;
     _Base64Manager = Base64Manager;
     _GetHomePage = GetHomePage;
@@ -25,7 +25,7 @@ class NavbarController {
     _$filter = $filter;
     _$parse = $parse;
     _appsService = AppsService;
-    _AlertMessage=AlertMessage;
+    _AlertDialog=AlertDialog;
     this.fullMenu = false;
     this.minMenu = false;
     this.partners = [];
@@ -80,7 +80,7 @@ class NavbarController {
           let contentModal={ title:'Message',
                              body:`An unexpected error has ocurred. Please try again or contact us`
           };
-          _AlertMessage(contentModal);
+          _AlertDialog(contentModal);
 
           if (e.status && e.data) {
             this.message = { show: true, text: e.data.statusText, type: 'danger' };
@@ -113,7 +113,7 @@ class NavbarController {
           title:'Message',
           body:'An unexpected error has ocurred. Please try again or contact us'
         };
-        _AlertMessage(contentModal);
+        _AlertDialog(contentModal);
       }
       return error;
     });
@@ -191,7 +191,7 @@ class NavbarController {
 
 }
 
-NavbarController.$inject=['$filter','$parse' , '$location', '$state','lodash', 'AuthService', 'AppsService', 'Base64Manager', 'GetHomePage','AlertMessage', 'EventBus', 'RefreshToken'];
+NavbarController.$inject=['$filter','$parse' , '$location', '$state','lodash', 'AuthService', 'AppsService', 'Base64Manager', 'GetHomePage','AlertDialog', 'EventBus', 'RefreshToken'];
 
 angular.module('fakiyaMainApp')
   .controller('NavbarController', NavbarController);

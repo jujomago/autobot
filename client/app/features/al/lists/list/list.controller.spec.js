@@ -29,7 +29,7 @@ describe('Component:al.lists.list', function () {
 
     sandbox = sinon.sandbox.create();
     mockModal= {open: sinon.stub()};
-    var _AlertMessage = function(){
+    var _AlertDialog = function(){
       mockModal.open();
     };
     if (appConfig.apiUri) {
@@ -41,7 +41,7 @@ describe('Component:al.lists.list', function () {
       $stateParams: { message: null, name: 'List6' },
       $state: state,
       ListsService: listService,
-      AlertMessage: _AlertMessage,
+      AlertDialog: _AlertDialog,
       selectedRow: { listName: 'List6' }
     });
 
