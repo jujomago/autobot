@@ -1,7 +1,7 @@
 'use strict';
 (function(){
 let _ConfirmAsync, _ListService, _, _ContactFieldsService, ctrl, _FieldFormatter;
-let _$state, _$stateParams, _$filter, _ModalManager;
+let _$state, _$stateParams, _$filter, _ModalManager, _ConfirmMessage, _AlertMessage;
 
 
 function _getSets(field) {
@@ -78,7 +78,7 @@ function _extractFormats(field) {
     return field;
 }
 class ListComponent {
-  constructor($state, $stateParams, $filter, ModalManager, ListsService, ConfirmAsync, ContactFieldsService, lodash, FieldFormatter) {
+  constructor($state, $stateParams, $filter, ModalManager, ListsService, ConfirmAsync, ContactFieldsService, lodash, FieldFormatter, ConfirmMessage, AlertMessage) {
 
       this.currentPage = 1;
       this.sortKey = '';
@@ -112,7 +112,9 @@ class ListComponent {
       _ListService = ListsService;
       _ConfirmAsync = ConfirmAsync;
       _FieldFormatter = FieldFormatter;
+      _ConfirmMessage = ConfirmMessage;
       _ContactFieldsService = ContactFieldsService;
+      _AlertMessage = AlertMessage;
       this.listName = _$stateParams.name;
       this.sendContact = {listName: this.listName, importData: {values: []} };
       this.listUpdateSettings = {cleanListBeforeUpdate: false, crmAddMode: 'ADD_NEW', crmUpdateMode: 'UPDATE_FIRST', listAddMode: 'ADD_FIRST'};
@@ -340,8 +342,67 @@ class ListComponent {
   formatField(field, value){
     return _FieldFormatter.formatField(field, value);
   }
+  removeDnc(list){
+    let invalids = list
+    .reduce((map, item)=>{
+      map[item.phone] = true;
+      return map;
+    }, {});
+    let rows = [];
+    _.each(this.list, (contact, index) => {
+      let item = [];
+      if(invalids[contact.number1]){
+        item.push('Number1');
+      }
+      if(invalids[contact.number2]){
+        item.push('Number2');
+      }
+      if(invalids[contact.number3]){
+        item.push('Number3');
+      }
+      if(item.length===0){
+        this.valids.push(contact);
+      }
+      else{
+        rows.push([index+1, item.join(', ')]);
+      }
+    });
+    return _ConfirmMessage.open({title: 'DNC Scrub', body: `${rows.length} of ${this.list.length} records have been found invalid.\nYou may remove the invalid records before updating the list.`, listDetail: {headerList: 'Invalid records', cols: ['Line', 'Field'], rows: rows}}, {okText: 'Remove records'});
+  }
+  openDNCModal(){
+    this.dncModalInstance = _ModalManager.open({
+      animation: false,
+      size: 'abx-sm',
+      controllerAs: '$ctrl',
+      windowTopClass: 'modal-summary',
+      appendTo: angular.element('#dnc-modal-container'),
+      template: '<check-dnc-modal></check-dnc-modal>'
+    });
+    this.valids = [];
+    this.dncModalInstance.result
+    .then(response => {
+      let list = response.data.filter(item => item.status!=='C');
+      if(list.length>0){
+        return this.removeDnc(list);
+      }
+      else{
+        _AlertMessage({title: 'DNC Scrub', body: 'All your records have been found valid.\nYou may continue uploading the list.'},{center: true});
+      }
+      return false;
+     })
+    .then(response =>{
+      if(response){
+        this.list = this.valids;
+        this.selected = '';
+        this.selectedOld = '';
+        this.selectedArray = [];
+        this.contact = {};
+      }
+      return response;
+    });
+  }
 }
-ListComponent.$inject = ['$state', '$stateParams', '$filter', 'ModalManager', 'ListsService', 'ConfirmAsync', 'ContactFieldsService', 'lodash', 'FieldFormatter'];
+ListComponent.$inject = ['$state', '$stateParams', '$filter', 'ModalManager', 'ListsService', 'ConfirmAsync', 'ContactFieldsService', 'lodash', 'FieldFormatter', 'ConfirmMessage', 'AlertMessage'];
 angular.module('fakiyaMainApp')
   .component('al.lists.edit.list', {
     templateUrl: 'app/features/al/lists/edit/step3-list/step3-list.html',

@@ -2,13 +2,15 @@
 
 angular.module('fakiyaMainApp')
   .factory('AlertMessage', function (ModalManager) {
-    function getOptions(content){
+    function getOptions(content, config = {}){
       return {
         animation: false,
         templateUrl: 'app/factories/AlertMessage/AlertMessage.html',
-        size: 'hs',
-        controller: ['$scope', '$uibModalInstance', 'content', function ($scope, $uibModalInstance, content) {
+        size: 'abx-sm',
+        controller: ['$scope', '$uibModalInstance', 'content', 'config', function ($scope, $uibModalInstance, content, config) {
           $scope.content = content;
+          $scope.config = config;
+
           $scope.close = function(){
            if(content.customFunction)
             {               
@@ -22,14 +24,17 @@ angular.module('fakiyaMainApp')
         resolve: {
           content: function () {
             return content;
+          },
+          config: function () {
+            return config;
           }
         },
         windowTopClass: 'modal-summary'
       };
     }
-    function openAlert(content){
+    function openAlert(content,config){
       let container = document.querySelector('#alert-container');
-      let options = getOptions(content);
+      let options = getOptions(content, config);
       if(container){
         options.appendTo = angular.element(container);
       }

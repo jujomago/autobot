@@ -7,14 +7,14 @@
     </div>
     <div class="modal-body al-theme">
         <div>
-            <p>{{content.body}}</p>
+            <p class="abx-text-center">{{content.body}}</p>
         	<ul>
         		<li ng-repeat="item in content.list">{{item}}</li>
         	</ul>
-            <table ng-if="content.listDetail" class="table table-striped table-summary table-y-scroll table-y-scroll-col2">
-                <caption ng-if="content.listDetail.headerList">
+            <div class="caption" ng-if="content.listDetail.headerList">
                     {{content.listDetail.headerList}}
-                </caption>
+                </div>
+            <table ng-if="content.listDetail" class="table table-striped table-summary table-y-scroll table-y-scroll-col2">
                 <thead>
                     <tr>
                         <th ng-repeat="colName in content.listDetail.cols">
@@ -25,16 +25,15 @@
                 <tbody>
                     <tr ng-repeat="itemList in content.listDetail.rows">
                         <td ng-repeat="item in itemList" class="wrapText">
-                            <span ng-if="$even">{{item}}</span>
-                            <a class="label-tooltip" ng-if="$odd" title="{{item}}">{{item}}</a>
+                            <span class="confirm-span">{{item}}</span>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div class="modal-button-container remove-spaces-inline">
-          <button class="btn btn-blue right-space-20" ng-click="close()">OK</button>
-          <button class="btn btn-blue" ng-click="dismiss()">Cancel</button>
+          <button class="btn btn-blue right-space-20" ng-click="close()">{{config.okText?config.okText:'OK'}}</button>
+          <button class="btn btn-blue" ng-click="dismiss()">{{config.cancelText?config.cancelText:'Cancel'}}</button>
         </div>  
     </div>
 </div>

@@ -3,12 +3,12 @@
 angular.module('fakiyaMainApp')
   .config(function ($stateProvider) {
     $stateProvider
-      .state('ap.al.contactModal', {
-        url: '/users/contactModal',
+      .state('checkDNCModal', {
+        url: '/checkDNCModal',
         views: {
         	'crud': {
-        		template: '<al.lists.contactModal></al.lists.contactModal>'
+        		template: '<check-dnc-modal></check-dnc-modal>'
         	}
-    	}
+        }
       });
   });

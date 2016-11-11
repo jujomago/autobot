@@ -2,13 +2,14 @@
 
 angular.module('fakiyaMainApp')
   .factory('ConfirmMessage', function (ModalManager) {
-   function getOptions(content){
+   function getOptions(content, config = {}){
       return {
         animation: false,
         templateUrl: 'app/factories/ConfirmMessage/ConfirmMessage.html',
         size: 'hs',
-        controller: ['$scope', '$uibModalInstance', 'content', function ($scope, $uibModalInstance, content) {
+        controller: ['$scope', '$uibModalInstance', 'content', 'config', function ($scope, $uibModalInstance, content, config) {
           $scope.content = content;
+          $scope.config = config;
           $scope.close = function(){
             $uibModalInstance.close(true);   
           };
@@ -19,14 +20,17 @@ angular.module('fakiyaMainApp')
         resolve: {
           content: function () {
             return content;
+          },
+          config: function () {
+            return config;
           }
         },
         windowTopClass: 'modal-summary'
       };
     }
-    function openConfirm(content){
+    function openConfirm(content, config){
       let container = document.querySelector('#alert-container');
-      let options = getOptions(content);
+      let options = getOptions(content, config);
       if(container){
         options.appendTo = angular.element(container);
       }
