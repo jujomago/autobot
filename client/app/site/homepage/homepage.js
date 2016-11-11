@@ -1,11 +1,13 @@
 'use strict';
 (function () {
 
+  let _$http;
   class HomePageController {
-    constructor() {
+  
+    constructor($http) {
       console.log('HomePageController');
       this.submitText='Submit';
-      
+      _$http=$http;
     }
     sendmail(){
       console.log('now sending mail');
@@ -14,6 +16,7 @@
     
     }
   }
+  HomePageController.$inject=['$http'];
 
   angular.module('fakiyaMainApp')
     .config(function ($stateProvider) {
