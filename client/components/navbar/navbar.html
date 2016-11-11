@@ -73,17 +73,18 @@
                   </div>
                 </div>
                 <ul>
-                  <li ng-repeat="app in nav.newApps | limitTo: 5" ng-click="nav.selectApp(app.app.appName)">
+                  <li ng-repeat="app in nav.newApps | limitTo: 5">
                     <a class="new-img">
                       <img ng-src="/assets/{{app.app.appName}}/images/logo-sm.jpg" abx-default-image-switch="/assets/default/images/logo-sm.jpg"
-                        alt="" />
+                        alt="" ng-click="nav.selectApp(app.app.appName)"/>
                     </a>
                     <!--<a class="new-link">
                     <span class="app-full">{{app.app.appFullName}}</span>
                     <span class="partner-full">{{app.partner.partnerFullName}}</span>
                   </a> -->
-                    <span class="app-full">{{app.app.appFullName}}</span>
-                    <span class="partner-full">{{app.partner.partnerFullName}}</span>
+                    <span class="app-full" ng-click="nav.selectApp(app.app.appName)">{{app.app.appFullName}}</span>
+                    <span class="partner-full"><a href="" ng-click="nav.gotoAppSection(app.partner.partnerFullName)">{{app.partner.partnerFullName}}</a></span>
+
 
                   </li>
                 </ul>

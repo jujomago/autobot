@@ -5,7 +5,7 @@
 			<abx-load-indicator text="Loading Apps"> </abx-load-indicator>
 		</div>
 		<abx-message msg="$ctrl.message"></abx-message>
-		<div class="partner-container" ng-show="$ctrl.found" ng-repeat="partner in $ctrl.partners | orderBy: 'partner'">
+		<div id="{{partner.partner}}" class="partner-container" ng-repeat="partner in $ctrl.partners | orderBy: 'partner'">
 			<b>{{partner.partner}}</b>
 			<div class="row apps-container">
 				<div class="col-md-2-5 col-sm-6 col-xs-12" ng-repeat="item in partner.apps | orderBy: 'app.appFullName'">
