@@ -2,7 +2,9 @@
     <abx-load-indicator ng-show="!$ctrl.application.appFullName" text="Loading App"></abx-load-indicator>
 </div>
 <div class="row app-page" ng-show="$ctrl.application.appFullName">
-    <h3 class="title_section col-md-12 col-sm-12">Five9 <span>{{$ctrl.application.appFullName}}</span></h3>
+    <h3 class="title_section col-md-12 col-sm-12">Five9 <span>{{$ctrl.application.appFullName}}</span>
+    <a class="pull-right title-back" ui-sref="ap.apps">Back to apps</a></h3>
+    
     <div class="row">
         <div class="app-fixed-logo-container">
             <div class="app-page-img-container">
