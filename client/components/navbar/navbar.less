@@ -11,12 +11,25 @@
     }
   }
   &>ul.valid-links{
+    width: auto;
+    border: 0px;
+    min-width: auto;
+    
     & > li > a{
+      margin-top: 0px;
      cursor: pointer;
-    }
-  }
+     
+    } 
+    .childlastmenu{
+      padding-bottom: 1px;
+    }   
+  }  
   &:hover>.dropdown-menu{
     display:block;
+    a:hover{
+      background: transparent;
+      color: @blue; 
+    }
   }
   &>a:after{
     display:block;
@@ -57,11 +70,10 @@
     &>li:first-child>a{
       border-top-right-radius: 6px;
     }
-
   }
 }
 .reports-menu{
-  & >li>a{
+  &>li>a{
     cursor: pointer;
   }
 }
@@ -74,18 +86,24 @@
       }
     }
   }
+  
 }
-.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus{
-  background: @blue;
+.navbar-inverse .dark-nav {
+  &>li.active{
+    a{
+      color: @blue;
+    }
+  }
 }
-.submenucustomize
-{
-  .positionCustomize
-  {
+.dark-nav > .dropdown >.dropdown-menu > li > a:hover,.dark-nav > .dropdown>.dropdown-menu > li > a:focus{
+  background: transparent;
+  color: @blue;
+}
+.submenucustomize{
+  .positionCustomize {
     position: static;
   }
-  .navbar-nav .centerSubmenu
-  {
+  .navbar-nav .centerSubmenu{
     position: absolute;
     margin-top: 4px;
     left: 20%;
@@ -119,19 +137,31 @@
     display: inline-block;
     vertical-align: middle;
     margin-bottom: 0;
-    &.aligned-items{
+    &.aligned-items{      
       padding-top: 3px;
     }
+    &:hover,&:focus,&:active {
+      color: @blue;
+    }
 }
+
+
+.navbar .navbar-nav{
+  >li{
+    >a{
+      color:@white;
+    }
+    &:hover,&:active,&.active{     
+      >a,>a:hover,>a:focus,>a:active{
+        color:@blue;
+      }
+    }
+  }
+}
+
+
 .navbar > .container-fluid{
    margin-top: 5px;
-}
-.navbar ul.nav  > li  > a{
-  color:white;
-}
-.navbar ul.nav  > li  > a:active,
-.navbar ul.nav  > li  > a.active{
-  color:@blue;
 }
 
 .nav-icons{
@@ -167,7 +197,6 @@
     .dropdown-menu {
       background-color: #000000;
       color: #ffffff;
-
       padding: 0 10px 20px;
       .border-right {
         border-right: 1px solid #666666;

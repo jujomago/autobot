@@ -6,7 +6,7 @@
 
     class EditComponent {
 
-        constructor($stateParams, $state,  $sessionStorage , $q, $filter, UsersService, SkillsService, ConfirmAsync, ModalManager) {
+        constructor($stateParams, $state,  $sessionStorage , $q, $filter, $scope,UsersService, SkillsService, ConfirmAsync, ModalManager,Global) {
 
             _stateParams = $stateParams;
             _UsersService = UsersService;
@@ -14,7 +14,7 @@
             _ConfirmAsync = ConfirmAsync;
             _ModalManager = ModalManager;
             _state=$state;
-            _$filter = $filter;
+            _$filter = $filter;            
             this.storage = $sessionStorage;
             this.qp = $q;
             this.SubmitText = 'Save';
@@ -26,6 +26,7 @@
             this.showErrorMessage = { show: false, message: '' };
             this.message = { show: false };
             this.rolSelectedPermissions = [];
+            this.global = Global;
             this.permissionTitle = false;
             this.lastUserRolSelected='';
             this.filteredSkills=[];
@@ -39,13 +40,12 @@
             this.toggleSkillRow = -1;
             this.search={skillName:''};
             this.methodSkills = 'create';
-            this.tab = false;
+            this.tab = false;           
         }
 
-        $onInit() {
-
+       
+        $onInit() {   
             let userName = _stateParams.name;
-
             this.getAllPermissions()
             .then(()=>{
                 return this.getUserDetail(userName);
@@ -390,7 +390,7 @@
         }        
     }
 
-    EditComponent.$inject = ['$stateParams', '$state',  '$sessionStorage','$q', '$filter', 'UsersService', 'SkillsService', 'ConfirmAsync', 'ModalManager'];
+    EditComponent.$inject = ['$stateParams', '$state',  '$sessionStorage','$q', '$filter', '$scope','UsersService', 'SkillsService', 'ConfirmAsync', 'ModalManager','Global'];
 
     angular.module('fakiyaMainApp')
         .component('al.users.edit', {

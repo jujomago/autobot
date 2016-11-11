@@ -7,89 +7,98 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a href="/ap/dashboard" class="logo">AutoBox</a>
+      <a ui-sref="ap.dashboard" class="logo">AutoBox</a>
     </div>
     <div uib-collapse="nav.isCollapsed" class="navbar-collapse collapse submenucustomize" id="navbar-main">
       <ul class="nav navbar-nav">
-        <li ui-sref-active="active"><a href="/ap/dashboard"><p class="aligned-items">Dashboard</p></a></li>
-        <li class="dropdown sub-menu-dropdown positionCustomize" ng-mouseenter="nav.changeFocus(false)" ng-mouseleave="nav.changeFocus(true)">
-          <a class="dropdown-toggle" role="button" ui-sref="ap.apps"><p class="aligned-items">My apps</p></a>
+        <li ui-sref-active="active">
+          <a ui-sref="ap.dashboard">
+            <p class="aligned-items">Dashboard</p>
+          </a>
+        </li>
+        <li  ui-sref-active="active" class="dropdown sub-menu-dropdown positionCustomize" ng-mouseenter="nav.changeFocus(false)" ng-mouseleave="nav.changeFocus(true)">
+          <a class="dropdown-toggle" role="button" ui-sref="ap.apps">
+            <p class="aligned-items">My apps</p>
+          </a>
           <ul class="dropdown-menu submenu centerSubmenu" uib-collapse="nav.myAppsCollapsed">
-          <div class="col-sm-12">
-            <div class="col-sm-7 my-apps" ng-class="{'border-right': nav.total > nav.quantity}">
-              <div class="col-sm-12" ng-show="nav.myAppsFromService.length > 0">
-                <div class="col-sm-12 myapps-title">
+            <div class="col-sm-12">
+              <div class="col-sm-7 my-apps" ng-class="{'border-right': nav.total > nav.quantity}">
+                <div class="col-sm-12" ng-show="nav.myAppsFromService.length > 0">
+                  <div class="col-sm-12 myapps-title">
+                    <div class="pull-left">
+                      <h4>
+                        <span class="underline">My apps</span>
+                      </h4>
+                    </div>
+                    <div class="pull-right">
+                      <div class="searchbox_container">
+                        <input class="search" abx-no-special-character="/^[a-zA-Z0-9\s]*$/" id="submenu-search" type="search" name="search" ng-model="nav.search.app.appFullName"
+                          placeholder="Search" ng-change="nav.filteringBySearch()">
+                        <span class="glyphicon glyphicon-search"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="cols">
+                      <div ng-repeat="(key, value) in nav.myAppsSearch" class="apps-list">
+                        <div class="partner-title" ng-if="value.filtered.length > 0">
+                          <span>{{key}}</span>
+                        </div>
+                        <div ng-repeat="app in (value.filtered = (value | filter:nav.search))" class="app-container">
+                          <a ng-click="nav.selectInstalledApp(app)">
+                            <img ng-src="/assets/{{app.app.appName}}/images/logo-sm.jpg" abx-default-image-switch="/assets/default/images/logo-sm.jpg"
+                              alt="" />
+                            <span>{{app.app.appFullName}}</span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div ng-show="nav.myAppsFromService.length == 0">
+                  <p>Still haven't tried any app?</p>
+                  <p>We Have many apps you can review</p>
+                  <p class="link"><a ui-sref="ap.apps">See all apps</a></p>
+                </div>
+              </div>
+              <div class="col-sm-5 new-apps" ng-class="{'border-left': nav.total <= nav.quantity}">
+                <div class="newapps-title">
                   <div class="pull-left">
                     <h4>
-                      <span class="underline">My apps</span>
+                      <span class="underline">New apps</span>
                     </h4>
                   </div>
-                  <div class="pull-right">
-                    <div class="searchbox_container">
-                      <input class="search" abx-no-special-character="/^[a-zA-Z0-9\s]*$/" id="submenu-search" type="search" name="search" ng-model="nav.search.app.appFullName" placeholder="Search" ng-change="nav.filteringBySearch()" >
-                      <span class="glyphicon glyphicon-search"></span>
-                    </div>
+                  <div class="pull-right link-see-all">
+                    <h6><a ui-sref="ap.apps">View all</a></h6>
                   </div>
                 </div>
-                <div class="col-sm-12">
-                  <div class="cols">
-                    <div ng-repeat="(key, value) in nav.myAppsSearch" class="apps-list">
-                      <div class="partner-title" ng-if="value.filtered.length > 0">
-                        <span>{{key}}</span>
-                      </div>
-                      <div ng-repeat="app in (value.filtered = (value | filter:nav.search))" class="app-container">
-                        <a ng-click="nav.selectInstalledApp(app)">
-                          <img ng-src="/assets/{{app.app.appName}}/images/logo-sm.jpg" abx-default-image-switch="/assets/default/images/logo-sm.jpg" alt=""/>
-                          <span>{{app.app.appFullName}}</span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div ng-show="nav.myAppsFromService.length == 0">
-                <p>Still haven't tried any app?</p>
-                <p>We Have many apps you can review</p>
-                <p class="link"><a ui-sref="ap.apps">See all apps</a></p>
-              </div>
-            </div>
-            <div class="col-sm-5 new-apps" ng-class="{'border-left': nav.total <= nav.quantity}">
-              <div class="newapps-title">
-                <div class="pull-left">
-                  <h4>
-                    <span class="underline">New apps</span>
-                  </h4>
-                </div>
-                <div class="pull-right link-see-all">
-                  <h6><a ui-sref="ap.apps">View all</a></h6>
-                </div>
-              </div>
-              <ul>
-                <li ng-repeat="app in nav.newApps | limitTo: 5" ng-click="nav.selectApp(app.app.appName)">
-                  <a class="new-img">
-                    <img ng-src="/assets/{{app.app.appName}}/images/logo-sm.jpg" abx-default-image-switch="/assets/default/images/logo-sm.jpg" alt=""/>
-                  </a>
-                  <!--<a class="new-link">
+                <ul>
+                  <li ng-repeat="app in nav.newApps | limitTo: 5">
+                    <a class="new-img">
+                      <img ng-src="/assets/{{app.app.appName}}/images/logo-sm.jpg" abx-default-image-switch="/assets/default/images/logo-sm.jpg"
+                        alt="" ng-click="nav.selectApp(app.app.appName)"/>
+                    </a>
+                    <!--<a class="new-link">
                     <span class="app-full">{{app.app.appFullName}}</span>
                     <span class="partner-full">{{app.partner.partnerFullName}}</span>
                   </a> -->
+                    <span class="app-full" ng-click="nav.selectApp(app.app.appName)">{{app.app.appFullName}}</span>
+                    <span class="partner-full"><a href="" ng-click="nav.gotoAppSection(app.partner.partnerFullName)">{{app.partner.partnerFullName}}</a></span>
 
-                    <span class="app-full">{{app.app.appFullName}}</span>
-                    <span class="partner-full">{{app.partner.partnerFullName}}</span>
 
-                </li>
-              </ul>
+                  </li>
+                </ul>
+              </div>
+
             </div>
-
-          </div>
 
           </ul>
         </li>
         <!--li><a ui-sref="ap.underconstruction"><p class="aligned-items">Reports</p></a></li-->
-        
+
       </ul>
       <ul class="nav navbar-nav dark-nav" ng-mouseenter="nav.reportsCollapsed = false" ng-mouseleave="nav.reportsCollapsed = true" >
-        <li class="dropdown">
+        <li ui-sref-active="active" class="dropdown">
             <a href="#" class="dropdown-toggle" role="button" >
               <p class="aligned-items">Reports</p>
               </a>
@@ -167,11 +176,10 @@
                   <li><a ui-sref="ap.scorecard-kpi">Scorecard KPI's</a></li>
                   <li><a ui-sref="ap.head-maps">Heat Maps</a></li>
                   <li><a ui-sref="ap.gauges">Gauges</a></li>
-                  <li><a ui-sref="ap.revenue">Revenue</a></li>
+                  <li><a class="childlastmenu" ui-sref="ap.revenue">Revenue</a></li>
                 </ul>
               </li>
             </ul>
-
         </li>
       </ul>
       <ul class="nav navbar-nav nav-icons navbar-right">
@@ -180,18 +188,21 @@
             <img src="/assets/al/images/chatDefault.png" alt="chat" />
           </a>
         </li>
-        <li><a ui-sref="ap.underconstruction">
+        <li>
+          <a ui-sref="ap.underconstruction">
             <img src="/assets/al/images/serverDefault.png" alt="server">
-        </a></li>
-        <li class="dropdown fixed-margin-50" ng-click="nav.userOptionsCollapsed = !nav.userOptionsCollapsed"  abx-outside-click="nav.userOptionsCollapsed = true">
+          </a>
+        </li>
+        <li class="dropdown fixed-margin-50" ng-click="nav.userOptionsCollapsed = !nav.userOptionsCollapsed" abx-outside-click="nav.userOptionsCollapsed = true">
           <a href="#" ng-class="{'active': !nav.userOptionsCollapsed}" class="dropdown-toggle options-container" role="button">
 
-            <img  ng-if="nav.email==='gus@autoboxcorp.com'" src="assets/al/images/gusicon.png"  class="img-circle" alt="avatar">
+            <img ng-if="nav.email==='gus@autoboxcorp.com'" src="assets/al/images/gusicon.png" class="img-circle" alt="avatar">
 
-            <img  ng-if="nav.email!=='gus@autoboxcorp.com'" ng-src="{{nav.avatar?nav.avatar:'assets/al/images/avatar-default.png'}}" class="img-circle" alt="avatar">
-            
+            <img ng-if="nav.email!=='gus@autoboxcorp.com'" ng-src="{{nav.avatar?nav.avatar:'assets/al/images/avatar-default.png'}}" class="img-circle"
+              alt="avatar">
+
             <p class="name-container">{{nav.firstName | limitTo: 15}}{{ nav.firstName.length > 15 ? '...' : ''}}</p>
-            </a>
+          </a>
           <ul class="dropdown-menu no-margin-dropdown" uib-collapse="nav.userOptionsCollapsed">
             <li><a ui-sref="ap.underconstruction">Settings</a></li>
             <li><a href ng-click="nav.logout()">Logout</a></li>
