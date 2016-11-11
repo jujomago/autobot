@@ -4,12 +4,9 @@
     let _ConfirmAsync,_SkillsService;
     let _$state,_$filter;
 
-    class ListComponent {   
-
+    class ListComponent {
         constructor($state, $stateParams, $filter,ConfirmAsync, SkillsService,Global) {
-
             console.log('Component ListComponent - al.skills.list');
-
              _ConfirmAsync=ConfirmAsync;
              _SkillsService=SkillsService;
              _$state = $state;
@@ -18,12 +15,12 @@
 
             if ($stateParams.message !== null) {
                 this.message = { show: true, type: $stateParams.message.type, text: $stateParams.message.text , expires:3000 };
-            }             
+            }
 
-            this.init();         
+            this.init();
             this.toggleSkillRow = -1;
             this.search={skill:{name:''}};
-            this.filteredSkills=[];        
+            this.filteredSkills=[];
             this.totalMin = false;
             this.global = Global;
         }
@@ -40,6 +37,7 @@
         }
         $onInit() {
             this.getSkills();
+            this.sortColumn('skill.name');
         }
 
         getSkills() {
@@ -49,19 +47,16 @@
                     return this.skills;
                 }).catch(error => {
                     this.message = { show: true, type: 'danger', text: error.errorMessage };
-                    return error;  
+                    return error;
                 });
         }
 
         pageChanged() {
-            console.log('Page changed to: ' + this.currentPage);
             this.beginNext = (this.currentPage - 1) * this.numPerPage;
-            console.log('beginNext:' + this.beginNext);
         }
 
         sortColumn(columnName) {
             if (columnName !== undefined && columnName) {
-                console.log('sorting:' + columnName);
                 this.sortKey = columnName;
                 this.reverse = !this.reverse;
                 this.skills = _$filter('orderBy')(this.skills, this.sortKey, this.reverse);
@@ -73,20 +68,20 @@
 
         deleteSkill(item, indexRow) {
             return _ConfirmAsync('Are you sure to delete?')
-                .then(() => {                 
-                 
+                .then(() => {
+
                     this.toggleSkillRow = indexRow;
                     return _SkillsService.deleteSkill(item.skill)
-                        .then(response => {                   
+                        .then(response => {
                             let index = this.skills.indexOf(item);
                             this.skills.splice(index, 1);
                             this.toggleSkillRow = -1;
-                            this.message = { show: true, type: 'success', text: 'Skill Deleted', expires:3000 };
+                            this.message = { show: true, type: 'success', text: 'Skill Deleted Successfully', expires:3000 };
                             return response;
                         }).catch(error => {
                             this.toggleSkillRow = -1;
                             this.message = { show: true, type: 'danger', text: error.errorMessage, expires:8000};
-                            return error;  
+                            return error;
                         });
                 })
                 .catch(() => {

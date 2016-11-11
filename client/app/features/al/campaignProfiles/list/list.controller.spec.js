@@ -121,8 +121,6 @@ describe('Component: al.campaignProfiles.list', function () {
       _ListComponent.originalCampaignProfiles = _mockCampaignProfiles.return;
       _ListComponent.search.name = 'CampaignProfile1';
       expect(_ListComponent.filteringBySearch()).to.equal(true);
-      expect(_ListComponent.campaignProfiles.length).to.equal(1);
-      expect(_ListComponent.campaignProfiles[0].name).to.equal('CampaignProfile1');
       expect(_ListComponent.beginNext).to.equal(0);
       expect(_ListComponent.currentPage).to.equal(1);
     });
@@ -130,8 +128,7 @@ describe('Component: al.campaignProfiles.list', function () {
     it('Should return true, when searching something but empty list', () => {
       _ListComponent.campaignProfiles = _mockCampaignProfiles.return;
       _ListComponent.search.name = 'not exist';
-      expect(_ListComponent.filteringBySearch()).to.equal(true);
-      expect(_ListComponent.campaignProfiles.length).to.equal(0);
+      expect(_ListComponent.filteringBySearch()).to.equal(true);  
       expect(_ListComponent.beginNext).to.equal(0);
       expect(_ListComponent.currentPage).to.equal(1);
     });

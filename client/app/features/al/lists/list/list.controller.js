@@ -31,7 +31,7 @@
     if(crmRecordsUpdated !== 0){
       message+=crmRecordsUpdated+' Contact Records updated';
     }
-   
+
     if(message[message.length-1]===' '){
       message = message.substring(0, message.length - 2);
     }
@@ -53,19 +53,19 @@
       }
       if(uploadDuplicatesCount!==0){
         items.push(`${uploadDuplicatesCount} lines with duplicate keys found`);
-      }      
-      
+      }
+
     }else{
         if(uploadErrorsCount !== 0){
           items.push(result.uploadErrorsCount+' UPLOAD ERRORS FOUND');
         }
         if(uploadDuplicatesCount !== 0){
           items.push(`${uploadDuplicatesCount} ERRORS FOUND`);
-          items.push(`${uploadDuplicatesCount} lines with duplicate keys found`);    
+          items.push(`${uploadDuplicatesCount} lines with duplicate keys found`);
         }
         else{
           items.push('No errors found');
-        }       
+        }
     }
      if(warningsCount){
           items.push(`${warningsCount.entry[0].value} WARNINGS FOUND`);
@@ -185,7 +185,6 @@
     updateList(listName, index, summaryMessage) {
       return _ListsService.getList(listName)
         .then(response => {
-          console.log(response);
           response.summaryMessage = summaryMessage;
           this.lists[index].size = response.data[0].size;
           this.processedRow = null;

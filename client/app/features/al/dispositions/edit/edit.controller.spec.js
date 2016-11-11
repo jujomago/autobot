@@ -26,6 +26,7 @@ describe('Component:DispositionEditComponent', function () {
     });
 
     httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
+    httpBackend.whenGET(appConfig.apiUri+'/f9/lists/%$&unexisting_list)(*&^%^').respond(200);
   }));
   describe('#save', () => {
     it('=> should return Status 200, updated OK"', () => {
@@ -38,7 +39,7 @@ describe('Component:DispositionEditComponent', function () {
          expect(response.statusCode).to.equal(200);
          expect(response.data).to.equal(null);
          expect(response.errorMessage).to.equal(null);
-         expect(EditComponent.message.text).to.equal('Disposition Updated SuccessFully');
+         expect(EditComponent.message.text).to.equal('Disposition Updated Successfully');
       });
       httpBackend.flush();
     });

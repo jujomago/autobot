@@ -5,15 +5,10 @@
     let _timeout, _state;
     let _UsersService, _ConfirmAsync;  
     class ListComponent {
-
         constructor($stateParams, $timeout, $state, $scope,ConfirmAsync, $filter, UsersService,Global) { 
-            //    console.log('constructor');            
-
-
+            //    console.log('constructor');    
             this.message = { show: false };
             if ($stateParams.message !== null) {
-                console.log('message state params');
-                console.log($stateParams.message);
                 this.message = { show: true, type: $stateParams.message.type, text: $stateParams.message.text };
                 $timeout(() => {
                     this.message.show = false;
@@ -40,10 +35,9 @@
         }
         
         $onInit() {
+            this.sortColumn('userName');
             return _UsersService.getUsers()
                 .then(_users => {
-                    console.log('in client');
-                    console.log(_users);
 
                     if (_users.statusCode === 200) {
                         this.usersList = _users.data;
@@ -58,23 +52,20 @@
                 });
         }
 
-        deleteUser(user, indexRow) { 
-            return _ConfirmAsync('Are you sure to delete user "'+user.userName+'" ?') 
+        deleteUser(user, indexRow) {
+            return _ConfirmAsync('Are you sure to delete user "'+user.userName+'" ?')
                 .then(() => {
-                    
+
                     this.toogleUserRow = indexRow;
                     return _UsersService.deleteUser(user.userName)
                         .then(response => {
-
-                            console.log('delete response');
-                            console.log(response);
 
                             if (response.statusCode === 204 && response.data === null) {
                                 let index = this.usersList.indexOf(user);
                                 this.usersList.splice(index, 1);
                                 this.toogleUserRow = -1;
 
-                                this.message = { show: true, type: 'success', text: 'User "'+user.userName+'" Deleted' };
+                                this.message = { show: true, type: 'success', text: 'User Deleted Successfully' };
 
                                 _timeout(() => {
                                     this.message.show = false;
@@ -102,19 +93,16 @@
             return (total>this.filteredUsers.length)?this.filteredUsers.length+'':total;
         }
         pageChanged() {
-            console.log('Page changed to: ' + this.currentPage);
             this.beginNext = (this.currentPage - 1) * this.numPerPage;
-            console.log('beginNext:' + this.beginNext);
         }
         sortColumn(columnName) {
-            console.log('sorting:' + columnName);
             this.sortKey = columnName;
             this.reverse = !this.reverse;
             this.usersList = this.filter('orderBy')(this.usersList, this.sortKey, this.reverse);
         }
 
         filteringBySearch(){
-              
+
             if(this.search.userName){
                 this.beginNext = 0;
                 this.currentPage = 1;

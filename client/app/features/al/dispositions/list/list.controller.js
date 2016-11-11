@@ -53,14 +53,11 @@
 		    });
 	    }
 	    pageChanged() {
-            console.log('Page changed to: ' + this.currentPage);
             this.beginNext = (this.currentPage - 1) * this.numPerPage;
-            console.log('beginNext:' + this.beginNext);
         }
 
         sortColumn(columnName) {
             if (columnName !== undefined && columnName) {
-                  console.log('sorting:' + columnName);
                 this.sortKey = columnName;
                 this.reverse = !this.reverse;
                 return true;
@@ -75,15 +72,15 @@
         }
         deleteDisposition(item, indexRow) {
             return _ConfirmAsync('Remove '+item.name+'?')
-                .then(() => {                 
-                 
+                .then(() => {
+
                     this.toggleDispositionRow = indexRow;
                     return this.DispositionsService.deleteDisposition(item)
-                        .then(response => {       
+                        .then(response => {
                             let index = this.dispositions.indexOf(item);
                             this.dispositions.splice(index, 1);
                             this.toggleDispositionRow = -1;
-                            this.message = { show: true, type: 'success', text: 'Disposition Deleted', expires: 3000 };
+                            this.message = { show: true, type: 'success', text: 'Disposition Deleted Successfully', expires: 3000 };
                             return response;
                         }).catch(error => {
                             this.toggleDispositionRow = -1;
@@ -98,8 +95,8 @@
         getDetail(item) {
             this.state.go('ap.al.dispositionsEdit', { dispositionName: item.name });
         }
-        filteringBySearch(){  
-            if(this.search.name){               
+        filteringBySearch(){
+            if(this.search.name){
                 this.beginNext=0;
                 this.currentPage = 1;
                 return true;

@@ -10,6 +10,7 @@
 		this.appStatus = EnumManager.getEnums();
 		_$state = $state;
 		_GetHomePage = GetHomePage;
+		this.found = false;
 	}
 	$onInit(){
 		this.getApps();
@@ -24,6 +25,7 @@
 		return this.AppsService.getApps()
 		.then(response => {
 			this.partners = response.data;
+			this.found = true;
 			return response;
 		})
 		.catch(error => {

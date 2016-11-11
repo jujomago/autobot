@@ -1,16 +1,14 @@
 'use strict';
 (function(){
-
-class notfoundComponent {
-  constructor() {
-    //this.message = 'Hello';
+class notfoundController {
+  constructor(AuthService) {
+    this.isLoggedIn = AuthService.isAuthenticated();
   }
 }
-
+notfoundController.$inject = ['AuthService'];
 angular.module('fakiyaMainApp')
   .component('notfound', {
     templateUrl: 'app/site/404/404.html',
-    controller: notfoundComponent
+    controller: notfoundController
   });
-
 })();

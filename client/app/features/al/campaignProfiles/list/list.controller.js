@@ -30,6 +30,7 @@
 		    this.deletedRow = null;
 		    this.search={name:''};
 		    this.originalCampaignProfiles=[];
+			this.filteredCampaignProfiles=[]; 
 		    _$state = $state;
 		    _ConfirmAsync = ConfirmAsync;			
 		}
@@ -69,11 +70,11 @@
 		}
 		getMax(){
 			let total=this.currentPage*this.numPerPage;
-			return (total>this.campaignProfiles.length)?this.campaignProfiles.length+'':total;
+			return (total>this.filteredCampaignProfiles.length)?this.filteredCampaignProfiles.length+'':total;
 		}
 		filteringBySearch(){  
-			this.campaignProfiles = _$filter('filter')(this.originalCampaignProfiles, this.search);
-			this.orderList(this.campaignProfiles);
+			//this.campaignProfiles = _$filter('filter')(this.campaignProfiles, this.search);
+			//this.orderList(this.campaignProfiles);
 			if(this.search.name){               
 			  this.beginNext=0;
 			  this.currentPage = 1;

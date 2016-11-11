@@ -19,8 +19,6 @@ import cache from '../../../infrastructure/cachehandler'
 
 // Gets a list of Campaigns
 export function index(req, res) {
-    console.log('enter list campaigns');
-
     return cache.getCache('')
         .then(data => {
             if (data === null)
@@ -55,7 +53,7 @@ export function show(req, res) {
 }
 
 
-// Creates a new Out InBound,outbound,Autodial Campaign 
+// Creates a new Out InBound,outbound,Autodial Campaign
 export function create(req, res) {
     let params = { campaign: req.body };
     let operation = '';
@@ -88,8 +86,8 @@ export function create(req, res) {
 // Updates an existing Campaign in the DB
 export function updateOutBound(req, res) {
    let params = { campaign: req.body };
- 
- return service.f9CallService('modifyOutboundCampaign', params, '', req)    
+
+ return service.f9CallService('modifyOutboundCampaign', params, '', req)
         .then(service.respondWithResult(res))
         .catch(service.handleError(res));
 }
@@ -98,10 +96,10 @@ export function updateOutBound(req, res) {
 // Updates an existing Campaign in the DB
 export function updateAutoDial(req, res) {
    let params = { campaign: req.body };
-   params.campaign.defaultIvrSchedule = { scriptName: params.campaign.ivrscript.name }; 
+   params.campaign.defaultIvrSchedule = { scriptName: params.campaign.ivrscript.name };
    delete params.campaign.ivrscript;
-        
-    return service.f9CallService('modifyAutodialCampaign', params, '', req)    
+
+    return service.f9CallService('modifyAutodialCampaign', params, '', req)
     .then(service.respondWithResult(res))
     .catch(service.handleError(res));
 }
@@ -109,15 +107,15 @@ export function updateAutoDial(req, res) {
 // Updates an existing Campaign in the DB
 export function updateInBound(req, res) {
    let params = { campaign: req.body };
-   params.campaign.defaultIvrSchedule = { scriptName: params.campaign.ivrscript.name }; 
+   params.campaign.defaultIvrSchedule = { scriptName: params.campaign.ivrscript.name };
    delete params.campaign.ivrscript;
-        
-    return service.f9CallService('modifyInboundCampaign', params, '', req)    
+
+    return service.f9CallService('modifyInboundCampaign', params, '', req)
     .then(service.respondWithResult(res))
     .catch(service.handleError(res));
 }
 
-// Deletes a Campaign 
+// Deletes a Campaign
 export function destroy(req, res) {
     let params = { campaignName: req.params.campaignName };
     return service.f9CallService('deleteCampaign', params, '', req)
@@ -127,7 +125,7 @@ export function destroy(req, res) {
 
 // get IVR Scripts
 export function ivrscripts(req, res) {
-    return service.f9CallService('getIVRScripts', {}, '', req)    
+    return service.f9CallService('getIVRScripts', {}, '', req)
     .then(service.respondWithResult(res))
     .catch(service.handleError(res));
 }
@@ -135,69 +133,69 @@ export function ivrscripts(req, res) {
 
 export function startCampaign(req, res) {
     let params = { campaignName: req.params.campaignName };
-    return service.f9CallService('startCampaign',params , '', req)    
+    return service.f9CallService('startCampaign',params , '', req)
     .then(service.respondWithResult(res))
     .catch(service.handleError(res));
 }
 
 export function stopCampaign(req, res) {
     let params = { campaignName: req.params.campaignName };
-    return service.f9CallService('stopCampaign',params , '', req)    
+    return service.f9CallService('stopCampaign',params , '', req)
     .then(service.respondWithResult(res))
     .catch(service.handleError(res));
 }
 
 export function getLists(req, res) {
-     return service.f9CallService('getListsInfo',{} , '', req)    
-    .then(service.respondWithResult(res)) 
+     return service.f9CallService('getListsInfo',{} , '', req)
+    .then(service.respondWithResult(res))
     .catch(service.handleError(res));
 }
 
 export function getDNISList(req, res) {
-     return service.f9CallService('getDNISList',{selectUnassigned:true} , '', req)    
-    .then(service.respondWithResult(res)) 
+     return service.f9CallService('getDNISList',{selectUnassigned:true} , '', req)
+    .then(service.respondWithResult(res))
     .catch(service.handleError(res));
 }
 
 export function addDNIS(req, res) {
      let params =  req.body ;
-     return service.f9CallService('addDNISToCampaign',params , '', req)    
+     return service.f9CallService('addDNISToCampaign',params , '', req)
 
-    .then(service.respondWithResult(res)) 
+    .then(service.respondWithResult(res))
     .catch(service.handleError(res));
 }
 
 export function addLists(req, res) {
      let params =  req.body ;
-     return service.f9CallService('addListsToCampaign',params , '', req)    
-    .then(service.respondWithResult(res)) 
+     return service.f9CallService('addListsToCampaign',params , '', req)
+    .then(service.respondWithResult(res))
     .catch(service.handleError(res));
 }
 
 export function getListsForCampaign(req, res) {
      let params = { campaignName: req.params.campaignName };
-     return service.f9CallService('getListsForCampaign',params , '', req)    
-    .then(service.respondWithResult(res)) 
+     return service.f9CallService('getListsForCampaign',params , '', req)
+    .then(service.respondWithResult(res))
     .catch(service.handleError(res));
 }
 
 export function getDNISForCampaign(req, res) {
      let params = { campaignName: req.params.campaignName };
-     return service.f9CallService('getCampaignDNISList',params , '', req)    
-    .then(service.respondWithResult(res)) 
+     return service.f9CallService('getCampaignDNISList',params , '', req)
+    .then(service.respondWithResult(res))
     .catch(service.handleError(res));
 }
 
 export function removeListsFromCampaign(req, res) {
      let params =  req.body ;
-     return service.f9CallService('removeListsFromCampaign',params , '', req)    
-    .then(service.respondWithResult(res)) 
+     return service.f9CallService('removeListsFromCampaign',params , '', req)
+    .then(service.respondWithResult(res))
     .catch(service.handleError(res));
 }
 
 export function removeDNISFromCampaign(req, res) {
      let params =  req.body ;
-     return service.f9CallService('removeDNISFromCampaign',params , '', req)    
-    .then(service.respondWithResult(res)) 
+     return service.f9CallService('removeDNISFromCampaign',params , '', req)
+    .then(service.respondWithResult(res))
     .catch(service.handleError(res));
 }

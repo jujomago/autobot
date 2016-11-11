@@ -7,8 +7,6 @@
   class CampaignService {
 
     constructor($http, HandleError, appConfig) {
-      console.log('contrusctor CAMPAIGN SERVICE');
-
       this.endPointUrl = '/f9/campaigns';
       if (appConfig.apiUri) {
         this.endPointUrl = appConfig.apiUri + this.endPointUrl;
@@ -172,9 +170,9 @@
     }
 
     removeLists(listCampaign) {
-      let result = { data: null, statusCode: 200, errorMessage: null };      
+      let result = { data: null, statusCode: 200, errorMessage: null };
       let listsToRemove={lists:listCampaign.lists};
-         
+
       return _http({
           url: this.endPointUrl + '/lists/'+listCampaign.campaignName,
           method: 'DELETE',
@@ -219,5 +217,3 @@
     .service('CampaignService', CampaignService);
 
 })();
-
-

@@ -57,7 +57,6 @@ class ContactModalComponent {
     this.headerFields = this.edit.headerFields;
     this.method = this.edit.method;
     this.phoneRequired = (this.manual && this.method === 'create') ? true : false;
-    console.log(`phoneRequired ${this.phoneRequired}`);
     //this.phoneRequired=false;
 
     this.contactModal = {};
@@ -65,8 +64,6 @@ class ContactModalComponent {
       this.contactModal[e.name]='';
     });
 
-    console.log('on Init');
-    console.log(this.fields);
     if(this.edit.action==='deleteList'){
       this.fields=this.fields.filter(e=>e.isKey);
     }
@@ -75,7 +72,7 @@ class ContactModalComponent {
     if(this.method === 'update'){
         this.contactModal = angular.copy(this.edit.contact);
     }
-    
+
     this.formDataModal = this.getValidation(this.fields);
 
     if(Object.keys(this.contactModal).length > 0){
@@ -133,7 +130,7 @@ class ContactModalComponent {
         }
         validation.push({'name': value.name, 'type': typeInput});
       }else{
-        validation.push({'name': value.name, 'type': typeInput, 'maxlength': 250}); 
+        validation.push({'name': value.name, 'type': typeInput, 'maxlength': 250});
       }
     });
 
@@ -141,8 +138,6 @@ class ContactModalComponent {
   }
 
   save(){
-    console.log('save');
-    console.log(this.contact);
     if(Object.keys(this.contact).length===0){
        this.message={ show: true, type: 'warning', text: 'Can\'t save empty Contact Record', expires: 3000};
         this.instance.close(null);
@@ -154,10 +149,7 @@ class ContactModalComponent {
         }
       });
       }
-      console.log('object keys');
-      console.log(Object.keys(this.contact));
       this.headerFields.forEach(e=>{
-         console.log(e.name);
         if(Object.keys(this.contact).indexOf(e.name)===-1){
           this.contact[e.name]='';
         }
@@ -192,7 +184,6 @@ class ContactModalComponent {
       }else{
         this.phoneRequired = true;
       }
-      console.log(this.phoneRequired);
     }
   }
 }

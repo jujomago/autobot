@@ -5,6 +5,9 @@ angular.module('fakiyaMainApp')
     $stateProvider
       .state('ap.al', {  
          url:'/al',   
-         templateUrl: 'app/templates/adminlite/adminlite.html'
+         templateUrl: 'app/templates/adminlite/adminlite.html',
+         params: {
+            isLoggedIn: null
+         }
       });
   });

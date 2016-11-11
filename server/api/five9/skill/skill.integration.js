@@ -27,9 +27,7 @@ describe('Skill API:', function () {
                     if (err) {
                         return done(err);
                     }
-                    //console.log(res.body);
                     skills = res.body.return;
-                    console.log(skills.length);
 
                     assert.equal(200, res.status);
                     //res.status.should.equal(200);
@@ -88,8 +86,6 @@ describe('Skill API:', function () {
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .end((err, res) => {
-                    //      console.log ('RES STATUS VALUE '+res.status);
-                    //  console.log(res.body);
                     if (err) {
                         return done(err);
                     }
@@ -117,8 +113,6 @@ describe('Skill API:', function () {
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .end(function (err, res) {
-                    //   console.log ('RES STATUS VALUE '+res.status);
-                    //    console.log(res.body);
                     if (err) {
                         return done(err);
                     }
@@ -138,7 +132,7 @@ describe('Skill API:', function () {
     });
 
     /*  describe('DELETE /api/f9/skills/delete/:skillname', function() {
-  
+
           it('should respond with 204 on successful removal', function(done) {
               request(app)
                   .delete('/api/f9/skills/' + newSkill._id)
@@ -150,7 +144,7 @@ describe('Skill API:', function () {
                       done();
                   });
           });
-  
+
           it('should respond with 404 when skill does not exist', function(done) {
               request(app)
                   .delete('/api/f9/skills/' + newSkill._id)
@@ -162,7 +156,7 @@ describe('Skill API:', function () {
                       done();
                   });
           });
-  
+
       });*/
 
 
