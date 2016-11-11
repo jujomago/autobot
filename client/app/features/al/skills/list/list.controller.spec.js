@@ -52,9 +52,7 @@ describe('Component: al.skills.list', function () {
      sandbox.restore();
   });
   
-  
-  
-   describe('#deleteSkill',()=>{  
+  describe('#deleteSkill',()=>{  
  
      it('skill deleted should return 204 statusCode',()=>{
        
