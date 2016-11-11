@@ -13,7 +13,7 @@
       console.log('now sending mail');
       console.log(this.cform);
       this.submitText='Submitting..';
-    
+          
     }
   }
   HomePageController.$inject=['$http'];
