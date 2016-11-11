@@ -342,12 +342,20 @@ class ListComponent {
     return promiseUpload.then(response => {
         if (response.data.return.identifier) {
           this.sending = false;
-          _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: this.isUpdate});
+          _Utils.setDataListAction({
+            name: this.sendContact.listName,
+            identifier: response.data.return.identifier,
+            isUpdate: true
+          });
+          _$state.go('ap.al.lists');
         }
         return response;
       }).catch(error =>{
         this.SubmitText='Save';
         let message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
+        _Utils.setDataListAction({
+          message: message
+        });
         _$state.go('ap.al.lists',{message: message});
         return error;
       });

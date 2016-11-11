@@ -46,8 +46,12 @@
     let warningsCount=result.warningsCount;
 
     if(!isUpdate){
-      let errorsFoundQty=uploadDuplicatesCount+uploadErrorsCount;
-      items.push(`${errorsFoundQty} ERRORS FOUND`);
+      let errorsFoundQty=uploadDuplicatesCount+uploadErrorsCount,
+          message;
+
+      message = errorsFoundQty > 0 ? `${errorsFoundQty} ERRORS FOUND` : 'NO ERRORS FOUND';
+      items.push(message);
+
       if(uploadErrorsCount!==0){
         items.push(`${uploadErrorsCount} lines with parse erros found`);
       }
