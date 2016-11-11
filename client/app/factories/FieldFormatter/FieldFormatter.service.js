@@ -63,9 +63,9 @@ angular.module('fakiyaMainApp')
         case 'PERCENT':
           return value+'%';
         case 'DATE':
-          return $filter('date')(value, field.dateFormat)+' PDT';
+          return $filter('date')(value, field.dateFormat);
         case 'DATE_TIME':
-         return $filter('date')(value.date, field.dateFormat)+' '+value.time+' PDT';
+         return $filter('date')(value.date, field.dateFormat)+' '+value.time;
       }
     }
     return value;
