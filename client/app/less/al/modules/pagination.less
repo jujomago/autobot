@@ -51,6 +51,23 @@
                     background-image: url('@{images_al_path}/PaginationArrows-NextActive.png');
                 }
             }
+            &.disabled { 
+                &>a{
+                    cursor: default;
+                }               
+                &:nth-last-child(2) a , &:nth-last-child(2) a:hover{              
+                background-image: url('@{images_al_path}/PaginationArrows-NextDisabl.png');        
+                }
+                &:nth-child(2) a, &:nth-child(2) a:hover {
+                background-image: url('@{images_al_path}/PaginationArrows-PrevDisabl.png'); 
+                }
+                &:last-child a, &:last-child a:hover {                
+                background-image: url('@{images_al_path}/PaginationArrows-LastDisabl.png'); 
+                }
+                &:first-child a, &:first-child a:hover {
+                background-image: url('@{images_al_path}/PaginationArrows-FirstDisabl.png');      
+                }
+            }
         }
     }
 }

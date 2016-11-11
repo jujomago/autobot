@@ -23,8 +23,9 @@
                required>
       </span>
     </div>
-    <div ng-messages="userForm.firstName.$error" ng-show="userForm.$submitted">
+    <div class="file-empty-error" ng-messages="userForm.firstName.$error" ng-show="userForm.$submitted || userForm.firstName.$dirty">
       <p ng-message="required">This field is required</p>
+      <p ng-show="$ctrl.newUser.firstName.length===32">The max length is 32 for this field</p>
     </div>
     <div class="form-field"
          ng-class="{ 'has-error': userForm.lastName.$invalid && userForm.$submitted }">
@@ -37,8 +38,9 @@
                required>
       </span>
     </div>
-    <div ng-messages="userForm.lastName.$error" ng-show="userForm.$submitted">
+    <div class="file-empty-error" ng-messages="userForm.lastName.$error" ng-show="userForm.$submitted || userForm.lastName.$dirty">
       <p ng-message="required">This field is required</p>
+      <p ng-show="$ctrl.newUser.lastName.length===32">The max length is 32 for this field</p>
     </div>
     <div class="form-field"
          ng-class="{ 'has-error': userForm.extension.$invalid && userForm.$submitted }">
@@ -153,12 +155,12 @@
          </div>
          <button type="button" class="btn btn-danger" ng-show="$ctrl.userRolSelectedIndex>=0 && $ctrl.userRoles.length>0" ng-click="$ctrl.deleteSelectedRol()">Delete</button>
      </div>
-      
+
      <div class="col" ng-class="{'col-md-9':($ctrl.allRoles.length==0),'col-md-6':($ctrl.allRoles.length>0)}" >
          <h4 ng-show="$ctrl.permissionTitle">Permissions:
            <div class="pull-right linksUser">
                 <a href="" ng-click="$ctrl.CheckClear($ctrl.lastUserRolSelected,'check')" ng-show="$ctrl.lastUserRolSelected!=''">Check all</a>
-                <a href="" ng-click="$ctrl.CheckClear($ctrl.lastUserRolSelected,'clear')" ng-show="$ctrl.lastUserRolSelected!=''">Clear all</a>                
+                <a href="" ng-click="$ctrl.CheckClear($ctrl.lastUserRolSelected,'clear')" ng-show="$ctrl.lastUserRolSelected!=''">Clear all</a>
       </div></h4>
          <div class="checkbox" ng-repeat="(per,val) in $ctrl.rolSelectedPermissions" ng-if="per!=='permissions'">
            <label><input type="checkbox" ng-model="$ctrl.rolSelectedPermissions[per]">{{per | camelToHuman}}</label>

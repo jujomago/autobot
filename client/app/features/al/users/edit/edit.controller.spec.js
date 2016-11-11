@@ -38,7 +38,6 @@ describe('Component: al.users.edit', function () {
     sandbox.restore();
   });
 
-
    describe('#Check contructor Vars', () => {
 
         it('Check initialization of variables', () => {
@@ -57,14 +56,14 @@ describe('Component: al.users.edit', function () {
         expect(EditComponent.showWarningRolMessage).to.equal(true);
       });
 
-      it('=>#getUserDetail', function(){
+      it('=>#getUserDetail, extension less than 4 digits, should apend ceros', function(){
         _$httpBackend.whenGET(endPointUrl+'/users/detail/'+'daniel.c@autoboxcorp.com').respond({
               return:[{
                   'generalInfo': {
                     'active': true,
                     'canChangePassword': true,
                     'EMail': 'daniel.c@autoboxcorp.com',
-                    'extension': 8765,
+                    'extension': 7,
                     'firstName': 'Daniel',
                     'fullName': 'Daniel Candia',
                     'IEXScheduled': false,
@@ -133,9 +132,58 @@ describe('Component: al.users.edit', function () {
                 expect(userInfo).to.have.property('roles');
                 expect(userInfo).to.have.deep.property('generalInfo.userName');
                 expect(userInfo).to.have.property('skills');
+                expect(userInfo).to.have.deep.property('generalInfo.extension','0007');
           });
         _$httpBackend.flush();  
       });
+
+      it('=>#getUserDetail, extension 4 digits should remain equal', function(){
+         _$httpBackend.whenGET(endPointUrl+'/users/detail/'+'daniel.c@autoboxcorp.com').respond({
+              return:[{
+                  'generalInfo': {                
+                    'extension': 4300,
+                    'firstName': 'Daniel',
+                    'fullName': 'Daniel Candia',             
+                  },
+                  'roles': {
+                      'admin':{},
+                      'agent':{}
+                  }
+                 }
+                ]
+              });
+          let userName = 'daniel.c@autoboxcorp.com';
+          EditComponent.getUserDetail(userName).then(userInfo => {
+               expect(null).to.not.equal(userInfo);
+               expect(userInfo).to.have.property('generalInfo');
+               expect(userInfo).to.have.deep.property('generalInfo.extension',4300);
+          });
+        _$httpBackend.flush();  
+      });
+
+      it('=>#getUserDetail, extension is more than 4 digits, "false" should be returned', function(){
+         _$httpBackend.whenGET(endPointUrl+'/users/detail/'+'daniel.c@autoboxcorp.com').respond({
+              return:[{
+                  'generalInfo': {                
+                    'extension': 635426,
+                    'firstName': 'Daniel',
+                    'fullName': 'Daniel Candia',             
+                  },
+                  'roles': {
+                      'admin':{},
+                      'agent':{}
+                  }
+                 }
+                ]
+              });
+          let userName = 'daniel.c@autoboxcorp.com';
+          EditComponent.getUserDetail(userName).then(userInfo => {
+               expect(userInfo).to.equal(false);
+          });
+        _$httpBackend.flush();  
+      });
+
+
    });
 
    describe('#sortColumn', () => {
@@ -308,7 +356,7 @@ describe('Component: al.users.edit', function () {
               expect(r.statusCode).to.equal(204);
               expect(r.data).to.equal(null);
               expect(EditComponent.toggleSkillRow).to.equal(-1);
-              expect(EditComponent.message).to.eql({ show: true, type: 'success', text: 'Skill Deleted', expires:3000 });          
+              expect(EditComponent.message).to.eql({ show: true, type: 'success', text: 'Skill Deleted Successfully', expires:3000 });          
           });
         expect(window.confirm.calledOnce).to.equal(true);
         _$httpBackend.flush();
@@ -453,7 +501,6 @@ describe('Component: al.users.edit', function () {
       });
   });
 
-
   describe('#getAllPermissions', () => {
         it('should return all persmissions', function () {
             _$httpBackend.whenGET('/assets/al/json/roles.json').respond(200,{
@@ -575,7 +622,6 @@ describe('Component: al.users.edit', function () {
 
     });
      describe('#update', () => {
-
         it('should update a user correctly', () => {
          
            EditComponent.allRoles=['admin','reporting'];
@@ -607,7 +653,6 @@ describe('Component: al.users.edit', function () {
                 }
             };
 
-
            EditComponent.userInfo={generalInfo:{
              EMail : 'josue@autoboxcorp.com',
              IEXScheduled : false,
@@ -629,9 +674,8 @@ describe('Component: al.users.edit', function () {
               console.log(response.statusCode).to.equal(201);
               console.log(response.errorMessage).to.equal('');
               console.log(response.data).to.not.equal(null);
-          });
-     
-          
+           });     
         });
     });
+
 });

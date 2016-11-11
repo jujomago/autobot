@@ -12,7 +12,7 @@ angular.module('fakiyaMainApp', [
   'angular-jwt'
 ])
   .config(function ($urlRouterProvider, $locationProvider, $httpProvider, $urlMatcherFactoryProvider) {
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/404');
     // Fix for bug 1691: URL should not be case-sensitive
     $urlMatcherFactoryProvider.caseInsensitive(true);
     $locationProvider.html5Mode(true);
@@ -36,7 +36,19 @@ angular.module('fakiyaMainApp', [
         return 'You have updating processes in progress';
       }
     };
-    
+    Global.maxSize=7;
+    angular.element($window).on('resize', function () {				
+				let widthWindow = $window.innerWidth;				       
+				if(widthWindow<=835)
+				{
+					Global.maxSize=3;                  
+				}
+				else
+				{
+					Global.maxSize=7;           
+				}
+			});      
+
     //------
     $rootScope.$on('$stateChangeStart', function (event,toState,toParams) {
       if(!toParams.isLoggedIn && toState.name.indexOf('al')>-1){

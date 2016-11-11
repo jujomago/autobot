@@ -145,7 +145,7 @@
                                 if (response.hasOwnProperty('generalInfo')) {
                                     var messageObj = {
                                         type: 'success',
-                                        text: 'User Created'
+                                        text: 'User Created Successfully'
                                     };
                                     this.newUser = {}; //clean object
                                     _state.go('ap.al.users', { message: messageObj });
