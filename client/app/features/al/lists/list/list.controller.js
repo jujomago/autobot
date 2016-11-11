@@ -104,6 +104,7 @@
         _AlertMessage = AlertMessage;
         _ModalManager = ModalManager;
         _Global = Global;
+        this.global =  Global;
         _Utils = Utils;
         this.currentPage = 1;
         this.sortKey = '';
