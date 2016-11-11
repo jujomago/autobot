@@ -1,6 +1,6 @@
 'use strict';
 (function(){
-  let _ConfirmAsync, _ListsService, _AlertMessage, _Global, _ModalManager;
+  let _ConfirmAsync, _ListsService, _AlertDialog, _Global, _ModalManager;
   let _$state,_$stateParams, _$filter;
   function _myIndex(lists ,name){
     //TODO: replace with return _lodash.findIndex(lists, function(list) { return list.name === name });
@@ -90,7 +90,7 @@
     return content;
   }
   class ListComponent {
-    constructor(ListsService,$stateParams,$state, $filter, ModalManager,ConfirmAsync, AlertMessage, Global) {
+    constructor(ListsService,$stateParams,$state, $filter, ModalManager,ConfirmAsync, AlertDialog, Global) {
         this.lists = [];
         _$stateParams = $stateParams;
         this.message = { show: false };
@@ -100,7 +100,7 @@
           this.selectedRow = _$stateParams.list;
         }
         _$filter = $filter;
-        _AlertMessage = AlertMessage;
+        _AlertDialog = AlertDialog;
         _ModalManager = ModalManager;
         _Global = Global;
         this.currentPage = 1;
@@ -188,7 +188,7 @@
           this.processedRow = null;
           _Global.proccessIsRunning = false;
           this.selectedRow = listName;
-          _AlertMessage(response.summaryMessage);
+          _AlertDialog(response.summaryMessage);
           return response;
         });
     }
@@ -273,7 +273,7 @@
     }
   }
 
-  ListComponent.$inject = ['ListsService','$stateParams','$state', '$filter', 'ModalManager', 'ConfirmAsync', 'AlertMessage', 'Global'];
+  ListComponent.$inject = ['ListsService','$stateParams','$state', '$filter', 'ModalManager', 'ConfirmAsync', 'AlertDialog', 'Global'];
 
   angular.module('fakiyaMainApp')
     .component('al.lists.list', {

@@ -1,20 +1,24 @@
 'use strict';
 
 angular.module('fakiyaMainApp')
-  .factory('ConfirmMessage', function (ModalManager) {
-   function getOptions(content, config = {}){
+  .factory('AlertDialog', function (ModalManager) {
+    function getOptions(content, config = {}){
       return {
         animation: false,
-        templateUrl: 'app/factories/ConfirmMessage/ConfirmMessage.html',
-        size: 'hs',
+        templateUrl: 'app/factories/AlertDialog/AlertDialog.html',
+        size: 'abx-sm',
         controller: ['$scope', '$uibModalInstance', 'content', 'config', function ($scope, $uibModalInstance, content, config) {
           $scope.content = content;
           $scope.config = config;
+
           $scope.close = function(){
-            $uibModalInstance.close(true);   
-          };
-          $scope.dismiss = function(){
-            $uibModalInstance.dismiss('cancel');  
+           if(content.customFunction)
+            {               
+              $uibModalInstance.dismiss('cancel');
+              content.customFunction();
+            }  
+            else
+            {$uibModalInstance.dismiss('cancel');}       
           };
         }],
         resolve: {
@@ -28,13 +32,13 @@ angular.module('fakiyaMainApp')
         windowTopClass: 'modal-summary'
       };
     }
-    function openConfirm(content, config){
+    function openAlert(content,config){
       let container = document.querySelector('#alert-container');
       let options = getOptions(content, config);
       if(container){
         options.appendTo = angular.element(container);
       }
-      return ModalManager.open(options).result;
+      ModalManager.open(options, false);
     }
-   return {open: openConfirm};
+   return openAlert;
   });
