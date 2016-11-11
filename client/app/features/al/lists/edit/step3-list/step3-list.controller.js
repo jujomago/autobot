@@ -352,11 +352,9 @@ class ListComponent {
         return response;
       }).catch(error =>{
         this.SubmitText='Save';
-        let message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
-        _Utils.setDataListAction({
-          message: message
-        });
-        _$state.go('ap.al.lists',{message: message});
+        let message={ show: true, type: 'danger', text: error.errorMessage,name: this.sendContact.listName, expires: 5000 };
+        _Utils.setDataListAction({messageError: message});
+        _$state.go('ap.al.lists');
         return error;
       });
   }

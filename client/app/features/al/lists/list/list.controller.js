@@ -100,10 +100,6 @@
         _$stateParams = $stateParams;
         this.message = { show: false };
         this.selectedRow = null;
-        if (_$stateParams.message !== null) {
-          this.message = { show: true, type: _$stateParams.message.type, text: _$stateParams.message.text,expires: 3000 };
-          this.selectedRow = _$stateParams.list;
-        }
         _$filter = $filter;
         _AlertMessage = AlertMessage;
         _ModalManager = ModalManager;
@@ -132,12 +128,17 @@
         if (!_Utils.isUndefinedOrNull(listModified)) {
             _Utils.setDataListAction(null);
 
-            promiseLists.then(() =>{
-                this.goToProcessedRow(listModified.name);
-                this.getResult(listModified.identifier, listModified.name, listModified.isUpdate);
-              });
+            if (!_Utils.isUndefinedOrNull(listModified.messageError)) {
+                this.message = { show: true, type: listModified.messageError.type, text: listModified.messageError.text,expires: 3000 };
+                this.selectedRow = listModified.name;
+            }
+            else {
+                promiseLists.then(() =>{
+                  this.goToProcessedRow(listModified.name);
+                  this.getResult(listModified.identifier, listModified.name, listModified.isUpdate);
+                });
+            }
         }
-
     }
     goToProcessedRow(listName){
       let index =  _myIndex(this.lists, listName);
