@@ -56,9 +56,8 @@
         width: 120px;
         line-height: 30px;
         transition: all .2s ease-out;
-        &:hover, &:active {
-            background: #666;
-            color: @white;
+        &:hover, &:active, &:focus {
+            background: #0187d0;
         }
     }
     //button template for list
@@ -69,12 +68,26 @@
         border: 0;
         width: 60px;
     }
-    .btn-sm{
-        width: 75px;
-        padding: 0;
-        text-align: center;
+    .btn-auto-size{
+        width: auto;
     }
-
+    .abx-btn-lg{
+        width: 160px;
+        padding: 0;
+    }
+    .abx-pagination-container{
+        label{
+            margin-top: 5px;
+            font-weight: normal;
+        }
+    }
+    .abx-pagination-left, .abx-pagination-center, .abx-pagination-right{
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .fixed-margin-bottom-65{
+        margin-bottom: 65px
+    }
     .rigth-space-sm{
         margin-right: 10px;
     }
@@ -103,8 +116,24 @@
     }
     .btn-shared-row{
         display: inline-block;
+        height: 20px;
+        width: 55px;
+        padding: 0;
+        font-size: 11px;
         margin-left: 3px;
         margin-right: 3px;
+    }
+    .fixed-width-125{
+        width: 125px;
+    }
+    div.no-margin-top{
+        margin-top: 0;
+    }
+    .abx-btn-md{
+        width: 80px;
+        height: 30px;
+        padding-left: 0px;
+        padding-right: 0px
     }
     // circle for delete in lists
     .circle_delete {
@@ -168,8 +197,19 @@
     {
         h3{
             margin-top: 0;
-            margin-bottom: 50px;
+            margin-bottom: 0;
         }
+        margin-bottom: 35px;
+    }
+    .no-margin-bottom{
+        margin-bottom: 0px;
+    }
+    .mywell.fixed-margin-bottom-60{
+        margin-bottom: 60px;
+    }
+    .no-records-added{
+        color: #666666;
+        font-size: 21px;
     }
     .remove-spaces-inline{
         font-size: 0;
@@ -178,6 +218,10 @@
     .logofive9 {
         width: 100%;
         margin:0;
+    }
+    .is-key-span{
+        padding-left: 2px;
+        text-transform: none;
     }
     .loader_indicator {
         width: 200px;
@@ -244,6 +288,9 @@
         background: @blue;
         &:disabled {
             background: #99cfec;
+        }
+        &:hover, &:active, &:focus {
+            background: #0187d0;
         }
     }
     .table-hover tr {
@@ -385,9 +432,25 @@
         width: 90px;
         padding: 0;
     }
-
+    .show-all-spaces{
+        white-space: pre;
+    }
     //add Modal transparent
     #modal-container{
+        div.modal-md{
+            width: 560px;
+            .modal-header{
+                padding: 15px 0 0;
+                .alert-danger, .alert-warning{
+                    margin-top: 10px;
+                }
+            } 
+            .modal-body{
+                margin-top: 30px;
+                padding: 0;
+            }
+
+        }
         .modal{
             overflow-y: hidden;
         }
@@ -404,10 +467,14 @@
           width: 400px;
           margin: 0 auto;
         }
+        .contact-model-form {
+            max-height: 400px;
+            overflow-y: auto;
+        }
         .modal-header{
             border: none;
             .title_section{
-                margin-bottom: 2px;
+                margin-bottom: 0;
             }
         }
 
@@ -421,16 +488,23 @@
                 margin-left: 10px;
                 margin-right: 10px;
                 width: 120px;
+                &:hover, &:active, &:focus {
+                    background: #000000;
+                    color: @blue;
+                    border-width: 1px;
+                    border-color: @blue;
+                }
             }
         }
         p{
             padding-left: 0;
+            &.multi-select-items{
+                padding-left: 10px;
+            }
         }
+
         .error-modal{
             color: #e64b3b;
-        }
-        .error-message{
-            margin-top: 20px;
         }
     }
 
@@ -508,6 +582,35 @@
             }
             input{
               padding: 7px 10px 0;
+            }
+        }
+    }
+    .fields-form{
+        .inputminimal{
+            &>span{
+                display: block;
+                overflow: hidden;
+                margin: 0;
+                height: 100%;
+                &.multiple-select{
+                    height: auto;
+                }
+                input, select{
+                    padding: 0 10px 0;
+                    width: 100%;
+                    height: 100%;
+                }
+                input.form-boolean{
+                    height: 100%;
+                    display: inline-block;
+                    width: auto;
+                    vertical-align: middle;
+                    margin-top: 0;
+                    margin-left: 5px;
+                }
+                select{
+                    background: white;
+                }
             }
         }
     }
@@ -759,17 +862,8 @@
         .pull-left h3{
             font-family: BrandonLight;
         }
-        .search input{
-            top: -15px;
-        }
-        .search .glyphicon-search{
-            top: -6px;
-        }
     }
 
-    .edit-modal-x{
-        margin-top: 10px;
-    }
     .full-page-loading >abx-load-indicator>.loader_indicator{
         width: 100%;
     }
@@ -814,6 +908,9 @@
             padding-right: 15px;
             display: none;
         }
+    }
+    .label-weight{
+        font-weight: normal;
     }
 }
 @-moz-document url-prefix() {

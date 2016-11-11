@@ -22,7 +22,7 @@ class NavbarController {
     this.search = {app: {appFullName: ''}};
     this.appsLoaded = false;
     _lodash = lodash;
-    _$filter = $filter;
+    _$filter = $filter;    
     _$parse = $parse;
     _appsService = AppsService;
     _AlertMessage=AlertMessage;
@@ -63,9 +63,11 @@ class NavbarController {
     this.newApps = [];
     EventBus.subscribe('apps.reload', function(){
       $ctrl.loadApps();
-    });
+    });   
  }
-
+  gotoAppSection(appSelected) {
+    _$state.go('ap.apps',{paramAppSelected:appSelected});
+  }
   logout(){
     let encodedURL=_Base64Manager.encode(_$location.url());
     return _authService.logout()

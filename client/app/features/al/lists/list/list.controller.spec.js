@@ -53,8 +53,6 @@ describe('Component:al.lists.list', function () {
     sandbox.restore();
   });
 
-
-
   describe('#deleteList', () => {
     it('list deleted should return 204 statusCode', () => {
 
@@ -220,16 +218,16 @@ describe('Component:al.lists.list', function () {
                         warningsCount: null
                     }
       });
-      _$httpBackend.whenGET(endPointUrl+'/testList').respond(200, {return: [{size: 20}]});
+      _$httpBackend.whenGET(endPointUrl+'/List6').respond(200, {return: [{size: 20}]});
       mockListData.return[5].size = 20;
       ListComponent.lists = mockListData.return;
-      let promise = ListComponent.getResult('123-abc-456','testList', true);
+      let promise = ListComponent.getResult('123-abc-456','List6', true);
       expect(_Global.proccessIsRunning).to.equal(true);
       expect(ListComponent.lists[5].size).to.equal(20);
       promise
         .then(response => {
           expect(response.summaryMessage.title).to.equal('Summary');
-          expect(response.summaryMessage.body).to.equal('Update for list "testList" has been succesfully completed.');
+          expect(response.summaryMessage.body).to.equal('Update for list "List6" has been succesfully completed.');
           expect(response.summaryMessage.list[0]).to.equal('Nothing was changed during the update.');
           expect(response.summaryMessage.list[1]).to.equal('5 ERRORS FOUND');
           expect(response.summaryMessage.list[2]).to.equal('5 lines with duplicate keys found');
@@ -256,16 +254,16 @@ describe('Component:al.lists.list', function () {
                         warningsCount: {entry: [{value: 'warning 1'},{value: 'warning 2'}]}
                     }
       });
-      _$httpBackend.whenGET(endPointUrl+'/testList').respond(200, {return: [{size: 13}]});
+      _$httpBackend.whenGET(endPointUrl+'/List6').respond(200, {return: [{size: 13}]});
       mockListData.return[5].size = 20;
       ListComponent.lists = mockListData.return;
-      let promise = ListComponent.getResult('123-abc-456','testList', false);
+      let promise = ListComponent.getResult('123-abc-456','List6', false);
       expect(_Global.proccessIsRunning).to.equal(true);
       expect(ListComponent.lists[5].size).to.equal(20);
       promise
         .then(response => {
           expect(response.summaryMessage.title).to.equal('Summary');
-          expect(response.summaryMessage.body).to.equal('Delete for list "testList" has been succesfully completed.');
+          expect(response.summaryMessage.body).to.equal('Delete for list "List6" has been succesfully completed.');
           expect(response.summaryMessage.list[0]).to.equal('7 Call List records deleted');
           expect(response.summaryMessage.list[1]).to.equal('7 ERRORS FOUND');
           expect(response.summaryMessage.list[2]).to.equal('7 lines with duplicate keys found');
@@ -292,16 +290,16 @@ describe('Component:al.lists.list', function () {
                         warningsCount: null
                     }
       });
-      _$httpBackend.whenGET(endPointUrl+'/testList').respond(200, {return: [{size: 20}]});
+      _$httpBackend.whenGET(endPointUrl+'/List6').respond(200, {return: [{size: 20}]});
       mockListData.return[5].size = 20;
       ListComponent.lists = mockListData.return;
-      let promise =ListComponent.getResult('123-abc-456','testList', true);
+      let promise =ListComponent.getResult('123-abc-456','List6', true);
       expect(_Global.proccessIsRunning).to.equal(true);
       expect(ListComponent.lists[5].size).to.equal(20);
       promise
         .then(response => {
           expect(response.summaryMessage.title).to.equal('Summary');
-          expect(response.summaryMessage.body).to.equal('Update for list "testList" has been succesfully completed.');
+          expect(response.summaryMessage.body).to.equal('Update for list "List6" has been succesfully completed.');
           expect(response.summaryMessage.list[0]).to.equal('7 Call List records deleted, 3 Call List records inserted, 5 Contact Records updated');
           expect(response.summaryMessage.list[1]).to.equal('No errors found');
           expect(response.summaryMessage.list[2]).to.equal('No warnings found');
@@ -323,14 +321,14 @@ describe('Component:al.lists.list', function () {
     it('should change to page 2', () => {
       ListComponent.numPerPage = 5;
       ListComponent.lists = mockListData.return;
-      ListComponent.goToProcessedRow();
+      ListComponent.goToProcessedRow('List6');
       expect(ListComponent.currentPage).to.equal(2);
       expect(ListComponent.processedRow).to.equal('List6');
     });
     it('should stay in page 1', () => {
       ListComponent.numPerPage = 10;
       ListComponent.lists = mockListData.return;
-      ListComponent.goToProcessedRow();
+      ListComponent.goToProcessedRow('List6');
       expect(ListComponent.currentPage).to.equal(1);
       expect(ListComponent.processedRow).to.equal('List6');
     });

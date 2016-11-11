@@ -12,7 +12,7 @@
       <input type="search" ng-model="$ctrl.search.name" class="searchbox" placeholder="Search" ng-change="$ctrl.filteringBySearch()">
       <span class="glyphicon glyphicon-search"></span>
     </div>
-    <button class="btn btn-black pull-right" ng-click="$ctrl.openModal()">New</button>
+    <button class="btn btn-black abx-btn-md pull-right" ng-click="$ctrl.openModal()">New</button>
   </div>
   <table class="table table-striped" ng-show="$ctrl.lists.length">
     <thead>
@@ -37,7 +37,6 @@
           <td class="text-center">
             <div ng-hide="$ctrl.processedRow === item.name">
               <button class="btn-row btn-primary btn-shared-row" ng-click="$ctrl.updateListRecord(item.name)">Update</button>
-                <button class="btn-row btn-danger btn-shared-row" ng-click="$ctrl.deleteListRecord(item.name)">Remove</button>
             </div>
             <div ng-show="$ctrl.processedRow === item.name">
               <i class="progress-icon"></i> Processing
@@ -54,12 +53,12 @@
         <img src="assets/al/images/NoResultsIcon.png" alt="lupa">
         <p>We couldn't find what you are looking for</p>
       </div>
-      <label class="pull-left" ng-if="$ctrl.lists.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.getMax()}} of {{$ctrl.lists.length}}</label>
+      <label class="pull-left fixed-width-125 text-left" ng-if="$ctrl.lists.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.getMax()}} of {{$ctrl.lists.length}}</label>
       <uib-pagination ng-if="$ctrl.lists.length"
                       total-items="$ctrl.lists.length"
                       ng-model="$ctrl.currentPage"
                       items-per-page="$ctrl.numPerPage"
-                      boundary-links="true " ng-change="$ctrl.pageChanged()">
+                      boundary-links="true " ng-change="$ctrl.pageChanged()" max-size="$ctrl.global.maxSize">
       </uib-pagination>
       <div class="pull-right results_per_page" ng-show="$ctrl.lists.length"><span>Show</span>
         <select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities" ng-change="$ctrl.pageChanged()">

@@ -1,71 +1,60 @@
 'use strict';
 
-describe('Component: al.lists.edit', function () {
+describe('Component:step3', function () {
 
   // load the controller's module
   beforeEach(module('fakiyaMainApp'));
 
-  let ListComponent, scope, _$httpBackend;
-  let state, timeout, sandbox, window, endPointUrl;
-  //TODO
-  //This params belongs to method that have issues with lodash and also it didn't 
-  //work because the mock modal instance doesn't receive the data correctly, 
-  //this test will be fix in another user story
-  
-  /*let fakeModal = {
-    result: {
-        then: function(confirmCallback, cancelCallback) {
-            this.confirmCallBack = confirmCallback;
-            this.cancelCallback = cancelCallback;
-        }
-    },
-    close: function(item) {
-        this.result.confirmCallBack(item);
-    },
-    dismiss: function( type ) {
-        this.result.cancelCallback(type);
-    }
-  };
-
-  let modalOptions = {
-      animation: false,
-      templateUrl: 'app/features/al/lists/edit/step3-list/contactModal/contactModal.html',
-      size: 'md',
-      controller: 'ContactModalCtrl',
-      controllerAs: '$ctrl',
-      appendTo: angular.element(document.querySelector('#edit-list')),
-      resolve: {
-        contactModal: sinon.match(Function),
-        fields: sinon.match(Function)
-      }
-  };
-
-  let actualOptions;*/
-
-  // Initialize the controller and a mock scope
-  beforeEach(inject(function ($componentController, $rootScope, $httpBackend, $state, $stateParams, $timeout, $window, $filter, ConfirmAsync, ContactFieldsService, appConfig, lodash) {
-    scope = $rootScope.$new();
+  let ListComponent, _$httpBackend, _Utils;
+  let mockState, sandbox, _endPointUrl;
+  let mockFields = [
+  {
+    name: 'number1',
+    type: 'PHONE',
+     mapTo: 'None'
+   },
+   {
+    name: 'string1',
+    type: 'STRING',
+    mapTo: 'None'
+   },
+   {
+    name: 'percent1',
+    type: 'PERCENT',
+    mapTo: 'None'
+   },
+   {
+    name: 'date1',
+    type: 'DATE',
+    mapTo: 'None'
+   },
+   {
+    name: 'last_disposition',
+    type: 'STRING',
+    mapTo: 'LAST_DISPOSITION'
+   }
+   ];
+  beforeEach(inject(function ($componentController, $httpBackend, appConfig, Utils) {
     _$httpBackend = $httpBackend;
-    state = $state;
-    timeout = $timeout;
-    window = $window;
-    lodash = lodash;
-    
+    _Utils = Utils;
+    mockState = {
+      url: '',
+      params: {},
+      go: function(url, params){
+        this.url = url;
+        this.params = params;
+      }
+    };
+
 
     sandbox = sinon.sandbox.create();
 
     if (appConfig.apiUri) {
-      endPointUrl = appConfig.apiUri + '/f9/contactfields';
+      _endPointUrl = appConfig.apiUri;
     }
 
     ListComponent = $componentController('al.lists.edit.list', {
-      $scope: scope,
-      $stateParams: { message: null , settings: { listDeleteSettings:''}},
-      $state: state,
-      $timeout: timeout,
-      ContactFieldsService: ContactFieldsService,
-      _ : lodash,
-      sendContact: {listName: '', importData: { values: []}},
+      $state: mockState
     });
 
     _$httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
@@ -76,33 +65,6 @@ describe('Component: al.lists.edit', function () {
     _$httpBackend.verifyNoOutstandingRequest();
     sandbox.restore();
   });
-  //TODO
-  //This method uses lodash and we have issues with it and also it didn't 
-  //work because the mock modal instance doesn't receive the data correctly, 
-  //this test will be fix in another
-  //user story
-  
-  /*describe('#openModal', ()=>{
-    
-    it('Should correctly show the modal', function () {
-      let contact = {number1 : '202-555-0193'};
-      let fields = [{
-        displayAs: 'Short',
-        isKey: true, 
-        mapTo: 'None', 
-        mappedIndex: 0, 
-        mappedName: 'number1', 
-        name: 'number1', 
-        system: true,
-        type: 'PHONE'
-      }];
-      ListComponent.contact = contact;
-      ListComponent.fields = fields;
-      ListComponent.openModal();
-      expect(modal.open).calledWith(modalOptions);
-      expect(modalOptions.resolve.contactModal()).to.equal(contact);
-    });
-  });*/
 
   describe('#sortColumn', () => {
 
@@ -148,80 +110,49 @@ describe('Component: al.lists.edit', function () {
     });
 
   });
-
-  //TODO
-  //This method uses lodash and we have issues with it, this test will be 
-  //fix in another user story
-    
-  /*describe('#uploadContacts', ()=>{
-    
-    it('add contacts to list with a input datetime MM-dd-yyyy HH:mm:ss', () => {
-      ListComponent.fieldsMapping = [{columnNumber: 1, fieldName: 'number1', key: true}, {columnNumber: 2, fieldName: 'last_sms', key: false}];
-      let listUpdateSettings = {fieldsMapping: [{columnNumber: 1, fieldName: 'number1', key: true}],cleanListBeforeUpdate: false, crmAddMode: 'ADD_NEW', crmUpdateMode: 'DONT_UPDATE', listAddMode: 'ADD_FIRST'};
-      let listUpdateSettingsManual = {cleanListBeforeUpdate: false, crmAddMode: 'ADD_NEW', crmUpdateMode: 'DONT_UPDATE', listAddMode: 'ADD_FIRST'};
-      _$httpBackend.whenGET(endPointUrl).respond(201, {return: {identifier: 'ad-fg-js'}});
-      ListComponent.sendContact.listName = 'testAutobox';
-      ListComponent.sendContact.importData = {values: [{item: ['9874563217', '02-12-2016 22:00:00']}]};
-      if(ListComponent.manual){
-        ListComponent.sendContact.listUpdateSettings = listUpdateSettingsManual;
-        ListComponent.sendContact.listUpdateSettings.fieldsMapping = ListComponent.fieldsMapping;
-      }else{
-        ListComponent.sendContact.listUpdateSettings = listUpdateSettings;
-      }
-      
-      ListComponent.uploadContacts()
-        .then(response => {
-          expect(response.statusCode).to.equal(201);
-          expect(response.errorMessage).to.equal(null);
-          expect(response.data.return.identifier).should.not.equal(null);
-        });
+  describe('#getContactFields', () => {
+    it('Should get all map to none fields', () => {
+      _$httpBackend.whenGET(_endPointUrl+'/f9/contacts/fields').respond(200, {return: mockFields});
+      ListComponent.getContactFields()
+      .then(()=>{
+        expect(ListComponent.contactFields.length).to.equal(4);
+        let expected = [{name: 'number1', type: 'PHONE', mapTo: 'None', isKey: true},{name: 'string1',type: 'STRING',mapTo: 'None'},{name: 'percent1', type: 'PERCENT',mapTo: 'None'},{name: 'date1', type: 'DATE', mapTo: 'None'}];
+        expect(ListComponent.contactFields).to.deep.equal(expected);
+        expect(ListComponent.loaded).to.equal(true);
+      });
       _$httpBackend.flush();
     });
-
-    it('add contacts to list with a input datetime MM/dd/yyyy HH:mm:ss', () => {
-      ListComponent.fieldsMapping = [{columnNumber: 1, fieldName: 'number1', key: true}, {columnNumber: 2, fieldName: 'last_sms', key: false}];
-      let listUpdateSettings = {fieldsMapping: [{columnNumber: 1, fieldName: 'number1', key: true}],cleanListBeforeUpdate: false, crmAddMode: 'ADD_NEW', crmUpdateMode: 'DONT_UPDATE', listAddMode: 'ADD_FIRST'};
-      let listUpdateSettingsManual = {cleanListBeforeUpdate: false, crmAddMode: 'ADD_NEW', crmUpdateMode: 'DONT_UPDATE', listAddMode: 'ADD_FIRST'};
-      _$httpBackend.whenGET(endPointUrl).respond(201, {return: {identifier: 'ad-fg-js'}});
-      ListComponent.sendContact.listName = 'testAutobox';
-      ListComponent.sendContact.importData = {values: [{item: ['9874563217', '02/12/2016 22:00:00']}]};
-      if(ListComponent.manual){
-        ListComponent.sendContact.listUpdateSettings = listUpdateSettingsManual;
-        ListComponent.sendContact.listUpdateSettings.fieldsMapping = ListComponent.fieldsMapping;
-      }else{
-        ListComponent.sendContact.listUpdateSettings = listUpdateSettings;
-      }
-      
-      ListComponent.uploadContacts()
-        .then(response => {
-          expect(response.statusCode).to.equal(201);
-          expect(response.errorMessage).to.equal(null);
-          expect(response.data.return.identifier).should.not.equal(null);
-        });
+    it('Should show error message', () => {
+      _$httpBackend.whenGET(_endPointUrl+'/f9/contacts/fields').respond(500, {error: 'Internal Server Error'});
+      ListComponent.getContactFields()
+      .then(()=>{
+        expect(ListComponent.message).to.deep.equal({ show: true, type: 'danger', text: 'Internal Server Error' });
+      });
       _$httpBackend.flush();
     });
-
-    it('remove contacts to list', () => {
-      ListComponent.fieldsMapping = [{columnNumber: 1, fieldName: 'number1', key: true}];
-      let listDeleteSettings = {fieldsMapping: [{columnNumber: 1, fieldName: 'number1', key: true}],cleanListBeforeUpdate: false, crmAddMode: 'ADD_NEW', crmUpdateMode: 'DONT_UPDATE', listAddMode: 'ADD_FIRST'};
-      let listDeleteSettingsManual = {cleanListBeforeUpdate: false, crmAddMode: 'ADD_NEW', crmUpdateMode: 'DONT_UPDATE', listAddMode: 'ADD_FIRST'};
-      _$httpBackend.whenDELETE(endPointUrl).respond(200, {return: {identifier: 'ad-fg-js'}});
-      ListComponent.sendContact.listName = 'testAutobox';
-      ListComponent.sendContact.importData = {values: [{item: ['9874563217']}]};
-      if(ListComponent.manual){
-        ListComponent.sendContact.listDeleteSettings = listDeleteSettingsManual;
-        ListComponent.sendContact.listDeleteSettings.fieldsMapping = ListComponent.fieldsMapping;
-      }else{
-        ListComponent.sendContact.listDeleteSettings = listDeleteSettings;
-      }
+  });
+  describe('#uploadContacts', () => {
+    it('Should insert records', () => {
+      _$httpBackend.whenPOST(_endPointUrl+'/f9/lists/test/records').respond(200, {return: {identifier: '123-abc'}});
+      ListComponent.sendContact = {listName: 'test'};
       ListComponent.uploadContacts()
-        .then(response => {
-          expect(response.statusCode).to.equal(200);
-          expect(response.errorMessage).to.equal(null);
-          expect(response.data.return.identifier).should.not.equal(null);
-        });
+      .then(()=>{
+        expect(ListComponent.sending).to.equal(false);
+        expect(mockState.url).to.equal('ap.al.lists');
+        expect(_Utils.getDataListAction()).to.deep.equal({name: 'test', identifier: '123-abc', isUpdate: true});
+      });
       _$httpBackend.flush();
     });
+    it('Should show error message', () => {
+      _$httpBackend.whenPOST(_endPointUrl+'/f9/lists/test/records').respond(500, {error: 'Internal Server Error'});
+      ListComponent.sendContact = {listName: 'test'};
+      ListComponent.uploadContacts()
+      .then(()=>{
+        expect(ListComponent.SubmitText).to.equal('Save');
+        expect(_Utils.getDataListAction().messageError).to.deep.equal({ show: true, type: 'danger', text: 'Internal Server Error', name: 'test', expires: 5000 });
+      });
+      _$httpBackend.flush();
+    });
+  });
 
-  });*/
 });

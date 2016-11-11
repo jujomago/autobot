@@ -57,7 +57,7 @@
 
 
         <uib-pagination ng-if="$ctrl.filteredDispositions.length" total-items="$ctrl.filteredDispositions.length " ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
-    " boundary-links="true" ng-change="$ctrl.pageChanged()">
+    " boundary-links="true" max-size="$ctrl.global.maxSize" ng-change="$ctrl.pageChanged()">
         </uib-pagination>
 
         <div class="pull-right results_per_page" ng-show="$ctrl.filteredDispositions.length"><span>Show</span>

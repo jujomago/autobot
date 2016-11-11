@@ -116,7 +116,7 @@ describe('Component: al.lists.mapping', function () {
     });
   });
 
-  describe('#getContactFields', () => {
+  describe('#getContactFields2', () => {
 
     it('should return all contact fields', () => {
       _$httpBackend.whenGET(endPointUrl).respond(200, {
@@ -171,7 +171,8 @@ describe('Component: al.lists.mapping', function () {
           expect(response.statusCode).to.equal(500);
           expect(response.errorMessage).to.not.equal(null);
           expect(response.data).to.equal(null);
-          expect(MappingComponent.message).to.eql({ show: true, type: 'warning', text: response.errorMessage });
+          console.log(MappingComponent.message);
+          expect(MappingComponent.message).to.deep.equal({ show: true, type: 'warning', text: response.errorMessage });
           expect(MappingComponent.loadingContacts).to.equal(true);
           expect(MappingComponent.contactFields).to.have.lengthOf(0);
         });
