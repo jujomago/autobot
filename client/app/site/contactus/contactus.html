@@ -1,13 +1,16 @@
 <div class="sutitlecontainer">
     <h3 class="subtitleunderline">CONTACT US</h3>
 </div>
-<form class="contactusform">
+<form class="contactusform" name="contactForm" novalidate ng-submit="contactForm.$valid && $ctrl.sendmail()">
     <div class="row">
         <div class="col-md-6">
             <div class="inputflex inputflex--gray">
                 <label for="firstname">First name</label>
-                <input type="text" name="firstname">
+                <input type="text" name="firstname" maxlength="50" ng-model="$ctrl.cform.firstname" >
             </div>
+            <div ng-messages="contactForm.$submitted && contactForm.firstname.$error" class="errors-texts">	
+				<p ng-message="required">This field is required</p>
+			</div>
         </div>
         <div class="col-md-6">
             <div class="inputflex inputflex--gray">
@@ -47,7 +50,7 @@
         </div>
     </div>
     <div class="row">
-      <button type="button" class="btn btn-black center-block">Submit</button>
+      <button type="submit" class="btn btn-black center-block">Submit</button>
     </div>
 </form>
 
