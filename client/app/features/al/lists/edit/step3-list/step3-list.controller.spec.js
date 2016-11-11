@@ -5,7 +5,7 @@ describe('Component:step3', function () {
   // load the controller's module
   beforeEach(module('fakiyaMainApp'));
 
-  let ListComponent, _$httpBackend;
+  let ListComponent, _$httpBackend, _Utils;
   let mockState, sandbox, _endPointUrl;
   let mockFields = [
   {
@@ -34,8 +34,9 @@ describe('Component:step3', function () {
     mapTo: 'LAST_DISPOSITION'
    }
    ];
-  beforeEach(inject(function ($componentController, $httpBackend, appConfig) {
+  beforeEach(inject(function ($componentController, $httpBackend, appConfig, Utils) {
     _$httpBackend = $httpBackend;
+    _Utils = Utils;
     mockState = {
       url: '',
       params: {},
@@ -44,7 +45,7 @@ describe('Component:step3', function () {
         this.params = params;
       }
     };
-    
+
 
     sandbox = sinon.sandbox.create();
 
@@ -138,7 +139,7 @@ describe('Component:step3', function () {
       .then(()=>{
         expect(ListComponent.sending).to.equal(false);
         expect(mockState.url).to.equal('ap.al.lists');
-        expect(mockState.params).to.deep.equal({name: 'test', identifier: '123-abc', isUpdate: true});
+        expect(_Utils.getDataListAction()).to.deep.equal({name: 'test', identifier: '123-abc', isUpdate: true});
       });
       _$httpBackend.flush();
     });
@@ -148,7 +149,7 @@ describe('Component:step3', function () {
       ListComponent.uploadContacts()
       .then(()=>{
         expect(ListComponent.SubmitText).to.equal('Save');
-        expect(mockState.params.message).to.deep.equal({ show: true, type: 'danger', text: 'Internal Server Error', expires: 5000 });
+        expect(_Utils.getDataListAction().messageError).to.deep.equal({ show: true, type: 'danger', text: 'Internal Server Error', name: 'test', expires: 5000 });
       });
       _$httpBackend.flush();
     });
