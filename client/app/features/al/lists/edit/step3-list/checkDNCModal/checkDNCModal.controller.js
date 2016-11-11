@@ -31,7 +31,7 @@ class CheckDNCModalComponent {
   }
   validate(){
   	this.validating = true;
-    console.log(this.loginId);
+    this.message = { show: false };
   	return _DncService.getDNC(this.loginId, this.phones)
   	.then(response => {
   		this.instance.close(response);

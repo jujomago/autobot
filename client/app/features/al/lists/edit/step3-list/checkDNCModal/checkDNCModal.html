@@ -10,14 +10,16 @@
     <div class="modal-body">
         <div ng-if="!$ctrl.validating">
             <form name="formList" novalidate ng-submit="formList.$valid && $ctrl.validate()" class="custom_form dnc-form form-horizontal">
-				<div class="inputminimal" ng-class="{ 'has-error': formList['login-id'].$validatenvalid && formList.$submitted }">
-					<label for="id">Login ID</label>					
-					<span>
-						<input type="text" name="login-id" required="true" ng-model="$ctrl.loginId"/>
-					</span>
-				</div>
-                <div class="errorMessagesModal" ng-messages="formList['login-id'].$error" ng-show="formList.$submitted || formList['login-id'].$dirty">
-                    <p ng-message="required">This field is required</p>                 
+                <div class="fixed-margin-bottom-30">
+    				<div class="inputminimal" ng-class="{ 'has-error': formList['login-id'].$validatenvalid && formList.$submitted }">
+    					<label for="id">Login ID</label>					
+    					<span>
+    						<input type="text" name="login-id" required="true" ng-model="$ctrl.loginId"/>
+    					</span>
+    				</div>
+                    <div class="errorMessagesModal" ng-messages="formList['login-id'].$error" ng-show="formList.$submitted || formList['login-id'].$dirty">
+                        <p ng-message="required">This field is required</p>                 
+                    </div>
                 </div>
                 <div class="modal-button-container remove-spaces-inline">
                   <button class="btn btn-blue" type="submit">Validate</button>
