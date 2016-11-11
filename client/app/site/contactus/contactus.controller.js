@@ -5,6 +5,11 @@
 class ContactusComponent {
   constructor() {
     this.message = 'Hello';
+    this.submitText='Submit';
+  }
+  sendmail(){
+    console.log('sending the mail');
+        this.submitText='Submitting..';
   }
 }
 
