@@ -4,13 +4,14 @@ let _ConfirmAsync, _ListService, _, _ContactFieldsService;
 let _$state, _$stateParams, _$filter, _$uibModal;
 
 class ListComponent {
-  constructor($state, $stateParams, $filter, $uibModal, ListsService, ConfirmAsync, ContactFieldsService, lodash) {
+  constructor($state, $stateParams, $filter, $uibModal, $scope,ListsService, ConfirmAsync, ContactFieldsService, lodash,Global) {
 
       this.importData = {fields: [], keys: [], rows: []};
       this.currentPage = 1;
       this.sortKey = '';
       this.reverse = false;
       this.numPerPage = 10;
+      this.global = Global;
       this.beginNext = 0;
       this.quantities = [5, 10, 15, 20];
       this.message = { show: false };
@@ -37,7 +38,7 @@ class ListComponent {
       _$state = $state;
       _$stateParams = $stateParams;
       _$filter = $filter;
-      _$uibModal = $uibModal;
+      _$uibModal = $uibModal;      
       _ListService = ListsService;
       _ConfirmAsync = ConfirmAsync;
       _ContactFieldsService = ContactFieldsService;
@@ -84,7 +85,7 @@ class ListComponent {
         let theMsg = 'Bad params';
         this.error = true;
         this.message={ show: true, type: 'warning', text: theMsg, expires: 3000};
-      }
+      }      
   }
 
   sortColumn(columnName) {
@@ -329,8 +330,9 @@ class ListComponent {
   pageChanged() {
     this.beginNext = (this.currentPage - 1) * this.numPerPage;
   }
+  
 }
-ListComponent.$inject = ['$state', '$stateParams', '$filter', '$uibModal', 'ListsService', 'ConfirmAsync', 'ContactFieldsService', 'lodash'];
+ListComponent.$inject = ['$state', '$stateParams', '$filter', '$uibModal','$scope', 'ListsService', 'ConfirmAsync', 'ContactFieldsService', 'lodash','Global'];
 angular.module('fakiyaMainApp')
   .component('al.lists.edit.list', {
     templateUrl: 'app/features/al/lists/edit/step3-list/step3-list.html',

@@ -44,7 +44,7 @@ describe('Component: al.users.list', function () {
     httpBackend.verifyNoOutstandingRequest();
     sandbox.restore();
   });
-
+  
   describe('#deleteUser', () => {
 
     it('=> should return 204 when delete', () => {

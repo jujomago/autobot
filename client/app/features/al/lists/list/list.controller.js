@@ -1,6 +1,6 @@
 'use strict';
 (function(){
-  let _ConfirmAsync, _ListsService, _AlertMessage, _Global, _ModalManager;
+  let _ConfirmAsync, _ListsService, _AlertMessage, _ModalManager,_Global;
   let _$state,_$stateParams, _$filter;
   function _myIndex(lists ,name){
     //TODO: replace with return _lodash.findIndex(lists, function(list) { return list.name === name });
@@ -90,7 +90,7 @@
     return content;
   }
   class ListComponent {
-    constructor(ListsService,$stateParams,$state, $filter, ModalManager,ConfirmAsync, AlertMessage, Global) {
+    constructor(ListsService,$stateParams,$state, $filter,ModalManager,ConfirmAsync, AlertMessage, Global) {
         this.lists = [];
         _$stateParams = $stateParams;
         this.message = { show: false };
@@ -99,11 +99,12 @@
           this.message = { show: true, type: _$stateParams.message.type, text: _$stateParams.message.text,expires: 3000 };
           this.selectedRow = _$stateParams.list;
         }
-        _$filter = $filter;
+        _$filter = $filter;       
         _AlertMessage = AlertMessage;
         _ModalManager = ModalManager;
-        _Global = Global;
-        this.currentPage = 1;
+        _Global = Global;     
+        this.currentPage = 1;         
+        this.global = Global;
         this.sortKey = '';
         this.reverse = true;
         this.numPerPage = 10;
@@ -117,9 +118,10 @@
         this.originalLists=[];
         _$state = $state;
         _ConfirmAsync = ConfirmAsync;
-        _ListsService = ListsService;
+        _ListsService = ListsService;        
     }
-    $onInit() {
+    
+    $onInit() {       
         let promiseLists = this.getLists();
         let identifier = _$stateParams.identifier;
         _$stateParams.identifier = null;
