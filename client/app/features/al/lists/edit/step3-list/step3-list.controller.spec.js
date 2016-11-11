@@ -148,7 +148,7 @@ describe('Component: al.lists.edit', function () {
     });
 
   });
-
+  
   //TODO
   //This method uses lodash and we have issues with it, this test will be 
   //fix in another user story
