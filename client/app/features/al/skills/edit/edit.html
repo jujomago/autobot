@@ -105,7 +105,7 @@
                 </div>
                 <div class="mywell skills_center footer_table">
                     <uib-pagination ng-show="$ctrl.tableUsers.length>0" total-items="$ctrl.tableUsers.length" ng-model="$ctrl.currentPage"
-                    items-per-page="$ctrl.numPerPage" boundary-links="true" ng-change="$ctrl.pageChanged()" ng-class="pagination_edit_skills">
+                    items-per-page="$ctrl.numPerPage" boundary-links="true" ng-change="$ctrl.pageChanged()" ng-class="pagination_edit_skills" max-size="$ctrl.maxSize">
                     </uib-pagination>
                 </div>
             </div>

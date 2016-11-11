@@ -53,8 +53,6 @@ describe('Component:al.lists.list', function () {
     sandbox.restore();
   });
 
-
-
   describe('#deleteList', () => {
     it('list deleted should return 204 statusCode', () => {
 
