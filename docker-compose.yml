@@ -13,7 +13,7 @@ services:
         - "6389:6379"
 
   autobox-auth:
-    image: quay.io/abxbo/autobox-auth:latest
+    image: quay.io/abxbo/autobox-auth:0.1
     ports:
       - "3380"
     environment:
@@ -23,7 +23,7 @@ services:
       - mongo
 
   autobox-api:
-    image: quay.io/abxbo/autobox-api:latest
+    image: quay.io/abxbo/autobox-api:0.1
     ports:
       - "8888:8080"
     environment:
