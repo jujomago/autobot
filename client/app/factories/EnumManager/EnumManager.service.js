@@ -9,6 +9,7 @@ angular.module('fakiyaMainApp')
         COMING_SOON: 3
       });
     }
+    
 
     return {
       getEnums: getEnums
