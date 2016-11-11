@@ -7,6 +7,7 @@ angular.module('fakiyaMainApp', [
   'ngSanitize',
   'ui.router',
   'ui.bootstrap',
+  'ui.mask',
   'ngStorage',
   'ngMessages',
   'angular-jwt'
