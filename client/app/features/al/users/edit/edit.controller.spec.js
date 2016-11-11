@@ -501,6 +501,7 @@ describe('Component: al.users.edit', function () {
         });
       });
   });
+
   describe('#getAllPermissions', () => {
         it('should return all persmissions', function () {
             _$httpBackend.whenGET('/assets/al/json/roles.json').respond(200,{
@@ -652,6 +653,7 @@ describe('Component: al.users.edit', function () {
                     ]
                 }
             };
+
            EditComponent.userInfo={generalInfo:{
              EMail : 'josue@autoboxcorp.com',
              IEXScheduled : false,
@@ -673,8 +675,7 @@ describe('Component: al.users.edit', function () {
               console.log(response.statusCode).to.equal(201);
               console.log(response.errorMessage).to.equal('');
               console.log(response.data).to.not.equal(null);
-
-          });     
+           });     
         });
     });
 
