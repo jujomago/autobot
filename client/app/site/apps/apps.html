@@ -24,8 +24,8 @@
 						<p>{{ item.app.description | limitTo: 130 }} {{ item.app.description.length > 130 ? '...' : ''}}</p>
 					</a>
 					<div ng-show="item.app.appStatus!==$ctrl.appStatus.COMING_SOON">
-						<button type="button" ng-click="$ctrl.selectInstalledApp(item.app.appName)" class="btn btn-black fixed-center-bottom" ng-show="item.installed">Open app</button>
-						<button type="button" ng-click="$ctrl.selectNoInstalledApp(item)" class="btn btn-black fixed-center-bottom" ng-show="!item.installed">Get app</button>
+						<button type="button" ng-click="$ctrl.selectInstalledApp(item.app.appName)" class="btn btn-black fixed-center-bottom" ng-show="item.installed">Open</button>
+						<button type="button" ng-click="$ctrl.selectNoInstalledApp(item)" class="btn btn-black fixed-center-bottom" ng-show="!item.installed">Get</button>
 					</div>
 					<div ng-if="item.app.appName === 'cj'" ng-show="item.app.appStatus===$ctrl.appStatus.COMING_SOON">
 						<a ui-sref="ap.page({appName: item.app.appName})">

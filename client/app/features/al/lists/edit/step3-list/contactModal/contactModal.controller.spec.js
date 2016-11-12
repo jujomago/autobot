@@ -68,7 +68,7 @@ describe('Component:contactModalComponent', function () {
         }
       };
       ContactModalComponent.contact.number1 = '(987)-654-3210';
-      ContactModalComponent.contact.string1 = ''; 
+      ContactModalComponent.contact.string1 = '';
       ContactModalComponent.save();
       expect(ContactModalComponent.instance.result).to.deep.equal({number1: '9876543210',number2: '',number3: '',string1: '',percent1: ''});
     });

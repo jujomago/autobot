@@ -24,9 +24,12 @@
                 </div>
             </div>
              <div class="file-empty-error" ng-messages="userForm.firstName.$error" ng-show="userForm.$submitted || userForm.firstName.$dirty">
+                        <p ng-message="required">This field is required</p>                       
+                    </div>
+            <div class="file-empty-error" ng-messages="userForm.firstName.$error" ng-show="userForm.firstName.$dirty">
                         <p ng-message="required">This field is required</p>
                         <p ng-show="$ctrl.userInfo.generalInfo.firstName.length===32">The max length is 32 for this field</p>
-                    </div>
+            </div>
             <div class="inputminimal" ng-class="{ 'has-error': userForm.lastName.$invalid && userForm.$submitted }">
                 <label for="lastName" >Last Name*</label>
                 <div>
@@ -34,6 +37,9 @@
                 </div>
             </div>
                <div class="file-empty-error" ng-messages="userForm.lastName.$error" ng-show="userForm.$submitted || userForm.lastName.$dirty">
+                        <p ng-message="required">This field is required</p>                      
+                    </div>
+                    <div class="file-empty-error" ng-messages="userForm.lastName.$error" ng-show="userForm.lastName.$dirty">
                         <p ng-message="required">This field is required</p>
                         <p ng-show="$ctrl.userInfo.generalInfo.lastName.length===32">The max length is 32 for this field</p>
                     </div>

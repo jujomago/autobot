@@ -7,20 +7,20 @@
 
 <abx-load-indicator ng-show="$ctrl.sending" text="Sending"></abx-load-indicator>
 
-<div ng-show="!$ctrl.sending && $ctrl.loaded" class="edit-list fixed-margin-bottom-65">
-    <div class="row">
-        <div class="pull-left">
-            <div class="mywell list-title-mapp">
-                <h3>List Update</h3>
-            </div>
-        </div>
-
-        <div class="pull-right">
-            <div class="mywell text-right">
-                <a class="btn btn-black btn-fixed-80" ng-click="$ctrl.cancelList()">Cancel</a>
-            </div>
-        </div>
+<div ng-show="!$ctrl.sending && $ctrl.loaded" class="edit-list margin-with-footer">
+  <div class="row">
+    <div class="pull-left">
+      <div class="mywell list-title-mapp">
+        <h3 ng-if="$ctrl.isUpdate">List Update</h3>
+        <h3 ng-if="!$ctrl.isUpdate">List Delete</h3>
+      </div>
     </div>
+    <div class="pull-right">
+      <div class="mywell text-right">
+        <a class="btn btn-black btn-fixed-80" ng-click="$ctrl.cancelList()">Cancel</a>
+      </div>
+    </div>
+  </div>
     <div class="row">
         <div class="pull-left">
             <div class="mywell">
@@ -96,7 +96,7 @@
     </div>
 
 
-    <div class="text-center" ng-show="$ctrl.list.length>0">
+    <div class="text-center margin-bottom-65" ng-show="$ctrl.list.length>0">
         <button class="btn btn-black" ng-click="$ctrl.uploadContacts()">Upload</button>
     </div>
 </div>
