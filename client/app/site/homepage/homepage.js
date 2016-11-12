@@ -1,22 +1,32 @@
 'use strict';
 (function () {
 
-  let _$http;
+  let _ConctactService;
   class HomePageController {
   
-    constructor($http) {
-      console.log('HomePageController');
+    constructor(ContactService) {
       this.submitText='Submit';
-      _$http=$http;
+       this.message={'show':false};
+     _ConctactService=ContactService;
     }
     sendmail(){
-      console.log('now sending mail');
-      console.log(this.cform);
-      this.submitText='Submitting..';
-          
+        this.submitText='Submitting..';
+        return _ConctactService.sendmail(this.cform)
+        .then(response=>{
+           this.submitText='Submit';
+           //this.cform={'firstName':'','lastName':'another'}; 
+
+           this.message = { show: true, type:'success',text:'Email Sent Successfully', expires:4000 };   
+          return response;
+        })
+        .catch(err=>{     
+           this.submitText='Submit';
+           this.message = { show: true, type:'danger', text: err.errorMessage || err , expires:4000 };   
+           return err;
+        });
     }
   }
-  HomePageController.$inject=['$http'];
+  HomePageController.$inject=['ContactService'];
 
   angular.module('fakiyaMainApp')
     .config(function ($stateProvider) {

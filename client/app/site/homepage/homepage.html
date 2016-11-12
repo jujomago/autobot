@@ -139,7 +139,10 @@
         AutoBox's launch program&rdquo;</p>
     </div>
 <form class="contact-form" name="contactForm" novalidate ng-submit="contactForm.$valid && $ctrl.sendmail()">
-	<div class="row">
+  <div class="col-md-12">
+     <abx-message msg="$ctrl.message"></abx-message> 
+  </div> 
+  <div class="row">
 		<div class="col-md-6">
 			<input placeholder="FIRST NAME *" type="text" name="firstName" maxlength="50" ng-model="$ctrl.cform.firstname" class="form-control autobox-textfield textfield-small center-block" 
 				required>
