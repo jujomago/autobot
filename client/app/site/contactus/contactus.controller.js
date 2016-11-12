@@ -10,7 +10,6 @@ class ContactusComponent {
     _ConctactService=ContactService;
   }
   sendmail(){
-       console.log('sending the mail');
         this.submitText='Submitting..';
         return _ConctactService.sendmail(this.cform)
         .then(response=>{
