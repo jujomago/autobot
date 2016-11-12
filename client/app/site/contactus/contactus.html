@@ -1,0 +1,88 @@
+<div class="sutitlecontainer">
+    <h3 class="subtitleunderline">CONTACT US</h3>
+</div>
+
+<form class="contactusform" name="contactForm" novalidate ng-submit="contactForm.$valid && $ctrl.sendmail()">
+    <abx-message msg="$ctrl.message"></abx-message> 
+    <div class="row">
+        <div class="col-md-6">
+            <div class="inputflex inputflex--gray">
+                <label for="firstname">First name *</label>
+                <input type="text"  name="firstname" maxlength="50" ng-model="$ctrl.cform.firstName" required>
+            </div>
+            <div ng-messages="contactForm.$submitted && contactForm.firstname.$error" class="errors-texts">	
+				<p ng-message="required">This field is required</p>
+			</div>
+        </div>
+        <div class="col-md-6">
+            <div class="inputflex inputflex--gray">
+                <label for="lastname">Last name *</label>
+                <input type="text"  name="lastname" maxlength="50" ng-model="$ctrl.cform.lastName" required>
+            </div>
+            <div ng-messages="contactForm.$submitted && contactForm.lastname.$error" class="errors-texts"> 	
+				<p ng-message="required">This field is required</p>
+			</div>	
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="inputflex inputflex--gray">
+                <label for="bmail">Business email *</label>
+                <input type="text" name="bmail" ng-model="$ctrl.cform.businessEmail" maxlength="50" ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/" required>
+            </div>
+            <div ng-messages="contactForm.$submitted && contactForm.bmail.$error" class="errors-texts">		
+				<p ng-message="required">This field is required</p>
+				<p ng-message="pattern">Invalid email</p>
+			</div>
+        </div>
+        <div class="col-md-6">
+            <div class="inputflex inputflex--gray">
+                <label for="tel">Phone</label>
+                <input type="text" name="tel" maxlength="20" ng-model="$ctrl.cform.phone" ng-minlength="10" ng-maxlength="20" abx-digits-only>
+            </div>
+            <div ng-messages="contactForm.tel.$error" class="errors-texts">
+				<p ng-message="minlength">Invalid phone number</p>   
+                <p ng-message="maxlength">Max length 20 digits</p>   
+			</div>
+        </div>
+    </div>  
+    <div class="row">
+        <div class="col-md-12">
+           <div class="inputflex inputflex--gray">
+                <label for="company">Company</label>
+                <input type="text" name="company"  maxlength="50" ng-model="$ctrl.cform.company">
+            </div>
+        </div>       
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+             <div class="inputflex inputflex--gray">
+                <label for="message">Message *</label>
+                <textarea class="inputflex__textarea auto-expand" rows="1" data-min-rows="1" name="message" maxlength="250" ng-model="$ctrl.cform.message" required></textarea>
+            </div>
+            <div ng-messages="contactForm.$submitted && contactForm.message.$error" class="errors-texts">	
+				<p ng-message="required">This field is required</p>
+			</div>
+        </div> 
+    </div>
+    <div class="row">
+      <button type="submit" class="btn btn-black center-block" ng-disabled="$ctrl.submitText=='Submitting..'" >{{$ctrl.submitText}}</button>
+    </div>
+</form>
+<script type="text/javascript">
+
+$(document)
+    .one('focus.auto-expand', 'textarea.auto-expand', function(){
+        var savedValue = this.value;
+        this.value = '';
+        this.baseScrollHeight = this.scrollHeight;
+        this.value = savedValue;
+    })
+    .on('input.auto-expand', 'textarea.auto-expand', function(){ 
+        var minRows = this.getAttribute('data-min-rows')|0, rows;
+        this.rows = minRows;
+        rows = Math.ceil((this.scrollHeight - this.baseScrollHeight) / 17);
+        this.rows = minRows + rows;
+    });
+
+</script>
