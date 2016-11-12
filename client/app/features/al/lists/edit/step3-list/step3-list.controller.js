@@ -168,6 +168,7 @@ class ListComponent {
         return error;
     });
   }
+
   sortColumn(columnName) {
       if (columnName !== undefined && columnName) {
           this.sortKey = columnName;
