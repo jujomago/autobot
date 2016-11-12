@@ -40,7 +40,17 @@
           };
       return _auth.createUser(newUser)
       .then(() => {
-        return _auth.logout();
+        return _auth.logout()
+         .then(response => {           
+          if (response.status === 200) {
+            console.log('Logout the actual session');           
+          }
+          return response;
+        })
+        .catch(e => {          
+          _auth.login(credentials);
+          return e;
+        });
       })
       .then(() => {        
         return _auth.login(credentials);
