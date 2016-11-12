@@ -12,7 +12,7 @@ describe('Service: DncService', function () {
   }));
 
   it('should return phones with status', function () {
-    expect(DncService).to.be.equal(true);
+    expect(!!DncService).to.be.equal(true);
   });
 
 });
