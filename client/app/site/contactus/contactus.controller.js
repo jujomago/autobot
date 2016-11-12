@@ -1,15 +1,15 @@
 'use strict';
-(function () {
 
-  let _ConctactService;
-  class HomePageController {
-  
-    constructor(ContactService) {
-      this.submitText='Submit';
-       this.message={'show':false};
-     _ConctactService=ContactService;
-    }
-    sendmail(){
+(function(){
+ let _ConctactService;
+class ContactusComponent {
+  constructor(ContactService) {
+    this.message = 'Hello';
+    this.submitText='Submit';
+    this.message={'show':false};
+    _ConctactService=ContactService;
+  }
+  sendmail(){
         this.submitText='Submitting..';
         return _ConctactService.sendmail(this.cform)
         .then(response=>{
@@ -24,19 +24,14 @@
            this.message = { show: true, type:'danger', text: err.errorMessage || err , expires:4000 };   
            return err;
         });
-    }
   }
-  HomePageController.$inject=['ContactService'];
+}
 
-  angular.module('fakiyaMainApp')
-    .config(function ($stateProvider) {
-      $stateProvider
-        .state('home', {
-          url: '/',
-          templateUrl: 'app/site/homepage/homepage.html',
-          controller: HomePageController,
-          controllerAs: '$ctrl'
-        });
-    });
+ContactusComponent.$inject=['ContactService'];
+angular.module('fakiyaMainApp')
+  .component('contactus', {
+    templateUrl: 'app/site/contactus/contactus.html',
+    controller: ContactusComponent
+  });
 
 })();

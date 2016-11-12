@@ -1,0 +1,78 @@
+.inputflex{  
+    display: flex;
+    align-items: center;
+    min-height: 35px;
+    >label{
+        margin: 0 6px 0 10px;
+        font-size: 14px;
+        color: #666;
+        font-weight: normal;
+    }
+    >input,>textarea{
+        flex: 2;
+        min-height: 33px;
+        background: none;
+        border: none;
+        padding-right: 10px;
+        color:@black;
+    }
+    
+    &--gray{
+        background:#F7F7F7;
+        border:1px solid #f2f2f2; 
+    }
+   
+    &__textarea{
+       // min-height: 35px;
+        overflow:hidden;
+       // word-wrap: break-word;
+       display: block;
+       padding-top: 7px;
+       resize: none;
+       &:focus{
+           outline: none;
+       }
+          
+    }
+}
+
+
+
+.sutitlecontainer{
+    text-align: center;
+    margin: 50px 0 30px;
+}
+.subtitleunderline{
+    display: inline-block;
+    border-bottom: 3px solid #36A3DC;
+    font-size: 20px;
+    font-family: BrandonBold;
+}
+.contactusform{
+    padding: 0 50px;
+    .row{    
+        max-width: 840px;
+        margin: 0 auto 0;    
+    }
+    .col-md-6,.col-md-12{
+        padding: 0 10px;
+        margin-bottom: 20px;
+    }
+    .btn-black{
+        height: 38px;
+        font-size: 16px;
+        width: auto;
+        margin-top: 10px;
+    }
+    .errors-texts p{
+		color: #e64b3b;
+        position: absolute;
+        font-size: 14px;
+    }
+    .alert{
+        max-width: 400px;
+        margin: 0 auto 20px;
+        text-align: center;
+        text-transform: uppercase;
+    }
+}
