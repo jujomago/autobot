@@ -12,7 +12,7 @@ class CheckDNCModalComponent {
     this.validating = false;
     _ = lodash;
     _DncService = DncService;
-    this.message = { show: false };
+    this.errorId = false;
   }
   $onInit(){
   	this.instance = this.parent.dncModalInstance;
@@ -29,6 +29,9 @@ class CheckDNCModalComponent {
   dismiss(){
   	this.instance.dismiss('dismiss');
   }
+  changeText(){
+    this.errorId = false;
+  }
   validate(){
   	this.validating = true;
     this.message = { show: false };
@@ -37,7 +40,7 @@ class CheckDNCModalComponent {
   		this.instance.close(response);
   	}).catch(error => {
       this.validating = false;
-      this.message={ show: true, type: 'danger', text: 'Invalid Login ID', expires: 5000};
+      this.errorId = true;
     });
   }
 }
