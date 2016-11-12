@@ -1,12 +1,14 @@
 <div class="sutitlecontainer">
     <h3 class="subtitleunderline">CONTACT US</h3>
 </div>
+
 <form class="contactusform" name="contactForm" novalidate ng-submit="contactForm.$valid && $ctrl.sendmail()">
+    <abx-message msg="$ctrl.message"></abx-message> 
     <div class="row">
         <div class="col-md-6">
             <div class="inputflex inputflex--gray">
                 <label for="firstname">First name *</label>
-                <input type="text" name="firstname" maxlength="50" ng-model="$ctrl.cform.firstname" required >
+                <input type="text" name="firstname" maxlength="50" ng-model="$ctrl.cform.firstName" required>
             </div>
             <div ng-messages="contactForm.$submitted && contactForm.firstname.$error" class="errors-texts">	
 				<p ng-message="required">This field is required</p>
@@ -15,7 +17,7 @@
         <div class="col-md-6">
             <div class="inputflex inputflex--gray">
                 <label for="lastname">Last name *</label>
-                <input type="text" name="lastname" maxlength="50" ng-model="$ctrl.cform.lastname" required>
+                <input type="text" name="lastname" maxlength="50" ng-model="$ctrl.cform.lastName" required>
             </div>
             <div ng-messages="contactForm.$submitted && contactForm.lastname.$error" class="errors-texts"> 	
 				<p ng-message="required">This field is required</p>
@@ -26,7 +28,7 @@
         <div class="col-md-6">
             <div class="inputflex inputflex--gray">
                 <label for="bmail">Business email *</label>
-                <input type="text" name="bmail" ng-model="$ctrl.cform.email" maxlength="50" ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/" required>
+                <input type="text" name="bmail" ng-model="$ctrl.cform.businessEmail" maxlength="50" ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/" required>
             </div>
             <div ng-messages="contactForm.$submitted && contactForm.bmail.$error" class="errors-texts">		
 				<p ng-message="required">This field is required</p>
@@ -36,7 +38,7 @@
         <div class="col-md-6">
             <div class="inputflex inputflex--gray">
                 <label for="tel">Phone</label>
-                <input type="text" name="tel"  ng-model="$ctrl.cform.tel" ng-pattern="/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/">
+                <input type="text" name="tel"  ng-model="$ctrl.cform.phone" ng-pattern="/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/">
             </div>
             <div ng-messages="contactForm.tel.$error" class="errors-texts">
 				<p ng-message="pattern">This phone number is not valid</p>   
