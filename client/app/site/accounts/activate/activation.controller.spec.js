@@ -80,8 +80,7 @@ describe('Component: ActivationController', function() {
               lastName: activactionComponent.newAccount.lastname,
               password: activactionComponent.newAccount.password
           };         
-          httpBackend.whenPOST(endPointUrl+'/admin/users',newUser).respond( {status:201});
-          httpBackend.whenGET(endPointUrl+'/auth/logout').respond( {status:200});  
+          httpBackend.whenPOST(endPointUrl+'/admin/users',newUser).respond( {status:201});          
           httpBackend.whenPOST(endPointUrl+'/auth/login').respond( {status:200});          
           activactionComponent.createUser()
           .then(response=>{               

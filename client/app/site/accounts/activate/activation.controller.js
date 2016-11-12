@@ -14,7 +14,7 @@
       _Base64Manager = Base64Manager;
     }
     $onInit(){
-      this.activation();
+      this.activation();      
     }
     activation() {
       return _auth.activate(this.activationCode)
@@ -40,17 +40,10 @@
           };
       return _auth.createUser(newUser)
       .then(() => {
-        return _auth.logout()
-         .then(response => {           
-          if (response.status === 200) {
-            console.log('Logout the actual session');           
-          }
-          return response;
-        })
-        .catch(e => {          
-          _auth.login(credentials);
-          return e;
-        });
+        let isLogged = _auth.isAuthenticated();
+        if(isLogged){
+            _auth.logout();
+        }    
       })
       .then(() => {        
         return _auth.login(credentials);
