@@ -11,8 +11,8 @@ describe('Service: DncService', function () {
     DncService = _DncService_;
   }));
 
-  it('should do something', function () {
-    expect(!!DncService).to.be.true;
+  it('should return phones with status', function () {
+    expect(DncService).to.be.equal(true);
   });
 
 });

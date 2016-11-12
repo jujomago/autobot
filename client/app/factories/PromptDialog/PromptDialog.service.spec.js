@@ -12,7 +12,7 @@ describe('Service: PromptDialog', function () {
   }));
 
   it('should do something', function () {
-    expect(!!PromptDialog).to.be.true;
+    expect(!!PromptDialog).to.be.equal(true);
   });
 
 });

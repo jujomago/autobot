@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-    let _$http,_HandleError, _$q;
+    let _$http,_HandleError;
     class DncService {
         constructor($http, HandleError, appConfig) {
             this.endPointUrl = '/dnc/scrubs';

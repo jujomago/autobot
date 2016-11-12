@@ -76,7 +76,7 @@ function _extractFormats(field) {
     return field;
 }
 class ListComponent {
-  constructor($state, $stateParams, $filter, ModalManager, ListsService, ConfirmAsync, ContactFieldsService, lodash, FieldFormatter, PromptDialog, AlertDialog, Utils) {
+  constructor($state, $stateParams, $filter, ModalManager, ListsService, ConfirmAsync, ContactFieldsService, lodash, FieldFormatter, PromptDialog, AlertDialog, Utils, Global) {
       this.currentPage = 1;
       this.sortKey = '';
       this.reverse = false;
@@ -101,6 +101,7 @@ class ListComponent {
       this.error = false;
       this.loaded = false;
       this.isUpdate = true;
+      this.global = Global;
       ctrl = this;
       _ = lodash;
       _$state = $state;
@@ -285,15 +286,24 @@ class ListComponent {
                     this.pageChanged();
                   }
                   else{
+                    console.log(this.selectedIndex);
                     this.list[this.selectedIndex] = result;
                   }
             }
+            let tmpSelected=this.selectedIndex;
             this.selected = '';
             this.selectedOld = '';
             this.selectedArray = [];
             this.contact = {};
             this.selectedIndex = -1;
-            this.selectedContact(0, result);
+            if(this.method==='create'){
+              this.selectedContact(0, result);
+            }
+            else{
+              this.selectedContact(tmpSelected, result);
+            }
+            
+
         }, ()=>{
           this.selected = '';
           this.selectedOld = '';
@@ -419,7 +429,7 @@ class ListComponent {
     this.valids = [];
     this.dncModalInstance.result
     .then(response => {
-      let list = response.data.filter(item => (item.status!=='C' && item.status!=='X' && item.status!=='O' && item.status!=='E' && item.status!=='R'));
+      let list = response.filter(item => (item.status!=='C' && item.status!=='X' && item.status!=='O' && item.status!=='E' && item.status!=='R'));
       if(list.length>0){
         return this.removeDnc(list);
       }
@@ -440,7 +450,7 @@ class ListComponent {
     });
   }
 }
-ListComponent.$inject = ['$state', '$stateParams', '$filter', 'ModalManager', 'ListsService', 'ConfirmAsync', 'ContactFieldsService', 'lodash', 'FieldFormatter', 'PromptDialog', 'AlertDialog', 'Utils'];
+ListComponent.$inject = ['$state', '$stateParams', '$filter', 'ModalManager', 'ListsService', 'ConfirmAsync', 'ContactFieldsService', 'lodash', 'FieldFormatter', 'PromptDialog', 'AlertDialog', 'Utils', 'Global'];
 angular.module('fakiyaMainApp')
   .component('al.lists.edit.list', {
     templateUrl: 'app/features/al/lists/edit/step3-list/step3-list.html',

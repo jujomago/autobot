@@ -10,7 +10,7 @@ describe('Component: CheckDNCModalComponent', function () {
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($componentController, $rootScope) {
     scope = $rootScope.$new();
-    CheckDNCModalComponent = $componentController('CheckDNCModalComponent', {
+    CheckDNCModalComponent = $componentController('checkDncModal', {
       $scope: scope
     });
   }));
