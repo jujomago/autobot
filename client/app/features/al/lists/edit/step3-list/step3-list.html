@@ -11,7 +11,8 @@
     <div class="row">
         <div class="pull-left">
             <div class="mywell list-title-mapp">
-                <h3>List Update</h3>
+                <h3 ng-if="$ctrl.isUpdate">List Update</h3>
+                <h3 ng-if="!$ctrl.isUpdate">List Delete</h3>
             </div>
         </div>
 
@@ -20,7 +21,7 @@
                 <a class="btn btn-black btn-fixed-80" ng-click="$ctrl.cancelList()">Cancel</a>
             </div>
         </div>
-    </div>
+  </div>
     <div class="row">
         <div class="pull-left fixed-margin-top-5">
             <div class="mywell">
@@ -36,9 +37,9 @@
                 <button class="btn btn-black right-space-20 btn-fixed-80" ng-if="$ctrl.manual" ng-click="$ctrl.insertContact()">Insert</button>
                 <button class="btn btn-black right-space-20 btn-fixed-80 fixed-margin-top-5" ng-if="!$ctrl.manual" ng-click="$ctrl.insertContact()" ng-disabled="$ctrl.error">Insert</button>
                 <button class="btn btn-black right-space-20 btn-fixed-80 fixed-margin-top-5" ng-disabled="$ctrl.selectedArray.length === 0 || $ctrl.selectedArray.length > 1" ng-click="$ctrl.editContact()">Edit</button>
-                <button class="btn btn-black right-space-20 btn-fixed-80 fixed-margin-top-5" ng-disabled="$ctrl.selectedArray.length < 1" ng-click="$ctrl.deleteContact()">Delete</button>
-                <button class="btn btn-black right-space-20 btn-fixed-80 fixed-margin-top-5" ng-click="$ctrl.shuffleList()" ng-disabled="$ctrl.filteredList.length <= 1">Shuffle</button>
-                <button class="btn btn-blue no-padding fixed-margin-top-5" ng-click="$ctrl.openDNCModal()" ng-disabled="$ctrl.list.length===0">DNC Scrub</button>
+                <button class="btn btn-black btn-fixed-80 fixed-margin-top-5" ng-class="{'right-space-20': $ctrl.isUpdate}" ng-disabled="$ctrl.selectedArray.length < 1" ng-click="$ctrl.deleteContact()">Delete</button>
+                <button class="btn btn-black right-space-20 btn-fixed-80 fixed-margin-top-5" ng-click="$ctrl.shuffleList()" ng-disabled="$ctrl.filteredList.length <= 1" ng-if="$ctrl.isUpdate">Shuffle</button>
+                <button class="btn btn-blue no-padding fixed-margin-top-5" ng-click="$ctrl.openDNCModal()" ng-disabled="$ctrl.list.length===0" ng-if="$ctrl.isUpdate">DNC Scrub</button>
 
             </div>
         </div>
