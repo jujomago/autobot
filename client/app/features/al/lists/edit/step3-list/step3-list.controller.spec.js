@@ -46,9 +46,7 @@ describe('Component:step3', function () {
         this.params = params;
       }
     };
-
     _$stateParams.update = true;
-
     sandbox = sinon.sandbox.create();
 
     if (appConfig.apiUri) {
