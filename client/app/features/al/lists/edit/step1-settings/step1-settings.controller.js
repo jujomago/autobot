@@ -1,20 +1,20 @@
 'use strict';
 (function () {
     let _$state,_$stateParams;
-    class SettingsComponent {   
+    class SettingsComponent {
         constructor($state, $stateParams) {
             _$state = $state;
             _$stateParams = $stateParams;
             this.name = _$stateParams.name;
         }
         sendConfiguration(){
-          _$state.go('ap.al.listsEdit-list', {name: this.name});
+          _$state.go('ap.al.listsEdit-list', {name: this.name, update: _$stateParams.update});
         }
-        
+
     }
 
 
-    SettingsComponent.$inject = ['$state', '$stateParams', ];
+    SettingsComponent.$inject = ['$state', '$stateParams'];
 
     angular.module('fakiyaMainApp')
         .component('al.lists.settings', {
