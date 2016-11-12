@@ -15,10 +15,7 @@
         sendmail(data) {      
             let result = { data: null, statusCode: 200, errorMessage: null };
             return _$http.post(this.endPointUrl + '/admin/services/contact',data)
-            .then(response => {
-              result.data = response.data;
-              return result;
-            })
+            .then(() => result)
             .catch(err => _HandleError(err, result));       
         }    
     }

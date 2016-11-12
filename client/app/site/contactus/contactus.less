@@ -1,26 +1,43 @@
-.inputflex{
-    height: 35px;
+.inputflex{  
     display: flex;
     align-items: center;
+    min-height: 35px;
     >label{
         margin: 0 6px 0 10px;
         font-size: 14px;
         color: #666;
         font-weight: normal;
     }
-    >input{
+    >input,>textarea{
         flex: 2;
-        height: 100%;
+        min-height: 33px;
         background: none;
         border: none;
         padding-right: 10px;
         color:@black;
     }
+    
     &--gray{
         background:#F7F7F7;
         border:1px solid #f2f2f2; 
     }
+   
+    &__textarea{
+       // min-height: 35px;
+        overflow:hidden;
+       // word-wrap: break-word;
+       display: block;
+       padding-top: 7px;
+       resize: none;
+       &:focus{
+           outline: none;
+       }
+          
+    }
 }
+
+
+
 .sutitlecontainer{
     text-align: center;
     margin: 50px 0 30px;
