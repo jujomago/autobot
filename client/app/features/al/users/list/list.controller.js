@@ -3,11 +3,10 @@
 
     //Private members
     let _timeout, _state;
-    let _UsersService, _ConfirmAsync;
-
+    let _UsersService, _ConfirmAsync;  
     class ListComponent {
-
-        constructor($stateParams, $timeout, $state, ConfirmAsync, $filter, UsersService) {
+        constructor($stateParams, $timeout, $state, $scope,ConfirmAsync, $filter, UsersService,Global) { 
+            //    console.log('constructor');    
             this.message = { show: false };
             if ($stateParams.message !== null) {
                 this.message = { show: true, type: $stateParams.message.type, text: $stateParams.message.text };
@@ -17,10 +16,10 @@
             }
 
             _timeout = $timeout;
-            _state = $state;
+            _state = $state;            
             _UsersService = UsersService;
             _ConfirmAsync = ConfirmAsync;
-
+            this.global = Global;
             this.usersList = [];
             this.currentPage = 1;
             this.sortKey = '';
@@ -28,15 +27,13 @@
             this.numPerPage = 10;
             this.beginNext = 0;
             this.quantities = [5, 10, 15, 20];
-
             this.toogleUserRow = -1;
             this.search={userName:''};
             this.filteredUsers=[];
             this.filter = $filter;
-            this.totalMin = false;
-
+            this.totalMin = false;            
         }
-
+        
         $onInit() {
             this.sortColumn('userName');
             return _UsersService.getUsers()
@@ -117,7 +114,7 @@
 
     }
 
-    ListComponent.$inject = ['$stateParams', '$timeout', '$state', 'ConfirmAsync', '$filter', 'UsersService'];
+    ListComponent.$inject = ['$stateParams', '$timeout', '$state', '$scope','ConfirmAsync', '$filter', 'UsersService','Global'];
     angular.module('fakiyaMainApp')
         .component('al.users.list', {
             templateUrl: 'app/features/al/users/list/list.html',

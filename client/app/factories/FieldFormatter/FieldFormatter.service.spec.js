@@ -39,12 +39,12 @@ describe('Service:FieldFormatter', function () {
     it('should return date format', function () {
       let field = {name: 'field1', type: 'DATE', dateFormat: 'yyyy'};
       let value = new Date('2016-11-01');
-      expect(FieldFormatter.formatField(field, value)).to.be.equal('2016 PDT');
+      expect(FieldFormatter.formatField(field, value)).to.be.equal('2016');
     });
     it('should return date time format', function () {
       let field = {name: 'field1', type: 'DATE_TIME', dateFormat: 'yyyy'};
       let date = new Date('2016-11-01');
-      expect(FieldFormatter.formatField(field, {date: date, time: '09:34'})).to.be.equal('2016 09:34 PDT');
+      expect(FieldFormatter.formatField(field, {date: date, time: '09:34'})).to.be.equal('2016 09:34');
     });
   });
 
@@ -56,6 +56,10 @@ describe('Service:FieldFormatter', function () {
     it('should return phone format', function () {
       let field = {name: 'field1', type: 'PHONE'};
       expect(FieldFormatter.removeExtraChars(field, '(987)-654-3210')).to.be.equal('9876543210');
+    });
+    it('should trim start and end spaces', function () {
+      let field = {name: 'field1', type: 'STRING'};
+      expect(FieldFormatter.removeExtraChars(field, '     test      ')).to.be.equal('test');
     });
 
   });

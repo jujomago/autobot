@@ -28,6 +28,8 @@ while getopts ":m:v:" opt; do
       option="$OPTARG"
       if [ "$OPTARG" == "dev" ]; then
         option=dev
+      elif [ "$OPTARG" == "staging" ]; then
+        option=staging
       else
         option=prod
       fi
@@ -53,7 +55,11 @@ done
 #option="${1}"
 case ${option} in
    dev) VERSION="$number.dev"
-      echo "Development building"
+      echo "Development building..."
+      docker-compose --project-name "$APP_NAME" -f docker-compose.dev.yml build
+      ;;
+   staging) VERSION="$number"
+      echo "Production building for staging..."
       docker-compose --project-name "$APP_NAME" -f docker-compose.dev.yml build
       ;;
    prod) VERSION="$number"
