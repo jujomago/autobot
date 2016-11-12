@@ -40,7 +40,7 @@ class ContactModalComponent {
       this.setMessage('Can\'t save empty Contact Record');
     }
     else if(this.contact.number1 === '' && this.contact.number2 === '' && this.contact.number3 === ''){
-      this.setMessage('The Contact Record does not have any number'); 
+      this.setMessage('The Contact Record does not have any number');
     }
     else{
       this.convertFields();
