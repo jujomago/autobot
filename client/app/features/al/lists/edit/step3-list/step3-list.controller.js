@@ -103,6 +103,7 @@ class ListComponent {
       this.sending = false;
       this.error = false;
       this.loaded = false;
+      this.isUpdate = true;
       ctrl = this;
       _ = lodash;
       _$state = $state;
@@ -116,32 +117,50 @@ class ListComponent {
       _Utils = Utils;
       this.listName = _$stateParams.name;
       this.sendContact = {listName: this.listName, importData: {values: []} };
-      this.listUpdateSettings = {cleanListBeforeUpdate: false, crmAddMode: 'ADD_NEW', crmUpdateMode: 'UPDATE_FIRST', listAddMode: 'ADD_FIRST'};
-
-
+      this.listUpdateSettings = {
+        cleanListBeforeUpdate: false,
+        crmAddMode: 'ADD_NEW',
+        crmUpdateMode: 'UPDATE_FIRST',
+        listAddMode: 'ADD_FIRST'
+      };
+      this.listDeleteSettings = {
+        listDeleteMode: 'DELETE_ALL'
+      };
   }
+
   $onInit(){
+    this.isUpdate = JSON.parse(_$stateParams.update);
     this.getContactFields();
   }
+
   generateMapping(){
-    this.listUpdateSettings.fieldsMapping =[];
-    for(let i=0; i<this.contactFields.length;i++){
-      let key=false;
-      if(this.contactFields[i].name==='number1'){
+    for (let i = 0; i < this.contactFields.length; i++) {
+      let key = false;
+
+      if (this.contactFields[i].name === 'number1') {
         key=true;
         this.contactFields[i].isKey = true;
       }
-      this.listUpdateSettings.fieldsMapping.push({columnNumber: i+1, fieldName: this.contactFields[i].name, key: key});
+
+      this.fieldsMapping.push({
+                                columnNumber: i+1,
+                                fieldName: this.contactFields[i].name,
+                                key: key
+                              });
     }
   }
+
   getContactFields() {
     return _ContactFieldsService.getContactFields()
     .then(response => {
         this.contactFields = response.data.filter(e => (e.mapTo === 'None'));
-        this.contactFields  = this.contactFields.map(_getSets).map(_extractFormats);
+
+        this.contactFields  = this.isUpdate ?
+                                    this.contactFields.map(_getSets).map(_extractFormats) :
+                                    [this.contactFields[0]].map(_getSets).map(_extractFormats);
+
         this.generateMapping();
         this.loaded = true;
-        console.log(this.contactFields);
         return response;
     })
     .catch(error => {
@@ -149,6 +168,7 @@ class ListComponent {
         return error;
     });
   }
+
   sortColumn(columnName) {
       if (columnName !== undefined && columnName) {
           this.sortKey = columnName;
@@ -287,26 +307,41 @@ class ListComponent {
 
   uploadContacts(){
 
-    let list = angular.copy(this.list);
-    let mainList =  list.map(item =>{
+    let list = angular.copy(this.list),
+        promiseUpload,
+        mainList;
+
+    mainList =  list.map(item => {
         let keys = Object.keys(item);
+
         for(let i=0;i<keys.length;i++){
           let key = keys[i];
+
           item[key] =  _FieldFormatter.formatField(ctrl.contactFields[i], item[key]);
         }
         return item;
     });
+
     _.each(mainList,e=>{
       this.sendContact.importData.values.push({item: _.values(e)});
     });
 
+    this.sending = true;
+
+    if (this.isUpdate) {
+      this.listUpdateSettings.fieldsMapping = this.fieldsMapping;
       this.sendContact.listUpdateSettings = this.listUpdateSettings;
-      this.sending= true;
-      console.log(this.sendContact);
-      return _ListService.addContacts(this.sendContact)
-      .then(response=>{
-        if(response.data.return.identifier){
-          this.sending= false;
+    }
+    else {
+      this.listDeleteSettings.fieldsMapping = this.fieldsMapping;
+      this.sendContact.listDeleteSettings = this.listDeleteSettings;
+    }
+
+    promiseUpload = this.isUpdate ? _ListService.addContacts(this.sendContact) : _ListService.deleteContacts(this.sendContact);
+
+    return promiseUpload.then(response => {
+        if (response.data.return.identifier) {
+          this.sending = false;
           _Utils.setDataListAction({
             name: this.sendContact.listName,
             identifier: response.data.return.identifier,
@@ -315,8 +350,7 @@ class ListComponent {
           _$state.go('ap.al.lists');
         }
         return response;
-      })
-      .catch(error =>{
+      }).catch(error =>{
         this.SubmitText='Save';
         let message={ show: true, type: 'danger', text: error.errorMessage,name: this.sendContact.listName, expires: 5000 };
         _Utils.setDataListAction({messageError: message});

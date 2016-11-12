@@ -46,8 +46,12 @@
     let warningsCount=result.warningsCount;
 
     if(!isUpdate){
-      let errorsFoundQty=uploadDuplicatesCount+uploadErrorsCount;
-      items.push(`${errorsFoundQty} ERRORS FOUND`);
+      let errorsFoundQty=uploadDuplicatesCount+uploadErrorsCount,
+          message;
+
+      message = errorsFoundQty > 0 ? `${errorsFoundQty} ERRORS FOUND` : 'NO ERRORS FOUND';
+      items.push(message);
+
       if(uploadErrorsCount!==0){
         items.push(`${uploadErrorsCount} lines with parse erros found`);
       }
@@ -89,6 +93,7 @@
     content.list = _getListItems(result,isUpdate);
     return content;
   }
+
   class ListComponent {
     constructor(ListsService,$stateParams,$state, $filter, ModalManager,ConfirmAsync, AlertMessage, Global, Utils) {
         this.lists = [];
@@ -99,6 +104,7 @@
         _AlertMessage = AlertMessage;
         _ModalManager = ModalManager;
         _Global = Global;
+        this.global =  Global;
         _Utils = Utils;
         this.currentPage = 1;
         this.sortKey = '';
@@ -197,11 +203,11 @@
         });
     }
 
-    updateListRecord(list){
-      _$state.go('ap.al.listsEdit', {name: list, isUpdate: true});
+    updateListRecord(item){
+      _$state.go('ap.al.listsEdit', {name: item.name, update: true});
     }
-    deleteListRecord(list){
-      _$state.go('ap.al.listsEdit', {name: list, isUpdate: false});
+    deleteListRecord(item){
+      _$state.go('ap.al.listsEdit', {name: item.name, update: false});
     }
     filteringBySearch(){
       this.lists = _$filter('filter')(this.originalLists, this.search);
