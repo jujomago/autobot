@@ -14,8 +14,6 @@
         return _ConctactService.sendmail(this.cform)
         .then(response=>{
            this.submitText='Submit';
-           //this.cform={'firstName':'','lastName':'another'}; 
-
            this.message = { show: true, type:'success',text:'Email Sent Successfully', expires:4000 };   
           return response;
         })

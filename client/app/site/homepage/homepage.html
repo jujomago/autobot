@@ -144,27 +144,27 @@
   </div> 
   <div class="row">
 		<div class="col-md-6">
-			<input placeholder="FIRST NAME *" type="text" name="firstName" maxlength="50" ng-model="$ctrl.cform.firstname" class="form-control autobox-textfield textfield-small center-block" 
+			<input placeholder="FIRST NAME *" type="text" name="firstName" maxlength="50" ng-model="$ctrl.cform.firstName" class="form-control autobox-textfield textfield-small center-block" 
 				required>
 			<div ng-messages="contactForm.$submitted && contactForm.firstName.$error" class="errors-texts">		
 				<p ng-message="required">This field is required</p>
 			</div>
 		</div>
 		<div class="col-md-6">	
-			<input placeholder="LAST NAME *" type="text" maxlength="50" name="lastName" ng-model="$ctrl.cform.lastname"  class="form-control autobox-textfield textfield-small center-block" required>
+			<input placeholder="LAST NAME *" type="text" maxlength="50" name="lastName" ng-model="$ctrl.cform.lastName"  class="form-control autobox-textfield textfield-small center-block" required>
 			<div ng-messages="contactForm.$submitted && contactForm.lastName.$error" class="errors-texts"> 		
 				<p ng-message="required">This field is required</p>
 			</div>			
 		</div>
 		<div class="col-md-6">
-			<input  placeholder="BUSSINESS EMAIL *" type="email" name="email" ng-model="$ctrl.cform.email" maxlength="50" ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/"  class="form-control autobox-textfield textfield-small center-block" required>
+			<input  placeholder="BUSSINESS EMAIL *" type="email" name="email" ng-model="$ctrl.cform.businessEmail" maxlength="50" ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/"  class="form-control autobox-textfield textfield-small center-block" required>
 			<div ng-messages="contactForm.$submitted && contactForm.email.$error" class="errors-texts">		
 				<p ng-message="required">This field is required</p>
 				<p ng-message="pattern">Invalid email</p>
 			</div>
 		</div>
 		<div class="col-md-6">	
-			<input placeholder="PHONE" type="tel" ng-minlength="10" ng-maxlength="20" maxlength="20" name="tel" ng-model="$ctrl.cform.tel" abx-digits-only class="form-control autobox-textfield textfield-small center-block">
+			<input placeholder="PHONE" type="tel" ng-minlength="10" ng-maxlength="20" maxlength="20" name="tel" ng-model="$ctrl.cform.phone" abx-digits-only class="form-control autobox-textfield textfield-small center-block">
 			<div ng-messages="contactForm.tel.$error" class="errors-texts">
 				<p ng-message="minlength">Invalid phone number</p>   
         <p ng-message="maxlength">max digits 20</p>   
