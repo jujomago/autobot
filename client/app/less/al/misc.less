@@ -924,7 +924,6 @@
         }
     }
 
-
     // ======= BETIN REPORTS STYLES ===============
     //TOOLBAR REPORTS
      @height-toolbar:60px;
@@ -1209,31 +1208,26 @@
         border-width: 1px;
         border-style: solid;
         border-color: #ececec;
-        margin-bottom: 30px;                
+        margin-bottom: 30px; 
+        position: relative;               
     } 
-    .div-box{    
-        padding-top: 30px;
-        padding-bottom: 25px;
-        padding-left: 20px;    
-        border-left-width: 1px;
-        border-left-style: solid;
-        border-left-color: #ececec;
+    .div-box{  
+        padding: 30px 0px 25px 20px;
+        border-left: 1px solid #ececec;
+        //position: absolute;
+        right: 0px;
+        height: 100%;
         @media (max-width: 920px) {    
             width: 100%;       
-            border-top-width: 1px;
-            border-top-style: solid;
-            border-top-color: #ececec;
-            border-left-width: 0px;
-            border-left-style: none;
-            border-left-color: transparent;
-            padding-top: 10px;
-            padding-bottom: 10px;
+            border-top: 1px solid #ececec;            
+            border-left: 0px none transparent;            
+            padding: 10px 0px 10px 20px;
         }
     }  
     .reports{
         background: white;             
         font-size: 9px;
-        float: left; 
+        float: left;                      
         .first-button{
             margin-top: 20px;
         }      
@@ -1243,28 +1237,28 @@
         .buttonBlue {
             border: none;
             width: 60px;
-            height: 20px;
-            margin-left: 20px;
-            margin-right: 20px;            
+            height: 20px; 
+            margin-right: 20px;
             margin-bottom: 10px;
+            margin-left: 20px;  
             background-color: #37A3DC;            
                         
             color: #FFFFFF;           
         }
         .buttonBlue2 {
             margin-top: 20px;
+            margin-bottom: 3px;
         }
-        .selectCustom{           
-            width: 140px;
-            margin-right: 10px;
-            border-color: #666;
-            background: white;            
-        }
-        .selectCustom2{            
-            width: 80px;
+        .selectCustom{   
             margin-right: 10px;
             border-color: #666;
             background: white;        
+        }
+        .select-140{            
+            width: 140px;                   
+        }
+        .select-80{            
+            width: 80px;                   
         }
         input[type=checkbox]{
             //margin-top: 10px;
@@ -1272,7 +1266,7 @@
             margin-left: 5px;
             margin-right: 10px;
             width: 15px;
-            height: 15px;
+            height: 15px;            
         }
         label{
             display: inline-block;
@@ -1304,7 +1298,7 @@
             @media (max-width: 920px) {           
                 display: inline;
             }
-        }        
+        }              
     }
     .reports-title
     {
@@ -1315,12 +1309,59 @@
             margin-bottom: 30px;
         }     
     }
-      .label-weight{
+
+    .img-responsive-reports{
+        display: inline-block;
+        max-width: 100%;
+        height: auto;
+        vertical-align: middle;
+        border: 0px;
+        margin: 10px 50px 50px 50px;
+        p{
+           font-family: BrandonRegular;
+           font-size: 12px;
+           text-align: center;
+           margin-bottom: 20px;
+           margin-top: 20px;
+        }
+        
+    }
+    .font-gauges{
+        font-weight: bold;
+    }
+    .gauges-reports{
+        background: white;   
+        //text-align: center;
+    }
+    .div-box-span{
+        margin-bottom: 30px;    
+        .span-box{
+            vertical-align:top;
+            margin-right: 20px;
+        }
+         .span-box2{
+            vertical-align:top;           
+        }
+    }
+    .div-box-head{
+        width: 20px;
+        height: 20px;
+        display: inline-block;        
+        margin-right: 10px;
+    }
+     .div-box-head1{        
+        background: #62bf92;       
+        }
+    .div-box-head2{
+        background: #f9db01;
+        }
+    .div-box-head3{       
+        background: #e64e39;       
+        }
+    .label-weight{
         font-weight: normal;
     }
     // ====== END REPORT STYLES =========
-
-  
 
 }
 @-moz-document url-prefix() {
