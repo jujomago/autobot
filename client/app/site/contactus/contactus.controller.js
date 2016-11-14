@@ -17,6 +17,12 @@ class ContactusComponent {
   }
   sendmail(form){
         this.submitText='Submitting..';
+        if(!this.cform.company){
+          this.cform.company = 'None';
+        }
+        if(!this.cform.phone){
+          this.cform.phone = 'None';
+        }
         return _ConctactService.sendmail(this.cform)
         .then(response=>{
            this.submitText='Submit';
