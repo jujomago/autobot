@@ -3,17 +3,17 @@ services:
   mongo:
     image: mongo:3.2.9
     volumes:
-      - "/var/abx/mongodb:/data/db"
+      - "/var/abx/mongodb-prod:/data/db"
     ports:
-      - "27017:27017"
+      - "27027:27017"
 
   redis:
     image: redis:3.2.3
     ports:
-        - "6379:6379"
+        - "6389:6379"
 
   autobox-auth:
-    image: quay.io/abxbo/autobox-auth:latest
+    image: quay.io/abxbo/autobox-auth:0.1
     ports:
       - "3380"
     environment:
@@ -23,9 +23,9 @@ services:
       - mongo
 
   autobox-api:
-    image: quay.io/abxbo/autobox-api:latest
+    image: quay.io/abxbo/autobox-api:0.1
     ports:
-      - "9999:8080"
+      - "8888:8080"
     environment:
       NODE_ENV: production
       MONGO_URL: mongodb://mongo/autobox-prod-db
@@ -37,3 +37,14 @@ services:
       - redis
       - autobox-auth
 
+  autobox-web:
+    build:
+      context: .
+      args:
+        API_ACCESS_URL: http://www.dev-autoboxcorp.com:8888/api
+    ports:
+      - "8880:8081"
+    environment:
+      NODE_ENV: production
+    links:
+      - autobox-api

@@ -30,10 +30,8 @@ var callService = function (options) {
                     return new Promise(function (resolve, reject) {
                         client[settings.soapMethod](settings.soapParams, (err, result) => {
                             if (err !== null) {
-                                console.log(settings.soapMethod + ' with error' + err);
                                 reject(err)
                             } else {
-                                console.log(settings.soapMethod + ' without error');
                                 resolve(result);
                             }
                         });
@@ -52,11 +50,6 @@ var f9CallService = function (methodName, params, direction, req) {
         soapMethod: methodName,
         soapParams: params
     }
-    /* test-code */
-    console.log('Calling method =' + methodName + ' with params =' + util.inspect(params, { showHidden: false, depth: null }));
-    console.log('Calling with options =' +util.inspect(req.partnerCretentials.soap.options, { showHidden: false, depth: null }));
-    /* end-test-code */
-    
     return callService(options);
 };
 

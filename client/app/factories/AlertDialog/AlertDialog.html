@@ -7,7 +7,7 @@
     </div>
 	<div class="modal-body al-theme">
         <div>
-            <p>{{content.body}}</p>
+            <p ng-class="{'abx-text-center': config.center}">{{content.body}}</p>
         	<ul>
         		<li ng-repeat="item in content.list">{{item}}</li>
         	</ul>

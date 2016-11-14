@@ -8,7 +8,6 @@ describe('Component: RegisterController', function() {
 
   var registerComponent;
   var scope;
-  var state;
   var _mockStateParams;
   var _$cookies;
   var httpBackend;
@@ -70,9 +69,8 @@ describe('Component: RegisterController', function() {
           );
           registerComponent.register()
           .then(response=>{
-              expect(response.status).to.equal(201);
-              expect(registerComponent.successMessage).to.equal(true);
-              expect(registerComponent.message).to.eql({show:false});
+              expect(response.status).to.equal(201);              
+              expect(registerComponent.message).to.eql({show: true, type:'success',text:'SUCCESS', expires:4000 });
               expect(registerComponent.executeSave).to.equal(false);
               registerComponent.clearInput();
               expect(registerComponent.email).to.equal('');

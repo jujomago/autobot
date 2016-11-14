@@ -1,18 +1,33 @@
 'use strict';
 (function(){
-	let _$state;
+	let _$state,_$anchorScroll,_$stateParams;
 	let _GetHomePage;
 	class AppsComponent {
-	constructor($state, AppsService, GetHomePage, EnumManager) {
+	constructor($stateParams,$state, $anchorScroll,AppsService, GetHomePage, EnumManager) {
 		this.partners = [];
 		this.message = {show: false};
 		this.AppsService = AppsService;
 		this.appStatus = EnumManager.getEnums();
 		_$state = $state;
 		_GetHomePage = GetHomePage;
+		_$stateParams=$stateParams;
+		_$anchorScroll = $anchorScroll;	
+		this.found = false;
 	}
-	$onInit(){
+	$onInit(){		
 		this.getApps();
+	}
+	//BUG 2110 The Partner name does not redirect me to the corresponding Partner section
+	$postLink() {
+		this.getApps()
+			.then(() => {
+				angular.element(document).ready(function () {
+					if (_$stateParams.paramAppSelected) {
+						_$anchorScroll.yOffset = 90;
+						_$anchorScroll(_$stateParams.paramAppSelected);
+					}
+				});
+			});
 	}
 	selectInstalledApp(appName){
 		_$state.go(_GetHomePage.of(appName));
@@ -24,6 +39,7 @@
 		return this.AppsService.getApps()
 		.then(response => {
 			this.partners = response.data;
+			this.found = true;
 			return response;
 		})
 		.catch(error => {
@@ -33,7 +49,7 @@
 		});
 	}
 }
-	AppsComponent.$inject = ['$state', 'AppsService', 'GetHomePage', 'EnumManager'];
+	AppsComponent.$inject = ['$stateParams','$state', '$anchorScroll','AppsService', 'GetHomePage', 'EnumManager'];
 	angular.module('fakiyaMainApp')
 	  .component('apps', {
 	    templateUrl: 'app/site/apps/apps.html',

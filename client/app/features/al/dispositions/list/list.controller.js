@@ -6,9 +6,11 @@
             disposition.description='';
         }
         return disposition;
-    }
+    }    
+    let _Global;
 	class ListComponent {
-		constructor($state, $stateParams, ConfirmAsync, DispositionsService) {
+		constructor($state, $stateParams, ConfirmAsync, DispositionsService,Global) {
+            
 			this.message = { show: false };
 			if ($stateParams.message !== null) {
 				this.message = { show: true, type: $stateParams.message.type, text: $stateParams.message.text,expires: 3000 };
@@ -18,18 +20,21 @@
 			this.init();
 			this.toggleSkillRow = -1;
 			_ConfirmAsync=ConfirmAsync;
+            _Global = Global;
+            this.global = Global;
 			this.search={name:''};
-			this.filteredDispositions=[];
+			this.filteredDispositions=[];            
 		}
 		init() {
 			this.dispositions = [];
-			this.currentPage = 1;
+			this.currentPage = 1;            
 			this.sortKey = '';
 			this.reverse = true;
 			this.numPerPage = 10;
 			this.beginNext = 0;
 			this.quantities = [5, 10, 15, 20];
 		}
+        
 		$onInit() {
             this.getDispositions();
             this.sortColumn('name');
@@ -48,14 +53,11 @@
 		    });
 	    }
 	    pageChanged() {
-            console.log('Page changed to: ' + this.currentPage);
             this.beginNext = (this.currentPage - 1) * this.numPerPage;
-            console.log('beginNext:' + this.beginNext);
         }
 
         sortColumn(columnName) {
             if (columnName !== undefined && columnName) {
-                  console.log('sorting:' + columnName);
                 this.sortKey = columnName;
                 this.reverse = !this.reverse;
                 return true;
@@ -70,15 +72,15 @@
         }
         deleteDisposition(item, indexRow) {
             return _ConfirmAsync('Remove '+item.name+'?')
-                .then(() => {                 
-                 
+                .then(() => {
+
                     this.toggleDispositionRow = indexRow;
                     return this.DispositionsService.deleteDisposition(item)
-                        .then(response => {       
+                        .then(response => {
                             let index = this.dispositions.indexOf(item);
                             this.dispositions.splice(index, 1);
                             this.toggleDispositionRow = -1;
-                            this.message = { show: true, type: 'success', text: 'Disposition Deleted', expires: 3000 };
+                            this.message = { show: true, type: 'success', text: 'Disposition Deleted Successfully', expires: 3000 };
                             return response;
                         }).catch(error => {
                             this.toggleDispositionRow = -1;
@@ -93,8 +95,8 @@
         getDetail(item) {
             this.state.go('ap.al.dispositionsEdit', { dispositionName: item.name });
         }
-        filteringBySearch(){  
-            if(this.search.name){               
+        filteringBySearch(){
+            if(this.search.name){
                 this.beginNext=0;
                 this.currentPage = 1;
                 return true;
@@ -102,7 +104,7 @@
              return false;
         }
 	}
-	ListComponent.$inject = ['$state', '$stateParams',  'ConfirmAsync' ,'DispositionsService',];
+	ListComponent.$inject = ['$state', '$stateParams', 'ConfirmAsync' ,'DispositionsService','Global'];
 	angular.module('fakiyaMainApp')
 	  .component('al.dispositions.list', {
 	    templateUrl: 'app/features/al/dispositions/list/list.html',

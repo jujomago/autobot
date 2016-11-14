@@ -1,4 +1,4 @@
-<h3 class="title_section">Lists: <span>{{$ctrl.sendContact.listName}}</span></h3>
+<h3 class="title_section">List: <span>{{$ctrl.sendContact.listName}}</span></h3>
 
 <abx-message msg="$ctrl.message"></abx-message>
 
@@ -7,29 +7,41 @@
 
 <abx-load-indicator ng-show="$ctrl.sending" text="Sending"></abx-load-indicator>
 
-<div ng-show="!$ctrl.sending && $ctrl.loaded" class="edit-list margin-with-footer">
-    <div class="pull-left">
-        <div class="mywell list-title-mapp">
-            <h3>List Update</h3>
-        </div>
-        <div class="mywell">
-            <div class="searchbox_container search">
-                <input type="search" ng-model="$ctrl.search" class="searchbox" placeholder="Search" ng-change="$ctrl.filteringBySearch()">
-                <span class="glyphicon glyphicon-search"></span>
+<div ng-show="!$ctrl.sending && $ctrl.loaded" class="edit-list fixed-margin-bottom-65">
+    <div class="row">
+        <div class="pull-left">
+            <div class="mywell list-title-mapp">
+                <h3 ng-if="$ctrl.isUpdate">List Update</h3>
+                <h3 ng-if="!$ctrl.isUpdate">List Delete</h3>
             </div>
         </div>
-    </div>
 
-    <div class="pull-right">
-        <div class="mywell text-right">
-            <a class="btn btn-black btn-fixed-80" ng-click="$ctrl.cancelList()">Cancel</a>
+        <div class="pull-right">
+            <div class="mywell text-right fixed-margin-bottom-25">
+                <a class="btn btn-black btn-fixed-80" ng-click="$ctrl.cancelList()">Cancel</a>
+            </div>
         </div>
-        <div class="mywell remove-spaces-inline" ng-show="!$ctrl.loadingContacts || !$ctrl.manual">
-            <button class="btn btn-black right-space-20 btn-fixed-80" ng-if="$ctrl.manual" ng-click="$ctrl.insertContact()">Insert</button>
-            <button class="btn btn-black right-space-20 btn-fixed-80" ng-if="!$ctrl.manual" ng-click="$ctrl.insertContact()" ng-disabled="$ctrl.error">Insert</button>
-            <button class="btn btn-black right-space-20 btn-fixed-80" ng-disabled="$ctrl.selectedArray.length === 0 || $ctrl.selectedArray.length > 1" ng-click="$ctrl.editContact()">Edit</button>
-            <button class="btn btn-black right-space-20 btn-fixed-80" ng-disabled="$ctrl.selectedArray.length < 1" ng-click="$ctrl.deleteContact()">Delete</button>
-<button class="btn btn-black btn-fixed-80" ng-click="$ctrl.shuffleList()" ng-disabled="$ctrl.filteredList.length <= 1">Shuffle</button>
+  </div>
+    <div class="row">
+        <div class="pull-left fixed-margin-top-5">
+            <div class="mywell">
+                <div class="searchbox_container search">
+                    <input type="search" ng-model="$ctrl.search" class="searchbox" placeholder="Search" ng-change="$ctrl.filteringBySearch()">
+                    <span class="glyphicon glyphicon-search"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="pull-right">
+            <div class="mywell remove-spaces-inline" ng-show="!$ctrl.loadingContacts || !$ctrl.manual">
+                <button class="btn btn-black right-space-20 btn-fixed-80" ng-if="$ctrl.manual" ng-click="$ctrl.insertContact()">Insert</button>
+                <button class="btn btn-black right-space-20 btn-fixed-80 fixed-margin-top-5" ng-if="!$ctrl.manual" ng-click="$ctrl.insertContact()" ng-disabled="$ctrl.error">Insert</button>
+                <button class="btn btn-black right-space-20 btn-fixed-80 fixed-margin-top-5" ng-disabled="$ctrl.selectedArray.length === 0 || $ctrl.selectedArray.length > 1" ng-click="$ctrl.editContact()">Edit</button>
+                <button class="btn btn-black btn-fixed-80 fixed-margin-top-5" ng-class="{'right-space-20': $ctrl.isUpdate}" ng-disabled="$ctrl.selectedArray.length < 1" ng-click="$ctrl.deleteContact()">Delete</button>
+                <button class="btn btn-black right-space-20 btn-fixed-80 fixed-margin-top-5" ng-click="$ctrl.shuffleList()" ng-disabled="$ctrl.filteredList.length <= 1" ng-if="$ctrl.isUpdate">Shuffle</button>
+                <button class="btn btn-blue no-padding fixed-margin-top-5" ng-click="$ctrl.openDNCModal()" ng-disabled="$ctrl.list.length===0" ng-if="$ctrl.isUpdate">DNC Scrub</button>
+
+            </div>
         </div>
     </div>
 
@@ -42,38 +54,54 @@
                 </th>
             </thead>
             <tbody>
-                <tr ng-repeat="(key, item) in ( $ctrl.filteredList=($ctrl.list | filter:$ctrl.search ) |  limitTo:$ctrl.numPerPage:$ctrl.beginNext) track by $index" ng-click="$ctrl.selectedContact($index+$ctrl.beginNext, item)" ng-dblclick="$ctrl.editContact(item)">
-                    <td ng-repeat="header in $ctrl.contactFields" ng-class="{'row-selected': $ctrl.selectedArray.indexOf(key+$ctrl.beginNext) != -1}">
-                        <label class="light-label">
-                            {{$ctrl.formatField(header, item[header.name])}}
-                        </label>
+                <tr ng-repeat="(key, item) in ( $ctrl.filteredList=($ctrl.list | filter:$ctrl.search ) |  limitTo:$ctrl.numPerPage:$ctrl.beginNext) track by $index"
+                    ng-click="$ctrl.selectedContact($index+$ctrl.beginNext, item)"
+                    ng-dblclick="$ctrl.editContact(item)">
+                    <td ng-repeat="header in $ctrl.contactFields"
+                        ng-class="{'row-selected': $ctrl.selectedArray.indexOf(key+$ctrl.beginNext) != -1}">
+                        <span class="light-label show-all-spaces">{{$ctrl.formatField(header, item[header.name])}}</span>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <div class="mywell footer_table text-center" ng-show="$ctrl.list.length>0">
+    <div class="mywell footer_table fixed-margin-bottom-60 text-center" ng-show="$ctrl.list.length>0">
 
-        <div class="noresults" ng-show="!$ctrl.filteredList.length" ng-if="$ctrl.search">
+        <div class="no-margin-top noresults" ng-show="!$ctrl.filteredList.length" ng-if="$ctrl.search">
             <img src="assets/al/images/NoResultsIcon.png" alt="lupa">
             <p>We couldn't find what you are looking for</p>
         </div>
-
-        <label class="pull-left" ng-if="$ctrl.filteredList.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.getMax()}} of {{$ctrl.filteredList.length}}</label>
-
-        <uib-pagination ng-if="$ctrl.filteredList.length" total-items="$ctrl.filteredList.length" ng-model="$ctrl.currentPage " items-per-page="$ctrl.numPerPage
-    " boundary-links="true " ng-change="$ctrl.pageChanged()">
-        </uib-pagination>
-
-        <div class="pull-right results_per_page" ng-show="$ctrl.filteredList.length"><span>Show</span>
+        <div class="row abx-pagination-container text-center">
+            <label class="text-left col-sm-4 abx-pagination-left"
+                   ng-if="$ctrl.filteredList.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.getMax()}} of {{$ctrl.filteredList.length}}</label>
+            <div class="col-sm-4 abx-pagination-center">
+                <uib-pagination ng-if="$ctrl.filteredList.length"
+                                total-items="$ctrl.filteredList.length"
+                                ng-model="$ctrl.currentPage "
+                                items-per-page="$ctrl.numPerPage"
+                                boundary-links="true " ng-change="$ctrl.pageChanged()" max-size="$ctrl.global.maxSize">
+                 </uib-pagination>
+            </div>
+            <div class="text-right results_per_page col-sm-4 abx-pagination-right" ng-show="$ctrl.filteredList.length"><span>Show</span>
 
             <select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities" ng-change="$ctrl.pageChanged()">
-        </select> <span>results per page</span>
+            </select> <span>results per page</span>
+            </div>
         </div>
     </div>
-    <div class="text-center" ng-show="$ctrl.list.length>0">
+
+
+    <div class="mywell footer_table fixed-margin-bottom-60 text-center" ng-show="$ctrl.list.length===0">
+        <div class="no-margin-top no-records-added">
+            <p>No records added</p>
+        </div>
+    </div>
+
+
+    <div class="text-center margin-bottom-65" ng-show="$ctrl.list.length>0">
         <button class="btn btn-black" ng-click="$ctrl.uploadContacts()">Upload</button>
     </div>
 </div>
-<div id="edit-list"></div>
+<div id="modal-container"></div>
+<div id="dnc-modal-container"></div>

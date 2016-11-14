@@ -13,19 +13,19 @@ html, body, #main-container,  #main-container > .container-fluid{
             color: @blueforte;
             text-decoration: none;
         }
-       
+
     }
     ul.navbar-nav{
         .dropdown{
             &>a{
-                &:hover, &:focus{
+               /* &:hover, &:focus{
                     color: #fff;
-                }
-                &.dropdown-toggle{  
-                    padding-left: 18px;  
+                }*/
+                &.dropdown-toggle{
+                    padding-left: 18px;
                     &.active{
                         color: @blue;
-                    }   
+                    }
                     &>img{
                         width: 25px;
                         height: 25px;
@@ -36,7 +36,7 @@ html, body, #main-container,  #main-container > .container-fluid{
                         margin-bottom: 0;
                     }
                 }
-                
+
             }
         }
     }
@@ -60,5 +60,9 @@ html, body, #main-container,  #main-container > .container-fluid{
         margin-left: 50px;
         margin-right: 70px;
     }
+
+  .margin-bottom-65 {
+    margin-bottom: 65px;
+  }
 
 }

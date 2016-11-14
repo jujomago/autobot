@@ -1,18 +1,29 @@
+.longlinewithdots(){
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
 .multi-select-dropdown{
-	width: 84%;
+	width: 100%;
 	&>p.multi-select-items{
+		height: 34px;
+		padding-left: 10px;
 		width: 95%;
 		text-align: left;
+		.longlinewithdots;
 	}
 	&>a.dropdown-toggle{
 		width: 5%;
 		color: black;
 	}
 	&>ul.dropdown-menu{
-		position: absolute;
+		position: relative;
 		width: 100%;
 		&>li{
 			cursor:pointer;
+			&>a{
+				.longlinewithdots;
+			}
 		}
 	}
 }

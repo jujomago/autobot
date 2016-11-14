@@ -19,16 +19,11 @@ import util from 'util';
 
 // Gets a list of Users
 export function index(req, res) {
-    console.log('SERVER GET USERS');
     var params = { userNamePattern: '' };
 
-    
      if (req.params.username !== undefined) {
         params.userNamePattern=req.params.username;
     }
-
-    
-    
 
     return cache.getCache('')
         .then(data => {
@@ -44,7 +39,6 @@ export function index(req, res) {
 
 // Gets a list of Users
 export function detail(req, res) {
-    console.log('SERVER detailed user');
     var params = { userNamePattern: req.params.username };
     return service.f9CallService('getUsersInfo', params, '', req)
         .then(data => {
@@ -56,7 +50,6 @@ export function detail(req, res) {
 }
 
 export function addSkillUser(req, res) {
-    console.log('SERVER addSkillUser')
     var params = { userSkill: req.body }
     return service.f9CallService('userSkillAdd', params, '', req)
         .then(data => {
@@ -67,7 +60,6 @@ export function addSkillUser(req, res) {
 }
 
 export function destroySkillUser(req, res) {
-    console.log('SERVER destroySkillUser')
     var params = { userSkill: req.body };
     return service.f9CallService('userSkillRemove', params, '', req)
         .then(data => {
@@ -78,7 +70,6 @@ export function destroySkillUser(req, res) {
 }
 
 export function updateSkillUser(req, res) {
-    console.log('SERVER updateSkillUser')
     var params = { userSkill: req.body }
     return service.f9CallService('userSkillModify', params, '', req)
         .then(data => {
@@ -113,9 +104,6 @@ export function destroy(req, res) {
     var params = { userName: req.params.username };
     return service.f9CallService('deleteUser', params, '', req)
         .then(data => {
-            /* test-code */
-            console.log('resulf of delete user : ' + util.inspect(data, { showHidden: false, depth: null }));
-            /* end-test-code */
             res.status(204).json(data);
         })
         .catch(service.handleError(res));

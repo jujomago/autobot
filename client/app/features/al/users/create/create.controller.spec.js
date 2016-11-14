@@ -34,6 +34,7 @@ describe('Component: al.users.create', function() {
         });
 
          httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
+         httpBackend.whenGET(appConfig.apiUri+'/f9/lists/%$&unexisting_list)(*&^%^').respond(200);
   
     }));
 
@@ -46,16 +47,15 @@ describe('Component: al.users.create', function() {
         it('Check Rol to Add is Real', () => {
             // roles just could be ['Agent', 'Supervisor', 'Admin','Reporting'];
             expect(CreateComponent.addRol('SomeRol'), 'The Rol "SomeRol" does not exist').to.equal(false);
-            expect(CreateComponent.addRol('Agent')).to.equal(true);
-            expect(CreateComponent.userRoles).to.have.lengthOf(1);
+            expect(CreateComponent.addRol('Reporting')).to.equal(true);
+            expect(CreateComponent.userRoles).to.have.lengthOf(2);
         });
 
 
         it('check duplicated Rols', () => {
-            expect(true).to.equal(CreateComponent.addRol('Agent'));
-            expect(false, 'Duplicated Value "Agent" should be false').to.equal(CreateComponent.addRol('Agent'));
+            expect(true).to.equal(CreateComponent.addRol('Reporting'));
+            expect(false, 'Duplicated Value "Reporting" should be false').to.equal(CreateComponent.addRol('Reporting'));
             expect(true).to.equal(CreateComponent.addRol('Supervisor'));
-            expect(true).to.equal(CreateComponent.addRol('Admin'));
             expect(false, 'Duplicated Value "Supervisor" should be false').to.equal(CreateComponent.addRol('Supervisor'));
             expect(CreateComponent.userRoles).to.have.lengthOf(3);
         });
@@ -69,25 +69,25 @@ describe('Component: al.users.create', function() {
 
             CreateComponent.addRol('Supervisor');
             CreateComponent.addRol('Agent');
-            CreateComponent.addRol('Admin');
-            expect(CreateComponent.userRoles).to.have.lengthOf(3);
+            
+            expect(CreateComponent.userRoles).to.have.lengthOf(2);
 
 
             // userRolSelectedIndex is the index of the UI List, the secondd list 'ASSIGNED ROLES'
             CreateComponent.userRolSelectedIndex = 5;
             expect(false).to.equal(CreateComponent.deleteSelectedRol());
 
-            CreateComponent.userRolSelectedIndex = 2;
+            CreateComponent.userRolSelectedIndex = 1;
             expect(true).to.equal(CreateComponent.deleteSelectedRol());
 
-            expect(CreateComponent.userRoles).to.have.lengthOf(2);
+            expect(CreateComponent.userRoles).to.have.lengthOf(1);
             CreateComponent.userRolSelectedIndex = -1;
             expect(false).to.equal(CreateComponent.deleteSelectedRol());
-            expect(CreateComponent.userRoles).to.have.lengthOf(2);
+            expect(CreateComponent.userRoles).to.have.lengthOf(1);
 
             CreateComponent.userRolSelectedIndex = 25;
             expect(false).to.equal(CreateComponent.deleteSelectedRol());
-            expect(CreateComponent.userRoles).to.have.lengthOf(2);
+            expect(CreateComponent.userRoles).to.have.lengthOf(1);
         });
 
     });
@@ -287,8 +287,7 @@ describe('Component: al.users.create', function() {
                 expect(r).to.not.have.deep.property('roles.admin');
                 expect(r).to.not.have.deep.property('roles.reporting');
 
-                expect(Object.keys(CreateComponent.newUser)).to.have.lengthOf(0);
-                expect(CreateComponent.message).to.eql({ show: false });
+                expect(Object.keys(CreateComponent.newUser)).to.have.lengthOf(0);                              
 
             });
 

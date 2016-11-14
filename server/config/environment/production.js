@@ -12,6 +12,6 @@ module.exports = {
   port:   process.env.OPENSHIFT_NODEJS_PORT ||
           process.env.PORT ||
           8081, //TODO: Revert this change to 8080 once integration is merged with develop
-  
+
   apiUri: 'http://u19212546.onlinehome-server.com:9999/api'
 };

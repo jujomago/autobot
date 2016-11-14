@@ -38,7 +38,6 @@ describe('Component: al.users.edit', function () {
     sandbox.restore();
   });
 
-
    describe('#Check contructor Vars', () => {
 
         it('Check initialization of variables', () => {
@@ -57,14 +56,14 @@ describe('Component: al.users.edit', function () {
         expect(EditComponent.showWarningRolMessage).to.equal(true);
       });
 
-      it('=>#getUserDetail', function(){
+      it('=>#getUserDetail, extension less than 4 digits, should apend ceros', function(){
         _$httpBackend.whenGET(endPointUrl+'/users/detail/'+'daniel.c@autoboxcorp.com').respond({
               return:[{
                   'generalInfo': {
                     'active': true,
                     'canChangePassword': true,
                     'EMail': 'daniel.c@autoboxcorp.com',
-                    'extension': 8765,
+                    'extension': 7,
                     'firstName': 'Daniel',
                     'fullName': 'Daniel Candia',
                     'IEXScheduled': false,
@@ -133,9 +132,58 @@ describe('Component: al.users.edit', function () {
                 expect(userInfo).to.have.property('roles');
                 expect(userInfo).to.have.deep.property('generalInfo.userName');
                 expect(userInfo).to.have.property('skills');
+                expect(userInfo).to.have.deep.property('generalInfo.extension','0007');
           });
         _$httpBackend.flush();  
       });
+
+      it('=>#getUserDetail, extension 4 digits should remain equal', function(){
+         _$httpBackend.whenGET(endPointUrl+'/users/detail/'+'daniel.c@autoboxcorp.com').respond({
+              return:[{
+                  'generalInfo': {                
+                    'extension': 4300,
+                    'firstName': 'Daniel',
+                    'fullName': 'Daniel Candia',             
+                  },
+                  'roles': {
+                      'admin':{},
+                      'agent':{}
+                  }
+                 }
+                ]
+              });
+          let userName = 'daniel.c@autoboxcorp.com';
+          EditComponent.getUserDetail(userName).then(userInfo => {
+               expect(null).to.not.equal(userInfo);
+               expect(userInfo).to.have.property('generalInfo');
+               expect(userInfo).to.have.deep.property('generalInfo.extension',4300);
+          });
+        _$httpBackend.flush();  
+      });
+
+      it('=>#getUserDetail, extension is more than 4 digits, "false" should be returned', function(){
+         _$httpBackend.whenGET(endPointUrl+'/users/detail/'+'daniel.c@autoboxcorp.com').respond({
+              return:[{
+                  'generalInfo': {                
+                    'extension': 635426,
+                    'firstName': 'Daniel',
+                    'fullName': 'Daniel Candia',             
+                  },
+                  'roles': {
+                      'admin':{},
+                      'agent':{}
+                  }
+                 }
+                ]
+              });
+          let userName = 'daniel.c@autoboxcorp.com';
+          EditComponent.getUserDetail(userName).then(userInfo => {
+               expect(userInfo).to.equal(false);
+          });
+        _$httpBackend.flush();  
+      });
+
+
    });
 
    describe('#sortColumn', () => {
@@ -308,7 +356,7 @@ describe('Component: al.users.edit', function () {
               expect(r.statusCode).to.equal(204);
               expect(r.data).to.equal(null);
               expect(EditComponent.toggleSkillRow).to.equal(-1);
-              expect(EditComponent.message).to.eql({ show: true, type: 'success', text: 'Skill Deleted', expires:3000 });          
+              expect(EditComponent.message).to.eql({ show: true, type: 'success', text: 'Skill Deleted Successfully', expires:3000 });          
           });
         expect(window.confirm.calledOnce).to.equal(true);
         _$httpBackend.flush();
@@ -452,5 +500,182 @@ describe('Component: al.users.edit', function () {
         });
       });
   });
+
+  describe('#getAllPermissions', () => {
+        it('should return all persmissions', function () {
+            _$httpBackend.whenGET('/assets/al/json/roles.json').respond(200,{
+                reporting:{
+                    permissions:[
+                            {type : 'ReceiveTransfer', value : false},
+                            {type : 'MakeTransferToSkills', value : false}
+                    ]
+                },
+                agent:{
+                    permissions:[
+                        {type : 'ReceiveTransfer', value : false},
+                        {type : 'MakeTransferToSkills', value : false}
+                    ]
+                },
+                supervisor:{
+                    permissions:[
+                        {type : 'ReceiveTransfer', value : false},
+                        {type : 'MakeTransferToSkills', value : false}
+                    ]
+                },
+                admin:{
+                    permissions:[
+                        {type : 'ReceiveTransfer', value : false},
+                        {type : 'MakeTransferToSkills', value : false}
+                    ]
+                }
+            });
+            EditComponent.getAllPermissions()
+            .then(response => {  
+                expect(response).to.have.property('reporting');
+                expect(response).to.have.property('admin');
+                expect(response).to.have.property('agent');
+                expect(response).to.have.property('admin');
+                expect(response).to.have.deep.property('reporting.permissions');
+                expect(response).to.have.deep.property('admin.permissions');
+                expect(response).to.have.deep.property('agent.permissions');
+                expect(response).to.have.deep.property('admin.permissions');
+            });
+            _$httpBackend.flush();
+        });
+    });
+  describe('#addRol', () => {
+        
+        it('should add a Rol correctly', function () {
+            let newRol='supervisor';
+            EditComponent.userRoles=[];
+            expect(EditComponent.userRoles).to.have.lengthOf(0);
+       
+            EditComponent.allRoles=['admin','supervisor','reporting','agent'];
+
+            expect(EditComponent.addRol(newRol)).to.equal(true);
+            expect(EditComponent.userRoles).to.have.lengthOf(1);
+            expect(EditComponent.userRoles).to.deep.equal(['supervisor']);
+            expect(EditComponent.allRoles).to.have.lengthOf(3);
+            expect(EditComponent.allRoles).to.deep.equal(['admin','reporting','agent']);
+            expect(EditComponent.showWarningRolMessage).to.equal(false);  
+           
+        });
+        it('should cant add a non existent Rol', function () {
+            let newRol='anyRol';
+            EditComponent.userRoles=[];
+            expect(EditComponent.userRoles).to.have.lengthOf(0);
+       
+            EditComponent.allRoles=['admin','supervisor','reporting','agent'];
+
+            expect(EditComponent.addRol(newRol)).to.equal(false);
+           
+        });
+    });
+
+    describe('#deleteSelectedRol', () => {
+
+        it('check Rol (Index) to Delete is Real', () => {
+
+            EditComponent.addRol('supervisor');
+            EditComponent.addRol('agent');
+            EditComponent.addRol('admin');
+            EditComponent.allRoles=['admin','supervisor','reporting','agent'];
+
+            expect(EditComponent.userRoles).to.have.lengthOf(3);
+
+
+            EditComponent.userRolSelectedIndex = 5;
+            expect(false).to.equal(EditComponent.deleteSelectedRol());
+
+            EditComponent.userRolSelectedIndex = 2;
+            expect(true).to.equal(EditComponent.deleteSelectedRol());
+
+            expect(EditComponent.userRoles).to.have.lengthOf(2);
+            EditComponent.userRolSelectedIndex = -1;
+            expect(false).to.equal(EditComponent.deleteSelectedRol());
+            expect(EditComponent.userRoles).to.have.lengthOf(2);
+
+            EditComponent.userRolSelectedIndex = 25;
+            expect(false).to.equal(EditComponent.deleteSelectedRol());
+            expect(EditComponent.userRoles).to.have.lengthOf(2);
+        });
+
+    });
+
+
+    describe('#getPermissions', () => {
+
+        it('cant receive permissions of not existent Rol', () => {
+           EditComponent.allRoles=['admin','supervisor','reporting','agent'];
+
+            expect(false).to.equal(EditComponent.getPermissions('UnexistentRol'));        
+          
+        });
+
+         it('cant get permissions of a rol ', () => {
+             
+            EditComponent.allRoles=['admin','supervisor','reporting','agent'];
+            expect(true).to.equal(EditComponent.getPermissions('reporting'));        
+          
+        });
+
+
+    });
+     describe('#update', () => {
+        it('should update a user correctly', () => {
+         
+           EditComponent.allRoles=['admin','reporting'];
+           EditComponent.userRoles=['supervisor','agent'];
+           EditComponent.storage.rolesPermissions={
+                reporting:{
+                    permissions:[
+                            {type : 'ReceiveTransfer', value : false},
+                            {type : 'MakeTransferToSkills', value : false}
+                    ]
+                },
+                agent:{
+                    permissions:[
+                        {type : 'ReceiveTransfer', value : false},
+                        {type : 'MakeTransferToSkills', value : false}
+                    ]
+                },
+                supervisor:{
+                    permissions:[
+                        {type : 'ReceiveTransfer', value : false},
+                        {type : 'MakeTransferToSkills', value : false}
+                    ]
+                },
+                admin:{
+                    permissions:[
+                        {type : 'ReceiveTransfer', value : false},
+                        {type : 'MakeTransferToSkills', value : false}
+                    ]
+                }
+            };
+
+           EditComponent.userInfo={generalInfo:{
+             EMail : 'josue@autoboxcorp.com',
+             IEXScheduled : false,
+             active : true,
+             canChangePassword : true,
+             extension : '1266',
+             firstName : 'Josue',
+             fullName : 'Josue Mancilla',
+             id : '2531474',
+             lastName : 'Mancilla55',
+             mustChangePassword : false, 
+             password : '**********', 
+             startDate : '2016-09-27T07:00:00.000Z',
+             userName : 'josue@autoboxcorp.com'
+           }};
+          
+          EditComponent.update()
+          .then(response=>{              
+              console.log(response.statusCode).to.equal(201);
+              console.log(response.errorMessage).to.equal('');
+              console.log(response.data).to.not.equal(null);
+           });     
+        });
+    });
 
 });
