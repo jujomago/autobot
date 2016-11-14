@@ -9,12 +9,19 @@
        this.message={'show':false};
      _ConctactService=ContactService;
     }
-    sendmail(){
+    clearForm(form){
+      Object.keys(this.cform).forEach(value => {
+        this.cform[value] = '';
+      });
+      form.$setPristine();
+    }
+    sendmail(form){
         this.submitText='Submitting..';
         return _ConctactService.sendmail(this.cform)
         .then(response=>{
            this.submitText='Submit';
-           this.message = { show: true, type:'success',text:'Email Sent Successfully', expires:4000 };   
+           this.message = { show: true, type:'success',text:'Email Sent Successfully', expires:4000 };
+           this.clearForm(form);
           return response;
         })
         .catch(err=>{     
