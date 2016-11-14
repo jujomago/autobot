@@ -138,7 +138,7 @@
         <a href="mailto:info@autoboxcorp.com">info@autoboxcorp.com</a> with the subject line: &ldquo;I would like to join
         AutoBox's launch program&rdquo;</p>
     </div>
-<form class="contact-form" name="contactForm" novalidate ng-submit="contactForm.$valid && $ctrl.sendmail()">
+<form class="contact-form" name="contactForm" novalidate ng-submit="contactForm.$valid && $ctrl.sendmail(contactForm)">
   <div class="col-md-12">
      <abx-message msg="$ctrl.message"></abx-message> 
   </div> 
@@ -171,15 +171,19 @@
 			</div>
 		</div>
 	</div>
-	<div class="row"  style="margin-bottom: 30px;">
+	<div class="row">
 		<div class="col-md-12">
 			<input placeholder="COMPANY"  maxlength="50" type="text" name="company"  ng-model="$ctrl.cform.company"  class="form-control autobox-textfield center-block">	
-			<textarea placeholder="MESSAGE *" maxlength="250" rows="1" data-min-rows="1" name="message" ng-model="$ctrl.cform.message"  class="form-control autobox-textfield center-block auto-expand" required ></textarea>
-			<div ng-messages="contactForm.$submitted && contactForm.message.$error" class="errors-texts">		
-				<p ng-message="required">This field is required</p>
-			</div>
 		</div>
 	</div>
+  <div class="row"  style="margin-bottom: 30px;">
+    <div class="col-md-12">
+      <textarea placeholder="MESSAGE *" maxlength="250" rows="1" data-min-rows="1" name="message" ng-model="$ctrl.cform.message"  class="form-control autobox-textfield center-block auto-expand" required ></textarea>
+      <div ng-messages="contactForm.$submitted && contactForm.message.$error" class="errors-texts">   
+        <p ng-message="required">This field is required</p>
+      </div>
+    </div>
+  </div>
 	<div class="row">
 		<button id="ab-submitbutton" type="submit" ng-disabled="$ctrl.submitText=='Submitting..'" class="btn btn-default center-block">{{$ctrl.submitText}}</button>
 	</div>

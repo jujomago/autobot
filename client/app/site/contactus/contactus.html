@@ -2,7 +2,7 @@
     <h3 class="subtitleunderline">CONTACT US</h3>
 </div>
 
-<form class="contactusform" name="contactForm" novalidate ng-submit="contactForm.$valid && $ctrl.sendmail()">
+<form class="contactusform" name="contactForm" novalidate ng-submit="contactForm.$valid && $ctrl.sendmail(contactForm)">
     <abx-message msg="$ctrl.message"></abx-message> 
     <div class="row">
         <div class="col-md-6">
