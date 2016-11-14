@@ -13,6 +13,7 @@
         }
 
         sendmail(data) {
+            data = angular.copy(data);
             if(!data.company){
               data.company = 'None';
             }
