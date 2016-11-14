@@ -12,7 +12,7 @@ angular.module('fakiyaMainApp')
         return validator.getMethods();
       }
       return null;
-    }
+    };
     return {
       setStrategy: setStrategy,
       getMethods: getMethods

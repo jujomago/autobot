@@ -10,10 +10,10 @@ angular.module('fakiyaMainApp')
       	timeFormat: '@',
         datetime: '=ngModel'
       },
-      link: function (scope, element, attrs) {
+      link: function (scope) {
         scope.openDatePicker = function(){
           scope.opened = true;
-        }
+        };
         if(!scope.datetime){
           scope.datetime = {};
         }

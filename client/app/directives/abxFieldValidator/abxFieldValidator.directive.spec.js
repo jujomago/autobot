@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: abxFieldValidator', function () {
+describe('Directive:abxFieldValidator', function () {
 
   // load the directive's module
   beforeEach(module('fakiyaMainApp'));
@@ -12,9 +12,24 @@ describe('Directive: abxFieldValidator', function () {
     scope = $rootScope.$new();
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<abx-field-validator></abx-field-validator>');
+  it('should show invalid model because is required', inject(function ($compile) {
+    scope.restrictions = [{type: 'Required', value: ''}];
+    scope.model = '';
+    element = angular.element(
+      '<form name="form">' +
+      '<input ng-model="model" name="model" abx-field-validator="restrictions" strategy="STRING" />' +
+      '</form>');
     element = $compile(element)(scope);
-    expect(element.text()).to.equal('this is the abxFieldValidator directive');
+    expect(scope.form.model.$valid).to.be.equal(false);
+  }));
+  it('should show valid model', inject(function ($compile) {
+    scope.restrictions = [{type: 'Required', value: ''}];
+    scope.model = 'test';
+    element = angular.element(
+      '<form name="form">' +
+      '<input ng-model="model" name="model" abx-field-validator="restrictions" strategy="STRING" />' +
+      '</form>');
+    element = $compile(element)(scope);
+    expect(scope.form.model.$valid).to.be.equal(true);
   }));
 });
