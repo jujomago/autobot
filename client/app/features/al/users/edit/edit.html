@@ -10,7 +10,12 @@
 </div>
 
 <abx-message msg="$ctrl.message"></abx-message>
+
+
+
 <abx-load-indicator ng-hide="$ctrl.found"></abx-load-indicator>
+
+
 
 <form name="userForm" class="custom_form form-horizontal" novalidate autocomplete="off"   ng-submit="userForm.$valid && $ctrl.update()" ng-show="$ctrl.found">
   <uib-tabset  justified="false">
@@ -25,7 +30,7 @@
                        required
                        ng-model="$ctrl.userInfo.generalInfo.firstName"
                        maxlength="32">
-	     </span>
+			</span>
       </div>
       <div class="file-empty-error"
            ng-messages="userForm.firstName.$error"
@@ -87,13 +92,13 @@
            ng-class="{ 'has-error': userForm.EMail.$invalid && userForm.$submitted }">
         <label for="EMail">Email*</label>
         <span>
-               <input type="email"
-                      name="EMail"
-                      id="EMail"
-                      maxlength="50"
-                      required
-                      ng-model="$ctrl.userInfo.generalInfo.EMail"
-                      ng-minlength="5">
+                <input type="email"
+                       name="EMail"
+                       id="EMail"
+                       maxlength="50"
+                       required
+                       ng-model="$ctrl.userInfo.generalInfo.EMail"
+                       ng-minlength="5">
             </span>
       </div>
       <div ng-messages="userForm.EMail.$error" ng-show="userForm.$submitted">
@@ -140,6 +145,7 @@
           <input type="button" class="btn-black" value="Change" ng-click="$ctrl.openModal()">
         </div>
       </div>
+
       <div ng-messages="userForm.password.$error" ng-show="userForm.$submitted">
         <p ng-message="required">This field is required</p>
       </div>
@@ -147,8 +153,7 @@
         <div class="col-sm-2">
           <div class="checkbox">
             <label>
-              <input type="checkbox"
-                     ng-model="$ctrl.userInfo.generalInfo.active"> User is active
+              <input type="checkbox" ng-model="$ctrl.userInfo.generalInfo.active"> User is active
             </label>
           </div>
         </div>
@@ -157,16 +162,14 @@
         <div class="col-sm-4">
           <div class="checkbox">
             <label>
-              <input type="checkbox"
-                     ng-model="$ctrl.userInfo.generalInfo.canChangePassword"> User can change password
+              <input type="checkbox" ng-model="$ctrl.userInfo.generalInfo.canChangePassword"> User can change password
             </label>
           </div>
         </div>
         <div class="col-sm-6">
           <div class="checkbox">
             <label>
-              <input type="checkbox"
-                     ng-model="$ctrl.userInfo.generalInfo.mustChangePassword"> User must change password on next login
+              <input type="checkbox" ng-model="$ctrl.userInfo.generalInfo.mustChangePassword"> User must change password on next login
             </label>
           </div>
         </div>
@@ -193,7 +196,8 @@
           </div>
           <button type="button" class="btn btn-danger" ng-show="$ctrl.userRolSelectedIndex>=0 && $ctrl.userRoles.length>0" ng-click="$ctrl.deleteSelectedRol()">Delete</button>
         </div>
-        <div class="col" ng-class="{'col-md-9':($ctrl.allRoles.length==0),'col-md-6':($ctrl.allRoles.length>0)}" >
+        <div class="col"
+             ng-class="{'col-md-9':($ctrl.allRoles.length==0),'col-md-6':($ctrl.allRoles.length>0)}" >
           <h4 ng-show="$ctrl.permissionTitle">Permissions:
             <div class="pull-right linksUser">
               <a href="" ng-click="$ctrl.CheckClear($ctrl.lastUserRolSelected,'check')" ng-show="$ctrl.lastUserRolSelected!=''">Check all</a>
@@ -207,11 +211,10 @@
           </div>
           <div class="checkbox" ng-if="permission.type!=='NICEEnabled'" ng-repeat="permission in $ctrl.rolSelectedPermissions.permissions">
             <label>
-              <input type="checkbox" ng-model="permission.value" >{{permission.type | camelToHuman}}
+              <input type="checkbox" ng-model="permission.value">{{permission.type | camelToHuman}}
             </label>
           </div>
         </div>
-
       </div>
     </uib-tab>
     <uib-tab index="2" heading="Skills" select="$ctrl.checkTab('skills')">
@@ -276,4 +279,3 @@
     <button type="button" class="btn btn-black" ui-sref="ap.al.users">Cancel</button>
   </div>
 </form>
-
