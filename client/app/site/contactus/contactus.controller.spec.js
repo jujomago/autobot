@@ -56,7 +56,7 @@ describe('Component:ContactusComponent', function () {
       ContactusComponent.sendmail(form)
       .then(response => {
           expect(ContactusComponent.message).to.eql({ show: true, type:'success',text:'Email Sent Successfully', expires:4000 });
-          expect(ContactusComponent.cform).to.deep.equal({firstName: '', lastName: '', businessEmail: '', phone: '', company: '', message: ''})
+          expect(ContactusComponent.cform).to.deep.equal({firstName: '', lastName: '', businessEmail: '', phone: '', company: '', message: ''});
           expect(form.$setPristine.calledOnce).to.be.equal(true);
           expect(response.data).to.equal(null);
           expect(response.errorMessage).to.equal(null);
