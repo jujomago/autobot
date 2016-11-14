@@ -2,6 +2,24 @@
 (function(){
 let _ConfirmAsync, _ListService, _, _ContactFieldsService, ctrl, _FieldFormatter, _Utils;
 let _$state, _$stateParams, _$filter, _ModalManager, _PromptDialog, _AlertDialog;
+let _phones, _registeredPhones;
+const DNC_ERROR_MESSAGE = {title: 'DNC Scrub', body: 'All your records have been found valid.\nYou may continue uploading the list.'};
+function _registerPhone(contact, key){
+if(contact[key] && contact[key].substr(0,3)!=='011' && !_registeredPhones[contact[key]]){
+  _registeredPhones[contact[key]] = true;
+  _phones.push(contact[key]);
+  }
+}
+function _loadPhones(list){
+  _phones = [];
+  _registeredPhones = [];
+  _.each(list, contact => {
+    _registerPhone(contact, 'number1');
+    _registerPhone(contact, 'number2');
+    _registerPhone(contact, 'number3');
+  });
+  return _phones.join(',');
+}
 function _getSets(field) {
     if(field.restrictions){
       let set = field.restrictions.filter(r => (r.type === 'Set' || r.type === 'Multiset'));
@@ -187,7 +205,6 @@ class ListComponent {
           return false;
       }
   }
-
   shuffleList(){
     return _ConfirmAsync('Really shuffle this list?')
           .then(() => {
@@ -418,6 +435,15 @@ class ListComponent {
     });
     return _PromptDialog.open({title: 'DNC Scrub', body: `${rows.length} of ${this.list.length} records have been found invalid.\nYou may remove the invalid records before updating the list.`, listDetail: {headerList: 'Invalid records', cols: ['Line', 'Field'], rows: rows}}, {okText: 'Remove records'});
   }
+  generatePhones(){
+    this.phones = _loadPhones(this.list);
+    if(this.phones.length>0){
+      this.openDNCModal();
+    }
+    else{
+      _AlertDialog(DNC_ERROR_MESSAGE, {center: true});
+    }
+  }
   openDNCModal(){
     this.dncModalInstance = _ModalManager.open({
       animation: false,
@@ -435,7 +461,7 @@ class ListComponent {
         return this.removeDnc(list);
       }
       else{
-        _AlertDialog({title: 'DNC Scrub', body: 'All your records have been found valid.\nYou may continue uploading the list.'},{center: true});
+        _AlertDialog(DNC_ERROR_MESSAGE, {center: true});
       }
       return false;
      })
