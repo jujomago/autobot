@@ -1208,11 +1208,15 @@
         border-width: 1px;
         border-style: solid;
         border-color: #ececec;
-        margin-bottom: 30px;                
+        margin-bottom: 30px; 
+        position: relative;               
     } 
     .div-box{  
         padding: 30px 0px 25px 20px;
         border-left: 1px solid #ececec;
+        //position: absolute;
+        right: 0px;
+        height: 100%;
         @media (max-width: 920px) {    
             width: 100%;       
             border-top: 1px solid #ececec;            
@@ -1223,7 +1227,7 @@
     .reports{
         background: white;             
         font-size: 9px;
-        float: left; 
+        float: left;                      
         .first-button{
             margin-top: 20px;
         }      
@@ -1233,14 +1237,17 @@
         .buttonBlue {
             border: none;
             width: 60px;
-            height: 20px;            
-            margin: 0px 20px 10px 20px;
+            height: 20px; 
+            margin-right: 20px;
+            margin-bottom: 10px;
+            margin-left: 20px;  
             background-color: #37A3DC;            
                         
             color: #FFFFFF;           
         }
         .buttonBlue2 {
             margin-top: 20px;
+            margin-bottom: 3px;
         }
         .selectCustom{   
             margin-right: 10px;
@@ -1291,7 +1298,7 @@
             @media (max-width: 920px) {           
                 display: inline;
             }
-        }        
+        }              
     }
     .reports-title
     {
