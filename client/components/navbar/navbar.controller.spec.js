@@ -45,7 +45,7 @@ describe('Component:NavbarController', function() {
                         }
                       }
                     ];
-  let mockAlertMessage, mockRefreshToken;
+  let mockAlertDialog, mockRefreshToken;
   beforeEach(inject(function ($controller, $rootScope, $httpBackend, $cookies, $state, _AppsService_, _AuthService_,appConfig) {
 
     _$scope = $rootScope.$new();
@@ -72,14 +72,14 @@ describe('Component:NavbarController', function() {
       cancelRefresh: sinon.stub()
     };
     _$cookies = $cookies;
-    mockAlertMessage = sinon.stub();
+    mockAlertDialog = sinon.stub();
     NavbarController = $controller('NavbarController', {
       $scope: _$scope,
       $location: _mockLocation,
       $stateParams: { message: null },
       $state: _$state,
       _appsService: _AppsService,
-      AlertMessage: mockAlertMessage,
+      AlertDialog: mockAlertDialog,
       RefreshToken: mockRefreshToken
     });
     if(appConfig.apiUri){
@@ -116,7 +116,7 @@ describe('Component:NavbarController', function() {
 
   describe('#getNewest', () => {
     it('should get new apps', () => {
-      _$httpBackend.whenGET(endPointUrl+'/admin/apps/filter?installed=false&size=5').respond(mockAppsData);
+      _$httpBackend.whenGET(endPointUrl+'/admin/apps/filter?installed=false').respond(mockAppsData);
        NavbarController.getNewest()
             .then(response => {
                 expect(response).to.not.equal(null);
@@ -129,7 +129,7 @@ describe('Component:NavbarController', function() {
       _$httpBackend.flush();
     });
     it('=> should return Status 500, error in update', () => {
-      _$httpBackend.whenGET(endPointUrl+'/admin/apps/filter?installed=false&size=5').respond(500, 'Internal Server Error');
+      _$httpBackend.whenGET(endPointUrl+'/admin/apps/filter?installed=false').respond(500, 'Internal Server Error');
       NavbarController.getNewest()
        .then(() =>{
           expect(NavbarController.newApps.length).to.equal(0);
@@ -159,7 +159,7 @@ describe('Component:NavbarController', function() {
       _$httpBackend.whenGET(endPointUrl+ '/admin/users/profile').respond(500, {error: 'Internal Server Error'});
       NavbarController.getProfile()
        .then(() =>{
-          expect(mockAlertMessage.calledOnce).to.equal(true);
+          expect(mockAlertDialog.calledOnce).to.equal(true);
        });
         _$httpBackend.flush();
     });  
@@ -167,7 +167,7 @@ describe('Component:NavbarController', function() {
       _$httpBackend.whenGET(endPointUrl+ '/admin/users/profile').respond(401, {error: 'Unauthorized'});
       NavbarController.getProfile()
        .then(() =>{
-          expect(mockAlertMessage.called).to.equal(false);
+          expect(mockAlertDialog.called).to.equal(false);
        });
         _$httpBackend.flush();
     });  

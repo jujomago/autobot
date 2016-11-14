@@ -6,15 +6,16 @@ angular.module('fakiyaMainApp')
         var sessionInjector = {
             request: function(config) {
                 let path =$location.path();
-                console.log('Current url path: ' + path);
                 if (config.url.indexOf('/api/') > -1) {
                     let match = path.match(/ap\/([^\/]+)\/?(.*)$/);
-                    if (match !== null) {
-                        config.headers.appName = match[1]; //The first group (0) is the enterily string
-                    } else {
-                        config.headers.appName = '';
+                    if(!config.headers.appName){
+                        if (match !== null) {
+
+                            config.headers.appName = match[1]; //The first group (0) is the enterily string
+                        } else {
+                            config.headers.appName = '';
+                        }
                     }
-                    console.log(' url intercepted: ' + config.url);
                 }
 
                 return config;

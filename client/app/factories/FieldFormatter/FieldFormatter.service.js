@@ -41,6 +41,9 @@ angular.module('fakiyaMainApp')
       else if(field.type === 'PHONE'){
         value = removePhoneChars(value);
       }
+      else if(['STRING','EMAIL','URL'].indexOf(field.type) > -1){
+        value = value.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+      }
       return value;
     }
     function formatField(field, value){
@@ -60,9 +63,9 @@ angular.module('fakiyaMainApp')
         case 'PERCENT':
           return value+'%';
         case 'DATE':
-          return $filter('date')(value, field.dateFormat)+' PDT';
+          return $filter('date')(value, field.dateFormat);
         case 'DATE_TIME':
-         return $filter('date')(value.date, field.dateFormat)+' '+value.time+' PDT';
+         return $filter('date')(value.date, field.dateFormat)+' '+value.time;
       }
     }
     return value;

@@ -6,10 +6,15 @@ angular.module('fakiyaMainApp')
       return true;
     };
     let validateMinValue = function(min, value) {
-      return value>=new Date(min);
+      let date = new Date(min);
+      date = (new Date(date.valueOf() + (date.getTimezoneOffset()-1440) * 60000 ));
+      return value>= date;
     };
     let validateMaxValue = function(max, value) {
-      return value<=new Date(max);
+      let date = new Date(max);
+      date = (new Date(date.valueOf() + (date.getTimezoneOffset()-1440) * 60000 ));
+
+      return value<= date;
     };
     let getMethods = function(){
       let dateMethods = new DefaultValidator();

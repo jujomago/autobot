@@ -232,7 +232,7 @@ module.exports = function (grunt) {
           '/es5-shim/',
           /font-awesome\.css/,
           /bootstrap\.css/
-          
+
         ]
       },
       client: {
@@ -439,7 +439,7 @@ module.exports = function (grunt) {
       ],
       test: [
         'newer:babel:client',
-         'less'
+        'less'
       ],
       debug: {
         tasks: [
@@ -456,9 +456,9 @@ module.exports = function (grunt) {
         'less',
         'imagemin'
       ],
-        options: {
-          limit: 3
-        }
+      options: {
+        limit: 3
+      }
     },
 
     // Test settings
@@ -581,7 +581,7 @@ module.exports = function (grunt) {
     less: {
       server: {
         files: {
-          '.tmp/app/app.css' : '<%= yeoman.client %>/app/app.less'
+          '.tmp/app/app.css': '<%= yeoman.client %>/app/app.less'
         }
       }
     },
@@ -617,7 +617,7 @@ module.exports = function (grunt) {
         }
       },
 
-            // Inject component less into app.less
+      // Inject component less into app.less
       less: {
         options: {
           transform: function(filePath) {
@@ -666,49 +666,15 @@ module.exports = function (grunt) {
       }
     },
 
-    dock: {
-      options: {
-
-        // Docker connection options
-        // For this example, assume it is a Boot2Docker config.
-        // By default, Boot2Docker only accepts secure connection.
-        docker: {
-          protocol: 'http',
-          host: '127.0.0.1',
-          port: '4243',
-
-          /*ca: fs.readFileSync(caPath),
-          cert: fs.readFileSync(certPath),
-          key: fs.readFileSync(keyPath)*/
-        },
-
-        images: {
-          // The 'simple' image
-          'autobox-api': {
-            // The Dockerfile to use
-            dockerfile: '.',
-
-            // Options for dockerode
-            options: {
-
-              build: { /* extra options to docker build   */ },
-
-              // When starting the container:
-              // Bind the container port to the host (same port)
-              // +
-              // Bind the './dist' directory to the '/usr/src' container one
-              start: {
-                "PortBindings": { "8080/tcp": [{ "HostPort": "9999" }] },
-                "Binds": [__dirname + "/dist:/usr/src/appx"]
-              },
-
-              // For the logs command, we want to display stdout
-              logs: { stdout: true, stderr: true }
-            }
-          }
+    strip: {
+      main: {
+        src: '.tmp/concat/app/**/app.js',
+        options: {
+          nodes: ['console.log', 'debug'],
+          inline: true
         }
       }
-    },
+    }
   });
 
   // Used for delaying livereload until after server has restarted
@@ -886,6 +852,7 @@ module.exports = function (grunt) {
     'postcss',
     'ngtemplates',
     'concat',
+    'strip',
     'ngAnnotate',
     'copy:dist',
     'babel:server',

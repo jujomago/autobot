@@ -1,14 +1,11 @@
 'use strict';
 (function () {
 
-     let _$state,_SkillsService,_UsersService;
-
+     let _$state,_SkillsService,_UsersService;     
     class EditComponent {
-        constructor($stateParams, $state, SkillsService, UsersService) {
-
+        constructor($stateParams, $state, SkillsService, UsersService,Global) {
             console.log('Component EditComponent - al.skills.edit');
-
-            _$state = $state;
+            _$state = $state;  
             _SkillsService = SkillsService;
             _UsersService = UsersService;
             this.selectedSkill = {};
@@ -18,23 +15,25 @@
             this.UsersNamesSkills = [];
             this.filteredUsers = [];
             this.numPerPage = 10;
+            this.global = Global;
             this.beginNext = 0;
             this.currentPage = 1;
-
             this.toggleUsernameLink = -1;
             this.toggleUserItem = { item: -1 };
             this.toggleUserNameItem = -1;
-
-            this.showPanelInfo = false;  
-            this.message={show:false};             
-            this.SubmitText = 'Save';
+            this.showPanelInfo = false;
+            this.message={show:false};
+            this.SubmitText = 'Save';            
         }
 
+        $onInit() {
+            this.showSkill();
+            this.listUsers();
+        }
+        
         showSkill() {
             this.found = false;
             var nameSkill = this.nameSkill;
-            console.log('---------------');
-
             _SkillsService.getSkill(nameSkill)
                 .then(_skillInfo => {
                     this.found = true;
@@ -43,25 +42,23 @@
                 })
                 .catch(error => {
                     this.message={show:true,type:'danger',text: error.errorMessage};
-                    return error;  
+                    return error;
                 });
         }
         save() {
             this.SubmitText = 'Saving...';
-            console.log('before saving');
-            console.log(this.selectedSkill);
             _SkillsService.updateSkill(this.selectedSkill)
                 .then(() => {
                     var messageObj = {
                         type: 'success',
-                        text: 'Skill Updated SuccessFully'
+                        text: 'Skill Updated Successfully'
                     };
                     _$state.go('ap.al.skills', { message: messageObj });
                     this.SubmitText = 'Saved';
                 }).catch(error => {
                     this.message={show:true,type:'danger',text: error.errorMessage};
-                    this.SubmitText = 'Save';  
-                    return error;  
+                    this.SubmitText = 'Save';
+                    return error;
                 });
         }
         cancel() {
@@ -78,19 +75,18 @@
                 userName: userObj.userName
             };
 
-  
+
             return _UsersService.addSkilltoUser(userSkillObj)
                 .then(response => {
-                   // console.log('response');
                     // response when creating new stuff, RETURNS NOTHING
-                    if (response.statusCode === 201 && response.data === null) {                        
-                        
+                    if (response.statusCode === 201 && response.data === null) {
+
                         let index = this.filteredUsers.indexOf(userObj);
                         this.filteredUsers.splice(index, 1);
                         this.toggleUserItem.item = -1;
-                        
-                        this.message={show:true,type:'success',text:'User Added Sucessfully',expires:2000};
-                     
+
+                        this.message={show:true,type:'success',text:'User Added Successfully',expires:2000};
+
                         this.UsersNamesSkills.push(userObj);
                         return true;
                     }
@@ -98,7 +94,7 @@
                 })
                 .catch(error => {
                     this.message={show:true,type:'danger',text: error.errorMessage};
-                    return error;  
+                    return error;
                 });
         }
         deleteUserfromSkill(user, i) {
@@ -115,25 +111,24 @@
             return _UsersService.deleteSkillfromUser(userSkillObj)
                 .then(response => {
 
-                    if (response.statusCode === 204 && response.data === null ){ 
-                        console.log('deleted OK');
-                        
+                    if (response.statusCode === 204 && response.data === null ){
+
                         this.showPanelInfo=false;
-                                               
+
                         let index = this.UsersNamesSkills.indexOf(user);
                         this.UsersNamesSkills.splice(index, 1);
                         this.toggleUserNameItem = -1;
-                        
-                        this.message={show:true,type:'success',text:'User Removed Sucessfully',expires:2000};
-                    
-                        this.listUsers();     
+
+                        this.message={show:true,type:'success',text:'User Removed Successfully',expires:2000};
+
+                        this.listUsers();
                         return response;
                     }
                    return null;
                 })
                 .catch(error => {
                     this.message={show:true,type:'danger',text: error.errorMessage};
-                    return error;  
+                    return error;
                 });
         }
 
@@ -143,25 +138,28 @@
             this.toggleUsernameLink = i;
             return _UsersService.getUser(username)
                 .then(_userInfo => {
-                  ///  console.log(_userInfo);
                     this.DetailUser = _userInfo;
                     return this.DetailUser;
                 })
                 .catch(error => {
                     this.message={show:true,type:'danger',text: error.errorMessage};
-                    return error;  
+                    return error;
                 });
         }
         listUsers() {
             this.filteredUsers = [];
-            _UsersService.getUsers()
-                .then(_users => {                                           
+
+            return _UsersService.getUsers()
+                .then(_users => {          
                     this.userslist = _users.data;
                     this.filterUsersBounded(this.userslist);
+                    return _users;
                 })
                 .catch(error => {
                     this.message={show:true,type:'danger',text: error.errorMessage};
+                    return error;
                 });         
+
         }
         filterUsersBounded(rawUserList) {
             if (this.UsersNamesSkills.length === 0) {
@@ -192,14 +190,12 @@
         }
 
         pageChanged() {
-            console.log('Page changed to: ' + this.currentPage);
             this.beginNext = (this.currentPage - 1) * this.numPerPage;
-            console.log('beginNext:' + this.beginNext);
         }
 
     }
 
-    EditComponent.$inject = ['$stateParams', '$state', 'SkillsService', 'UsersService'];
+    EditComponent.$inject = ['$stateParams', '$state', 'SkillsService', 'UsersService','Global'];
     angular.module('fakiyaMainApp')
         .component('al.skills.edit', {
             templateUrl: 'app/features/al/skills/edit/edit.html',

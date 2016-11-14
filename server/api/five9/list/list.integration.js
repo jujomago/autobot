@@ -58,9 +58,7 @@ describe('Lists API:', function () {
                     if (err) {
                         return done(err);
                     }
-                    //console.log(res.body);
                     lists = res.body.return;
-                    console.log(lists.length);
 
                     assert.equal(200, res.status);
                     //res.status.should.equal(200);
@@ -108,7 +106,6 @@ describe('Lists API:', function () {
                 });
         });
         it('should wait a delete result - timeout 25 seconds', function (done) {
-           console.log('IDENTIFIER: '+identifier);
            this.timeout(25000);
             request(app)
                 .get('/api/f9/lists/contacts/result/running/'+identifier+'?waitTime=300')
@@ -123,7 +120,7 @@ describe('Lists API:', function () {
                     assert.equal(200, res.status);
                     result.should.not.equal(null);
                     result.should.equal(false);
-                    
+
                     done();
                 });
         });

@@ -70,7 +70,7 @@
 		            if(response.statusCode===201){
 		                this.message = {
 		                    type: 'success',
-		                    text: 'Disposition Created SuccessFully'
+		                    text: 'Disposition Created Successfully'
 		                };
 		                _$state.go('ap.al.dispositions', { message: this.message });   
 		            }

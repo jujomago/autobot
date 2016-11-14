@@ -1,26 +1,55 @@
 .dashboard{
   height: 100%;
-  margin: 65px 17% 100px;
-  h3 {
-    font-size: 24px;
-    font-family: BrandonBold;
-    border-bottom: 3px solid @blue;
-    width: 275px;
-    margin: 0 auto 50px;
-    text-align: center;
+  width: 100%;
+  position: absolute;
+  //background//-size: cover;
+  background-image: url("/assets/dashboard/AB-App-DashboardBg.png");
+  background-repeat:no-repeat;  
+  background-size:cover;
+  background-position:center;
+  top: 50px;
+  margin-top: -50px;
+  left: 0px;
+  .box-dashboard{
+    width: 662px;
+    height: 211px;    
+    background-color:rgba(0, 0, 0, 0.7); 
+    position: absolute;
+    bottom: 100px;
+    right: 50px;
+    padding: 20px 30px 30px 30px;
+    p{
+      color: white; 
+      font-family: BrandonLight;
+      font-size: 32px;
+      text-align: right;
+    }
+    a.button-blue-dashboard {
+            opacity: 1;
+            filter: alpha(opacity=100);
+            border: none;
+            width: 180px;
+            height: 40px;   
+            margin-top: 20px;    
+            text-align: center;     
+            padding: 8px 0 10px 0;
+            background-color: #37A3DC;
+            font-size: 18px;
+            color: #FFFFFF;
+            //margin-top: 12px;
+            font-weight: normal;
+            &:hover, &:active {
+            background: #53bef7;
+            color: @white;
+        }
+    }
+    
   }
-  p {
-    font-size: 14px;
-    margin-bottom: 15px;
-    font-family: BrandonRegular;
-  }
-  a{
-    font-family: BrandonRegular;
-  }
-}
+  
 
 dashboard footer.footer {
     position: absolute;
     bottom: 0;
     width: 100%;
+}
 }

@@ -1,9 +1,7 @@
 'use strict';
 (function(){
-let _ConfirmAsync, _ListService, _, _ContactFieldsService, ctrl, _FieldFormatter;
-let _$state, _$stateParams, _$filter, _ModalManager;
-
-
+let _ConfirmAsync, _ListService, _, _ContactFieldsService, ctrl, _FieldFormatter, _Utils;
+let _$state, _$stateParams, _$filter, _ModalManager, _PromptDialog, _AlertDialog;
 function _getSets(field) {
     if(field.restrictions){
       let set = field.restrictions.filter(r => (r.type === 'Set' || r.type === 'Multiset'));
@@ -78,8 +76,7 @@ function _extractFormats(field) {
     return field;
 }
 class ListComponent {
-  constructor($state, $stateParams, $filter, ModalManager, ListsService, ConfirmAsync, ContactFieldsService, lodash, FieldFormatter) {
-
+  constructor($state, $stateParams, $filter, ModalManager, ListsService, ConfirmAsync, ContactFieldsService, lodash, FieldFormatter, PromptDialog, AlertDialog, Utils, Global) {
       this.currentPage = 1;
       this.sortKey = '';
       this.reverse = false;
@@ -103,6 +100,8 @@ class ListComponent {
       this.sending = false;
       this.error = false;
       this.loaded = false;
+      this.isUpdate = true;
+      this.global = Global;
       ctrl = this;
       _ = lodash;
       _$state = $state;
@@ -112,47 +111,76 @@ class ListComponent {
       _ListService = ListsService;
       _ConfirmAsync = ConfirmAsync;
       _FieldFormatter = FieldFormatter;
+      _PromptDialog = PromptDialog;
       _ContactFieldsService = ContactFieldsService;
+      _AlertDialog = AlertDialog;
+      _Utils = Utils;
       this.listName = _$stateParams.name;
       this.sendContact = {listName: this.listName, importData: {values: []} };
-      this.listUpdateSettings = {cleanListBeforeUpdate: false, crmAddMode: 'ADD_NEW', crmUpdateMode: 'UPDATE_FIRST', listAddMode: 'ADD_FIRST'};
-      
-      
+      this.listUpdateSettings = {
+        cleanListBeforeUpdate: false,
+        crmAddMode: 'ADD_NEW',
+        crmUpdateMode: 'UPDATE_FIRST',
+        listAddMode: 'ADD_FIRST'
+      };
+      this.listDeleteSettings = {
+        listDeleteMode: 'DELETE_ALL'
+      };
   }
+
   $onInit(){
+    this.isUpdate = JSON.parse(_$stateParams.update);
     this.getContactFields();
   }
+
   generateMapping(){
-    this.listUpdateSettings.fieldsMapping =[];
-    for(let i=0; i<this.contactFields.length;i++){
-      let key=false;
-      if(this.contactFields[i].name==='number1'){
+    for (let i = 0; i < this.contactFields.length; i++) {
+      let key = false;
+
+      if (this.contactFields[i].name === 'number1') {
         key=true;
         this.contactFields[i].isKey = true;
       }
-      this.listUpdateSettings.fieldsMapping.push({columnNumber: i+1, fieldName: this.contactFields[i].name, key: key});
+
+      this.fieldsMapping.push({
+                                columnNumber: i+1,
+                                fieldName: this.contactFields[i].name,
+                                key: key
+                              });
     }
   }
+
   getContactFields() {
     return _ContactFieldsService.getContactFields()
     .then(response => {
         this.contactFields = response.data.filter(e => (e.mapTo === 'None'));
-        this.contactFields  = this.contactFields.map(_getSets).map(_extractFormats);
+
+        this.contactFields  = this.isUpdate ?
+                                    this.contactFields.map(_getSets).map(_extractFormats) :
+                                    [this.contactFields[0]].map(_getSets).map(_extractFormats);
+
         this.generateMapping();
         this.loaded = true;
-        console.log(this.contactFields);
         return response;
     })
     .catch(error => {
         this.message = { show: true, type: 'danger', text: error.errorMessage };
         return error;
     });
-  }    
+  }
+
   sortColumn(columnName) {
       if (columnName !== undefined && columnName) {
-          console.log('sorting:' + columnName);
           this.sortKey = columnName;
-          this.list = _$filter('orderBy')(this.list, this.sortKey, this.reverse);
+          let reverse = this.reverse;
+          this.list = this.list.sort((itemA,itemB)=>{
+            if(reverse){
+              return itemA[columnName] > itemB[columnName];
+            }
+            else{
+              return itemA[columnName] < itemB[columnName];
+            }
+          });
           this.reverse = !this.reverse;
           return true;
       } else {
@@ -205,9 +233,6 @@ class ListComponent {
       this.selected = contact;
       this.selectedOld = contact;
     }
-
-    console.log(this.selected);
-    console.log(this.selectedArray);
   }
 
   insertContact(){
@@ -249,7 +274,7 @@ class ListComponent {
       animation: false,
       size: 'md',
       controllerAs: '$ctrl',
-      appendTo: angular.element(document.querySelector('#edit-list')),
+      appendTo: angular.element('#modal-container'),
       template: '<al.lists.contact-modal></al.lists.contact-modal>'
     });
 
@@ -257,17 +282,29 @@ class ListComponent {
         .then(result => {
             if(typeof result !== 'undefined' && Object.keys(result).length > 0){
                   if(this.method==='create'){
-                    this.list.unshift(angular.copy(result));
+                    this.list.unshift(result);
+                    this.currentPage = 1;
+                    this.pageChanged();
                   }
                   else{
+                    console.log(this.selectedIndex);
                     this.list[this.selectedIndex] = result;
                   }
             }
+            let tmpSelected=this.selectedIndex;
             this.selected = '';
             this.selectedOld = '';
             this.selectedArray = [];
             this.contact = {};
             this.selectedIndex = -1;
+            if(this.method==='create'){
+              this.selectedContact(0, result);
+            }
+            else{
+              this.selectedContact(tmpSelected, result);
+            }
+            
+
         }, ()=>{
           this.selected = '';
           this.selectedOld = '';
@@ -278,45 +315,61 @@ class ListComponent {
   }
 
   uploadContacts(){
-    
-    let list = angular.copy(this.list);
+    let list = angular.copy(this.list),
+        promiseUpload,
+        mainList;
 
-    let mainList =  list.map(item =>{
+    mainList =  list.map(item => {
         let keys = Object.keys(item);
+
         for(let i=0;i<keys.length;i++){
           let key = keys[i];
+
           item[key] =  _FieldFormatter.formatField(ctrl.contactFields[i], item[key]);
         }
         return item;
     });
+
     _.each(mainList,e=>{
-      this.sendContact.importData.values.push({item: _.values(e)});  
+      this.sendContact.importData.values.push({item: _.values(e)});
     });
 
+    this.sending = true;
+
+    if (this.isUpdate) {
+      this.listUpdateSettings.fieldsMapping = this.fieldsMapping;
       this.sendContact.listUpdateSettings = this.listUpdateSettings;
-      this.sending= true;
-      console.log(this.sendContact);
-      return _ListService.addContacts(this.sendContact)
-      .then(response=>{  
-        if(response.data.return.identifier){
-          this.sending= false;
-          _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: true});
+    }
+    else {
+      this.listDeleteSettings.fieldsMapping = this.fieldsMapping;
+      this.sendContact.listDeleteSettings = this.listDeleteSettings;
+    }
+
+    promiseUpload = this.isUpdate ? _ListService.addContacts(this.sendContact) : _ListService.deleteContacts(this.sendContact);
+
+    return promiseUpload.then(response => {
+        if (response.data.return.identifier) {
+          this.sending = false;
+          _Utils.setDataListAction({
+            name: this.sendContact.listName,
+            identifier: response.data.return.identifier,
+            isUpdate: true
+          });
+          _$state.go('ap.al.lists');
         }
         return response;
-      })
-      .catch(error =>{    
+      }).catch(error =>{
         this.SubmitText='Save';
-        this.message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
+        let message={ show: true, type: 'danger', text: error.errorMessage,name: this.sendContact.listName, expires: 5000 };
+        _Utils.setDataListAction({messageError: message});
+        _$state.go('ap.al.lists');
         return error;
       });
-
-    
   }
 
   cancelList(){
       _$state.go('ap.al.lists');
   }
-
 
   filteringBySearch(){
     this.selected = '';
@@ -333,15 +386,72 @@ class ListComponent {
   }
 
   pageChanged() {
-    console.log('Page changed to: ' + this.currentPage);
     this.beginNext = (this.currentPage - 1) * this.numPerPage;
-    console.log('beginNext:' + this.beginNext);
   }
   formatField(field, value){
     return _FieldFormatter.formatField(field, value);
   }
+  removeDnc(list){
+    let invalids = list
+    .reduce((map, item)=>{
+      map[item.phone] = true;
+      return map;
+    }, {});
+    let rows = [];
+    _.each(this.list, (contact, index) => {
+      let item = [];
+      if(invalids[contact.number1]){
+        item.push('Number1');
+      }
+      if(invalids[contact.number2]){
+        item.push('Number2');
+      }
+      if(invalids[contact.number3]){
+        item.push('Number3');
+      }
+      if(item.length===0){
+        this.valids.push(contact);
+      }
+      else{
+        rows.push([index+1, item.join(', ')]);
+      }
+    });
+    return _PromptDialog.open({title: 'DNC Scrub', body: `${rows.length} of ${this.list.length} records have been found invalid.\nYou may remove the invalid records before updating the list.`, listDetail: {headerList: 'Invalid records', cols: ['Line', 'Field'], rows: rows}}, {okText: 'Remove records'});
+  }
+  openDNCModal(){
+    this.dncModalInstance = _ModalManager.open({
+      animation: false,
+      size: 'abx-sm',
+      controllerAs: '$ctrl',
+      windowTopClass: 'modal-summary',
+      appendTo: angular.element('#dnc-modal-container'),
+      template: '<check-dnc-modal></check-dnc-modal>'
+    });
+    this.valids = [];
+    this.dncModalInstance.result
+    .then(response => {
+      let list = response.filter(item => (item.status!=='C' && item.status!=='X' && item.status!=='O' && item.status!=='E' && item.status!=='R'));
+      if(list.length>0){
+        return this.removeDnc(list);
+      }
+      else{
+        _AlertDialog({title: 'DNC Scrub', body: 'All your records have been found valid.\nYou may continue uploading the list.'},{center: true});
+      }
+      return false;
+     })
+    .then(response =>{
+      if(response){
+        this.list = this.valids;
+        this.selected = '';
+        this.selectedOld = '';
+        this.selectedArray = [];
+        this.contact = {};
+      }
+      return response;
+    });
+  }
 }
-ListComponent.$inject = ['$state', '$stateParams', '$filter', 'ModalManager', 'ListsService', 'ConfirmAsync', 'ContactFieldsService', 'lodash', 'FieldFormatter'];
+ListComponent.$inject = ['$state', '$stateParams', '$filter', 'ModalManager', 'ListsService', 'ConfirmAsync', 'ContactFieldsService', 'lodash', 'FieldFormatter', 'PromptDialog', 'AlertDialog', 'Utils', 'Global'];
 angular.module('fakiyaMainApp')
   .component('al.lists.edit.list', {
     templateUrl: 'app/features/al/lists/edit/step3-list/step3-list.html',

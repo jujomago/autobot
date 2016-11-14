@@ -1313,8 +1313,6 @@ describe('Component: al.lists.mapping', function () {
 
       MappingComponent.uploadContacts(dataToSend, 'testList')
         .then(response => {
-					console.log('el reponse');
-					console.log(response);
 
 
           expect(response.statusCode).to.equal(200);
