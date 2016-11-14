@@ -7,7 +7,7 @@
 		<div ng-if="$ctrl.emptyPartnerAccounts">
 			<h3 class="title-level3">Choose account</h3>
 			<h3 class="title-container">
-				{{$ctrl.partnerName}}<span> accounts</span>
+				{{$ctrl.partnerName}}<span>accounts</span>
 			</h3>
 			<ul class="list-group account-list" >
 				<li class="list-group-item"  ng-repeat="item in $ctrl.accountsList | orderBy: 'username'" ng-click="$ctrl.goToLoginAccount(item.username)">

@@ -1,0 +1,14 @@
+<div class="datepicker-container">
+  <span class="datepicker-button">
+    <button type="button" class="btn btn-default" ng-click="openDatePicker()"><i class="glyphicon glyphicon-calendar"></i></button>
+  </span>
+  <input
+    class="inline-date"
+    type="text"
+    uib-datepicker-popup="{{dateFormat}}"
+    ng-model="datetime.date"
+    is-open="opened"
+    readonly=""
+	>
+</div>
+<input type="text" class="inline-time" ng-model="datetime.time" ng-model="$ctrl.contact[form.name]" placeholder="{{timeFormat}}"/>

@@ -10,12 +10,11 @@
             <div class="app-page-img-container">
                 <img class="img-responsive" ng-src="assets/{{$ctrl.application.appName}}/images/logo-sm.jpg" abx-default-image-switch="/assets/default/images/logo-sm.jpg" alt="logo {{$ctrl.application.appFullName}}" />
                 <div ng-show="$ctrl.application.appStatus!==$ctrl.appStatus.COMING_SOON">
-                    <button class="btn btn-black" ng-show="$ctrl.application.isInstalled" ng-click="$ctrl.selectInstalledApp()">Open app</button>
-                    <button class="btn btn-black" ng-show="!$ctrl.application.isInstalled" ng-click="$ctrl.selectNoInstalledApp()">Get app</button>
+                    <button class="btn btn-black" ng-show="$ctrl.application.isInstalled" ng-click="$ctrl.selectInstalledApp()">Open</button>
+                    <button class="btn btn-black" ng-show="!$ctrl.application.isInstalled" ng-click="$ctrl.selectNoInstalledApp()">Get</button>
                     <p ng-repeat="requirement in $ctrl.application.appRequirements">{{requirement}}</p>
                 </div>
             </div>
-
         </div>
         <div class="col-md-10 col-sm-9 app-page-detail">
             {{$ctrl.application.description}}

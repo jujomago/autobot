@@ -7,6 +7,7 @@ angular.module('fakiyaMainApp', [
   'ngSanitize',
   'ui.router',
   'ui.bootstrap',
+  'ui.mask',
   'ngStorage',
   'ngMessages',
   'angular-jwt'
@@ -39,7 +40,7 @@ angular.module('fakiyaMainApp', [
     Global.maxSize=7;
     angular.element($window).on('resize', function () {				
 				let widthWindow = $window.innerWidth;				       
-				if(widthWindow<=835)
+				if(widthWindow<=870)
 				{
 					Global.maxSize=3;                  
 				}

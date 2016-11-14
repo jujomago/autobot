@@ -1,6 +1,6 @@
 'use strict';
 (function(){
-  let _ConfirmAsync, _ListsService, _AlertMessage, _ModalManager,_Global;
+  let _ConfirmAsync, _ListsService, _AlertDialog, _Global, _ModalManager, _Utils;
   let _$state,_$stateParams, _$filter;
   function _myIndex(lists ,name){
     //TODO: replace with return _lodash.findIndex(lists, function(list) { return list.name === name });
@@ -46,8 +46,12 @@
     let warningsCount=result.warningsCount;
 
     if(!isUpdate){
-      let errorsFoundQty=uploadDuplicatesCount+uploadErrorsCount;
-      items.push(`${errorsFoundQty} ERRORS FOUND`);
+      let errorsFoundQty=uploadDuplicatesCount+uploadErrorsCount,
+          message;
+
+      message = errorsFoundQty > 0 ? `${errorsFoundQty} ERRORS FOUND` : 'NO ERRORS FOUND';
+      items.push(message);
+
       if(uploadErrorsCount!==0){
         items.push(`${uploadErrorsCount} lines with parse erros found`);
       }
@@ -89,22 +93,20 @@
     content.list = _getListItems(result,isUpdate);
     return content;
   }
+
   class ListComponent {
-    constructor(ListsService,$stateParams,$state, $filter,ModalManager,ConfirmAsync, AlertMessage, Global) {
+    constructor(ListsService,$stateParams,$state, $filter, ModalManager,ConfirmAsync, AlertDialog, Global, Utils) {
         this.lists = [];
         _$stateParams = $stateParams;
         this.message = { show: false };
         this.selectedRow = null;
-        if (_$stateParams.message !== null) {
-          this.message = { show: true, type: _$stateParams.message.type, text: _$stateParams.message.text,expires: 3000 };
-          this.selectedRow = _$stateParams.list;
-        }
-        _$filter = $filter;       
-        _AlertMessage = AlertMessage;
+        _$filter = $filter;
+        _AlertDialog = AlertDialog;
         _ModalManager = ModalManager;
-        _Global = Global;     
-        this.currentPage = 1;         
-        this.global = Global;
+        _Global = Global;
+        this.global =  Global;
+        _Utils = Utils;
+        this.currentPage = 1;
         this.sortKey = '';
         this.reverse = true;
         this.numPerPage = 10;
@@ -118,26 +120,32 @@
         this.originalLists=[];
         _$state = $state;
         _ConfirmAsync = ConfirmAsync;
-        _ListsService = ListsService;        
+        _ListsService = ListsService;
     }
-    
-    $onInit() {       
-        let promiseLists = this.getLists();
-        let identifier = _$stateParams.identifier;
-        _$stateParams.identifier = null;
-        if(identifier){
-          promiseLists.then(() =>{
-            this.goToProcessedRow();
-            this.getResult(identifier, _$stateParams.name, _$stateParams.isUpdate);
-          });
-        }
+    $onInit() {
+        let promiseLists = this.getLists(),
+            listModified = _Utils.getDataListAction();
 
+        if (!_Utils.isUndefinedOrNull(listModified)) {
+            _Utils.setDataListAction(null);
+
+            if (!_Utils.isUndefinedOrNull(listModified.messageError)) {
+                this.message = { show: true, type: listModified.messageError.type, text: listModified.messageError.text,expires: 3000 };
+                this.selectedRow = listModified.name;
+            }
+            else {
+                promiseLists.then(() =>{
+                  this.goToProcessedRow(listModified.name);
+                  this.getResult(listModified.identifier, listModified.name, listModified.isUpdate);
+                });
+            }
+        }
     }
-    goToProcessedRow(){
-      let index =  _myIndex(this.lists, _$stateParams.name);
+    goToProcessedRow(listName){
+      let index =  _myIndex(this.lists, listName);
       this.currentPage = _myPage(index, this.numPerPage);
       this.pageChanged();
-      this.processedRow = _$stateParams.name;
+      this.processedRow = listName;
     }
     goToSelectedRow(){
       let index =  _myIndex(this.lists, this.selectedRow.listName);
@@ -190,16 +198,16 @@
           this.processedRow = null;
           _Global.proccessIsRunning = false;
           this.selectedRow = listName;
-          _AlertMessage(response.summaryMessage);
+          _AlertDialog(response.summaryMessage);
           return response;
         });
     }
 
-    updateListRecord(list){
-      _$state.go('ap.al.listsEdit', {name: list, isUpdate: true});
+    updateListRecord(item){
+      _$state.go('ap.al.listsEdit', {name: item.name, update: true});
     }
-    deleteListRecord(list){
-      _$state.go('ap.al.listsEdit', {name: list, isUpdate: false});
+    deleteListRecord(item){
+      _$state.go('ap.al.listsEdit', {name: item.name, update: false});
     }
     filteringBySearch(){
       this.lists = _$filter('filter')(this.originalLists, this.search);
@@ -265,7 +273,7 @@
         })
         .then(response =>{
           let summaryMessage = _formatMessage(response.data, isUpdate, listName);
-          let index = _myIndex(this.lists, _$stateParams.name);
+          let index = _myIndex(this.lists, listName);
           return this.updateList(listName ,index, summaryMessage);
         })
        .catch(error =>{
@@ -274,8 +282,7 @@
         });
     }
   }
-
-  ListComponent.$inject = ['ListsService','$stateParams','$state', '$filter', 'ModalManager', 'ConfirmAsync', 'AlertMessage', 'Global'];
+  ListComponent.$inject = ['ListsService','$stateParams','$state', '$filter', 'ModalManager', 'ConfirmAsync', 'AlertDialog', 'Global', 'Utils'];
 
   angular.module('fakiyaMainApp')
     .component('al.lists.list', {
