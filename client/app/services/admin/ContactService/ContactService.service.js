@@ -12,7 +12,13 @@
             }
         }
 
-        sendmail(data) {      
+        sendmail(data) {
+            if(!data.company){
+              data.company = 'None';
+            }
+            if(!data.phone){
+              data.phone = 'None';
+            }   
             let result = { data: null, statusCode: 200, errorMessage: null };
             return _$http.post(this.endPointUrl + '/admin/services/contact',data)
             .then(() => result)
