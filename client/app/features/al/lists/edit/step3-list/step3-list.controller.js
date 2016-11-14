@@ -1,12 +1,82 @@
 'use strict';
 (function(){
-let _ConfirmAsync, _ListService, _, _ContactFieldsService;
-let _$state, _$stateParams, _$filter, _$uibModal;
+let _ConfirmAsync, _ListService, _, _ContactFieldsService, ctrl, _FieldFormatter, _Utils;
+let _$state, _$stateParams, _$filter, _ModalManager, _PromptDialog, _AlertDialog;
+function _getSets(field) {
+    if(field.restrictions){
+      let set = field.restrictions.filter(r => (r.type === 'Set' || r.type === 'Multiset'));
+      if(set.length>0){
+        field.dataSet = set;
+        field.realType = field.type;
+        field.type = set[0].type.toUpperCase();
+        field.restrictions = field.restrictions.filter(r => (r.type !== 'Set' && r.type !== 'Multiset'));
+      }
+    } 
+    return field;
+}
+function _formatExist(field, key){
+  if(!field.restrictions){
+      return null;
+    }
+  let result = _.find(field.restrictions, e => e.type === key);
 
+  return result?result.value:null;
+}
+function _getPresicion(field){
+  let resultPrescision = _.find(field.restrictions, e => e.type === 'Precision');
+  let resultScale = _.find(field.restrictions, e => e.type === 'Scale');
+  if(resultScale){
+    return resultPrescision.value*1-resultScale.value*1;
+  }
+  return resultPrescision;
+}
+function _extractFormats(field) {
+    if(_formatExist(field, 'Required') !== null){
+      field.required = true;
+    }
+    let result=_formatExist(field, 'CurrencyType');
+    if(result !== null){
+      field.currencyType = result;
+    }
+    result=_formatExist(field, 'DateFormat');
+    if(result !== null){
+      field.dateFormat = result;
+    }
+    result=_formatExist(field, 'TimeFormat');
+    if(result !== null){
+      field.timeFormat = result;
+    }
+    result=_formatExist(field, 'TimePeriodFormat');
+    if(result !== null){
+      field.timeFormat = result;
+    }
+    result=_formatExist(field, 'MinValue');
+    if(result !== null){
+      field.minValue = result;
+    }
+    result=_formatExist(field, 'MaxValue');
+    if(result !== null){
+      field.maxValue = result;
+    }
+    result=_formatExist(field, 'Regexp');
+    if(result !== null){
+      field.regex = result;
+    }
+    result=_formatExist(field, 'Precision');
+    if(result !== null){
+      let resultPrescision = field.restrictions.findIndex(e => e.type === 'Precision');
+      let precision = _getPresicion(field);
+      field.restrictions[resultPrescision].value = precision;
+      field.precision = precision;
+    }
+    result=_formatExist(field, 'Scale');
+    if(result !== null){
+      field.scale = result;
+    }
+    return field;
+}
 class ListComponent {
-  constructor($state, $stateParams, $filter, $uibModal, ListsService, ConfirmAsync, ContactFieldsService, lodash) {
-
-      this.importData = {fields: [], keys: [], rows: []};
+  constructor($state, $stateParams, $filter, ModalManager, ListsService, ConfirmAsync, ContactFieldsService, lodash, FieldFormatter, PromptDialog, AlertDialog, Utils, Global) {
       this.currentPage = 1;
       this.sortKey = '';
       this.reverse = false;
@@ -23,7 +93,6 @@ class ListComponent {
       this.selectedArray = [];
       this.method = 'create';
       this.manual = false;
-      this.sendContact = {listName: '', importData: { values: []}};
       this.contactFields = [];
       this.fieldsMapping = [];
       this.loadingContacts = true;
@@ -31,66 +100,87 @@ class ListComponent {
       this.sending = false;
       this.error = false;
       this.loaded = false;
-      this.typeUpdate = false;
-      this.headerFields=[];
-      this.action='updateList';
+      this.isUpdate = true;
+      this.global = Global;
+      ctrl = this;
+      _ = lodash;
       _$state = $state;
       _$stateParams = $stateParams;
       _$filter = $filter;
-      _$uibModal = $uibModal;
+      _ModalManager = ModalManager;
       _ListService = ListsService;
       _ConfirmAsync = ConfirmAsync;
+      _FieldFormatter = FieldFormatter;
+      _PromptDialog = PromptDialog;
       _ContactFieldsService = ContactFieldsService;
-      _ = lodash;
+      _AlertDialog = AlertDialog;
+      _Utils = Utils;
+      this.listName = _$stateParams.name;
+      this.sendContact = {listName: this.listName, importData: {values: []} };
+      this.listUpdateSettings = {
+        cleanListBeforeUpdate: false,
+        crmAddMode: 'ADD_NEW',
+        crmUpdateMode: 'UPDATE_FIRST',
+        listAddMode: 'ADD_FIRST'
+      };
+      this.listDeleteSettings = {
+        listDeleteMode: 'DELETE_ALL'
+      };
+  }
 
-      if(_$stateParams.settings.listDeleteSettings){
-        this.action='deleteList';
+  $onInit(){
+    this.isUpdate = JSON.parse(_$stateParams.update);
+    this.getContactFields();
+  }
+
+  generateMapping(){
+    for (let i = 0; i < this.contactFields.length; i++) {
+      let key = false;
+
+      if (this.contactFields[i].name === 'number1') {
+        key=true;
+        this.contactFields[i].isKey = true;
       }
-      if(_$stateParams.settings){
 
+      this.fieldsMapping.push({
+                                columnNumber: i+1,
+                                fieldName: this.contactFields[i].name,
+                                key: key
+                              });
+    }
+  }
 
-        this.sendContact.listName = _$stateParams.name;
-        this.typeUpdate = (_$stateParams.settings.listUpdateSettings) ? true : false;
+  getContactFields() {
+    return _ContactFieldsService.getContactFields()
+    .then(response => {
+        this.contactFields = response.data.filter(e => (e.mapTo === 'None'));
 
-        if(_$stateParams.settings.resultMapping){
-          this.headerFields=_$stateParams.settings.resultMapping.headerFields;
+        this.contactFields  = this.isUpdate ?
+                                    this.contactFields.map(_getSets).map(_extractFormats) :
+                                    [this.contactFields[0]].map(_getSets).map(_extractFormats);
 
-          if(this.typeUpdate){
-           this.importData.fields = _$stateParams.settings.resultMapping.headerFields;
-          }else{
-            let headerFields=_$stateParams.settings.resultMapping.headerFields;
-            this.importData.fields =  _.filter(headerFields, { 'isKey': true });
-          }
-
-          this.importData.keys = _$stateParams.settings.resultMapping.keys;
-          this.importData.rows = _$stateParams.settings.resultMapping.rows;
-          this.list = this.importData.rows;
-          this.loaded = true;
-        }else{
-          this.manual = true;
-          if(this.typeUpdate){
-            this.contactFields = _$stateParams.settings.fields;
-          }else{
-            this.contactFields =_.filter(_$stateParams.settings.fields, { 'isKey': true });
-          }
-
-          this.initArrays();
-        }
-
-
-
-
-      }else{
-        let theMsg = 'Bad params';
-        this.error = true;
-        this.message={ show: true, type: 'warning', text: theMsg, expires: 3000};
-      }
+        this.generateMapping();
+        this.loaded = true;
+        return response;
+    })
+    .catch(error => {
+        this.message = { show: true, type: 'danger', text: error.errorMessage };
+        return error;
+    });
   }
 
   sortColumn(columnName) {
       if (columnName !== undefined && columnName) {
           this.sortKey = columnName;
-          this.list = _$filter('orderBy')(this.list, this.sortKey, this.reverse);
+          let reverse = this.reverse;
+          this.list = this.list.sort((itemA,itemB)=>{
+            if(reverse){
+              return itemA[columnName] > itemB[columnName];
+            }
+            else{
+              return itemA[columnName] < itemB[columnName];
+            }
+          });
           this.reverse = !this.reverse;
           return true;
       } else {
@@ -106,7 +196,6 @@ class ListComponent {
             this.selectedArray = [];
             this.contact = {};
             this.list = _.shuffle(this.list);
-            this.importData.rows = this.list;
           })
           .catch(() => {
               return false;
@@ -156,6 +245,7 @@ class ListComponent {
     if(item){
       this.contact = item;
     }
+    this.selectedIndex = this.list.indexOf(this.contact);
     this.method = 'update';
     this.openModal();
   }
@@ -163,13 +253,11 @@ class ListComponent {
   deleteContact(){
     return _ConfirmAsync('Delete selected row(s)?')
           .then(() => {
-            let tempList = [];
-            tempList = this.list.filter((el, key)=>{
+            let tempList = this.list.filter((el, key)=>{
             return (this.selectedArray.indexOf(key) === -1);
             });
 
             this.list = tempList;
-            this.importData.rows = this.list;
             this.selected = '';
             this.selectedOld = '';
             this.selectedArray = [];
@@ -182,134 +270,105 @@ class ListComponent {
 
   openModal(){
 
-    this.modalInstance = _$uibModal.open({
+    this.modalInstance = _ModalManager.open({
       animation: false,
       size: 'md',
       controllerAs: '$ctrl',
-      appendTo: angular.element(document.querySelector('#edit-list')),
+      appendTo: angular.element('#modal-container'),
       template: '<al.lists.contact-modal></al.lists.contact-modal>'
     });
 
     this.modalInstance.result
         .then(result => {
             if(typeof result !== 'undefined' && Object.keys(result).length > 0){
-              if(this.method === 'create'){
-                if(this.manual){
-                  let listManualCopy = angular.copy(this.listManual);
-                  _.map(result, (value, key)=>{
-                    listManualCopy[key] = value;
-                  }, this);
-                  this.list.push(listManualCopy);
-                }else{
-                  this.list.push(result);
-                }
-              }else{
-                angular.merge(this.contact, result);
-              }
+                  if(this.method==='create'){
+                    this.list.unshift(result);
+                    this.currentPage = 1;
+                    this.pageChanged();
+                  }
+                  else{
+                    console.log(this.selectedIndex);
+                    this.list[this.selectedIndex] = result;
+                  }
             }
+            let tmpSelected=this.selectedIndex;
             this.selected = '';
             this.selectedOld = '';
             this.selectedArray = [];
             this.contact = {};
+            this.selectedIndex = -1;
+            if(this.method==='create'){
+              this.selectedContact(0, result);
+            }
+            else{
+              this.selectedContact(tmpSelected, result);
+            }
+            
+
         }, ()=>{
           this.selected = '';
           this.selectedOld = '';
           this.selectedArray = [];
           this.contact = {};
+          this.selectedIndex = -1;
         });
   }
 
   uploadContacts(){
+    let list = angular.copy(this.list),
+        promiseUpload,
+        mainList;
 
-    let items = [];
-    let listUpdateSettings;
-    let listDeleteSettings;
+    mainList =  list.map(item => {
+        let keys = Object.keys(item);
 
-    let mainList = angular.copy(this.list);
+        for(let i=0;i<keys.length;i++){
+          let key = keys[i];
+
+          item[key] =  _FieldFormatter.formatField(ctrl.contactFields[i], item[key]);
+        }
+        return item;
+    });
 
     _.each(mainList,e=>{
-        items.push(_.values(e));
-    });
-    _.each(items,it=>{
-       this.sendContact.importData.values.push({item:it});
+      this.sendContact.importData.values.push({item: _.values(e)});
     });
 
+    this.sending = true;
 
-
-    if(_$stateParams.settings.listUpdateSettings){
-      //UPDATE
-      listUpdateSettings = _$stateParams.settings.listUpdateSettings;
-      this.sendContact.listUpdateSettings = listUpdateSettings;
-      if(this.manual){
-        this.sendContact.listUpdateSettings.fieldsMapping = this.fieldsMapping;
-      }else{
-        this.sendContact.listUpdateSettings.fieldsMapping = _$stateParams.settings.fieldsMapping;
-      }
-      this.sending= true;
-      return _ListService.addContacts(this.sendContact)
-      .then(response=>{
-        if(response.data.return.identifier){
-          this.sending= false;
-          _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: true});
-        }
-        return response;
-      })
-      .catch(error =>{
-        this.SubmitText='Save';
-        this.message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
-        return error;
-      });
-
-    }else{
-      //DELETE
-      listDeleteSettings = _$stateParams.settings.listDeleteSettings;
-      this.sendContact.listDeleteSettings = listDeleteSettings;
-      if(this.manual){
-        this.sendContact.listDeleteSettings.fieldsMapping = this.fieldsMapping;
-      }else{
-        this.sendContact.listDeleteSettings.fieldsMapping = _$stateParams.settings.fieldsMapping;
-      }
-      this.sending= true;
-      return _ListService.deleteContacts(this.sendContact)
-      .then(response=>{
-        if(response.data.return.identifier){
-          this.sending= false;
-          _$state.go('ap.al.lists', {name: this.sendContact.listName, identifier: response.data.return.identifier, isUpdate: false});
-        }
-        return response;
-      })
-      .catch(error =>{
-        this.SubmitText='Save';
-        this.message={ show: true, type: 'danger', text: error.errorMessage, expires: 5000 };
-        return error;
-      });
+    if (this.isUpdate) {
+      this.listUpdateSettings.fieldsMapping = this.fieldsMapping;
+      this.sendContact.listUpdateSettings = this.listUpdateSettings;
     }
+    else {
+      this.listDeleteSettings.fieldsMapping = this.fieldsMapping;
+      this.sendContact.listDeleteSettings = this.listDeleteSettings;
+    }
+
+    promiseUpload = this.isUpdate ? _ListService.addContacts(this.sendContact) : _ListService.deleteContacts(this.sendContact);
+
+    return promiseUpload.then(response => {
+        if (response.data.return.identifier) {
+          this.sending = false;
+          _Utils.setDataListAction({
+            name: this.sendContact.listName,
+            identifier: response.data.return.identifier,
+            isUpdate: true
+          });
+          _$state.go('ap.al.lists');
+        }
+        return response;
+      }).catch(error =>{
+        this.SubmitText='Save';
+        let message={ show: true, type: 'danger', text: error.errorMessage,name: this.sendContact.listName, expires: 5000 };
+        _Utils.setDataListAction({messageError: message});
+        _$state.go('ap.al.lists');
+        return error;
+      });
   }
 
   cancelList(){
       _$state.go('ap.al.lists');
-  }
-
-  initArrays() {
-      let cont = 1;
-      let key = false;
-      let listManual = {};
-      if (this.contactFields) {
-        this.loadingContacts = false;
-        _.map(this.contactFields, value=>{
-          if(value.name === 'number1'){
-            key = true;
-          }else{
-            key = false;
-          }
-          listManual[value.name] = '';
-          this.fieldsMapping.push({columnNumber: cont, fieldName: value.name, key: key});
-          cont++;
-        });
-        this.importData.fields = this.contactFields;
-        this.listManual = listManual;
-        this.loaded = true;
-      }
   }
 
   filteringBySearch(){
@@ -329,8 +388,70 @@ class ListComponent {
   pageChanged() {
     this.beginNext = (this.currentPage - 1) * this.numPerPage;
   }
+  formatField(field, value){
+    return _FieldFormatter.formatField(field, value);
+  }
+  removeDnc(list){
+    let invalids = list
+    .reduce((map, item)=>{
+      map[item.phone] = true;
+      return map;
+    }, {});
+    let rows = [];
+    _.each(this.list, (contact, index) => {
+      let item = [];
+      if(invalids[contact.number1]){
+        item.push('Number1');
+      }
+      if(invalids[contact.number2]){
+        item.push('Number2');
+      }
+      if(invalids[contact.number3]){
+        item.push('Number3');
+      }
+      if(item.length===0){
+        this.valids.push(contact);
+      }
+      else{
+        rows.push([index+1, item.join(', ')]);
+      }
+    });
+    return _PromptDialog.open({title: 'DNC Scrub', body: `${rows.length} of ${this.list.length} records have been found invalid.\nYou may remove the invalid records before updating the list.`, listDetail: {headerList: 'Invalid records', cols: ['Line', 'Field'], rows: rows}}, {okText: 'Remove records'});
+  }
+  openDNCModal(){
+    this.dncModalInstance = _ModalManager.open({
+      animation: false,
+      size: 'abx-sm',
+      controllerAs: '$ctrl',
+      windowTopClass: 'modal-summary',
+      appendTo: angular.element('#dnc-modal-container'),
+      template: '<check-dnc-modal></check-dnc-modal>'
+    });
+    this.valids = [];
+    this.dncModalInstance.result
+    .then(response => {
+      let list = response.filter(item => (item.status!=='C' && item.status!=='X' && item.status!=='O' && item.status!=='E' && item.status!=='R'));
+      if(list.length>0){
+        return this.removeDnc(list);
+      }
+      else{
+        _AlertDialog({title: 'DNC Scrub', body: 'All your records have been found valid.\nYou may continue uploading the list.'},{center: true});
+      }
+      return false;
+     })
+    .then(response =>{
+      if(response){
+        this.list = this.valids;
+        this.selected = '';
+        this.selectedOld = '';
+        this.selectedArray = [];
+        this.contact = {};
+      }
+      return response;
+    });
+  }
 }
-ListComponent.$inject = ['$state', '$stateParams', '$filter', '$uibModal', 'ListsService', 'ConfirmAsync', 'ContactFieldsService', 'lodash'];
+ListComponent.$inject = ['$state', '$stateParams', '$filter', 'ModalManager', 'ListsService', 'ConfirmAsync', 'ContactFieldsService', 'lodash', 'FieldFormatter', 'PromptDialog', 'AlertDialog', 'Utils', 'Global'];
 angular.module('fakiyaMainApp')
   .component('al.lists.edit.list', {
     templateUrl: 'app/features/al/lists/edit/step3-list/step3-list.html',

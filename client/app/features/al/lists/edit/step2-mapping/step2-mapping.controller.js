@@ -308,13 +308,13 @@
 
     let _$stateParams, _$state;
     let _$timeout;
-    let _AlertMessage,_ContactFieldsService, _ListService, _;
+    let _AlertDialog,_ContactFieldsService, _ListService, _;
     class MapFieldsController {
 
-        constructor($stateParams, $state, $timeout, lodash, ContactFieldsService, ListsService, ValidatorService, AlertMessage) {
+        constructor($stateParams, $state, $timeout, lodash, ContactFieldsService, ListsService, ValidatorService, AlertDialog) {
             _ = lodash;
             _$stateParams = $stateParams;
-            _AlertMessage = AlertMessage;
+            _AlertDialog = AlertDialog;
             _$state = $state;
             _$timeout=$timeout;
             _ContactFieldsService = ContactFieldsService;
@@ -411,7 +411,7 @@
                     return response;
                 })
                 .catch(e => {
-                    this.message = { show: true, type: 'warning', text: e };
+                    this.message = { show: true, type: 'warning', text: e.errorMessage };
                     return e;
                 });
         }
@@ -462,13 +462,13 @@
 
                 //BUG:1604 - The message for mapped fields does not behave as the java app.
                  if(this.selectedRowsMapped.length===0){
-                    _AlertMessage({
+                    _AlertDialog({
                         title:'Message',
                         body:'Unfortunately, nothing can be mapped automatically'
                     });
                     return this.selectedRowsMapped;
                 }else{
-                    _AlertMessage({
+                    _AlertDialog({
                         title:'Message',
                         body:`${this.selectedRowsMapped.length} item(s) have(s) been successfully mapped.\n
                         All affected items have been selected`
@@ -601,7 +601,7 @@
                          //BUG:1603 - The list flow does not completed when skipPreview
                         this.uploadContacts(dataToSend,_$stateParams.name);
                     }else{
-                        _AlertMessage(contentModal);
+                        _AlertDialog(contentModal);
                         if (resultValidRowsFields.validRows.length>0){
                             _$state.go('ap.al.listsEdit-list', { settings: dataToSend, name: _$stateParams.name });
                         }
@@ -749,7 +749,7 @@
 
     }
 
-    MapFieldsController.$inject = ['$stateParams', '$state', '$timeout','lodash', 'ContactFieldsService', 'ListsService', 'ValidatorService', 'AlertMessage'];
+    MapFieldsController.$inject = ['$stateParams', '$state', '$timeout','lodash', 'ContactFieldsService', 'ListsService', 'ValidatorService', 'AlertDialog'];
 
     angular.module('fakiyaMainApp')
         .component('al.lists.mapping', {

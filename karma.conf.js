@@ -31,6 +31,7 @@ module.exports = function(config) {
       'client/bower_components/ngstorage/ngStorage.js',
       'client/bower_components/angular-messages/angular-messages.js',
       'client/bower_components/angular-jwt/dist/angular-jwt.js',
+      'client/bower_components/angular-ui-mask/dist/mask.js',
       'client/bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'client/app/app.js',

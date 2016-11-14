@@ -19,14 +19,23 @@
         padding: 0px;
         font-family: BrandonRegular;
         font-size: 18px;
+        .modal-button-container {
+            &>.btn-blue{
+                padding: 0;
+            }
+        }
         &>div{
             ul{
                 padding-left: 17px;
                 margin-bottom: 20px;
             }
             p{
-              text-align: justify;
+              text-align: left;
               margin-bottom: 20px;
+              &.abx-text-center{
+                text-align: center;
+                white-space: pre;
+              }
             }
         }
     }
@@ -43,16 +52,22 @@
     .modal-header{
         padding: 0px;
         border-bottom: 0px;
+        .alert-danger{
+            margin-top: 10px;
+        }
         .modal-title{
             text-align: center;
             font-size: 21px;
             line-height: 1;
-            margin: -22px 0 20px;
+            margin-bottom: 20px;
         }
         .close-container{
             text-align: right;
             .close{
                 float: none;
+                position: absolute;
+                top: 10px;
+                right: 10px;
             }
         }
     }
@@ -61,10 +76,20 @@
       text-align: left;
       vertical-align: middle;
     }
-
+    .caption{
+        border: 2px solid #e6e6e6;
+        border-bottom: 0;
+        text-align: left;
+        font-weight: bold;
+        background: @lightgray;
+        font-family: BrandonRegular;
+        padding-top: 15px;
+        padding-left: 8px;
+    }
     .table-summary{
         border: 1px solid @gray;
         border-top:0;
+        border-bottom: 0;
         caption,thead th{
             background: @lightgray;
             font-family: BrandonRegular;
@@ -79,6 +104,14 @@
         }
         thead  tr th{
             font-size: 14px;
+        }
+        &.table-y-scroll tbody{
+            max-height: 118px; 
+            td{
+                span.confirm-span{
+                    line-height: 23px;
+                }
+            }
         }
         .label-tooltip{
             white-space: nowrap;

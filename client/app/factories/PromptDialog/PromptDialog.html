@@ -1,0 +1,39 @@
+<div class="al-theme">
+    <div class="modal-header">
+    	<div class="close-container">
+        	<button type="button" class="close circle_close_alert" ng-click="dismiss()"></button>
+        </div>
+        <h4 class="modal-title">{{content.title}}</h4>
+    </div>
+    <div class="modal-body al-theme">
+        <div>
+            <p class="abx-text-center">{{content.body}}</p>
+        	<ul>
+        		<li ng-repeat="item in content.list">{{item}}</li>
+        	</ul>
+            <div class="caption" ng-if="content.listDetail.headerList">
+                    {{content.listDetail.headerList}}
+                </div>
+            <table ng-if="content.listDetail" class="table table-striped table-summary table-y-scroll table-y-scroll-col2">
+                <thead>
+                    <tr>
+                        <th ng-repeat="colName in content.listDetail.cols">
+                            {{colName}}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="itemList in content.listDetail.rows">
+                        <td ng-repeat="item in itemList" class="wrapText">
+                            <span class="confirm-span">{{item}}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-button-container remove-spaces-inline">
+          <button class="btn btn-blue right-space-20" ng-click="close()">{{config.okText?config.okText:'OK'}}</button>
+          <button class="btn btn-blue" ng-click="dismiss()">{{config.cancelText?config.cancelText:'Cancel'}}</button>
+        </div>  
+    </div>
+</div>

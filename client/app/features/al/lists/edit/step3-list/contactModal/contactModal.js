@@ -7,7 +7,7 @@ angular.module('fakiyaMainApp')
         url: '/users/contactModal',
         views: {
         	'crud': {
-        		template: '<al.lists.contactModal></al.users.contactModal>'
+        		template: '<al.lists.contactModal></al.lists.contactModal>'
         	}
     	}
       });
