@@ -9,37 +9,62 @@
 </div>
 <abx-message msg="$ctrl.message"></abx-message>
 <form name="userForm" class="custom_form form-horizontal" novalidate autocomplete="off"  ng-submit="userForm.$valid && $ctrl.save()">
-<uib-tabset  justified="false">
-  <uib-tab index="0" heading="Details">
-    <div class="inputminimal" ng-class="{ 'has-error': userForm.firstName.$invalid && userForm.$submitted }">
-      <label for="firstName" >First Name*</label>
-      <div>
-        <input autofocus type="text" name="firstName" id="firstName" required ng-model="$ctrl.newUser.firstName" maxlength="32">
+  <uib-tabset  justified="false">
+    <uib-tab index="0" heading="Details">
+      <div class="form-field"
+           ng-class="{ 'has-error': userForm.firstName.$invalid && userForm.$submitted }">
+        <label for="firstName">First Name*</label>
+        <span>
+        <input autofocus
+               type="text"
+               name="firstName"
+               id="firstName"
+               required
+               ng-model="$ctrl.newUser.firstName"
+               maxlength="32">
+      </span>
       </div>
-    </div>
-    <div class="file-empty-error" ng-messages="userForm.firstName.$error" ng-show="userForm.$submitted || userForm.firstName.$dirty">
-      <p ng-message="required">This field is required</p>
-      <p ng-show="$ctrl.newUser.firstName.length===32">The max length is 32 for this field</p>
-    </div>
-    <div  class="inputminimal"  ng-class="{ 'has-error': userForm.lastName.$invalid && userForm.$submitted }">
-      <label for="lastName" >Last Name*</label>
-      <div>
-        <input type="text"  name="lastName" id="lastName" maxlength="32" ng-model="$ctrl.newUser.lastName" required>
+      <div class="file-empty-error"
+           ng-messages="userForm.firstName.$error"
+           ng-show="userForm.$submitted || userForm.firstName.$dirty">
+        <p ng-message="required">This field is required</p>
+        <p ng-show="$ctrl.newUser.firstName.length===32">The max length is 32 for this field</p>
       </div>
-    </div>
-    <div class="file-empty-error" ng-messages="userForm.lastName.$error" ng-show="userForm.$submitted || userForm.lastName.$dirty">
-      <p ng-message="required">This field is required</p>
-      <p ng-show="$ctrl.newUser.lastName.length===32">The max length is 32 for this field</p>
-    </div>
-    <div class="inputminimal"  ng-class="{ 'has-error': userForm.extension.$invalid && userForm.$submitted }">
-      <label for="extension" >Extension</label>
-      <div>
-        <input type="text"  name="extension" id="extension" disabled ng-model="$ctrl.newUser.extension"  ng-minlength="4" ng-maxlength="4">
+      <div class="form-field"
+           ng-class="{ 'has-error': userForm.lastName.$invalid && userForm.$submitted }">
+        <label for="lastName">Last Name*</label>
+        <span>
+        <input type="text"
+               name="lastName"
+               id="lastName"
+               maxlength="32"
+               ng-model="$ctrl.newUser.lastName"
+               required>
+      </span>
       </div>
-    </div>
-    <div class="inputminimal"  ng-class="{ 'has-error': userForm.EMail.$invalid && userForm.$submitted }">
-      <label for="EMail" >Email*</label>
-      <div>
+      <div class="file-empty-error"
+           ng-messages="userForm.lastName.$error"
+           ng-show="userForm.$submitted || userForm.lastName.$dirty">
+        <p ng-message="required">This field is required</p>
+        <p ng-show="$ctrl.newUser.lastName.length===32">The max length is 32 for this field</p>
+      </div>
+      <div class="form-field"
+           ng-class="{ 'has-error': userForm.extension.$invalid && userForm.$submitted }">
+        <label for="extension">Extension</label>
+        <span>
+        <input type="text"
+               name="extension"
+               id="extension"
+               disabled
+               ng-model="$ctrl.newUser.extension"
+               ng-minlength="4"
+               ng-maxlength="4">
+      </span>
+      </div>
+      <div class="form-field"
+           ng-class="{ 'has-error': userForm.EMail.$invalid && userForm.$submitted }">
+        <label for="EMail">Email*</label>
+        <span>
         <input type="email"
                name="EMail"
                maxlength="50"
@@ -49,16 +74,17 @@
                ng-model="$ctrl.newUser.EMail"
                ng-change="$ctrl.fillUsrPass()"
                ng-minlength="5">
+      </span>
       </div>
-    </div>
-    <div ng-messages="userForm.EMail.$error" ng-show="userForm.$submitted">
-      <p ng-message="required">This field is required</p>
-      <p ng-message="email">This needs to be a valid email</p>
-      <p ng-message="minlength">The email is too short</p>
-    </div>
-    <div class="inputminimal" ng-class="{ 'has-error': userForm.userName.$invalid && userForm.$submitted }">
-      <label for="userName" >Username*</label>
-      <div>
+      <div ng-messages="userForm.EMail.$error" ng-show="userForm.$submitted">
+        <p ng-message="required">This field is required</p>
+        <p ng-message="email">This needs to be a valid email</p>
+        <p ng-message="minlength">The email is too short</p>
+      </div>
+      <div class="form-field"
+           ng-class="{ 'has-error': userForm.userName.$invalid && userForm.$submitted }">
+        <label for="userName">Username*</label>
+        <span>
         <input type="text"
                name="userName"
                id="userName"
@@ -67,92 +93,94 @@
                ng-model="$ctrl.newUser.userName"
                ng-change="$ctrl.fillPass()"
                ng-minlength="6" >
+      </span>
       </div>
-    </div>
-    <div ng-messages="userForm.userName.$error" ng-show="userForm.$submitted">
-      <p ng-message="required">This field is required</p>
-      <p ng-message="minlength">The field needs to be al least 6 characters</p>
-    </div>
-    <div class="row no-margin">
-      <div class="col-xs-9 col-md-10 col-lg-11">
-        <div class="inputminimal"  ng-class="{ 'has-error': userForm.password.$invalid && userForm.$submitted }">
-          <label for="Password">Password* </label>
-          <input type="password"
-                 class="form-control"
-                 name="password"
-                 id="password"
-                 required=""
-                 ng-model="$ctrl.newUser.password"
-                 autocomplete="false"
-                 disabled>
+      <div ng-messages="userForm.userName.$error" ng-show="userForm.$submitted">
+        <p ng-message="required">This field is required</p>
+        <p ng-message="minlength">The field needs to be al least 6 characters</p>
       </div>
-     </div>
-     <div class="col-xs-3 col-md-2 col-lg-1">
-       <input type="button" class="btn-black" value="Change" ng-click="$ctrl.openModal()">
-     </div>
-   </div>
-   <div ng-messages="userForm.password.$error" ng-show="userForm.$submitted">
-     <p ng-message="required">This field is required</p>
-   </div>
-   <div class="row">
-     <div class="col-sm-3">
-       <div class="checkbox">
-         <label><input type="checkbox" ng-model="$ctrl.newUser.active">User is active</label>
-       </div>
-     </div>
-   </div>
-   <div class="row">
-     <div class="col-sm-5">
-       <div class="checkbox">
-         <label><input type="checkbox" ng-model="$ctrl.newUser.canChangePassword"> User can change password</label>
-       </div>
-     </div>
-     <div class="col-sm-7">
-       <div class="checkbox">
-         <label><input type="checkbox" ng-model="$ctrl.newUser.mustChangePassword"> User must change password on next login</label>
-       </div>
-     </div>
-   </div>
- </uib-tab>
- <uib-tab index="1" heading="Roles" select="$ctrl.checkStepOne(userForm)">
-   <div class="row">
-     <div class="col col-md-3" ng-show="$ctrl.allRoles.length>0">
-       <h4>Roles Available</h4>
-       <div class="list-group">
-         <a href="#"  class="list-group-item" ng-repeat="rol in $ctrl.allRoles" ng-click="$ctrl.addRol(rol)">
-           {{rol}} <span class="pull-right glyphicon glyphicon-plus" aria-hidden="true"></span>
-         </a>
-       </div>
-     </div>
-     <div class="col col-md-3">
-         <h4>Roles Assigned</h4>
-         <div class="list-group">
-           <a href="#"  class="list-group-item" ng-repeat="userRol in $ctrl.userRoles" ng-click="$ctrl.getPermissions(userRol);$ctrl.lastUserRolSelected=userRol" ng-class="{'active':($index==$ctrl.userRolSelectedIndex)}">
-             {{userRol}}
-           </a>
-         </div>
-         <button type="button" class="btn btn-danger" ng-show="$ctrl.userRolSelectedIndex>=0 && $ctrl.userRoles.length>0" ng-click="$ctrl.deleteSelectedRol()">Delete</button>
-     </div>
-      
-     <div class="col" ng-class="{'col-md-9':($ctrl.allRoles.length==0),'col-md-6':($ctrl.allRoles.length>0)}" >
-         <h4 ng-show="$ctrl.permissionTitle">Permissions:
-           <div class="pull-right linksUser">
-                <a href="" ng-click="$ctrl.CheckClear($ctrl.lastUserRolSelected,'check')" ng-show="$ctrl.lastUserRolSelected!=''">Check all</a>
-                <a href="" ng-click="$ctrl.CheckClear($ctrl.lastUserRolSelected,'clear')" ng-show="$ctrl.lastUserRolSelected!=''">Clear all</a>                
-      </div></h4>
-         <div class="checkbox" ng-repeat="(per,val) in $ctrl.rolSelectedPermissions" ng-if="per!=='permissions'">
-           <label><input type="checkbox" ng-model="$ctrl.rolSelectedPermissions[per]">{{per | camelToHuman}}</label>
-         </div>
-         <div class="checkbox" ng-if="permission.type!=='NICEEnabled'" ng-repeat="permission in $ctrl.rolSelectedPermissions.permissions">
-           <label><input type="checkbox" ng-model="permission.value">{{permission.type | camelToHuman}}</label>
-         </div>
-     </div>
-   </div>
- </uib-tab>
-</uib-tabset>
+      <div class="row no-margin">
+        <div class="col-xs-9 col-md-10 col-lg-11">
+          <div class="form-field"
+               ng-class="{ 'has-error': userForm.password.$invalid && userForm.$submitted }">
+            <label for="password">Password*</label>
+            <span>
+            <input type="password"
+                   class="form-control"
+                   name="password"
+                   id="password"
+                   required=""
+                   ng-model="$ctrl.newUser.password"
+                   autocomplete="false"
+                   disabled>
+          </span>
+          </div>
+        </div>
+        <div class="col-xs-3 col-md-2 col-lg-1">
+          <input type="button" class="btn-black" value="Change" ng-click="$ctrl.openModal()">
+        </div>
+      </div>
+      <div ng-messages="userForm.password.$error" ng-show="userForm.$submitted">
+        <p ng-message="required">This field is required</p>
+      </div>
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="checkbox">
+            <label><input type="checkbox" ng-model="$ctrl.newUser.active">User is active</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-5">
+          <div class="checkbox">
+            <label><input type="checkbox" ng-model="$ctrl.newUser.canChangePassword"> User can change password</label>
+          </div>
+        </div>
+        <div class="col-sm-7">
+          <div class="checkbox">
+            <label><input type="checkbox" ng-model="$ctrl.newUser.mustChangePassword"> User must change password on next login</label>
+          </div>
+        </div>
+      </div>
+    </uib-tab>
+    <uib-tab index="1" heading="Roles" select="$ctrl.checkStepOne(userForm)">
+      <div class="row">
+        <div class="col col-md-3" ng-show="$ctrl.allRoles.length>0">
+          <h4>Roles Available</h4>
+          <div class="list-group">
+            <a href="#"  class="list-group-item" ng-repeat="rol in $ctrl.allRoles" ng-click="$ctrl.addRol(rol)">
+              {{rol}} <span class="pull-right glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </a>
+          </div>
+        </div>
+        <div class="col col-md-3">
+          <h4>Roles Assigned</h4>
+          <div class="list-group">
+            <a href="#"  class="list-group-item" ng-repeat="userRol in $ctrl.userRoles" ng-click="$ctrl.getPermissions(userRol);$ctrl.lastUserRolSelected=userRol" ng-class="{'active':($index==$ctrl.userRolSelectedIndex)}">
+              {{userRol}}
+            </a>
+          </div>
+          <button type="button" class="btn btn-danger" ng-show="$ctrl.userRolSelectedIndex>=0 && $ctrl.userRoles.length>0" ng-click="$ctrl.deleteSelectedRol()">Delete</button>
+        </div>
+        <div class="col" ng-class="{'col-md-9':($ctrl.allRoles.length==0),'col-md-6':($ctrl.allRoles.length>0)}" >
+          <h4 ng-show="$ctrl.permissionTitle">Permissions:
+            <div class="pull-right linksUser">
+              <a href="" ng-click="$ctrl.CheckClear($ctrl.lastUserRolSelected,'check')" ng-show="$ctrl.lastUserRolSelected!=''">Check all</a>
+              <a href="" ng-click="$ctrl.CheckClear($ctrl.lastUserRolSelected,'clear')" ng-show="$ctrl.lastUserRolSelected!=''">Clear all</a>
+            </div></h4>
+          <div class="checkbox" ng-repeat="(per,val) in $ctrl.rolSelectedPermissions" ng-if="per!=='permissions'">
+            <label><input type="checkbox" ng-model="$ctrl.rolSelectedPermissions[per]">{{per | camelToHuman}}</label>
+          </div>
+          <div class="checkbox" ng-if="permission.type!=='NICEEnabled'" ng-repeat="permission in $ctrl.rolSelectedPermissions.permissions">
+            <label><input type="checkbox" ng-model="permission.value">{{permission.type | camelToHuman}}</label>
+          </div>
+        </div>
+      </div>
+    </uib-tab>
+  </uib-tabset>
 
-<div class="form-group text-center">
-  <button type="submit" class="btn btn-black" ng-disabled="$ctrl.SubmitText=='Saving...'">{{$ctrl.SubmitText}}</button>
-  <button type="button" class="btn btn-black" ui-sref="ap.al.users">Cancel</button>
-</div>
+  <div class="form-group text-center">
+    <button type="submit" class="btn btn-black" ng-disabled="$ctrl.SubmitText=='Saving...'">{{$ctrl.SubmitText}}</button>
+    <button type="button" class="btn btn-black" ui-sref="ap.al.users">Cancel</button>
+  </div>
 </form>
