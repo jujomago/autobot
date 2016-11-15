@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Component: ContactusComponent', function () {
+describe('Component:ContactusComponent', function () {
 
   // load the controller's module
   beforeEach(module('fakiyaMainApp'));
@@ -49,11 +49,15 @@ describe('Component: ContactusComponent', function () {
       httpBackend.whenPOST(endPointUrl,MockMailData).respond(200);
 
       expect(ContactusComponent.submitText).to.equal('Submit');
+      let form = {
+        $setPristine: sinon.stub()
+      };
 
-
-      ContactusComponent.sendmail()
+      ContactusComponent.sendmail(form)
       .then(response => {
           expect(ContactusComponent.message).to.eql({ show: true, type:'success',text:'Email Sent Successfully', expires:4000 });
+          expect(ContactusComponent.cform).to.deep.equal({firstName: '', lastName: '', businessEmail: '', phone: '', company: '', message: ''});
+          expect(form.$setPristine.calledOnce).to.be.equal(true);
           expect(response.data).to.equal(null);
           expect(response.errorMessage).to.equal(null);
           expect(response.statusCode).to.equal(200);
