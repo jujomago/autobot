@@ -50,14 +50,14 @@ class CheckDNCModalComponent {
     });
   }
 }
-// CheckDNCModalComponent.$inject = ['lodash', 'DncService'];
-// angular.module('fakiyaMainApp')
-//   .component('checkDncModal', {
-//     templateUrl: 'app/features/al/lists/edit/step3-list/checkDNCModal/checkDNCModal.html',
-//     controller: CheckDNCModalComponent,
-//     require: {
-//       parent: '?^al.lists.edit.list',
-//     }
-//   });
+CheckDNCModalComponent.$inject = ['lodash', 'DncService'];
+angular.module('fakiyaMainApp')
+  .component('checkDncModal', {
+    templateUrl: 'app/features/al/lists/edit/step3-list/checkDNCModal/checkDNCModal.html',
+    controller: CheckDNCModalComponent,
+    require: {
+      parent: '?^al.lists.edit.list',
+    }
+  });
 
 })();

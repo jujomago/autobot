@@ -51,15 +51,15 @@ class ContactModalComponent {
 	this.instance.dismiss('cancel');
   }
 }
-// ContactModalComponent.$inject = ['FieldMessages', 'FieldFormatter'];
-// angular.module('fakiyaMainApp')
-//   .component('al.lists.contactModal', {
-//     templateUrl: 'app/features/al/lists/edit/step3-list/contactModal/contactModal.html',
-//     controller: ContactModalComponent,
-//     require: {
-//       edit: '?^al.lists.edit.list',
-//     }
-//
-// });
+ContactModalComponent.$inject = ['FieldMessages', 'FieldFormatter'];
+angular.module('fakiyaMainApp')
+  .component('al.lists.contactModal', {
+    templateUrl: 'app/features/al/lists/edit/step3-list/contactModal/contactModal.html',
+    controller: ContactModalComponent,
+    require: {
+      edit: '?^al.lists.edit.list',
+    }
+
+});
 
 })();

@@ -1,0 +1,19 @@
+<div>
+  <h3 class="title_section">List: <span>{{$ctrl.name}}</span></h3>
+  <div>
+    <div ng-switch="$ctrl.getCurrentStep()">
+      <div ng-switch-when="one">
+        <setting-update ng-if="$ctrl.isUpdate"></setting-update>
+        <setting-delete ng-if="!$ctrl.isUpdate"></setting-delete>
+      </div>
+      <div ng-switch-when="two">
+        <mapping-update ng-if="$ctrl.isUpdate"></mapping-update>
+        <mapping-delete ng-if="!$ctrl.isUpdate"></mapping-delete>
+      </div>
+      <div ng-switch-when="three">
+        <upload-update ng-if="$ctrl.isUpdate"></upload-update>
+        <upload-delete ng-if="!$ctrl.isUpdate"></upload-delete>
+      </div>
+    </div>
+  </div>
+</div>
