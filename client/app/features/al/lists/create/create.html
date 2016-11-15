@@ -7,11 +7,21 @@
 </div>
 <div class="modal-body al-theme">
     <form name="listForm" class="custom_form form-horizontal" novalidate autocomplete="off"  ng-submit="listForm.$valid && $ctrl.save()">
-    <div class="inputminimal modal-input" ng-class="{ 'has-error': listForm.name.$invalid && listForm.$submitted }">
-        <label for="firstName" >Name*</label>
-            <input autofocus type="text" name="name" id="name" required ng-model="$ctrl.list.listName" maxlength="250" abx-pattern-filter="/^[^\`~&%#,|()':;?[/}=\]&quot;{*>!\\+<^]*$/"
-            class="inline-input">
-    </div>
+        <div class="form-field modal-input"
+             ng-class="{ 'has-error': listForm.name.$invalid && listForm.$submitted }">
+            <label>Name*</label>
+            <span>
+            <input autofocus
+                  type="text"
+                  name="name"
+                  id="name"
+                  required
+                  ng-model="$ctrl.list.listName"
+                  maxlength="250"
+                  abx-pattern-filter="/^[^\`~&%#,|()':;?[/}=\]&quot;{*>!\\+<^]*$/"
+                  class="inline-input">
+            </span>
+        </div>
     <div ng-messages="listForm.name.$error" ng-show="listForm.$submitted">                  
         <p ng-message="required">This field is required</p>
     </div> 
