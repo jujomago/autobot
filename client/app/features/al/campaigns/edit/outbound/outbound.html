@@ -4,14 +4,28 @@
   <uib-tabset active="active1" justified="false" ng-hide="!$ctrl.found">
     <uib-tab index="0" heading="Details">
       <form name="formCampaign" novalidate class="custom_form form-horizontal" ng-submit="formCampaign.$valid && $ctrl.update()">
-        <div class="inputminimal" >
+        <div class="form-field">
           <label>Description</label>
-          <input type="text"  ng-model="$ctrl.campaign.description" />
+          <span>
+           <input type="text"
+                  ng-model="$ctrl.campaign.description"/>
+          </span>
         </div>
-        <div class="inputminimal" ng-class="{ 'has-error': (formCampaign.QuequeTimeMinutes.$invalid || formCampaign.QuequeTimeSeconds.$invalid) && formCampaign.$submitted }">
+        <div class="inputminimal"
+             ng-class="{ 'has-error': (formCampaign.QuequeTimeMinutes.$invalid || formCampaign.QuequeTimeSeconds.$invalid) && formCampaign.$submitted }">
           <label>Max Queue Time (mm:ss) (*)</label>
-          <input  type="number" name="QuequeTimeMinutes" min="0" max="59" ng-model="$ctrl.campaign.maxQueueTime.minutes" required>:
-          <input type="number" name="QuequeTimeSeconds" min="0" max="59"  ng-model="$ctrl.campaign.maxQueueTime.seconds" required>
+          <input  type="number"
+                  name="QuequeTimeMinutes"
+                  min="0"
+                  max="59"
+                  ng-model="$ctrl.campaign.maxQueueTime.minutes"
+                  required>:
+          <input type="number"
+                 name="QuequeTimeSeconds"
+                 min="0"
+                 max="59"
+                 ng-model="$ctrl.campaign.maxQueueTime.seconds"
+                 required>
         </div>
         <div ng-messages="formCampaign.QuequeTimeMinutes.$error" ng-show="formCampaign.$submitted">
           <p ng-message="required">Minutes is required</p>
