@@ -3,6 +3,7 @@
 let _ConfirmAsync, _ListService, _, _ContactFieldsService, ctrl, _FieldFormatter, _Utils;
 let _$state, _$stateParams, _$filter, _ModalManager, _PromptDialog, _AlertDialog;
 let _phones, _registeredPhones;
+
 const DNC_ERROR_MESSAGE = {title: 'DNC Scrub', body: 'All your records have been found valid.\nYou may continue uploading the list.'};
 function _registerPhone(contact, key){
 if(contact[key] && contact[key].substr(0,3)!=='011' && !_registeredPhones[contact[key]]){
@@ -106,8 +107,6 @@ class ListComponent {
       this.filteredList=[];
       this.list = [];
       this.contact = {};
-      this.selected = '';
-      this.selectedOld = '';
       this.selectedArray = [];
       this.method = 'create';
       this.manual = false;
@@ -189,6 +188,8 @@ class ListComponent {
 
   sortColumn(columnName) {
       if (columnName !== undefined && columnName) {
+          this.contact = {};
+          this.selectedArray = [];
           this.sortKey = columnName;
           let reverse = this.reverse;
           this.list = this.list.sort((itemA,itemB)=>{
@@ -208,8 +209,6 @@ class ListComponent {
   shuffleList(){
     return _ConfirmAsync('Really shuffle this list?')
           .then(() => {
-            this.selected = '';
-            this.selectedOld = '';
             this.selectedArray = [];
             this.contact = {};
             this.list = _.shuffle(this.list);
@@ -228,32 +227,23 @@ class ListComponent {
       return (total>this.filteredList.length)?this.filteredList.length+'':total;
   }
 
-  selectedContact(contact, item){
+  selectedContact(selectedIndex, item){
+    let index = this.selectedArray.indexOf(selectedIndex);
     this.contact = item;
-    let index = this.selectedArray.indexOf(contact);
-
     if(index !== -1){
       this.selectedArray.splice(index, 1);
-      if(this.selectedArray.length < 1){
-        this.selected = '';
-        this.selectedOld = '';
+      if(this.selectedArray.length > 1){
         this.contact = {};
       }else{
-        this.selected = this.selectedArray[0];
-        this.selectedOld = this.selectedArray[0];
+        let itemIndex = this.selectedArray[0];
+        this.contact = this.list[itemIndex];
       }
     }else{
-      if(contact !== this.selectedOld){
-        this.selectedArray.push(contact);
-      }
-
-      this.selected = contact;
-      this.selectedOld = contact;
+      this.selectedArray.push(selectedIndex);
     }
   }
 
   insertContact(){
-    this.selected = '';
     this.method = 'create';
     this.openModal();
   }
@@ -275,8 +265,6 @@ class ListComponent {
             });
 
             this.list = tempList;
-            this.selected = '';
-            this.selectedOld = '';
             this.selectedArray = [];
             this.contact = {};
           })
@@ -304,16 +292,12 @@ class ListComponent {
                     this.pageChanged();
                   }
                   else{
-                    console.log(this.selectedIndex);
                     this.list[this.selectedIndex] = result;
                   }
             }
             let tmpSelected=this.selectedIndex;
-            this.selected = '';
-            this.selectedOld = '';
             this.selectedArray = [];
             this.contact = {};
-            this.selectedIndex = -1;
             if(this.method==='create'){
               this.selectedContact(0, result);
             }
@@ -323,11 +307,8 @@ class ListComponent {
             
 
         }, ()=>{
-          this.selected = '';
-          this.selectedOld = '';
           this.selectedArray = [];
           this.contact = {};
-          this.selectedIndex = -1;
         });
   }
 
@@ -389,8 +370,6 @@ class ListComponent {
   }
 
   filteringBySearch(){
-    this.selected = '';
-    this.selectedOld = '';
     this.selectedArray = [];
     this.contact = {};
 
@@ -454,7 +433,7 @@ class ListComponent {
       template: '<check-dnc-modal></check-dnc-modal>'
     });
     this.valids = [];
-    this.dncModalInstance.result
+    return this.dncModalInstance.result
     .then(response => {
       let list = response.filter(item => (item.status!=='C' && item.status!=='X' && item.status!=='O' && item.status!=='E' && item.status!=='R'));
       if(list.length>0){
@@ -468,8 +447,6 @@ class ListComponent {
     .then(response =>{
       if(response){
         this.list = this.valids;
-        this.selected = '';
-        this.selectedOld = '';
         this.selectedArray = [];
         this.contact = {};
       }
