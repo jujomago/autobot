@@ -5,8 +5,10 @@ describe('Component:step3', function () {
   // load the controller's module
   beforeEach(module('fakiyaMainApp'));
 
-  let ListComponent, _$httpBackend, _$stateParams, _Utils;
+  let ListComponent, _$httpBackend, _$q ,_$stateParams, _Utils;
   let mockState, sandbox, _endPointUrl;
+  let mockAlert, mockAlertResult, mockPrompt, mockModal;
+  let _$scope;
   let mockFields = [
   {
     name: 'number1',
@@ -34,10 +36,12 @@ describe('Component:step3', function () {
     mapTo: 'LAST_DISPOSITION'
    }
    ];
-  beforeEach(inject(function ($componentController, $httpBackend, appConfig, $stateParams, Utils) {
+  beforeEach(inject(function ($componentController,$rootScope, $httpBackend, appConfig, $stateParams, $q, Utils) {
     _$httpBackend = $httpBackend;
     _$stateParams = $stateParams;
     _Utils = Utils;
+    _$q = $q;
+    _$scope = $rootScope.$new();
     mockState = {
       url: '',
       params: {},
@@ -48,14 +52,31 @@ describe('Component:step3', function () {
     };
     _$stateParams.update = true;
     sandbox = sinon.sandbox.create();
-
+    mockModal ={
+      open: function(){
+        return {result: $q.defer().promise};
+      }
+    };
     if (appConfig.apiUri) {
       _endPointUrl = appConfig.apiUri;
     }
-
+    mockAlert = function(params, config){
+      mockAlertResult = {params: params, config: config};
+    };
+    mockPrompt = {
+      open: function(params, config){
+        this.params = params;
+        this.config = config;
+        return true;
+      }
+    };
     ListComponent = $componentController('al.lists.edit.list', {
       $state: mockState,
-      $stateParams: _$stateParams
+      $stateParams: _$stateParams,
+      PromptDialog: mockPrompt,
+      AlertDialog: mockAlert,
+      ModalManager: mockModal,
+      $scope: _$scope
     });
 
     _$httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
@@ -167,6 +188,83 @@ describe('Component:step3', function () {
         expect(_Utils.getDataListAction().messageError).to.deep.equal({ show: true, type: 'danger', text: 'Internal Server Error', name: 'test', expires: 5000 });
       });
       _$httpBackend.flush();
+    });
+  });
+
+  describe('#generatePhones', () => {
+
+    it('should open a modal with phones', () => {
+      ListComponent.list=[{number1: '9876543219',number2: '9876543219',number3: '9876543210' }, {number1: '9876543211',number2: '',number3: '' }];
+      ListComponent.generatePhones();
+      expect(ListComponent.phones).to.equal('9876543219,9876543210,9876543211');
+    });
+    it('should return empty', () => {
+      ListComponent.list=[{number1: '0119876543219',number2: '',number3: '' }, {number1: '0119876543211',number2: '',number3: '' }];
+      ListComponent.generatePhones();
+      expect(ListComponent.phones).to.equal('');
+    });
+
+  });
+
+  describe('#openDNCModal', () => {
+
+    it('should replace list with valids', () => {
+      let deferred = _$q.defer();
+
+      deferred.resolve([{phone: '9876543210', status: 'P'}, {phone: '9876543211', status: 'C'}]);
+      mockModal.open= function(){
+          return {result: deferred.promise};
+      };
+      ListComponent.list=[{number1: '9876543219',number2: '9876543211',number3: '9876543210' }, {number1: '9876543217',number2: '',number3: '' }];
+      ListComponent.openDNCModal()
+      .then(() => {
+        expect(ListComponent.list.length).to.equal(1);
+        expect(ListComponent.list).to.deep.equal([{number1: '9876543217',number2: '',number3: '' }]);
+        expect(ListComponent.selectedArray.length).to.equal(0);
+        expect(ListComponent.contact).to.deep.equal({});
+      });
+      _$scope.$apply();
+    });
+    it('should display alert message', () => {
+      let deferred = _$q.defer();
+      deferred.resolve([{phone: '9876543210', status: 'C'}]);
+      mockModal.open= function(){
+          return {result: deferred.promise};
+      };
+      ListComponent.openDNCModal()
+      .then(() => {
+        expect(mockAlertResult.params).to.deep.equal({title: 'DNC Scrub', body: 'All your records have been found valid.\nYou may continue uploading the list.'});
+        expect(mockAlertResult.config).to.deep.equal({center: true});
+      });
+      _$scope.$apply();
+    });
+
+  });
+
+  describe('#deleteContact', () => {
+    it('list selected records must be removed', () => {
+
+      ListComponent.list = [{number1: '9876543215'}, {number1: '9876543210'}, {number1: '9876543219'}, {number1: '9876543218'}, {number1: '9876543217'}];
+      ListComponent.selectedArray = [0,3,4];
+      sandbox.stub(window, 'confirm').returns(true);
+      ListComponent.deleteContact()
+        .then(() => {
+          expect(ListComponent.list).to.deep.equal([{number1: '9876543210'}, {number1: '9876543219'}]);
+          expect(ListComponent.selectedArray).to.deep.equal([]);
+          expect(ListComponent.contact).to.deep.equal({});
+
+        });
+
+      expect(window.confirm.calledOnce).to.equal(true);
+    });
+    it('should return false in cancel', () => {
+      sandbox.stub(window, 'confirm').returns(false);
+      ListComponent.deleteContact()
+        .then(response => {
+          expect(response).to.deep.equal(false);
+        });
+
+      expect(window.confirm.calledOnce).to.equal(true);
     });
   });
 

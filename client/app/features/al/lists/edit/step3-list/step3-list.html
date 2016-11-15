@@ -39,7 +39,7 @@
                 <button class="btn btn-black right-space-20 btn-fixed-80 fixed-margin-top-5" ng-disabled="$ctrl.selectedArray.length === 0 || $ctrl.selectedArray.length > 1" ng-click="$ctrl.editContact()">Edit</button>
                 <button class="btn btn-black btn-fixed-80 fixed-margin-top-5" ng-class="{'right-space-20': $ctrl.isUpdate}" ng-disabled="$ctrl.selectedArray.length < 1" ng-click="$ctrl.deleteContact()">Delete</button>
                 <button class="btn btn-black right-space-20 btn-fixed-80 fixed-margin-top-5" ng-click="$ctrl.shuffleList()" ng-disabled="$ctrl.filteredList.length <= 1" ng-if="$ctrl.isUpdate">Shuffle</button>
-                <button class="btn btn-blue no-padding fixed-margin-top-5" ng-click="$ctrl.openDNCModal()" ng-disabled="$ctrl.list.length===0" ng-if="$ctrl.isUpdate">DNC Scrub</button>
+                <button class="btn btn-blue no-padding fixed-margin-top-5" ng-click="$ctrl.generatePhones()" ng-disabled="$ctrl.list.length===0" ng-if="$ctrl.isUpdate">DNC Scrub</button>
 
             </div>
         </div>
