@@ -1,13 +1,17 @@
 'use strict';
 (function () {
-
+  let _$anchorScroll;
   let _ConctactService;
   class HomePageController {
   
-    constructor(ContactService) {
+    constructor($anchorScroll, ContactService) {
       this.submitText='Submit';
        this.message={'show':false};
      _ConctactService=ContactService;
+     _$anchorScroll= $anchorScroll;
+    }
+    scrollTo(id){
+      _$anchorScroll(id);
     }
     clearForm(form){
       Object.keys(this.cform).forEach(value => {
@@ -31,7 +35,7 @@
         });
     }
   }
-  HomePageController.$inject=['ContactService'];
+  HomePageController.$inject=['$anchorScroll','ContactService'];
 
   angular.module('fakiyaMainApp')
     .config(function ($stateProvider) {
