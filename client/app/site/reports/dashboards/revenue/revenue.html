@@ -4,11 +4,21 @@
 			My dashboard
 		</div>
 		<ul class="linkscontainer linkscontainer--leftspace">
-			<li class="linkscontainer__item"><a href="#">Customer Journey</a></li>
-			<li class="linkscontainer__item"><a href="#">Scorecar KPI's</a></li>
-			<li class="linkscontainer__item"><a href="#">Heat Maps</a></li>
-			<li class="linkscontainer__item"><a href="#">Gauges</a></li>
-			<li class="linkscontainer__item linkscontainer__item--last linkscontainer__item--active"><a href="#">Revenue</a></li>
+			<li class="linkscontainer__item">
+				<a ui-sref="ap.customer-journey">Customer Journey</a>
+			</li>
+			<li class="linkscontainer__item">
+				<a ui-sref="ap.scorecard-kpi">Scorecard KPI's</a>
+			</li>
+			<li class="linkscontainer__item">
+				<a ui-sref="ap.heat-maps">Heat Maps</a>
+			</li>
+			<li class="linkscontainer__item">
+				<a ui-sref="ap.gauges">Gauges</a>
+			</li>
+			<li class="linkscontainer__item linkscontainer__item--last" ui-sref-active="linkscontainer__item--active">
+				<a ui-sref="ap.revenue">Revenue</a>
+			</li>
 		</ul>
 	</nav>
 	<div class="body-report">
