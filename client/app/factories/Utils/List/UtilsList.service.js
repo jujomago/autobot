@@ -19,20 +19,20 @@
         DELETE_ALL: 'DELETE_ALL',
         DELETE_EXCEPT_FIRST: 'DELETE_EXCEPT_FIRST'
       }
-    };
-
-    const defaultUpdateSettings = {
+    },
+    DEFAULT_UPDATE_SETTING = {
       listAddMode: MODE_ACTION.LIST.ADD_FIRST,
       crmAddMode: MODE_ACTION.CRM.ADD_NEW,
       crmUpdateMode: MODE_ACTION.CRM.UPDATE_FIRST,
       cleanListBeforeUpdate: false,
       fieldsMapping: []
-    };
+    },
+    DEFAULT_KEY = 'number1';
 
     //Default key to Contact Field
-    function loadDefaultKey(contactFields, defaultKey) {
+    function loadDefaultKey(contactFields) {
       return lodash.filter(contactFields, function (value) {
-        value.isKey = value.name === defaultKey;
+        value.isKey = value.name === DEFAULT_KEY;
         return value.mapTo === 'None';
       });
     }
@@ -52,22 +52,34 @@
 
     //delete list
     function getFieldsKey(contactFields) {
-      return lodash.filter(contactFields, value => (value.isKey));
+        return lodash.filter(contactFields, value => (value.isKey));
     }
 
     function getConstantsUpdate() {
-      return MODE_ACTION;
+        return MODE_ACTION;
     }
 
     function getDefaultUpdateSetting() {
-      return defaultUpdateSettings;
+        return DEFAULT_UPDATE_SETTING;
+    }
+
+    function getSettingsUpdate(settings) {
+        let settingFormat = {};
+
+        settingFormat.cleanListBeforeUpdate = settings.cleanListBeforeUpdate;
+        settingFormat.listAddMode = settings.listAddMode;
+        settingFormat.crmAddMode = settings.crmAddMode;
+        settingFormat.crmUpdateMode = settings.isCrmUpdate ? settings.crmUpdateMode : MODE_ACTION.CRM.DONT_UPDATE;
+
+        return settingFormat;
     }
 
     return {
-      loadDefaultKey: loadDefaultKey,
-      getConstantsUpdate: getConstantsUpdate,
-      getFieldsKey: getFieldsKey,
-      getMappingFields: getMappingFields
+        loadDefaultKey: loadDefaultKey,
+        getConstantsUpdate: getConstantsUpdate,
+        getFieldsKey: getFieldsKey,
+        getMappingFields: getMappingFields,
+        getSettingsUpdate: getSettingsUpdate
     };
   }
 

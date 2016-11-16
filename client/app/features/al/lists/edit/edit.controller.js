@@ -1,115 +1,101 @@
 'use strict';
 (function () {
-    let _$state,_$stateParams;
-    let _ListsService;
+    let _,
+        _$state,
+        _$stateParams;
 
     class EditController {
-        constructor($state, $stateParams) {
+        constructor(
+            $state,
+            $stateParams,
+            lodash) {
+
+            _ = lodash;
             _$state = $state;
             _$stateParams = $stateParams;
             this.name = _$stateParams.name;
             this.isUpdate = _$stateParams.action === 'update';
             this.advancedOptions = {isCollapsed: true};
-            this.isAdvancedOptions = false;
-
-
-            this.currentStep = 1;
-            this.STEP = {
-              SETTING: {
-                index: 1,
-                isValid: false,
-                key: 'Setting'
-              },
-              MAPPING: {
-                index: 2,
-                isValid: false,
-                key: 'Mapping'
-              },
-              LIST: {
-                index: 3,
-                isValid: false,
-                key: 'List'
-              }
+            this.STEPS = {
+                SETTING: {
+                    index: 1,
+                    key: 'Setting'
+                },
+                MAPPING: {
+                    index: 2,
+                    key: 'Mapping'
+                },
+                LIST: {
+                    index: 3,
+                    key: 'List'
+                }
             };
-
-          this.steps = ['one', 'two', 'three'];
-          this.step = 0;
-          this.wizard = {tacos: 2};
-
-
-          this.contactFields;
+            this.currentStep = this.STEPS.SETTING;
+            this.contactFields;
+            this.settings;
         }
-        sendConfiguration(){
-          // _$state.go('ap.al.listsEdit-list', {name: this.name});
-          _$state.go('ap.al.mapping', {settings:'',name:_$stateParams.name, manual: true});
+
+        $onInit() {
+            if (!this.isUpdate) {
+              this.currentStep = this.STEPS.LIST;
+            }
         }
 
         cancel(){
-          _$state.go('ap.al.lists');
+            _$state.go('ap.al.lists');
         }
 
         //Contact Fields
         getContactField() {
-          return this.contactFields;
+            return this.contactFields;
         }
 
-        setContactField(object) {
-          this.contactFields = object;
+        setContactField(contactFields) {
+            this.contactFields = contactFields;
         }
 
-        //ADD WIZARD FUNCTIONS
-        activeStep(step) {
-          if(!step) {
-            return;
-          }
+        //Settings
+        getSettings() {
+            return this.settings;
+        }
 
-          $scope.$broadcast(step.key, {
-            activate: true
-          });
+        setSettings(settings) {
+            this.settings = settings;
         }
 
         isFirstStep = function () {
-          return this.step === 0;
-        };
-
-        isLastStep = function () {
-          return this.step === (this.steps.length - 1);
-        };
-
-        isCurrentStep = function (step) {
-          return this.step === step;
-        };
-
-        setCurrentStep = function (step) {
-          this.step = step;
+            return this.currentStep.index === 1;
         };
 
         getCurrentStep = function () {
-          return this.steps[this.step];
+            return this.currentStep.key;
         };
 
-        getNextLabel = function () {
-          return (this.isLastStep()) ? 'Submit' : 'Next';
-        };
-
+        //Previous Step
         handlePrevious = function () {
-          this.step -= (this.isFirstStep()) ? 0 : 1;
+            let previous = (this.isFirstStep()) ? 0 : 1,
+                indexPre = this.currentStep.index - previous;
+
+            this.currentStep = _.find(this.STEPS, function (value) {
+              return value.index === indexPre;
+            });
         };
 
         //Next Step
         handleNext = function () {
-          this.step += 1;
-          // if (this.isAdvancedOptions) {
-          //   this.step += 1;
-          // } else {
-          //   this.step = this.steps.length - 1;
-          // }
-        }
+            let indexNext = this.currentStep.index + 1;
 
+            this.currentStep = _.find(this.STEPS, function (value) {
+                return value.index === indexNext;
+            });
+        }
     }
 
-
-  EditController.$inject = ['$state', '$stateParams', ];
+    EditController.$inject = [
+        '$state',
+        '$stateParams',
+        'lodash'
+    ];
 
     angular.module('fakiyaMainApp')
         .component('al.lists.edit', {

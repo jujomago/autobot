@@ -1,6 +1,6 @@
 (function(){
   'use strict';
-  let _ConfirmAsync, _ListService, _, _ContactFieldsService, ctrl, _FieldFormatter, _Utils, _$state, _$stateParams,
+  let _ConfirmAsync, _ListService, _, _ContactFieldsService, ctrl, _FieldFormatter, _UtilsList ,_Utils, _$state, _$stateParams,
       _$filter, _ModalManager, _PromptDialog, _AlertDialog;
 
   function _getSets(field) {
@@ -78,7 +78,7 @@
       }
       return field;
   }
-class UploadUpdateController {
+class UploadListController {
   constructor(
         $state,
         $stateParams,
@@ -92,6 +92,7 @@ class UploadUpdateController {
         PromptDialog,
         AlertDialog,
         Utils,
+        UtilsList,
         Global
       ) {
       this.currentPage = 1;
@@ -132,8 +133,10 @@ class UploadUpdateController {
       _ContactFieldsService = ContactFieldsService;
       _AlertDialog = AlertDialog;
       _Utils = Utils;
+      _UtilsList = UtilsList;
       this.listName = _$stateParams.name;
       this.sendContact = {listName: this.listName, importData: {values: []} };
+
       this.listUpdateSettings = {
         cleanListBeforeUpdate: false,
         crmAddMode: 'ADD_NEW',
@@ -143,20 +146,20 @@ class UploadUpdateController {
       this.listDeleteSettings = {
         listDeleteMode: 'DELETE_ALL'
       };
-  }
-
-  $onInit(){
-    // this.isUpdate = JSON.parse(_$stateParams.update);
-    let parentContactFields = this.parentComp.getContactField();
-
-    console.log('PARENT CONTACT FIELDS . . ',parentContactFields);
-    if (_Utils.isUndefinedOrNull(parentContactFields)) {
-      this.getContactFields();
     }
-    else {
-      this.mappingValidation(parentContactFields);
+
+    $onInit(){
+      let parentContactFields = this.parentComp.getContactField();
+
+      this.isUpdate = this.parentComp.isUpdate;
+
+      if (_Utils.isUndefinedOrNull(parentContactFields)) {
+        this.getContactFields();
+      }
+      else {
+        this.mappingValidation(parentContactFields);
+      }
     }
-  }
 
     generateMapping(){
       for (let i = 0; i < this.contactFields.length; i++) {
@@ -177,9 +180,20 @@ class UploadUpdateController {
 
     mappingValidation(contactFields) {
       this.contactFields = contactFields.map(_getSets).map(_extractFormats);
-      console.log('Mapping Validation. . .', this.contactFields);
       this.generateFieldsMapping();
       this.loaded = true;
+    }
+
+    generateFieldsMapping() {
+      let fieldsMapping = [];
+
+      _.forEach(this.contactFields, (value, index) => (fieldsMapping.push({
+          columnNumber: index + 1,
+          fieldName: value.name,
+          key: value.isKey
+      })));
+
+      this.fieldsMapping = fieldsMapping;
     }
 
     getContactFields() {
@@ -369,6 +383,7 @@ class UploadUpdateController {
     this.sending = true;
 
     if (this.isUpdate) {
+      this.listUpdateSettings = _UtilsList.getSettingsUpdate(this.parentComp.getSettings());
       this.listUpdateSettings.fieldsMapping = this.fieldsMapping;
       this.sendContact.listUpdateSettings = this.listUpdateSettings;
     }
@@ -483,7 +498,7 @@ class UploadUpdateController {
     });
   }
 }
-  UploadUpdateController.$inject = [
+  UploadListController.$inject = [
   '$state',
   '$stateParams',
   '$filter',
@@ -496,15 +511,16 @@ class UploadUpdateController {
   'PromptDialog',
   'AlertDialog',
   'Utils',
+  'UtilsList',
   'Global'
 ];
 angular.module('fakiyaMainApp')
-  .component('uploadUpdate', {
+  .component('uploadList', {
     require: {
       parentComp: '^al.lists.edit'
     },
     templateUrl: 'app/features/al/lists/edit/upload/upload.html',
-    controller: UploadUpdateController
+    controller: UploadListController
   });
 
 })();
