@@ -43,7 +43,7 @@
         sendConfiguration() {
             if (this.settings.crmUpdateMode === this.MODE_ACTION.CRM.UPDATE_ALL && this.settings.isCrmUpdate) {
                 _PromptDialog.open(this.MESSAGE_UPDATE_ALL_MATCH.message, this.MESSAGE_UPDATE_ALL_MATCH.buttons).
-                  then(result => {
+                  then(() => {
                       this.saveSetting();
                   });
             }
