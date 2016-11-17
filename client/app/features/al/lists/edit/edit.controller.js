@@ -31,8 +31,8 @@
                 }
             };
             this.currentStep = this.STEPS.SETTING;
-            this.contactFields;
-            this.settings;
+            this.contactFields = null;
+            this.settings = null;
         }
 
         $onInit() {
@@ -63,26 +63,26 @@
             this.settings = settings;
         }
 
-        isFirstStep = function () {
+        isFirstStep() {
             return this.currentStep.index === 1;
-        };
+        }
 
-        getCurrentStep = function () {
+        getCurrentStep() {
             return this.currentStep.key;
-        };
+        }
 
         //Previous Step
-        handlePrevious = function () {
+        handlePrevious() {
             let previous = (this.isFirstStep()) ? 0 : 1,
                 indexPre = this.currentStep.index - previous;
 
             this.currentStep = _.find(this.STEPS, function (value) {
               return value.index === indexPre;
             });
-        };
+        }
 
         //Next Step
-        handleNext = function () {
+        handleNext() {
             let indexNext = this.currentStep.index + 1;
 
             this.currentStep = _.find(this.STEPS, function (value) {

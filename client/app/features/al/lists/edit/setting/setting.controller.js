@@ -2,16 +2,19 @@
     'use strict';
 
     let _$stateParams,
+        _PromptDialog,
         _Utils,
         _UtilsList;
 
     class SettingListController {
         constructor(
             $stateParams,
+            PromptDialog,
             Utils,
             UtilsList) {
 
             _$stateParams = $stateParams;
+            _PromptDialog = PromptDialog;
             _Utils = Utils;
             _UtilsList = UtilsList;
 
@@ -25,6 +28,7 @@
                 crmUpdateMode: this.MODE_ACTION.CRM.UPDATE_FIRST,
                 cleanListBeforeUpdate: false
             };
+            this.MESSAGE_UPDATE_ALL_MATCH = _UtilsList.getSettingMessage();
             this.settings = {};
         }
 
@@ -37,11 +41,19 @@
         }
 
         sendConfiguration() {
-            this.parentComp.setSettings(this.settings);
-            this.parentComp.handleNext();
+            if (this.settings.crmUpdateMode === this.MODE_ACTION.CRM.UPDATE_ALL && this.settings.isCrmUpdate) {
+                _PromptDialog.open(this.MESSAGE_UPDATE_ALL_MATCH.message, this.MESSAGE_UPDATE_ALL_MATCH.buttons).
+                  then(result => {
+                      this.saveSetting();
+                  });
+            }
+            else {
+                this.saveSetting();
+            }
         }
 
-        handleNext() {
+        saveSetting() {
+          this.parentComp.setSettings(this.settings);
           this.parentComp.handleNext();
         }
 
@@ -52,6 +64,7 @@
 
     SettingListController.$inject = [
         '$stateParams',
+        'PromptDialog',
         'Utils',
         'UtilsList'
     ];

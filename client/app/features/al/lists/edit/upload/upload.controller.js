@@ -153,12 +153,7 @@ class UploadListController {
       this.listName = _$stateParams.name;
       this.sendContact = {listName: this.listName, importData: {values: []} };
 
-      this.listUpdateSettings = {
-        cleanListBeforeUpdate: false,
-        crmAddMode: 'ADD_NEW',
-        crmUpdateMode: 'UPDATE_FIRST',
-        listAddMode: 'ADD_FIRST'
-      };
+      this.listUpdateSettings = {};
       this.listDeleteSettings = {
         listDeleteMode: 'DELETE_ALL'
       };
