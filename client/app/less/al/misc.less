@@ -958,7 +958,7 @@
      @height-toolbar:60px;
     
     .body-report{
-        padding: 0 50px 75px;
+        padding: 0 50px 90px;
         max-width: 1280px;
         margin: 0 auto;
     }
@@ -1023,36 +1023,37 @@
         }
         .btn-black{
             height: 34px;
-            padding: 0 30px;
+            padding:0 40px;
             width: auto;
           
         }
         .linkscontainer{
             flex:1;
+            margin-left: 8px;
             .linkscontainer__item{
                 width:~"calc(92.5%/4)";                
-                @media (max-width: 1268px) {
+                @media (max-width: 1300px) {
                      width:~"calc(92%/4)"; 
                 }
-                @media (max-width: 1200px) {
+                @media (max-width: 1230px) {
                      width:~"calc(91%/4)"; 
                 }
-                @media (max-width: 1090px) {
+                @media (max-width: 1126px) {
                      width:~"calc(90%/4)"; 
                 }
-                @media (max-width: 999px) {
+                @media (max-width:1034px) {
                      width:~"calc(89%/4)"; 
                 }
-                @media (max-width: 927px) {
+                @media (max-width: 958px) {
                      width:~"calc(88%/4)"; 
                 }
-                @media (max-width: 868px) {
+                @media (max-width: 895px) {
                      width:~"calc(87%/4)"; 
                 }
-                @media (max-width: 815px) {
+                @media (max-width: 844px) {
                      width:~"calc(86%/4)"; 
                 }
-                @media (max-width: 774px) {
+                @media (max-width: 800px) {
                      width:~"calc(85%/4)"; 
                 }
                 a{
@@ -1089,7 +1090,7 @@
             >a{
                 display: block;
                 height: 100%;
-                padding: 0 15px;
+                padding: 0 14px;
                 &:hover{
                     color:@blue; 
                 }                  
@@ -1133,15 +1134,38 @@
     .listicons{
         list-style: none;
         padding: 0;     
+    
+        width: 110px;
+        float: left;
+        margin-top:22px;
+        @media (max-width:950px) {       
+            margin-top: 15px;
+            }
+        @media (max-width:850px) {              
+            margin-top: 12px; 
+        }
+
+
         li{
-            height: 26px;
-            line-height: 26px;
-            margin-bottom: 16px;
+          //  height: 26px;
+            line-height: 50px;
+        //    margin-bottom: 16px;
             font-size: 16px;
             font-family: BrandonRegular;
-            @media (max-width: 992px) {
-               display: inline-block;
-               margin-right: 26px;
+            @media (max-width:1245px) {              
+                line-height: 4vw;
+            }
+             @media (max-width:1035px) {              
+                line-height: 3.9vw;
+            }
+            @media (max-width:1012px) {              
+                line-height: 3.8vw;
+            }
+            @media (max-width:950px) {              
+                line-height: 3.7vw;
+            }
+            @media (max-width:790px) {              
+                line-height: 3.6vw;
             }
             >img{
                  margin-right: 9px;
@@ -1152,6 +1176,9 @@
        
     .customer-chart{    
         padding: 0;     
+    
+        float: left;
+        width:~"calc(100% - 110px)";
     }    
 
     //revenue boxes
