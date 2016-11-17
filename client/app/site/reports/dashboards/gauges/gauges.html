@@ -45,13 +45,13 @@
 						<option value="1">2 Days</option>
 						<option value="1">1 Days</option>
             		</select>
-					<label>S</label><input type="checkbox">
-					<label>M</label><input type="checkbox">
-					<label>T</label><input type="checkbox">
-					<label>W</label><input type="checkbox">
-					<label>T</label><input type="checkbox">
-					<label>F</label><input type="checkbox">
-					<label>S</label><input type="checkbox">
+					<label class="label-right">S</label><input type="checkbox">
+					<label class="label-right">M</label><input type="checkbox">
+					<label class="label-right">T</label><input type="checkbox">
+					<label class="label-right">W</label><input type="checkbox">
+					<label class="label-right">T</label><input type="checkbox">
+					<label class="label-right">F</label><input type="checkbox">
+					<label class="label-right">S</label><input type="checkbox">
 				</div>
 				<div>
 					<button class="buttonBlue" ng-click="">Apply</button>
@@ -73,7 +73,7 @@
 						<option value="1">14:00 AM</option>
 						<option value="1">15:00 AM</option>
            			 </select>
-					<label class="label-reports-10 label-last-select label-weight"> To</label>
+					<label class="label-reports-10 label-last-select label-weight"> To:</label>
 					<select class="selectCustom select-140 " name="dateRange">
 						<option value="1">6:00 PM</option>
 						<option value="1">7:00 PM</option>
@@ -84,7 +84,7 @@
 				<div>
 					<button class="buttonBlue buttonBlue2" ng-click="">Apply</button>
 					<input type="checkbox">
-					<label class="label-reports-40">Company:</label>
+					<label class="label-reports-40 label-right">Company:</label>
 					<select class="selectCustom select-80" name="dateRange">
 						<option value="1">National:</option>
 						<option value="1">International:</option>           
@@ -114,7 +114,7 @@
 				<div>
 					<button class="buttonBlue last-button" ng-click="">Apply</button>
 					<input type="checkbox">
-					<label class="label-reports-40">Account:</label>
+					<label class="label-reports-40 label-right">Account:</label>
 					<select class="selectCustom select-80" name="dateRange">
 						<option value="1">Sales</option>
 						<option value="1">Buy</option>           
@@ -132,7 +132,7 @@
 				<button class="buttonBlack">Revert</button>
 			</div>
 		</div>
-		<div class="gauges-reports"><center>
+		<div class="gauges-reports">
 			<div class="img-responsive-reports">
 				<p>Speed to contact attempts</p>
 				<img  ng-src="assets/reports/images/AB-App-ReportsGauges1.png" alt="MIDSA DASD"/>
@@ -157,7 +157,7 @@
 				<p>Conversion rate</p>
 				<img ng-src="assets/reports/images/AB-App-ReportsGauges5.png" />
                         <p class="font-gauges" title-image>19.6%</p>
-			</div></center>
+			</div>
 		</div>
 	</div>
 </div>
