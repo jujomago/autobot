@@ -84,6 +84,7 @@
     let body=' for list "'+listName+'" has been succesfully completed.';
     if(isUpdate){
       body = 'Update'+body;
+      body += Number(result.listRecordsDeleted) > 0 ? '\nList has been cleaned up before update.' : '';
     }
     else{
       body = 'Delete'+body;
@@ -198,7 +199,8 @@
           this.processedRow = null;
           _Global.proccessIsRunning = false;
           this.selectedRow = listName;
-          _AlertDialog(response.summaryMessage);
+          console.log('SUmmary Mesage . . .',summaryMessage);
+          _AlertDialog(response.summaryMessage,{hasSpace:true});
           return response;
         });
     }
@@ -272,6 +274,7 @@
           }
         })
         .then(response =>{
+          console.log('Response. List. .',response);
           let summaryMessage = _formatMessage(response.data, isUpdate, listName);
           let index = _myIndex(this.lists, listName);
           return this.updateList(listName ,index, summaryMessage);
