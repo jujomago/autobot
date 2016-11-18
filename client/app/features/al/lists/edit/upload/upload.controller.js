@@ -513,7 +513,7 @@ class UploadListController {
   'Global'
 ];
 angular.module('fakiyaMainApp')
-  .component('uploadList', {
+  .component('alUploadList', {
     require: {
       parentComp: '^al.lists.edit'
     },

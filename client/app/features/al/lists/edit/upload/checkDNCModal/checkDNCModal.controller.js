@@ -35,7 +35,7 @@ angular.module('fakiyaMainApp')
     templateUrl: 'app/features/al/lists/edit/upload/checkDNCModal/checkDNCModal.html',
     controller: CheckDNCModalComponent,
     require: {
-      parent: '?^uploadList',
+      parent: '?^alUploadList',
     }
   });
 

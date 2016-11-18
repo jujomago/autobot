@@ -57,7 +57,7 @@ angular.module('fakiyaMainApp')
     templateUrl: 'app/features/al/lists/edit/upload/contactModal/contactModal.html',
     controller: ContactModalComponent,
     require: {
-      edit: '?^uploadList',
+      edit: '?^alUploadList',
     }
 
 });

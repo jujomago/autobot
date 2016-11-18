@@ -70,7 +70,7 @@
     ];
 
     angular.module('fakiyaMainApp')
-        .component('settingList', {
+        .component('alSettingList', {
             require: {
                 parentComp: '^al.lists.edit'
             },

@@ -105,7 +105,7 @@
     ];
 
     angular.module('fakiyaMainApp')
-        .component('mappingList', {
+        .component('alMappingList', {
             require: {
               parentComp: '^al.lists.edit'
             },
