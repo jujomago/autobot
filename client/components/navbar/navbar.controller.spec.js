@@ -244,4 +244,25 @@ describe('Component:NavbarController', function() {
       });
   });
 
+  describe('#hideSubMenuOnClick', () => {
+      it('click submenu myapps should hide the submenu, except for click the searchbox',()=>{
+          let submenu='myapps';
+          let obj={target:{id:'someid'}};
+          NavbarController.hideSubMenuOnClick(obj,submenu);
+          expect(NavbarController.myAppsCollapsed).to.equal(true);
+
+          obj.target.id='submenu-search';
+          NavbarController.hideSubMenuOnClick(obj,submenu);
+          expect(NavbarController.myAppsCollapsed).to.equal(false);
+
+      });
+      it('click submenu reports should hide the submenu',()=>{
+          let submenu='reports';        
+          NavbarController.hideSubMenuOnClick({},submenu);
+          expect(NavbarController.reportsCollapsed).to.equal(true);
+      });
+  });
+
+
+
 });
