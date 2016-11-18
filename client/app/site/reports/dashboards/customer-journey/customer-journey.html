@@ -211,7 +211,7 @@ $(function(){
             let number=e.target.id[e.target.id.length-1];
             let $curTooltip= $('#tooltip'+number);
             $curTooltip.siblings('.tooltipreport').hide();            
-            $curTooltip.css({'left':e.pageX-($curTooltip.width()/2)-10,'top':e.pageY+15}).fadeIn();         
+            $curTooltip.css({'left':e.pageX-($curTooltip.width()/2)-10,'top':e.pageY}).fadeIn();         
      	});
 	 }else{
 		$('area').mouseover(function(e) {
