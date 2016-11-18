@@ -1138,9 +1138,10 @@
         width: 110px;
         float: left;
         margin-top:22px;
+        
         @media (max-width:950px) {       
             margin-top: 15px;
-            }
+        }
         @media (max-width:850px) {              
             margin-top: 12px; 
         }
@@ -1152,6 +1153,7 @@
         //    margin-bottom: 16px;
             font-size: 16px;
             font-family: BrandonRegular;
+            padding-left: 12px;
             @media (max-width:1245px) {              
                 line-height: 4vw;
             }
@@ -1179,6 +1181,9 @@
     
         float: left;
         width:~"calc(100% - 110px)";
+        >img{
+            width: 100%;
+        }
     }    
 
     //revenue boxes
@@ -1237,21 +1242,8 @@
         font-size: 13px;
         padding: 10px;
         display: inline-block;
-        position:absolute;
+        position:absolute; 
         display:none;
-        &:before{
-            content:'';
-            display: block;
-            position: absolute;   
-            top: -10px;
-            left: 44%;
-            width: 0;
-            height: 0;
-            border-style: solid;
-            border-width: 0 8.5px 10px 8.5px;
-            border-color: transparent transparent #000 transparent;
-       
-        }
         strong{
             display: block;
             color:#62BF92;
@@ -1437,7 +1429,13 @@
         }
     .label-weight{
         font-weight: normal;
-    }  
+
+    }    
+    
+    img[usemap], map area{
+       outline: none;
+    }
+        
     .align-img{        
         img{
            display: inline-block;     
@@ -1445,6 +1443,7 @@
         text-align: center;
         margin: 0px;
     }  
+
     // ====== END REPORT STYLES =========
 
 }
