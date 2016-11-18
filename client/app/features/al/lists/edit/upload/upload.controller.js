@@ -152,6 +152,7 @@ class UploadListController {
       _UtilsList = UtilsList;
       this.listName = _$stateParams.name;
       this.sendContact = {listName: this.listName, importData: {values: []} };
+      this.settings;
 
       this.listUpdateSettings = {};
       this.listDeleteSettings = {
@@ -159,8 +160,9 @@ class UploadListController {
       };
     }
 
-    $onInit(){
+    $onInit() {
       let parentContactFields = this.parentComp.getContactField();
+      this.settings = this.parentComp.getSettings();
 
       this.isUpdate = this.parentComp.isUpdate;
 
@@ -172,7 +174,7 @@ class UploadListController {
       }
     }
 
-    generateMapping(){
+    generateMapping() {
       for (let i = 0; i < this.contactFields.length; i++) {
         let key = false;
 
@@ -190,6 +192,11 @@ class UploadListController {
     }
 
     mappingValidation(contactFields) {
+
+      if(this.isUpdate && this.settings.insertOnlyKeys) {
+        contactFields= _UtilsList.getFieldsKey(contactFields);
+      }
+
       this.contactFields = contactFields.map(_getSets).map(_extractFormats);
       this.generateFieldsMapping();
       this.loaded = true;
@@ -376,7 +383,7 @@ class UploadListController {
     this.sending = true;
 
     if (this.isUpdate) {
-      this.listUpdateSettings = _UtilsList.getSettingsUpdate(this.parentComp.getSettings());
+      this.listUpdateSettings = _UtilsList.getSettingsUpdate(this.settings);
       this.listUpdateSettings.fieldsMapping = this.fieldsMapping;
       this.sendContact.listUpdateSettings = this.listUpdateSettings;
     }

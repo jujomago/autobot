@@ -41,6 +41,9 @@
         }
 
         sendConfiguration() {
+            this.settings.insertOnlyKeys = !this.settings.isCrmUpdate &&
+                                            this.settings.crmAddMode === this.MODE_ACTION.CRM.DONT_ADD;
+
             if (this.settings.crmUpdateMode === this.MODE_ACTION.CRM.UPDATE_ALL && this.settings.isCrmUpdate) {
                 _PromptDialog.open(this.MESSAGE_UPDATE_ALL_MATCH.message, this.MESSAGE_UPDATE_ALL_MATCH.buttons).
                   then(() => {

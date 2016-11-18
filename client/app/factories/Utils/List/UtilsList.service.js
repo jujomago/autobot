@@ -62,7 +62,6 @@
       return mappingFields;
     }
 
-    //delete list
     function getFieldsKey(contactFields) {
         return lodash.filter(contactFields, value => (value.isKey));
     }
