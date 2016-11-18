@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Component:step3', function () {
+describe('Component: alUploadList', function () {
 
   // load the controller's module
   beforeEach(module('fakiyaMainApp'));
@@ -70,7 +70,7 @@ describe('Component:step3', function () {
         return true;
       }
     };
-    ListComponent = $componentController('al.lists.edit.list', {
+    ListComponent = $componentController('alUploadList', {
       $state: mockState,
       $stateParams: _$stateParams,
       PromptDialog: mockPrompt,

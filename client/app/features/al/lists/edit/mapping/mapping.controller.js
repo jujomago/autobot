@@ -37,7 +37,6 @@
             this.contactFields = [];
             this.message = { show: false };
             this.loadingContacts = true;
-            this.disabledButton = true;
         }
 
         $onInit() {
@@ -47,7 +46,7 @@
         getContactFields() {
             return _ContactFieldsService.getContactFields()
                 .then(response => {
-                    this.disabledButton = false;
+                    this.loadingContacts = false;
 
                     if (response.statusCode === 200) {
 
@@ -61,9 +60,8 @@
                     return response;
                 })
                 .catch(e => {
-                    this.disabledButton = false;
-                    this.message = { show: true, type: 'warning', text: e };
-
+                    this.loadingContacts = false;
+                    this.message = { show: true, type: 'warning', text: e.errorMessage };
                     return e;
                 });
         }

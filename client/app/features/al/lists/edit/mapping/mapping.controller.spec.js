@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Component: al.lists.mapping', function () {
+describe('Component: alMappingList', function () {
 
   // load the controller's module
   beforeEach(module('fakiyaMainApp'));
@@ -42,7 +42,7 @@ describe('Component: al.lists.mapping', function () {
       }
 
 
-      MappingComponent = $componentController('al.lists.mapping', {
+      MappingComponent = $componentController('alMappingList', {
         $stateParams: {
           settings:
           {
@@ -65,58 +65,58 @@ describe('Component: al.lists.mapping', function () {
 
 
 
-  describe('#setStateParams', () => {
+  // describe('#setStateParams', () => {
+  //
+  //   it('When mode is manual should cant mapping', () => {
+  //     MappingComponent.setStateParams({
+  //       manual: true,
+  //       name: 'testListName'
+  //     });
+  //     expect(MappingComponent.listName).to.equal('testListName');
+  //     expect(MappingComponent.canMapping).to.equal(false);
+  //   });
+  //
+  //   it('When mode is not manual should can mapping', () => {
+  //     MappingComponent.setStateParams({
+  //       name: 'testListName',
+  //       settings: {
+  //         csvData: mockCSV,
+  //         listDeleteSettings: mockDeleteSettigs
+  //       }
+  //     });
+  //     expect(MappingComponent.listName).to.equal('testListName');
+  //     expect(MappingComponent.canMapping).to.equal(true);
+  //     expect(MappingComponent.rawCSV).to.equal(mockCSV);
+  //   });
+  //
+  //   it('csv should converted to array o JSON objects', () => {
+  //
+  //     let mockCSV = `
+  //       number1,number3,first_name,last_name,company,email
+  //       7777777777,+233552234,Josue,Mancilla, Sinapsysit,josue@gmail.com
+  //       3333333333,53,Boris,Bachas,ninguna,boris@gmail.com
+  //     `;
+  //
+  //     MappingComponent.setStateParams({
+  //       name: 'testListName',
+  //       settings: {
+  //         csvData: mockCSV,
+  //         listDeleteSettings: mockDeleteSettigs
+  //       }
+  //     });
+  //
+  //     expect(MappingComponent.listName).to.equal('testListName');
+  //     expect(MappingComponent.canMapping).to.equal(true);
+  //     expect(MappingComponent.rawCSV).to.equal(mockCSV);
+  //     expect(MappingComponent.jsonCSV).to.eql([
+  //       { number1: '7777777777', number3: '+233552234', 'first_name': 'Josue', 'last_name': 'Mancilla', company: 'Sinapsysit', email: 'josue@gmail.com' },
+  //       { number1: '3333333333', number3: '53', 'first_name': 'Boris', 'last_name': 'Bachas', company: 'ninguna', email: 'boris@gmail.com' }
+  //     ]);
+  //
+  //   });
+  // });
 
-    it('When mode is manual should cant mapping', () => {
-      MappingComponent.setStateParams({
-        manual: true,
-        name: 'testListName'
-      });
-      expect(MappingComponent.listName).to.equal('testListName');
-      expect(MappingComponent.canMapping).to.equal(false);
-    });
-
-    it('When mode is not manual should can mapping', () => {
-      MappingComponent.setStateParams({
-        name: 'testListName',
-        settings: {
-          csvData: mockCSV,
-          listDeleteSettings: mockDeleteSettigs
-        }
-      });
-      expect(MappingComponent.listName).to.equal('testListName');
-      expect(MappingComponent.canMapping).to.equal(true);
-      expect(MappingComponent.rawCSV).to.equal(mockCSV);
-    });
-
-    it('csv should converted to array o JSON objects', () => {
-
-      let mockCSV = `
-        number1,number3,first_name,last_name,company,email
-        7777777777,+233552234,Josue,Mancilla, Sinapsysit,josue@gmail.com
-        3333333333,53,Boris,Bachas,ninguna,boris@gmail.com
-      `;
-
-      MappingComponent.setStateParams({
-        name: 'testListName',
-        settings: {
-          csvData: mockCSV,
-          listDeleteSettings: mockDeleteSettigs
-        }
-      });
-
-      expect(MappingComponent.listName).to.equal('testListName');
-      expect(MappingComponent.canMapping).to.equal(true);
-      expect(MappingComponent.rawCSV).to.equal(mockCSV);
-      expect(MappingComponent.jsonCSV).to.eql([
-        { number1: '7777777777', number3: '+233552234', 'first_name': 'Josue', 'last_name': 'Mancilla', company: 'Sinapsysit', email: 'josue@gmail.com' },
-        { number1: '3333333333', number3: '53', 'first_name': 'Boris', 'last_name': 'Bachas', company: 'ninguna', email: 'boris@gmail.com' }
-      ]);
-
-    });
-  });
-
-  describe('#getContactFields2', () => {
+  describe('#getContactFieldsMappingKeys', () => {
 
     it('should return all contact fields', () => {
       _$httpBackend.whenGET(endPointUrl).respond(200, {
@@ -146,7 +146,7 @@ describe('Component: al.lists.mapping', function () {
 
       expect(MappingComponent.loadingContacts).to.equal(true);
 
-      MappingComponent.getContactFiels()
+      MappingComponent.getContactFields()
         .then(response => {
           expect(response.statusCode).to.equal(200);
           expect(response.errorMessage).to.equal(null);
@@ -161,19 +161,18 @@ describe('Component: al.lists.mapping', function () {
 
     it('should show error message when error', () => {
       _$httpBackend.whenGET(endPointUrl).respond(500, {
-        data: null, statusCode: 500, errorMessage: 'Some Error front Endpoint'
+        data: null, statusCode: 500, errorMessage: 'Some Error Endpoint'
       });
 
       expect(MappingComponent.loadingContacts).to.equal(true);
 
-      MappingComponent.getContactFiels()
+      MappingComponent.getContactFields()
         .then(response => {
           expect(response.statusCode).to.equal(500);
           expect(response.errorMessage).to.not.equal(null);
           expect(response.data).to.equal(null);
-          console.log(MappingComponent.message);
           expect(MappingComponent.message).to.deep.equal({ show: true, type: 'warning', text: response.errorMessage });
-          expect(MappingComponent.loadingContacts).to.equal(true);
+          expect(MappingComponent.loadingContacts).to.equal(false);
           expect(MappingComponent.contactFields).to.have.lengthOf(0);
         });
 

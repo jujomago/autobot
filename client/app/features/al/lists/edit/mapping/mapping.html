@@ -3,13 +3,13 @@
     <div class="pull-right remove-spaces-inline">
         <button class="btn btn-black right-space-20 btn-fixed-80"
                 ng-click="$ctrl.handlePrevious()"
-                data-ng-disabled="$ctrl.disabledButton">Back</button>
+                data-ng-disabled="$ctrl.loadingContacts">Back</button>
         <button class="btn btn-black right-space-20 btn-fixed-80"
                 ng-click="$ctrl.handleFinish();"
-                data-ng-disabled="$ctrl.disabledButton">Finish</button>
+                data-ng-disabled="$ctrl.loadingContacts">Finish</button>
         <button class="btn btn-black btn-fixed-80"
                 ui-sref="ap.al.lists"
-                data-ng-disabled="$ctrl.disabledButton">Cancel</button>
+                data-ng-disabled="$ctrl.loadingContacts">Cancel</button>
     </div>
 </div>
 <abx-message msg="$ctrl.message"></abx-message>
