@@ -1138,9 +1138,10 @@
         width: 110px;
         float: left;
         margin-top:22px;
+        
         @media (max-width:950px) {       
             margin-top: 15px;
-            }
+        }
         @media (max-width:850px) {              
             margin-top: 12px; 
         }
@@ -1152,6 +1153,7 @@
         //    margin-bottom: 16px;
             font-size: 16px;
             font-family: BrandonRegular;
+            padding-left: 12px;
             @media (max-width:1245px) {              
                 line-height: 4vw;
             }
@@ -1179,6 +1181,9 @@
     
         float: left;
         width:~"calc(100% - 110px)";
+        >img{
+            width: 100%;
+        }
     }    
 
     //revenue boxes
@@ -1438,6 +1443,10 @@
     .label-weight{
         font-weight: normal;
     }    
+    
+    img[usemap], map area{
+       outline: none;
+    }
     // ====== END REPORT STYLES =========
 
 }

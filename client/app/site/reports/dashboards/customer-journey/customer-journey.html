@@ -157,12 +157,12 @@
 				<li><img src="assets/reports/images/AB-App-CJIcons-Retail.png" alt="">Retail</li>
 			</ul>
 			<div class="customer-chart">
-				<img id="imgID" src="assets/reports/images/AB-App-CJGraph.png" class="img-responsive" alt="" usemap="#m_ABAppCJGraph">
+				<img id="imgID" src="assets/reports/images/AB-App-CJGraph.png" alt="" usemap="#m_ABAppCJGraph" hidefocus="true">
 				<map name="m_ABAppCJGraph" id="m_ABAppCJGraph">
-                        <area id="circle4" shape="circle" coords="915,350, 18" href="javascript:;" alt="punto4" />
+                        <area id="circle4" shape="circle" coords="915,350, 19" href="javascript:;" alt="punto4" />
                         <area id="circle3" shape="circle" coords="654,148, 19"  href="javascript:;"   alt="punto3" />
                         <area id="circle2" shape="circle" coords="393,200, 19"  href="javascript:;"  alt="punto2" />
-                        <area id="circle1" shape="circle" coords="130,49, 18"  href="javascript:;"  alt="punto1" />
+                        <area id="circle1" shape="circle" coords="130,49, 19"  href="javascript:;"  alt="punto1" />
                     </map>
 			</div>
 		</section>
@@ -201,14 +201,27 @@
 
 $(function(){
      $('map').imageMapResize();
-     $('area').on('click',function(e){
+     /*$('area').on('click',function(e){
             e.preventDefault();           
              console.log(e);            
             let number=e.target.id[e.target.id.length-1];
             let $curTooltip= $('#tooltip'+number);
             $curTooltip.siblings('.tooltipreport').hide();            
             $curTooltip.css({'left':e.pageX-($curTooltip.width()/2)-10,'top':e.pageY+15}).fadeIn();         
+     });*/
+ 	 $('area').mouseover(function(e) {
+		   console.log($(e.target).attr('coords'));
+		   let number=e.target.id[e.target.id.length-1];
+            let $curTooltip= $('#tooltip'+number);
+            $curTooltip.siblings('.tooltipreport').hide();            
+            $curTooltip.css({'left':e.pageX-($curTooltip.width()/2)-10,'top':e.pageY+15}).stop(true,true).fadeIn();     
      });
+	  $('area').mouseout(function(e) {
+		  $('.tooltipreport').fadeOut();
+	  });
+
+
+
      $(window).on('resize',function(){
          $('.tooltipreport').fadeOut();
      })
