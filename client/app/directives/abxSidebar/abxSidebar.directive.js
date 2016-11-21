@@ -5,7 +5,7 @@ angular.module('fakiyaMainApp')
 
   function link(scope) {
     scope.checkActive = function(link){
-      		return ($location.path().indexOf(link) >= 0) ? 'active' : '';
+      		return ($location.path().indexOf(link) > -1);
     };
   }
 
