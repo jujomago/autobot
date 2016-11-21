@@ -1211,8 +1211,18 @@
         p{
             color:@grayforte;
             margin-bottom: 0;
-            font-size: 18px;
+            font-size: 16px;
             font-family: BrandonLight;
+        }
+        &-full{
+            position: relative;
+            p{
+                position: absolute;
+                top: 5%;
+                left: 0;
+                right: 0;
+                font-family: BrandonRegular;
+            }
         }
     }
     .nomargincols{
@@ -1222,6 +1232,18 @@
         .col-md-3{
             padding:0; 
         }
+        .box-chart{
+            p{
+                font-family: BrandonRegular;
+                margin-bottom: 15px;
+            }
+        }
+        @media (max-width:991px) {              
+            .col-xs-6:nth-last-of-type(-n+2){
+                 margin-top: 38px;
+            }
+        }
+       
     }
     .details_chart{
         margin-top: 30px;
