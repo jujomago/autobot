@@ -206,42 +206,33 @@ $(function(){
      $('map').imageMapResize();
     
 
-	 var isiPad = navigator.userAgent.match(/iPad/i) != null;
-	 console.log(isiPad);
-	 if(isiPad){
-		$('area').on('click',function(e){
-            e.preventDefault();           
-            let number=e.target.id[e.target.id.length-1];
-            let $curTooltip= $('#tooltip'+number);
-            $curTooltip.siblings('.tooltipreport').hide();            
-            $curTooltip.css({'left':e.pageX-($curTooltip.width()/2)-10,'top':e.pageY}).fadeIn();         
-     	});
-	 }else{
-		$('area').mouseover(function(e) {
-			console.log($(e.target).attr('coords'));
+
+	$('area').on('click',function(e) {
+		console.log($(e.target).attr('coords'));
+		
 			let number=e.target.id[e.target.id.length-1];
-				let $curTooltip= $('#tooltip'+number);
-				
-			//	$curTooltip.siblings('.tooltipreport').hide();     
+			let $curTooltip= $('#tooltip'+number);
+			
+		//	$curTooltip.siblings('.tooltipreport').hide();     
 
-				let leftPos=e.pageX-($curTooltip.width()/2)-10;
-				let topPos=e.pageY+15;     
-				leftPos=e.pageX-($curTooltip.width()/2);
-				console.log(e.pageX);
-				$curTooltip.css({'left':leftPos,'top':e.pageY}).stop(true,true).fadeIn();     
-		});
-		$('area').mouseout(function(e) {
-				let number=e.target.id[e.target.id.length-1];
-				let $curTooltip= $('#tooltip'+number);
-				console.log($curTooltip.css('display'));
-				setTimeout(function(){
-					if($curTooltip.css('display')==='block'){
-						$curTooltip.fadeOut();
-					}
-			},400);
-		});
-	 }
-
+			let leftPos=e.pageX-($curTooltip.width()/2)-10;
+			let topPos=e.pageY+15;     
+			leftPos=e.pageX-($curTooltip.width()/2);
+		
+			console.log(e.pageX);
+			$curTooltip.css({'left':leftPos,'top':e.pageY}).stop(true,true).fadeIn();     
+	});
+	$('area').mouseout(function(e) {
+			let number=e.target.id[e.target.id.length-1];
+			let $curTooltip= $('#tooltip'+number);
+			console.log($curTooltip.css('display'));
+			setTimeout(function(){
+				if($curTooltip.css('display')==='block'){
+					$curTooltip.fadeOut();
+				}
+		},250);
+	});
+	
 
 });
 </script>
