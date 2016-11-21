@@ -1,0 +1,46 @@
+.autobox-theme{
+    div.rqa-theme{
+        .searchbox-container {
+            display: inline-block;
+            height: 30px;
+            position: relative;
+            width: auto;
+            border-width: 1px;
+            border-color: #f1f1f1;
+            input {
+                font-family: ProximaNovaRegular;
+                font-size: 12px;
+                border: 1px solid @lightgray;
+                height: 100%;
+                position: relative;
+                width: 300px;
+            }
+            .rqa-icon {
+                height: 12px;
+                width: 12px;
+                left: 10px;
+                position: absolute;
+                top: 8px;
+                z-index: 2;
+            }
+        }
+        .searchbox {
+            border: 0;
+            line-height: 28px;
+            padding: 0 6px 0 35px;
+            width: 100%;
+            left: 0;
+            top: 0;
+            position: absolute;
+            color: #666;
+            &::placeholder{
+                color: #CCCCCC;
+            }
+            &:focus {
+                outline: none;
+                box-shadow: none;
+            }
+        }
+
+    }
+}
