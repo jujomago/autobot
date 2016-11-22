@@ -25,9 +25,9 @@
                     index: 2,
                     key: 'Mapping'
                 },
-                LIST: {
+                UPLOAD: {
                     index: 3,
-                    key: 'List'
+                    key: 'Upload'
                 }
             };
             this.currentStep = this.STEPS.SETTING;
@@ -37,7 +37,7 @@
 
         $onInit() {
             if (!this.isUpdate) {
-              this.currentStep = this.STEPS.LIST;
+              this.currentStep = this.STEPS.UPLOAD;
             }
         }
 
