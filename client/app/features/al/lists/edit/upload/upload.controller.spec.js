@@ -167,7 +167,17 @@ describe('Component: alUploadList', function () {
       _$httpBackend.flush();
     });
   });
+
   describe('#uploadContacts', () => {
+    beforeEach(function() {
+      ListComponent.settings = {
+        listAddMode: 'ADD_FIRST',
+        crmAddMode: 'ADD_NEW',
+        crmUpdateMode: 'UPDATE_FIRST',
+        cleanListBeforeUpdate: false
+      }
+    });
+
     it('Should insert records', () => {
       _$httpBackend.whenPOST(_endPointUrl+'/f9/lists/test/records').respond(200, {return: {identifier: '123-abc'}});
       ListComponent.sendContact = {listName: 'test'};
@@ -179,6 +189,7 @@ describe('Component: alUploadList', function () {
         });
       _$httpBackend.flush();
     });
+
     it('Should show error message', () => {
       _$httpBackend.whenPOST(_endPointUrl+'/f9/lists/test/records').respond(500, {error: 'Internal Server Error'});
       ListComponent.sendContact = {listName: 'test'};

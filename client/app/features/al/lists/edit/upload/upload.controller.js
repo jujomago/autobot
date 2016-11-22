@@ -152,7 +152,6 @@ class UploadListController {
       _UtilsList = UtilsList;
       this.listName = _$stateParams.name;
       this.sendContact = {listName: this.listName, importData: {values: []} };
-      this.settings;
 
       this.listUpdateSettings = {};
       this.listDeleteSettings = {

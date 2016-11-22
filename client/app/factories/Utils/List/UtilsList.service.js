@@ -24,8 +24,7 @@
         listAddMode: MODE_ACTION.LIST.ADD_FIRST,
         crmAddMode: MODE_ACTION.CRM.ADD_NEW,
         crmUpdateMode: MODE_ACTION.CRM.UPDATE_FIRST,
-        cleanListBeforeUpdate: false,
-        fieldsMapping: []
+        cleanListBeforeUpdate: false
       },
       DEFAULT_KEY = 'number1',
       MESSAGE_SETTINGS = {

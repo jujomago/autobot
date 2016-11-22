@@ -199,7 +199,6 @@
           this.processedRow = null;
           _Global.proccessIsRunning = false;
           this.selectedRow = listName;
-          console.log('SUmmary Mesage . . .',summaryMessage);
           _AlertDialog(response.summaryMessage,{hasSpace:true});
           return response;
         });
@@ -274,7 +273,6 @@
           }
         })
         .then(response =>{
-          console.log('Response. List. .',response);
           let summaryMessage = _formatMessage(response.data, isUpdate, listName);
           let index = _myIndex(this.lists, listName);
           return this.updateList(listName ,index, summaryMessage);

@@ -1,39 +1,19 @@
 (function() {
     'use strict';
 
-    let _,
-        _$stateParams,
-        _$state,
-        _$scope,
-        _$timeout,
-        _ContactFieldsService,
+    let _ContactFieldsService,
         _Utils,
-        _UtilsList,
-        _ListService;
+        _UtilsList;
 
     class MappingListController {
         constructor(
-            $scope,
-            $stateParams,
-            $state,
-            $timeout,
-            lodash,
             ContactFieldsService,
-            ListsService,
             Utils,
-            UtilsList,
-            ValidatorService) {
-
-            _ = lodash;
-            _$scope = $scope;
-            _$stateParams = $stateParams;
-            _$state = $state;
-            _$timeout=$timeout;
+            UtilsList
+            ) {
             _ContactFieldsService = ContactFieldsService;
             _Utils = Utils;
             _UtilsList = UtilsList;
-            _ListService = ListsService;
-            this.ValidatorService = ValidatorService;
             this.contactFields = [];
             this.message = { show: false };
             this.loadingContacts = true;
@@ -49,7 +29,6 @@
                     this.loadingContacts = false;
 
                     if (response.statusCode === 200) {
-
                         this.contactFields = _Utils.isUndefinedOrNull(response.data) ?
                                             [] : _UtilsList.loadDefaultKey(response.data);
                     }
@@ -90,16 +69,9 @@
     }
 
   MappingListController.$inject = [
-        '$scope',
-        '$stateParams',
-        '$state',
-        '$timeout',
-        'lodash',
         'ContactFieldsService',
-        'ListsService',
         'Utils',
-        'UtilsList',
-        'ValidatorService'
+        'UtilsList'
     ];
 
     angular.module('fakiyaMainApp')
