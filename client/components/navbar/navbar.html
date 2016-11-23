@@ -1,5 +1,4 @@
-<div class="navbar navbar-inverse navbar-fixed-top">
-	<div class="container-fluid">
+<div class="navbar navbar-fixed-top">
 		<div class="navbar-header">
 			<button class="navbar-toggle" type="button" ng-click="nav.isCollapsed = !nav.isCollapsed">
 				<span class="sr-only">Toggle navigation</span>
@@ -9,17 +8,13 @@
 			</button>
 			<a ui-sref="ap.dashboard" class="logo">AutoBox</a>
 		</div>
-		<div uib-collapse="nav.isCollapsed" class="navbar-collapse collapse submenucustomize" id="navbar-main">
+		<div uib-collapse="nav.isCollapsed" class="navbar-collapse collapse" id="navbar-main">
 			<ul class="nav navbar-nav">
 				<li ui-sref-active="active">
-					<a ui-sref="ap.dashboard">
-						<p class="aligned-items">Dashboard</p>
-					</a>
+					<a ui-sref="ap.dashboard">Dashboard</a>
 				</li>
 				<li ui-sref-active="active" class="dropdown sub-menu-dropdown positionCustomize" ng-mouseenter="nav.changeFocus(false)" ng-mouseleave="nav.changeFocus(true)">
-					<a class="dropdown-toggle" role="button" ui-sref="ap.apps">
-						<p class="aligned-items">My apps</p>
-					</a>
+					<a class="dropdown-toggle" role="button" ui-sref="ap.apps">My apps</a>
 					<ul class="dropdown-menu submenu centerSubmenu" uib-collapse="nav.myAppsCollapsed" ng-click="nav.hideSubMenuOnClick($event,'myapps')"> 
 						<div id="myappsSubmenu" class="col-sm-12">
 							<div class="col-sm-7 my-apps" ng-class="{'border-right': nav.total > nav.quantity}">
@@ -90,7 +85,7 @@
 			<ul class="nav navbar-nav dark-nav" ng-mouseenter="nav.reportsCollapsed = false" ng-mouseleave="nav.reportsCollapsed = true" >
 				<li ui-sref-active="active" class="dropdown">
 						<a href="#" class="dropdown-toggle" role="button" >
-							<p class="aligned-items">Reports</p>
+							Reports
 						</a>
 						<ul class="dropdown-menu reports-menu" uib-collapse="nav.reportsCollapsed" ng-click="nav.hideSubMenuOnClick($event,'reports')">
 							<li class="dropdown-submenu">
@@ -183,8 +178,8 @@
 						<img src="/assets/al/images/serverDefault.png" alt="server">
 					</a>
 				</li>
-				<li class="dropdown fixed-margin-50" ng-click="nav.userOptionsCollapsed = !nav.userOptionsCollapsed" abx-outside-click="nav.userOptionsCollapsed = true">
-					<a href="#" ng-class="{'active': !nav.userOptionsCollapsed}" class="dropdown-toggle options-container" role="button">
+				<li class="dropdown" ng-click="nav.userOptionsCollapsed = !nav.userOptionsCollapsed" abx-outside-click="nav.userOptionsCollapsed = true">
+					<a href="#" ng-class="{'active': !nav.userOptionsCollapsed}" class="dropdown-toggle" role="button">
 
 						<img ng-if="nav.email==='gus@autoboxcorp.com'" src="assets/al/images/gusicon.png" class="img-circle" alt="avatar">
 
@@ -199,6 +194,5 @@
 					</ul>
 				</li>
 			</ul>
-		</div>
-	</div>
+		</div>	
 </div>

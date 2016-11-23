@@ -6,6 +6,6 @@ let _apiUri = config.apiUri;
 exports = module.exports = {
   // List of user roles
   userRoles: ['guest', 'user', 'admin'],
-  //apiUri: 'http://localhost:9000/api'
-  apiUri: _apiUri
+  apiUri: 'http://192.168.14.104:9999/api'
+  //apiUri: _apiUri
 };
