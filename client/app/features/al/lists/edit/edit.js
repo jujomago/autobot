@@ -4,11 +4,15 @@ angular.module('fakiyaMainApp')
   .config(function ($stateProvider) {
     $stateProvider
       .state('ap.al.listsEdit', {
-        url: '/lists/edit/:name?update',
+        url: '/lists/edit/:name/:action',
         views:{
           'crud':{
-            template: '<al.lists.settings></al.lists.settings>',
+            template: '<al.lists.edit></al.lists.edit>',
           }
+        },
+        params:{
+          isUpdate: null
         }
+
       });
   });

@@ -1,101 +1,118 @@
-'use strict';
 (function(){
-let _ConfirmAsync, _ListService, _, _ContactFieldsService, ctrl, _FieldFormatter, _Utils;
-let _$state, _$stateParams, _$filter, _ModalManager, _PromptDialog, _AlertDialog;
-let _phones, _registeredPhones;
+  'use strict';
+  let _ConfirmAsync, _ListService, _lodash, _ContactFieldsService, ctrl, _FieldFormatter, _EditListActions ,_Utils, _$state, _$stateParams,
+      _$filter, _ModalManager, _PromptDialog, _AlertDialog, _phones, _registeredPhones;
 
-const DNC_ERROR_MESSAGE = {title: 'DNC Scrub', body: 'All your records have been found valid.\nYou may continue uploading the list.'};
-function _registerPhone(contact, key){
-if(contact[key] && contact[key].substr(0,3)!=='011' && !_registeredPhones[contact[key]]){
-  _registeredPhones[contact[key]] = true;
-  _phones.push(contact[key]);
+  const DNC_ERROR_MESSAGE = {title: 'DNC Scrub', body: 'All your records have been found valid.\nYou may continue uploading the list.'};
+  function _registerPhone(contact, key){
+    if(contact[key] && contact[key].substr(0,3)!=='011' && !_registeredPhones[contact[key]]){
+      _registeredPhones[contact[key]] = true;
+      _phones.push(contact[key]);
+    }
   }
-}
-function _loadPhones(list){
-  _phones = [];
-  _registeredPhones = [];
-  _.each(list, contact => {
-    _registerPhone(contact, 'number1');
-    _registerPhone(contact, 'number2');
-    _registerPhone(contact, 'number3');
-  });
-  return _phones.join(',');
-}
-function _getSets(field) {
-    if(field.restrictions){
-      let set = field.restrictions.filter(r => (r.type === 'Set' || r.type === 'Multiset'));
-      if(set.length>0){
-        field.dataSet = set;
-        field.realType = field.type;
-        field.type = set[0].type.toUpperCase();
-        field.restrictions = field.restrictions.filter(r => (r.type !== 'Set' && r.type !== 'Multiset'));
+  function _loadPhones(list){
+    _phones = [];
+    _registeredPhones = [];
+    _lodash.each(list, contact => {
+      _registerPhone(contact, 'number1');
+      _registerPhone(contact, 'number2');
+      _registerPhone(contact, 'number3');
+    });
+    return _phones.join(',');
+  }
+
+  function _getSets(field) {
+      if(field.restrictions){
+        let set = field.restrictions.filter(r => (r.type === 'Set' || r.type === 'Multiset'));
+        if(set.length>0){
+          field.dataSet = set;
+          field.realType = field.type;
+          field.type = set[0].type.toUpperCase();
+          field.restrictions = field.restrictions.filter(r => (r.type !== 'Set' && r.type !== 'Multiset'));
+        }
       }
-    } 
-    return field;
-}
-function _formatExist(field, key){
-  if(!field.restrictions){
-      return null;
-    }
-  let result = _.find(field.restrictions, e => e.type === key);
-
-  return result?result.value:null;
-}
-function _getPresicion(field){
-  let resultPrescision = _.find(field.restrictions, e => e.type === 'Precision');
-  let resultScale = _.find(field.restrictions, e => e.type === 'Scale');
-  if(resultScale){
-    return resultPrescision.value*1-resultScale.value*1;
+      return field;
   }
-  return resultPrescision;
-}
-function _extractFormats(field) {
-    if(_formatExist(field, 'Required') !== null){
-      field.required = true;
+
+  function _formatExist(field, key){
+    if(!field.restrictions){
+        return null;
+      }
+    let result = _lodash.find(field.restrictions, e => e.type === key);
+
+    return result?result.value:null;
+  }
+
+  function _getPresicion(field){
+    let resultPrescision = _lodash.find(field.restrictions, e => e.type === 'Precision');
+    let resultScale = _lodash.find(field.restrictions, e => e.type === 'Scale');
+    if(resultScale){
+      return resultPrescision.value*1-resultScale.value*1;
     }
-    let result=_formatExist(field, 'CurrencyType');
-    if(result !== null){
-      field.currencyType = result;
-    }
-    result=_formatExist(field, 'DateFormat');
-    if(result !== null){
-      field.dateFormat = result;
-    }
-    result=_formatExist(field, 'TimeFormat');
-    if(result !== null){
-      field.timeFormat = result;
-    }
-    result=_formatExist(field, 'TimePeriodFormat');
-    if(result !== null){
-      field.timeFormat = result;
-    }
-    result=_formatExist(field, 'MinValue');
-    if(result !== null){
-      field.minValue = result;
-    }
-    result=_formatExist(field, 'MaxValue');
-    if(result !== null){
-      field.maxValue = result;
-    }
-    result=_formatExist(field, 'Regexp');
-    if(result !== null){
-      field.regex = result;
-    }
-    result=_formatExist(field, 'Precision');
-    if(result !== null){
-      let resultPrescision = field.restrictions.findIndex(e => e.type === 'Precision');
-      let precision = _getPresicion(field);
-      field.restrictions[resultPrescision].value = precision;
-      field.precision = precision;
-    }
-    result=_formatExist(field, 'Scale');
-    if(result !== null){
-      field.scale = result;
-    }
-    return field;
-}
-class ListComponent {
-  constructor($state, $stateParams, $filter, ModalManager, ListsService, ConfirmAsync, ContactFieldsService, lodash, FieldFormatter, PromptDialog, AlertDialog, Utils, Global) {
+    return resultPrescision;
+  }
+  function _extractFormats(field) {
+      if(_formatExist(field, 'Required') !== null){
+        field.required = true;
+      }
+      let result=_formatExist(field, 'CurrencyType');
+      if(result !== null){
+        field.currencyType = result;
+      }
+      result=_formatExist(field, 'DateFormat');
+      if(result !== null){
+        field.dateFormat = result;
+      }
+      result=_formatExist(field, 'TimeFormat');
+      if(result !== null){
+        field.timeFormat = result;
+      }
+      result=_formatExist(field, 'TimePeriodFormat');
+      if(result !== null){
+        field.timeFormat = result;
+      }
+      result=_formatExist(field, 'MinValue');
+      if(result !== null){
+        field.minValue = result;
+      }
+      result=_formatExist(field, 'MaxValue');
+      if(result !== null){
+        field.maxValue = result;
+      }
+      result=_formatExist(field, 'Regexp');
+      if(result !== null){
+        field.regex = result;
+      }
+      result=_formatExist(field, 'Precision');
+      if(result !== null){
+        let resultPrescision = field.restrictions.findIndex(e => e.type === 'Precision');
+        let precision = _getPresicion(field);
+        field.restrictions[resultPrescision].value = precision;
+        field.precision = precision;
+      }
+      result=_formatExist(field, 'Scale');
+      if(result !== null){
+        field.scale = result;
+      }
+      return field;
+  }
+class UploadListController {
+  constructor(
+        $state,
+        $stateParams,
+        $filter,
+        ModalManager,
+        ListsService,
+        ConfirmAsync,
+        ContactFieldsService,
+        lodash,
+        FieldFormatter,
+        PromptDialog,
+        AlertDialog,
+        Utils,
+        EditListActions,
+        Global
+      ) {
       this.currentPage = 1;
       this.sortKey = '';
       this.reverse = false;
@@ -120,7 +137,7 @@ class ListComponent {
       this.isUpdate = true;
       this.global = Global;
       ctrl = this;
-      _ = lodash;
+      _lodash = lodash;
       _$state = $state;
       _$stateParams = $stateParams;
       _$filter = $filter;
@@ -132,42 +149,71 @@ class ListComponent {
       _ContactFieldsService = ContactFieldsService;
       _AlertDialog = AlertDialog;
       _Utils = Utils;
+      _EditListActions = EditListActions;
       this.listName = _$stateParams.name;
       this.sendContact = {listName: this.listName, importData: {values: []} };
-      this.listUpdateSettings = {
-        cleanListBeforeUpdate: false,
-        crmAddMode: 'ADD_NEW',
-        crmUpdateMode: 'UPDATE_FIRST',
-        listAddMode: 'ADD_FIRST'
-      };
+
+      this.listUpdateSettings = {};
       this.listDeleteSettings = {
         listDeleteMode: 'DELETE_ALL'
       };
-  }
+    }
 
-  $onInit(){
-    this.isUpdate = JSON.parse(_$stateParams.update);
-    this.getContactFields();
-  }
+    $onInit() {
+      let parentContactFields = this.parent.getContactField();
+      this.settings = this.parent.getSettings();
 
-  generateMapping(){
-    for (let i = 0; i < this.contactFields.length; i++) {
-      let key = false;
+      this.isUpdate = this.parent.isUpdate;
 
-      if (this.contactFields[i].name === 'number1') {
-        key=true;
-        this.contactFields[i].isKey = true;
+      if (_Utils.isUndefinedOrNull(parentContactFields)) {
+        this.getContactFields();
+      }
+      else {
+        this.mappingValidation(parentContactFields);
+      }
+    }
+
+    generateMapping() {
+      for (let i = 0; i < this.contactFields.length; i++) {
+        let key = false;
+
+        if (this.contactFields[i].name === 'number1') {
+          key=true;
+          this.contactFields[i].isKey = true;
+        }
+
+        this.fieldsMapping.push({
+                                  columnNumber: i+1,
+                                  fieldName: this.contactFields[i].name,
+                                  key: key
+                                });
+      }
+    }
+
+    mappingValidation(contactFields) {
+
+      if(this.isUpdate && this.settings.insertOnlyKeys) {
+        contactFields= _EditListActions.getFieldsKey(contactFields);
       }
 
-      this.fieldsMapping.push({
-                                columnNumber: i+1,
-                                fieldName: this.contactFields[i].name,
-                                key: key
-                              });
+      this.contactFields = contactFields.map(_getSets).map(_extractFormats);
+      this.generateFieldsMapping();
+      this.loaded = true;
     }
-  }
 
-  getContactFields() {
+    generateFieldsMapping() {
+      let fieldsMapping = [];
+
+      _lodash.forEach(this.contactFields, (value, index) => (fieldsMapping.push({
+          columnNumber: index + 1,
+          fieldName: value.name,
+          key: value.isKey
+      })));
+
+      this.fieldsMapping = fieldsMapping;
+    }
+
+    getContactFields() {
     return _ContactFieldsService.getContactFields()
     .then(response => {
         this.contactFields = response.data.filter(e => (e.mapTo === 'None'));
@@ -206,12 +252,13 @@ class ListComponent {
           return false;
       }
   }
+
   shuffleList(){
     return _ConfirmAsync('Really shuffle this list?')
           .then(() => {
             this.selectedArray = [];
             this.contact = {};
-            this.list = _.shuffle(this.list);
+            this.list = _lodash.shuffle(this.list);
           })
           .catch(() => {
               return false;
@@ -259,18 +306,18 @@ class ListComponent {
 
   deleteContact(){
     return _ConfirmAsync('Delete selected row(s)?')
-          .then(() => {
-            let tempList = this.list.filter((el, key)=>{
-            return (this.selectedArray.indexOf(key) === -1);
-            });
+      .then(() => {
+        let tempList = this.list.filter((el, key)=>{
+          return (this.selectedArray.indexOf(key) === -1);
+        });
 
-            this.list = tempList;
-            this.selectedArray = [];
-            this.contact = {};
-          })
-          .catch(() => {
-              return false;
-          });
+        this.list = tempList;
+        this.selectedArray = [];
+        this.contact = {};
+      })
+      .catch(() => {
+        return false;
+      });
   }
 
   openModal(){
@@ -304,7 +351,7 @@ class ListComponent {
             else{
               this.selectedContact(tmpSelected, result);
             }
-            
+
 
         }, ()=>{
           this.selectedArray = [];
@@ -328,13 +375,14 @@ class ListComponent {
         return item;
     });
 
-    _.each(mainList,e=>{
-      this.sendContact.importData.values.push({item: _.values(e)});
+    _lodash.each(mainList,e=>{
+      this.sendContact.importData.values.push({item: _lodash.values(e)});
     });
 
     this.sending = true;
 
     if (this.isUpdate) {
+      this.listUpdateSettings = _EditListActions.getSettingsUpdate(this.settings);
       this.listUpdateSettings.fieldsMapping = this.fieldsMapping;
       this.sendContact.listUpdateSettings = this.listUpdateSettings;
     }
@@ -394,7 +442,7 @@ class ListComponent {
       return map;
     }, {});
     let rows = [];
-    _.each(this.list, (contact, index) => {
+    _lodash.each(this.list, (contact, index) => {
       let item = [];
       if(invalids[contact.number1]){
         item.push('Number1');
@@ -454,11 +502,29 @@ class ListComponent {
     });
   }
 }
-ListComponent.$inject = ['$state', '$stateParams', '$filter', 'ModalManager', 'ListsService', 'ConfirmAsync', 'ContactFieldsService', 'lodash', 'FieldFormatter', 'PromptDialog', 'AlertDialog', 'Utils', 'Global'];
+  UploadListController.$inject = [
+  '$state',
+  '$stateParams',
+  '$filter',
+  'ModalManager',
+  'ListsService',
+  'ConfirmAsync',
+  'ContactFieldsService',
+  'lodash',
+  'FieldFormatter',
+  'PromptDialog',
+  'AlertDialog',
+  'Utils',
+  'EditListActions',
+  'Global'
+];
 angular.module('fakiyaMainApp')
-  .component('al.lists.edit.list', {
-    templateUrl: 'app/features/al/lists/edit/step3-list/step3-list.html',
-    controller: ListComponent
+  .component('alUploadList', {
+    require: {
+      parent: '^al.lists.edit'
+    },
+    templateUrl: 'app/features/al/lists/edit/upload/upload.html',
+    controller: UploadListController
   });
 
 })();
