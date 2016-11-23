@@ -146,26 +146,26 @@
 		<div class="col-md-6">
 			<input placeholder="FIRST NAME *" type="text" name="firstName" maxlength="50" ng-model="$ctrl.cform.firstName" class="form-control autobox-textfield textfield-small center-block" 
 				required>
-			<div ng-messages="contactForm.$submitted && contactForm.firstName.$error" class="errors-texts">		
+			<div ng-messages="(contactForm.firstName.$dirty && contactForm.firstName.$error) || (contactForm.$submitted && contactForm.firstName.$error) " class="errors-texts">		
 				<p ng-message="required">This field is required</p>
 			</div>
 		</div>
 		<div class="col-md-6">	
 			<input placeholder="LAST NAME *" type="text" maxlength="50" name="lastName" ng-model="$ctrl.cform.lastName"  class="form-control autobox-textfield textfield-small center-block" required>
-			<div ng-messages="contactForm.$submitted && contactForm.lastName.$error" class="errors-texts"> 		
+			<div ng-messages="(contactForm.lastName.$dirty && contactForm.lastName.$error) || (contactForm.$submitted && contactForm.lastName.$error)" class="errors-texts"> 		
 				<p ng-message="required">This field is required</p>
 			</div>			
-		</div>
-		<div class="col-md-6">
-			<input  placeholder="BUSSINESS EMAIL *" type="email" name="email" ng-model="$ctrl.cform.businessEmail" maxlength="50" ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/"  class="form-control autobox-textfield textfield-small center-block" required>
-			<div ng-messages="contactForm.$submitted && contactForm.email.$error" class="errors-texts">		
+		</div>  
+		<div class="col-md-6"> 
+			<input  placeholder="BUSSINESS EMAIL *" type="email" name="email" ng-model="$ctrl.cform.businessEmail" ng-model-options="{ updateOn: 'default' , allowInvalid:'true'}" ng-change="$ctrl.changeToLowerCase()" maxlength="50" ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/"  class="form-control autobox-textfield textfield-small center-block" required >
+			<div ng-messages="(contactForm.email.$dirty && contactForm.email.$error) || (contactForm.$submitted && contactForm.email.$error)" class="errors-texts">		
 				<p ng-message="required">This field is required</p>
 				<p ng-message="pattern">Invalid email</p>
 			</div>
 		</div>
 		<div class="col-md-6">	
 			<input placeholder="PHONE" type="tel" ng-minlength="10" ng-maxlength="20" maxlength="20" name="tel" ng-model="$ctrl.cform.phone" abx-digits-only class="form-control autobox-textfield textfield-small center-block">
-			<div ng-messages="contactForm.tel.$error" class="errors-texts">
+			<div ng-messages="(contactForm.tel.$dirty && contactForm.tel.$error) || (contactForm.$submitted && contactForm.tel.$error)" class="errors-texts">
 				<p ng-message="minlength">Invalid phone number</p>   
         <p ng-message="maxlength">max digits 20</p>   
 			</div>
@@ -178,8 +178,8 @@
 	</div>
   <div class="row"  style="margin-bottom: 30px;">
     <div class="col-md-12">
-      <textarea placeholder="MESSAGE *" maxlength="250" rows="1" data-min-rows="1" name="message" ng-model="$ctrl.cform.message"  class="form-control autobox-textfield center-block auto-expand" required ></textarea>
-      <div ng-messages="contactForm.$submitted && contactForm.message.$error" class="errors-texts">   
+      <textarea placeholder="MESSAGE *" maxlength="250" rows="1" name="message" ng-model="$ctrl.cform.message"  class="form-control autobox-textfield center-block auto-expand" required ></textarea>
+      <div ng-messages="(contactForm.message.$dirty && contactForm.message.$error) || (contactForm.$submitted && contactForm.message.$error)" class="errors-texts">   
         <p ng-message="required">This field is required</p>
       </div>
     </div>
@@ -264,19 +264,18 @@
   </div>
 </div>
 <script type="text/javascript">
+var textarea = document.querySelector('textarea');
+textarea.addEventListener('keydown', autosize);
 
-$(document)
-    .one('focus.auto-expand', 'textarea.auto-expand', function(){
-        var savedValue = this.value;
-        this.value = '';
-        this.baseScrollHeight = this.scrollHeight;
-        this.value = savedValue;
-    })
-    .on('input.auto-expand', 'textarea.auto-expand', function(){ 
-        var minRows = this.getAttribute('data-min-rows')|0, rows;
-        this.rows = minRows;
-        rows = Math.ceil((this.scrollHeight - this.baseScrollHeight) / 17);
-        this.rows = minRows + rows;
-    });
-
+function autosize(){
+  var el = this;
+  setTimeout(function(){
+    el.style.cssText = 'height:auto; padding:0';
+     if (navigator.userAgent.indexOf("Firefox") > 0) {
+        el.style.cssText = 'height:' + (el.scrollHeight+12) + 'px';
+     }else{
+        el.style.cssText = 'height:' + (el.scrollHeight+2) + 'px';
+     } 
+  },0);
+}
 </script>
