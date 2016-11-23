@@ -105,6 +105,17 @@ Ew==
 6. Restart Docker to make sure it reloads the system's CA certificates:
 >~$ sudo service docker restart
 
+## Instructions to generate a WEB docker image
+1. Build project
+>~$ grunt build
+2. Generate image with push-to-registry script
+>~$ sudo ./push-to-registry.sh -m prod -e staging
+NOTE: Below are all possible and valid combinations for the script arguments
+push-to-registry.sh -m prod -e staging -v 0.2		Creates an staging image with version tag
+push-to-registry.sh -m prod -e staging				Creates an staging image with latest tag
+push-to-registry.sh -m prod -e prod -v 0.2			Creates a production image with version tag
+push-to-registry.sh -m prod -e prod					Creates a production image with latest tag
+
 ## Intructions to pull and run the project images:
 1. Login into the docker registry (Ask for credentials to the registry administrator):
 >~$ docker login https://74.208.171.144
