@@ -1,6 +1,6 @@
 (function(){
   'use strict';
-  let _ConfirmAsync, _ListService, _, _ContactFieldsService, ctrl, _FieldFormatter, _UtilsList ,_Utils, _$state, _$stateParams,
+  let _ConfirmAsync, _ListService, _lodash, _ContactFieldsService, ctrl, _FieldFormatter, _EditListActions ,_Utils, _$state, _$stateParams,
       _$filter, _ModalManager, _PromptDialog, _AlertDialog, _phones, _registeredPhones;
 
   const DNC_ERROR_MESSAGE = {title: 'DNC Scrub', body: 'All your records have been found valid.\nYou may continue uploading the list.'};
@@ -13,7 +13,7 @@
   function _loadPhones(list){
     _phones = [];
     _registeredPhones = [];
-    _.each(list, contact => {
+    _lodash.each(list, contact => {
       _registerPhone(contact, 'number1');
       _registerPhone(contact, 'number2');
       _registerPhone(contact, 'number3');
@@ -38,14 +38,14 @@
     if(!field.restrictions){
         return null;
       }
-    let result = _.find(field.restrictions, e => e.type === key);
+    let result = _lodash.find(field.restrictions, e => e.type === key);
 
     return result?result.value:null;
   }
 
   function _getPresicion(field){
-    let resultPrescision = _.find(field.restrictions, e => e.type === 'Precision');
-    let resultScale = _.find(field.restrictions, e => e.type === 'Scale');
+    let resultPrescision = _lodash.find(field.restrictions, e => e.type === 'Precision');
+    let resultScale = _lodash.find(field.restrictions, e => e.type === 'Scale');
     if(resultScale){
       return resultPrescision.value*1-resultScale.value*1;
     }
@@ -110,7 +110,7 @@ class UploadListController {
         PromptDialog,
         AlertDialog,
         Utils,
-        UtilsList,
+        EditListActions,
         Global
       ) {
       this.currentPage = 1;
@@ -137,7 +137,7 @@ class UploadListController {
       this.isUpdate = true;
       this.global = Global;
       ctrl = this;
-      _ = lodash;
+      _lodash = lodash;
       _$state = $state;
       _$stateParams = $stateParams;
       _$filter = $filter;
@@ -149,7 +149,7 @@ class UploadListController {
       _ContactFieldsService = ContactFieldsService;
       _AlertDialog = AlertDialog;
       _Utils = Utils;
-      _UtilsList = UtilsList;
+      _EditListActions = EditListActions;
       this.listName = _$stateParams.name;
       this.sendContact = {listName: this.listName, importData: {values: []} };
 
@@ -160,10 +160,10 @@ class UploadListController {
     }
 
     $onInit() {
-      let parentContactFields = this.parentComp.getContactField();
-      this.settings = this.parentComp.getSettings();
+      let parentContactFields = this.parent.getContactField();
+      this.settings = this.parent.getSettings();
 
-      this.isUpdate = this.parentComp.isUpdate;
+      this.isUpdate = this.parent.isUpdate;
 
       if (_Utils.isUndefinedOrNull(parentContactFields)) {
         this.getContactFields();
@@ -193,7 +193,7 @@ class UploadListController {
     mappingValidation(contactFields) {
 
       if(this.isUpdate && this.settings.insertOnlyKeys) {
-        contactFields= _UtilsList.getFieldsKey(contactFields);
+        contactFields= _EditListActions.getFieldsKey(contactFields);
       }
 
       this.contactFields = contactFields.map(_getSets).map(_extractFormats);
@@ -204,7 +204,7 @@ class UploadListController {
     generateFieldsMapping() {
       let fieldsMapping = [];
 
-      _.forEach(this.contactFields, (value, index) => (fieldsMapping.push({
+      _lodash.forEach(this.contactFields, (value, index) => (fieldsMapping.push({
           columnNumber: index + 1,
           fieldName: value.name,
           key: value.isKey
@@ -258,7 +258,7 @@ class UploadListController {
           .then(() => {
             this.selectedArray = [];
             this.contact = {};
-            this.list = _.shuffle(this.list);
+            this.list = _lodash.shuffle(this.list);
           })
           .catch(() => {
               return false;
@@ -375,14 +375,14 @@ class UploadListController {
         return item;
     });
 
-    _.each(mainList,e=>{
-      this.sendContact.importData.values.push({item: _.values(e)});
+    _lodash.each(mainList,e=>{
+      this.sendContact.importData.values.push({item: _lodash.values(e)});
     });
 
     this.sending = true;
 
     if (this.isUpdate) {
-      this.listUpdateSettings = _UtilsList.getSettingsUpdate(this.settings);
+      this.listUpdateSettings = _EditListActions.getSettingsUpdate(this.settings);
       this.listUpdateSettings.fieldsMapping = this.fieldsMapping;
       this.sendContact.listUpdateSettings = this.listUpdateSettings;
     }
@@ -442,7 +442,7 @@ class UploadListController {
       return map;
     }, {});
     let rows = [];
-    _.each(this.list, (contact, index) => {
+    _lodash.each(this.list, (contact, index) => {
       let item = [];
       if(invalids[contact.number1]){
         item.push('Number1');
@@ -515,13 +515,13 @@ class UploadListController {
   'PromptDialog',
   'AlertDialog',
   'Utils',
-  'UtilsList',
+  'EditListActions',
   'Global'
 ];
 angular.module('fakiyaMainApp')
   .component('alUploadList', {
     require: {
-      parentComp: '^al.lists.edit'
+      parent: '^al.lists.edit'
     },
     templateUrl: 'app/features/al/lists/edit/upload/upload.html',
     controller: UploadListController

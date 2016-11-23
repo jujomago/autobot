@@ -6,10 +6,6 @@ describe('Controller: alSettingList', function () {
   beforeEach(module('fakiyaMainApp'));
 
   let SettingsComponent,
-      endPointUrl,
-      _$httpBackend,
-      _$scope,
-      _$state,
       _$stateParams,
       ParentComponent,
       PromptDialog,
@@ -23,7 +19,7 @@ describe('Controller: alSettingList', function () {
     $stateParams,
     _PromptDialog_,
     _Utils_,
-    _UtilsList_,
+    _EditListActions_,
     _lodash_) {
 
     _$stateParams = $stateParams;
@@ -52,10 +48,10 @@ describe('Controller: alSettingList', function () {
       $stateParams: _$stateParams,
       PromptDialog: PromptDialog,
       Utils: _Utils_,
-      UtilsList: _UtilsList_
+      EditListActions: _EditListActions_
     });
 
-    SettingsComponent.parentComp = ParentComponent;
+    SettingsComponent.parent = ParentComponent;
   }));
 
   describe('#InitComponentSettings', () => {
@@ -72,7 +68,7 @@ describe('Controller: alSettingList', function () {
         cleanListBeforeUpdate: true,
         isCrmUpdate: false,
       };
-      SettingsComponent.parentComp.setSettings(storageSetting);
+      SettingsComponent.parent.setSettings(storageSetting);
       SettingsComponent.$onInit();
       expect(SettingsComponent.settings).to.deep.equal(storageSetting);
     });
@@ -81,7 +77,7 @@ describe('Controller: alSettingList', function () {
   describe('#SendConfigurationSettings', () => {
     let saveSettings;
 
-    before(() => {
+    beforeEach(() => {
       saveSettings  = {
         listAddMode: 'ADD_FIRST',
         crmAddMode: 'ADD_NEW',
@@ -96,7 +92,7 @@ describe('Controller: alSettingList', function () {
 
       SettingsComponent.$onInit();
       SettingsComponent.sendConfiguration();
-      expect(SettingsComponent.parentComp.getSettings()).to.deep.equal(saveSettings);
+      expect(SettingsComponent.parent.getSettings()).to.deep.equal(saveSettings);
     });
 
     it('should save configuration settings to show only keys when is not selected Update/Add Contact', () => {
@@ -110,7 +106,7 @@ describe('Controller: alSettingList', function () {
       SettingsComponent.settings.crmAddMode = 'DONT_ADD';
 
       SettingsComponent.sendConfiguration();
-      expect(SettingsComponent.parentComp.getSettings()).to.deep.equal(saveSettings);
+      expect(SettingsComponent.parent.getSettings()).to.deep.equal(saveSettings);
     });
 
     it('should show confirmation message after to save', () => {
@@ -119,8 +115,7 @@ describe('Controller: alSettingList', function () {
       SettingsComponent.settings.crmUpdateMode = 'UPDATE_ALL';
 
       SettingsComponent.sendConfiguration();
-      expect(PromptDialog.open).to.have.been.calledOnce;
-      expect(SettingsComponent.parentComp.getSettings()).to.be.null;
+      expect(SettingsComponent.parent.getSettings()).to.be.equal(null);
     });
   });
 });

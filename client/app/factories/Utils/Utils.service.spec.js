@@ -15,15 +15,15 @@ describe('Service:Utils', function () {
     it('should return true/false if value is Null or Undefined', function () {
       let object = {};
 
-      expect(Utils.isUndefinedOrNull(object)).to.be.false;
-      expect(Utils.isUndefinedOrNull(object.data)).to.be.true;
+      expect(Utils.isUndefinedOrNull(object)).to.be.equal(false);
+      expect(Utils.isUndefinedOrNull(object.data)).to.be.equal(true);
     });
 
     it('should set/get Object', function () {
       let object = {};
 
       Utils.setDataListAction(object);
-      expect(Utils.isUndefinedOrNull(Utils.getDataListAction())).to.be.false;
+      expect(Utils.isUndefinedOrNull(Utils.getDataListAction())).to.be.equal(false);
     });
   });
 });

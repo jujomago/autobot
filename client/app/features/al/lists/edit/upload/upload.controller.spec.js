@@ -175,7 +175,7 @@ describe('Component: alUploadList', function () {
         crmAddMode: 'ADD_NEW',
         crmUpdateMode: 'UPDATE_FIRST',
         cleanListBeforeUpdate: false
-      }
+      };
     });
 
     it('Should insert records', () => {

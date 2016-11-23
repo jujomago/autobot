@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-    let _,
+    let _lodash,
         _$state,
         _$stateParams;
 
@@ -10,7 +10,7 @@
             $stateParams,
             lodash) {
 
-            _ = lodash;
+            _lodash = lodash;
             _$state = $state;
             _$stateParams = $stateParams;
             this.name = _$stateParams.name;
@@ -76,7 +76,7 @@
             let previous = (this.isFirstStep()) ? 0 : 1,
                 indexPre = this.currentStep.index - previous;
 
-            this.currentStep = _.find(this.STEPS, function (value) {
+            this.currentStep = _lodash.find(this.STEPS, function (value) {
               return value.index === indexPre;
             });
         }
@@ -85,7 +85,7 @@
         handleNext() {
             let indexNext = this.currentStep.index + 1;
 
-            this.currentStep = _.find(this.STEPS, function (value) {
+            this.currentStep = _lodash.find(this.STEPS, function (value) {
                 return value.index === indexNext;
             });
         }

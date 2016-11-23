@@ -3,17 +3,17 @@
 
     let _ContactFieldsService,
         _Utils,
-        _UtilsList;
+        _EditListActions;
 
     class MappingListController {
         constructor(
             ContactFieldsService,
             Utils,
-            UtilsList
+            EditListActions
             ) {
             _ContactFieldsService = ContactFieldsService;
             _Utils = Utils;
-            _UtilsList = UtilsList;
+            _EditListActions = EditListActions;
             this.contactFields = [];
             this.message = { show: false };
             this.loadingContacts = true;
@@ -30,7 +30,7 @@
 
                     if (response.statusCode === 200) {
                         this.contactFields = _Utils.isUndefinedOrNull(response.data) ?
-                                            [] : _UtilsList.loadDefaultKey(response.data);
+                                            [] : _EditListActions.loadDefaultKey(response.data);
                     }
                     else {
                         this.message = { show: true, type: 'warning', text: response.errorMessage };
@@ -46,7 +46,7 @@
         }
 
         handlePrevious() {
-            this.parentComp.handlePrevious();
+            this.parent.handlePrevious();
         }
 
         //FINISH MAPPING
@@ -54,8 +54,8 @@
             let countKeys = _.filter(this.contactFields, {'isKey': true}).length;
 
             if (countKeys > 0 && countKeys < 13) {
-                this.parentComp.setContactField(this.contactFields);
-                this.parentComp.handleNext();
+                this.parent.setContactField(this.contactFields);
+                this.parent.handleNext();
             }
             else {
                 let messageText;
@@ -71,13 +71,13 @@
   MappingListController.$inject = [
         'ContactFieldsService',
         'Utils',
-        'UtilsList'
+        'EditListActions'
     ];
 
     angular.module('fakiyaMainApp')
         .component('alMappingList', {
             require: {
-              parentComp: '^al.lists.edit'
+              parent: '^al.lists.edit'
             },
             templateUrl: 'app/features/al/lists/edit/mapping/mapping.html',
             controller: MappingListController

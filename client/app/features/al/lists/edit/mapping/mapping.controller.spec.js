@@ -20,7 +20,7 @@ describe('Component: alMappingList', function () {
       _ContactFieldsService_,
       _ListsService_,
       _Utils_,
-      _UtilsList_,
+      _EditListActions_,
       appConfig,
       _lodash_) {
 
@@ -52,10 +52,10 @@ describe('Component: alMappingList', function () {
       MappingComponent = $componentController('alMappingList', {
         ContactFieldsService: contactFieldService,
         Utils: _Utils_,
-        UtilsList: _UtilsList_
+        EditListActions: _EditListActions_
       });
 
-      MappingComponent.parentComp = ParentComponent;
+      MappingComponent.parent = ParentComponent;
 
       _$httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
     }));
@@ -255,7 +255,7 @@ describe('Component: alMappingList', function () {
       MappingComponent.contactFields[2].isKey = true;
       MappingComponent.contactFields[3].isKey = true;
       MappingComponent.handleFinish();
-      expect(MappingComponent.parentComp.getContactField()).to.deep.equal(EXPECTED);
+      expect(MappingComponent.parent.getContactField()).to.deep.equal(EXPECTED);
     });
   });
 });

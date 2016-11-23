@@ -2,8 +2,7 @@
 
 describe('Component:EditList', function () {
   let _$stateParams,
-      EditComponent,
-      Utils;
+      EditComponent;
 
   beforeEach(module('fakiyaMainApp'));
 
@@ -29,7 +28,7 @@ describe('Component:EditList', function () {
     it('should set current step Setting when update is selected', () => {
       EditComponent.$onInit();
 
-      expect(EditComponent.isUpdate).to.be.true;
+      expect(EditComponent.isUpdate).to.be.equal(true);
       expect(EditComponent.currentStep).to.deep.equal(EditComponent.STEPS.SETTING);
     });
 
@@ -59,9 +58,9 @@ describe('Component:EditList', function () {
 
     it('should be true if is a first Step', () => {
       EditComponent.$onInit();
-      expect(EditComponent.isFirstStep()).to.be.true;
+      expect(EditComponent.isFirstStep()).to.be.equal(true);
       EditComponent.handleNext();
-      expect(EditComponent.isFirstStep()).to.be.false;
+      expect(EditComponent.isFirstStep()).to.be.equal(false);
     });
 
     it('should return current step key', () => {

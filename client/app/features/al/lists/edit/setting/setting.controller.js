@@ -4,21 +4,21 @@
     let _$stateParams,
         _PromptDialog,
         _Utils,
-        _UtilsList;
+        _EditListActions;
 
     class SettingListController {
         constructor(
             $stateParams,
             PromptDialog,
             Utils,
-            UtilsList) {
+            EditListActions) {
 
             _$stateParams = $stateParams;
             _PromptDialog = PromptDialog;
             _Utils = Utils;
-            _UtilsList = UtilsList;
+            _EditListActions = EditListActions;
 
-            this.MODE_ACTION = _UtilsList.getConstantsUpdate();
+            this.MODE_ACTION = _EditListActions.getConstantsUpdate();
             this.name = _$stateParams.name;
             this.advancedOptions = {isCollapsed: true};
             this.defaultUpdateSettings = {
@@ -28,12 +28,12 @@
                 crmUpdateMode: this.MODE_ACTION.CRM.UPDATE_FIRST,
                 cleanListBeforeUpdate: false
             };
-            this.MESSAGE_UPDATE_ALL_MATCH = _UtilsList.getSettingMessage();
+            this.MESSAGE_UPDATE_ALL_MATCH = _EditListActions.getSettingMessage();
             this.settings = {};
         }
 
         $onInit() {
-            let settingsLoaded = this.parentComp.getSettings();
+            let settingsLoaded = this.parent.getSettings();
 
             this.settings = _Utils.isUndefinedOrNull(settingsLoaded) ?
                             this.defaultUpdateSettings : settingsLoaded;
@@ -56,12 +56,12 @@
         }
 
         saveSetting() {
-          this.parentComp.setSettings(this.settings);
-          this.parentComp.handleNext();
+          this.parent.setSettings(this.settings);
+          this.parent.handleNext();
         }
 
         cancel() {
-            this.parentComp.cancel();
+            this.parent.cancel();
         }
     }
 
@@ -69,13 +69,13 @@
         '$stateParams',
         'PromptDialog',
         'Utils',
-        'UtilsList'
+        'EditListActions'
     ];
 
     angular.module('fakiyaMainApp')
         .component('alSettingList', {
             require: {
-                parentComp: '^al.lists.edit'
+                parent: '^al.lists.edit'
             },
             templateUrl: 'app/features/al/lists/edit/setting/setting.html',
             controller: SettingListController
