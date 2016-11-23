@@ -191,6 +191,15 @@ class NavbarController {
     return isCollapsed;
   }
 
+  hideSubMenuOnClick(obj,submenu){  
+    if(submenu==='myapps'){
+      this.myAppsCollapsed=(obj.target.id!=='submenu-search');   
+    } 
+    if(submenu==='reports'){
+      this.reportsCollapsed=true;   
+    } 
+}
+
 }
 
 NavbarController.$inject=['$filter','$parse' , '$location', '$state','lodash', 'AuthService', 'AppsService', 'Base64Manager', 'GetHomePage','AlertDialog', 'EventBus', 'RefreshToken'];
