@@ -1,49 +1,53 @@
-html, body, #main-container,  #main-container > .container-fluid{
+html, body, #main-container{
     height: 100%;
 }
-
-// ###### ALL LINKS
-a {
-    color: @blue;
-    text-decoration: none;
-    &:hover,&:focus,&:active {
-        color: @blueforte;
-        text-decoration: none;
-    }
-
-}
-@fullHeightContainer:@height_navbar+@height_footer;
+// @fullHeightContainer:@height_navbar+@height_footer;
 .app-container-theme{
-    margin-top: @height_navbar;
-    min-height: ~"calc(100% - @{fullHeightContainer})";
+    padding-top: @height_navbar;
+    min-height: ~"calc(100% - @{height_footer})";
 }
-
-footer{
-    text-align: center;
-    height: @height_footer;
-    background:@black;
-    display: block;
-    padding-top: 13px;
-    color: white;
-    position: relative;
-    z-index: 10;
-    margin-left: 0;
-    margin-right: 0;
-    p{
-        margin: 0;  
-        position: absolute;  
+.autobox-theme{
+    height: 100%;
+    // ###### ALL LINKS
+    a {
+        color: @blue;
+        text-decoration: none;
+        &:hover,&:focus,&:active {
+            color: @blueforte;
+            text-decoration: none;
+        }
     }
-}
+
+
+    footer{
+        text-align: center;
+        height: @height_footer;
+        background:@black;
+        display: block;
+        padding-top: 13px;
+        color: white;
+        position: relative;
+        z-index: 10;
+        margin-left: 0;
+        margin-right: 0;
+        p{
+            margin: 0;  
+            position: absolute;  
+        }
+    }
+
 .navbar{
     height: @height_navbar;   
     background:@black; 
     font-size: 16px;
     padding:0 50px;
     margin:0;
+    border:0;
     .centerSubmenu{
         position: absolute;   
         left: 20%;
         right: 20%;
+        border:0;
     }
     .navbar-nav{
         height: 100%;   
@@ -221,20 +225,6 @@ footer{
     background: transparent;     
   }
 } 
-/*
-.submenucustomize{
-  .positionCustomize {
-    position: static;
-  }
-  .navbar-nav .centerSubmenu{
-    position: absolute;   
-    left: 20%;
-    right: 20%;
-  }
-}
-.fixed-margin-50{
-    margin-right: 50px;
-}*/
 .dropdown{
     &>a.options-container{
       &>img{
@@ -252,15 +242,13 @@ footer{
     display: inline-block;
     vertical-align: middle;
     margin-bottom: 0;
-   /*/ &.aligned-items{      
-      padding-top: 3px;
-    }*/
+
     &:hover,&:focus,&:active {
       color: @blue;
     }
 }
 
-
+/*
 .navbar .navbar-nav{
   >li{  
     &:hover,&:active,&.active{     
@@ -270,7 +258,7 @@ footer{
     }
   }
 }
-
+*/
 .nav-icons{
   &.nav.navbar-nav{
     margin-right: 0;
@@ -556,4 +544,5 @@ footer{
 .box-footer{
   margin-left: 50px;
   margin-right: 50px;
+}
 }
