@@ -9,6 +9,9 @@
 		p, select, input, a, div{
 			font-family: ProximaNovaRegular;
 		}
+		a.link-disabled{
+			pointer-events: none;
+		}
 		.rqa-body{
 			margin-bottom: 65px;
 			display: block;		
@@ -31,7 +34,8 @@
 				    background: white;
 				    height: 100%;
 				    float: right;
-				    
+				    overflow: auto;
+				    transition: all 2s linear;
 				    .filters-header{
 				    	margin-bottom: 20px;
 				    	padding-left: 20px;
@@ -45,6 +49,7 @@
 				    	}
 				    }
 				    .filters-body{
+				    	height: ~"calc(100% - 80px)";
 				    	padding-left: 20px;
 				    	padding-right: 20px;
 				    }
@@ -57,6 +62,8 @@
 				    .filters-container{
 				    	display: inline-block;
 				    	width: 100%;
+				    	height: ~"calc(100% - 86px)";
+   						overflow: auto;
 				    	.filter-box{
 				    		height: 58px;
 				    		width: 100%;
@@ -64,6 +71,10 @@
 				    		display: inline-block;
 				    		background: #f7f7f7;
 				    		margin-bottom: 10px;
+				    		cursor: pointer;
+				    		&.active{
+				    			background: #EFF8FC;
+				    		}
 				    		.close-button{
 				    			cursor: pointer;
 				    			color: #999;
@@ -82,19 +93,26 @@
 				    		}
 				    	}
 				    }
-				    &.ng-hide{
-				    	transition: visibility 0s, opacity 0.5s linear;
-					}
+
 					.popover{
-						&.left-top{
-							.popover-content{
+						.popover-content{
 								padding: 0;
-							}
+						}
+						&.left-top{
+							
 							width: 280px;
 							margin-left: -20px !important;
 							margin-top: -18px;
 							div.arrow{
 								margin-top: 15px !important;
+							}
+						}
+						&.left-bottom{
+							width: 280px;
+							margin-top: 10px;
+							margin-left: -20px !important;
+							div.arrow{
+								margin-bottom: 5px !important;
 							}
 						}
 					}
@@ -140,6 +158,28 @@
 			height: 30px;
 			background: #ffffff;
 			border: 0;
+			&.active{
+				background: #37a3dc;
+				.rqa-refresh{
+					background: url('@{image_buttons_rqa_path}/refresh-active.png') no-repeat center center;
+				}
+				.rqa-reports{
+					background: url('@{image_buttons_rqa_path}/reports-active.png') no-repeat center center;
+				}
+				.rqa-filter{
+					background: url('@{image_buttons_rqa_path}/filter-active.png') no-repeat center center;
+				}
+			}
+			.rqa-refresh{
+				background: url('@{image_buttons_rqa_path}/refresh.png') no-repeat center center;
+			}
+			.rqa-reports{
+				background: url('@{image_buttons_rqa_path}/reports.png') no-repeat center center;
+			}
+			.rqa-filter{
+				background: url('@{image_buttons_rqa_path}/filter.png') no-repeat center center;
+			}
+
 		}
 		.title-container{
 			display: inline-block;
@@ -164,24 +204,6 @@
 		}
 		.rqa-search{
 			background: url('@{image_buttons_rqa_path}/search.png') no-repeat center center;
-		}
-		.rqa-refresh{
-			background: url('@{image_buttons_rqa_path}/refresh.png') no-repeat center center;
-			&:focus,&:hover, &:active{
-				background: url('@{image_buttons_rqa_path}/refresh-active.png') no-repeat center center;
-			}
-		}
-		.rqa-reports{
-			background: url('@{image_buttons_rqa_path}/reports.png') no-repeat center center;
-			&:focus,&:hover, &:active{
-				background: url('@{image_buttons_rqa_path}/reports-active.png') no-repeat center center;
-			}
-		}
-		.rqa-filter{
-			background: url('@{image_buttons_rqa_path}/filter.png') no-repeat center center;
-			&:focus,&:hover, &:active{
-				background: url('@{image_buttons_rqa_path}/filter-active.png') no-repeat center center;
-			}
 		}
 	}
 }

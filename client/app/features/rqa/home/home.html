@@ -12,7 +12,7 @@
 				<button class="icon-button">
 					<span class="rqa-icon rqa-reports"></span>
 				</button>
-				<button class="icon-button" ng-click="$ctrl.switchFilters()">
+				<button class="icon-button" ng-click="$ctrl.switchFilters()" ng-class="{'active': $ctrl.open}">
 					<span class="rqa-icon rqa-filter"></span>
 				</button>
 			</div>
@@ -29,21 +29,21 @@
 			<div class="filters-body">
 				<div class="links-container">
 					<div class="pull-left">
-						<a href uib-popover-template="'filter'" popover-class="abx-popover" popover-trigger="outsideClick" popover-placement="left-top" popover-is-open="$ctrl.isOpen" abx-hide-on-resize>Add filter</a>
+						<a href ng-class="{'link-disabled': $ctrl.notUsedFilters.length===0}" uib-popover-template="'filter'" popover-class="abx-popover" popover-trigger="outsideClick" popover-placement="left-top" popover-is-open="$ctrl.openedPopups['default']" ng-click="$ctrl.selectPopover()" abx-auto-placement-popover>Add filter</a>
 					</div>
 					<div class="pull-right">
-						<a href>Remove All</a>
+						<a href ng-click="$ctrl.removeAllFilters()">Remove All</a>
 					</div>
 				</div>
 				<div class="filters-container">
-					<div class="filter-box">
+					<div class="filter-box" uib-popover-template="'date-filter'" popover-class="abx-popover" popover-trigger="outsideClick" popover-placement="left-top" popover-is-open="$ctrl.openedPopups['date']" ng-click="$ctrl.selectDate()" ng-class="{'active': $ctrl.openedPopups['date']}" abx-auto-placement-popover>
 						<p class="title">Date</p>
-						<p class="value">Last Hour</p>
+						<p class="value">{{$ctrl.selectedDate.key}}</p>
 					</div>
-					<div class="filter-box">
-						<div class="pull-right close-button">X</div>
-						<p class="title">Date</p>
-						<p class="value">Last Hour</p>
+					<div class="filter-box" popover-is-open="$ctrl.openedPopups[filter.key]" ng-class="{'active': $ctrl.openedPopups[filter.key]}" ng-click="$ctrl.selectPopover(filter)" ng-repeat="filter in $ctrl.usedFilters track by $index" uib-popover-template="'filter'" popover-class="abx-popover" popover-trigger="outsideClick" popover-placement="left-top" abx-auto-placement-popover>
+						<div class="pull-right close-button" ng-click="$ctrl.removeFilter(filter); $event.stopPropagation();">X</div>
+						<p class="title">{{$ctrl.getDisplayName(filter.key)}}</p>
+						<p class="value">{{filter.value}}</p>
 					</div>
 				</div>
 			</div>
@@ -59,7 +59,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="call in $ctrl.calls">
+					<tr ng-repeat="call in $ctrl.calls | filter: $ctrl.getFilters()">
 						<td>
 							{{call['TIMESTAMP']}}
 						</td>
@@ -107,15 +107,31 @@
 -->
 <!-- POPUP TEMPLATES -->
 <script id="filter" type="text/ng-template">
-    <div class="form-group filter-popup">
-    	<label>Filter</label>
-    	<select>
-    		<option>Campaign</option>
-    	</select>
-    	<label>Value</label>
-    	<input type="text" autofocus="">
-    	<div class="button-container">
-    		<button class="btn btn-blue">Apply</button>
-    	</div>
-    </div>
+    <form name="filterForm" ng-submit="filterForm.$valid && $ctrl.applyFilter($ctrl.selectedPopover)" novalidate>
+	    <div class="form-group filter-popup">
+	    	<label>Filter</label>
+	    	<select ng-options="$ctrl.getDisplayName(item.key) for item in $ctrl.availablesFilters" ng-model="$ctrl.selectedOption">
+	    	</select>
+	    	<label>Value</label>
+	    	<input type="text" autofocus="" ng-model="$ctrl.selectedValue" name="value" required>
+	    	<div ng-messages="filterForm.value.$error" ng-show="filterForm.$submitted">                  
+		        <p ng-message="required">This field is required</p>
+		    </div> 
+	    	<div class="button-container">
+	    		<button class="btn btn-blue" type="submit">Apply</button>
+	    	</div>
+	    </div>
+    </form>
+ </script>
+ <script id="date-filter" type="text/ng-template">
+    <form name="dateFilterForm" ng-submit="dateFilterForm.$valid && $ctrl.applyDate()" novalidate>
+	    <div class="form-group filter-popup">
+	    	<label>Filter</label>
+	    	<select ng-options="item.key for item in $ctrl.dates" ng-model="$ctrl.tmpSelectedDate">
+	    	</select>
+		    <div class="button-container">
+		    		<button class="btn btn-blue" type="submit">Apply</button>
+		    </div>
+	    </div>
+    </form>
  </script>
