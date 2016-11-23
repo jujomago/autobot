@@ -7,7 +7,7 @@
     </div>
     <div class="modal-body al-theme">
         <div>
-            <p class="abx-text-center">{{content.body}}</p>
+            <p class="abx-text-center" ng-class="{ '{{content.class}}' : content.isCustomClass}">{{content.body}}</p>
         	<ul>
         		<li ng-repeat="item in content.list">{{item}}</li>
         	</ul>
@@ -34,6 +34,6 @@
         <div class="modal-button-container remove-spaces-inline">
           <button class="btn btn-blue right-space-20" ng-click="close()">{{config.okText?config.okText:'OK'}}</button>
           <button class="btn btn-blue" ng-click="dismiss()">{{config.cancelText?config.cancelText:'Cancel'}}</button>
-        </div>  
+        </div>
     </div>
 </div>
