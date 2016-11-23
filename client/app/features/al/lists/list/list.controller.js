@@ -84,6 +84,7 @@
     let body=' for list "'+listName+'" has been succesfully completed.';
     if(isUpdate){
       body = 'Update'+body;
+      body += Number(result.listRecordsDeleted) > 0 ? '\nList has been cleaned up before update.' : '';
     }
     else{
       body = 'Delete'+body;
@@ -198,16 +199,16 @@
           this.processedRow = null;
           _Global.proccessIsRunning = false;
           this.selectedRow = listName;
-          _AlertDialog(response.summaryMessage);
+          _AlertDialog(response.summaryMessage,{hasSpace:true});
           return response;
         });
     }
 
     updateListRecord(item){
-      _$state.go('ap.al.listsEdit-list', {name: item.name, update: true});
+      _$state.go('ap.al.listsEdit', {name: item.name, action: 'update'});
     }
     deleteListRecord(item){
-      _$state.go('ap.al.listsEdit-list', {name: item.name, update: false});
+      _$state.go('ap.al.listsEdit', {name: item.name, action: 'delete'});
     }
     filteringBySearch(){
       this.lists = _$filter('filter')(this.originalLists, this.search);
