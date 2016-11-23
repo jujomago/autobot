@@ -1,0 +1,79 @@
+// here will go al media queries
+
+// media queries adjustments
+
+.container-fluid > .navbar-header {
+    @media (max-width: 768px) {
+        // fix movement logo autobox
+        margin-left: 0;
+    }
+}
+
+@media (min-width: 1200px) {
+    .centerSubmenu
+    {
+        left: 23%;
+        right: 23%;
+    }
+}
+// BUG: 1477 My apps submenu. size IPAD
+@media (max-width: 768px) {
+    .my-apps .col-sm-12
+    {
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+    .navbar-nav .centerSubmenu
+    {
+      overflow-y: auto;;
+      max-height: 470px;
+      //height: 450px !important;
+    }
+}
+@media (max-width: 1170px){
+    .abx-pagination-container{
+        display: inline-block;
+        width: 100%;
+        .abx-pagination-left{
+            width: auto;
+            float: left;
+        }
+        .abx-pagination-center{
+            width: auto;
+            float: none;
+            display: inline-block;
+        }
+        .abx-pagination-right{
+            width: auto;
+            float: right;
+        }
+    }
+}
+@media (max-width: 850px) {
+    ul.navbar-nav .dropdown > a.dropdown-toggle > p.name-container{
+        display: none;
+    }
+}
+@media (max-height: 700px) {
+    .navbar-nav .centerSubmenu
+    {
+      overflow-y: auto;
+      max-height: 370px;
+      //height: 350px !important;
+    }
+}
+@media (min-width: 768px) {
+    .my-apps .col-sm-12
+    {
+        padding-left: 1px;
+        padding-right: 1px;
+    }
+}
+
+@media (min-width: 1500px) {
+    .centerSubmenu
+    {
+        left: 310px !important;
+        right: 310px !important;
+    }
+}

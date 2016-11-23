@@ -1,0 +1,127 @@
+// here goes all helpers, can also be mixins
+
+
+// this hack is to make sidebar and rightside same height
+.col-equal-height {
+  overflow: hidden;
+  min-height: 100%;
+  > .sidebar, > .rightside {
+    margin-bottom: -99965px;
+    padding-bottom: 99999px;
+  }
+}
+
+.extrappading {
+    padding: 0 15px 20px;
+}
+
+.with-scroll {
+    max-height: 300px;
+    overflow: auto;
+}
+
+.browserupgrade {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}
+
+sidebar {
+    display: block;
+}
+
+.fixed_bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.has-error ~ div[ng-messages] p , .errorMessagesModal p{
+    color: #e64b3b;
+    line-height: 15px;
+    padding-left: 0;
+}
+.errorMessagesModal p{
+    padding-right: 5px;
+}
+.offsettop {
+    padding-top: 50px;
+}
+
+//*IE remove X from alls
+::-ms-clear, ::-ms-reveal {
+   display: none;
+   width : 0;
+   height: 0;
+}
+
+// removes dotted outlines
+.autobox-theme{
+    a,input,button{
+        &:focus, &:active:focus{
+            outline: none;
+        }
+    }
+}
+
+// adjusments for tabs
+.tab-content {
+    /*  background: #F1F1F1;*/
+    padding: 15px 0px 0px;
+    margin-bottom: 45px;
+}
+
+.tab-pane .panel {
+    max-height: 520px;
+ //   overflow: auto;
+}
+
+form[name='userForm'] .tab-content {
+    margin-bottom: 30px;
+}
+//end adjusments for tabs
+
+//Bootstrap five columns
+.col-xs-2-5,
+.col-sm-2-5,
+.col-md-2-5,
+.col-lg-2-5 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.col-xs-2-5 {
+    width: 20%;
+    float: left;
+}
+
+.al-theme .nav.nav-tabs{
+    margin-left: -30px;
+    padding-left: 30px;
+    margin-right: -30px;
+}
+
+@media (min-width: 768px) {
+    .col-sm-2-5 {
+        width: 20%;
+        float: left;
+    }
+}
+
+@media (min-width: 992px) {
+    .col-md-2-5 {
+        width: 20%;
+        float: left;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-lg-2-5 {
+        width: 20%;
+        float: left;
+    }
+}
