@@ -1,0 +1,187 @@
+.autobox-theme{
+	div.rqa-theme{
+		padding-top: 25px;
+		padding-left: 30px;
+		padding-right: 30px;
+		background: #f7f7f7;
+		width: 100%;
+		height: 100%;
+		p, select, input, a, div{
+			font-family: ProximaNovaRegular;
+		}
+		.rqa-body{
+			margin-bottom: 65px;
+			display: block;		
+			height: ~"calc(100% - 190px)";
+			min-width: 100%;
+			overflow-y: auto;
+			.left-item{
+				width: auto;
+				max-height: 100%;
+    			overflow-x: auto;
+    			.filter-open{
+    				width: ~"calc(100% + 285px)";
+    			}
+
+			}
+			.right-filter{
+				    width: 280px;
+				    box-shadow: 3px 0px 10px black;
+    				margin-left: 5px;
+				    background: white;
+				    height: 100%;
+				    float: right;
+				    
+				    .filters-header{
+				    	margin-bottom: 20px;
+				    	padding-left: 20px;
+				    	padding-right: 20px;
+				    	span.fa{
+				    		color: #e74c3c;
+				    		cursor: pointer;
+				    		&:active, &:hover, &:focus{
+				    			color: #b73c2f;
+				    		}
+				    	}
+				    }
+				    .filters-body{
+				    	padding-left: 20px;
+				    	padding-right: 20px;
+				    }
+				    .links-container{
+				   	    display: inline-block;
+					    margin-top: 20px;
+					    margin-bottom: 20px;
+					    width: 100%;
+				    }
+				    .filters-container{
+				    	display: inline-block;
+				    	width: 100%;
+				    	.filter-box{
+				    		height: 58px;
+				    		width: 100%;
+				    		padding: 10px;
+				    		display: inline-block;
+				    		background: #f7f7f7;
+				    		margin-bottom: 10px;
+				    		.close-button{
+				    			cursor: pointer;
+				    			color: #999;
+    							line-height: 0.7;
+				    		}
+				    		&>p{
+				    			margin: 0;
+				    			&.title{
+				    				font-size: 12px;
+				    				color: #999999;
+				    			}
+				    			&.value{
+				    				font-size: 14px;
+				    				color: #666666;
+				    			}
+				    		}
+				    	}
+				    }
+				    &.ng-hide{
+				    	transition: visibility 0s, opacity 0.5s linear;
+					}
+					.popover{
+						&.left-top{
+							.popover-content{
+								padding: 0;
+							}
+							width: 280px;
+							margin-left: -20px !important;
+							margin-top: -18px;
+							div.arrow{
+								margin-top: 15px !important;
+							}
+						}
+					}
+					.filter-popup{
+						margin: 20px;
+						label{
+							display: inline-block;
+							width: 100%;
+							font-family: ProximaNovaRegular;
+							font-size: 12px;
+							color: #999999;
+							margin: 0;
+						}
+						input, select{
+							width: 100%;
+							margin-bottom: 20px;
+							height: 30px;
+						}
+						.button-container{
+							width: 100%;
+							display: inline-block;
+							text-align: center;
+						}
+					}
+			}
+			
+
+		}
+		h3{
+			font-family: ProximaNovaSemibold;
+			font-size: 18px;
+			color: #666666;
+		}
+		.fixed-margin-bottom-30{
+			margin-bottom: 30px;
+		}
+		.fixed-margin-left-10{
+			margin-left: 10px;
+		}
+		.icon-button{
+			vertical-align: middle;
+			width: 30px;
+			height: 30px;
+			background: #ffffff;
+			border: 0;
+		}
+		.title-container{
+			display: inline-block;
+			vertical-align: middle;
+			&>span{
+				margin-left: 20px;
+				font-family: ProximaNovaLight;
+				font-size: 24px;
+				color: #666;
+			}
+		}
+		.actions-container{
+			padding-top: 20px;
+		}
+		.display-inline-block{
+			display: inline-block;
+		}
+		.rqa-icon{
+			height: 100%;
+			width: 100%;
+			display: inline-block;
+		}
+		.rqa-search{
+			background: url('@{image_buttons_rqa_path}/search.png') no-repeat center center;
+		}
+		.rqa-refresh{
+			background: url('@{image_buttons_rqa_path}/refresh.png') no-repeat center center;
+			&:focus,&:hover, &:active{
+				background: url('@{image_buttons_rqa_path}/refresh-active.png') no-repeat center center;
+			}
+		}
+		.rqa-reports{
+			background: url('@{image_buttons_rqa_path}/reports.png') no-repeat center center;
+			&:focus,&:hover, &:active{
+				background: url('@{image_buttons_rqa_path}/reports-active.png') no-repeat center center;
+			}
+		}
+		.rqa-filter{
+			background: url('@{image_buttons_rqa_path}/filter.png') no-repeat center center;
+			&:focus,&:hover, &:active{
+				background: url('@{image_buttons_rqa_path}/filter-active.png') no-repeat center center;
+			}
+		}
+	}
+}
