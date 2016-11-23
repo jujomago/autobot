@@ -54,10 +54,10 @@ class ContactModalComponent {
 ContactModalComponent.$inject = ['FieldMessages', 'FieldFormatter'];
 angular.module('fakiyaMainApp')
   .component('al.lists.contactModal', {
-    templateUrl: 'app/features/al/lists/edit/step3-list/contactModal/contactModal.html',
+    templateUrl: 'app/features/al/lists/edit/upload/contactModal/contactModal.html',
     controller: ContactModalComponent,
     require: {
-      edit: '?^al.lists.edit.list',
+      edit: '?^alUploadList',
     }
 
 });

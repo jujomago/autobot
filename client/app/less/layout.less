@@ -192,7 +192,7 @@ footer{
     ul.dropdown-menu{
       background: @black;
       &>li>a{
-        color: @white;
+        color: @white;        
       }
     }
   }
@@ -209,9 +209,16 @@ footer{
   background: transparent;
   color: @blue;
 }
+.dark-nav > li.dropdown >ul.dropdown-menu > li{ 
+  &:hover{
+    >a{
+      color: @blue;
+    }
+  }
+}
 .dropdown-menu>li>a{
   &:focus, &:hover{
-    background: transparent;
+    background: transparent;     
   }
 } 
 /*

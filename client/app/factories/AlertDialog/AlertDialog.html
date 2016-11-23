@@ -7,7 +7,7 @@
     </div>
 	<div class="modal-body al-theme">
         <div>
-            <p ng-class="{'abx-text-center': config.center}">{{content.body}}</p>
+            <p ng-class="{'abx-text-center': config.center,'abx-text-space': config.hasSpace}">{{content.body}}</p>
         	<ul>
         		<li ng-repeat="item in content.list">{{item}}</li>
         	</ul>
@@ -34,6 +34,6 @@
         </div>
         <div class="modal-button-container">
           <button class="btn btn-blue" ng-click="close()">OK</button>
-        </div>  
+        </div>
     </div>
 </div>

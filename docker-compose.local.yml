@@ -24,6 +24,8 @@ services:
 
   autobox-api:
     image: quay.io/abxbo/autobox-api:latest.dev
+    volumes:
+      - /var/abx/log-dev/api:/var/log/abx/api
     ports:
       - "9999:8080"
     environment:
