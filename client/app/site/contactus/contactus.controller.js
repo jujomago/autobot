@@ -6,8 +6,7 @@ class ContactusComponent {
   constructor(ContactService,$filter) {
     this.message = 'Hello';
     this.submitText='Submit';
-    this.message={'show':false};
-    this.validTypePhone= true;
+    this.message={'show':false};    
     _ConctactService=ContactService;
     _$filter=$filter;
   }
