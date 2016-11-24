@@ -1,11 +1,11 @@
 'use strict';
 
-describe('Component:ContactusComponent', function () {
+describe('Component:HomePageController', function () {
 
   // load the controller's module
   beforeEach(module('fakiyaMainApp'));
 
-  var ContactusComponent;
+  var HomePageController;
   var scope;
   var httpBackend;
   var endPointUrl;
@@ -20,7 +20,7 @@ describe('Component:ContactusComponent', function () {
     appConfig) {
       httpBackend = _$httpBackend_;     
       scope = $rootScope.$new();
-      ContactusComponent = $componentController('contactus', {
+      HomePageController = $componentController('home', {
         $http: $http,
         $scope: scope      
       });
@@ -45,18 +45,18 @@ describe('Component:ContactusComponent', function () {
           message:'some message'
       };
 
-      ContactusComponent.cform=MockMailData;
+      HomePageController.cform=MockMailData;
       httpBackend.whenPOST(endPointUrl,MockMailData).respond(200);
 
-      expect(ContactusComponent.submitText).to.equal('Submit');
+      expect(HomePageController.submitText).to.equal('Submit');
       let form = {
         $setPristine: sinon.stub()
       };
 
-      ContactusComponent.sendmail(form)
+      HomePageController.sendmail(form)
       .then(response => {
-          expect(ContactusComponent.message).to.eql({ show: true, type:'success',text:'Email Sent Successfully', expires:4000 });
-          expect(ContactusComponent.cform).to.deep.equal({firstName: '', lastName: '', businessEmail: '', phone: '', company: '', message: ''});
+          expect(HomePageController.message).to.eql({ show: true, type:'success',text:'Email Sent Successfully', expires:4000 });
+          expect(HomePageController.cform).to.deep.equal({firstName: '', lastName: '', businessEmail: '', phone: '', company: '', message: ''});
           expect(form.$setPristine.calledOnce).to.be.equal(true);
           expect(response.data).to.equal(null);
           expect(response.errorMessage).to.equal(null);
@@ -74,11 +74,11 @@ describe('Component:ContactusComponent', function () {
           message:'some message'
       };
 
-       ContactusComponent.cform=MockMailData;
+       HomePageController.cform=MockMailData;
        httpBackend.whenPOST(endPointUrl,MockMailData).respond(500, {error: 'Some error from Server'});
-       ContactusComponent.sendmail()
+       HomePageController.sendmail()
        .then(error => {
-          expect(ContactusComponent.message).to.eql({ show: true, type:'danger', text: error.errorMessage , expires:4000 });
+          expect(HomePageController.message).to.eql({ show: true, type:'danger', text: error.errorMessage , expires:4000 });
           expect(error.data).to.equal(null);
           expect(error.errorMessage).to.equal('Some error from Server');
           expect(error.statusCode).to.equal(500);
@@ -87,11 +87,11 @@ describe('Component:ContactusComponent', function () {
     });
   });
   describe('#changeToLowerCase',()=>{
-    it('should change to LowerCase', function () {       
-      ContactusComponent.cform={};      
-      ContactusComponent.cform.businessEmail='ABC';
-      ContactusComponent.changeToLowerCase();
-      expect(ContactusComponent.cform.businessEmail).to.equal('abc');
+    it('should change to uppercase', function () {       
+      HomePageController.cform={};      
+      HomePageController.cform.businessEmail='ABC';
+      HomePageController.changeToLowerCase();
+      expect(HomePageController.cform.businessEmail).to.equal('abc');
     });
     
   });
