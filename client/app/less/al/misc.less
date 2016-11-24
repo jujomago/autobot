@@ -30,39 +30,7 @@
             color: @black;
         }
     }
-    //buttons style black in all aplication
-    .btn-black {
-        background: @black;
-        border-radius: 0;
-        color: @white;
-        padding: 0 32px;
-        height: 30px;
-        line-height: 30px;
-        width: 120px;
-        transition: all .2s ease-out;
-        &:hover, &:active {
-            background: #666;
-            color: @white;
-        }
-        &:disabled {
-            background: #ccc;
-            color:white;
-        }
-    }
-    //buttons style blue in all aplication
-    .btn-blue {
-        background: @blue;
-        border-radius: 0;
-        color: @white;
-        padding: 0 32px;
-        height: 30px;
-        width: 120px;
-        line-height: 30px;
-        transition: all .2s ease-out;
-        &:hover, &:active, &:focus {
-            background: #0187d0;
-        }
-    }
+
     //button template for list
     .btn-row {
         border-radius: 0;
@@ -290,24 +258,7 @@
         border: 0;
         width: 70px;
     }
-    .btn-danger {
-        background: @red;
-        &:disabled {
-            background: #e64b3b;
-        }
-        &:hover, &:active, &:focus {
-          background: #b73c2f;
-        }
-    }
-    .btn-primary {
-        background: @blue;
-        &:disabled {
-            background: #99cfec;
-        }
-        &:hover, &:active, &:focus {
-            background: #0187d0;
-        }
-    }
+
     .table-hover tr {
         cursor: pointer;
     }
@@ -672,17 +623,6 @@
         }
     }
 
-    // ommit bootstrap col-x, adding fixed with to sidebar and fluid to rightside
-    .sidebar{
-        width: 200px;
-        float: left;
-        padding: 50px 30px 0;
-    }
-    .rightside{
-        float: left;
-        width: ~"calc(100% - 200px)";
-    }
-
     .header-table-mapping{
           background: white;
           border: 1px solid #ddd;
@@ -973,15 +913,3 @@
       width: 80px;
     }
 }
-@-moz-document url-prefix() {
-    .al-theme {
-        /*Only for Firefox text-indent property is a singular in the browsers*/
-        /*This CSS is for
-        bug 1472: Admin Console: manual mapping: The Source field name does not align with the column title.
-        for horizontal align of cell mapping*/
-        .cell-select{
-            padding-left: 7px;
-            text-indent: -2px;
-        }
-    }
-  }

@@ -1,0 +1,25 @@
+.al-theme{
+    .pagination{
+        li{
+            &.active a {
+                color: @blue;
+              
+            }
+            a{              
+                border: 0;
+                color: #000;
+                background: none;
+                &:hover {
+                    color: @blue;
+                    background: none;
+                    border: 0;
+                }
+            }      
+            &.disabled{
+                &>a{
+                     cursor: default;
+                }  
+            }
+        }
+    }
+}
