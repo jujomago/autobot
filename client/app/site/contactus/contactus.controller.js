@@ -1,14 +1,18 @@
 'use strict';
 
 (function(){
- let _ConctactService;
+ let _ConctactService, _$filter;
 class ContactusComponent {
-  constructor(ContactService) {
+  constructor(ContactService,$filter) {
     this.message = 'Hello';
     this.submitText='Submit';
     this.message={'show':false};
     _ConctactService=ContactService;
+    _$filter=$filter;
   }
+  changeToLowerCase(){        
+      this.cform.businessEmail=_$filter('lowercase')(this.cform.businessEmail);
+    }
   clearForm(form){
     Object.keys(this.cform).forEach(value => {
       this.cform[value] = '';
@@ -32,7 +36,7 @@ class ContactusComponent {
   }
 }
 
-ContactusComponent.$inject=['ContactService'];
+ContactusComponent.$inject=['ContactService','$filter'];
 angular.module('fakiyaMainApp')
   .component('contactus', {
     templateUrl: 'app/site/contactus/contactus.html',
