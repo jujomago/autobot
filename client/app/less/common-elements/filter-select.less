@@ -1,39 +1,37 @@
-.al-theme {
-    .filter_select {
-        vertical-align: top;
-        position: relative;
-        display: inline-flex;
+.filter_select {
+    vertical-align: top;
+    position: relative;
+    display: inline-flex;
+    height: 30px;
+    width: 290px;
+    background: #fff;
+    margin-right: 20px;
+    > span {
+        color: #ccc;
+        display: inline-block;
+        margin: 0 12px;
+        line-height: 30px;
+    }
+    select {
+        padding: 4px 0;
         height: 30px;
-        width: 290px;
-        background: #fff;
-        margin-right: 20px;
-        > span {
-            color: #ccc;
-            display: inline-block;
-            margin: 0 12px;
-            line-height: 30px;
-        }
-        select {
-            padding: 4px 0;
-            height: 30px;
-            border: 0;
-            background: transparent;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+        position: relative;
+        color: #000;
+        flex-grow: 1;
+        width: auto;
+        &:focus {
+            outline: 0;
             box-shadow: none;
-            position: relative;
-            color: #000;
-            flex-grow: 1;
-            width: auto;
-            &:focus {
-                outline: 0;
-                box-shadow: none;
-            }
         }
-        .glyphicon-filter {
-            z-index: 2;
-            font-size: 16px;
-            left: 10px;
-            top: 9px;
-            position: absolute;
-        }
+    }
+    .glyphicon-filter {
+        z-index: 2;
+        font-size: 16px;
+        left: 10px;
+        top: 9px;
+        position: absolute;
     }
 }

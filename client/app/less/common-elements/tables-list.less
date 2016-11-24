@@ -3,204 +3,203 @@
 @color1: #cccccc; // Appears 2 times
 
 // table styles for main lists
-.al-theme {
 
-    .table{
-        thead tr th{
-            border-bottom: none;
-             vertical-align: bottom;
-        }
-        tbody tr {
-            td{
-                transition: all .3s ease-out;
-                border-top: 1px solid @color0;
-                color: #666666;
-                font-family: BrandonRegular;
-                font-size: 14px;
-                padding: 7px 8px;
-                vertical-align: middle;
-            }
-            &:last-child {
-                td {
-                    border-bottom: 1px solid @color0;
-                }
-            }
-        }
+.table{
+    thead tr th{
+        border-bottom: none;
+            vertical-align: bottom;
     }
-
-    .table-striped{
-        thead {
-            th {
-                color: #000000;
-                font-family: BrandonMedium;
-                font-size: 12px;
-                text-transform: capitalize;
-            }
-        }
-        tbody tr{
-            &.danger{
-                 cursor: wait;
-                 >td{
-                    color: @color1;
-                    * {
-                        color: @color1;
-                    }
-                 }
-            }
-            &:nth-child(even)>td, &:nth-child(even)>th {
-                background-color: @table_even_row;
-            }
-            &:nth-child(odd)>td, &:nth-child(odd)>th {
-                background-color: @table_odd_row;
-            }
-            &.selected td{
-                background:#eff8fc;
-            }
-        }
-    }
-
-
-    .table-selectable{
-        tbody{
-            tr{
-                 cursor:pointer;
-            }
-            .rowselected {
-                 td{
-                    background-color: #d4d4d4;
-                }
-            }
-        }
-    }
-
-    .table-x-scroll {
-        width: 100%;
-        overflow-x: auto;
-        .contact-list {
-            width: auto;
-            min-width: 100%;
-            margin-bottom: 0px!important;
-            thead {
-                tr>th{
-                    white-space: nowrap;
-                    padding-right: 50px;
-                    &:last-child{
-                        padding-right: 8px;
-                    }
-                }
-            }
-            tbody {
-                tr>td{
-                    white-space: nowrap;
-                    padding-right: 50px;
-                    &:last-child{
-                        padding-right: 8px;
-                    }
-                    &.row-selected {
-                        background-color: #eff8fc;
-                    }
-                    a{
-                        cursor:default;
-                    }
-                }
-
-            }
-        }
-        .width-manual{
-           // min-width: 3000px;
-        }
-    }
-
-
-    .table-y-scroll{
-        width: 100%;
-        border-spacing: 0;
-        thead, tbody, tr, th, td {
-            display: block;
-        }
-        thead tr {
-            /* fallback */
-            width: 100%;
-        }
-
-        tr:after {  /* clearing float */
-            content: ' ';
-            display: block;
-            visibility: hidden;
-            clear: both;
-        }
-
-        tbody {
-            max-height: 280px;
-            overflow-y: auto;
-            overflow-x: hidden;
-            td{
-                height: 39px;
-            }
-        }
-
-        tbody td, thead th {
-            width: 25%;  /* 33.2% is less than (100% / 3 cols) = 33.3% */
-            float: left;
-        }
-
-    }
-    .table-y-scroll-showscroll{
-        thead tr{
-            /* minus scroll bar width */
-             width:~"calc(100% - 16px)";
-        }
-    }
-    .table-y-scroll-col4{
-        tbody td, thead th {
-            width: 25%;  /* 33.2% is less than (100% / 3 cols) = 33.3% */
-            float: left;
-        }
-    }
-
-    .table-y-scroll-col3{
-        tbody td, thead th {
-            width: 33.2%;  /* 33.2% is less than (100% / 3 cols) = 33.3% */
-            float: left;
-        }
-    }
-
-    .table-y-scroll-col2{
-        thead tr th,tbody tr td{
-            &:first-child{
-                width:21%;
-                text-align: left
-
-            }
-             &:last-child{
-                width:79%;
-            }
-        }
-        tbody td, thead th {
-        //    width: 50%;  /* 33.2% is less than (100% / 3 cols) = 33.3% */
-            float: left;
-            padding-left: 8px;
-        }
-        tbody td{
-            line-height: 14px;
-        }
-    }
-
-    .table-full-condensed tbody tr{
+    tbody tr {
         td{
-            padding: 0;
-            height: 27px;
-            line-height: 24px;
-            .abx-number-input,.abx-number-arrows{
-                vertical-align: top;
-                height: 100%;
-                margin: 0;
-                padding-top: 0;
-            }
-            .abx-number-arrows i{
-               line-height: normal;
+            transition: all .3s ease-out;
+            border-top: 1px solid @color0;
+            color: #666666;
+            font-family: BrandonRegular;
+            font-size: 14px;
+            padding: 7px 8px;
+            vertical-align: middle;
+        }
+        &:last-child {
+            td {
+                border-bottom: 1px solid @color0;
             }
         }
+    }
+}
+
+.table-striped{
+    thead {
+        th {
+            color: #000000;
+            font-family: BrandonMedium;
+            font-size: 12px;
+            text-transform: capitalize;
+        }
+    }
+    tbody tr{
+        &.danger{
+                cursor: wait;
+                >td{
+                color: @color1;
+                * {
+                    color: @color1;
+                }
+                }
+        }
+        &:nth-child(even)>td, &:nth-child(even)>th {
+            background-color: @table_even_row;
+        }
+        &:nth-child(odd)>td, &:nth-child(odd)>th {
+            background-color: @table_odd_row;
+        }
+        &.selected td{
+            background:#eff8fc;
+        }
+    }
+}
+
+
+.table-selectable{
+    tbody{
+        tr{
+                cursor:pointer;
+        }
+        .rowselected {
+                td{
+                background-color: #d4d4d4;
+            }
+        }
+    }
+}
+
+.table-x-scroll {
+    width: 100%;
+    overflow-x: auto;
+    .contact-list {
+        width: auto;
+        min-width: 100%;
+        margin-bottom: 0px!important;
+        thead {
+            tr>th{
+                white-space: nowrap;
+                padding-right: 50px;
+                &:last-child{
+                    padding-right: 8px;
+                }
+            }
+        }
+        tbody {
+            tr>td{
+                white-space: nowrap;
+                padding-right: 50px;
+                &:last-child{
+                    padding-right: 8px;
+                }
+                &.row-selected {
+                    background-color: #eff8fc;
+                }
+                a{
+                    cursor:default;
+                }
+            }
+
+        }
+    }
+    .width-manual{
+        // min-width: 3000px;
+    }
+}
+
+
+.table-y-scroll{
+    width: 100%;
+    border-spacing: 0;
+    thead, tbody, tr, th, td {
+        display: block;
+    }
+    thead tr {
+        /* fallback */
+        width: 100%;
+    }
+
+    tr:after {  /* clearing float */
+        content: ' ';
+        display: block;
+        visibility: hidden;
+        clear: both;
+    }
+
+    tbody {
+        max-height: 280px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        td{
+            height: 39px;
+        }
+    }
+
+    tbody td, thead th {
+        width: 25%;  /* 33.2% is less than (100% / 3 cols) = 33.3% */
+        float: left;
     }
 
 }
+.table-y-scroll-showscroll{
+    thead tr{
+        /* minus scroll bar width */
+            width:~"calc(100% - 16px)";
+    }
+}
+.table-y-scroll-col4{
+    tbody td, thead th {
+        width: 25%;  /* 33.2% is less than (100% / 3 cols) = 33.3% */
+        float: left;
+    }
+}
+
+.table-y-scroll-col3{
+    tbody td, thead th {
+        width: 33.2%;  /* 33.2% is less than (100% / 3 cols) = 33.3% */
+        float: left;
+    }
+}
+
+.table-y-scroll-col2{
+    thead tr th,tbody tr td{
+        &:first-child{
+            width:21%;
+            text-align: left
+
+        }
+            &:last-child{
+            width:79%;
+        }
+    }
+    tbody td, thead th {
+    //    width: 50%;  /* 33.2% is less than (100% / 3 cols) = 33.3% */
+        float: left;
+        padding-left: 8px;
+    }
+    tbody td{
+        line-height: 14px;
+    }
+}
+
+.table-full-condensed tbody tr{
+    td{
+        padding: 0;
+        height: 27px;
+        line-height: 24px;
+        .abx-number-input,.abx-number-arrows{
+            vertical-align: top;
+            height: 100%;
+            margin: 0;
+            padding-top: 0;
+        }
+        .abx-number-arrows i{
+            line-height: normal;
+        }
+    }
+}
+
+
