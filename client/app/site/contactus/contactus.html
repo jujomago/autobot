@@ -10,7 +10,7 @@
                 <label for="firstname">First name *</label>
                 <input type="text"  name="firstname" maxlength="50" ng-model="$ctrl.cform.firstName" required>
             </div>
-            <div ng-messages="contactForm.$submitted && contactForm.firstname.$error" class="errors-texts">	
+            <div ng-messages="(contactForm.firstname.$dirty && contactForm.firstname.$error) || (contactForm.$submitted && contactForm.firstname.$error)" class="errors-texts">	
 				<p ng-message="required">This field is required</p>
 			</div>
         </div>
@@ -19,7 +19,7 @@
                 <label for="lastname">Last name *</label>
                 <input type="text"  name="lastname" maxlength="50" ng-model="$ctrl.cform.lastName" required>
             </div>
-            <div ng-messages="contactForm.$submitted && contactForm.lastname.$error" class="errors-texts"> 	
+            <div ng-messages="(contactForm.lastname.$dirty && contactForm.lastname.$error) || (contactForm.$submitted && contactForm.lastname.$error)" class="errors-texts"> 	
 				<p ng-message="required">This field is required</p>
 			</div>	
         </div>
@@ -28,9 +28,9 @@
         <div class="col-md-6">
             <div class="inputflex inputflex--gray">
                 <label for="bmail">Business email *</label>
-                <input type="text" name="bmail" ng-model="$ctrl.cform.businessEmail" maxlength="50" ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/" required>
+                <input type="text" name="bmail" ng-model="$ctrl.cform.businessEmail" ng-model-options="{ updateOn: 'default' , allowInvalid:'true'}" ng-change="$ctrl.changeToLowerCase()" maxlength="50" ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/" required>
             </div>
-            <div ng-messages="contactForm.$submitted && contactForm.bmail.$error" class="errors-texts">		
+            <div ng-messages="(contactForm.bmail.$dirty && contactForm.bmail.$error) || (contactForm.$submitted && contactForm.bmail.$error)" class="errors-texts">		
 				<p ng-message="required">This field is required</p>
 				<p ng-message="pattern">Invalid email</p>
 			</div>
@@ -40,11 +40,8 @@
                 <label for="tel">Phone</label>
                 <input type="text" name="tel" maxlength="20" ng-model="$ctrl.cform.phone" abx-check-phone="">
             </div>
-            <div ng-messages="contactForm.tel.$error" class="errors-texts">
-				<p ng-message="usphoneValidator">Invalid phone number</p>                   
-			</div>
-            <div ng-if="!$ctrl.validTypePhone" class="errors-texts">
-				<p>Invalid phone number same</p>                   
+            <div ng-messages="(contactForm.tel.$dirty && contactForm.tel.$error) || (contactForm.$submitted && contactForm.tel.$error)" class="errors-texts">
+				<p ng-message="usphoneValidator">Invalid phone number</p> 
 			</div>
         </div>
     </div>  
@@ -62,7 +59,7 @@
                 <label for="message">Message *</label>
                 <textarea class="inputflex__textarea auto-expand" rows="1" data-min-rows="1" name="message" maxlength="250" ng-model="$ctrl.cform.message" required></textarea>
             </div>
-            <div ng-messages="contactForm.$submitted && contactForm.message.$error" class="errors-texts">	
+            <div ng-messages="(contactForm.message.$dirty && contactForm.message.$error) || (contactForm.$submitted && contactForm.message.$error)" class="errors-texts">	
 				<p ng-message="required">This field is required</p>
 			</div>
         </div> 
