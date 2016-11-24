@@ -10,7 +10,7 @@ angular.module('fakiyaMainApp')
         filter:'@abxCheckPhone'
       },
       link: function (scope, element, attrs, ctrl) {
-      	if(true){
+      	if(attrs.type === 'tel'){
 			let number; 
 	        let valid;
 	        let first;
