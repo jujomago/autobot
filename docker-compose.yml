@@ -3,9 +3,8 @@ services:
   autobox-web:
     build:
       context: .
-      args:
-        API_ACCESS_URL: http://www.dev-autoboxcorp.com:9999/api
     ports:
       - "8880:8081"
     environment:
       NODE_ENV: production
+      API_ACCESS_URL: http://www.dev-autoboxcorp.com:9999/api

@@ -34,6 +34,7 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
       AUTH_SERVER_URL: http://autobox-auth:3380
+      CORS_WHITE_LIST: http://www.dev-autoboxcorp.com:8080, http://www.dev-autoboxcorp.com, http://dev-autoboxcorp.com, http://www.dev-autoboxcorp.com:8081, http://www.dev-autoboxcorp.com:7000, http://dev-autoboxcorp.com:7000, http://www.dev-autoboxcorp.com:8880, http://dev-autoboxcorp.com:8880
     links:
       - mongo
       - redis
