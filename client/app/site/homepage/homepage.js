@@ -1,5 +1,4 @@
 'use strict';
-
 angular.module('fakiyaMainApp')
   .config(function ($stateProvider) {
     $stateProvider
