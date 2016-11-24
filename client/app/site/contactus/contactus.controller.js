@@ -7,6 +7,7 @@ class ContactusComponent {
     this.message = 'Hello';
     this.submitText='Submit';
     this.message={'show':false};
+    this.validTypePhone= true;
     _ConctactService=ContactService;
   }
   clearForm(form){
@@ -29,7 +30,7 @@ class ContactusComponent {
            this.message = { show: true, type:'danger', text: err.errorMessage || err , expires:4000 };   
            return err;
         });
-  }
+  }  
 }
 
 ContactusComponent.$inject=['ContactService'];

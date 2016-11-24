@@ -38,11 +38,13 @@
         <div class="col-md-6">
             <div class="inputflex inputflex--gray">
                 <label for="tel">Phone</label>
-                <input type="text" name="tel" maxlength="20" ng-model="$ctrl.cform.phone" ng-minlength="10" ng-maxlength="20" abx-digits-only>
+                <input type="text" name="tel" maxlength="20" ng-model="$ctrl.cform.phone" abx-check-phone="">
             </div>
             <div ng-messages="contactForm.tel.$error" class="errors-texts">
-				<p ng-message="minlength">Invalid phone number</p>   
-                <p ng-message="maxlength">Max length 20 digits</p>   
+				<p ng-message="usphoneValidator">Invalid phone number</p>                   
+			</div>
+            <div ng-if="!$ctrl.validTypePhone" class="errors-texts">
+				<p>Invalid phone number same</p>                   
 			</div>
         </div>
     </div>  

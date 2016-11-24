@@ -10,7 +10,8 @@
       this.message={'show':false};
      _ConctactService=ContactService;
      _$anchorScroll= $anchorScroll;   
-     _$filter=$filter; 
+     _$filter=$filter;
+     this.validTypePhone= true; 
     }
     scrollTo(id){
       _$anchorScroll(id);
