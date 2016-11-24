@@ -1,11 +1,11 @@
-<div class="navbar">
+<div class="navbar" ng-show="$ctrl.activationCodeValid">
   <div class="container-fluid">
     <div class="navbar-header">
       <a href="/ap/dashboard" class="logo">AutoBox</a>
     </div>
   </div>
 </div>
-<div class="activation">
+<div class="activation" ng-show="$ctrl.activationCodeValid">
 	<div class="activation-container">
 		<abx-message msg="$ctrl.message"></abx-message>
 		<h3>Complete your profile</h3>

@@ -86,4 +86,13 @@ describe('Component:ContactusComponent', function () {
       httpBackend.flush();
     });
   });
+  describe('#changeToLowerCase',()=>{
+    it('should change to LowerCase', function () {       
+      ContactusComponent.cform={};      
+      ContactusComponent.cform.businessEmail='ABC';
+      ContactusComponent.changeToLowerCase();
+      expect(ContactusComponent.cform.businessEmail).to.equal('abc');
+    });
+    
+  });
 });
