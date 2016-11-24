@@ -119,9 +119,11 @@ text-decoration: none;
 	color: #FFFFFF;
 	text-align: center;
 	font-size: 14px;
-	text-align: left;
-	@media (max-width: 991px) {
-          text-align: center;	
+	text-align: center;
+	@media (min-width: 991px) { 
+		&.footer-homepage{
+			text-align: left;	
+		}         
     }
 }
 #footer-text p{
