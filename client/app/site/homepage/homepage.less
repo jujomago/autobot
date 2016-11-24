@@ -119,6 +119,10 @@ text-decoration: none;
 	color: #FFFFFF;
 	text-align: center;
 	font-size: 14px;
+	text-align: left;
+	@media (max-width: 991px) {
+          text-align: center;	
+    }
 }
 #footer-text p{
 	margin-top: 15px;
@@ -181,7 +185,11 @@ text-decoration: none;
 	font-size: 46px;
 	color: #36A3DC;
 	line-height: 1.4347826086956522;
-	margin-bottom: 0px;
+	margin-bottom: 0;
+	@media (max-width: 991px) {
+		font-size: 37px;
+    }
+	
 }
 #banner-text2{
 	font-family: 'BrandonBold';
@@ -192,6 +200,9 @@ text-decoration: none;
 	font-family: 'BrandonLight';
 	font-size: 40px;
 	color: #FFFFFF;
+	@media (max-width: 991px) {
+		font-size: 35px;
+    }
 }
 #underline{
 	height: 5px;
@@ -316,7 +327,6 @@ text-decoration: none;
 	margin-right: auto;
 }
 .photo-panel{
-	min-width: 295px;
 	height: 420px;
 	background-color: #FFFFFF;
 	text-align: center;
@@ -340,6 +350,7 @@ text-decoration: none;
 	color: #666666;
 	line-height: 1.1;
 	transition: color 1s;
+	text-align: center;
 }
 
 
@@ -349,7 +360,7 @@ text-decoration: none;
 
 }
 
-.photo-panel:hover .image-overlay{
+.photo-panel:hover .image-overlay:before{
 	background-color:rgba(54,163,220,0.8);
 }
 .photo-panel:hover .panel-arrow{
@@ -364,34 +375,49 @@ text-decoration: none;
 	margin-left: 15px;
 }
 .panel-arrow{
-	margin-top: 20px;
-	margin-bottom: 20px;
-	position: absolute;
-	bottom: 190px;
-	left: calc(~"50% - 15px");
+//	margin-top: 20px;
+//	margin-bottom: 20px;
+//	position: absolute;
+//	bottom: 190px;
+//	left: calc(~"50% - 15px");
+
 }
 
 .photo-panel .panel-arrow{
 	width: 30px;
 	height: 18px;
-	display: block;
+	display: inline-block; 
 	background: url(/assets/al/images/homepage/AB-Site-ArrowPanels-Default.png) no-repeat center center;
+	margin-bottom: 12px;
 }
 
 .image-overlay{
-	width: 100%;
-	height: 190px;
-	position: absolute;
-	bottom: 0;
-	background-color: rgba(255,255,255,0);
-	z-index: 50;
-	transition: background-color 1s;
+	position:relative;
+	&:before{
+		display: block;
+		content: '';
+		width: 100%;
+		height: 100%;
+		top:0;
+		left:0;
+		position: absolute;
+		transition: all 0.8s;
+		background-color:rgba(54,163,220,0);
+		//background-color: rgba(54,163,220,0.8);
+	}
+	
+	//z-index: 50;
+	//
 }
 .image-wrapper{
 	width: 100%;
-	height: 190px;
+//	height: 190px;
 	position: absolute;
 	bottom: 0px;
+	.image-overlay img{
+		width: 100%;
+		max-height: 250px;
+	}
 }
 .textfield-small{
 //	max-width: 455px;
@@ -480,7 +506,7 @@ color: #36A3DC;
 		@media (max-width: 991px) {
           max-width: 75%;
         }
-	}
+	}s
 	textarea{
 		min-height:40px;
 		overflow: hidden;
@@ -491,3 +517,20 @@ color: #36A3DC;
 	}
 }
 
+.block-social-icons{
+	text-align: right;
+	padding-right: 0;
+	.social-image{
+		float: none;
+		display: inline-block;
+		margin-bottom: 18px;
+	}
+	@media (max-width: 991px) {
+		text-align: center;
+		margin-top: 80px;
+		.row{
+			display: inline-block;
+		}
+    }
+	
+}
