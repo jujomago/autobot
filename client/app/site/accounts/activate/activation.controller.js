@@ -10,6 +10,7 @@
       _auth = AuthService;
       _$location = $location;
       this.activationCode = $stateParams.activationCode;
+      this.activationCodeValid = false;
       _$stateParams = $stateParams;
       _Base64Manager = Base64Manager;
     }
@@ -19,10 +20,12 @@
     activation() {
       return _auth.activate(this.activationCode)
       .then(response => {
-        this.newAccount = response;
+        this.activationCodeValid = true;
+        this.newAccount = response;        
         return response;
       })
       .catch(e => {
+        this.activationCodeValid = false;
         this.message = { show: true, text: e.errorMessage };
         return e;
       });
