@@ -47,22 +47,36 @@ describe('Component: ActivationController', function() {
 
   describe('activation an user',()=>{
       it('activation an account',()=>{         
-          activactionComponent.activationCode='abcd1234567';                   
+          activactionComponent.activationCode='abcd1234567';      
+          expect(activactionComponent.activationCodeValid).to.equal(false);               
           httpBackend.whenGET(endPointUrl+'/admin/temporaryusers/'+activactionComponent.activationCode).respond({data: 
             {firstname:'peter',
              lastname:'smith',
              company:{},
              email:'peter@autoboxcorp.com',
              activactionCode:'abcd1234567'
-          },status:200});           
+          },status:200});      
           activactionComponent.activation()
           .then(response=>{   
               expect(response.status).to.equal(200);   
               expect(response.data.firstname).to.equal('peter'); 
               expect(response.data.lastname).to.equal('smith');
               expect(response.data.email).to.equal('peter@autoboxcorp.com');
-              expect(response.data.activactionCode).to.equal('abcd1234567');            
+              expect(response.data.activactionCode).to.equal('abcd1234567');
+              expect(activactionComponent.activationCodeValid).to.equal(true);                 
+          });          
+          httpBackend.flush();
+      });
+      it('ivalid url activation an account',()=>{         
+          activactionComponent.activationCode='urlinvaliderror';      
+          expect(activactionComponent.activationCodeValid).to.equal(false);                
+          httpBackend.whenGET(endPointUrl+'/admin/temporaryusers/'+activactionComponent.activationCode).respond({data: 
+            { },status:400});           
+          activactionComponent.activation()
+          .then(response=>{   
+              expect(response.status).to.equal(400);              
           });
+          expect(activactionComponent.activationCodeValid).to.equal(false); 
           httpBackend.flush();
       });
   });
