@@ -6,7 +6,7 @@ class ContactusComponent {
   constructor(ContactService,$filter) {
     this.message = 'Hello';
     this.submitText='Submit';
-    this.message={'show':false};
+    this.message={'show':false};    
     _ConctactService=ContactService;
     _$filter=$filter;
   }
@@ -33,7 +33,7 @@ class ContactusComponent {
            this.message = { show: true, type:'danger', text: err.errorMessage || err , expires:4000 };   
            return err;
         });
-  }
+  }  
 }
 
 ContactusComponent.$inject=['ContactService','$filter'];
