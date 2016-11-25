@@ -50,6 +50,7 @@ describe('Component: alMappingList', function () {
       });
 
       MappingComponent = $componentController('alMappingList', {
+        $scope: $scope,
         ContactFieldsService: contactFieldService,
         Utils: _Utils_,
         EditListActions: _EditListActions_
@@ -98,9 +99,6 @@ describe('Component: alMappingList', function () {
           expect(MappingComponent.loadingContacts).to.equal(false);
           expect(MappingComponent.contactFields).to.have.lengthOf(2);
         });
-
-     // _$httpBackend.flush();
-
     });
 
     it('should show error message when error', () => {
@@ -119,9 +117,6 @@ describe('Component: alMappingList', function () {
           expect(MappingComponent.loadingContacts).to.equal(false);
           expect(MappingComponent.contactFields).to.have.lengthOf(0);
         });
-
-     // _$httpBackend.flush();
-
     });
 
   });
@@ -170,7 +165,7 @@ describe('Component: alMappingList', function () {
 
     });
 
-    /*it('Save data Keys when send to next step when is updating', () => {
+    it('Save data Keys when send to next step when is updating', () => {
       const RESPONSE = {
           statusCode: 200,
           data: [
@@ -248,7 +243,7 @@ describe('Component: alMappingList', function () {
 
       contacts.resolve(RESPONSE);
       MappingComponent.getContactFields();
-      _$httpBackend.flush();
+      $scope.$apply();
 
       expect(MappingComponent.contactFields).to.have.lengthOf(4);
 
@@ -256,6 +251,6 @@ describe('Component: alMappingList', function () {
       MappingComponent.contactFields[3].isKey = true;
       MappingComponent.handleFinish();
       expect(MappingComponent.parent.getContactField()).to.deep.equal(EXPECTED);
-    });*/
+    });
   });
 });
