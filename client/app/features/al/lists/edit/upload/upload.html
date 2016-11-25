@@ -35,10 +35,9 @@
                 <button class="btn btn-black" ng-if="$ctrl.manual" ng-click="$ctrl.insertContact()">Insert</button>
                 <button class="btn btn-black" ng-if="!$ctrl.manual" ng-click="$ctrl.insertContact()" ng-disabled="$ctrl.error">Insert</button>
                 <button class="btn btn-black" ng-disabled="$ctrl.selectedArray.length === 0 || $ctrl.selectedArray.length > 1" ng-click="$ctrl.editContact()">Edit</button>
-                <button class="btn btn-black btn-fixed-80" ng-class="{'right-space-20': $ctrl.isUpdate}" ng-disabled="$ctrl.selectedArray.length < 1" ng-click="$ctrl.deleteContact()">Delete</button>
+                <button class="btn btn-black" ng-class="{'right-space-20': $ctrl.isUpdate}" ng-disabled="$ctrl.selectedArray.length < 1" ng-click="$ctrl.deleteContact()">Delete</button>
                 <button class="btn btn-black" ng-click="$ctrl.shuffleList()" ng-disabled="$ctrl.filteredList.length <= 1" ng-if="$ctrl.isUpdate">Shuffle</button>
-              <button class="btn btn-blue no-padding" ng-click="$ctrl.generatePhones()" ng-disabled="$ctrl.list.length===0" ng-if="$ctrl.isUpdate">DNC Scrub</button>
-
+                <button class="btn btn-blue" ng-click="$ctrl.generatePhones()" ng-disabled="$ctrl.list.length===0" ng-if="$ctrl.isUpdate">DNC Scrub</button>
             </div>
         </div>
     </div>
@@ -64,9 +63,9 @@
         </table>
     </div>
 
-    <div class="mywell footer_table fixed-margin-bottom-60 text-center" ng-show="$ctrl.list.length>0">
+    <div class="mywell footer_table search-list-messages text-center" ng-show="$ctrl.list.length>0">
 
-        <div class="no-margin-top noresults" ng-show="!$ctrl.filteredList.length" ng-if="$ctrl.search">
+        <div class="noresults" ng-show="!$ctrl.filteredList.length" ng-if="$ctrl.search">
             <img src="assets/al/images/NoResultsIcon.png" alt="lupa">
             <p>We couldn't find what you are looking for</p>
         </div>
@@ -85,13 +84,13 @@
 
             <select ng-model="$ctrl.numPerPage " ng-options="o as o for o in $ctrl.quantities" ng-change="$ctrl.pageChanged()">
             </select> <span>results per page</span>
-            </div>
+            </div> 
         </div>
     </div>
 
 
-    <div class="mywell footer_table fixed-margin-bottom-60 text-center" ng-show="$ctrl.list.length===0">
-        <div class="no-margin-top no-records-added">
+    <div class="mywell footer_table search-list-messages text-center" ng-show="$ctrl.list.length===0">
+        <div class="no-records-added">
             <p>No records added</p>
         </div>
     </div>

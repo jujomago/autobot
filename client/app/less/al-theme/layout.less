@@ -53,6 +53,9 @@
                 padding: 0;                
             }
         }
+        .pull-left h3{
+            font-family: BrandonLight;
+        }
     }    
 
     // SPECIFIC IDS 
@@ -104,18 +107,11 @@
             border-radius: 3px;
         }
     }
-
-        .no-padding{
-        padding: 0;
-    }
-   
-    .rigth-space-sm{
-        margin-right: 10px;
-    }
-
+  
     .reports-bg-color{
         background: #F9FAFC;
     }
+ 
     .reports-img{
         margin-top: 15px;
         margin-bottom:50px;
@@ -125,14 +121,13 @@
           max-width: 1193px;
         }
     }
-
-    .fixed-width-125{
-        width: 125px;
+    .search-list-messages.mywell.footer_table {
+         margin-bottom: 60px;
+        .noresults,.no-records-added{
+            margin-top: 0;
+        }
     }
-    div.no-margin-top{
-        margin-top: 0;
-    }
-
+   
     .mywell {
         background: none;
         border: 0;
@@ -169,8 +164,8 @@
     .no-margin-bottom{
         margin-bottom: 0px;
     }
-    .mywell.fixed-margin-bottom-60{
-        margin-bottom: 60px;
+    .margin-bottom-65 {
+       margin-bottom: 65px;
     }
     .no-records-added{
         color: #666666;
@@ -207,9 +202,6 @@
         line-height: 49px;
         text-align: center;
         margin-top: 10%;
-    }
-    .sortColumn:hover {
-        cursor: pointer;
     }
     .sortColumn:hover {
         cursor: pointer;
@@ -266,9 +258,9 @@
         }
     }
     .withArrow{
-            background:url('@{images_al_path}/dropdown.png') no-repeat center center;
+        background:url('@{images_al_path}/dropdown.png') no-repeat center center;
     }
-    select.cell-select::-ms-expand{
+    .cell-select::-ms-expand{
       display:none;
     }
     .cell-checkbox {
@@ -796,21 +788,12 @@
         }
     }
 
-    .edit-list{
-        .pull-left h3{
-            font-family: BrandonLight;
-        }
-    }
-
     .full-page-loading >abx-load-indicator>.loader_indicator{
         width: 100%;
     }
     .capitalize{
         text-transform: capitalize;
         padding-left: 0px;
-    }
-    .margin-with-footer{
-        margin-bottom: 35px;
     }
     @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
         .skillU-modal{
@@ -822,10 +805,6 @@
                 }
             }
         }
-    }
-    .capitalize{
-        text-transform: capitalize;
-        padding-left: 0px;
     }
     .table-y-scroll-col4 .capitalize-contact{
         padding-left: 30px;
@@ -846,9 +825,6 @@
             padding-right: 15px;
             display: none;
         }
-    }
-    .label-weight{
-        font-weight: normal;
     }
     .btn-width-action-top{
       width: 80px;
