@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Component:step3', function () {
+describe('Component: alUploadList', function () {
 
   // load the controller's module
   beforeEach(module('fakiyaMainApp'));
@@ -10,32 +10,32 @@ describe('Component:step3', function () {
   let mockAlert, mockAlertResult, mockPrompt, mockModal;
   let _$scope;
   let mockFields = [
-  {
-    name: 'number1',
-    type: 'PHONE',
-     mapTo: 'None'
-   },
-   {
-    name: 'string1',
-    type: 'STRING',
-    mapTo: 'None'
-   },
-   {
-    name: 'percent1',
-    type: 'PERCENT',
-    mapTo: 'None'
-   },
-   {
-    name: 'date1',
-    type: 'DATE',
-    mapTo: 'None'
-   },
-   {
-    name: 'last_disposition',
-    type: 'STRING',
-    mapTo: 'LAST_DISPOSITION'
-   }
-   ];
+    {
+      name: 'number1',
+      type: 'PHONE',
+      mapTo: 'None'
+    },
+    {
+      name: 'string1',
+      type: 'STRING',
+      mapTo: 'None'
+    },
+    {
+      name: 'percent1',
+      type: 'PERCENT',
+      mapTo: 'None'
+    },
+    {
+      name: 'date1',
+      type: 'DATE',
+      mapTo: 'None'
+    },
+    {
+      name: 'last_disposition',
+      type: 'STRING',
+      mapTo: 'LAST_DISPOSITION'
+    }
+  ];
   beforeEach(inject(function ($componentController,$rootScope, $httpBackend, appConfig, $stateParams, $q, Utils) {
     _$httpBackend = $httpBackend;
     _$stateParams = $stateParams;
@@ -70,7 +70,7 @@ describe('Component:step3', function () {
         return true;
       }
     };
-    ListComponent = $componentController('al.lists.edit.list', {
+    ListComponent = $componentController('alUploadList', {
       $state: mockState,
       $stateParams: _$stateParams,
       PromptDialog: mockPrompt,
@@ -136,12 +136,12 @@ describe('Component:step3', function () {
     it('Should get all map to none fields to Update List', () => {
       _$httpBackend.whenGET(_endPointUrl+'/f9/contacts/fields').respond(200, {return: mockFields});
       ListComponent.getContactFields()
-      .then(()=>{
-        expect(ListComponent.contactFields.length).to.equal(4);
-        let expected = [{name: 'number1', type: 'PHONE', mapTo: 'None', isKey: true},{name: 'string1',type: 'STRING',mapTo: 'None'},{name: 'percent1', type: 'PERCENT',mapTo: 'None'},{name: 'date1', type: 'DATE', mapTo: 'None'}];
-        expect(ListComponent.contactFields).to.deep.equal(expected);
-        expect(ListComponent.loaded).to.equal(true);
-      });
+        .then(()=>{
+          expect(ListComponent.contactFields.length).to.equal(4);
+          let expected = [{name: 'number1', type: 'PHONE', mapTo: 'None', isKey: true},{name: 'string1',type: 'STRING',mapTo: 'None'},{name: 'percent1', type: 'PERCENT',mapTo: 'None'},{name: 'date1', type: 'DATE', mapTo: 'None'}];
+          expect(ListComponent.contactFields).to.deep.equal(expected);
+          expect(ListComponent.loaded).to.equal(true);
+        });
       _$httpBackend.flush();
     });
 
@@ -161,32 +161,43 @@ describe('Component:step3', function () {
     it('Should show error message', () => {
       _$httpBackend.whenGET(_endPointUrl+'/f9/contacts/fields').respond(500, {error: 'Internal Server Error'});
       ListComponent.getContactFields()
-      .then(()=>{
-        expect(ListComponent.message).to.deep.equal({ show: true, type: 'danger', text: 'Internal Server Error' });
-      });
+        .then(()=>{
+          expect(ListComponent.message).to.deep.equal({ show: true, type: 'danger', text: 'Internal Server Error' });
+        });
       _$httpBackend.flush();
     });
   });
+
   describe('#uploadContacts', () => {
+    beforeEach(function() {
+      ListComponent.settings = {
+        listAddMode: 'ADD_FIRST',
+        crmAddMode: 'ADD_NEW',
+        crmUpdateMode: 'UPDATE_FIRST',
+        cleanListBeforeUpdate: false
+      };
+    });
+
     it('Should insert records', () => {
       _$httpBackend.whenPOST(_endPointUrl+'/f9/lists/test/records').respond(200, {return: {identifier: '123-abc'}});
       ListComponent.sendContact = {listName: 'test'};
       ListComponent.uploadContacts()
-      .then(()=>{
-        expect(ListComponent.sending).to.equal(false);
-        expect(mockState.url).to.equal('ap.al.lists');
-        expect(_Utils.getDataListAction()).to.deep.equal({name: 'test', identifier: '123-abc', isUpdate: true});
-      });
+        .then(()=>{
+          expect(ListComponent.sending).to.equal(false);
+          expect(mockState.url).to.equal('ap.al.lists');
+          expect(_Utils.getDataListAction()).to.deep.equal({name: 'test', identifier: '123-abc', isUpdate: true});
+        });
       _$httpBackend.flush();
     });
+
     it('Should show error message', () => {
       _$httpBackend.whenPOST(_endPointUrl+'/f9/lists/test/records').respond(500, {error: 'Internal Server Error'});
       ListComponent.sendContact = {listName: 'test'};
       ListComponent.uploadContacts()
-      .then(()=>{
-        expect(ListComponent.SubmitText).to.equal('Save');
-        expect(_Utils.getDataListAction().messageError).to.deep.equal({ show: true, type: 'danger', text: 'Internal Server Error', name: 'test', expires: 5000 });
-      });
+        .then(()=>{
+          expect(ListComponent.SubmitText).to.equal('Save');
+          expect(_Utils.getDataListAction().messageError).to.deep.equal({ show: true, type: 'danger', text: 'Internal Server Error', name: 'test', expires: 5000 });
+        });
       _$httpBackend.flush();
     });
   });
@@ -213,29 +224,29 @@ describe('Component:step3', function () {
 
       deferred.resolve([{phone: '9876543210', status: 'P'}, {phone: '9876543211', status: 'C'}]);
       mockModal.open= function(){
-          return {result: deferred.promise};
+        return {result: deferred.promise};
       };
       ListComponent.list=[{number1: '9876543219',number2: '9876543211',number3: '9876543210' }, {number1: '9876543217',number2: '',number3: '' }];
       ListComponent.openDNCModal()
-      .then(() => {
-        expect(ListComponent.list.length).to.equal(1);
-        expect(ListComponent.list).to.deep.equal([{number1: '9876543217',number2: '',number3: '' }]);
-        expect(ListComponent.selectedArray.length).to.equal(0);
-        expect(ListComponent.contact).to.deep.equal({});
-      });
+        .then(() => {
+          expect(ListComponent.list.length).to.equal(1);
+          expect(ListComponent.list).to.deep.equal([{number1: '9876543217',number2: '',number3: '' }]);
+          expect(ListComponent.selectedArray.length).to.equal(0);
+          expect(ListComponent.contact).to.deep.equal({});
+        });
       _$scope.$apply();
     });
     it('should display alert message', () => {
       let deferred = _$q.defer();
       deferred.resolve([{phone: '9876543210', status: 'C'}]);
       mockModal.open= function(){
-          return {result: deferred.promise};
+        return {result: deferred.promise};
       };
       ListComponent.openDNCModal()
-      .then(() => {
-        expect(mockAlertResult.params).to.deep.equal({title: 'DNC Scrub', body: 'All your records have been found valid.\nYou may continue uploading the list.'});
-        expect(mockAlertResult.config).to.deep.equal({center: true});
-      });
+        .then(() => {
+          expect(mockAlertResult.params).to.deep.equal({title: 'DNC Scrub', body: 'All your records have been found valid.\nYou may continue uploading the list.'});
+          expect(mockAlertResult.config).to.deep.equal({center: true});
+        });
       _$scope.$apply();
     });
 

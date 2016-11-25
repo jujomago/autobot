@@ -1,0 +1,16 @@
+<div>
+  <h3 class="title_section">List: <span>{{$ctrl.name}}</span></h3>
+  <div>
+    <div ng-switch="$ctrl.getCurrentStep()">
+      <div ng-switch-when="Setting">
+        <al-setting-list></al-setting-list>
+      </div>
+      <div ng-switch-when="Mapping">
+        <al-mapping-list></al-mapping-list>
+      </div>
+      <div ng-switch-when="Upload">
+        <al-upload-list></al-upload-list>
+      </div>
+    </div>
+  </div>
+</div>
