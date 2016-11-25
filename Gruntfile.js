@@ -61,10 +61,11 @@ module.exports = function (grunt) {
         files: ['<%= yeoman.client %>/{app,components}/**/!(*.spec|*.mock).js'],
         tasks: ['newer:babel:client']
       },
-      ngconstant: {
+      //This configuration is not necessary because we will update the constant file by script
+      /*ngconstant: {
         files: ['<%= yeoman.server %>/config/environment/shared.js'],
         tasks: ['ngconstant']
-      },
+      },*/
       injectJS: {
         files: [
           '<%= yeoman.client %>/{app,components}/**/!(*.spec|*.mock).js',
@@ -431,7 +432,7 @@ module.exports = function (grunt) {
     concurrent: {
       pre: [
         'injector:less',
-        'ngconstant'
+        //'ngconstant' This task is not necessary because we will replace the configuration by script
       ],
       server: [
         'newer:babel:client',
