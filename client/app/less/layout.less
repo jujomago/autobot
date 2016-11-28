@@ -3,8 +3,12 @@ html, body, #main-container{
 }
 // @fullHeightContainer:@height_navbar+@height_footer;
 .app-container-theme{
-    padding-top: @height_navbar;
-    min-height: ~"calc(100% - @{height_footer})";
+     min-height: ~"calc(100vh - @{height_footer})";
+     padding-top: 60px;
+    .theme-full-height{ 
+      min-height: ~"calc(100vh - @{fullHeightContainer})";
+      overflow: hidden;   
+    }
 }
 
 .row{
@@ -43,8 +47,7 @@ html, body, #main-container{
         display: block;
         padding-top: 13px;
         color: white;
-        position: relative;
-        z-index: 10;
+        position: static;
         margin-left: 0;
         margin-right: 0;
         p{
