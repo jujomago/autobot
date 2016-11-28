@@ -1,21 +1,21 @@
 <div class="reports-bg-color">
-	<nav class="toolbar-reports">
+<nav class="toolbar-reports">
 		<div class="toolbar-reports-title">
 			My dashboard
 		</div>
 		<ul class="linkscontainer linkscontainer--leftspace">
 			<li class="linkscontainer__item">
 				<a ui-sref="ap.customer-journey">Customer Journey</a>
-				</li>
-			<li class="linkscontainer__item ">
-				<a ui-sref="ap.scorecard-kpi">Scorecard KPI's</a>
-				</li>
+			</li>
 			<li class="linkscontainer__item">
-				<a ui-sref="ap.heat-maps">Heat Maps</a>
-				</li>
+				<a ui-sref="ap.scorecard-kpi">Scorecard KPI's</a>
+			</li>
 			<li class="linkscontainer__item" ui-sref-active="linkscontainer__item--active">
+				<a ui-sref="ap.heat-maps">Heat Maps</a>
+			</li>
+			<li class="linkscontainer__item">
 				<a ui-sref="ap.gauges">Gauges</a>
-				</li>
+			</li>
 			<li class="linkscontainer__item linkscontainer__item--last">
 				<a ui-sref="ap.revenue">Revenue</a>
 			</li>
@@ -132,32 +132,14 @@
 				<button class="buttonBlack">Revert</button>
 			</div>
 		</div>
-		<div class="gauges-reports">
-			<div class="img-responsive-reports">
-				<p>Speed to contact attempts</p>
-				<img  ng-src="assets/reports/images/AB-App-ReportsGauges1.png" alt="MIDSA DASD"/>
-                        <p class="font-gauges" title-image>5m</p>
-			</div>
-			<div class="img-responsive-reports">
-				<p>Speed to contact</p>
-				<img  ng-src="assets/reports/images/AB-App-ReportsGauges2.png" />
-                        <p class="font-gauges" title-image>1h 15m</p>
-			</div>
-			<div class="img-responsive-reports">
-				<p>Contact rate</p>
-				<img  ng-src="assets/reports/images/AB-App-ReportsGauges3.png" />
-                        <p class="font-gauges" title-image>81.1%</p>
-			</div>
-			<div class="img-responsive-reports">
-				<p>Qualification rate</p>
-				<img  ng-src="assets/reports/images/AB-App-ReportsGauges4.png" />
-                        <p class="font-gauges" title-image>65%</p>
-			</div>
-			<div class="img-responsive-reports">
-				<p>Conversion rate</p>
-				<img ng-src="assets/reports/images/AB-App-ReportsGauges5.png" />
-                        <p class="font-gauges" title-image>19.6%</p>
-			</div>
+		<div class="pull-right div-box-span">
+			<div class="div-box-head div-box-head1" /><span class="span-box">Appointment</span>
+			<div class="div-box-head div-box-head2" /><span class="span-box">No answer</span>
+			<div class="div-box-head div-box-head3" /><span class="span-box2">Not interested</span>
+		</div>
+		<div class="align-img">
+           <img class="img-responsive-heat"
+                  ng-src="assets/reports/images/heatmaps.png"/>
 		</div>
 	</div>
 </div>
