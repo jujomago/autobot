@@ -1,51 +1,10 @@
 'use strict';
-(function () {
-  let _$anchorScroll;
-  let _ConctactService;
-  class HomePageController {
-  
-    constructor($anchorScroll, ContactService) {
-      this.submitText='Submit';
-       this.message={'show':false};
-     _ConctactService=ContactService;
-     _$anchorScroll= $anchorScroll;
-    }
-    scrollTo(id){
-      _$anchorScroll(id);
-    }
-    clearForm(form){
-      Object.keys(this.cform).forEach(value => {
-        this.cform[value] = '';
+angular.module('fakiyaMainApp')
+  .config(function ($stateProvider) {
+    $stateProvider
+      .state('home', {
+        url: '/',
+        template: '<home></home>'
       });
-      form.$setPristine();
-    }
-    sendmail(form){
-        this.submitText='Submitting..';
-        return _ConctactService.sendmail(this.cform)
-        .then(response=>{
-           this.submitText='Submit';
-           this.message = { show: true, type:'success',text:'Email Sent Successfully', expires:4000 };
-           this.clearForm(form);
-          return response;
-        })
-        .catch(err=>{     
-           this.submitText='Submit';
-           this.message = { show: true, type:'danger', text: err.errorMessage || err , expires:4000 };   
-           return err;
-        });
-    }
-  }
-  HomePageController.$inject=['$anchorScroll','ContactService'];
+  });
 
-  angular.module('fakiyaMainApp')
-    .config(function ($stateProvider) {
-      $stateProvider
-        .state('home', {
-          url: '/',
-          templateUrl: 'app/site/homepage/homepage.html',
-          controller: HomePageController,
-          controllerAs: '$ctrl'
-        });
-    });
-
-})();

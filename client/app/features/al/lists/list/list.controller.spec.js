@@ -299,7 +299,7 @@ describe('Component:al.lists.list', function () {
       promise
         .then(response => {
           expect(response.summaryMessage.title).to.equal('Summary');
-          expect(response.summaryMessage.body).to.equal('Update for list "List6" has been succesfully completed.');
+          expect(response.summaryMessage.body).to.equal('Update for list "List6" has been succesfully completed.\nList has been cleaned up before update.');
           expect(response.summaryMessage.list[0]).to.equal('7 Call List records deleted, 3 Call List records inserted, 5 Contact Records updated');
           expect(response.summaryMessage.list[1]).to.equal('No errors found');
           expect(response.summaryMessage.list[2]).to.equal('No warnings found');

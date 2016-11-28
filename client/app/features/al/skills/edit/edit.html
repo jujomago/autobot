@@ -4,16 +4,21 @@
 <uib-tabset active="active1" justified="false" ng-hide="!$ctrl.found">
     <uib-tab index="0" heading="Details" >
         <div ng-show="$ctrl.found">
-            <form class="custom_form form-horizontal" ng-submit="$ctrl.save()">
-                <div class="form-field">
+            <form class="custom_form form-horizontal" name="formSkill" novalidate ng-submit="formSkill.$valid && $ctrl.save()">
+                <div class="form-field" ng-class="{ 'has-error': formSkill.skillName.$invalid && formSkill.$submitted }">
                     <label for="inputName">Name *</label>
-                    <span>
-                        <input autofocus
-                               type="text"
-                               id="inputName"
-                               ng-model="$ctrl.selectedSkill.name"
-                               maxlength="32" />
-                    </span>
+                        <span>
+                            <input autofocus type="text"
+                                id="inputName"
+                                ng-model="$ctrl.selectedSkill.name"
+                                name="skillName"
+                                required                                
+                                maxlength="32"/>
+                            </span>
+                </div>
+                <div ng-messages="formSkill.skillName.$error" ng-show="formSkill.$submitted">
+                    <p ng-message="minlength">This field is too short</p>
+                    <p ng-message="required">This field is required</p>
                 </div>
                 <div class="form-field">
                     <label for="inputDesc">Description</label>

@@ -6,7 +6,7 @@ requireCommand() {
   command -v $1 >/dev/null 2>&1 || { echo "$1 must exist on the path.  Install it and try again.  Aborting." >&2; exit 1; }
 }
 
-usage() { echo "Usage: $0 [-m <dev|prod>] [-v <number.number>]" 1>&2; exit 1; }
+usage() { echo "Usage: $0 [-m <prod>] [-e <staging|prod>] [-v <number.number>]" 1>&2; exit 1; }
 
 requireCommand docker-compose
 requireCommand docker
@@ -21,17 +21,27 @@ WEB_NAME="autobox-web"
 echo "Building the docker compose images"
 
 option=prod
-while getopts ":m:v:" opt; do
+environment=prod
+while getopts ":m:e:v:" opt; do
   case $opt in
     m)
       echo "-m was triggered, Parameter: $OPTARG" >&2
       option="$OPTARG"
       if [ "$OPTARG" == "dev" ]; then
         option=dev
-      elif [ "$OPTARG" == "staging" ]; then
-        option=staging
       else
         option=prod
+      fi
+      ;;
+    e)
+      echo "-e was triggered, Parameter: $OPTARG"
+      environment="$OPTARG"
+      if [ "$OPTARG" == "staging" ]; then
+        environment=staging
+        VERSION="$number.staging"
+      else
+        environment=prod
+        VERSION="$number.prod"
       fi
       ;;
     v)
@@ -52,25 +62,44 @@ while getopts ":m:v:" opt; do
   esac
 done
 
-#option="${1}"
-case ${option} in
-   dev) VERSION="$number.dev"
-      echo "Development building..."
-      docker-compose --project-name "$APP_NAME" -f docker-compose.dev.yml build
+case ${environment} in
+   staging)
+      case ${number} in
+        latest)
+            API_URL="http://www.dev-autoboxcorp.com:9999/api"
+          ;;
+        *)
+            API_URL="http://www.dev-autoboxcorp.com:8888/api"
+          ;;
+      esac
       ;;
-   staging) VERSION="$number"
-      echo "Production building for staging..."
-      docker-compose --project-name "$APP_NAME" -f docker-compose.dev.yml build
+   prod)
+      case ${number} in
+        latest)
+            API_URL="http://localhost:9999/api"
+          ;;
+        *)
+            API_URL="http://www.autoboxcorp.com:8888/api"
+          ;;
+      esac
       ;;
-   prod) VERSION="$number"
-      echo "Production building..."
-      docker-compose --project-name "$APP_NAME" build
-      ;;
-   *) VERSION="$number"
-      echo "Production building..."
-      docker-compose --project-name "$APP_NAME" build
+   *)
+      case ${number} in
+        latest)
+            API_URL="http://localhost:9999/api"
+          ;;
+        *)
+            API_URL="http://www.autoboxcorp.com:8888/api"
+          ;;  
+      esac
       ;;
 esac
+
+echo "Replacing API_ACCESS_URL string"
+sed -i -e "s@API.*api@API_ACCESS_URL: $API_URL@" docker-compose.yml
+
+echo "Building image"
+docker-compose --project-name "$APP_NAME" build
 
 echo "Tagging as $VERSION"
 docker tag "${APP_NAME}_${WEB_NAME}" "$DOCKER_REGISTRY/$WEB_NAME:$VERSION"
