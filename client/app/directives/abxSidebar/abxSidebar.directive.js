@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('fakiyaMainApp')
-  .directive('abxSidebar', ['$location', '$window', function ($location, $window) {
+  .directive('abxSidebar', ['$location', function ($location) {
 
-    function link(scope, element) {
+    function link(scope) {
       scope.checkActive = function (link) {
         return ($location.path().indexOf(link) >= 0) ? 'active' : '';
       };
