@@ -31,7 +31,9 @@ angular.module('fakiyaMainApp')
               }
             }
           }.bind(this));
-
+          scope.close = function(){
+            scope.msgInfo.show = false;
+          }
         /*if (attrs.expires) {
           var timer = $timeout(function () {
             scope.msgInfo.show = false;

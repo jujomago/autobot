@@ -9,24 +9,64 @@
 		p, select, input, a, div{
 			font-family: ProximaNovaRegular;
 		}
-		a.link-disabled{
+		.link-disabled{
 			pointer-events: none;
+			cursor: not-allowed;
 		}
 		.rqa-body{
 			margin-bottom: 65px;
 			display: block;		
-			height: ~"calc(100% - 190px)";
+			height: ~"calc(100% - 180px)";
 			min-width: 100%;
 			overflow-y: auto;
+			overflow-x: hidden;
+			&.has-error{
+				height: ~"calc(100% - 210px)";
+			}
 			.left-item{
+				.flex-container{
+					height: 100%;
+    				display: flex;
+    				.loading-container{
+    					margin: auto;
+    					text-align: center;
+    					img{
+    						margin-bottom: 5px;
+    					}
+    					p{
+    						font-size: 14px;
+        					color: #999;
+        					margin-bottom: 0;
+    					}
+    				}
+
+				}
+				.rqa-table{
+    				table-layout: initial;
+    				th, td{
+    					white-space: nowrap;
+    				}
+    			}
+				.no-records-container{
+					margin-left: 20px;
+					margin-top: 20px;
+					p{
+						font-size: 14px;
+    					color: #999;
+    					margin-bottom: 0;
+					}
+				}
 				width: auto;
 				max-height: 100%;
+				height: 100%;
+				background: white;
     			overflow-x: auto;
-    			.filter-open{
-    				width: ~"calc(100% + 285px)";
+    			.table-container{
+    				width: ~"calc(100vw - 75px)";
     			}
 
 			}
+			
 			.right-filter{
 				    width: 280px;
 				    box-shadow: 3px 0px 10px black;
@@ -34,12 +74,17 @@
 				    background: white;
 				    height: 100%;
 				    float: right;
-				    overflow: auto;
-				    transition: all 2s linear;
+				    overflow: hidden;
+				    transition: width 0.2s linear;
+				    &.hide-filter{
+						width: 0;
+						margin-left: 0;
+				    }
 				    .filters-header{
 				    	margin-bottom: 20px;
 				    	padding-left: 20px;
 				    	padding-right: 20px;
+				    	width: 280px;
 				    	span.fa{
 				    		color: #e74c3c;
 				    		cursor: pointer;
@@ -49,6 +94,7 @@
 				    	}
 				    }
 				    .filters-body{
+				    	width: 280px;
 				    	height: ~"calc(100% - 80px)";
 				    	padding-left: 20px;
 				    	padding-right: 20px;
@@ -89,6 +135,10 @@
 				    			&.value{
 				    				font-size: 14px;
 				    				color: #666666;
+				    				width: 100%;
+								    text-overflow: ellipsis;
+								    overflow: hidden;
+								    white-space: nowrap;
 				    			}
 				    		}
 				    	}
@@ -126,10 +176,25 @@
 							color: #999999;
 							margin: 0;
 						}
-						input, select{
-							width: 100%;
-							margin-bottom: 20px;
-							height: 30px;
+						.filter-input{
+						margin-bottom: 20px;
+						display: inline-block;	
+						width: 100%;	
+							input, select{
+								width: 100%;
+								height: 30px;
+							}
+							.error-message{
+								height: 20px;
+								margin-top: 2px;
+								p{
+									color: #e64b3b;
+									margin-bottom: 0px;
+								}
+							}
+							&.no-margin-bottom{
+								margin-bottom: 0;
+							}
 						}
 						.button-container{
 							width: 100%;
@@ -149,6 +214,9 @@
 		.fixed-margin-bottom-30{
 			margin-bottom: 30px;
 		}
+		.fixed-margin-bottom-10{
+			margin-bottom: 10px;
+		}
 		.fixed-margin-left-10{
 			margin-left: 10px;
 		}
@@ -158,7 +226,7 @@
 			height: 30px;
 			background: #ffffff;
 			border: 0;
-			&.active{
+			&.active, &:hover{
 				background: #37a3dc;
 				.rqa-refresh{
 					background: url('@{image_buttons_rqa_path}/refresh-active.png') no-repeat center center;
@@ -189,6 +257,7 @@
 				font-family: ProximaNovaLight;
 				font-size: 24px;
 				color: #666;
+				vertical-align: middle;
 			}
 		}
 		.actions-container{
