@@ -1,602 +1,57 @@
 'use strict';
 (function(){
-let mockData = [
-    {
-      "CALL ID": 24381,
-      "TIMESTAMP": "Thu, 27 Oct 2016 14:51:34",
-      "CAMPAIGN": "[Deleted]",
-      "CALL TYPE": "Autodial",
-      "AGENT": "[None]",
-      "AGENT NAME": "",
-      "DISPOSITION": "Operator Intercept",
-      "ANI": 8883121153,
-      "CUSTOMER NAME": "",
-      "DNIS": 9255555555,
-      "CALL TIME": "00:00:00",
-      "BILL TIME (ROUNDED)": "00:00:00",
-      "COST": 0,
-      "IVR TIME": "00:00:00",
-      "QUEUE WAIT TIME": "00:00:00",
-      "RING TIME": "",
-      "TALK TIME": "00:00:00",
-      "HOLD TIME": "00:00:00",
-      "PARK TIME": "00:00:00",
-      "AFTER CALL WORK TIME": "00:00:00",
-      "TRANSFERS": "",
-      "CONFERENCES": "",
-      "HOLDS": "",
-      "ABANDONED": "",
-      "RECORDINGS": ""
-    },
-    {
-      "CALL ID": 24382,
-      "TIMESTAMP": "Thu, 27 Oct 2016 14:51:34",
-      "CAMPAIGN": "[Deleted]",
-      "CALL TYPE": "Autodial",
-      "AGENT": "[None]",
-      "AGENT NAME": "",
-      "DISPOSITION": "No Disposition",
-      "ANI": 8883121153,
-      "CUSTOMER NAME": "Paul Ruedi",
-      "DNIS": 9252012068,
-      "CALL TIME": "00:00:03",
-      "BILL TIME (ROUNDED)": "00:00:06",
-      "COST": 0.0036,
-      "IVR TIME": "00:00:03",
-      "QUEUE WAIT TIME": "00:00:00",
-      "RING TIME": "",
-      "TALK TIME": "00:00:00",
-      "HOLD TIME": "00:00:00",
-      "PARK TIME": "00:00:00",
-      "AFTER CALL WORK TIME": "00:00:00",
-      "TRANSFERS": "",
-      "CONFERENCES": "",
-      "HOLDS": "",
-      "ABANDONED": 0,
-      "RECORDINGS": ""
-    },
-    {
-      "CALL ID": 24383,
-      "TIMESTAMP": "Thu, 27 Oct 2016 14:51:34",
-      "CAMPAIGN": "[Deleted]",
-      "CALL TYPE": "Autodial",
-      "AGENT": "[None]",
-      "AGENT NAME": "",
-      "DISPOSITION": "No Answer",
-      "ANI": 8883121153,
-      "CUSTOMER NAME": "Sven Ruedi",
-      "DNIS": 9255191547,
-      "CALL TIME": "00:00:00",
-      "BILL TIME (ROUNDED)": "00:00:00",
-      "COST": 0,
-      "IVR TIME": "00:00:00",
-      "QUEUE WAIT TIME": "00:00:00",
-      "RING TIME": "",
-      "TALK TIME": "00:00:00",
-      "HOLD TIME": "00:00:00",
-      "PARK TIME": "00:00:00",
-      "AFTER CALL WORK TIME": "00:00:00",
-      "TRANSFERS": "",
-      "CONFERENCES": "",
-      "HOLDS": "",
-      "ABANDONED": "",
-      "RECORDINGS": ""
-    },
-    {
-      "CALL ID": 24384,
-      "TIMESTAMP": "Thu, 27 Oct 2016 14:51:34",
-      "CAMPAIGN": "[Deleted]",
-      "CALL TYPE": "Autodial",
-      "AGENT": "[None]",
-      "AGENT NAME": "",
-      "DISPOSITION": "Operator Intercept",
-      "ANI": 8883121153,
-      "CUSTOMER NAME": "Ken Osborn",
-      "DNIS": 9788874941,
-      "CALL TIME": "00:00:00",
-      "BILL TIME (ROUNDED)": "00:00:00",
-      "COST": 0,
-      "IVR TIME": "00:00:00",
-      "QUEUE WAIT TIME": "00:00:00",
-      "RING TIME": "",
-      "TALK TIME": "00:00:00",
-      "HOLD TIME": "00:00:00",
-      "PARK TIME": "00:00:00",
-      "AFTER CALL WORK TIME": "00:00:00",
-      "TRANSFERS": "",
-      "CONFERENCES": "",
-      "HOLDS": "",
-      "ABANDONED": "",
-      "RECORDINGS": ""
-    },
-
-    {
-      "CALL ID": 24384,
-      "TIMESTAMP": "Thu, 27 Oct 2016 14:51:34",
-      "CAMPAIGN": "[Deleted]",
-      "CALL TYPE": "Autodial",
-      "AGENT": "[None]",
-      "AGENT NAME": "",
-      "DISPOSITION": "Operator Intercept",
-      "ANI": 8883121153,
-      "CUSTOMER NAME": "Ken Osborn",
-      "DNIS": 9788874941,
-      "CALL TIME": "00:00:00",
-      "BILL TIME (ROUNDED)": "00:00:00",
-      "COST": 0,
-      "IVR TIME": "00:00:00",
-      "QUEUE WAIT TIME": "00:00:00",
-      "RING TIME": "",
-      "TALK TIME": "00:00:00",
-      "HOLD TIME": "00:00:00",
-      "PARK TIME": "00:00:00",
-      "AFTER CALL WORK TIME": "00:00:00",
-      "TRANSFERS": "",
-      "CONFERENCES": "",
-      "HOLDS": "",
-      "ABANDONED": "",
-      "RECORDINGS": ""
-    },
-
-    {
-      "CALL ID": 24384,
-      "TIMESTAMP": "Thu, 27 Oct 2016 14:51:34",
-      "CAMPAIGN": "[Deleted]",
-      "CALL TYPE": "Autodial",
-      "AGENT": "[None]",
-      "AGENT NAME": "",
-      "DISPOSITION": "Operator Intercept",
-      "ANI": 8883121153,
-      "CUSTOMER NAME": "Ken Osborn",
-      "DNIS": 9788874941,
-      "CALL TIME": "00:00:00",
-      "BILL TIME (ROUNDED)": "00:00:00",
-      "COST": 0,
-      "IVR TIME": "00:00:00",
-      "QUEUE WAIT TIME": "00:00:00",
-      "RING TIME": "",
-      "TALK TIME": "00:00:00",
-      "HOLD TIME": "00:00:00",
-      "PARK TIME": "00:00:00",
-      "AFTER CALL WORK TIME": "00:00:00",
-      "TRANSFERS": "",
-      "CONFERENCES": "",
-      "HOLDS": "",
-      "ABANDONED": "",
-      "RECORDINGS": ""
-    },
-
-    {
-      "CALL ID": 24384,
-      "TIMESTAMP": "Thu, 27 Oct 2016 14:51:34",
-      "CAMPAIGN": "[Deleted]",
-      "CALL TYPE": "Autodial",
-      "AGENT": "[None]",
-      "AGENT NAME": "",
-      "DISPOSITION": "Operator Intercept",
-      "ANI": 8883121153,
-      "CUSTOMER NAME": "Ken Osborn",
-      "DNIS": 9788874941,
-      "CALL TIME": "00:00:00",
-      "BILL TIME (ROUNDED)": "00:00:00",
-      "COST": 0,
-      "IVR TIME": "00:00:00",
-      "QUEUE WAIT TIME": "00:00:00",
-      "RING TIME": "",
-      "TALK TIME": "00:00:00",
-      "HOLD TIME": "00:00:00",
-      "PARK TIME": "00:00:00",
-      "AFTER CALL WORK TIME": "00:00:00",
-      "TRANSFERS": "",
-      "CONFERENCES": "",
-      "HOLDS": "",
-      "ABANDONED": "",
-      "RECORDINGS": ""
-    },
-
-    {
-      "CALL ID": 24384,
-      "TIMESTAMP": "Thu, 27 Oct 2016 14:51:34",
-      "CAMPAIGN": "[Deleted]",
-      "CALL TYPE": "Autodial",
-      "AGENT": "[None]",
-      "AGENT NAME": "",
-      "DISPOSITION": "Operator Intercept",
-      "ANI": 8883121153,
-      "CUSTOMER NAME": "Ken Osborn",
-      "DNIS": 9788874941,
-      "CALL TIME": "00:00:00",
-      "BILL TIME (ROUNDED)": "00:00:00",
-      "COST": 0,
-      "IVR TIME": "00:00:00",
-      "QUEUE WAIT TIME": "00:00:00",
-      "RING TIME": "",
-      "TALK TIME": "00:00:00",
-      "HOLD TIME": "00:00:00",
-      "PARK TIME": "00:00:00",
-      "AFTER CALL WORK TIME": "00:00:00",
-      "TRANSFERS": "",
-      "CONFERENCES": "",
-      "HOLDS": "",
-      "ABANDONED": "",
-      "RECORDINGS": ""
-    },
-
-    {
-      "CALL ID": 24384,
-      "TIMESTAMP": "Thu, 27 Oct 2016 14:51:34",
-      "CAMPAIGN": "[Deleted]",
-      "CALL TYPE": "Autodial",
-      "AGENT": "[None]",
-      "AGENT NAME": "",
-      "DISPOSITION": "Operator Intercept",
-      "ANI": 8883121153,
-      "CUSTOMER NAME": "Ken Osborn",
-      "DNIS": 9788874941,
-      "CALL TIME": "00:00:00",
-      "BILL TIME (ROUNDED)": "00:00:00",
-      "COST": 0,
-      "IVR TIME": "00:00:00",
-      "QUEUE WAIT TIME": "00:00:00",
-      "RING TIME": "",
-      "TALK TIME": "00:00:00",
-      "HOLD TIME": "00:00:00",
-      "PARK TIME": "00:00:00",
-      "AFTER CALL WORK TIME": "00:00:00",
-      "TRANSFERS": "",
-      "CONFERENCES": "",
-      "HOLDS": "",
-      "ABANDONED": "",
-      "RECORDINGS": ""
-    },
-
-    {
-      "CALL ID": 24384,
-      "TIMESTAMP": "Thu, 27 Oct 2016 14:51:34",
-      "CAMPAIGN": "[Deleted]",
-      "CALL TYPE": "Autodial",
-      "AGENT": "[None]",
-      "AGENT NAME": "",
-      "DISPOSITION": "Operator Intercept",
-      "ANI": 8883121153,
-      "CUSTOMER NAME": "Ken Osborn",
-      "DNIS": 9788874941,
-      "CALL TIME": "00:00:00",
-      "BILL TIME (ROUNDED)": "00:00:00",
-      "COST": 0,
-      "IVR TIME": "00:00:00",
-      "QUEUE WAIT TIME": "00:00:00",
-      "RING TIME": "",
-      "TALK TIME": "00:00:00",
-      "HOLD TIME": "00:00:00",
-      "PARK TIME": "00:00:00",
-      "AFTER CALL WORK TIME": "00:00:00",
-      "TRANSFERS": "",
-      "CONFERENCES": "",
-      "HOLDS": "",
-      "ABANDONED": "",
-      "RECORDINGS": ""
-    },
-
-    {
-      "CALL ID": 24384,
-      "TIMESTAMP": "Thu, 27 Oct 2016 14:51:34",
-      "CAMPAIGN": "[Deleted]",
-      "CALL TYPE": "Autodial",
-      "AGENT": "[None]",
-      "AGENT NAME": "",
-      "DISPOSITION": "Operator Intercept",
-      "ANI": 8883121153,
-      "CUSTOMER NAME": "Ken Osborn",
-      "DNIS": 9788874941,
-      "CALL TIME": "00:00:00",
-      "BILL TIME (ROUNDED)": "00:00:00",
-      "COST": 0,
-      "IVR TIME": "00:00:00",
-      "QUEUE WAIT TIME": "00:00:00",
-      "RING TIME": "",
-      "TALK TIME": "00:00:00",
-      "HOLD TIME": "00:00:00",
-      "PARK TIME": "00:00:00",
-      "AFTER CALL WORK TIME": "00:00:00",
-      "TRANSFERS": "",
-      "CONFERENCES": "",
-      "HOLDS": "",
-      "ABANDONED": "",
-      "RECORDINGS": ""
-    },
-    {
-      "CALL ID": 24382,
-      "TIMESTAMP": "Thu, 27 Oct 2016 14:51:34",
-      "CAMPAIGN": "[Deleted]",
-      "CALL TYPE": "Autodial",
-      "AGENT": "[None]",
-      "AGENT NAME": "",
-      "DISPOSITION": "No Disposition",
-      "ANI": 8883121153,
-      "CUSTOMER NAME": "Paul Ruedi",
-      "DNIS": 9252012068,
-      "CALL TIME": "00:00:03",
-      "BILL TIME (ROUNDED)": "00:00:06",
-      "COST": 0.0036,
-      "IVR TIME": "00:00:03",
-      "QUEUE WAIT TIME": "00:00:00",
-      "RING TIME": "",
-      "TALK TIME": "00:00:00",
-      "HOLD TIME": "00:00:00",
-      "PARK TIME": "00:00:00",
-      "AFTER CALL WORK TIME": "00:00:00",
-      "TRANSFERS": "",
-      "CONFERENCES": "",
-      "HOLDS": "",
-      "ABANDONED": 0,
-      "RECORDINGS": ""
-    },
-    {
-      "CALL ID": 24383,
-      "TIMESTAMP": "Thu, 27 Oct 2016 14:51:34",
-      "CAMPAIGN": "[Deleted]",
-      "CALL TYPE": "Autodial",
-      "AGENT": "[None]",
-      "AGENT NAME": "",
-      "DISPOSITION": "No Answer",
-      "ANI": 8883121153,
-      "CUSTOMER NAME": "Sven Ruedi",
-      "DNIS": 9255191547,
-      "CALL TIME": "00:00:00",
-      "BILL TIME (ROUNDED)": "00:00:00",
-      "COST": 0,
-      "IVR TIME": "00:00:00",
-      "QUEUE WAIT TIME": "00:00:00",
-      "RING TIME": "",
-      "TALK TIME": "00:00:00",
-      "HOLD TIME": "00:00:00",
-      "PARK TIME": "00:00:00",
-      "AFTER CALL WORK TIME": "00:00:00",
-      "TRANSFERS": "",
-      "CONFERENCES": "",
-      "HOLDS": "",
-      "ABANDONED": "",
-      "RECORDINGS": ""
-    },
-    {
-      "CALL ID": 24384,
-      "TIMESTAMP": "Thu, 27 Oct 2016 14:51:34",
-      "CAMPAIGN": "[Deleted]",
-      "CALL TYPE": "Autodial",
-      "AGENT": "[None]",
-      "AGENT NAME": "",
-      "DISPOSITION": "Operator Intercept",
-      "ANI": 8883121153,
-      "CUSTOMER NAME": "Ken Osborn",
-      "DNIS": 9788874941,
-      "CALL TIME": "00:00:00",
-      "BILL TIME (ROUNDED)": "00:00:00",
-      "COST": 0,
-      "IVR TIME": "00:00:00",
-      "QUEUE WAIT TIME": "00:00:00",
-      "RING TIME": "",
-      "TALK TIME": "00:00:00",
-      "HOLD TIME": "00:00:00",
-      "PARK TIME": "00:00:00",
-      "AFTER CALL WORK TIME": "00:00:00",
-      "TRANSFERS": "",
-      "CONFERENCES": "",
-      "HOLDS": "",
-      "ABANDONED": "",
-      "RECORDINGS": ""
-    },
-
-    {
-      "CALL ID": 24384,
-      "TIMESTAMP": "Thu, 27 Oct 2016 14:51:34",
-      "CAMPAIGN": "[Deleted]",
-      "CALL TYPE": "Autodial",
-      "AGENT": "[None]",
-      "AGENT NAME": "",
-      "DISPOSITION": "Operator Intercept",
-      "ANI": 8883121153,
-      "CUSTOMER NAME": "Ken Osborn",
-      "DNIS": 9788874941,
-      "CALL TIME": "00:00:00",
-      "BILL TIME (ROUNDED)": "00:00:00",
-      "COST": 0,
-      "IVR TIME": "00:00:00",
-      "QUEUE WAIT TIME": "00:00:00",
-      "RING TIME": "",
-      "TALK TIME": "00:00:00",
-      "HOLD TIME": "00:00:00",
-      "PARK TIME": "00:00:00",
-      "AFTER CALL WORK TIME": "00:00:00",
-      "TRANSFERS": "",
-      "CONFERENCES": "",
-      "HOLDS": "",
-      "ABANDONED": "",
-      "RECORDINGS": ""
-    },
-
-    {
-      "CALL ID": 24384,
-      "TIMESTAMP": "Thu, 27 Oct 2016 14:51:34",
-      "CAMPAIGN": "[Deleted]",
-      "CALL TYPE": "Autodial",
-      "AGENT": "[None]",
-      "AGENT NAME": "",
-      "DISPOSITION": "Operator Intercept",
-      "ANI": 8883121153,
-      "CUSTOMER NAME": "Ken Osborn",
-      "DNIS": 9788874941,
-      "CALL TIME": "00:00:00",
-      "BILL TIME (ROUNDED)": "00:00:00",
-      "COST": 0,
-      "IVR TIME": "00:00:00",
-      "QUEUE WAIT TIME": "00:00:00",
-      "RING TIME": "",
-      "TALK TIME": "00:00:00",
-      "HOLD TIME": "00:00:00",
-      "PARK TIME": "00:00:00",
-      "AFTER CALL WORK TIME": "00:00:00",
-      "TRANSFERS": "",
-      "CONFERENCES": "",
-      "HOLDS": "",
-      "ABANDONED": "",
-      "RECORDINGS": ""
-    },
-
-    {
-      "CALL ID": 24384,
-      "TIMESTAMP": "Thu, 27 Oct 2016 14:51:34",
-      "CAMPAIGN": "[Deleted]",
-      "CALL TYPE": "Autodial",
-      "AGENT": "[None]",
-      "AGENT NAME": "",
-      "DISPOSITION": "Operator Intercept",
-      "ANI": 8883121153,
-      "CUSTOMER NAME": "Ken Osborn",
-      "DNIS": 9788874941,
-      "CALL TIME": "00:00:00",
-      "BILL TIME (ROUNDED)": "00:00:00",
-      "COST": 0,
-      "IVR TIME": "00:00:00",
-      "QUEUE WAIT TIME": "00:00:00",
-      "RING TIME": "",
-      "TALK TIME": "00:00:00",
-      "HOLD TIME": "00:00:00",
-      "PARK TIME": "00:00:00",
-      "AFTER CALL WORK TIME": "00:00:00",
-      "TRANSFERS": "",
-      "CONFERENCES": "",
-      "HOLDS": "",
-      "ABANDONED": "",
-      "RECORDINGS": ""
-    },
-
-    {
-      "CALL ID": 24384,
-      "TIMESTAMP": "Thu, 27 Oct 2016 14:51:34",
-      "CAMPAIGN": "[Deleted]",
-      "CALL TYPE": "Autodial",
-      "AGENT": "[None]",
-      "AGENT NAME": "",
-      "DISPOSITION": "Operator Intercept",
-      "ANI": 8883121153,
-      "CUSTOMER NAME": "Ken Osborn",
-      "DNIS": 9788874941,
-      "CALL TIME": "00:00:00",
-      "BILL TIME (ROUNDED)": "00:00:00",
-      "COST": 0,
-      "IVR TIME": "00:00:00",
-      "QUEUE WAIT TIME": "00:00:00",
-      "RING TIME": "",
-      "TALK TIME": "00:00:00",
-      "HOLD TIME": "00:00:00",
-      "PARK TIME": "00:00:00",
-      "AFTER CALL WORK TIME": "00:00:00",
-      "TRANSFERS": "",
-      "CONFERENCES": "",
-      "HOLDS": "",
-      "ABANDONED": "",
-      "RECORDINGS": ""
-    },
-
-    {
-      "CALL ID": 24384,
-      "TIMESTAMP": "Thu, 27 Oct 2016 14:51:34",
-      "CAMPAIGN": "[Deleted]",
-      "CALL TYPE": "Autodial",
-      "AGENT": "[None]",
-      "AGENT NAME": "",
-      "DISPOSITION": "Operator Intercept",
-      "ANI": 8883121153,
-      "CUSTOMER NAME": "Ken Osborn",
-      "DNIS": 9788874941,
-      "CALL TIME": "00:00:00",
-      "BILL TIME (ROUNDED)": "00:00:00",
-      "COST": 0,
-      "IVR TIME": "00:00:00",
-      "QUEUE WAIT TIME": "00:00:00",
-      "RING TIME": "",
-      "TALK TIME": "00:00:00",
-      "HOLD TIME": "00:00:00",
-      "PARK TIME": "00:00:00",
-      "AFTER CALL WORK TIME": "00:00:00",
-      "TRANSFERS": "",
-      "CONFERENCES": "",
-      "HOLDS": "",
-      "ABANDONED": "",
-      "RECORDINGS": ""
-    },
-
-    {
-      "CALL ID": 24384,
-      "TIMESTAMP": "Thu, 27 Oct 2016 14:51:34",
-      "CAMPAIGN": "[Deleted]",
-      "CALL TYPE": "Autodial",
-      "AGENT": "[None]",
-      "AGENT NAME": "",
-      "DISPOSITION": "Operator Intercept",
-      "ANI": 8883121153,
-      "CUSTOMER NAME": "Ken Osborn",
-      "DNIS": 9788874941,
-      "CALL TIME": "00:00:00",
-      "BILL TIME (ROUNDED)": "00:00:00",
-      "COST": 0,
-      "IVR TIME": "00:00:00",
-      "QUEUE WAIT TIME": "00:00:00",
-      "RING TIME": "",
-      "TALK TIME": "00:00:00",
-      "HOLD TIME": "00:00:00",
-      "PARK TIME": "00:00:00",
-      "AFTER CALL WORK TIME": "00:00:00",
-      "TRANSFERS": "",
-      "CONFERENCES": "",
-      "HOLDS": "",
-      "ABANDONED": "",
-      "RECORDINGS": ""
-    },
-    
-    {
-      "CALL ID": 24384,
-      "TIMESTAMP": "Thu, 27 Oct 2016 14:51:34",
-      "CAMPAIGN": "[Deleted]",
-      "CALL TYPE": "Autodial",
-      "AGENT": "[None]",
-      "AGENT NAME": "",
-      "DISPOSITION": "Operator Intercept",
-      "ANI": 8883121153,
-      "CUSTOMER NAME": "Ken Osborn",
-      "DNIS": 9788874941,
-      "CALL TIME": "00:00:00",
-      "BILL TIME (ROUNDED)": "00:00:00",
-      "COST": 0,
-      "IVR TIME": "00:00:00",
-      "QUEUE WAIT TIME": "00:00:00",
-      "RING TIME": "",
-      "TALK TIME": "00:00:00",
-      "HOLD TIME": "00:00:00",
-      "PARK TIME": "00:00:00",
-      "AFTER CALL WORK TIME": "00:00:00",
-      "TRANSFERS": "",
-      "CONFERENCES": "",
-      "HOLDS": "",
-      "ABANDONED": "",
-      "RECORDINGS": ""
-    }
-  ];
-
-const displayNames = {'CUSTOMER NAME': 'Client', 'DNIS': 'Telephone', 'AGENT': 'Agent', 'CAMPAIGN': 'Campaign', 'DISPOSITION': 'Dispositions'};
+const displayNames = {'CUSTOMER NAME': 'Client', 'DNIS': 'Telephone', 'AGENT NAME': 'Agent', 'CAMPAIGN': 'Campaign', 'DISPOSITION': 'Dispositions'};
+let _ReportsService;
+function _getHoursRange(hours){
+	let now = new Date();
+	let start = angular.copy(now);
+	start.setHours(start.getHours()-hours);
+	return {startDate: start, endDate: now};
+}
+function _getDaysRange(days){
+	let end = new Date();
+	end.setDate(end.getDate()-days);
+	let start = angular.copy(end);
+	start.setHours(0,0,0,0);
+	if(days!==0){
+		end.setHours(23,59,59,999);
+	}
+	return {startDate: start, endDate: end};
+}
+function _getWeeksRange(days){
+	let end = new Date();
+	let start = angular.copy(end);
+	start.setDate(start.getDate()-days);
+	start.setHours(0,0,0,0);
+	return {startDate: start, endDate: end};
+}
+function _getMonthRange(month){
+	let end = new Date();
+	end.setMonth(end.getMonth()-month);
+	let start = angular.copy(end);
+	start.setDate(1);
+	start.setHours(0,0,0,0);
+	return {startDate: start, endDate: end};
+}
 class HomeComponent {
-  constructor() {
+  constructor(ReportsService) {
    this.headers = ['DATE', 'CLIENT', 'TELEPHONE', 'AGENT', 'CAMPAIGN', 'DISPOSITIONS', 'CALL RECORDING', 'QA SCORE'];
-   this.notUsedFilters = [{key: 'CUSTOMER NAME', value: ''}, {key: 'DNIS', value: ''}, {key: 'AGENT', value: ''}, {key: 'CAMPAIGN', value: ''}, {key: 'DISPOSITION', value: ''}];
-   this.dates = [{key: 'Last hour'},{key: 'Last 2 hours'},{key: 'Last 4 hours'},{key: 'Today'},{key: 'Yesterday'},{key: 'This week'},{key: 'Last week'},{key: 'Last 2 weeks'},{key: 'This month'}];
-   this.selectedDate = this.dates[0];
+   this.notUsedFilters = [{key: 'CUSTOMER NAME', value: ''}, {key: 'DNIS', value: ''}, {key: 'AGENT NAME', value: ''}, {key: 'CAMPAIGN', value: ''}, {key: 'DISPOSITION', value: ''}];
+   this.dates = [{key: 'Last hour', function: _getHoursRange, value: 1},{key: 'Last 2 hours', function: _getHoursRange, value: 2},{key: 'Last 4 hours', function: _getHoursRange, value: 4},{key: 'Today', function: _getDaysRange, value: 0},{key: 'Yesterday', function: _getDaysRange, value: 1},{key: 'This week', function: _getWeeksRange, value: 6},{key: 'Last 2 weeks', function: _getWeeksRange, value: 13},{key: 'This month', function: _getMonthRange, value: 0}];
+   this.tmpSelectedDate = this.dates[0];
+   this.selectedDate = {};
    this.selectedOption = this.notUsedFilters[0];
    this.usedFilters = [];
    this.openedPopups ={};
-   this.calls = mockData;
-   this.open = false;
+   this.calls = [];
+   this.open = true;
    this.selectedPopover = null;
+   this.isLoading = true;
+   this.message = {show: false};
+   _ReportsService = ReportsService;
+  }
+  $onInit(){
+      this.applyDate();
   }
   switchFilters(){
   	this.open = !this.open;
@@ -658,10 +113,32 @@ class HomeComponent {
   selectDate(){
   	this.tmpSelectedDate = this.selectedDate;
   }
-  applyDate(){
-  	this.selectedDate = this.tmpSelectedDate;
-  	//call endpoints
-  	this.closeAllPopups();
+  applyDate(isReload){
+      this.closeAllPopups();
+      if(this.selectedDate.key !== this.tmpSelectedDate.key || (isReload && !this.isLoading)){
+            this.isLoading = true;
+        	this.selectedDate = this.tmpSelectedDate;
+        	let range = this.selectedDate.function(this.selectedDate.value);
+        	let identifier;
+        	_ReportsService.sendCallLogRequest(range.startDate.toISOString(), range.endDate.toISOString())
+        	.then(response =>{
+        		identifier = response.data.return;
+        		return _ReportsService.isRunning(identifier);
+        	})
+        	.then(response => {
+        		console.log(identifier);
+        		return _ReportsService.getCallLogResult(identifier);
+        	})
+        	.then(response =>{
+        		this.calls = response.data.return;
+        		this.isLoading = false;
+        	})
+          .catch(error =>{
+            this.message = {show: true, text: error.errorMessage};
+            this.isLoading = false;
+            this.calls = [];
+          });
+      }
   }
   selectPopover(filter){
   	this.selectedPopover = filter;
@@ -680,7 +157,7 @@ class HomeComponent {
   	}
   }
 }
-
+HomeComponent.$inject = ['ReportsService'];
 angular.module('fakiyaMainApp')
   .component('home', {
     templateUrl: 'app/features/rqa/home/home.html',
