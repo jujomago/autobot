@@ -1,6 +1,9 @@
-a:hover{
+a:hover,a:focus,a:active{
 	text-decoration: none;
+	outline: none;	
+	
 }
+
 #sign-in
 {
 	padding-top: calc(~"(100vh - 443px)/2");
@@ -432,8 +435,9 @@ text-decoration: none;
 	color: #FFFFFF;
 	margin-bottom: 80px;
 }
-#ab-submitbutton:hover, #ab-submibutton:active{
+#ab-submitbutton:hover, #ab-submibutton:active, #ab-submitbutton:focus{
 	background-color: #B73C2F;
+	outline: none;
 }
 #abhome-footer{
 	background-color: #000000;
@@ -455,6 +459,9 @@ text-decoration: none;
 	font-family: 'BrandonRegular';
 	font-size: 16px;
 	color: #FFFFFF;
+	&:hover,&:focus,&:active{
+		color: #36A3DC;
+	}
 }
 .footer-list a:hover, .footer-list a:active{
 text-decoration: none;
