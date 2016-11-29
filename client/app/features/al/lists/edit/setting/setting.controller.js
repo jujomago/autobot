@@ -21,13 +21,6 @@
             this.MODE_ACTION = _EditListActions.getConstantsUpdate();
             this.name = _$stateParams.name;
             this.advancedOptions = {isCollapsed: true};
-            this.defaultUpdateSettings = {
-                isCrmUpdate: true,
-                listAddMode: this.MODE_ACTION.LIST.ADD_FIRST,
-                crmAddMode: this.MODE_ACTION.CRM.ADD_NEW,
-                crmUpdateMode: this.MODE_ACTION.CRM.UPDATE_FIRST,
-                cleanListBeforeUpdate: false
-            };
             this.MESSAGE_UPDATE_ALL_MATCH = _EditListActions.getSettingMessage();
             this.settings = {};
         }
@@ -35,24 +28,31 @@
         $onInit() {
             let settingsLoaded = this.parent.getSettings();
 
+            this.isUpdate = this.parent.isUpdate;
             this.settings = _Utils.isUndefinedOrNull(settingsLoaded) ?
-                            this.defaultUpdateSettings : settingsLoaded;
+                            _EditListActions.getDefaultSetting(this.isUpdate) : settingsLoaded;
 
+            this.labels = _EditListActions.getLabelsSettings(this.isUpdate);
         }
 
         sendConfiguration() {
+          if (this.isUpdate) {
             this.settings.insertOnlyKeys = !this.settings.isCrmUpdate &&
-                                            this.settings.crmAddMode === this.MODE_ACTION.CRM.DONT_ADD;
+              this.settings.crmAddMode === this.MODE_ACTION.CRM.DONT_ADD;
 
             if (this.settings.crmUpdateMode === this.MODE_ACTION.CRM.UPDATE_ALL && this.settings.isCrmUpdate) {
-                _PromptDialog.open(this.MESSAGE_UPDATE_ALL_MATCH.message, this.MESSAGE_UPDATE_ALL_MATCH.buttons).
-                  then(() => {
-                      this.saveSetting();
-                  });
+              _PromptDialog.open(this.MESSAGE_UPDATE_ALL_MATCH.message, this.MESSAGE_UPDATE_ALL_MATCH.buttons).
+              then(() => {
+                this.saveSetting();
+              });
             }
             else {
-                this.saveSetting();
+              this.saveSetting();
             }
+          }
+          else {
+            this.saveSetting();
+          }
         }
 
         saveSetting() {

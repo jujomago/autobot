@@ -1,13 +1,14 @@
 <div class="settings-options-container">
   <div class="subtitle_section">
-      <h3 class="pull-left">List update</h3>
+      <!--<h3 class="pull-left">List update</h3>-->
+      <h3 class="pull-left">{{$ctrl.labels.title}}</h3>
     <div class="pull-right button-container" ng-hide="$ctrl.homeSelected">
       <button ng-click="$ctrl.cancel()"
               class="btn btn-black btn-sm-fixed btn-width-action-top">Cancel</button>
     </div>
   </div>
   <div>
-    <p>Select how would you like to update the list:</p>
+    <p>{{$ctrl.labels.description}}:</p>
   </div>
   <div>
     <a class="toggle-link"
@@ -19,62 +20,11 @@
   </div>
 	<div class='settings-advanced-container' uib-collapse="$ctrl.advancedOptions.isCollapsed">
 		<div class="well settings-well">
-			<h4>Action for list update:</h4>
-		  <div class="sub-option">
-		  	<label>
-	      	<input type="radio"
-                 ng-model="$ctrl.settings.listAddMode"
-                 value='{{$ctrl.MODE_ACTION.LIST.ADD_FIRST}}'> Add first (oldest) matching Contact Record to the list
-	      </label>
-				<label>
-	      	<input type="radio"
-                 ng-model="$ctrl.settings.listAddMode"
-                 value='{{$ctrl.MODE_ACTION.LIST.ADD_ALL}}'> Add all matching Contact Records (in case of multiple records) to the list
-	      </label>
-				<label>
-	      	<input type="radio"
-                 ng-model="$ctrl.settings.listAddMode"
-                 value='{{$ctrl.MODE_ACTION.LIST.ADD_IF_SOLE_CRM_MATCH}}'> Skip list record if multiple matches are found in Contact
-	      </label>
-			</div>
-			<label>
-				<input type="checkbox"
-               ng-model="$ctrl.settings.cleanListBeforeUpdate"> Delete all list records before update. Warning: some reporting data will be lost
-			</label>
-      <div>
-        <h4>Actions for Contact update</h4>
-      </div>
-
-			<label>
-	    	<input type="checkbox"
-               ng-model="$ctrl.settings.crmAddMode"
-               ng-false-value="'{{$ctrl.MODE_ACTION.CRM.DONT_ADD}}'"
-               ng-true-value="'{{$ctrl.MODE_ACTION.CRM.ADD_NEW}}'"> Add new Record if matching key is not found in Contacts
-	    </label>
-			<label>
-				<input type="checkbox"
-               ng-model="$ctrl.settings.isCrmUpdate"> Update existing Contact Record(s) with matching key
-	    </label>
-			<div class="sub-option">
-	    	<label>
-	      	<input type="radio"
-                 ng-disabled="!$ctrl.settings.isCrmUpdate"
-                 ng-model="$ctrl.settings.crmUpdateMode"
-                 value='{{$ctrl.MODE_ACTION.CRM.UPDATE_FIRST}}'> First (oldest) matching record
-	      </label>
-		    <label>
-	      	<input type="radio"
-                 ng-disabled="!$ctrl.settings.isCrmUpdate"
-                 ng-model="$ctrl.settings.crmUpdateMode"
-                 value='{{$ctrl.MODE_ACTION.CRM.UPDATE_ALL}}'> All matching records (in case of multiple matches)
-	      </label>
-		    <label>
-	      	<input type="radio"
-                 ng-disabled="!$ctrl.settings.isCrmUpdate"
-                 ng-model="$ctrl.settings.crmUpdateMode"
-                 value='{{$ctrl.MODE_ACTION.CRM.UPDATE_SOLE_MATCHES}}'> Only if single match in Contacts
-	      </label>
-			</div>
+			<h4>{{$ctrl.labels.titleOptions}}:</h4>
+      <div ng-if="$ctrl.isUpdate"
+           data-ng-include="'app/features/al/lists/edit/setting/templates/update.html'"></div>
+      <div ng-if="!$ctrl.isUpdate"
+           data-ng-include="'app/features/al/lists/edit/setting/templates/delete.html'"></div>
 		</div>
 	</div>
 </div>
