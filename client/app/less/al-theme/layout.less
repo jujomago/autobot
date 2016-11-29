@@ -327,20 +327,42 @@
         }
         .settings-advanced-container{
             margin-top: 20px;
-            input[type="radio"],input[type="checkbox"]{
-                margin-top: 10px;
-            }
             .sub-option{
                 padding-left: 20px;
             }
             .settings-well{
                 background-color: white;
                 margin-bottom: 0;
+                padding: 20px;
                 label{
                   color: #666;
                   display: block;
                   font-weight: normal;
                   margin-bottom: 0px;
+                }
+                .content-action {
+                  margin-bottom: 30px;
+                }
+                .content-action-last {
+                  margin-bottom: 10px;
+                }
+                .controls-check-radio {
+                  margin-top: 10px;
+                  label{
+                    color: #666;
+                    display: block;
+                    font-weight: normal;
+                    margin-bottom: 0px;
+
+                    input[type="radio"],input[type="checkbox"]{
+                      margin-top: 1px;
+                      float: left;
+                    }
+
+                    div{
+                      margin-left: 16px;
+                    }
+                  }
                 }
             }
         }

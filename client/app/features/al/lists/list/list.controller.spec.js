@@ -314,6 +314,33 @@ describe('Component:al.lists.list', function () {
 
       _$httpBackend.flush();
     });
+
+    it('should show summary dialog', () => {
+      let promise,
+          message;
+
+      _$httpBackend.whenGET(endPointUrl+'/List6').respond(200, {return: [{size: 20}]});
+
+      mockListData.return[5].size = 20;
+      ListComponent.lists = mockListData.return;
+      message = {
+        title: 'Summary',
+        body: 'Update for List "List6"  has been succesfully completed',
+        list: [
+          '1 Call List records inserts',
+          'No erros found'
+        ]
+      };
+
+      promise = ListComponent.updateList('List6', 5, message);
+      promise.then(response => {
+          expect(response.summaryMessage).to.deep.equal(message);
+          expect(response.statusCode).to.equal(200);
+          expect(mockModal.open.calledOnce).to.equal(true);
+        });
+
+      _$httpBackend.flush();
+    });
   });
 
 
