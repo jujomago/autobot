@@ -7,7 +7,7 @@
       _$location = $location;
     }
     checkUrl(){
-      return (_$location.path().indexOf('/rqa') > -1);
+      return (_$location.path().indexOf('ap/rqa') > -1);
     }
   }
   MainPageController.$inject=['$location'];
