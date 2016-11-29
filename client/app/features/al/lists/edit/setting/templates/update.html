@@ -1,0 +1,88 @@
+<div class="content-action">
+  <div class="sub-option">
+    <div class="controls-check-radio">
+      <label>
+        <input type="radio"
+               ng-model="$ctrl.settings.listAddMode"
+               value='{{$ctrl.MODE_ACTION.LIST.ADD_FIRST}}'>
+        <div>Add first (oldest) matching Contact Record to the list</div>
+      </label>
+    </div>
+    <div class="controls-check-radio">
+      <label>
+        <input type="radio"
+               ng-model="$ctrl.settings.listAddMode"
+               value='{{$ctrl.MODE_ACTION.LIST.ADD_ALL}}'>
+        <div>Add all matching Contact Records (in case of multiple records) to the list</div>
+      </label>
+    </div>
+    <div class="controls-check-radio">
+      <label>
+        <input type="radio"
+               ng-model="$ctrl.settings.listAddMode"
+               value='{{$ctrl.MODE_ACTION.LIST.ADD_IF_SOLE_CRM_MATCH}}'>
+        <div>Skip list record if multiple matches are found in Contact</div>
+      </label>
+    </div>
+  </div>
+  <div class="controls-check-radio">
+    <label>
+      <input type="checkbox"
+             ng-model="$ctrl.settings.cleanListBeforeUpdate">
+      <div>Delete all list records before update. Warning: some reporting data will be lost</div>
+    </label>
+  </div>
+
+</div>
+<div class="content-action-last">
+  <div>
+    <h4>Actions for Contact update</h4>
+  </div>
+  <div class="controls-check-radio">
+    <label>
+      <input type="checkbox"
+             ng-model="$ctrl.settings.crmAddMode"
+             ng-false-value="'{{$ctrl.MODE_ACTION.CRM.DONT_ADD}}'"
+             ng-true-value="'{{$ctrl.MODE_ACTION.CRM.ADD_NEW}}'">
+      <div>Add new Record if matching key is not found in Contacts</div>
+    </label>
+  </div>
+  <div class="controls-check-radio">
+    <label>
+      <input type="checkbox"
+             ng-model="$ctrl.settings.isCrmUpdate">
+      <div>Update existing Contact Record(s) with matching key</div>
+    </label>
+  </div>
+
+  <div class="sub-option">
+    <div class="controls-check-radio">
+      <label>
+        <input type="radio"
+               ng-disabled="!$ctrl.settings.isCrmUpdate"
+               ng-model="$ctrl.settings.crmUpdateMode"
+               value='{{$ctrl.MODE_ACTION.CRM.UPDATE_FIRST}}'>
+        <div>First (oldest) matching record</div>
+      </label>
+    </div>
+    <div class="controls-check-radio">
+      <label>
+        <input type="radio"
+               ng-disabled="!$ctrl.settings.isCrmUpdate"
+               ng-model="$ctrl.settings.crmUpdateMode"
+               value='{{$ctrl.MODE_ACTION.CRM.UPDATE_ALL}}'>
+        <div>All matching records (in case of multiple matches)</div>
+      </label>
+    </div>
+    <div class="controls-check-radio">
+      <label>
+        <input type="radio"
+               ng-disabled="!$ctrl.settings.isCrmUpdate"
+               ng-model="$ctrl.settings.crmUpdateMode"
+               value='{{$ctrl.MODE_ACTION.CRM.UPDATE_SOLE_MATCHES}}'>
+        <div>Only if single match in Contacts</div>
+      </label>
+    </div>
+  </div>
+</div>
+

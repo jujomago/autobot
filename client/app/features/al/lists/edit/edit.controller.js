@@ -35,11 +35,7 @@
             this.settings = null;
         }
 
-        $onInit() {
-            if (!this.isUpdate) {
-              this.currentStep = this.STEPS.UPLOAD;
-            }
-        }
+        $onInit() {}
 
         cancel(){
             _$state.go('ap.al.lists');

@@ -9,6 +9,7 @@ describe('Controller: alSettingList', function () {
       _$stateParams,
       ParentComponent,
       PromptDialog,
+      DEFAULT_DELETE_SETTINGS,
       DEFAULT_UPDATE_SETTINGS;
 
   beforeEach(inject(function (
@@ -32,6 +33,10 @@ describe('Controller: alSettingList', function () {
       crmUpdateMode: 'UPDATE_FIRST',
       cleanListBeforeUpdate: false,
       isCrmUpdate: true
+    };
+
+    DEFAULT_DELETE_SETTINGS = {
+      listDeleteMode: 'DELETE_ALL'
     };
 
     PromptDialog = _PromptDialog_;
@@ -60,7 +65,7 @@ describe('Controller: alSettingList', function () {
       expect(SettingsComponent.settings).to.deep.equal(DEFAULT_UPDATE_SETTINGS);
     });
 
-    it('should load setting from storage values', () => {
+    it('should load settings Update from storage values', () => {
       let storageSetting = {
         listAddMode: 'ADD_ALL',
         crmAddMode: 'DONT_ADD',
@@ -68,6 +73,26 @@ describe('Controller: alSettingList', function () {
         cleanListBeforeUpdate: true,
         isCrmUpdate: false,
       };
+      SettingsComponent.parent.setSettings(storageSetting);
+      SettingsComponent.$onInit();
+      expect(SettingsComponent.settings).to.deep.equal(storageSetting);
+    });
+
+    it('should load default settings when Delete is is select', () => {
+      SettingsComponent.parent.isUpdate = false;
+      SettingsComponent.parent.$onInit();
+      SettingsComponent.$onInit();
+      expect(SettingsComponent.settings).to.deep.equal(DEFAULT_DELETE_SETTINGS);
+    });
+
+    it('should load settings Delete from storage values', () => {
+      let storageSetting = {
+        listDeleteMode: 'DELETE_EXCEPT_FIRST'
+      };
+      SettingsComponent.parent.isUpdate = false;
+      SettingsComponent.parent.$onInit();
+      SettingsComponent.$onInit();
+      expect(SettingsComponent.settings).to.deep.equal(DEFAULT_DELETE_SETTINGS);
       SettingsComponent.parent.setSettings(storageSetting);
       SettingsComponent.$onInit();
       expect(SettingsComponent.settings).to.deep.equal(storageSetting);
@@ -85,6 +110,7 @@ describe('Controller: alSettingList', function () {
         cleanListBeforeUpdate: false,
         isCrmUpdate: true
       };
+      SettingsComponent.isUpdate = true;
     });
 
     it('should save configuration settings default', () => {
@@ -115,7 +141,30 @@ describe('Controller: alSettingList', function () {
       SettingsComponent.settings.crmUpdateMode = 'UPDATE_ALL';
 
       SettingsComponent.sendConfiguration();
+      expect(PromptDialog.open.calledOnce).to.equal(true);
       expect(SettingsComponent.parent.getSettings()).to.be.equal(null);
+    });
+  });
+
+  describe('#SendConfigurationSettingsDelete', () => {
+    let saveSettings;
+
+    beforeEach(() => {
+      SettingsComponent.parent.isUpdate = false;
+      SettingsComponent.parent.$onInit();
+      saveSettings = {
+        listDeleteMode: 'DELETE_ALL'
+      };
+    });
+
+    it('should save configuration when action is delete', () => {
+      let settingsParent;
+
+      SettingsComponent.$onInit();
+      SettingsComponent.sendConfiguration();
+      settingsParent = SettingsComponent.parent.getSettings();
+      expect(settingsParent).to.deep.equal(saveSettings);
+      expect(settingsParent.insertOnlyKeys).to.equal(undefined);
     });
   });
 });

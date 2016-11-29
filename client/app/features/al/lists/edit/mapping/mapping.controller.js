@@ -1,16 +1,22 @@
 (function() {
     'use strict';
 
-    let _ContactFieldsService,
+    let _$location,
+        _$anchorScroll,
+        _ContactFieldsService,
         _Utils,
         _EditListActions;
 
     class MappingListController {
         constructor(
+          $anchorScroll,
+          $location,
             ContactFieldsService,
             Utils,
             EditListActions
             ) {
+            _$location = $location;
+            _$anchorScroll = $anchorScroll;
             _ContactFieldsService = ContactFieldsService;
             _Utils = Utils;
             _EditListActions = EditListActions;
@@ -64,14 +70,19 @@
                                                 'No more than 12 fields can be marked as key';
 
                 this.message = {type: 'warning', show: true, text: messageText, expires: 5000};
+
+              _$location.hash('top');
+              _$anchorScroll();
             }
         }
     }
 
   MappingListController.$inject = [
-        'ContactFieldsService',
-        'Utils',
-        'EditListActions'
+    '$anchorScroll',
+    '$location',
+    'ContactFieldsService',
+    'Utils',
+    'EditListActions'
     ];
 
     angular.module('fakiyaMainApp')
