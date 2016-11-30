@@ -5,38 +5,25 @@ describe('Component: alUploadList', function () {
   // load the controller's module
   beforeEach(module('fakiyaMainApp'));
 
-  let ListComponent, _$httpBackend, _$q ,_$stateParams, _Utils;
-  let mockState, sandbox, _endPointUrl;
-  let mockAlert, mockAlertResult, mockPrompt, mockModal;
-  let _$scope;
-  let mockFields = [
-    {
-      name: 'number1',
-      type: 'PHONE',
-      mapTo: 'None'
-    },
-    {
-      name: 'string1',
-      type: 'STRING',
-      mapTo: 'None'
-    },
-    {
-      name: 'percent1',
-      type: 'PERCENT',
-      mapTo: 'None'
-    },
-    {
-      name: 'date1',
-      type: 'DATE',
-      mapTo: 'None'
-    },
-    {
-      name: 'last_disposition',
-      type: 'STRING',
-      mapTo: 'LAST_DISPOSITION'
-    }
-  ];
-  beforeEach(inject(function ($componentController,$rootScope, $httpBackend, appConfig, $stateParams, $q, Utils) {
+  let ListComponent,ParentComponent, _$httpBackend, _$q ,_$stateParams, _Utils,
+      mockState, sandbox, _endPointUrl,
+      mockAlert, mockAlertResult, mockPrompt, mockModal, _$scope, stateParamsParent;
+
+  let DEFAULT_SETTINGS = {
+      UPDATE: {
+        isCrmUpdate: true,
+        listAddMode: 'ADD_FIRST',
+        crmAddMode: 'ADD_NEW',
+        crmUpdateMode: 'UPDATE_FIRST',
+        cleanListBeforeUpdate: false,
+        insertOnlyKeys: false
+      },
+      DELETE: {
+        listDeleteMode: 'DELETE_ALL'
+      }
+    };
+
+  beforeEach(inject(function ($componentController,$rootScope, $httpBackend, appConfig, $stateParams, $q, Utils, _lodash_) {
     _$httpBackend = $httpBackend;
     _$stateParams = $stateParams;
     _Utils = Utils;
@@ -70,6 +57,16 @@ describe('Component: alUploadList', function () {
         return true;
       }
     };
+
+    stateParamsParent = $stateParams;
+    stateParamsParent.name = 'list-test';
+    stateParamsParent.action = 'update';
+
+    ParentComponent = $componentController('al.lists.edit', {
+      $stateParams: stateParamsParent,
+      lodash: _lodash_
+    });
+
     ListComponent = $componentController('alUploadList', {
       $state: mockState,
       $stateParams: _$stateParams,
@@ -78,6 +75,7 @@ describe('Component: alUploadList', function () {
       ModalManager: mockModal,
       $scope: _$scope
     });
+    ListComponent.parent = ParentComponent;
 
     _$httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
 
@@ -132,39 +130,283 @@ describe('Component: alUploadList', function () {
     });
 
   });
-  describe('#getContactFields', () => {
-    it('Should get all map to none fields to Update List', () => {
-      _$httpBackend.whenGET(_endPointUrl+'/f9/contacts/fields').respond(200, {return: mockFields});
-      ListComponent.getContactFields()
-        .then(()=>{
-          expect(ListComponent.contactFields.length).to.equal(4);
-          let expected = [{name: 'number1', type: 'PHONE', mapTo: 'None', isKey: true},{name: 'string1',type: 'STRING',mapTo: 'None'},{name: 'percent1', type: 'PERCENT',mapTo: 'None'},{name: 'date1', type: 'DATE', mapTo: 'None'}];
-          expect(ListComponent.contactFields).to.deep.equal(expected);
-          expect(ListComponent.loaded).to.equal(true);
-        });
-      _$httpBackend.flush();
+
+  describe('#InitUploadComponent', () => {
+    beforeEach(() => {
+      let contactMapping = [
+        {
+          displayAs:'Long',
+          mapTo:'None',
+          name:'number1',
+          system:true,
+          type:'PHONE',
+          isKey:true
+        },
+        {
+          displayAs:'Long',
+          mapTo:'None',
+          name:'number2',
+          system:true,
+          type:'PHONE',
+          isKey:false
+        },
+        {
+          displayAs:'Long',
+          mapTo:'None',
+          name:'number3',
+          system:true,
+          type:'PHONE',
+          isKey:false
+        },
+        {
+          displayAs:'Short',
+          mapTo:'None',
+          name:'first_name',
+          system:true,
+          type:'STRING',
+          isKey:true
+        }
+      ];
+
+      ListComponent.parent.setContactField(contactMapping);
+      ListComponent.parent.setSettings(DEFAULT_SETTINGS.UPDATE);
     });
 
-    it('Should get all map to none fields to Delete List', () => {
-      _$httpBackend.whenGET(_endPointUrl+'/f9/contacts/fields').respond(200, {return: mockFields});
+    it('should load all configurations when is Updated', () => {
+      let mapping = [
+        {
+          columnNumber:1,
+          fieldName:'number1',
+          key:true
+        },
+        {
+          columnNumber:2,
+          fieldName:'number2',
+          key:false
+        },
+        {
+          columnNumber:3,
+          fieldName:'number3',
+          key:false
+        },
+        {
+          columnNumber:4,
+          fieldName:'first_name',
+          key:true
+        }
+      ];
+      ListComponent.$onInit();
+      expect(ListComponent.settings).to.deep.equal(DEFAULT_SETTINGS.UPDATE);
+      expect(ListComponent.isUpdate).to.be.equal(true);
+      expect(ListComponent.contactFields).to.have.lengthOf(4);
+      expect(ListComponent.fieldsMapping).to.deep.equal(mapping);
+    });
+
+    it('should load only keys to contactFields when is Updated', () => {
+      let settings = DEFAULT_SETTINGS.UPDATE,
+          mapping;
+
+      settings.insertOnlyKeys = true;
+      mapping = [
+        {
+          columnNumber:1,
+          fieldName:'number1',
+          key:true
+        },
+        {
+          columnNumber:2,
+          fieldName:'first_name',
+          key:true
+        }
+      ];
+
+      ListComponent.parent.setSettings(settings);
+      ListComponent.$onInit();
+      expect(ListComponent.settings).to.deep.equal(settings);
+      expect(ListComponent.isUpdate).to.be.equal(true);
+      expect(ListComponent.contactFields).to.have.lengthOf(2);
+      expect(ListComponent.fieldsMapping).to.deep.equal(mapping);
+    });
+
+    it('should load only keys to contactFields when is Delete', () => {
+      ListComponent.parent.isUpdate = false;
+      let mapping = [
+          {
+            columnNumber:1,
+            fieldName:'number1',
+            key:true
+          },
+          {
+            columnNumber:2,
+            fieldName:'number3',
+            key:true
+          },
+          {
+            columnNumber:3,
+            fieldName:'first_name',
+            key:true
+          }
+      ],
+      contactField = ListComponent.parent.getContactField();
+
+      contactField[2].isKey = true;
+      ListComponent.parent.setContactField(contactField);
+      ListComponent.parent.setSettings(DEFAULT_SETTINGS.DELETE);
+      ListComponent.$onInit();
+      expect(ListComponent.settings).to.deep.equal(DEFAULT_SETTINGS.DELETE);
+      expect(ListComponent.isUpdate).to.be.equal(false);
+      expect(ListComponent.contactFields).to.have.lengthOf(3);
+      expect(ListComponent.fieldsMapping).to.deep.equal(mapping);
+    });
+
+    it('should load all configurations when is Updated contactFields null', () => {
+      ListComponent.parent.setContactField(null);
+      ListComponent.$onInit();
+      expect(ListComponent.settings).to.deep.equal(DEFAULT_SETTINGS.UPDATE);
+      expect(ListComponent.isUpdate).to.be.equal(true);
+      expect(ListComponent.contactFields).to.have.lengthOf(0);
+      expect(ListComponent.fieldsMapping).to.deep.equal([]);
+    });
+  });
+
+  describe('#MappingValidationUpload', () => {
+    beforeEach(() => {
+      let contactMapping = [
+        {
+          displayAs:'Long',
+          mapTo:'None',
+          name:'number1',
+          system:true,
+          type:'PHONE',
+          isKey:true
+        },
+        {
+          displayAs:'Long',
+          mapTo:'None',
+          name:'number2',
+          system:true,
+          type:'PHONE',
+          isKey:false
+        },
+        {
+          displayAs:'Long',
+          mapTo:'None',
+          name:'number3',
+          system:true,
+          type:'PHONE',
+          isKey:false
+        },
+        {
+          displayAs:'Short',
+          mapTo:'None',
+          name:'first_name',
+          system:true,
+          type:'STRING',
+          isKey:true
+        }
+      ];
+
+      ListComponent.parent.setContactField(contactMapping);
+      ListComponent.settings = DEFAULT_SETTINGS.UPDATE;
+    });
+
+    it('should map contactFields when is update List', () => {
+      let mapping = [
+        {
+          columnNumber:1,
+          fieldName:'number1',
+          key:true
+        },
+        {
+          columnNumber:2,
+          fieldName:'number2',
+          key:false
+        },
+        {
+          columnNumber:3,
+          fieldName:'number3',
+          key:false
+        },
+        {
+          columnNumber:4,
+          fieldName:'first_name',
+          key:true
+        }
+      ],
+      contactFields = ListComponent.parent.getContactField();
+      ListComponent.settings = DEFAULT_SETTINGS.UPDATE;
+      ListComponent.settings.insertOnlyKeys = false;
+      ListComponent.mappingValidation(contactFields);
+      expect(ListComponent.contactFields).to.have.lengthOf(4);
+      expect(ListComponent.fieldsMapping).to.deep.equal(mapping);
+    });
+
+    it('should map only keys of contactFields when is update List', () => {
+      let settings = DEFAULT_SETTINGS.UPDATE,
+        mapping = [
+          {
+            columnNumber:1,
+            fieldName:'number1',
+            key:true
+          },
+          {
+            columnNumber:2,
+            fieldName:'first_name',
+            key:true
+          }
+        ],
+      contactFields = ListComponent.parent.getContactField();
+      settings.insertOnlyKeys = true;
+      ListComponent.settings = settings;
+      ListComponent.mappingValidation(contactFields);
+      expect(ListComponent.contactFields).to.have.lengthOf(2);
+      expect(ListComponent.fieldsMapping).to.deep.equal(mapping);
+    });
+
+    it('should map contactFields empty when is Update List', () => {
+      let settings = DEFAULT_SETTINGS.UPDATE;
+
+      settings.insertOnlyKeys = true;
+      ListComponent.settings = settings;
+      ListComponent.mappingValidation([]);
+      expect(ListComponent.contactFields).to.have.lengthOf(0);
+      expect(ListComponent.fieldsMapping).to.deep.equal([]);
+    });
+
+    it('should map contactFields when is delete List', () => {
+      let mapping = [
+          {
+            columnNumber:1,
+            fieldName:'number1',
+            key:true
+          },
+          {
+            columnNumber:2,
+            fieldName:'number3',
+            key:true
+          },
+          {
+            columnNumber:3,
+            fieldName:'first_name',
+            key:true
+          }
+        ],
+        contactFields = ListComponent.parent.getContactField();
+
+      ListComponent.settings = DEFAULT_SETTINGS.DELETE;
       ListComponent.isUpdate = false;
-      ListComponent.getContactFields()
-        .then(()=>{
-          expect(ListComponent.contactFields.length).to.equal(1);
-          let expected = [{name: 'number1', type: 'PHONE', mapTo: 'None', isKey: true},{name: 'string1',type: 'STRING',mapTo: 'None'},{name: 'percent1', type: 'PERCENT',mapTo: 'None'},{name: 'date1', type: 'DATE', mapTo: 'None'}];
-          expect(ListComponent.contactFields).to.deep.equal([expected[0]]);
-          expect(ListComponent.loaded).to.equal(true);
-        });
-      _$httpBackend.flush();
+      contactFields[2].isKey = true;
+      ListComponent.mappingValidation(contactFields);
+      expect(ListComponent.contactFields).to.have.lengthOf(3);
+      expect(ListComponent.fieldsMapping).to.deep.equal(mapping);
     });
 
-    it('Should show error message', () => {
-      _$httpBackend.whenGET(_endPointUrl+'/f9/contacts/fields').respond(500, {error: 'Internal Server Error'});
-      ListComponent.getContactFields()
-        .then(()=>{
-          expect(ListComponent.message).to.deep.equal({ show: true, type: 'danger', text: 'Internal Server Error' });
-        });
-      _$httpBackend.flush();
+    it('should map contactFields empty when is delete List', () => {
+      ListComponent.settings = DEFAULT_SETTINGS.DELETE;
+      ListComponent.isUpdate = false;
+      ListComponent.mappingValidation([]);
+      expect(ListComponent.contactFields).to.have.lengthOf(0);
+      expect(ListComponent.fieldsMapping).to.deep.equal([]);
     });
   });
 
