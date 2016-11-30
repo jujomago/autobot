@@ -23,7 +23,7 @@ describe('Component:HomeComponent', function () {
     expect(HomeComponent.getFilters()).to.deep.equal({'CUSTOMER NAME': '', 'DNIS': '', 'AGENT NAME': '', 'CAMPAIGN': '', 'DISPOSITION': ''});
   });
   it('should close all popups', function () {
-    HomeComponent.openedPopups['key']=true;
+    HomeComponent.openedPopups.key=true;
     HomeComponent.closeAllPopups();
    expect(HomeComponent.openedPopups).to.deep.equal({key: false, default: false, date: false});
   });

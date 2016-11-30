@@ -68,7 +68,7 @@ class HomeComponent {
   closeAllPopups(){
   	let keys = Object.keys(this.openedPopups);
   	this.openedPopups['default'] = false;
-  	this.openedPopups['date'] = false;
+  	this.openedPopups.date = false;
   	keys.forEach(key => {
   		this.openedPopups[key] = false; 
   	});
@@ -126,7 +126,7 @@ class HomeComponent {
         		identifier = response.data.return;
         		return _ReportsService.isRunning(identifier);
         	})
-        	.then(response => {
+        	.then(() => {
         		console.log(identifier);
         		return _ReportsService.getCallLogResult(identifier);
         	})
@@ -150,7 +150,7 @@ class HomeComponent {
   	this.availablesFilters = [];
   	this.notUsedFilters.forEach(item =>{
   		this.availablesFilters.push(item);
-  	})
+  	});
   	if(filter){
   		this.availablesFilters.unshift(filter);
   		this.selectedOption = filter;
