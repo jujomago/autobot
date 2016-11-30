@@ -1,111 +1,107 @@
-<div class="rqa-theme">
-	<div class="row fixed-margin-bottom-10">
-		<div class="pull-left title-container">
-			<img src="assets/rqa/images/f9-sm.png">
-			<span>Recording QA</span>
+<div class="row fixed-margin-bottom-10">
+	<div class="pull-left title-container">
+		<img src="assets/rqa/images/f9-sm.png">
+		<span>Recording QA</span>
+	</div>
+	<div class="pull-right actions-container">
+    	<button class="icon-button fixed-margin-left-10" ng-click="$ctrl.applyDate(true)">
+    		<span class="rqa-icon rqa-refresh"></span>
+    	</button>
+		<div class="display-inline-block fixed-margin-left-10">
+			<button class="icon-button">
+				<span class="rqa-icon rqa-reports"></span>
+			</button>
+			<button class="icon-button" ng-click="$ctrl.switchFilters()" ng-class="{'active': $ctrl.open}">
+				<span class="rqa-icon rqa-filter"></span>
+			</button>
 		</div>
-		<div class="pull-right actions-container">
-        	<button class="icon-button fixed-margin-left-10" ng-click="$ctrl.applyDate(true)">
-        		<span class="rqa-icon rqa-refresh"></span>
-        	</button>
-			<div class="display-inline-block fixed-margin-left-10">
-				<button class="icon-button">
-					<span class="rqa-icon rqa-reports"></span>
-				</button>
-				<button class="icon-button" ng-click="$ctrl.switchFilters()" ng-class="{'active': $ctrl.open}">
-					<span class="rqa-icon rqa-filter"></span>
-				</button>
-			</div>
-		</div>
+	</div>
 
-	</div>
-	<div class="row rqa-error fixed-margin-bottom-10">
-		<abx-closable-message message="$ctrl.message"></abx-closable-message>
-	</div>
-	<div class="row rqa-body" ng-class="{'has-error': $ctrl.message.show}">
-	<div class="right-filter" ng-class="{'hide-filter': !$ctrl.open, 'link-disabled': !$ctrl.open}">
-			<div class="filters-header">
-				<span class="pull-right fa fa-caret-right" ng-click="$ctrl.closeFilters()"></span>
-				<h3>Filters</h3>
-			</div>
-			<hr>
-			<div class="filters-body">
-				<div class="links-container">
-					<div class="pull-left">
-						<a href ng-class="{'link-disabled': $ctrl.notUsedFilters.length===0}" uib-popover-template="'filter'" popover-class="abx-popover" popover-trigger="outsideClick" popover-placement="left-top" popover-is-open="$ctrl.openedPopups['default']" ng-click="$ctrl.notUsedFilters.length===0 || $ctrl.selectPopover()" abx-auto-placement-popover>Add filter</a>
-					</div>
-					<div class="pull-right">
-						<a href ng-click="$ctrl.removeAllFilters()">Remove All</a>
-					</div>
+</div>
+<div class="row rqa-error fixed-margin-bottom-10">
+	<abx-closable-message message="$ctrl.message"></abx-closable-message>
+</div>
+<div class="row rqa-body" ng-class="{'has-error': $ctrl.message.show}">
+<div class="right-filter" ng-class="{'hide-filter': !$ctrl.open, 'link-disabled': !$ctrl.open}">
+		<div class="filters-header">
+			<span class="pull-right fa fa-caret-right" ng-click="$ctrl.closeFilters()"></span>
+			<h3>Filters</h3>
+		</div>
+		<hr>
+		<div class="filters-body">
+			<div class="links-container">
+				<div class="pull-left">
+					<a href ng-class="{'link-disabled': $ctrl.notUsedFilters.length===0}" uib-popover-template="'filter'" popover-class="abx-popover" popover-trigger="outsideClick" popover-placement="left-top" popover-is-open="$ctrl.openedPopups['default']" ng-click="$ctrl.notUsedFilters.length===0 || $ctrl.selectPopover()" abx-auto-placement-popover>Add filter</a>
 				</div>
-				<div class="filters-container">
-					<div class="filter-box" uib-popover-template="'date-filter'" popover-class="abx-popover" popover-trigger="outsideClick" popover-placement="left-top" popover-is-open="$ctrl.openedPopups['date']" ng-click="$ctrl.isLoading || $ctrl.selectDate()" ng-class="{'active': $ctrl.openedPopups['date'], 'link-disabled': $ctrl.isLoading}" abx-auto-placement-popover>
-						<p class="title">Date</p>
-						<p class="value">{{$ctrl.selectedDate.key}}</p>
-					</div>
-					<div class="filter-box" popover-is-open="$ctrl.openedPopups[filter.key]" ng-class="{'active': $ctrl.openedPopups[filter.key]}" ng-click="$ctrl.selectPopover(filter)" ng-repeat="filter in $ctrl.usedFilters track by $index" uib-popover-template="'filter'" popover-class="abx-popover" popover-trigger="outsideClick" popover-placement="left-top" abx-auto-placement-popover>
-						<div class="pull-right close-button" ng-click="$ctrl.removeFilter(filter); $event.stopPropagation();">X</div>
-						<p class="title">{{$ctrl.getDisplayName(filter.key)}}</p>
-						<p class="value">{{filter.value}}</p>
-					</div>
+				<div class="pull-right">
+					<a href ng-click="$ctrl.removeAllFilters()">Remove All</a>
+				</div>
+			</div>
+			<div class="filters-container">
+				<div class="filter-box" uib-popover-template="'date-filter'" popover-class="abx-popover" popover-trigger="outsideClick" popover-placement="left-top" popover-is-open="$ctrl.openedPopups['date']" ng-click="$ctrl.isLoading || $ctrl.selectDate()" ng-class="{'active': $ctrl.openedPopups['date'], 'link-disabled': $ctrl.isLoading}" abx-auto-placement-popover>
+					<p class="title">Date</p>
+					<p class="value">{{$ctrl.selectedDate.key}}</p>
+				</div>
+				<div class="filter-box" popover-is-open="$ctrl.openedPopups[filter.key]" ng-class="{'active': $ctrl.openedPopups[filter.key]}" ng-click="$ctrl.selectPopover(filter)" ng-repeat="filter in $ctrl.usedFilters track by $index" uib-popover-template="'filter'" popover-class="abx-popover" popover-trigger="outsideClick" popover-placement="left-top" abx-auto-placement-popover>
+					<div class="pull-right close-button" ng-click="$ctrl.removeFilter(filter); $event.stopPropagation();">X</div>
+					<p class="title">{{$ctrl.getDisplayName(filter.key)}}</p>
+					<p class="value">{{filter.value}}</p>
 				</div>
 			</div>
 		</div>
-		<div class="left-item" ng-class="{'reduce-size': $ctrl.open}">
-			<div class="flex-container" ng-show="$ctrl.isLoading">
-				<div class="loading-container">
-					<img src="/assets/rqa/images/Loading.gif">
-					<p>Loading</p>
-				</div>
-			</div>
-			<div class="no-records-container" ng-show="$ctrl.filteredCalls.length===0 && !$ctrl.isLoading">
-				<p>No records available</p>
-			</div>
-			<div class="table-container" ng-show="$ctrl.filteredCalls.length>0 && !$ctrl.isLoading">
-				<table class="rqa-table">
-					<thead>
-						<tr>
-							<th ng-repeat="header in $ctrl.headers">
-								{{header}}
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="call in ($ctrl.filteredCalls= ($ctrl.calls | filter: $ctrl.getFilters()))">
-							<td>
-								{{call['TIMESTAMP']}}
-							</td>
-							<td>
-								{{call['CUSTOMER NAME']}}
-							</td>
-							<td>
-								{{call['DNIS']}}
-							</td>
-							<td>
-								{{call['AGENT NAME']}}
-							</td>
-							<td>
-								{{call['CAMPAIGN']}}
-							</td>
-							<td>
-								{{call['DISPOSITION']}}
-							</td>
-							<td>
-								<a href="https://s3-us-west-1.amazonaws.com/enterprise9/Demo/recording001.wma" download>
-									{{call['RECORDINGS']}}
-								</a>
-							</td>
-							<td>
-								30
-							</td>
-						</tr>
-					</tbody>
-				</table>
+	</div>
+	<div class="left-item" ng-class="{'reduce-size': $ctrl.open}">
+		<div class="flex-container" ng-show="$ctrl.isLoading">
+			<div class="loading-container">
+				<img src="/assets/rqa/images/Loading.gif">
+				<p>Loading</p>
 			</div>
 		</div>
-		
+		<div class="no-records-container" ng-show="$ctrl.filteredCalls.length===0 && !$ctrl.isLoading">
+			<p>No records available</p>
+		</div>
+		<div class="table-container" ng-show="$ctrl.filteredCalls.length>0 && !$ctrl.isLoading">
+			<table class="rqa-table">
+				<thead>
+					<tr>
+						<th ng-repeat="header in $ctrl.headers">
+							{{header}}
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="call in ($ctrl.filteredCalls= ($ctrl.calls | filter: $ctrl.getFilters()))">
+						<td>
+							{{call['TIMESTAMP']}}
+						</td>
+						<td>
+							{{call['CUSTOMER NAME']}}
+						</td>
+						<td>
+							{{call['DNIS']}}
+						</td>
+						<td>
+							{{call['AGENT NAME']}}
+						</td>
+						<td>
+							{{call['CAMPAIGN']}}
+						</td>
+						<td>
+							{{call['DISPOSITION']}}
+						</td>
+						<td>
+							{{call['RECORDINGS']}}
+						</td>
+						<td>
+							<a href="https://s3-us-west-1.amazonaws.com/enterprise9/Demo/recording001.wma" download>
+								{{call['RECORDINGS']}}
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
-	
 	
 </div>
 <!-- POPUP TEMPLATES -->

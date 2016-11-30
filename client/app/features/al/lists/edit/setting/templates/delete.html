@@ -1,0 +1,20 @@
+<div class="content-action-last">
+  <div class="controls-check-radio">
+    <label>
+      <input type="radio"
+             ng-model="$ctrl.settings.listDeleteMode"
+             value='DELETE_ALL'>
+      <div>Remove all matching records from list</div>
+    </label>
+  </div>
+  <div class="controls-check-radio">
+    <label>
+      <input type="radio"
+             ng-model="$ctrl.settings.listDeleteMode"
+             value='DELETE_EXCEPT_FIRST'>
+      <div>Remove all matching list records and add first (oldest) matching Contact Record to list</div>
+    </label>
+  </div>
+
+</div>
+

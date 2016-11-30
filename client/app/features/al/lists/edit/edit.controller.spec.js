@@ -25,17 +25,17 @@ describe('Component:EditList', function () {
   }));
 
   describe('#InitComponentEditList', () => {
-    it('should set current step Setting when update is selected', () => {
+    it('should set current step Setting Advanced when update is selected', () => {
       EditComponent.$onInit();
 
       expect(EditComponent.isUpdate).to.be.equal(true);
       expect(EditComponent.currentStep).to.deep.equal(EditComponent.STEPS.SETTING);
     });
 
-    it('should set current step Upload when delete is selected', () => {
+    it('should set current step Setting Advanced when delete is selected', () => {
       EditComponent.isUpdate = false;
       EditComponent.$onInit();
-      expect(EditComponent.currentStep).to.deep.equal(EditComponent.STEPS.UPLOAD);
+      expect(EditComponent.currentStep).to.deep.equal(EditComponent.STEPS.SETTING);
     });
   });
 

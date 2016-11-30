@@ -1,0 +1,869 @@
+.al-theme{
+   
+    &.columns-equal-height{ // class for colums childs, all direct childs will be columns
+        display: flex;
+    }
+    
+    .rightside {
+        background: @lightgray;        
+        width: ~"calc(100% - 200px)";       
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+    
+    .sidebar{       
+        display: block;
+        width: 200px;       
+        padding: 50px 30px 0;     
+        min-height: ~"calc(100vh - @{fullHeightContainer})";   
+    }  
+
+    .btn-blue{
+        color:white;
+    }
+
+   .abx-btn-lg{
+        width: 160px;
+        padding: 0;
+    }
+    .abx-pagination-container{
+        label{
+            margin-top: 5px;
+            font-weight: normal;
+        }
+    }
+    .abx-btn-md{
+        width: 80px;
+        height: 30px;
+        padding-left: 0px;
+        padding-right: 0px
+    }
+    .abx-pagination-left, .abx-pagination-center, .abx-pagination-right{
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .remove-spaces-inline{
+        padding-top: 5px;
+        font-size: 0;
+        .btn-black{
+                margin-right: 20px;
+                width: 80px;
+                padding: 0; 
+                color: white;
+                &:last-child{
+                    margin-right: 0;
+                }
+        }
+    }
+
+    .edit-list{    
+        .mywell{
+            .btn-black{
+                width: 80px;
+                padding: 0;                
+            }
+        }
+        .pull-left h3{
+            font-family: BrandonLight;
+        }
+    }    
+
+    // SPECIFIC IDS 
+    #edit-list {
+        .mywell{
+            .btn-black{
+                    margin-right: 20px;
+                    margin-top: 5px;
+                    width: 80px;
+                    padding: 0; 
+            }
+        }
+        .modal {
+            overflow-y: hidden;
+            .modal-dialog {
+                .modal-content {
+                    background: transparent;
+                    border: none;
+                    box-shadow: none;
+                    .modal-header {
+                        border: 0;
+                    }
+                }
+                .modal-header {
+                    .modal-title {
+                        color: @blue;
+                    }
+                }
+                .modal-header,.modal-body{
+                    padding-left: 15px;
+                }
+            }
+        }
+        .contact-model-form {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .modal-backdrop.in {
+            opacity: 0.9;
+        }
+        .btn-blue {
+            margin-right: 20px;
+        }
+        .uib-daypicker .btn-sm{
+            width: auto;
+            padding: 5px 10px;
+            font-size: 12px;
+            line-height: 1.5;
+            border-radius: 3px;
+        }
+    }
+  
+
+ 
+    .reports-img{
+     //   margin-top: 15px;
+        margin-bottom:50px;
+        text-align: center;
+        .img-responsive{
+          display: inline-table;
+          max-width: 1193px;
+        }
+    }
+    .search-list-messages.mywell.footer_table {
+         margin-bottom: 60px;
+        .noresults,.no-records-added{
+            margin-top: 0;
+        }
+    }
+   
+    .mywell {
+        background: none;
+        border: 0;
+        padding: 0;
+        margin: 0 0 30px;
+        border-radius: 0;
+        box-shadow: none;
+        &.footer_table {
+            font-family: BrandonRegular;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            font-size: 14px;
+            overflow: hidden;
+            clear: both;
+        }
+    }
+    .center-loading{
+        .loader_indicator{
+            width: 100%;
+        }
+    }
+    .fixed-margin-bottom-25{
+        margin-bottom: 25px;
+    }
+
+    .pull-left .list-title-mapp
+    {
+        h3{
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        margin-bottom: 30px;
+    }
+    .no-margin-bottom{
+        margin-bottom: 0px;
+    }
+    .margin-bottom-65 {
+       margin-bottom: 65px;
+    }
+    .no-records-added{
+        color: #666666;
+        font-size: 21px;
+    }
+     // logo five9
+    .logofive9 {
+        width: 100%;
+        margin:0;
+    }
+    .is-key-span{
+        padding-left: 2px;
+        text-transform: none;
+    }
+    .loader_indicator {
+        width: 200px;
+        height: 100px;
+        text-align: center;
+        font-size: 24px;
+        //margin-top: 34%;
+        color: #666;
+        display: block;
+        margin-right: auto;
+        margin-left: auto;
+        padding: 20px 0;
+        font-family: BrandonRegular;
+        > img {
+            margin-bottom: 15px;
+        }
+    }
+    .noresults {
+        font-size: 24px;
+        color: #666;
+        line-height: 49px;
+        text-align: center;
+        margin-top: 10%;
+    }
+    .sortColumn:hover {
+        cursor: pointer;
+    }
+    .results_per_page select {
+        appearance: none;
+        background: white url('@{images_al_path}/dropdown.png') no-repeat 82% center;
+        margin: 0 3px;
+        border: 1px solid @gray;
+        padding: 3px 18px 3px 5px;
+    }
+    .to_capitalize {
+        text-transform: lowercase;
+        &:first-letter {
+            text-transform: capitalize;
+        }
+    }
+    .footer_table {
+        .pull-left {
+            font-weight: normal;
+            margin-top: 5px;
+        }
+    }
+
+    .btn-row-campaign {
+        border-radius: 0;
+        padding: 2px 6px;
+        font-size: 14px;
+        border: 0;
+        width: 70px;
+    }
+
+
+    .table-hover tr {
+        cursor: pointer;
+    }
+    h4 {
+        font-weight: normal;
+    }
+
+    .cell-select {
+        width: 100%;
+        border: 0;
+        height: 100%;
+        vertical-align: top;
+        appearance: none;
+        border:0;
+        outline:0;
+        background: transparent;
+        padding-left: 6px;
+        text-indent: 1px;
+        &:focus,&:active{
+            outline: none;
+        }
+    }
+    .withArrow{
+        background:url('@{images_al_path}/dropdown.png') no-repeat center center;
+    }
+    .cell-select::-ms-expand{
+      display:none;
+    }
+    .cell-checkbox {
+        width: 18px;
+        height: 18px;
+        vertical-align: middle;
+        margin:0;
+    }
+    .number-updown-width {
+        .abx-number-input {
+            width: 92%;
+            padding-right: 10px;
+        }
+        .abx-number-arrows {
+            width: 8%;
+            min-width: auto;
+        }
+    }
+
+    //Add margin between settings components
+    .settings-container {
+
+        margin-top: 10px;
+        #csv-file{
+            display: none;
+        }
+        .settings-file-container{
+            font-size: 16px;
+            &>label{
+                color: black;
+                font-weight: normal;
+                margin-right: 5px;
+            }
+        }
+        &>div.upload-checkbox{
+            color: #666;
+            &>label{
+                font-weight: normal;
+                margin-bottom: 0px;
+            }
+        }
+    }
+
+    .settings-options-container{
+        margin-bottom: 50px;
+        a.toggle-link{
+            color: black;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+            &:hover{
+                color: black;
+            }
+        }
+        .settings-advanced-container{
+            margin-top: 20px;
+            .sub-option{
+                padding-left: 20px;
+            }
+            .settings-well{
+                background-color: white;
+                margin-bottom: 0;
+                padding: 20px;
+                label{
+                  color: #666;
+                  display: block;
+                  font-weight: normal;
+                  margin-bottom: 0px;
+                }
+                .content-action {
+                  margin-bottom: 30px;
+                }
+                .content-action-last {
+                  margin-bottom: 10px;
+                }
+                .controls-check-radio {
+                  margin-top: 10px;
+                  label{
+                    color: #666;
+                    display: block;
+                    font-weight: normal;
+                    margin-bottom: 0px;
+
+                    input[type="radio"],input[type="checkbox"]{
+                      margin-top: 1px;
+                      float: left;
+                    }
+
+                    div{
+                      margin-left: 16px;
+                    }
+                  }
+                }
+            }
+        }
+    }
+    .mapping-options-container {
+      margin-bottom: 50px;
+    }
+    .mapping-button-finish {
+      text-align: center;
+      margin-bottom: 65px;
+      button.btn-black {
+        width: 160px;
+      }
+    }
+    .settings-text{
+        font-family: BrandonLight;
+    }
+    .settings-button-container{
+        text-align: center;
+        button.btn-black {
+            width: 160px;
+            padding: 0 17px 0 17px;
+            margin-left: 7px;
+            margin-right: 7px;
+        }
+    }
+    .file-empty-error{
+        color: red;
+    }
+    .description-confirm {
+      white-space: normal!important;
+    }
+    .button-container{
+        &>button.btn-black{
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+    }
+    //change password column style
+    .no-margin{
+        margin: 0;
+        &>div{
+            padding-left: 0px;
+            padding-right: 0;
+            &>input.btn-black{
+                width: 100%;
+                padding-left: 0;
+                padding-right: 0;
+                height: 35px;
+            }
+        }
+    }
+       
+    .show-all-spaces{
+        white-space: pre;
+    }
+    //add Modal transparent
+    #modal-container{
+        div.modal-md{
+            width: 560px;
+            .modal-header{
+                padding: 15px 0 0;
+                .alert-danger, .alert-warning{
+                    margin-top: 10px;
+                }
+            }
+            .modal-body{
+                margin-top: 30px;
+                padding: 0;
+            }
+
+        }
+        .modal{
+            overflow-y: hidden;
+        }
+        .modal-content{
+            text-align: left;
+            background: transparent;
+            box-shadow: none;
+            border: none;
+        }
+        .medium-input{
+            margin-top: 20px;
+        }
+        .modal-dialog{
+          width: 400px;
+          margin: 0 auto;
+        }
+        .contact-model-form {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .modal-header{
+            border: none;
+            .title_section{
+                margin-bottom: 0;
+            }
+            .circle_close{
+                margin-top: 56px;
+            }
+        }
+
+        .modal-backdrop.in {
+            opacity: 0.9;
+        }
+        .modal-button-container {
+            text-align: center;
+            margin-top: 30px;
+            &>.btn-blue{
+                margin-left: 10px;
+                margin-right: 10px;
+                width: 120px;
+                &:hover, &:active, &:focus {
+                    background: #000000;
+                    color: @blue;
+                    border-width: 1px;
+                    border-color: @blue;
+                }
+            }
+        }
+        p{
+            padding-left: 0;
+            &.multi-select-items{
+                padding-left: 10px;
+            }
+        }
+
+        .error-modal{
+            color: #e64b3b;
+        }
+    }
+    #modal-skill-container{
+        .modal{
+            overflow-y: hidden;
+        }
+        .modal-input{
+            width: 60%;
+        }
+        .medium-input{
+            margin-top: 20px;
+        }
+        .modal-dialog{
+            width: 100%;
+        }
+        .modal-content{
+            background: transparent;
+            box-shadow: none;
+            border: none;
+            width: 400px;
+            margin: 0 auto;
+        }
+        .modal-header{
+            border: none;
+            .title_section{
+                margin-bottom: 2px;
+            }
+        }
+        .modal-backdrop.in {
+            opacity: 0.9;
+        }
+        .modal-button-container {
+
+            text-align: center;
+            display: block;
+            width: 60%;
+            margin-top: 30px;
+
+            &>.btn-blue{
+                margin-left: 10px;
+                margin-right: 10px;
+                width: 120px;
+            }
+        }
+        p{
+            padding-left: 0;
+
+        }
+        .error-modal{
+            color: #e64b3b;
+        }
+        .error-message{
+
+            width: 60%;
+            margin-top: 20px;
+        }
+        .circle_close{
+            position: fixed;
+            top: 18px;
+            right: 3%;
+            opacity: 0.5;
+        }
+    }
+
+    input[disabled],button[disabled],select[disabled]{
+        color:#ccc;
+        cursor:not-allowed;
+    }
+    //inline input with label
+    .custom_form{
+        .inputminimal{
+            &>input.inline-input{
+              //  width: auto;
+            }
+            input{
+              padding: 7px 10px 0;
+            }
+        }
+        .form-field {
+            width: 100%;
+            background: #fff;
+            height: 35px;
+            margin-bottom: 10px;
+            border: 1px solid #f2f2f2;
+            label {
+                float:left;
+                padding: 0 0 0 9px;
+                line-height: 35px;
+                font-weight: 400;
+                font-size: 14px;
+                color: #666;
+            }
+            span {
+                display:block;
+                overflow-x: hidden;
+                height: 100%;
+                input{
+                    width:100%;
+                    border: none;
+                    padding: 0px 10px 0;
+                    height: 100%;
+                    vertical-align: middle;
+                    background: 0 0;
+                    box-shadow: none;
+                }
+            }
+        }
+    }
+    .fields-form{
+        .inputminimal{
+            &>span{
+                display: block;
+                overflow: hidden;
+                margin: 0;
+                height: 100%;
+                &.multiple-select{
+                    height: auto;
+                }
+                input, select{
+                    padding: 0 10px 0;
+                    width: 100%;
+                    height: 100%;
+                }
+                input.form-boolean{
+                    height: 100%;
+                    display: inline-block;
+                    width: auto;
+                    vertical-align: middle;
+                    margin-top: 0;
+                    margin-left: 5px;
+                }
+                select{
+                    background: white;
+                }
+            }
+        }
+    }
+
+    .header-table-mapping{
+          background: white;
+          border: 1px solid #ddd;
+          padding: 35px 35px 13px;
+          color:@grayforte;
+          margin-top: 20px;
+          .btn-primary{
+            border: 0;
+            border-radius: 0;
+            padding: 5px 0px;
+            margin:0 15px 10px 0;
+            width: 150px;
+
+            //  margin-right: 7px;
+              &:disabled{
+                  color: white;
+              }
+          }
+        input,select{
+           background: white;
+           border: 1px solid @gray;
+           margin: 0 2px;
+           height: 30px;
+           &:disabled{
+               background: @gray;
+               width: 40px;
+               text-align: center;
+           }
+        }
+        input[type='checkbox']{
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        label{
+            font-weight:normal;
+        }
+        span{
+                margin: 0 4px 0 -1px;
+        }
+        p{
+            margin:0;
+         //   display: flex;
+            margin-bottom: 10px;
+            >*{
+                display: inline-block;
+                //vertical-align: bottom;
+                margin-bottom:0;
+            }
+
+        }
+        #contactSelect{
+            flex-grow: 1;
+        }
+
+        .separator{
+             margin:0 15px 10px 0;
+             display: inline-block;
+             vertical-align: top;
+             select{
+                 width: 120px;
+             }
+             .symbol-delimiter{
+                 width: 40px;
+                 text-align: center;
+             }
+        }
+        .row{
+            margin-bottom: 20px;
+            &:last-child{
+                margin-bottom: 15px;
+            }
+        }
+    }
+
+
+
+    .subtitle_section{
+        overflow: hidden;
+        margin-bottom: 20px;
+        h3{
+            font-weight: normal;
+            margin:0;
+            font-family: BrandonLight;
+        }
+
+    }
+    .progress-icon {
+        font-size: 25px;
+        width: 40px;
+        height: 20px;
+        background: url('@{images_al_path}/AB-App-ProcessingIcon.png') no-repeat center center;
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .disabled-x-circle{
+        font-size: 25px;
+        width: 50px;
+        height: 20px;
+        background: url('@{images_al_path}/CloseIcon-Default.png') no-repeat center center;
+        display: inline-block;
+        vertical-align: middle;
+        pointer-events: none;
+    }
+
+    .custom_form {
+        .inputminimal {
+            .datepicker-container{
+                display: inline-block;
+                vertical-align: top;
+                padding-left: 10px;
+            }
+            .datetime-button {
+                position: absolute;
+                left: 190px;
+                top: -1px;
+                .datepicker-button {
+                    float:left;
+                    font-size: 0;
+                    position: relative;
+                    white-space: nowrap;
+                }
+                .timepicker-input {
+                    float: left;
+                    position: relative;
+                    white-space: nowrap;
+                    input {
+                        width: 100%;
+                        line-height: 20px;
+                    }
+                }
+            }
+        }
+    }
+
+    .contact-buttons{
+        margin-top: 30px;
+    }
+
+    .skillU-modal {
+        #formSkill {
+            max-width: 370px;
+            .inputminimal {
+                margin-bottom: 20px;
+                label{
+                    padding: 1px 0 0 10px;
+                }
+                select{
+                    overflow: hidden;
+                    width: 22.3em;
+                }
+                .abx-number-input{
+                    font-size: 14px;
+                    font-weight: normal;
+                    padding-left: 12px;
+                    line-height: 0;
+                    width: 35px;
+                    padding-top: 2px;
+                }
+            }
+            .level-input{
+              width:95px;
+              .timer-container{
+                width: 50px;
+              }
+            }
+            .skillmodal-buttons {
+                margin-top: 30px;
+                button {
+                    width: 105px;
+                    &:first-child {
+                        margin-right: 20px;
+                    }
+                }
+            }
+        }
+    }
+
+    .user-skills-tab{
+        .add-button{
+            text-align: right;
+            display: inline-block;
+            margin-top: 15px;
+            width: 100%;
+        }
+    }
+
+    .list-group-roles{
+        a{
+            text-transform: capitalize;
+        }
+    }
+
+    .full-page-loading >abx-load-indicator>.loader_indicator{
+        width: 100%;
+    }
+    .capitalize{
+        text-transform: capitalize;
+        padding-left: 0px;
+    }
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        .skillU-modal{
+            #formSkill {
+                .inputminimal {
+                    select{
+                        padding-top: 7px;
+                    }
+                }
+            }
+        }
+    }
+    .table-y-scroll-col4 .capitalize-contact{
+        padding-left: 30px;
+    }
+    .margin-with-footer{
+        margin-bottom: 35px;
+    }
+    .fixed-margin-15{
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+    .light-label{
+        font-weight: normal;
+        margin-bottom: 0px;
+    }
+    .linksUser{
+        a{
+            padding-right: 15px;
+            display: none;
+        }
+    }
+
+
+    .btn-width-action-top{
+      width: 80px;
+    }
+}
+

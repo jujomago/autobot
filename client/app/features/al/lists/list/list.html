@@ -56,7 +56,7 @@
         <img src="assets/al/images/NoResultsIcon.png" alt="lupa">
         <p>We couldn't find what you are looking for</p>
       </div>
-      <label class="pull-left fixed-width-125 text-left" ng-if="$ctrl.lists.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.getMax()}} of {{$ctrl.lists.length}}</label>
+      <label class="pull-left text-left" ng-if="$ctrl.lists.length">Showing {{$ctrl.beginNext+1}}-{{$ctrl.getMax()}} of {{$ctrl.lists.length}}</label>
       <uib-pagination ng-if="$ctrl.lists.length"
                       total-items="$ctrl.lists.length"
                       ng-model="$ctrl.currentPage"

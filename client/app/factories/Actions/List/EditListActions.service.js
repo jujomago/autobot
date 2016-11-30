@@ -20,11 +20,17 @@
           DELETE_EXCEPT_FIRST: 'DELETE_EXCEPT_FIRST'
         }
       },
-      DEFAULT_UPDATE_SETTING = {
-        listAddMode: MODE_ACTION.LIST.ADD_FIRST,
-        crmAddMode: MODE_ACTION.CRM.ADD_NEW,
-        crmUpdateMode: MODE_ACTION.CRM.UPDATE_FIRST,
-        cleanListBeforeUpdate: false
+      DEFAULT_SETTINGS = {
+       UPDATE: {
+          isCrmUpdate: true,
+          listAddMode: MODE_ACTION.LIST.ADD_FIRST,
+          crmAddMode: MODE_ACTION.CRM.ADD_NEW,
+          crmUpdateMode: MODE_ACTION.CRM.UPDATE_FIRST,
+          cleanListBeforeUpdate: false
+        },
+        DELETE: {
+          listDeleteMode: MODE_ACTION.LIST.DELETE_ALL
+        }
       },
       DEFAULT_KEY = 'number1',
       MESSAGE_SETTINGS = {
@@ -37,6 +43,18 @@
         buttons: {
           okText: 'Yes',
           cancelText: 'No'
+        }
+      },
+      LABELS_SETTINGS = {
+        UPDATE: {
+          title: 'List update',
+          description: 'Select how would you like to update the list',
+          titleOptions: 'Action for list update'
+        },
+        DELETE: {
+          title: 'List Remove',
+          description: 'Select how would you like to remove your list ',
+          titleOptions: 'Action for list remove'
         }
       };
 
@@ -69,8 +87,9 @@
       return MODE_ACTION;
     }
 
-    function getDefaultUpdateSetting() {
-      return DEFAULT_UPDATE_SETTING;
+    function getDefaultSetting(isUpdate) {
+      let setting = isUpdate ? DEFAULT_SETTINGS.UPDATE : DEFAULT_SETTINGS.DELETE;
+      return lodash.clone(setting);
     }
 
     function getSettingMessage() {
@@ -88,14 +107,19 @@
       return settingFormat;
     }
 
+    function getLabelsSettings(isUpdate) {
+      return isUpdate ? LABELS_SETTINGS.UPDATE : LABELS_SETTINGS.DELETE;
+    }
+
     return {
       loadDefaultKey: loadDefaultKey,
       getConstantsUpdate: getConstantsUpdate,
-      getDefaultUpdateSetting: getDefaultUpdateSetting,
+      getDefaultSetting: getDefaultSetting,
       getFieldsKey: getFieldsKey,
       getMappingFields: getMappingFields,
       getSettingsUpdate: getSettingsUpdate,
-      getSettingMessage: getSettingMessage
+      getSettingMessage: getSettingMessage,
+      getLabelsSettings: getLabelsSettings
     };
   }
 

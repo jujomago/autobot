@@ -7,7 +7,7 @@ describe('Service:EditListActions', function () {
   let EditListActions,
     CONTACT_FIELDS,
     MODE_UPDATE,
-    UPDATE_SETTING_DEFAULT,
+    DEFAULT_SETTINGS,
     UPDATE_SETTINGS_BY_USER;
 
   beforeEach(module('fakiyaMainApp'));
@@ -33,13 +33,19 @@ describe('Service:EditListActions', function () {
         DELETE_EXCEPT_FIRST: 'DELETE_EXCEPT_FIRST'
       }
     };
-      UPDATE_SETTING_DEFAULT = {
+    DEFAULT_SETTINGS = {
+      UPDATE: {
+        isCrmUpdate: true,
         listAddMode: 'ADD_FIRST',
         crmAddMode: 'ADD_NEW',
         crmUpdateMode: 'UPDATE_FIRST',
         cleanListBeforeUpdate: false
-      };
-      CONTACT_FIELDS = [
+      },
+      DELETE: {
+        listDeleteMode: 'DELETE_ALL'
+      }
+    };
+    CONTACT_FIELDS = [
         {
           displayAs: 'Long',
           mapTo: 'None',
@@ -101,7 +107,11 @@ describe('Service:EditListActions', function () {
     });
 
     it('should return default Update Settings DEFAULT', function () {
-      expect(EditListActions.getDefaultUpdateSetting()).to.deep.equal(UPDATE_SETTING_DEFAULT);
+      expect(EditListActions.getDefaultSetting(true)).to.deep.equal(DEFAULT_SETTINGS.UPDATE);
+    });
+
+    it('should return default Delete Settings DEFAULT', function () {
+      expect(EditListActions.getDefaultSetting(false)).to.deep.equal(DEFAULT_SETTINGS.DELETE);
     });
 
     it('should return only keys', function () {
@@ -179,6 +189,30 @@ describe('Service:EditListActions', function () {
       };
 
       expect(EditListActions.getSettingMessage()).to.deep.equal(EXPECT_MESSAGE);
+    });
+  });
+
+  describe('#Get resources', () => {
+    it('Get resources to update action', () => {
+      let resourcesUpdate = {
+        title: 'List update',
+        description: 'Select how would you like to update the list',
+        titleOptions: 'Action for list update'
+      },
+        updateLabelsSettings = EditListActions.getLabelsSettings(true);
+
+      expect(updateLabelsSettings).to.deep.equal(resourcesUpdate);
+    });
+
+    it('Get resources to update action', () => {
+      let resourcesDelete = {
+        title: 'List Remove',
+        description: 'Select how would you like to remove your list ',
+        titleOptions: 'Action for list remove'
+      },
+        deleteLabelsSettings = EditListActions.getLabelsSettings(false);
+
+      expect(deleteLabelsSettings).to.deep.equal(resourcesDelete);
     });
   });
 });
