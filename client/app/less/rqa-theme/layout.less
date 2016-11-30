@@ -1,0 +1,86 @@
+.rqa-theme{
+	padding-top: 25px;
+	padding-left: 30px;
+	padding-right: 30px;
+	background: #f7f7f7;
+	width: 100%;
+	height: ~"calc(100vh - 110px)";
+	p, select, input, a, div{
+		font-family: ProximaNovaRegular;
+	}
+	.link-disabled{
+		pointer-events: none;
+		cursor: not-allowed;
+	}
+	
+	h3{
+		font-family: ProximaNovaSemibold;
+		font-size: 18px;
+		color: #666666;
+	}
+	.fixed-margin-bottom-30{
+		margin-bottom: 30px;
+	}
+	.fixed-margin-bottom-10{
+		margin-bottom: 10px;
+	}
+	.fixed-margin-left-10{
+		margin-left: 10px;
+	}
+	.icon-button{
+		vertical-align: middle;
+		width: 30px;
+		height: 30px;
+		background: #ffffff;
+		border: 1px;
+		border-color: #f1f1f1;
+		&.active, &:hover{
+			background: #37a3dc;
+			border-color: #37a3dc;
+			.rqa-refresh{
+				background: url('@{image_buttons_rqa_path}/refresh-active.png') no-repeat center center;
+			}
+			.rqa-reports{
+				background: url('@{image_buttons_rqa_path}/reports-active.png') no-repeat center center;
+			}
+			.rqa-filter{
+				background: url('@{image_buttons_rqa_path}/filter-active.png') no-repeat center center;
+			}
+		}
+		.rqa-refresh{
+			background: url('@{image_buttons_rqa_path}/refresh.png') no-repeat center center;
+		}
+		.rqa-reports{
+			background: url('@{image_buttons_rqa_path}/reports.png') no-repeat center center;
+		}
+		.rqa-filter{
+			background: url('@{image_buttons_rqa_path}/filter.png') no-repeat center center;
+		}
+
+	}
+	.title-container{
+		display: inline-block;
+		vertical-align: middle;
+		&>span{
+			margin-left: 20px;
+			font-family: ProximaNovaLight;
+			font-size: 24px;
+			color: #666;
+			vertical-align: middle;
+		}
+	}
+	.actions-container{
+		padding-top: 20px;
+	}
+	.display-inline-block{
+		display: inline-block;
+	}
+	.rqa-icon{
+		height: 100%;
+		width: 100%;
+		display: inline-block;
+	}
+	.rqa-search{
+		background: url('@{image_buttons_rqa_path}/search.png') no-repeat center center;
+	}
+}

@@ -1,44 +1,46 @@
-<div class="row offsettop col-equal-height al-theme margin-with-footer" >
-	<section class="row apps-page-container">
-		<h3 class="title_section">Autobox apps</h3>
-		<div class="center-loading" ng-if="!$ctrl.found">
-			<abx-load-indicator text="Loading Apps"> </abx-load-indicator>
-		</div>
-		<abx-message msg="$ctrl.message"></abx-message>
-		<div id="{{partner.partner}}" class="partner-container" ng-repeat="partner in $ctrl.partners | orderBy: 'partner'">
-			<b>{{partner.partner}}</b>
-			<div class="row apps-container">
-				<div class="col-md-2-5 col-sm-6 col-xs-12" ng-repeat="item in partner.apps | orderBy: 'app.appFullName'">
-					<div class="image-container">
+<div class="theme-full-height">
+	<div class="row al-theme" >
+		<section class="row apps-page-container">
+			<h3 class="title_section">Autobox apps</h3>
+			<div class="center-loading" ng-if="!$ctrl.found">
+				<abx-load-indicator text="Loading Apps"> </abx-load-indicator>
+			</div>
+			<abx-message msg="$ctrl.message"></abx-message>
+			<div id="{{partner.partner}}" class="partner-container" ng-repeat="partner in $ctrl.partners | orderBy: 'partner'">
+				<b>{{partner.partner}}</b>
+				<div class="row apps-container">
+					<div class="col-md-2-5 col-sm-6 col-xs-12" ng-repeat="item in partner.apps | orderBy: 'app.appFullName'">
+						<div class="image-container">
+								<a ui-sref="ap.page({appName: item.app.appName})">
+									<img ng-src="assets/{{item.app.appName}}/images/logo-sm.jpg"
+										abx-default-image-switch="/assets/default/images/logo-sm.jpg">
+								</a>
+						</div>
+						<div class="title-container">
 							<a ui-sref="ap.page({appName: item.app.appName})">
-								<img ng-src="assets/{{item.app.appName}}/images/logo-sm.jpg"
-									 abx-default-image-switch="/assets/default/images/logo-sm.jpg">
+								<h3 class="appsTittle">{{item.app.appFullName}}</h3>
 							</a>
-					</div>
-					<div class="title-container">
+						</div>
 						<a ui-sref="ap.page({appName: item.app.appName})">
-							<h3 class="appsTittle">{{item.app.appFullName}}</h3>
+							<p>{{ item.app.description | limitTo: 130 }} {{ item.app.description.length > 130 ? '...' : ''}}</p>
 						</a>
-					</div>
-					<a ui-sref="ap.page({appName: item.app.appName})">
-						<p>{{ item.app.description | limitTo: 130 }} {{ item.app.description.length > 130 ? '...' : ''}}</p>
-					</a>
-					<div ng-show="item.app.appStatus!==$ctrl.appStatus.COMING_SOON">
-						<button type="button" ng-click="$ctrl.selectInstalledApp(item.app.appName)" class="btn btn-black fixed-center-bottom" ng-show="item.installed">Open</button>
-						<button type="button" ng-click="$ctrl.selectNoInstalledApp(item)" class="btn btn-black fixed-center-bottom" ng-show="!item.installed">Get</button>
-					</div>
-					<div ng-if="item.app.appName === 'cj'" ng-show="item.app.appStatus===$ctrl.appStatus.COMING_SOON">
-						<a ui-sref="ap.page({appName: item.app.appName})">
-							<p class="fixed-center-bottom coming-soon-message">Coming Winter 2016</p>
-						</a>
-					</div>
-					<div ng-if="item.app.appName !== 'cj'" ng-show="item.app.appStatus===$ctrl.appStatus.COMING_SOON">
-						<a ui-sref="ap.page({appName: item.app.appName})">
-							<p class="fixed-center-bottom coming-soon-message">Coming Fall 2016</p>
-						</a>
+						<div ng-show="item.app.appStatus!==$ctrl.appStatus.COMING_SOON">
+							<button type="button" ng-click="$ctrl.selectInstalledApp(item.app.appName)" class="btn btn-black fixed-center-bottom" ng-show="item.installed">Open</button>
+							<button type="button" ng-click="$ctrl.selectNoInstalledApp(item)" class="btn btn-black fixed-center-bottom" ng-show="!item.installed">Get</button>
+						</div>
+						<div ng-if="item.app.appName === 'cj'" ng-show="item.app.appStatus===$ctrl.appStatus.COMING_SOON">
+							<a ui-sref="ap.page({appName: item.app.appName})">
+								<p class="fixed-center-bottom coming-soon-message">Coming Winter 2016</p>
+							</a>
+						</div>
+						<div ng-if="item.app.appName !== 'cj'" ng-show="item.app.appStatus===$ctrl.appStatus.COMING_SOON">
+							<a ui-sref="ap.page({appName: item.app.appName})">
+								<p class="fixed-center-bottom coming-soon-message">Coming Fall 2016</p>
+							</a>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</section>
+		</section>
+	</div>
 </div>
