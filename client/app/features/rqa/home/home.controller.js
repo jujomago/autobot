@@ -121,6 +121,7 @@ class HomeComponent {
         	let range = this.selectedDate.function(this.selectedDate.value);
         	let identifier;
         	return _ReportsService.sendCallLogRequest(range.startDate.toISOString(), range.endDate.toISOString())
+
         	.then(response =>{
         		identifier = response.data.return;
         		return _ReportsService.isRunning(identifier);
@@ -142,6 +143,7 @@ class HomeComponent {
           });
       }
       return null;
+
   }
   selectPopover(filter){
   	this.selectedPopover = filter;

@@ -1,5 +1,6 @@
 'use strict';
 
+
 describe('Directive:abxClosableMessage', function () {
 
   // load the directive's module and view

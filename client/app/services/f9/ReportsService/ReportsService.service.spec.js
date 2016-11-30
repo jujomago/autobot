@@ -87,5 +87,4 @@ describe('Service: ReportsService', function () {
     });
   });
 
-
 });
