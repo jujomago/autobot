@@ -1,6 +1,7 @@
 'use strict';
 
-describe('Directive: abxClosableMessage', function () {
+
+describe('Directive:abxClosableMessage', function () {
 
   // load the directive's module and view
   beforeEach(module('fakiyaMainApp'));
@@ -12,10 +13,12 @@ describe('Directive: abxClosableMessage', function () {
     scope = $rootScope.$new();
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<abx-closable-message></abx-closable-message>');
+  it('should close message', inject(function ($compile) {
+    element = angular.element('<abx-closable-message message="{show: true}"></abx-closable-message>');
     element = $compile(element)(scope);
     scope.$apply();
-    expect(element.text()).to.equal('this is the abxClosableMessage directive');
+    expect(element.isolateScope().message.show).to.equal(true);
+    element.isolateScope().close();
+    expect(element.isolateScope().message.show).to.equal(false);
   }));
 });

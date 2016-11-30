@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: abxAutoPlacementPopover', function () {
+describe('Directive:abxAutoPlacementPopover', function () {
 
   // load the directive's module
   beforeEach(module('fakiyaMainApp'));
@@ -12,9 +12,18 @@ describe('Directive: abxAutoPlacementPopover', function () {
     scope = $rootScope.$new();
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<abx-auto-placement-popover></abx-auto-placement-popover>');
+  it('should placement be left top', inject(function ($compile) {
+    element = angular.element('<div style="position: fixed; top:0;" abx-auto-placement-popover></div>');
+    let body = angular.element(document).find('body');
+    body.append(element);
     element = $compile(element)(scope);
-    expect(element.text()).to.equal('this is the abxAutoPlacementPopover directive');
+    expect(element.attr('popover-placement')).to.equal('left-top');
+  }));
+  it('should placement be left bottom', inject(function ($compile) {
+    element = angular.element('<div style="position: fixed; top:100px;" abx-auto-placement-popover></div>');
+    let body = angular.element(document).find('body');
+    body.append(element);
+    element = $compile(element)(scope);
+    expect(element.attr('popover-placement')).to.equal('left-bottom');
   }));
 });

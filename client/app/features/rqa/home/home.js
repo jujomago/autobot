@@ -5,6 +5,6 @@ angular.module('fakiyaMainApp')
     $stateProvider
       .state('ap.rqa', {
         url: '/rqa',
-        template: '<home></home>'
+        template: '<rqa></rqa>'
       });
   });
