@@ -50,20 +50,32 @@ angular.module('fakiyaMainApp', [
 				}
 			});      
 
-    //------
+    //--------Temporary patch, this will be removed---------------------
     $rootScope.$on('$stateChangeStart', function (event,toState,toParams) {
-      if(!toParams.isLoggedIn && toState.name.indexOf('al')>-1){
-        let state = $injector.get('$state');
+      let promise;
+      let state = $injector.get('$state');
+      let appLoggedin;
+      if(!toParams.isLoggedInToAl && toState.name.indexOf('.al.')>-1){
         let ListService=$injector.get('ListsService');
         event.preventDefault();
-        ListService.getList('%$&unexisting_list)(*&^%^', {headers: {appName: 'al'}})
-       .catch(error => {
-        if(error.statusCode!==409){
-          toParams.isLoggedIn = true;
-          state.go(toState.name,toParams);
-        }
-       });
+        promise =ListService.getList('%$&unexisting_list)(*&^%^', {headers: {appName: 'al'}});
+        appLoggedin = 'isLoggedInToAl';
+      }
+      else if(!toParams.isLoggedInToRqa && toState.name.indexOf('.rqa.')>-1){
+        let ReportsService = $injector.get('ReportsService');
+        event.preventDefault();
+        promise = ReportsService.isRunning('%$&unexisting_identifier)(*&^%^', 'rqa');
+        appLoggedin = 'isLoggedInToRqa';
+      }
+       if(promise){
+         promise.catch(error => {
+          if(error.statusCode!==409){
+            toParams[appLoggedin] = true;
+            state.go(toState.name,toParams);
+          }
+         });
       }
       return true;
     });
+    //------------------------------------------------------------------
   });
