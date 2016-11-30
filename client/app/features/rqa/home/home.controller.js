@@ -120,7 +120,8 @@ class HomeComponent {
         	this.selectedDate = this.tmpSelectedDate;
         	let range = this.selectedDate.function(this.selectedDate.value);
         	let identifier;
-        	_ReportsService.sendCallLogRequest(range.startDate.toISOString(), range.endDate.toISOString())
+        	return _ReportsService.sendCallLogRequest(range.startDate.toISOString(), range.endDate.toISOString())
+
         	.then(response =>{
         		identifier = response.data.return;
         		return _ReportsService.isRunning(identifier);
@@ -132,13 +133,17 @@ class HomeComponent {
         	.then(response =>{
         		this.calls = response.data.return;
         		this.isLoading = false;
+            return response;
         	})
           .catch(error =>{
             this.message = {show: true, text: error.errorMessage};
             this.isLoading = false;
             this.calls = [];
+            return error;
           });
       }
+      return null;
+
   }
   selectPopover(filter){
   	this.selectedPopover = filter;
@@ -159,7 +164,7 @@ class HomeComponent {
 }
 HomeComponent.$inject = ['ReportsService'];
 angular.module('fakiyaMainApp')
-  .component('home', {
+  .component('rqa', {
     templateUrl: 'app/features/rqa/home/home.html',
     controller: HomeComponent
   });
