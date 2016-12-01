@@ -1134,4 +1134,28 @@ html, body, #main-container{
             background: url('@{images_al_path}/CloseAlertIcon-Active.png') no-repeat center center;
         }
     }
+
+    .loader_indicator {
+        width: 200px;
+        height: 100px;
+        text-align: center;
+        font-size: 24px;
+        //margin-top: 34%;
+        color: #666;
+        display: block;
+        margin-right: auto;
+        margin-left: auto;
+        padding: 20px 0;
+        font-family: BrandonRegular;
+        > img {
+            margin-bottom: 15px;
+        }
+    }
+
+    .center-loading{
+        .loader_indicator{
+            width: 100%;
+            right: 0 !important;
+        }
+    } 
 }
