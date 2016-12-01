@@ -154,9 +154,7 @@ class UploadListController {
       this.sendContact = {listName: this.listName, importData: {values: []} };
 
       this.listUpdateSettings = {};
-      this.listDeleteSettings = {
-        listDeleteMode: 'DELETE_ALL'
-      };
+      this.listDeleteSettings = {};
     }
 
     $onInit() {
@@ -164,75 +162,26 @@ class UploadListController {
       this.settings = this.parent.getSettings();
 
       this.isUpdate = this.parent.isUpdate;
-
-      if (_Utils.isUndefinedOrNull(parentContactFields)) {
-        this.getContactFields();
-      }
-      else {
-        this.mappingValidation(parentContactFields);
-      }
-    }
-
-    generateMapping() {
-      for (let i = 0; i < this.contactFields.length; i++) {
-        let key = false;
-
-        if (this.contactFields[i].name === 'number1') {
-          key=true;
-          this.contactFields[i].isKey = true;
-        }
-
-        this.fieldsMapping.push({
-                                  columnNumber: i+1,
-                                  fieldName: this.contactFields[i].name,
-                                  key: key
-                                });
-      }
+      parentContactFields = _Utils.isUndefinedOrNull(parentContactFields) ? [] : parentContactFields;
+      this.mappingValidation(parentContactFields);
     }
 
     mappingValidation(contactFields) {
-
-      if(this.isUpdate && this.settings.insertOnlyKeys) {
-        contactFields= _EditListActions.getFieldsKey(contactFields);
+      if(this.isUpdate) {
+        if(this.settings.insertOnlyKeys) {
+          contactFields = _EditListActions.getFieldsKey(contactFields);
+        }
+      }
+      else {
+        contactFields = _EditListActions.getFieldsKey(contactFields);
       }
 
       this.contactFields = contactFields.map(_getSets).map(_extractFormats);
-      this.generateFieldsMapping();
+      this.fieldsMapping = _EditListActions.getMappingFields(this.contactFields);
       this.loaded = true;
     }
 
-    generateFieldsMapping() {
-      let fieldsMapping = [];
-
-      _lodash.forEach(this.contactFields, (value, index) => (fieldsMapping.push({
-          columnNumber: index + 1,
-          fieldName: value.name,
-          key: value.isKey
-      })));
-
-      this.fieldsMapping = fieldsMapping;
-    }
-
-    getContactFields() {
-    return _ContactFieldsService.getContactFields()
-    .then(response => {
-        this.contactFields = response.data.filter(e => (e.mapTo === 'None'));
-
-        this.contactFields  = this.isUpdate ?
-                                    this.contactFields.map(_getSets).map(_extractFormats) :
-                                    [this.contactFields[0]].map(_getSets).map(_extractFormats);
-
-        this.generateMapping();
-        this.loaded = true;
-        return response;
-    })
-    .catch(error => {
-        this.message = { show: true, type: 'danger', text: error.errorMessage };
-        return error;
-    });
-  }
-
-  sortColumn(columnName) {
+   sortColumn(columnName) {
       if (columnName !== undefined && columnName) {
           this.contact = {};
           this.selectedArray = [];
@@ -387,6 +336,7 @@ class UploadListController {
       this.sendContact.listUpdateSettings = this.listUpdateSettings;
     }
     else {
+      this.listDeleteSettings.listDeleteMode = this.settings.listDeleteMode;
       this.listDeleteSettings.fieldsMapping = this.fieldsMapping;
       this.sendContact.listDeleteSettings = this.listDeleteSettings;
     }

@@ -11,6 +11,17 @@ services:
     image: redis:3.2.3
     ports:
         - "6379:6379"
+  
+  postgres:
+    image: postgres:9.6
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: autobox-dev-db
+    volumes:
+      - "/var/abx/postgres-dev:/var/lib/postgresql/data"
 
   autobox-auth:
     image: quay.io/abxbo/autobox-auth:latest.dev
@@ -19,8 +30,11 @@ services:
     environment:
       NODE_ENV: development
       MONGO_URL: mongodb://mongo/autobox-dev-db
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: autobox-dev-db
     links:
       - mongo
+      - postgres
 
   autobox-api:
     image: quay.io/abxbo/autobox-api:latest.dev
@@ -31,12 +45,15 @@ services:
     environment:
       NODE_ENV: development
       MONGO_URL: mongodb://mongo/autobox-dev-db
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: autobox-dev-db
       REDIS_HOST: redis
       REDIS_PORT: 6379
       AUTH_SERVER_URL: http://autobox-auth:3380
       CORS_WHITE_LIST: http://www.dev-autoboxcorp.com:8080, http://www.dev-autoboxcorp.com, http://dev-autoboxcorp.com, http://www.dev-autoboxcorp.com:8081, http://www.dev-autoboxcorp.com:7000, http://dev-autoboxcorp.com:7000, http://www.dev-autoboxcorp.com:8880, http://dev-autoboxcorp.com:8880
     links:
       - mongo
+      - postgres
       - redis
       - autobox-auth
 
