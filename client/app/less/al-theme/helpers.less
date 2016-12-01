@@ -1,16 +1,6 @@
 // here goes all helpers, can also be mixins
 
 
-// this hack is to make sidebar and rightside same height
-.col-equal-height {
-  overflow: hidden;
-  min-height: 100%;
-  > .sidebar, > .rightside {
-    margin-bottom: -99965px;
-    padding-bottom: 99999px;
-  }
-}
-
 .extrappading {
     padding: 0 15px 20px;
 }
@@ -129,3 +119,16 @@ form[name='userForm'] .tab-content {
         float: left;
     }
 }
+
+@-moz-document url-prefix() {
+    .al-theme {
+        /*Only for Firefox text-indent property is a singular in the browsers*/
+        /*This CSS is for
+        bug 1472: Admin Console: manual mapping: The Source field name does not align with the column title.
+        for horizontal align of cell mapping*/
+        .cell-select{
+            padding-left: 7px;
+            text-indent: -2px;
+        }
+    }
+  }

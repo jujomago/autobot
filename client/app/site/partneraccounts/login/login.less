@@ -1,73 +1,71 @@
-.al-theme{
-	.partner-login-container{
-		margin-top: 50px;
-		text-align: center;
-		&>h3{
+.partner-login-container{
+	margin-top: 50px;
+	text-align: center;
+	margin-bottom:50px;
+	&>h3{
+		font-family: BrandonRegular;
+	}
+	.login-button-container{
+		&>a{
 			font-family: BrandonRegular;
+			display: block;
+			margin-top: 20px;
 		}
-		.login-button-container{
-			&>a{
-				font-family: BrandonRegular;
-				display: block;
-				margin-top: 20px;
-			}
-			&>button.btn{
-				margin-top: 10px;
+		&>button.btn{
+			margin-top: 10px;
+		}
+	}
+	.alert{
+		margin: 0 auto 22px;
+		display: block;
+		text-align: center;
+		background: none;
+		color: #d73030;
+		border: 0;
+		font-size: 20px;
+		padding: 0;
+		font-family: BrandonRegular;
+	}
+	.fixed-logo{
+		height: 140px;
+		width: 140px;
+	}
+	.title-container{
+		color: #666;
+		font-size: 18px;
+		&>label{
+			font-size: 20px;
+			font-weight: 500;
+			color: @black;
+			margin-right: 5px;
+		}
+	}
+	.avatar-container{
+		margin-bottom: 20px;
+		.fixed-avatar{
+			height: 60px;
+			width: 60px;
+		}
+		&>label{
+			display: block;
+			font-size: 16px;
+			margin-top: 5px;
+			font-family: BrandonRegular;
+			font-weight: bold;
+		}
+	}
+	.login-form{
+		.input-container{
+			margin-left: auto;
+			margin-right: auto;
+			display: inline-block;
+			&>p{
+				text-align: left;
 			}
 		}
-		.alert{
-	      margin: 0 auto 22px;
-	      display: block;
-	      text-align: center;
-	      background: none;
-	      color: #d73030;
-	      border: 0;
-	      font-size: 20px;
-	      padding: 0;
-	      font-family: BrandonRegular;
-	    }
-		.fixed-logo{
-			height: 140px;
-			width: 140px;
-		}
-		.title-container{
-			color: #666;
-			font-size: 18px;
-			&>label{
-				font-size: 20px;
-				font-weight: 500;
-				color: @black;
-				margin-right: 5px;
-			}
-		}
-		.avatar-container{
-			margin-bottom: 20px;
-			.fixed-avatar{
-				height: 60px;
-				width: 60px;
-			}
-			&>label{
-				display: block;
-				font-size: 16px;
-				margin-top: 5px;
-				font-family: BrandonRegular;
-				font-weight: bold;
-			}
-		}
-		.login-form{
-			margin-bottom: 60px;
-			.input-container{
-				margin-left: auto;
-				margin-right: auto;
-				display: inline-block;
-				&>p{
-					text-align: left;
-				}
-			}
-			.inputminimal{
-				background: #f7f7f7;
-				margin-bottom: 10px;
-			}
+		.inputminimal{
+			background: #f7f7f7;
+			margin-bottom: 10px;
 		}
 	}
 }

@@ -1,6 +1,9 @@
-<div class="full-page-loading">
-    <abx-load-indicator ng-show="!$ctrl.application.appFullName" text="Loading App"></abx-load-indicator>
+<div class="center-loading"  ng-show="!$ctrl.application.appFullName">
+    <abx-load-indicator text="Loading App"></abx-load-indicator>
 </div>
+<div class="theme-full-height">
+
+
 <div class="row app-page" ng-show="$ctrl.application.appFullName">
     <h3 class="title_section col-md-12 col-sm-12">Five9 <span>{{$ctrl.application.appFullName}}</span>
     <a class="pull-right title-back" ui-sref="ap.apps">Back to apps</a></h3>
@@ -72,3 +75,4 @@
         </div>
       </div>
 </div>
+</div> 

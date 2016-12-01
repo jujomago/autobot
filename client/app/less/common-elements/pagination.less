@@ -1,0 +1,58 @@
+.pagination {
+    margin: 0;
+    li {
+        &:first-child a,
+        &:last-child a, 
+        &:nth-child(2) a, 
+        &:nth-last-child(2) a, {
+            text-indent: -100px;
+            overflow: hidden;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-color: transparent;
+            &:hover, &:focus {
+                background-position: center center;
+                background-repeat: no-repeat;
+                background-color: transparent;
+            }
+        } 
+        &:first-child a {
+            background-image: url('@{images_al_path}/PaginationArrows-FirstDefault.png');
+            &:hover {
+                background-image: url('@{images_al_path}/PaginationArrows-FirstActive.png');
+            }
+        }
+        &:last-child a {
+            background-image: url('@{images_al_path}/PaginationArrows-LastDefault.png');
+            &:hover {
+                background-image: url('@{images_al_path}/PaginationArrows-LastActive.png');
+            }
+        }
+        &:nth-child(2) a {
+            background-image: url('@{images_al_path}/PaginationArrows-PrevDefult.png');
+            &:hover {
+                background-image: url('@{images_al_path}/PaginationArrows-PrevActive.png');
+            }
+        }
+        &:nth-last-child(2) a {
+            background-image: url('@{images_al_path}/PaginationArrows-NextDefault.png');
+            &:hover {
+                background-image: url('@{images_al_path}/PaginationArrows-NextActive.png');
+            }
+        }
+        &.disabled { 
+            &:nth-last-child(2) a , &:nth-last-child(2) a:hover{    
+                background-image: url('@{images_al_path}/PaginationArrows-NextDisabl.png');        
+            }
+            &:nth-child(2) a, &:nth-child(2) a:hover {
+                background-image: url('@{images_al_path}/PaginationArrows-PrevDisabl.png'); 
+            }
+            &:last-child a, &:last-child a:hover {                
+                background-image: url('@{images_al_path}/PaginationArrows-LastDisabl.png'); 
+            }
+            &:first-child a, &:first-child a:hover {
+                background-image: url('@{images_al_path}/PaginationArrows-FirstDisabl.png');      
+            }
+        }
+    }
+}
