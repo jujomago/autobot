@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('fakiyaMainApp')
-  .directive('abxAutoFocus', function ($parse, $timeout) {
+  .directive('abxAutoFocus', function ($parse) {
     return {
       restrict: 'A',
       link: function (scope, element, attrs) {
