@@ -568,12 +568,12 @@ html, body, #main-container{
  // ======= BETIN REPORTS STYLES ===============
     //TOOLBAR REPORTS
      @height-toolbar:60px;
-         .reports-bg-color{
+    .reports-bg-color{
         background:@lightgray;
     }
     
     .body-report{
-        padding: 0 50px 90px;
+        padding: 50px;
         max-width: 1280px;
         margin: 0 auto;
     }
@@ -583,12 +583,16 @@ html, body, #main-container{
         border-bottom: 1px solid @gray;
         height:  @height-toolbar;        
         text-align: left; 
-        margin-bottom: 50px;
         .toolbar-reports-title, .linkscontainer{
             display: inline-block;
             vertical-align: top;
         }
         .linkscontainer__item{
+             @media (max-width: 780px) {
+                a{
+                    padding: 0 13px;
+                }
+            }
             a{
                 line-height:@height-toolbar;
                 color:@black;   
@@ -983,17 +987,17 @@ html, body, #main-container{
             }
         }              
     }    
-    .label-reports-40{
+    .label-reports-55{
             display: inline-block;
             margin-bottom: 5px;
-            width: 52px;
+            width: 55px;
     }
-    .label-reports-20{         
+    .label-reports-30{         
             display: inline-block;
             margin-bottom: 5px;
             width: 30px;       
     }
-    .label-reports-10{         
+    .label-reports-15{         
             display: inline-block;
             margin-bottom: 5px;
             width: 15px;       
@@ -1143,4 +1147,28 @@ html, body, #main-container{
             background: url('@{images_al_path}/CloseAlertIcon-Active.png') no-repeat center center;
         }
     }
+
+    .loader_indicator {
+        width: 200px;
+        height: 100px;
+        text-align: center;
+        font-size: 24px;
+        //margin-top: 34%;
+        color: #666;
+        display: block;
+        margin-right: auto;
+        margin-left: auto;
+        padding: 20px 0;
+        font-family: BrandonRegular;
+        > img {
+            margin-bottom: 15px;
+        }
+    }
+
+    .center-loading{
+        .loader_indicator{
+            width: 100%;
+            right: 0 !important;
+        }
+    } 
 }
