@@ -7,6 +7,8 @@ angular.module('fakiyaMainApp')
       switch(appName){
         case 'al':
           return 'ap.al.skills';
+        case 'rqa':
+          return 'ap.rqa.home';
         default:
           return 'ap.underconstruction';
       }
