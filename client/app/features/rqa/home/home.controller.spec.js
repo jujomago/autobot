@@ -52,6 +52,7 @@ describe('Component:HomeComponent', function () {
       promise.then(()=>{
         expect(HomeComponent.calls).to.deep.equal([{'CALL ID': '123456','AGENT': 'Juan Perez','DISPOSITION': 'NONE'}, {'CALL ID': '123789','AGENT': 'Pedro Garcia','DISPOSITION': 'HOLD'}]);
         expect(HomeComponent.isLoading).to.equal(false);
+        expect(HomeComponent.message).to.deep.equal({show: false});
       });
       _$httpBackend.flush(); 
     });
