@@ -23,7 +23,7 @@ describe('Component:HomeComponent', function () {
     expect(HomeComponent.getFilters()).to.deep.equal({'CUSTOMER NAME': '', 'DNIS': '', 'AGENT NAME': '', 'CAMPAIGN': '', 'DISPOSITION': ''});
   });
   it('should close all popups', function () {
-    HomeComponent.openedPopups['key']=true;
+    HomeComponent.openedPopups.key=true;
     HomeComponent.closeAllPopups();
    expect(HomeComponent.openedPopups).to.deep.equal({key: false, default: false, date: false});
   });
@@ -52,6 +52,7 @@ describe('Component:HomeComponent', function () {
       promise.then(()=>{
         expect(HomeComponent.calls).to.deep.equal([{'CALL ID': '123456','AGENT': 'Juan Perez','DISPOSITION': 'NONE'}, {'CALL ID': '123789','AGENT': 'Pedro Garcia','DISPOSITION': 'HOLD'}]);
         expect(HomeComponent.isLoading).to.equal(false);
+        expect(HomeComponent.message).to.deep.equal({show: false});
       });
       _$httpBackend.flush(); 
     });

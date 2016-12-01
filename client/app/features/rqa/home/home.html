@@ -57,8 +57,10 @@
 				<p>Loading</p>
 			</div>
 		</div>
-		<div class="no-records-container" ng-show="$ctrl.filteredCalls.length===0 && !$ctrl.isLoading">
-			<p>No records available</p>
+		<div class="flex-container" ng-show="$ctrl.filteredCalls.length===0 && !$ctrl.isLoading">
+			<div class="no-records-container">
+				<p>This report has no results. Adjust settings and filters if you need to.</p>
+			</div>
 		</div>
 		<div class="table-container" ng-show="$ctrl.filteredCalls.length>0 && !$ctrl.isLoading">
 			<table class="rqa-table">
@@ -106,16 +108,16 @@
 </div>
 <!-- POPUP TEMPLATES -->
 <script id="filter" type="text/ng-template">
-    <form name="filterForm" ng-submit="filterForm.$valid && $ctrl.applyFilter($ctrl.selectedPopover)" novalidate>
+    <form name="filterForm" ng-submit="filterForm.$valid && $ctrl.applyFilter($ctrl.selectedPopover) && filterForm.reset()" novalidate>
 	    <div class="form-group filter-popup">
 	    	<div class="filter-input">
 		    	<label>Filter</label>
-		    	<select ng-options="$ctrl.getDisplayName(item.key) for item in $ctrl.availablesFilters" ng-model="$ctrl.selectedOption">
+		    	<select ng-options="$ctrl.getDisplayName(item.key) for item in $ctrl.availablesFilters" ng-model="$ctrl.selectedOption" abx-auto-focus="true">
 		    	</select>
 	    	</div>
 	    	<div class="filter-input no-margin-bottom">
 		    	<label>Value</label>
-		    	<input type="text" autofocus="" ng-model="$ctrl.selectedValue" name="value" maxlength="50" required>
+		    	<input type="text" ng-model="$ctrl.selectedValue" name="value" maxlength="50" required>
 		    	<div class="error-message">
 			    	<div ng-messages="filterForm.value.$error" ng-show="filterForm.$submitted">                  
 				        <p ng-message="required">This field is required</p>
@@ -133,7 +135,7 @@
 	    <div class="form-group filter-popup">
 	    	<div class="filter-input">
 		    	<label>Filter</label>
-		    	<select ng-options="item.key for item in $ctrl.dates" ng-model="$ctrl.tmpSelectedDate">
+		    	<select ng-options="item.key for item in $ctrl.dates" ng-model="$ctrl.tmpSelectedDate" id="date-select" abx-auto-focus="true">
 		    	</select>
 	    	</div>
 		    <div class="button-container">
