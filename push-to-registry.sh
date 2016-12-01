@@ -29,8 +29,6 @@ while getopts ":m:e:v:" opt; do
       option="$OPTARG"
       if [ "$OPTARG" == "dev" ]; then
         option=dev
-      else
-        option=prod
       fi
       ;;
     e)
@@ -38,10 +36,6 @@ while getopts ":m:e:v:" opt; do
       environment="$OPTARG"
       if [ "$OPTARG" == "staging" ]; then
         environment=staging
-        VERSION="$number.staging"
-      else
-        environment=prod
-        VERSION="$number.prod"
       fi
       ;;
     v)
@@ -50,17 +44,18 @@ while getopts ":m:e:v:" opt; do
       ;;
     \?)
       echo "No mode detected, so production mode was selected: -$OPTARG" >&2
-      #option=prod
       exit 1
       ;;
     :)
       echo "Option -$OPTARG requires an argument." >&2
       exit 1
       ;;
-    *) echo "Unimplemented option: -$OPTARG" >&2; 
+    *) echo "Unimplemented option: -$OPTARG" >&2;
        exit 1;;
   esac
 done
+
+VERSION="$number.$environment"
 
 case ${environment} in
    staging)
@@ -90,7 +85,7 @@ case ${environment} in
           ;;
         *)
             API_URL="http://www.autoboxcorp.com:8888/api"
-          ;;  
+          ;;
       esac
       ;;
 esac
