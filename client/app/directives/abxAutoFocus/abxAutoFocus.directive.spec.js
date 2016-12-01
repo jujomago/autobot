@@ -17,7 +17,10 @@ describe('Directive: abxAutoFocus', function () {
     element.attr('abx-auto-focus', 'true');
     element = $compile(element)(scope);
     scope.$apply();
-    expect(window.document.activeElement.name).to.be.equal('focus');
+    angular.element(document).ready(() => {
+      expect(window.document.activeElement.name).to.be.equal('focus');
+    });
+    
     element.remove();
   }));
   it('should return undefined in active element element name', inject(function ($compile) {
