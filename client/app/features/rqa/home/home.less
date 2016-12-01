@@ -6,13 +6,13 @@
 		overflow-y: auto;
 		overflow-x: hidden;
 		&.has-error{
-			height: ~"calc(100% - 210px)";
+			height: ~"calc(100% - 160px)";
 		}
 		.left-item{
 			.flex-container{
 				height: 100%;
 				display: flex;
-				.loading-container{
+				.loading-container, .no-records-container{
 					margin: auto;
 					text-align: center;
 					img{
@@ -30,15 +30,6 @@
 				table-layout: initial;
 				th, td{
 					white-space: nowrap;
-				}
-			}
-			.no-records-container{
-				margin-left: 20px;
-				margin-top: 20px;
-				p{
-					font-size: 14px;
-					color: #999;
-					margin-bottom: 0;
 				}
 			}
 			width: auto;
@@ -66,15 +57,18 @@
 				margin-left: 0;
 		    }
 		    .filters-header{
-		    	margin-bottom: 20px;
 		    	padding-left: 20px;
 		    	padding-right: 20px;
 		    	width: 280px;
+		    	margin-top: 20px;
+		    	h3{
+		    		margin: 0;
+		    	}
 		    	span.fa{
-		    		color: #e74c3c;
+		    		color: #37a3dc;
 		    		cursor: pointer;
 		    		&:active, &:hover, &:focus{
-		    			color: #b73c2f;
+		    			color: #428bca;
 		    		}
 		    	}
 		    }
@@ -86,14 +80,13 @@
 		    }
 		    .links-container{
 		   	    display: inline-block;
-			    margin-top: 20px;
-			    margin-bottom: 20px;
+			    margin-bottom: 10px;
 			    width: 100%;
 		    }
 		    .filters-container{
 		    	display: inline-block;
 		    	width: 100%;
-		    	height: ~"calc(100% - 86px)";
+		    	height: ~"calc(100% - 65px)";
 					overflow: auto;
 		    	.filter-box{
 		    		height: 58px;

@@ -6,12 +6,12 @@ angular.module('fakiyaMainApp')
       templateUrl: 'app/directives/abxClosableMessage/abxClosableMessage.html',
       restrict: 'E',
       scope: {
-      	message: "="
+      	message: '='
       },
-      link: function (scope, element, attrs) {
+      link: function (scope) {
       	scope.close = function(){
       		scope.message.show = false;
-      	}
+      	};
       }
     };
   });
