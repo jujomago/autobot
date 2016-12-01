@@ -7,7 +7,7 @@ angular.module('fakiyaMainApp')
          url:'/al',   
          templateUrl: 'app/templates/adminlite/adminlite.html',
          params: {
-            isLoggedIn: null
+            isLoggedInToAl: null
          }
       });
   });

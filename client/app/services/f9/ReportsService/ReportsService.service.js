@@ -19,9 +19,13 @@
             })
             .catch(err => _HandleError(err, result));
         }
-        isRunning(identifier) {
+        isRunning(identifier, appName) {
+            let config = {params: {timeout: 500}};
+            if(appName){
+                config.headers = {appName: appName};
+            }
             let result = { data: null, statusCode: 200, errorMessage: null };
-            return _$http.get(this.endPointUrl+'/'+identifier, {params: {timeout: 500}})
+            return _$http.get(this.endPointUrl+'/'+identifier, config)
             .then(response => {
                 result.data = response.data;
                 return result;
