@@ -6,8 +6,11 @@ angular.module('fakiyaMainApp')
       restrict: 'A',
       link: function (scope, element, attrs) {
       	let focusOnMe = $parse(attrs.abxAutoFocus)(scope);
+
         if(focusOnMe){ 
-       		element.focus();
+          angular.element(document).ready(() => {
+            element.focus();
+          });
         } 
       }
     };

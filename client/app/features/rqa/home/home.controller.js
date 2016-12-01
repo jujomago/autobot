@@ -26,19 +26,19 @@ function _getWeeksRange(days){
 	return {startDate: start, endDate: end};
 }
 function _getMonthRange(month){
-	let end = new Date();
-	end.setMonth(end.getMonth()-month);
-	let start = angular.copy(end);
-	start.setDate(1);
-	start.setHours(0,0,0,0);
-	return {startDate: start, endDate: end};
+  let today = new Date();
+  let end = new Date(today.getFullYear(),today.getMonth()+1-month,0);
+  let start = angular.copy(end);
+  start.setDate(1);
+  start.setHours(0,0,0,0);
+  return {startDate: start, endDate: end};
 }
 class HomeComponent {
   constructor(ReportsService) {
    this.headers = ['DATE', 'CLIENT', 'TELEPHONE', 'AGENT', 'CAMPAIGN', 'DISPOSITIONS', 'CALL RECORDING', 'QA SCORE'];
    this.notUsedFilters = [{key: 'CUSTOMER NAME', value: ''}, {key: 'DNIS', value: ''}, {key: 'AGENT NAME', value: ''}, {key: 'CAMPAIGN', value: ''}, {key: 'DISPOSITION', value: ''}];
-   this.dates = [{key: 'Last hour', function: _getHoursRange, value: 1},{key: 'Last 2 hours', function: _getHoursRange, value: 2},{key: 'Last 4 hours', function: _getHoursRange, value: 4},{key: 'Today', function: _getDaysRange, value: 0},{key: 'Yesterday', function: _getDaysRange, value: 1},{key: 'This week', function: _getWeeksRange, value: 6},{key: 'Last 2 weeks', function: _getWeeksRange, value: 13},{key: 'This month', function: _getMonthRange, value: 0}];
-   this.tmpSelectedDate = this.dates[0];
+   this.dates = [{key: 'Last hour', function: _getHoursRange, value: 1},{key: 'Last 2 hours', function: _getHoursRange, value: 2},{key: 'Last 4 hours', function: _getHoursRange, value: 4},{key: 'Today', function: _getDaysRange, value: 0},{key: 'Yesterday', function: _getDaysRange, value: 1},{key: 'This week', function: _getWeeksRange, value: 6},{key: 'Last 2 weeks', function: _getWeeksRange, value: 13},{key: 'This month', function: _getMonthRange, value: 0},{key: 'Last month', function: _getMonthRange, value: 1}];
+   this.tmpSelectedDate = this.dates[5];
    this.selectedDate = {};
    this.selectedOption = this.notUsedFilters[0];
    this.usedFilters = [];
@@ -133,6 +133,7 @@ class HomeComponent {
         	.then(response =>{
         		this.calls = response.data.return;
         		this.isLoading = false;
+            this.message = {show: false};
             return response;
         	})
           .catch(error =>{
