@@ -1,7 +1,7 @@
 'use strict';
 (function(){
 const displayNames = {'CUSTOMER NAME': 'Client', 'DNIS': 'Telephone', 'AGENT NAME': 'Agent', 'CAMPAIGN': 'Campaign', 'DISPOSITION': 'Dispositions'};
-let _ReportsService;
+let _ReportsService, _ModalManager;
 function _getHoursRange(hours){
 	let now = new Date();
 	let start = angular.copy(now);
@@ -34,7 +34,7 @@ function _getMonthRange(month){
   return {startDate: start, endDate: end};
 }
 class HomeComponent {
-  constructor(ReportsService) {
+  constructor(ReportsService, ModalManager) {
    this.headers = ['DATE', 'CLIENT', 'TELEPHONE', 'AGENT', 'CAMPAIGN', 'DISPOSITIONS', 'CALL RECORDING', 'QA SCORE'];
    this.notUsedFilters = [{key: 'CUSTOMER NAME', value: ''}, {key: 'DNIS', value: ''}, {key: 'AGENT NAME', value: ''}, {key: 'CAMPAIGN', value: ''}, {key: 'DISPOSITION', value: ''}];
    this.dates = [{key: 'Last hour', function: _getHoursRange, value: 1},{key: 'Last 2 hours', function: _getHoursRange, value: 2},{key: 'Last 4 hours', function: _getHoursRange, value: 4},{key: 'Today', function: _getDaysRange, value: 0},{key: 'Yesterday', function: _getDaysRange, value: 1},{key: 'This week', function: _getWeeksRange, value: 6},{key: 'Last 2 weeks', function: _getWeeksRange, value: 13},{key: 'This month', function: _getMonthRange, value: 0},{key: 'Last month', function: _getMonthRange, value: 1}];
@@ -49,6 +49,7 @@ class HomeComponent {
    this.isLoading = true;
    this.message = {show: false};
    _ReportsService = ReportsService;
+   _ModalManager = ModalManager;
   }
   $onInit(){
       this.applyDate();
@@ -64,6 +65,16 @@ class HomeComponent {
   		result[item.key] = item.value;
   		return result;
   	}, {});
+  }
+  openModal(){
+    this.modalInstance = _ModalManager.open({
+      animation: false,
+      size: 'fixed-660',
+      controllerAs: '$ctrl',
+      appendTo: angular.element('#rqa-modal-container'),
+      windowTopClass: 'light-modal',
+      template: '<qa-form-modal></qa-form-modal>'
+    });
   }
   closeAllPopups(){
   	let keys = Object.keys(this.openedPopups);
@@ -163,7 +174,7 @@ class HomeComponent {
   	}
   }
 }
-HomeComponent.$inject = ['ReportsService'];
+HomeComponent.$inject = ['ReportsService', 'ModalManager'];
 angular.module('fakiyaMainApp')
   .component('rqa', {
     templateUrl: 'app/features/rqa/home/home.html',

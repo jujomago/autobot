@@ -29,6 +29,52 @@ html, body, #main-container{
         height: 100%;
         min-height: 480px;
     }
+    .light-modal{
+      .modal-fixed-660{
+        width: 660px;
+      }
+        &.modal {
+          text-align: center;
+          padding: 0;
+          overflow-y: hidden;
+        }
+        &.modal:before {
+          content: '';
+          display: inline-block;
+          height: 100%;
+          vertical-align: middle;
+          margin-right: -4px;
+        }
+        .modal-header{
+          h4{
+            text-align: center;
+          }
+          .close {
+            margin-top: -20px;
+            margin-right: -5px;
+        }
+        }
+        .fixed-modal-size-300{
+          max-height: 300px;
+          overflow: auto;
+        }
+        .modal-backdrop.in {
+            opacity: 0.5;
+            z-index: 1045;
+        }
+        .modal-content{
+            border-radius: 0px;
+            .modal-button-container{
+                text-align: center;
+            }
+        }
+        .modal-dialog {
+          display: inline-block;
+          text-align: left;
+          vertical-align: middle;
+        }
+        
+    }
     // ###### ALL LINKS
     a {
         color: @blue;
