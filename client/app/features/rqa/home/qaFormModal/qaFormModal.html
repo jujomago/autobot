@@ -8,7 +8,7 @@
         <div class="question-block" ng-repeat="question in $ctrl.questions track by $index">
         	<div class="question-container">
         		<div class="question">
-	        		<span class="question-number">{{$index+1}}</span>
+	        		<span class="question-number">{{$index+1}}&nbsp;</span>
 	        		<p class="question-content">{{question.value}}</p>
         		</div>
         		<label class="answer">
@@ -21,7 +21,7 @@
 	        		<input type="radio" name="question-{{$index+1}}"> <span>10-15 ({{question.type===0?'Good':'Very few'}})</span>
 	        	</label>
         	</div>
-        </div>   
+        </div>
     </div>
     <div class="modal-footer">
     	<div class="modal-button-container remove-spaces-inline">
