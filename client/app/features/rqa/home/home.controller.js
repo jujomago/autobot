@@ -55,7 +55,17 @@ class HomeComponent {
       this.applyDate();
   }
   switchFilters(){
-  	this.open = !this.open;
+    if(this.isFilter){
+    	this.open = !this.open;
+    }
+      this.isFilter = true;
+
+  }
+  selectReports(){
+    if(!this.isFilter){
+      this.open = !this.open;
+    }
+    this.isFilter = false;
   }
   closeFilters(){
   	this.open = false;

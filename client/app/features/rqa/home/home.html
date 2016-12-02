@@ -9,9 +9,9 @@
     	</button>
 		<div class="display-inline-block fixed-margin-left-10">
 			<button class="icon-button">
-				<span class="rqa-icon rqa-reports"></span>
+				<span class="rqa-icon rqa-reports" ng-click="$ctrl.selectReports()" ng-class="{'active': $ctrl.open && !$ctrl.isFilter}"></span>
 			</button>
-			<button class="icon-button" ng-click="$ctrl.switchFilters()" ng-class="{'active': $ctrl.open}">
+			<button class="icon-button" ng-click="$ctrl.switchFilters()" ng-class="{'active': $ctrl.open && $ctrl.isFilter}">
 				<span class="rqa-icon rqa-filter"></span>
 			</button>
 		</div>
@@ -28,7 +28,7 @@
 			<h3>Filters</h3>
 		</div>
 		<hr>
-		<div class="filters-body">
+		<div class="filters-body" ng-show="$ctrl.isFilter">
 			<div class="links-container">
 				<div class="pull-left">
 					<a href ng-class="{'link-disabled': $ctrl.notUsedFilters.length===0}" uib-popover-template="'filter'" popover-class="abx-popover" popover-trigger="outsideClick" popover-placement="left-top" popover-is-open="$ctrl.openedPopups['default']" ng-click="$ctrl.notUsedFilters.length===0 || $ctrl.selectPopover()" abx-auto-placement-popover>Add filter</a>
@@ -48,6 +48,9 @@
 					<p class="value">{{filter.value}}</p>
 				</div>
 			</div>
+		</div>
+		<div class="filters-body" ng-show="!$ctrl.isFilter">
+			<img src="/assets/rqa/images/meta-chart.jpeg">
 		</div>
 	</div>
 	<div class="left-item" ng-class="{'reduce-size': $ctrl.open}">
