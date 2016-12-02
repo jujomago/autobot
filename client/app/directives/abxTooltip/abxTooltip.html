@@ -1,0 +1,12 @@
+<div class="abx-tooltip">
+  {{model.username}}
+  <span class="abx-tooltiptext">
+    <div class="container-description">
+      <ul>
+        <li ng-repeat="data in model.description">
+          {{data.label}}: <strong>{{data.value}}</strong>
+        </li>
+      </ul>
+    </div>
+  </span>
+</div>

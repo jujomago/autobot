@@ -22,7 +22,7 @@ class NavbarController {
     this.search = {app: {appFullName: ''}};
     this.appsLoaded = false;
     _lodash = lodash;
-    _$filter = $filter;    
+    _$filter = $filter;
     _$parse = $parse;
     _appsService = AppsService;
     _AlertDialog=AlertDialog;
@@ -63,7 +63,7 @@ class NavbarController {
     this.newApps = [];
     EventBus.subscribe('apps.reload', function(){
       $ctrl.loadApps();
-    });   
+    });
  }
   gotoAppSection(appSelected) {
     _$state.go('ap.apps',{paramAppSelected:appSelected});
@@ -129,6 +129,20 @@ class NavbarController {
   getInstalled(){
     return _appsService.getFilteredApps({installed: true, size: 100})
     .then(response => {
+      response.data.push({
+          app:{
+            appFullName:'Supervisor Console',
+            appName:'sc',
+            appStatus:4,
+            description:'The Autobox Supervisor Console is where supervisors can manage Five9 services for agents in their organization. If you have access to a Five9 supervisor account, you can sign in to the Supervisor Console.',
+            appRequirements:[]
+          },
+          installed:true,
+          partner:{
+            partnerFullName:'Five9',
+            partnerName:'f9'
+          }
+        });
       this.myAppsFromService = response.data;
       this.myAppsSearch = this.myAppsFromService;
       this.myAppsSearch = this.groupBy(this.myAppsSearch);
@@ -191,13 +205,13 @@ class NavbarController {
     return isCollapsed;
   }
 
-  hideSubMenuOnClick(obj,submenu){  
+  hideSubMenuOnClick(obj,submenu){
     if(submenu==='myapps'){
-      this.myAppsCollapsed=(obj.target.id!=='submenu-search');   
-    } 
+      this.myAppsCollapsed=(obj.target.id!=='submenu-search');
+    }
     if(submenu==='reports'){
-      this.reportsCollapsed=true;   
-    } 
+      this.reportsCollapsed=true;
+    }
 }
 
 }

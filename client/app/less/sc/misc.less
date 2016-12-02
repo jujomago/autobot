@@ -1,0 +1,249 @@
+.autobox-theme{
+  div.sc-theme {
+    padding-top: 25px;
+    padding-left: 30px;
+    padding-right: 30px;
+    background: #f7f7f7;
+    width: 100%;
+    height: ~"calc(100vh - 110px)";
+    p, select, input, a, div{
+      font-family: ProximaNovaRegular;
+    }
+
+    //start header
+    .sc-header{
+      .header-domain-status {
+        float: right;
+        span{
+          margin-left: 30px;
+          color: #68E8B1;
+          font-weight: bold;
+        }
+      }
+
+      .title-container{
+        float:left;
+        display: inline-block;
+        vertical-align: middle;
+        &>span{
+          margin-left: 20px;
+          font-family: ProximaNovaLight;
+          font-size: 24px;
+          color: #666;
+          vertical-align: middle;
+        }
+      }
+      .actions-container{
+        padding-top: 20px;
+        float: right;
+      }
+
+      .details-container {
+        margin-bottom: 20px;
+        .content{
+          float: left;
+          width: 25%;
+          .title{
+            font-size: 13px;
+            float:left;
+          }
+          .description{
+            font-family: ProximaNovaLight;
+            font-size: 13px;
+          }
+        }
+
+      }
+    }//end header
+
+    //star sc body
+    .sc-body {
+      display: block;
+      height: ~"calc(100% - 150px)";
+      min-width: 100%;
+
+      .left-item{
+        width: auto;
+        height: 100%;
+        background: white;
+        .sc-table{
+          table-layout: initial;
+          th, td{
+            white-space: nowrap;
+          }
+        }
+
+      }
+
+      .container-border{
+        border: 1px solid #f7f7f7;
+        padding-right: 30px;
+      }
+
+    }//end sc body
+
+    //start container sc table
+    .table-sc-container{
+      height: 100%;
+
+      .container-left {
+        width: 60%;
+        height: 100%;
+        float: left;
+        .container-table {
+          height: ~"calc(100% - 70px)";
+          overflow: auto
+        }
+      }
+
+      .container-right {
+        width: 40%;
+        height: 100%;
+        float:right;
+        .container-middle{
+          height: 50%;
+          .content-table{
+            height: ~"calc(100% - 70px)";
+            overflow: auto
+          }
+        }
+      }
+      //start header table
+      .header-sc-table{
+        margin-top: 20px;
+        margin-bottom: 20px;
+        .title{
+          float: left;
+          padding-left: 20px;
+          font-size: 18px;
+          font-family:ProximaNovaLight;
+          height: 30px;
+          display: flex;
+          justify-content: center;
+          align-content: center;
+          flex-direction: column;
+        }
+        .container-buttons-table{
+          float: right;
+          display: inline-block;
+          margin-left: 10px;
+        }
+
+        .icon-button-sc{
+          vertical-align: middle;
+          width: 30px;
+          height: 30px;
+          background: #ffffff;
+          border: 0;
+          &.active, &:hover{
+            background: #37a3dc;
+            .sc-refresh{
+              background: url('@{image_buttons_sc_path}/refresh-active.png') no-repeat center center;
+            }
+            .sc-reports{
+              background: url('@{image_buttons_sc_path}/reports-active.png') no-repeat center center;
+            }
+            .sc-bar{
+              background: url('@{image_buttons_sc_path}/bar-active.png') no-repeat center center;
+            }
+          }
+          .sc-refresh{
+            background: url('@{image_buttons_sc_path}/refresh.png') no-repeat center center;
+          }
+          .sc-reports{
+            background: url('@{image_buttons_sc_path}/reports.png') no-repeat center center;
+          }
+          .sc-bar{
+            background: url('@{image_buttons_sc_path}/bar.png') no-repeat center center;
+          }
+
+        }
+
+        .sc-icon{
+          height: 100%;
+          width: 100%;
+          display: inline-block;
+        }
+      }//end header table
+      //start theme table
+      .sc-table {
+        width: 100%;
+        padding-left: 20px;
+        padding-right: 20px;
+        table-layout: fixed;
+        th, td {
+          padding-left: 20px;
+          padding-top: 7px;
+          padding-bottom: 7px;
+          border-bottom: 1px solid #f7f7f7;
+          height: 40px;
+          word-wrap: break-word;
+        }
+        tr:last-child{
+          th, td{
+            padding-right: 20px;
+          }
+        }
+        thead{
+          border-bottom: 2px solid #f7f7f7;
+          th{
+            font-family: ProximaNovaLight;
+            font-size: 12px;
+            color: #999999;
+            height: 35px;
+            background: white;
+          }
+        }
+        tbody{
+          td{
+            font-family: ProximaNovaRegular;
+            size: 14px;
+            color: #666666;
+            height: 35px;
+            background: white;
+          }
+        }
+
+        .ready-state {
+          background: #3C9A23;
+          color: black;
+        }
+
+        .onCall-state {
+          background: #FA9C11;
+          color: black;
+        }
+
+        .noReady-state{
+          background: #0B7ED1;
+          color: black;
+        }
+
+        .duration-default-state{
+          color:red;
+        }
+
+        .duration-state{
+          color:#FA9C11;
+        }
+
+        .ready-status {
+          background: #75B02E;
+          color: black;
+        }
+
+        .ready-zero-status {
+          background: #FDFE48;
+          color: black;
+        }
+
+        .queue-status {
+          background: #3C9A23;
+          color: black;
+        }
+      }//end theme table
+    } //end container sc table
+  }
+}
+
+
