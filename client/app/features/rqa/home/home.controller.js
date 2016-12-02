@@ -48,6 +48,7 @@ class HomeComponent {
    this.selectedPopover = null;
    this.isLoading = true;
    this.message = {show: false};
+   this.isFilter = true;
    _ReportsService = ReportsService;
    _ModalManager = ModalManager;
   }
