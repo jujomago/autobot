@@ -8,10 +8,10 @@
     		<span class="rqa-icon rqa-refresh"></span>
     	</button>
 		<div class="display-inline-block fixed-margin-left-10">
-			<button class="icon-button">
+			<button class="icon-button"  ng-click="$ctrl.selectReports()" ng-class="{'active': $ctrl.open && !$ctrl.isFilter}">
 				<span class="rqa-icon rqa-reports"></span>
 			</button>
-			<button class="icon-button" ng-click="$ctrl.switchFilters()" ng-class="{'active': $ctrl.open}">
+			<button class="icon-button" ng-click="$ctrl.switchFilters()" ng-class="{'active': $ctrl.open && $ctrl.isFilter}">
 				<span class="rqa-icon rqa-filter"></span>
 			</button>
 		</div>
@@ -25,10 +25,10 @@
 <div class="right-filter" ng-class="{'hide-filter': !$ctrl.open, 'link-disabled': !$ctrl.open}">
 		<div class="filters-header">
 			<span class="pull-right fa fa-caret-right" ng-click="$ctrl.closeFilters()"></span>
-			<h3>Filters</h3>
+			<h3>{{$ctrl.isFilter?'Filters':'Calls per campaign'}}</h3>
 		</div>
 		<hr>
-		<div class="filters-body">
+		<div class="filters-body" ng-show="$ctrl.isFilter">
 			<div class="links-container">
 				<div class="pull-left">
 					<a href ng-class="{'link-disabled': $ctrl.notUsedFilters.length===0}" uib-popover-template="'filter'" popover-class="abx-popover" popover-trigger="outsideClick" popover-placement="left-top" popover-is-open="$ctrl.openedPopups['default']" ng-click="$ctrl.notUsedFilters.length===0 || $ctrl.selectPopover()" abx-auto-placement-popover>Add filter</a>
@@ -46,6 +46,45 @@
 					<div class="pull-right close-button" ng-click="$ctrl.removeFilter(filter); $event.stopPropagation();">X</div>
 					<p class="title">{{$ctrl.getDisplayName(filter.key)}}</p>
 					<p class="value">{{filter.value}}</p>
+				</div>
+			</div>
+		</div>
+		<div class="filters-body" ng-show="!$ctrl.isFilter">
+			<div class="text-center">
+				<img class="chart-image" src="/assets/rqa/images/pie.png">
+			</div>
+			<div class="labels-wrapper">
+				<div class="labels-container">
+					<div class="pull-left">
+						<label class="title">rcd-campaign</label>
+					</div>
+					<div class="pull-right">
+						<label>7</label>
+					</div>
+				</div>
+				<div class="labels-container">
+					<div class="pull-left">
+						<label class="title">Sales Outbound	</label>
+					</div>
+					<div class="pull-right">
+						<label>5</label>
+					</div>
+				</div>
+				<div class="labels-container">
+					<div class="pull-left">
+						<label class="title">Autodialer</label>
+					</div>
+					<div class="pull-right">
+						<label>3</label>
+					</div>
+				</div>
+				<div class="labels-container">
+					<div class="pull-left">
+						<label class="title">Support Inbound</label>
+					</div>
+					<div class="pull-right">
+						<label>1</label>
+					</div>
 				</div>
 			</div>
 		</div>
