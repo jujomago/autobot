@@ -5,27 +5,27 @@
     padding-right: 30px;
     background: #f7f7f7;
     width: 100%;
-    height: ~"calc(100vh - 110px)";
-    p, select, input, a, div{
+    height: 100%;
+    p, select, input, a, div {
       font-family: ProximaNovaRegular;
     }
 
     //start header
-    .sc-header{
+    .sc-header {
       .header-domain-status {
         float: right;
-        span{
+        span {
           margin-left: 30px;
           color: #68E8B1;
           font-weight: bold;
         }
       }
 
-      .title-container{
-        float:left;
+      .title-container {
+        float: left;
         display: inline-block;
         vertical-align: middle;
-        &>span{
+        & > span {
           margin-left: 20px;
           font-family: ProximaNovaLight;
           font-size: 24px;
@@ -33,28 +33,29 @@
           vertical-align: middle;
         }
       }
-      .actions-container{
+      .actions-container {
         padding-top: 20px;
         float: right;
       }
 
       .details-container {
         margin-bottom: 20px;
-        .content{
+        .content {
           float: left;
           width: 25%;
-          .title{
+          .title {
             font-size: 13px;
-            float:left;
+            float: left;
           }
-          .description{
+          .description {
             font-family: ProximaNovaLight;
             font-size: 13px;
           }
         }
 
       }
-    }//end header
+    }
+    //end header
 
     //star sc body
     .sc-body {
@@ -62,110 +63,105 @@
       height: ~"calc(100% - 150px)";
       min-width: 100%;
 
-      .left-item{
+      .left-item {
         width: auto;
         height: 100%;
         background: white;
-        .sc-table{
+        .sc-table {
           table-layout: initial;
-          th, td{
+          th, td {
             white-space: nowrap;
           }
         }
 
       }
+    }
+    //end sc body
 
-      .container-border{
-        border: 1px solid #f7f7f7;
-        padding-right: 30px;
-      }
-
-    }//end sc body
-
-    //start container sc table
-    .table-sc-container{
+    .box {
       height: 100%;
+      border: 1px solid #f7f7f7;
+      background-color: #fff;
+    }
 
-      .container-left {
-        width: 60%;
-        height: 100%;
+    //start box header
+    .box-header {
+      //background-color: #eee;
+      margin: 20px 20px 0px 10px;
+      border-bottom: 1px solid #f7f7f7;
+      cursor: move;
+      position: relative;
+      height: 50px;
+
+      .title{
         float: left;
-        .container-table {
-          height: ~"calc(100% - 70px)";
-          overflow: auto
-        }
+        padding-left: 20px;
+        font-size: 18px;
+        font-family:ProximaNovaLight!important;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        flex-direction: column;
       }
 
-      .container-right {
-        width: 40%;
-        height: 100%;
-        float:right;
-        .container-middle{
-          height: 50%;
-          .content-table{
-            height: ~"calc(100% - 70px)";
-            overflow: auto
-          }
-        }
+      .container-buttons-table{
+        float: right;
+        display: inline-block;
+        margin-left: 10px;
       }
-      //start header table
-      .header-sc-table{
-        margin-top: 20px;
-        margin-bottom: 20px;
-        .title{
-          float: left;
-          padding-left: 20px;
-          font-size: 18px;
-          font-family:ProximaNovaLight;
-          height: 30px;
-          display: flex;
-          justify-content: center;
-          align-content: center;
-          flex-direction: column;
-        }
-        .container-buttons-table{
-          float: right;
-          display: inline-block;
-          margin-left: 10px;
-        }
 
-        .icon-button-sc{
-          vertical-align: middle;
-          width: 30px;
-          height: 30px;
-          background: #ffffff;
-          border: 0;
-          &.active, &:hover{
-            background: #37a3dc;
-            .sc-refresh{
-              background: url('@{image_buttons_sc_path}/refresh-active.png') no-repeat center center;
-            }
-            .sc-reports{
-              background: url('@{image_buttons_sc_path}/reports-active.png') no-repeat center center;
-            }
-            .sc-bar{
-              background: url('@{image_buttons_sc_path}/bar-active.png') no-repeat center center;
-            }
-          }
+      .icon-button-sc{
+        vertical-align: middle;
+        width: 30px;
+        height: 30px;
+        background: #ffffff;
+        border: 0;
+        &.active, &:hover{
+          background: #37a3dc;
           .sc-refresh{
-            background: url('@{image_buttons_sc_path}/refresh.png') no-repeat center center;
+            background: url('@{image_buttons_sc_path}/refresh-active.png') no-repeat center center;
           }
           .sc-reports{
-            background: url('@{image_buttons_sc_path}/reports.png') no-repeat center center;
+            background: url('@{image_buttons_sc_path}/reports-active.png') no-repeat center center;
           }
           .sc-bar{
-            background: url('@{image_buttons_sc_path}/bar.png') no-repeat center center;
+            background: url('@{image_buttons_sc_path}/bar-active.png') no-repeat center center;
           }
-
+        }
+        .sc-refresh{
+          background: url('@{image_buttons_sc_path}/refresh.png') no-repeat center center;
+        }
+        .sc-reports{
+          background: url('@{image_buttons_sc_path}/reports.png') no-repeat center center;
+        }
+        .sc-bar{
+          background: url('@{image_buttons_sc_path}/bar.png') no-repeat center center;
         }
 
-        .sc-icon{
-          height: 100%;
-          width: 100%;
-          display: inline-block;
-        }
-      }//end header table
-      //start theme table
+      }
+
+      .sc-icon{
+        height: 100%;
+        width: 100%;
+        display: inline-block;
+      }
+    }
+    //end box header
+
+    //start box content
+    .box-content {
+      padding: 10px;
+      //height: 100%;
+      height: ~"calc(100% - 70px)";
+
+
+      .content-table{
+        overflow: auto;
+        height: 100%;
+      }
+
+      //start  table
       .sc-table {
         width: 100%;
         padding-left: 20px;
@@ -241,8 +237,9 @@
           background: #3C9A23;
           color: black;
         }
-      }//end theme table
-    } //end container sc table
+      }//end table
+    }//end box content
+
   }
 }
 

@@ -58,175 +58,33 @@
     </div>
   </div>
   <div class="sc-body">
-    <div class="left-item" >
-      <div class="table-sc-container">
-        <div class="container-border container-left">
+    <div gridster class="left-item">
+      <ul>
+        <li gridster-item="item"
+            ng-repeat="item in $ctrl.standardItems">
+          <div class="box">
 
-          <div class="row header-sc-table">
-            <div class="title">
-              Agent State
-            </div>
-            <div class="container-buttons-table">
-              <button class="icon-button-sc">
-                <span class="sc-icon sc-reports"></span>
-              </button>
-              <button class="icon-button-sc" ng-class="{'active': true}">
-                <span class="sc-icon sc-bar"></span>
-              </button>
-            </div>
-          </div>
-          <div class="container-table">
-            <table class="sc-table">
-              <thead>
-              <tr>
-                <th ng-repeat="header in $ctrl.headersAgentsState">
-                  {{header}}
-                </th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr ng-repeat="agent in $ctrl.dataAgentsState">
-                <td>
-                  <abx-tooltip model="agent.info"></abx-tooltip>
-                </td>
-                <td>
-                  {{agent.fullName}}
-                </td>
-                <td ng-class="agent.class">
-                  {{ agent.state}}
-                </td>
-                <td ng-class="agent.classDuration">
-                  {{agent.stateDuration}}
-                </td>
-                <td>
-                  {{agent.callType}}
-                </td>
-                <td>
-                  {{agent.reason}}
-                </td>
-                <td>
-                  {{agent.reasonDuration}}
-                </td>
-                <td>
-                  {{agent.reasonSince}}
-                </td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-
-        </div>
-
-        <div class="container-right">
-
-          <div class="container-border container-middle">
-            <div class="row header-sc-table">
+            <div class=" box-header">
               <div class="title">
-                Users
+                {{item.name}}
               </div>
               <div class="container-buttons-table">
                 <button class="icon-button-sc">
                   <span class="sc-icon sc-reports"></span>
-                </button>
-                <button class="icon-button-sc" ng-class="{'active': true}">
+                  </button>
+                  <button class="icon-button-sc" ng-class="{'active': true}">
                   <span class="sc-icon sc-bar"></span>
                 </button>
               </div>
             </div>
-            <div  class="row content-table">
-              <table class="sc-table">
-                <thead>
-                  <tr>
-                    <th ng-repeat="header in $ctrl.headersUsers">
-                      {{header}}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr ng-repeat="user in $ctrl.dataUsers">
-                    <td>
-                      {{user.username}}
-                    </td>
-                    <td>
-                      {{user.fullName}}
-                    </td>
-                    <td>
-                      {{ user.accountType}}
-                    </td>
-                    <td>
-                      {{ user.sessionStart}}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+
+            <div class="box-content">
+              <div class="row content-table" data-ng-include="item.template"></div>
             </div>
           </div>
-
-          <div class="container-border container-middle">
-            <div class="row header-sc-table">
-              <div class="title">
-                Skill Status
-              </div>
-              <div class="container-buttons-table">
-                <button class="icon-button-sc">
-                  <span class="sc-icon sc-reports"></span>
-                </button>
-                <button class="icon-button-sc" ng-class="{'active': true}">
-                  <span class="sc-icon sc-bar"></span>
-                </button>
-              </div>
-            </div>
-            <div class="row content-table">
-              <table class="sc-table">
-                <thead>
-                  <tr>
-                    <th ng-repeat="header in $ctrl.headersSkillStatus">
-                      {{header}}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr ng-repeat="skill in $ctrl.dataSkillStatus">
-                    <td>
-                      {{skill.name}}
-                    </td>
-                    <td>
-                      {{skill.loggedIn}}
-                    </td>
-                    <td>
-                      {{ skill.onCall}}
-                    </td>
-                    <td ng-class="skill.class">
-                      {{skill.inReady}}
-                    </td>
-                    <td ng-class="skill.classQueue">
-                      {{skill.callsInQueue}}
-                    </td>
-                    <td>
-                      {{skill.queueTime}}
-                    </td>
-                    <td>
-                      {{skill.longestWait}}
-                    </td>
-                    <td>
-                      {{skill.callTimeQueue}}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
+        </li>
+      </ul>
     </div>
-    <!--XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxxxXX-->
-
-
-
   </div>
-
-
 </div>
 
