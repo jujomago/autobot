@@ -15,56 +15,30 @@
         <div class="searchbox_container">
           <input type="search"
                  ng-model="$ctrl.search.name"
-                 class="searchbox"
+                 class="searchbox sc-search"
                  placeholder="Search"
                  ng-change="$ctrl.filteringBySearch()">
-          <span class="glyphicon glyphicon-search"></span>
+          <span class="sc-search"></span>
         </div>
       </div>
     </div>
     <div class="row details-container">
-      <div class="content">
-        <div class="title">
-          Softphone:
-        </div>
-        <div class="description">
-          &nbsp;12358497
-        </div>
-      </div>
-      <div class="content">
-        <div class="title">
-          Range:
-        </div>
-        <div class="description">
-          &nbsp;Current Day (From Midnight)
-        </div>
-      </div>
-      <div class="content">
-        <div class="title">
-          Campaign Manager Rolling Period:
-        </div>
-        <div class="description">
-          &nbsp;5 mins.
-        </div>
-      </div>
-      <div class="content">
-        <div class="title">
-          Filters:
-        </div>
-        <div class="description">
-          &nbsp;All Agent Groups, All Skills
-        </div>
-      </div>
+      <label>
+        Softphone:&nbsp;12358497
+        <strong>&#8226;</strong>&nbsp;Range:&nbsp;Current Day (From Midnight)
+        <strong>&#8226;</strong>&nbsp;Campaign Manager Rolling Period:&nbsp;5 Mins
+        <strong>&#8226;</strong>&nbsp;Filters:&nbsp;All Agent Groups, All Skills
+      </label>
     </div>
   </div>
   <div class="sc-body">
-    <div gridster class="left-item">
+    <div gridster="$ctrl.gridOptions" class="left-item">
       <ul>
         <li gridster-item="item"
             ng-repeat="item in $ctrl.standardItems">
-          <div class="box">
+          <div class="sc-box">
 
-            <div class=" box-header">
+            <div class="sc-box-header">
               <div class="title">
                 {{item.name}}
               </div>

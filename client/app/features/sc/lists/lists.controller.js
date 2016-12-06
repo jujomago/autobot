@@ -651,6 +651,10 @@
           template: 'app/features/sc/lists/templates/skillStatus.html'
         }
       ];
+
+      this.gridOptions = {
+        margins: [5, 5]
+      }
     }
 
 
