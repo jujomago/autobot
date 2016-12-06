@@ -129,21 +129,9 @@ class NavbarController {
   getInstalled(){
     return _appsService.getFilteredApps({installed: true, size: 100})
     .then(response => {
-      response.data.push({
-          app:{
-            appFullName:'Supervisor Console',
-            appName:'sc',
-            appStatus:4,
-            description:'The Autobox Supervisor Console is where supervisors can manage Five9 services for agents in their organization. If you have access to a Five9 supervisor account, you can sign in to the Supervisor Console.',
-            appRequirements:[]
-          },
-          installed:true,
-          partner:{
-            partnerFullName:'Five9',
-            partnerName:'f9'
-          }
-        });
-      this.myAppsFromService = response.data;
+      this.myAppsFromService = _lodash.sortBy(response.data,(item) => {
+        return item.app.appFullName;
+      });
       this.myAppsSearch = this.myAppsFromService;
       this.myAppsSearch = this.groupBy(this.myAppsSearch);
       this.fullMenu = (this.myAppsFromService.length > 4) ? true : false;
