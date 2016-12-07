@@ -129,9 +129,7 @@ class NavbarController {
   getInstalled(){
     return _appsService.getFilteredApps({installed: true, size: 100})
     .then(response => {
-      this.myAppsFromService = _lodash.sortBy(response.data,(item) => {
-        return item.app.appFullName;
-      });
+      this.myAppsFromService = _lodash.sortBy(response.data, item => item.app.appFullName);
       this.myAppsSearch = this.myAppsFromService;
       this.myAppsSearch = this.groupBy(this.myAppsSearch);
       this.fullMenu = (this.myAppsFromService.length > 4) ? true : false;
