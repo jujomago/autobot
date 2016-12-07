@@ -653,7 +653,17 @@
       ];
 
       this.gridOptions = {
-        margins: [5, 5]
+        margins: [5, 5],
+        draggable: {
+            enabled: true,
+            handle: '.sc-box-header',
+            start: function (event, uiWidget, $element) {
+            },
+            drag: function (event, uiWidget, $element) {
+            },
+            stop: function (event, uiWidget, $element) {
+            }
+        }
       };
     }
 
