@@ -654,7 +654,7 @@
 
       this.gridOptions = {
         margins: [5, 5]
-      }
+      };
     }
 
 
