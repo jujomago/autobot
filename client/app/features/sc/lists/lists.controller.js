@@ -657,11 +657,11 @@
         draggable: {
             enabled: true,
             handle: '.sc-box-header',
-            start: function (event, uiWidget, $element) {
+            start: function () {
             },
-            drag: function (event, uiWidget, $element) {
+            drag: function () {
             },
-            stop: function (event, uiWidget, $element) {
+            stop: function () {
             }
         }
       };
