@@ -1,0 +1,38 @@
+  <table class="sc-table">
+    <thead>
+      <tr>
+        <th ng-repeat="header in $ctrl.headersSkillStatus">
+          {{header}}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="skill in $ctrl.dataSkillStatus">
+        <td>
+          {{skill.name}}
+        </td>
+        <td>
+          {{skill.loggedIn}}
+        </td>
+        <td>
+          {{ skill.onCall}}
+        </td>
+        <td ng-class="skill.class">
+          {{skill.inReady}}
+        </td>
+        <td ng-class="skill.classQueue">
+          {{skill.callsInQueue}}
+        </td>
+        <td>
+          {{skill.queueTime}}
+        </td>
+        <td>
+          {{skill.longestWait}}
+        </td>
+        <td>
+          {{skill.callTimeQueue}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+

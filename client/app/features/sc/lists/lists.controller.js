@@ -624,7 +624,49 @@
           callTimeQueue: '0'
         }
       ];
+
+      this.standardItems = [
+        {
+          sizeX: 3,
+          sizeY: 2,
+          row: 0,
+          col: 0 ,
+          name: 'Agent State',
+          template: 'app/features/sc/lists/templates/agentState.html'
+        },
+        {
+          sizeX: 3,
+          sizeY: 1,
+          row: 0,
+          col: 3 ,
+          name: 'Users',
+          template: 'app/features/sc/lists/templates/users.html'
+        },
+        {
+          sizeX: 3,
+          sizeY: 1,
+          row: 1,
+          col: 3 ,
+          name: 'Skill Status',
+          template: 'app/features/sc/lists/templates/skillStatus.html'
+        }
+      ];
+
+      this.gridOptions = {
+        margins: [5, 5],
+        draggable: {
+            enabled: true,
+            handle: '.sc-box-header',
+            start: function () {
+            },
+            drag: function () {
+            },
+            stop: function () {
+            }
+        }
+      };
     }
+
 
     $onInit() {}
   }

@@ -32,6 +32,8 @@ module.exports = function(config) {
       'client/bower_components/angular-messages/angular-messages.js',
       'client/bower_components/angular-jwt/dist/angular-jwt.js',
       'client/bower_components/angular-ui-mask/dist/mask.js',
+      'client/bower_components/javascript-detect-element-resize/detect-element-resize.js',
+      'client/bower_components/angular-gridster/src/angular-gridster.js',
       'client/bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'client/app/app.js',
