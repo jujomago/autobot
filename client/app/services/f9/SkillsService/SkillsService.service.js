@@ -1,12 +1,9 @@
 'use strict';
 (function () {
-    let http;
-
-    //let endPointUrl = 'http://localhost:9000/api/f9/skills';
-    let _HandleError;
+    let http,_HandleError;
     class SkillsService {
         constructor($http, appConfig, HandleError) {
-            this.endPointUrl = '/f9/skills';
+            this.endPointUrl = '/f9/admin/skills';
             _HandleError = HandleError;
             if (appConfig.apiUri) {
                 this.endPointUrl = appConfig.apiUri + this.endPointUrl;
@@ -36,7 +33,7 @@
             return http.get(this.endPointUrl+'/skillsInfo')
                 .then(response => {
                     if (response.data) {
-                        result.data = response.data.return;                      
+                        result.data = response.data.return;
                         return result;
                     }
                 })

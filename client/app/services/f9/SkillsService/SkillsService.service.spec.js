@@ -13,7 +13,7 @@ describe('#SkillsService', function () {
         SkillsService = _SkillsService_;
         httpBackend = $httpBackend;
         if(appConfig.apiUri){
-            endPointUrl=appConfig.apiUri+'/f9/skills';
+            endPointUrl=appConfig.apiUri+'/f9/admin/skills';
         }        
     }));
 

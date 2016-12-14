@@ -14,7 +14,7 @@ describe('Service: UsersService', function () {
         UsersService = _UsersService_;
         httpBackend = $httpBackend;
         if(appConfig.apiUri){
-             endPointUrl=appConfig.apiUri+'/f9/users';
+             endPointUrl=appConfig.apiUri+'/f9/admin/users';
         }
     }));
 

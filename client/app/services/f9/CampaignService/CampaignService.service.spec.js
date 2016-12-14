@@ -14,7 +14,7 @@ describe('Service: CampaignService', function () {
     httpBackend = $httpBackend;
 
     if(appConfig.apiUri){
-        endPointUrl=appConfig.apiUri+'/f9/campaigns';
+        endPointUrl=appConfig.apiUri+'/f9/admin/campaigns';
     }
 
   }));

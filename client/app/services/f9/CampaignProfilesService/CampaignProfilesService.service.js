@@ -3,7 +3,7 @@
     let _$http,_HandleError;
     class CampaignProfilesService {
         constructor($http, HandleError, appConfig) {
-            this.endPointUrl = '/f9/campaigns/profiles';
+            this.endPointUrl = '/f9/admin/campaigns/profiles';
             if (appConfig.apiUri) {
                 this.endPointUrl = appConfig.apiUri + this.endPointUrl;
             }

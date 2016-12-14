@@ -20,7 +20,7 @@ describe('Service:CampaignProfilesService', function () {
         _CampaignProfilesService = _CampaignProfilesService_;
         _$httpBackend = $httpBackend;
         if(appConfig.apiUri){
-            _endPointUrl=appConfig.apiUri+'/f9/campaigns/profiles';
+            _endPointUrl=appConfig.apiUri+'/f9/admin/campaigns/profiles';
         }        
     }));
 

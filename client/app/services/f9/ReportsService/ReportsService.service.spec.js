@@ -11,7 +11,7 @@ describe('Service: ReportsService', function () {
     ReportsService = _ReportsService_;
     _$httpBackend = $httpBackend;
     if(appConfig.apiUri){
-        _endPointUrl=appConfig.apiUri+'/f9/reports';
+        _endPointUrl=appConfig.apiUri+'/f9/admin/reports';
     }
   }));
 

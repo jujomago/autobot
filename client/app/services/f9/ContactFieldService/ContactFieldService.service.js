@@ -3,7 +3,7 @@
     let _$http, _HandleError;
     class ContactFieldsService {
         constructor($http, HandleError, appConfig) {
-            this.endPointUrl = '/f9/contacts/fields';
+            this.endPointUrl = '/f9/admin/contacts/fields';
             _HandleError = HandleError;
             if (appConfig.apiUri) {
                 this.endPointUrl = appConfig.apiUri + this.endPointUrl;

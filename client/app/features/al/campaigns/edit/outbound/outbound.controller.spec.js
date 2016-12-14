@@ -11,16 +11,16 @@ describe('Component: al.campaigns.edit.outbound', function () {
   beforeEach(inject(function ($componentController, $rootScope, $httpBackend, appConfig) {
     scope = $rootScope.$new();
     httpBackend = $httpBackend;
-    
+
     if(appConfig.apiUri){
-       endPointUrl=appConfig.apiUri+'/f9/campaigns';
-    }     
+       endPointUrl=appConfig.apiUri+'/f9/admin/campaigns';
+    }
     mockState = {
         go: function(state, params){
           this.state = state;
           this.params = params;
         }
-      };     
+      };
     OutboundComponent = $componentController('al.campaigns.edit.outbound', {
       $scope: scope,
       $state: mockState
@@ -28,7 +28,7 @@ describe('Component: al.campaigns.edit.outbound', function () {
     httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
 
   }));
-  
+
   afterEach(function() {
         httpBackend.verifyNoOutstandingRequest();
   });
@@ -48,7 +48,7 @@ describe('Component: al.campaigns.edit.outbound', function () {
                   seconds:20
                 }
             };
-            
+
              httpBackend.whenPUT(endPointUrl+'/outbound/Test', OutboundComponent.campaign)
             .respond(200,'null');
 
@@ -62,7 +62,7 @@ describe('Component: al.campaigns.edit.outbound', function () {
 
              httpBackend.flush();
         });
-        
+
         it('=> update return error', () => {
             OutboundComponent.campaign = {
                 name:'Test',
@@ -75,7 +75,7 @@ describe('Component: al.campaigns.edit.outbound', function () {
                   seconds:20
                 }
             };
-            
+
              httpBackend.whenPUT(endPointUrl+'/outbound/Test', OutboundComponent.campaign)
             .respond(500,{
                         from: 'Error from Campaign Controller EndPoint',
@@ -93,12 +93,12 @@ describe('Component: al.campaigns.edit.outbound', function () {
              });
 
              httpBackend.flush();
-        });        
+        });
     });
-    
+
        describe('#getCampaign', () => {
 
-        it('=> should return data of campaign', () => {            
+        it('=> should return data of campaign', () => {
              httpBackend.whenGET(endPointUrl+'/outbound/BlueRubyOutbound').respond(200,{
                                 return: {
                                     'description': '',
@@ -107,14 +107,14 @@ describe('Component: al.campaigns.edit.outbound', function () {
                                     'state': 'RUNNING',
                                     'trainingMode': true,
                                     'type': 'OUTBOUND',
-                                    'autoRecord': true,                             
-                                    'noOutOfNumbersAlert': true,                           
+                                    'autoRecord': true,
+                                    'noOutOfNumbersAlert': true,
                                     'maxQueueTime': {
                                         'days': 0,
                                         'hours': 0,
                                         'minutes': 0,
                                         'seconds': 1
-                                    }                                    
+                                    }
                                 }
                         });
 
@@ -130,12 +130,12 @@ describe('Component: al.campaigns.edit.outbound', function () {
              });
 
              httpBackend.flush();
-        });        
-      
-    });  
-    
+        });
+
+    });
+
     describe('#getAttachedLists', () => {
-         it('=> should return list of attached', () => {            
+         it('=> should return list of attached', () => {
              httpBackend.whenGET(endPointUrl+'/attached/lists/test7outAutoxob').respond(200,{
                                 return: [
                                     {
@@ -157,23 +157,23 @@ describe('Component: al.campaigns.edit.outbound', function () {
                         {'name': 'Five9Outbound', 'size': 14 },
                         {'name': 'ListSync','size': 3 }
                      ]
-             });               
-                          
+             });
+
 
              OutboundComponent.getAttachedLists('test7outAutoxob')
             .then(response => {
                  expect(response.statusCode).to.equal(200);
-                 expect(response.data).to.not.equal(null); 
+                 expect(response.data).to.not.equal(null);
                  expect(response.errorMessage).to.equal(null);
-                 expect(OutboundComponent.listsAssigned).to.have.lengthOf(2);  
-                 
+                 expect(OutboundComponent.listsAssigned).to.have.lengthOf(2);
+
              });
 
              httpBackend.flush();
-        });   
+        });
     });
     describe('#getLists', () => {
-        it('=> should return array of lists', () => {            
+        it('=> should return array of lists', () => {
              httpBackend.whenGET(endPointUrl+'/lists').respond(200,{
                   return: [
                         {'name': 'Five9Outbound', 'size': 14 },
@@ -181,64 +181,64 @@ describe('Component: al.campaigns.edit.outbound', function () {
                         {'name': 'SRT List','size': 10 },
                         {'name': 'AgentList','size': 6}
                      ]
-             });             
+             });
 
              OutboundComponent.getLists()
             .then(response => {
                  expect(response.statusCode).to.equal(200);
-                 expect(response.data).to.not.equal(null); 
+                 expect(response.data).to.not.equal(null);
                  expect(response.errorMessage).to.equal(null);
-                 expect(OutboundComponent.listsAvailable).to.have.lengthOf(4);  
-                 
+                 expect(OutboundComponent.listsAvailable).to.have.lengthOf(4);
+
              });
 
              httpBackend.flush();
-        }); 
-        
-        
+        });
+
+
     });
     describe('#removeList', () => {
-        it('=> should return status 200, removed list OK', () => {  
-           
+        it('=> should return status 200, removed list OK', () => {
+
             OutboundComponent.campaign={
                 name:'SomeCampaignName'
             };
             let listItem={name:'AgentList',size:2};
-            
-            httpBackend.whenDELETE(endPointUrl+'/lists/SomeCampaignName').respond(200,'');             
-          
+
+            httpBackend.whenDELETE(endPointUrl+'/lists/SomeCampaignName').respond(200,'');
+
              OutboundComponent.removeList(listItem)
             .then(response => {
                  expect(response.statusCode).to.equal(200);
-                 expect(response.data).to.equal(null); 
-                 expect(response.errorMessage).to.equal(null);        
-                 expect(OutboundComponent.message).to.eql({ show: true, type: 'success', text: 'List Removed Successfully', expires:1500});                    
-                 
+                 expect(response.data).to.equal(null);
+                 expect(response.errorMessage).to.equal(null);
+                 expect(OutboundComponent.message).to.eql({ show: true, type: 'success', text: 'List Removed Successfully', expires:1500});
+
              });
 
              httpBackend.flush();
         });
     });
     describe('#addList', () => {
-       it('=> should return status 200, added list OK', () => {  
-           
+       it('=> should return status 200, added list OK', () => {
+
             OutboundComponent.campaign={
                 name:'SomeCampaignName'
             };
             let listItem={name:'AgentList'};
-            httpBackend.whenPOST(endPointUrl+'/lists').respond(200,'');             
-          
+            httpBackend.whenPOST(endPointUrl+'/lists').respond(200,'');
+
              OutboundComponent.addList(listItem)
             .then(response => {
                  expect(response.statusCode).to.equal(200);
-                 expect(response.data).to.equal(null); 
-                 expect(response.errorMessage).to.equal(null);           
-                 
+                 expect(response.data).to.equal(null);
+                 expect(response.errorMessage).to.equal(null);
+
              });
 
              httpBackend.flush();
-        }); 
+        });
     });
-    
+
 
 });

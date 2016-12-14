@@ -3,7 +3,7 @@
     let _$http,_HandleError;
     class ReportsService {
         constructor($http, HandleError, appConfig) {
-            this.endPointUrl = '/f9/reports';
+            this.endPointUrl = '/f9/admin/reports';
             if (appConfig.apiUri) {
                 this.endPointUrl = appConfig.apiUri + this.endPointUrl;
             }

@@ -13,7 +13,7 @@ describe('Service: ListsService', function () {
         ListsService = _ListsService_;
         httpBackend = $httpBackend;
         if(appConfig.apiUri){
-            endPointUrl=appConfig.apiUri+'/f9/lists';
+            endPointUrl=appConfig.apiUri+'/f9/admin/lists';
         }        
     }));
 
