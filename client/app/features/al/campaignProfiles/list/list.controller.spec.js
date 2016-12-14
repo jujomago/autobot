@@ -18,7 +18,7 @@ describe('Component: al.campaignProfiles.list', function () {
   beforeEach(inject(function ($componentController, $httpBackend, appConfig) {
     _$httpBackend = $httpBackend;
     if (appConfig.apiUri) {
-      _endPointUrl = appConfig.apiUri + '/f9/campaigns/profiles';
+      _endPointUrl = appConfig.apiUri + '/f9/admin/campaigns/profiles';
     }
     _sandbox = sinon.sandbox.create();
     _ListComponent = $componentController('al.campaignProfiles.list', {});

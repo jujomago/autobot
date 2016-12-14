@@ -1,12 +1,10 @@
 'use strict';
 (function () {
-    let _$http;
-    //let endPointUrl = 'http://localhost:9000/api/f9/users';
-    let _HandleError;
+    let _$http,_HandleError;
     class UsersService {
         constructor($http, appConfig, HandleError) {
             _HandleError = HandleError;
-            this.endPointUrl = '/f9/users';
+            this.endPointUrl = '/f9/admin/users';
             if (appConfig.apiUri) {
                 this.endPointUrl = appConfig.apiUri + this.endPointUrl;
             }

@@ -16,7 +16,7 @@ describe('Skill Controller: CreateController', function () {
     skillService = _SkillsService_;
 
     if (appConfig.apiUri) {
-      endPointUrl = appConfig.apiUri + '/f9/skills';
+      endPointUrl = appConfig.apiUri + '/f9/admin/skills';
     }
 
     ctrl = $componentController('al.skills.create', {
@@ -26,10 +26,10 @@ describe('Skill Controller: CreateController', function () {
     });
 
      httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
-     httpBackend.whenGET(appConfig.apiUri+'/f9/lists/%$&unexisting_list)(*&^%^').respond(200);
+     httpBackend.whenGET(appConfig.apiUri+'/f9/admin/lists/%$&unexisting_list)(*&^%^').respond(200);
 
   }));
-  
+
   afterEach(function () {
         httpBackend.verifyNoOutstandingExpectation();
         httpBackend.verifyNoOutstandingRequest();
@@ -37,7 +37,7 @@ describe('Skill Controller: CreateController', function () {
 
 
     describe('#save', function() {
-      
+
         it('=> should save a skill successfully', function () {
 
             httpBackend.whenPOST(endPointUrl).respond({
@@ -47,11 +47,11 @@ describe('Skill Controller: CreateController', function () {
             });
 
             expect(ctrl.showSuccessMessage).to.equal(false);
-                    
+
             let promiseSave=ctrl.save();
-            expect(ctrl.SubmitText).to.equal('Saving...'); 
+            expect(ctrl.SubmitText).to.equal('Saving...');
             promiseSave.then(()=>{
-                expect(ctrl.SubmitText).to.equal('Saved'); 
+                expect(ctrl.SubmitText).to.equal('Saved');
                 expect(ctrl.showSuccessMessage).to.equal(true);
             });
             httpBackend.flush();
@@ -63,11 +63,11 @@ describe('Skill Controller: CreateController', function () {
             httpBackend.whenPOST(endPointUrl).respond(500,'Some error from Server');
 
             expect(ctrl.showSuccessMessage).to.equal(false);
-                    
+
             let promiseSave=ctrl.save();
-            expect(ctrl.SubmitText).to.equal('Saving...'); 
+            expect(ctrl.SubmitText).to.equal('Saving...');
             promiseSave.then(r=>{
-                expect(ctrl.SubmitText).to.equal('Save'); 
+                expect(ctrl.SubmitText).to.equal('Save');
                 expect(r.data).to.equal(null);
                 expect(r.errorMessage).to.equal('Some error from Server');
                 expect(ctrl.message).to.eql({show:true,type:'danger',text: r.errorMessage});

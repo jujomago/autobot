@@ -36,7 +36,7 @@ describe('Component: alMappingList', function () {
       lodash = _lodash_;
 
       if (appConfig.apiUri) {
-        endPointUrl = appConfig.apiUri + '/f9/contacts/fields';
+        endPointUrl = appConfig.apiUri + '/f9/admin/contacts/fields';
       }
 
       contacts = $q.defer();

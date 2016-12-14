@@ -41,7 +41,7 @@ describe('Component: al.users.edit', function () {
    describe('#Check contructor Vars', () => {
 
         it('Check initialization of variables', () => {
-       
+
             expect(EditComponent.message).to.eql({show:false});
             expect(EditComponent.rolSelectedPermissions).to.have.lengthOf(0);
             expect(EditComponent.allRoles).to.eql(['agent', 'supervisor' , 'admin', 'reporting']);
@@ -57,7 +57,7 @@ describe('Component: al.users.edit', function () {
       });
 
       it('=>#getUserDetail, extension less than 4 digits, should apend ceros', function(){
-        _$httpBackend.whenGET(endPointUrl+'/users/detail/'+'daniel.c@autoboxcorp.com').respond({
+        _$httpBackend.whenGET(endPointUrl+'/admin/users/detail/'+'daniel.c@autoboxcorp.com').respond({
               return:[{
                   'generalInfo': {
                     'active': true,
@@ -134,16 +134,16 @@ describe('Component: al.users.edit', function () {
                 expect(userInfo).to.have.property('skills');
                 expect(userInfo).to.have.deep.property('generalInfo.extension','0007');
           });
-        _$httpBackend.flush();  
+        _$httpBackend.flush();
       });
 
       it('=>#getUserDetail, extension 4 digits should remain equal', function(){
-         _$httpBackend.whenGET(endPointUrl+'/users/detail/'+'daniel.c@autoboxcorp.com').respond({
+         _$httpBackend.whenGET(endPointUrl+'/admin/users/detail/'+'daniel.c@autoboxcorp.com').respond({
               return:[{
-                  'generalInfo': {                
+                  'generalInfo': {
                     'extension': 4300,
                     'firstName': 'Daniel',
-                    'fullName': 'Daniel Candia',             
+                    'fullName': 'Daniel Candia',
                   },
                   'roles': {
                       'admin':{},
@@ -158,16 +158,16 @@ describe('Component: al.users.edit', function () {
                expect(userInfo).to.have.property('generalInfo');
                expect(userInfo).to.have.deep.property('generalInfo.extension',4300);
           });
-        _$httpBackend.flush();  
+        _$httpBackend.flush();
       });
 
       it('=>#getUserDetail, extension is more than 4 digits, "false" should be returned', function(){
-         _$httpBackend.whenGET(endPointUrl+'/users/detail/'+'daniel.c@autoboxcorp.com').respond({
+         _$httpBackend.whenGET(endPointUrl+'/admin/users/detail/'+'daniel.c@autoboxcorp.com').respond({
               return:[{
-                  'generalInfo': {                
+                  'generalInfo': {
                     'extension': 635426,
                     'firstName': 'Daniel',
-                    'fullName': 'Daniel Candia',             
+                    'fullName': 'Daniel Candia',
                   },
                   'roles': {
                       'admin':{},
@@ -180,7 +180,7 @@ describe('Component: al.users.edit', function () {
           EditComponent.getUserDetail(userName).then(userInfo => {
                expect(userInfo).to.equal(false);
           });
-        _$httpBackend.flush();  
+        _$httpBackend.flush();
       });
 
 
@@ -227,7 +227,7 @@ describe('Component: al.users.edit', function () {
                         'skillName': 'Sales',
                         'userName': 'daniel.c@autoboxcorp.com'
                       }
-                    ]; 
+                    ];
 
     it('param columnName not send, should return false', () => {
       expect(false).to.equal(EditComponent.sortColumn(''));
@@ -246,7 +246,7 @@ describe('Component: al.users.edit', function () {
    describe('User Skills',()=>{
 
       it('=>getAllSkills should return a lists of skills', function(){
-        _$httpBackend.whenGET(endPointUrl+'/skills').respond({
+        _$httpBackend.whenGET(endPointUrl+'/admin/skills').respond({
               return:[
                   {
                   'description': '',
@@ -267,11 +267,11 @@ describe('Component: al.users.edit', function () {
           EditComponent.getAllSkills().then(r=>{
               expect(r).to.not.equal(null);
           });
-        _$httpBackend.flush();  
+        _$httpBackend.flush();
       });
 
       it('=>#getUserDetailSkill should return a user detailed data', function() {
-           _$httpBackend.whenGET(endPointUrl+'/users/detail/'+'daniel.c@autoboxcorp.com').respond({
+           _$httpBackend.whenGET(endPointUrl+'/admin/users/detail/'+'daniel.c@autoboxcorp.com').respond({
               return:[
                   {generalInfo: {
                     active: true,
@@ -297,7 +297,7 @@ describe('Component: al.users.edit', function () {
       });
 
       it('=>#addSkillToUser adds a skill to user', function() {
-          _$httpBackend.whenPOST(endPointUrl + '/users/daniel.c@autoboxcorp.com/skills', {
+          _$httpBackend.whenPOST(endPointUrl + '/admin/users/daniel.c@autoboxcorp.com/skills', {
             userName: 'daniel.c@autoboxcorp.com',
             skillName: 'Marketing',
             level: 1
@@ -314,7 +314,7 @@ describe('Component: al.users.edit', function () {
       });
 
       it('=>#addSkillToUser returns a error 500', function() {
-          _$httpBackend.whenPOST(endPointUrl + '/users//skills').respond(500,{
+          _$httpBackend.whenPOST(endPointUrl + '/admin/users//skills').respond(500,{
                 error: 'Value 0 of "UserSkill.level" is out of range [1 - 10]'
             }
           );
@@ -332,31 +332,31 @@ describe('Component: al.users.edit', function () {
           let headerRequiredForDelete={'Content-Type':'application/json;charset=utf-8','Accept':'application/json, text/plain, */*','appName':''};
 
           EditComponent.userSkills = [{
-            id: '266184', 
+            id: '266184',
             level: 1,
-            skillName: 'Sales', 
+            skillName: 'Sales',
             userName: 'daniel.c@autoboxcorp.com'
           }];
 
-          _$httpBackend.when('DELETE', endPointUrl + '/users/daniel.c@autoboxcorp.com/skills', {
-            id: '266184', 
+          _$httpBackend.when('DELETE', endPointUrl + '/admin/users/daniel.c@autoboxcorp.com/skills', {
+            id: '266184',
             level: 1,
-            skillName: 'Sales', 
+            skillName: 'Sales',
             userName: 'daniel.c@autoboxcorp.com'
           }, headerRequiredForDelete).respond(204, null);
 
           sandbox.stub(window, 'confirm').returns(true);
-          
+
           EditComponent.deleteSkillFromUser({
-            id: '266184', 
+            id: '266184',
             level: 1,
-            skillName: 'Sales', 
+            skillName: 'Sales',
             userName: 'daniel.c@autoboxcorp.com'
           }, 1).then(r=>{
               expect(r.statusCode).to.equal(204);
               expect(r.data).to.equal(null);
               expect(EditComponent.toggleSkillRow).to.equal(-1);
-              expect(EditComponent.message).to.eql({ show: true, type: 'success', text: 'Skill Deleted Successfully', expires:3000 });          
+              expect(EditComponent.message).to.eql({ show: true, type: 'success', text: 'Skill Deleted Successfully', expires:3000 });
           });
         expect(window.confirm.calledOnce).to.equal(true);
         _$httpBackend.flush();
@@ -366,14 +366,14 @@ describe('Component: al.users.edit', function () {
       it('=>#deleteSkillFromUser delete should return 500 statusCode', function() {
           let headerRequiredForDelete={'Content-Type':'application/json;charset=utf-8','Accept':'application/json, text/plain, */*','appName':''};
           EditComponent.userSkills = [{
-            id: '266184', 
+            id: '266184',
             level: 1,
             skillName: 'Sales',
             userName: 'daniel.c@autoboxcorp.com'
           }];
 
-          _$httpBackend.when('DELETE', endPointUrl + '/users/daniel.c@autoboxcorp.com/skills', {
-            id: '266184', 
+          _$httpBackend.when('DELETE', endPointUrl + '/admin/users/daniel.c@autoboxcorp.com/skills', {
+            id: '266184',
             level: 1,
             userName: 'daniel.c@autoboxcorp.com'
           }, headerRequiredForDelete).respond(500,{
@@ -383,9 +383,9 @@ describe('Component: al.users.edit', function () {
           });
 
           sandbox.stub(window, 'confirm').returns(true);
-          
+
           EditComponent.deleteSkillFromUser({
-            id: '266184', 
+            id: '266184',
             level: 1,
             userName: 'daniel.c@autoboxcorp.com'
           }, 1).then(r=>{
@@ -397,7 +397,7 @@ describe('Component: al.users.edit', function () {
       });
 
       it('=>#updateSkillFromUser update a skill from user', function() {
-          _$httpBackend.whenPUT(endPointUrl + '/users/daniel.c@autoboxcorp.com/skills', {
+          _$httpBackend.whenPUT(endPointUrl + '/admin/users/daniel.c@autoboxcorp.com/skills', {
             userName: 'daniel.c@autoboxcorp.com',
             skillName: 'Marketing',
             level: 3
@@ -414,7 +414,7 @@ describe('Component: al.users.edit', function () {
       });
 
       it('=>#updateSkillFromUser returns a error 500', function() {
-          _$httpBackend.whenPUT(endPointUrl + '/users/daniel.c@autoboxcorp.com/skills', {
+          _$httpBackend.whenPUT(endPointUrl + '/admin/users/daniel.c@autoboxcorp.com/skills', {
             userName: 'daniel.c@autoboxcorp.com',
             skillName: 'Marketing'
           }).respond(500, {
@@ -449,15 +449,15 @@ describe('Component: al.users.edit', function () {
         ];
         EditComponent.userInfo = {
           generalInfo:{
-            userName: ''  
+            userName: ''
           },
           skills:[]
         };
 
         EditComponent.userInfo.generalInfo.userName = 'daniel.c@autoboxcorp.com';
-        
+
         EditComponent.instance = modalInstance;
-        
+
         modalInstance.result
         .then(result => {
             expect(result).to.eql(skillList);
@@ -478,10 +478,10 @@ describe('Component: al.users.edit', function () {
             level: 3
           }
         ];
-        
+
         EditComponent.userInfo = {
           generalInfo:{
-            userName: ''  
+            userName: ''
           },
           skills:[]
         };
@@ -530,7 +530,7 @@ describe('Component: al.users.edit', function () {
                 }
             });
             EditComponent.getAllPermissions()
-            .then(response => {  
+            .then(response => {
                 expect(response).to.have.property('reporting');
                 expect(response).to.have.property('admin');
                 expect(response).to.have.property('agent');
@@ -544,12 +544,12 @@ describe('Component: al.users.edit', function () {
         });
     });
   describe('#addRol', () => {
-        
+
         it('should add a Rol correctly', function () {
             let newRol='supervisor';
             EditComponent.userRoles=[];
             expect(EditComponent.userRoles).to.have.lengthOf(0);
-       
+
             EditComponent.allRoles=['admin','supervisor','reporting','agent'];
 
             expect(EditComponent.addRol(newRol)).to.equal(true);
@@ -557,18 +557,18 @@ describe('Component: al.users.edit', function () {
             expect(EditComponent.userRoles).to.deep.equal(['supervisor']);
             expect(EditComponent.allRoles).to.have.lengthOf(3);
             expect(EditComponent.allRoles).to.deep.equal(['admin','reporting','agent']);
-            expect(EditComponent.showWarningRolMessage).to.equal(false);  
-           
+            expect(EditComponent.showWarningRolMessage).to.equal(false);
+
         });
         it('should cant add a non existent Rol', function () {
             let newRol='anyRol';
             EditComponent.userRoles=[];
             expect(EditComponent.userRoles).to.have.lengthOf(0);
-       
+
             EditComponent.allRoles=['admin','supervisor','reporting','agent'];
 
             expect(EditComponent.addRol(newRol)).to.equal(false);
-           
+
         });
     });
 
@@ -608,22 +608,22 @@ describe('Component: al.users.edit', function () {
         it('cant receive permissions of not existent Rol', () => {
            EditComponent.allRoles=['admin','supervisor','reporting','agent'];
 
-            expect(false).to.equal(EditComponent.getPermissions('UnexistentRol'));        
-          
+            expect(false).to.equal(EditComponent.getPermissions('UnexistentRol'));
+
         });
 
          it('cant get permissions of a rol ', () => {
-             
+
             EditComponent.allRoles=['admin','supervisor','reporting','agent'];
-            expect(true).to.equal(EditComponent.getPermissions('reporting'));        
-          
+            expect(true).to.equal(EditComponent.getPermissions('reporting'));
+
         });
 
 
     });
      describe('#update', () => {
         it('should update a user correctly', () => {
-         
+
            EditComponent.allRoles=['admin','reporting'];
            EditComponent.userRoles=['supervisor','agent'];
            EditComponent.storage.rolesPermissions={
@@ -663,18 +663,18 @@ describe('Component: al.users.edit', function () {
              fullName : 'Josue Mancilla',
              id : '2531474',
              lastName : 'Mancilla55',
-             mustChangePassword : false, 
-             password : '**********', 
+             mustChangePassword : false,
+             password : '**********',
              startDate : '2016-09-27T07:00:00.000Z',
              userName : 'josue@autoboxcorp.com'
            }};
-          
+
           EditComponent.update()
-          .then(response=>{              
+          .then(response=>{
               console.log(response.statusCode).to.equal(201);
               console.log(response.errorMessage).to.equal('');
               console.log(response.data).to.not.equal(null);
-           });     
+           });
         });
     });
 

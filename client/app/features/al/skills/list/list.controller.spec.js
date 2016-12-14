@@ -26,13 +26,13 @@ describe('Component: al.skills.list', function () {
     timeout = $timeout;
     skillService = _SkillsService_;
     window=$window;
-    
+
     sandbox = sinon.sandbox.create();
-    
+
     if(appConfig.apiUri){
-        endPointUrl=appConfig.apiUri+'/f9/skills';
+        endPointUrl=appConfig.apiUri+'/f9/admin/skills';
     }
-         
+
 
     ListComponent = $componentController('al.skills.list', {
       $scope: scope,
@@ -51,69 +51,69 @@ describe('Component: al.skills.list', function () {
     httpBackend.verifyNoOutstandingRequest();
      sandbox.restore();
   });
-  
-  describe('#deleteSkill',()=>{  
- 
+
+  describe('#deleteSkill',()=>{
+
      it('skill deleted should return 204 statusCode',()=>{
-       
-        httpBackend.whenDELETE(endPointUrl+'/Demo2').respond(204,null);  
-       
+
+        httpBackend.whenDELETE(endPointUrl+'/Demo2').respond(204,null);
+
         sandbox.stub(window, 'confirm').returns(true);
 
         let item={skill:{name:'Demo2'}};
-                                   
+
         ListComponent.deleteSkill(item,5)
-        .then(response=>{   
-            expect(ListComponent.toggleSkillRow).to.equal(-1);            
+        .then(response=>{
+            expect(ListComponent.toggleSkillRow).to.equal(-1);
             expect(response.statusCode).to.equal(204);
             expect(response.data).to.equal(null);
- 
-        });
-        
-       expect(window.confirm.calledOnce).to.equal(true);
-        
-        httpBackend.flush();
-     });   
 
-      
+        });
+
+       expect(window.confirm.calledOnce).to.equal(true);
+
+        httpBackend.flush();
+     });
+
+
      it('skill cant be deleted, returned error 500',()=>{
-       
-        httpBackend.whenDELETE(endPointUrl+'/Demo2').respond(500,'Some error from server');  
-       
+
+        httpBackend.whenDELETE(endPointUrl+'/Demo2').respond(500,'Some error from server');
+
         sandbox.stub(window, 'confirm').returns(true);
 
         let item={skill:{name:'Demo2'}};
-                                   
+
         ListComponent.deleteSkill(item,5)
-        .then(response=>{   
-            expect(ListComponent.toggleSkillRow).to.equal(-1);            
+        .then(response=>{
+            expect(ListComponent.toggleSkillRow).to.equal(-1);
             expect(response.statusCode).to.equal(500);
             expect(response.data).to.equal(null);
             expect(response.errorMessage).to.equal('Some error from server');
- 
+
         });
-        
+
        expect(window.confirm.calledOnce).to.equal(true);
-        
+
         httpBackend.flush();
-     });        
-  
+     });
+
   });
-  
-  
+
+
 
   describe('#getSkills', () => {
 
     it('Skill List Returned', () => {
       httpBackend.whenGET(endPointUrl+'/skillsInfo').respond(mockSkillData);
-      
+
       expect(ListComponent.message.show).to.equal(false);
       expect(ListComponent.skills).to.have.lengthOf(0);
-      
+
       var getSkills = ListComponent.getSkills();
 
-     
-      getSkills.then(_skills => {       
+
+      getSkills.then(_skills => {
             expect(_skills).to.be.an.instanceOf(Array);
             expect(_skills).to.have.lengthOf(5);
             expect(ListComponent.totalItems).to.not.equal(0);
@@ -124,17 +124,17 @@ describe('Component: al.skills.list', function () {
 
     it('Skill List cant be returned by error server', () => {
       httpBackend.whenGET(endPointUrl+'/skillsInfo').respond(500,'Some error from Server');
-      
+
       expect(ListComponent.message.show).to.equal(false);
       expect(ListComponent.skills).to.have.lengthOf(0);
-      
+
       var getSkills = ListComponent.getSkills();
-     
-      getSkills.then(_skills => {     
-            expect(ListComponent.skills).to.have.lengthOf(0);     
-            expect(_skills.statusCode).to.equal(500);  
+
+      getSkills.then(_skills => {
+            expect(ListComponent.skills).to.have.lengthOf(0);
+            expect(_skills.statusCode).to.equal(500);
             expect(_skills.errorMessage).to.equal('Some error from Server');
-            expect(_skills.data).to.equal(null);  
+            expect(_skills.data).to.equal(null);
             expect(ListComponent.message).to.eql({ show: true, type: 'danger', text: _skills.errorMessage });
       });
 
@@ -145,7 +145,7 @@ describe('Component: al.skills.list', function () {
 
   });
 
-    
+
 
   describe('#sortColumn', () => {
 
@@ -158,10 +158,10 @@ describe('Component: al.skills.list', function () {
       ListComponent.skills = [
         {skill:
           {name: 'some text to search'}
-        }, 
+        },
         {skill:
           {name: 'another text out of search'}
-        }, 
+        },
         {skill:
           {name: 'some text to search'}
         }];
@@ -171,7 +171,7 @@ describe('Component: al.skills.list', function () {
         },
         {skill:
           {name: 'some text to search'}
-        }, 
+        },
         {skill:
           {name: 'some text to search'}
         }];
@@ -188,10 +188,10 @@ describe('Component: al.skills.list', function () {
       ListComponent.skills = [
         {skill:
           {name: 'some text to search'}
-        }, 
+        },
         {skill:
           {name: 'another text out of search'}
-        }, 
+        },
         {skill:
           {name: 'some text to search'}
         }];
@@ -202,7 +202,7 @@ describe('Component: al.skills.list', function () {
 
     it('Should return false, when input search is empty', () => {
         ListComponent.search.skill.name='';
-        expect(ListComponent.filteringBySearch()).to.equal (false);       
+        expect(ListComponent.filteringBySearch()).to.equal (false);
     });
 
   });

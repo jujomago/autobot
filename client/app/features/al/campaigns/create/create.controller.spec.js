@@ -18,7 +18,7 @@ describe('Component: CreateComponent', function () {
       httpBackend = $httpBackend;
 
     if(appConfig.apiUri){
-        endPointUrl=appConfig.apiUri+'/f9/campaigns';
+        endPointUrl=appConfig.apiUri+'/f9/admin/campaigns';
     }
 
 
@@ -27,7 +27,7 @@ describe('Component: CreateComponent', function () {
     });
 
     httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
-    httpBackend.whenGET(appConfig.apiUri+'/f9/lists/%$&unexisting_list)(*&^%^').respond(200);
+    httpBackend.whenGET(appConfig.apiUri+'/f9/admin/lists/%$&unexisting_list)(*&^%^').respond(200);
 
   }));
    afterEach(function () {

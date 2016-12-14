@@ -14,7 +14,7 @@ describe('Component:DispositionCreateComponent', function () {
     state = $state;
     dispositionsService = _DispositionsService_;
     if (appConfig.apiUri) {
-      endPointUrl = appConfig.apiUri + '/f9/dispositions';
+      endPointUrl = appConfig.apiUri + '/f9/admin/dispositions';
     }
 
 
@@ -28,7 +28,7 @@ describe('Component:DispositionCreateComponent', function () {
     });
 
     httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
-    httpBackend.whenGET(appConfig.apiUri+'/f9/lists/%$&unexisting_list)(*&^%^').respond(200);
+    httpBackend.whenGET(appConfig.apiUri+'/f9/admin/lists/%$&unexisting_list)(*&^%^').respond(200);
 
   }));
   describe('#timeField', () => {
@@ -73,7 +73,7 @@ describe('Component:DispositionCreateComponent', function () {
     it('=> should return Status 201, created OK"', () => {
      httpBackend.whenPOST(endPointUrl).respond(201,null);
      let saveDisposition=CreateComponent.save();
-     expect(CreateComponent.SubmitText).to.equal('Saving...'); 
+     expect(CreateComponent.SubmitText).to.equal('Saving...');
      saveDisposition
      .then(response=>{
          expect(response.statusCode).to.equal(201);
@@ -88,14 +88,14 @@ describe('Component:DispositionCreateComponent', function () {
             error: 'Error message'
         });
        CreateComponent.save()
-        .then(response=>{       
+        .then(response=>{
            expect(response.statusCode).to.equal(500);
            expect(response.data).to.equal(null);
-           expect(response.errorMessage).to.not.equal(null);   
+           expect(response.errorMessage).to.not.equal(null);
            expect(CreateComponent.SubmitText).to.equal('Save');
            expect(CreateComponent.message.text).to.equal('Error message');
         });
         httpBackend.flush();
-    });    
+    });
   });
 });

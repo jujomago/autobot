@@ -18,12 +18,12 @@ describe('Component: al.users.create', function() {
         userService = _UsersService_;
         q = $q;
         httpBackend = $httpBackend;
-        
-        
+
+
         if(appConfig.apiUri){
-             endPointUrl=appConfig.apiUri+'/f9/users';
+             endPointUrl=appConfig.apiUri+'/f9/admin/users';
         }
-     
+
 
         CreateComponent = $componentController('al.users.create', {
             $scope: scope,
@@ -34,8 +34,8 @@ describe('Component: al.users.create', function() {
         });
 
          httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
-         httpBackend.whenGET(appConfig.apiUri+'/f9/lists/%$&unexisting_list)(*&^%^').respond(200);
-  
+         httpBackend.whenGET(appConfig.apiUri+'/f9/admin/lists/%$&unexisting_list)(*&^%^').respond(200);
+
     }));
 
     afterEach(function() {
@@ -69,7 +69,7 @@ describe('Component: al.users.create', function() {
 
             CreateComponent.addRol('Supervisor');
             CreateComponent.addRol('Agent');
-            
+
             expect(CreateComponent.userRoles).to.have.lengthOf(2);
 
 
@@ -135,7 +135,7 @@ describe('Component: al.users.create', function() {
             });
 
 
-            // using chai as promised        
+            // using chai as promised
             let onInitPromise = CreateComponent.$onInit();
 
             //check predefined roles
@@ -163,8 +163,8 @@ describe('Component: al.users.create', function() {
     describe('#save', () => {
 
         it('check save user without rol selected', () => {
-            CreateComponent.userRoles = [];     
-            
+            CreateComponent.userRoles = [];
+
             CreateComponent.save().then(r => {
                 expect(r, 'you must select at least rol to save').to.equal(null);
             });
@@ -174,7 +174,7 @@ describe('Component: al.users.create', function() {
 
         it('#save with good data', () => {
 
-            CreateComponent.allRoles = ['admin', 'reporting']; // roles unselected in UI   
+            CreateComponent.allRoles = ['admin', 'reporting']; // roles unselected in UI
             CreateComponent.userRoles = ['agent', 'supervisor'];  // roles selected in UI, to atatch newUser
 
             CreateComponent.newUser = {
@@ -287,7 +287,7 @@ describe('Component: al.users.create', function() {
                 expect(r).to.not.have.deep.property('roles.admin');
                 expect(r).to.not.have.deep.property('roles.reporting');
 
-                expect(Object.keys(CreateComponent.newUser)).to.have.lengthOf(0);                              
+                expect(Object.keys(CreateComponent.newUser)).to.have.lengthOf(0);
 
             });
 
@@ -296,7 +296,7 @@ describe('Component: al.users.create', function() {
 
         it('#save that produces error', () => {
 
-            CreateComponent.allRoles = ['admin', 'reporting', 'agent']; // roles unselected in UI   
+            CreateComponent.allRoles = ['admin', 'reporting', 'agent']; // roles unselected in UI
             CreateComponent.userRoles = ['supervisor'];  // roles selected in UI, to atatch newUser
 
             CreateComponent.newUser = {

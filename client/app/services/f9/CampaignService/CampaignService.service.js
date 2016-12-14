@@ -3,11 +3,10 @@
 
   let _http,_HandleError;
 
-  //let endPointUrl = '_http://localhost:9000/api/f9/campaigns';
   class CampaignService {
 
     constructor($http, HandleError, appConfig) {
-      this.endPointUrl = '/f9/campaigns';
+      this.endPointUrl = '/f9/admin/campaigns';
       if (appConfig.apiUri) {
         this.endPointUrl = appConfig.apiUri + this.endPointUrl;
       }

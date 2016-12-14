@@ -4,7 +4,7 @@
 
     class DispositionsService {
         constructor($http, HandleError, appConfig) {
-            this.endPointUrl = '/f9/dispositions';
+            this.endPointUrl = '/f9/admin/dispositions';
             if (appConfig.apiUri) {
                 this.endPointUrl = appConfig.apiUri + this.endPointUrl;
             }

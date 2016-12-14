@@ -33,7 +33,7 @@ describe('Component:al.lists.list', function () {
       mockModal.open();
     };
     if (appConfig.apiUri) {
-      endPointUrl = appConfig.apiUri + '/f9/lists';
+      endPointUrl = appConfig.apiUri + '/f9/admin/lists';
     }
 
     ListComponent = $componentController('al.lists.list', {

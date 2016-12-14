@@ -13,7 +13,7 @@ describe('Component:HomeComponent', function () {
     HomeComponent = $componentController('rqa');
     _$httpBackend = $httpBackend;
     if(appConfig.apiUri){
-        _endPointUrl=appConfig.apiUri+'/f9/reports';
+        _endPointUrl=appConfig.apiUri+'/f9/admin/reports';
     }
   }));
 
@@ -54,7 +54,7 @@ describe('Component:HomeComponent', function () {
         expect(HomeComponent.isLoading).to.equal(false);
         expect(HomeComponent.message).to.deep.equal({show: false});
       });
-      _$httpBackend.flush(); 
+      _$httpBackend.flush();
     });
     it('should return a internal server error in first call', function () {
       HomeComponent.tmpSelectedDate = HomeComponent.dates[0];
@@ -70,7 +70,7 @@ describe('Component:HomeComponent', function () {
         expect(HomeComponent.isLoading).to.equal(false);
         expect(HomeComponent.message).to.deep.equal({show: true, text: 'Internal Server Error'});
       });
-      _$httpBackend.flush(); 
+      _$httpBackend.flush();
     });
     it('should return a internal server error in second call', function () {
       HomeComponent.tmpSelectedDate = HomeComponent.dates[0];
@@ -87,7 +87,7 @@ describe('Component:HomeComponent', function () {
         expect(HomeComponent.isLoading).to.equal(false);
         expect(HomeComponent.message).to.deep.equal({show: true, text: 'Internal Server Error'});
       });
-      _$httpBackend.flush(); 
+      _$httpBackend.flush();
     });
     it('should return a internal server error in third call', function () {
       HomeComponent.tmpSelectedDate = HomeComponent.dates[0];
@@ -105,7 +105,7 @@ describe('Component:HomeComponent', function () {
         expect(HomeComponent.isLoading).to.equal(false);
         expect(HomeComponent.message).to.deep.equal({show: true, text: 'Internal Server Error'});
       });
-      _$httpBackend.flush(); 
+      _$httpBackend.flush();
     });
   });
 });

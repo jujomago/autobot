@@ -18,11 +18,11 @@ describe('Component: al.users.list', function () {
     userService = _UsersService_;
     httpBackend = $httpBackend;
     window = $window;
-    
+
     if(appConfig.apiUri){
-          endPointUrl=appConfig.apiUri+'/f9/users';
+          endPointUrl=appConfig.apiUri+'/f9/admin/users';
     }
-     
+
 
     ListComponent = $componentController('al.users.list', {
       $scope: scope,
@@ -36,7 +36,7 @@ describe('Component: al.users.list', function () {
     sandbox = sinon.sandbox.create();
 
      httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
-  
+
 
   }));
 
@@ -44,7 +44,7 @@ describe('Component: al.users.list', function () {
     httpBackend.verifyNoOutstandingRequest();
     sandbox.restore();
   });
-  
+
   describe('#deleteUser', () => {
 
     it('=> should return 204 when delete', () => {
@@ -74,7 +74,7 @@ describe('Component: al.users.list', function () {
 
       sandbox.stub(window, 'confirm').returns(true);
 
-      // user blueruby cant be deleted, it produces error 500 
+      // user blueruby cant be deleted, it produces error 500
 
       httpBackend.whenDELETE(endPointUrl+'/blueruby').respond(500, { error: 'Internal Server Error' });
 
@@ -120,7 +120,7 @@ describe('Component: al.users.list', function () {
     it('Should return true, when searching something', () => {
       ListComponent.search.userName='some text to search';
       ListComponent.usersList = [
-        {userName:'some text to search'}, 
+        {userName:'some text to search'},
         {userName:'Other userName'},
         {userName:'some text to search'}
       ];
@@ -131,7 +131,7 @@ describe('Component: al.users.list', function () {
 
     it('Should return false, when input search is empty', () => {
         ListComponent.search.userName='';
-        expect(ListComponent.filteringBySearch()).to.equal (false);       
+        expect(ListComponent.filteringBySearch()).to.equal (false);
     });
 
   });

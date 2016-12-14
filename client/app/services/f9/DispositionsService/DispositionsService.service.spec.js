@@ -20,7 +20,7 @@ describe('Service:DispositionsService', function () {
         DispositionsService = _DispositionsService_;
         httpBackend = $httpBackend;
         if(appConfig.apiUri){
-            endPointUrl=appConfig.apiUri+'/f9/dispositions';
+            endPointUrl=appConfig.apiUri+'/f9/admin/dispositions';
         }        
     }));
 

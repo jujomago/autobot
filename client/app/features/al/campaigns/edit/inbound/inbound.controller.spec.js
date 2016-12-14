@@ -13,7 +13,7 @@ describe('Component: al.campaigns.edit.inbound', function () {
     httpBackend = $httpBackend;
 
     if(appConfig.apiUri){
-       endPointUrl=appConfig.apiUri+'/f9/campaigns';
+       endPointUrl=appConfig.apiUri+'/f9/admin/campaigns';
     }
     mockState = {
         go: function(state, params){

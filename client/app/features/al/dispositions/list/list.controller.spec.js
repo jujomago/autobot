@@ -27,7 +27,7 @@ describe('Component:al.dispositions.list', function () {
     sandbox = sinon.sandbox.create();
 
     if (appConfig.apiUri) {
-      endPointUrl = appConfig.apiUri + '/f9/dispositions';
+      endPointUrl = appConfig.apiUri + '/f9/admin/dispositions';
     }
 
 
@@ -104,7 +104,7 @@ describe('Component:al.dispositions.list', function () {
           expect(response.statusCode).to.equal(403);
           expect(ListComponent.message.type).to.equal('danger');
           expect(ListComponent.message.text).to.equal('The object is a system disposition and it cannot be deleted');
-       
+
 
         });
 

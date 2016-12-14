@@ -20,7 +20,7 @@ describe('Component: al.campaigns.list', function () {
     window = $window;
 
     if (appConfig.apiUri) {
-      endPointUrl = appConfig.apiUri + '/f9/campaigns';
+      endPointUrl = appConfig.apiUri + '/f9/admin/campaigns';
     }
 
 
@@ -43,7 +43,7 @@ describe('Component: al.campaigns.list', function () {
     sandbox.restore();
   });
 
-  
+
   describe('#getCampaigns', () => {
 
     it('should return list array of campaigns', function () {
@@ -178,7 +178,7 @@ describe('Component: al.campaigns.list', function () {
 
     beforeEach(inject(function () {
         httpBackend.whenGET(endPointUrl+'/attached/lists/SomeCampaignName').respond(200);
-        
+
     }));
 
     it('Stopping RUNNING state', function () {
@@ -195,11 +195,11 @@ describe('Component: al.campaigns.list', function () {
           expect(item.statusBtnText).to.equal('Start');
           expect(ListComponent.toggleStatusRow).to.equal(-1);
           expect(ListComponent.message).to.eql({show:true,type:'success',text:'Stopped Successfully',expires:2000});
-        });        
+        });
         httpBackend.flush();
-        
-    });    
-    
+
+    });
+
     it('Starting NOT_RUNNING state', function () {
       let item = { name: 'SomeCampaignName', state: 'NOT_RUNNING' };
 
@@ -207,7 +207,7 @@ describe('Component: al.campaigns.list', function () {
 
       let promise = ListComponent.updateState(item,3);
       expect(item.statusBtnText).to.equal('Starting');
-      promise 
+      promise
         .then(response => {
           expect(response.statusCode).to.equal(200);
           expect(item.state).to.equal('RUNNING');
@@ -232,7 +232,7 @@ describe('Component: al.campaigns.list', function () {
           expect(ListComponent.message).to.deep.equal({ show: true, type: 'danger', text: response.errorMessage });
         });
         httpBackend.flush();
-        
+
     });
 
     describe('#filteringBySearch', () => {
@@ -251,7 +251,7 @@ describe('Component: al.campaigns.list', function () {
 
       it('Should return false, when input search is empty', () => {
           ListComponent.search.name='';
-          expect(ListComponent.filteringBySearch()).to.equal (false);       
+          expect(ListComponent.filteringBySearch()).to.equal (false);
       });
 
     });

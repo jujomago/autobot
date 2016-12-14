@@ -16,7 +16,7 @@ describe('Component: CreateComponent', function () {
     _ListsService = _ListsService_;
 
     if (appConfig.apiUri) {
-      _endPointUrl = appConfig.apiUri + '/f9/lists';
+      _endPointUrl = appConfig.apiUri + '/f9/admin/lists';
     }
 
 
@@ -28,7 +28,7 @@ describe('Component: CreateComponent', function () {
     });
 
     _$httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
-    _$httpBackend.whenGET(appConfig.apiUri+'/f9/lists/%$&unexisting_list)(*&^%^').respond(200);
+    _$httpBackend.whenGET(appConfig.apiUri+'/f9/admin/lists/%$&unexisting_list)(*&^%^').respond(200);
   }));
 
   describe('#createList', () => {

@@ -421,7 +421,7 @@ describe('Component: alUploadList', function () {
     });
 
     it('Should insert records', () => {
-      _$httpBackend.whenPOST(_endPointUrl+'/f9/lists/test/records').respond(200, {return: {identifier: '123-abc'}});
+      _$httpBackend.whenPOST(_endPointUrl+'/f9/admin/lists/test/records').respond(200, {return: {identifier: '123-abc'}});
       ListComponent.sendContact = {listName: 'test'};
       ListComponent.uploadContacts()
         .then(()=>{
@@ -433,7 +433,7 @@ describe('Component: alUploadList', function () {
     });
 
     it('Should show error message', () => {
-      _$httpBackend.whenPOST(_endPointUrl+'/f9/lists/test/records').respond(500, {error: 'Internal Server Error'});
+      _$httpBackend.whenPOST(_endPointUrl+'/f9/admin/lists/test/records').respond(500, {error: 'Internal Server Error'});
       ListComponent.sendContact = {listName: 'test'};
       ListComponent.uploadContacts()
         .then(()=>{
