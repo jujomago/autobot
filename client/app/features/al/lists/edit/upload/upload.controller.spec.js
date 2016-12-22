@@ -521,4 +521,166 @@ describe('Component: alUploadList', function () {
     });
   });
 
+  describe('#removeDnc',()=>{
+
+      let mockListPhones;
+      beforeEach(function() {
+          mockListPhones=[
+              {phone: '1111222233', status: 'W'},
+              {phone: '8888888899', status: 'H'},
+              {phone: '2222222222', status: 'D'},
+              {phone: '6666655555', status: 'I'}
+          ];
+      });
+
+      it('Buttons Texts are setted ' ,()=>{
+          ListComponent.list=[
+              {number1: '8888888899',number2: '9876543211',number3: '9876543210' }
+          ];
+          ListComponent.removeDnc(mockListPhones);
+          expect(mockPrompt.config).to.eql({
+            'okText':'Remove records',
+            'cancelText':'Keep records'
+          });
+      });
+
+      it('list with invalid numbers found in Number1 for each row',()=>{
+
+          ListComponent.list=[
+              {number1: '8888888899',number2: '9876543211',number3: '9876543210' },
+              {number1: '6666655555',number2: '',number3: '' },
+              {number1: '1111222233',number2: '9876543211',number3: '9876543210' }
+          ];
+
+          ListComponent.removeDnc(mockListPhones);
+          expect(mockPrompt.params.listDetail.rows).to.eql([
+              [1,'Number1','US Wireless Number or VoIP Number that is also a Valid EBR - overriding an otherwise DNC number'],
+              [2,'Number1','Invalid - area code not active, or reserved, or special use phone number pattern'],
+              [3,'Number1','US Wireless number – number is not in any DNC database']
+          ]);
+       });
+
+      it('list with invalid numbers found in Number2 for each row',()=>{
+
+          ListComponent.list=[
+              {number1: '9876543211',number2: '8888888899',number3: '9876543210' },
+              {number1: '',number2: '6666655555',number3: '' },
+              {number1: '5545678665',number2: '1111222233',number3: '9876543210' }
+          ];
+
+          ListComponent.removeDnc(mockListPhones);
+          expect(mockPrompt.params.listDetail.rows).to.eql([
+              [1,'Number2','US Wireless Number or VoIP Number that is also a Valid EBR - overriding an otherwise DNC number'],
+              [2,'Number2','Invalid - area code not active, or reserved, or special use phone number pattern'],
+              [3,'Number2','US Wireless number – number is not in any DNC database']
+          ]);
+      });
+
+      it('list with invalid numbers found in Number3 for each row',()=>{
+
+          ListComponent.list=[
+              {number1: '9876543211',number2: '',number3: '8888888899' },
+              {number1: '4433343566',number2: '',number3: '6666655555' },
+              {number1: '5545678665',number2: '',number3: '2222222222' }
+          ];
+
+          ListComponent.removeDnc(mockListPhones);
+          expect(mockPrompt.params.listDetail.rows).to.eql([
+              [1,'Number3','US Wireless Number or VoIP Number that is also a Valid EBR - overriding an otherwise DNC number'],
+              [2,'Number3','Invalid - area code not active, or reserved, or special use phone number pattern'],
+              [3,'Number3','Do not call database match']
+          ]);
+      });
+
+
+      it('list with invalid numbers found in Number1,Number2,Number3',()=>{
+
+          ListComponent.list=[
+              {number1: '8888888899',number2: '',number3: '6666655555' },
+              {number1: '5545678665',number2: '',number3: '2222222222' },
+              {number1: '9966456775',number2: '8888888899',number3: '6666655555' }
+          ];
+
+          ListComponent.removeDnc(mockListPhones);
+          expect(mockPrompt.params.listDetail.rows).to.eql([
+              [1,'Number1','US Wireless Number or VoIP Number that is also a Valid EBR - overriding an otherwise DNC number'],
+              [1,'Number3','Invalid - area code not active, or reserved, or special use phone number pattern'],
+              [2,'Number3','Do not call database match'],
+              [3,'Number2','US Wireless Number or VoIP Number that is also a Valid EBR - overriding an otherwise DNC number'],
+              [3,'Number3','Invalid - area code not active, or reserved, or special use phone number pattern']
+          ]);
+      });
+
+
+      it('list with some rows with valids numbers',()=>{
+          ListComponent.valids=[];
+
+          ListComponent.list=[
+              {number1: '8888888899',number2: '',number3: '6675544432' },
+              {number1: '5545678665',number2: '',number3: '4426777777' },
+              {number1: '9966456775',number2: '5555555555',number3: '9667777777' }
+          ];
+
+          ListComponent.removeDnc(mockListPhones);
+
+          expect(ListComponent.valids).to.eql([
+              {number1: '5545678665',number2: '',number3: '4426777777' },
+              {number1: '9966456775',number2: '5555555555',number3: '9667777777' }
+          ]);
+
+          expect(mockPrompt.params.listDetail.rows).to.have.lengthOf(1);
+
+          expect(mockPrompt.params.listDetail.rows[0]).to.eql(
+              [1,'Number1','US Wireless Number or VoIP Number that is also a Valid EBR - overriding an otherwise DNC number']
+          );
+
+      });
+
+      it('list with 3 contacts and just one row invalid',()=>{
+          ListComponent.valids=[];
+
+          ListComponent.list=[
+              {number1: '8888888899',number2: '',number3: '6675544432' },
+              {number1: '5545678665',number2: '',number3: '4426777777' },
+              {number1: '9966456775',number2: '5555555555',number3: '9667777777' }
+          ];
+
+          ListComponent.removeDnc(mockListPhones);
+
+          expect(mockPrompt.params.body).to.equal('1 of 3 records has been found invalid.\nYou may remove the invalid records before updating the list.');
+
+      });
+
+
+      it('list with 3 contacts and 2 rows invalid',()=>{
+          ListComponent.valids=[];
+
+          ListComponent.list=[
+              {number1: '8888888899',number2: '',number3: '6675544432' },
+              {number1: '5545678665',number2: '',number3: '2222222222' },
+              {number1: '9966456775',number2: '5555555555',number3: '9667777777' }
+          ];
+
+          ListComponent.removeDnc(mockListPhones);
+
+          expect(mockPrompt.params.body).to.equal('2 of 3 records have been found invalid.\nYou may remove the invalid records before updating the list.');
+
+      });
+
+      it('list with 1 contact and 1 row invalid',()=>{
+          ListComponent.valids=[];
+
+
+          ListComponent.list=[
+              {number1: '8888888899',number2: '',number3: '6675544432' }
+          ];
+
+          ListComponent.removeDnc(mockListPhones);
+
+          expect(mockPrompt.params.body).to.equal('1 of 1 record has been found invalid.\nYou may remove the invalid records before updating the list.');
+
+      });
+
+  });
+
 });
