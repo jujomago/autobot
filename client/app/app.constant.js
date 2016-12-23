@@ -3,7 +3,7 @@
 
 angular.module('fakiyaMainApp.constants', [])
 
-.constant('appConfig', {userRoles:['guest','user','admin'],apiUri:'http://10.0.0.2:9999/api'})
+.constant('appConfig', {userRoles:['guest','user','admin'],apiUri:'http://localhost:9999/api'})
 
 ;
 })(angular);
