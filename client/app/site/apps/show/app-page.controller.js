@@ -5,7 +5,9 @@
 	class AppPageComponent {
 
 		constructor($stateParams, $state, AppsService, GetHomePage, EnumManager) {
-			this.appName = $stateParams.appName;		
+			this.appName = $stateParams.appName;
+			this.appDescription = $stateParams.description;
+			this.appList = $stateParams.list;	
 			this.message = { show: false };
 			_AppsService = AppsService;
 			_GetHomePage = GetHomePage;
