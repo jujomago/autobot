@@ -7,10 +7,10 @@
     let _services = [
         {
             name:'ccc',
-            fullName: 'Compliance',
+            fullName: 'Contact Center Compliance',
             description: 'Contact Center Compliance is an experienced cloud based compliance provider that reduces the complexity of TCPA Wireless and DNC regulations. DNC.com provides several unique compliance solutions including: TCPA Litigator Scrub, TCPA Wireless and VoIP Scrubbing, as well as an award winning Compliance Guide with Compliance Training. We also provide data enhancement solutions including TCPA wireless number verification. Learn why leading companies trust DNC.com to manage their TCPA liability.',
             path:'ccc',
-            partner:'Contact Center'
+            partner:''
         },
         {
             name:'tfsb',
