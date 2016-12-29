@@ -1,677 +1,333 @@
 (function () {
   'use strict';
+  let _$interval,
+      _$q,
+      _$scope,
+      _ModalManager,
+      _StatisticsService,
+      _SCActions,
+      _Utils,
+      _lodash,
+      $ctrl;
 
   class SupervisorConsoleListsController {
-    constructor() {
-      this.headersAgentsState = [
-        'USERNAME',
-        'FULL NAME',
-        'STATE',
-        'STATE DURATION',
-        'CALL TYPE',
-        'REASON',
-        'REASON DURATION',
-        'REASON SINCE'
-      ];
-      this.headersUsers = [
-        'USERNAME',
-        'FULL NAME',
-        'ACCOUNT TYPE',
-        'SESSION START'
-      ];
+    constructor(
+      $interval,
+      $q,
+      $scope,
+      ModalManager,
+      StatisticsService,
+      SupervisorConsoleActions,
+      Utils,
+      lodash
+    ) {
+      _$interval = $interval;
+      _$q = $q;
+      _$scope = $scope;
+      _ModalManager = ModalManager;
+      _StatisticsService = StatisticsService;
+      _SCActions = SupervisorConsoleActions;
+      _Utils = Utils;
+      _lodash = lodash;
 
-      this.headersSkillStatus = [
-        'NAME',
-        'LOGGED IN',
-        'ON CALL',
-        'IN READY',
-        'CALLS IN QUEUE',
-        'QUEUE TIME',
-        'LONGEST WAIT',
-        'CALLS IN QUEUE TIME'
-      ];
+      $ctrl = this;
 
-      this.dataAgentsState =[
-        {
-          username: 'gamification@blueruby.info',
-          fullName: 'Gami Comunication',
-          state: 'Ready',
-          class:'ready-state ',
-          stateDuration: '00:08:52',
-          classDuration: 'duration-default-state',
-          callType: 'Inbound',
-          reason: '',
-          reasonDuration: '00:00',
-          reasonSince: 'Mon Nov 3 2016 12:42:40',
-          info: {
-            username: 'gamification@blueruby.info',
-            description: [
-              {
-                label: 'Total Calls',
-                value: '12'
-              },
-              {
-                label: 'First Call Resolution',
-                value: '1(8%)'
-              },
-              {
-                label: 'Avg Call Time',
-                value: '00:42:42'
-              },
-              {
-                label: 'Avg Wrap Time',
-                value: '00:00:36'
-              },
-              {
-                label: 'Avg Idle Time',
-                value: '00:14:42'
-              },
-              {
-                label: 'Avg Not Ready Time',
-                value: '00:45:28'
-              },
-              {
-                label: 'Avg Idle Time',
-                value: '00:42:23'
-              }
-            ]
-          }
-        },
-        {
-          username: 'martha92@blueruby.info',
-          fullName: 'Martha Quimo',
-          state: 'On Call',
-          class: 'onCall-state',
-          stateDuration: '00:34:12',
-          classDuration: 'duration-default-state',
-          callType: 'Inbound',
-          reason: '',
-          reasonDuration: '00:00',
-          reasonSince: 'Thue Nov 12 12:42:40',
-          info: {
-            username: 'martha92@blueruby.info',
-            description: [
-              {
-                label: 'Total Calls',
-                value: '24'
-              },
-              {
-                label: 'First Call Resolution',
-                value: '8(10%)'
-              },
-              {
-                label: 'Avg Call Time',
-                value: '00:44:42'
-              },
-              {
-                label: 'Avg Wrap Time',
-                value: '00:56:36'
-              },
-              {
-                label: 'Avg Idle Time',
-                value: '00:28:42'
-              },
-              {
-                label: 'Avg Not Ready Time',
-                value: '00:43:28'
-              },
-              {
-                label: 'Avg Idle Time',
-                value: '00:06:23'
-              }
-            ]
-          }
-        },
-        {
-          username: 'jason.brown@blueruby.info',
-          fullName: 'Jason Brown',
-          state: 'On Call',
-          class: 'onCall-state ',
-          stateDuration: '00:55:26',
-          classDuration: 'duration-state',
-          callType: 'Inbound',
-          reason: '',
-          reasonDuration: '00:00',
-          reasonSince: 'Thue Nov 12 12:42:40',
-          info: {
-            username: 'jason.brown@blueruby.info',
-            description: [
-              {
-                label: 'Total Calls',
-                value: '22'
-              },
-              {
-                label: 'First Call Resolution',
-                value: '32(50%)'
-              },
-              {
-                label: 'Avg Call Time',
-                value: '00:32:42'
-              },
-              {
-                label: 'Avg Wrap Time',
-                value: '00:50:36'
-              },
-              {
-                label: 'Avg Idle Time',
-                value: '00:44:42'
-              },
-              {
-                label: 'Avg Not Ready Time',
-                value: '00:15:28'
-              },
-              {
-                label: 'Avg Idle Time',
-                value: '00:22:23'
-              }
-            ]
-          }
-        },
-        {
-          username: 'daven@blueruby.info',
-          fullName: 'Dave Anurag',
-          state: 'On Call',
-          class: 'onCall-state',
-          stateDuration: '00:24:25',
-          classDuration: 'duration-default-state',
-          callType: 'Inbound',
-          reason: '',
-          reasonDuration: '00:00',
-          reasonSince: 'Mon Nov 3 2016 12:42:40',
-          info: {
-            username: 'daven@blueruby.info',
-            description: [
-              {
-                label: 'Total Calls',
-                value: '22'
-              },
-              {
-                label: 'First Call Resolution',
-                value: '6(12%)'
-              },
-              {
-                label: 'Avg Call Time',
-                value: '00:56:42'
-              },
-              {
-                label: 'Avg Wrap Time',
-                value: '00:23:36'
-              },
-              {
-                label: 'Avg Idle Time',
-                value: '00:17:42'
-              },
-              {
-                label: 'Avg Not Ready Time',
-                value: '00:39:28'
-              },
-              {
-                label: 'Avg Idle Time',
-                value: '00:28:23'
-              }
-            ]
-          }
-        },
-        {
-          username: 'katherine@blueruby.info',
-          fullName: 'Katherine Ferguson',
-          state: 'On Call',
-          class: 'onCall-state',
-          stateDuration: '02:08:35',
-          classDuration: 'duration-default-state',
-          callType: 'Inbound',
-          reason: '',
-          reasonDuration: '00:00',
-          reasonSince: 'Fri Oct 29 2016 12:42:40',
-          info: {
-            username: 'katherine@blueruby.info',
-            description: [
-              {
-                label: 'Total Calls',
-                value: '25'
-              },
-              {
-                label: 'First Call Resolution',
-                value: '12(9%)'
-              },
-              {
-                label: 'Avg Call Time',
-                value: '00:32:45'
-              },
-              {
-                label: 'Avg Wrap Time',
-                value: '00:09:36'
-              },
-              {
-                label: 'Avg Idle Time',
-                value: '00:44:02'
-              },
-              {
-                label: 'Avg Not Ready Time',
-                value: '00:02:28'
-              },
-              {
-                label: 'Avg Idle Time',
-                value: '00:01:44'
-              }
-            ]
-          }
-        },
-        {
-          username: 'ethan.gar@blueruby.info',
-          fullName: 'Ethan Gardner',
-          state: 'Not Ready',
-          class: 'noReady-state',
-          stateDuration: '01:36:55',
-          classDuration: 'duration-state',
-          callType: '',
-          reason: 'Not Ready',
-          reasonDuration: '00:00',
-          reasonSince: 'Thue Nov 12 12:42:40',
-          info: {
-            username: 'ethan.gar@blueruby.info',
-            description: [
-              {
-                label: 'Total Calls',
-                value: '9'
-              },
-              {
-                label: 'First Call Resolution',
-                value: '8(7%)'
-              },
-              {
-                label: 'Avg Call Time',
-                value: '00:42:42'
-              },
-              {
-                label: 'Avg Wrap Time',
-                value: '00:07:36'
-              },
-              {
-                label: 'Avg Idle Time',
-                value: '00:02:22'
-              },
-              {
-                label: 'Avg Not Ready Time',
-                value: '00:11:28'
-              },
-              {
-                label: 'Avg Idle Time',
-                value: '00:66:23'
-              }
-            ]
-          }
-        },
-        {
-          username: 'olivia.pa@blueruby.info',
-          fullName: 'Olivia Patterson',
-          state: 'Not Ready',
-          class: 'noReady-state',
-          stateDuration: '00:40:22',
-          classDuration: 'duration-default-state',
-          callType: '',
-          reason: 'Meeting',
-          reasonDuration: '00:00',
-          reasonSince: 'Fri Oct 29 2016 12:42:40',
-          info: {
-            username: 'olivia.pa@blueruby.info',
-            description: [
-              {
-                label: 'Total Calls',
-                value: '12'
-              },
-              {
-                label: 'First Call Resolution',
-                value: '1(8%)'
-              },
-              {
-                label: 'Avg Call Time',
-                value: '00:42:42'
-              },
-              {
-                label: 'Avg Wrap Time',
-                value: '00:00:36'
-              },
-              {
-                label: 'Avg Idle Time',
-                value: '00:14:42'
-              },
-              {
-                label: 'Avg Not Ready Time',
-                value: '00:45:28'
-              },
-              {
-                label: 'Avg Idle Time',
-                value: '00:42:23'
-              }
-            ]
-          }
-        },
-        {
-          username: 'david.ellis@blueruby.info',
-          fullName: 'David Ellis',
-          state: 'Not Ready',
-          class: 'noReady-state',
-          stateDuration: '00:11:52',
-          classDuration: 'duration-default-state',
-          callType: '',
-          reason: 'LUNCH - 1 Hour',
-          reasonDuration: '00:00',
-          reasonSince: 'Thue Nov 12 12:42:40',
-          info: {
-            username: 'david.ellis@blueruby.info',
-            description: [
-              {
-                label: 'Total Calls',
-                value: '23'
-              },
-              {
-                label: 'First Call Resolution',
-                value: '6(2%)'
-              },
-              {
-                label: 'Avg Call Time',
-                value: '00:32:11'
-              },
-              {
-                label: 'Avg Wrap Time',
-                value: '00:05:15'
-              },
-              {
-                label: 'Avg Idle Time',
-                value: '00:45:07'
-              },
-              {
-                label: 'Avg Not Ready Time',
-                value: '00:07:33'
-              },
-              {
-                label: 'Avg Idle Time',
-                value: '00:44:02'
-              }
-            ]
-          }
-        },
-        {
-          username: 'phillip.newman@blueruby.info',
-          fullName: 'Phillip Newman',
-          state: 'Not Ready',
-          class: 'noReady-state',
-          stateDuration: '01:25:12',
-          classDuration: 'duration-default-state',
-          callType: '',
-          reason: 'Not Ready',
-          reasonDuration: '00:00',
-          reasonSince: 'Mon Nov 3 2016 12:42:40',
-          info: {
-            username: 'phillip.newman@blueruby.info',
-            description: [
-              {
-                label: 'Total Calls',
-                value: '5'
-              },
-              {
-                label: 'First Call Resolution',
-                value: '3(7%)'
-              },
-              {
-                label: 'Avg Call Time',
-                value: '00:11:42'
-              },
-              {
-                label: 'Avg Wrap Time',
-                value: '00:01:07'
-              },
-              {
-                label: 'Avg Idle Time',
-                value: '00:33:55'
-              },
-              {
-                label: 'Avg Not Ready Time',
-                value: '00:02:06'
-              },
-              {
-                label: 'Avg Idle Time',
-                value: '00:09:07'
-              }
-            ]
-          }
-        },
-        {
-          username: 'phillip.newman@blueruby.info',
-          fullName: 'Phillip Newman',
-          state: 'Not Ready',
-          class: 'noReady-state',
-          stateDuration: '01:25:12',
-          classDuration: 'duration-default-state',
-          callType: '',
-          reason: 'Not Ready',
-          reasonDuration: '00:00',
-          reasonSince: 'Mon Nov 3 2016 12:42:40',
-          info: {
-            username: 'phillip.newman@blueruby.info',
-            description: [
-              {
-                label: 'Total Calls',
-                value: '5'
-              },
-              {
-                label: 'First Call Resolution',
-                value: '3(7%)'
-              },
-              {
-                label: 'Avg Call Time',
-                value: '00:11:42'
-              },
-              {
-                label: 'Avg Wrap Time',
-                value: '00:01:07'
-              },
-              {
-                label: 'Avg Idle Time',
-                value: '00:33:55'
-              },
-              {
-                label: 'Avg Not Ready Time',
-                value: '00:02:06'
-              },
-              {
-                label: 'Avg Idle Time',
-                value: '00:09:07'
-              }
-            ]
-          }
-        },
-        {
-          username: 'david.ellis@blueruby.info',
-          fullName: 'David Ellis',
-          state: 'Not Ready',
-          class: 'noReady-state',
-          stateDuration: '00:11:52',
-          classDuration: 'duration-default-state',
-          callType: '',
-          reason: 'LUNCH - 1 Hour',
-          reasonDuration: '00:00',
-          reasonSince: 'Thue Nov 12 12:42:40',
-          info: {
-            username: 'david.ellis@blueruby.info',
-            description: [
-              {
-                label: 'Total Calls',
-                value: '23'
-              },
-              {
-                label: 'First Call Resolution',
-                value: '6(2%)'
-              },
-              {
-                label: 'Avg Call Time',
-                value: '00:32:11'
-              },
-              {
-                label: 'Avg Wrap Time',
-                value: '00:05:15'
-              },
-              {
-                label: 'Avg Idle Time',
-                value: '00:45:07'
-              },
-              {
-                label: 'Avg Not Ready Time',
-                value: '00:07:33'
-              },
-              {
-                label: 'Avg Idle Time',
-                value: '00:44:02'
-              }
-            ]
-          }
-        }
-      ];
+      this.PANELS_HEADERS = _SCActions.getPanelsHeaders();
 
-      this.dataUsers = [
-        {
-          username: 'martha92@blueruby.info',
-          fullName: 'Martha Quimo',
-          accountType: 'Administrator',
-          sessionStart: 'Mon Nov 28 2016 10:55:12'
-        },
-        {
-          username: 'phillip.newman@blueruby.info',
-          fullName: 'Phillip Newman',
-          accountType: 'Supervisor',
-          sessionStart: 'Thue Nov 28 2016 10:55:12'
-        },
-        {
-          username: 'david.ellis@blueruby.info',
-          fullName: 'David Ellis',
-          accountType: 'Administrator',
-          sessionStart: 'Fri Nov 28 2016 10:55:12'
-        },
-        {
-          username: 'ethan.gar@blueruby.info',
-          fullName: 'Ethan Gardner',
-          accountType: 'Administrator',
-          sessionStart: 'Mon Nov 28 2016 10:55:12'
-        },
-        {
-          username: 'jason.brown@blueruby.info',
-          fullName: 'Jason Brown',
-          accountType: 'Administrator',
-          sessionStart: 'Mon Nov 28 2016 10:55:12'
-        }
-      ];
+      this.dataAgentsState = [];
+      this.infoAgentState =[];
+      this.dataUsers = [];
+      this.dataSkillStatus = [];
 
-      this.dataSkillStatus = [
-        {
-          name: 'Home Agent Assistant',
-          loggedIn: '21',
-          onCall: '6',
-          inReady: '1',
-          class: 'ready-status',
-          callsInQueue: '1',
-          classQueue:'queue-status ',
-          queueTime: '00:00:00',
-          longestWait: '02:36',
-          callTimeQueue: '0'
-        },
-        {
-          name: 'Skill1',
-          loggedIn: '23',
-          onCall: '6',
-          inReady: '1',
-          classQueue:'queue-status ',
-          class: 'ready-status',
-          callsInQueue: '1',
-          queueTime: '00:00:00',
-          longestWait: '03:36',
-          callTimeQueue: '0'
-        },
-        {
-          name: 'Skill2',
-          loggedIn: '14',
-          onCall: '4',
-          inReady: '1',
-          class: 'ready-status',
-          callsInQueue: '1',
-          classQueue:'queue-status ',
-          queueTime: '00:00:00',
-          longestWait: '00:36',
-          callTimeQueue: '0'
-        },
-        {
-          name: 'Skill3',
-          loggedIn: '29',
-          onCall: '6',
-          inReady: '1',
-          class: 'ready-status',
-          callsInQueue: '0',
-          classQueue:'queue-status ',
-          queueTime: '00:00:00',
-          longestWait: '01:05',
-          callTimeQueue: '0'
-        },
-        {
-          name: 'Supervisor',
-          loggedIn: '0',
-          onCall: '0',
-          inReady: '0',
-          class: 'ready-zero-status',
-          callsInQueue: '0',
-          classQueue:'queue-status ',
-          queueTime: '00:00:00',
-          longestWait: '00:00',
-          callTimeQueue: '0'
-        }
-      ];
+      this.dashboard = {};
+      this.dashboard.widgets = [];
 
-      this.standardItems = [
-        {
-          sizeX: 3,
-          sizeY: 2,
-          row: 0,
-          col: 0 ,
-          name: 'Agent State',
-          template: 'app/features/sc/lists/templates/agentState.html'
-        },
-        {
-          sizeX: 3,
-          sizeY: 1,
-          row: 0,
-          col: 3 ,
-          name: 'Users',
-          template: 'app/features/sc/lists/templates/users.html'
-        },
-        {
-          sizeX: 3,
-          sizeY: 1,
-          row: 1,
-          col: 3 ,
-          name: 'Skill Status',
-          template: 'app/features/sc/lists/templates/skillStatus.html'
-        }
-      ];
 
-      this.gridOptions = {
+      this.dashboardOptions = {
+        columns: 60,
+        colWidth: 'auto',
         margins: [5, 5],
+        resizable: {
+            enabled: true,
+            start: function (){
+              // optional callback fired when resize is started, event, uiWidget, $element
+            },
+          resize: function (){
+            // optional callback fired when item is resized, event, uiWidget, $element
+          },
+          stop: function (){
+            // optional callback fired when item is finished resizing event, uiWidget, $element
+          }
+        },
         draggable: {
             enabled: true,
             handle: '.sc-box-header',
             start: function () {
+              // optional callback fired when drag is started, event, uiWidget, $element
             },
             drag: function () {
+              // optional callback fired when item is moved, event, uiWidget, $element
             },
             stop: function () {
+              // optional callback fired when item is finished dragging event, uiWidget, $element
             }
         }
       };
+
+      //$interval promises
+      this.promisesInterval = {};
+      this.refreshTime = 30000; //30 Seconds
+
+      //Is 2000ms as the recommended value for longPollingTimeout.
+      //Statistics Web Services API Reference Guide
+      this.longpollingtimeout = 2000;
+
     }
 
+    $onInit() {
+      this.headersAgentsState = this.PANELS_HEADERS.AGENT_STATE.ui;
+      this.headersUsers = this.PANELS_HEADERS.USERS.ui;
+      this.headersSkillStatus = this.PANELS_HEADERS.SKILL_STATUS.ui;
 
-    $onInit() {}
+      this.headersApiAgentsState = this.PANELS_HEADERS.AGENT_STATE.api.join();
+      this.headersApiInfoAgentsState = this.PANELS_HEADERS.INFO_AGENT_STATE.api.join();
+      this.headersApiSkillStatus = this.PANELS_HEADERS.SKILL_STATUS.api.join();
+
+      this.keyAgentState = this.PANELS_HEADERS.AGENT_STATE.key;
+      this.keyUsers = this.PANELS_HEADERS.USERS.key;
+      this.keySkillStatus = this.PANELS_HEADERS.SKILL_STATUS.key;
+
+      this.widgetTypes = _SCActions.getOptionsDropDown();
+      this.dashboard.widgets = _SCActions.getDefaultWidgets();
+      this.promisesInterval = _SCActions.getPromisesInterval();
+
+      this.getWidgetAgentState();
+      this.getWidgetSkill();
+      this.getWidgetUsers();
+    }
+
+    getWidgetAgentState() {
+      _$q.all([
+        _StatisticsService.getStatisticsAgentState(this.headersApiAgentsState),
+        _StatisticsService.getStatisticsSummary(this.headersApiInfoAgentsState)
+      ]).then((promises) => {
+
+        this.dataAgentsState = _SCActions.formatRowsAgentState(promises[0].data.rows);
+        this.infoAgentState = _SCActions.formatRowsInfoAgentState(promises[1].data.rows);
+
+        this.promisesInterval.AGENTS_STATE.timestamp = promises[0].data.timestamp;
+        this.promisesInterval.INFO_AGENTS_STATE.timestamp = promises[1].data.timestamp;
+
+        _SCActions.updateWidgetsLoading($ctrl.dashboard.widgets,this.keyAgentState, false);
+        this.promisesInterval.INFO_AGENTS_STATE.promise = _$interval(this.refreshAgentState, this.refreshTime);
+
+      }).catch(error =>{
+        _SCActions.updateWidgetsLoading($ctrl.dashboard.widgets,this.keyAgentState, false);
+        return error;
+      });
+    }
+
+    getWidgetSkill() {
+      _StatisticsService.getStatisticsSkillStatus(this.headersApiSkillStatus).then((result) => {
+
+        this.dataSkillStatus = _SCActions.formatRowsSkills(result.data.rows);
+        this.promisesInterval.SKILLS.timestamp = result.data.timestamp;
+        _SCActions.updateWidgetsLoading($ctrl.dashboard.widgets,this.keySkillStatus , false);
+        this.promisesInterval.SKILLS.promise = _$interval(this.refreshSkills, this.refreshTime);
+
+      }).catch(error =>{
+        _SCActions.updateWidgetsLoading($ctrl.dashboard.widgets,this.keySkillStatus , false);
+        return error;
+      });
+
+    }
+
+    getWidgetUsers() {
+      _StatisticsService.getStatisticsUsers().then((result) => {
+
+        this.dataUsers = _SCActions.formatDataUsers(result.data);
+        _SCActions.updateWidgetsLoading($ctrl.dashboard.widgets, this.keyUsers, false);
+        this.promisesInterval.USERS.promise = _$interval(this.refreshUsers, this.refreshTime);
+
+      }).catch(error =>{
+        _SCActions.updateWidgetsLoading($ctrl.dashboard.widgets, this.keyUsers, false);
+        return error;
+      });
+
+    }
+
+    /*
+    * Action Button refresh
+    * */
+    refreshWidgets() {
+      this.refreshAgentState();
+      this.refreshSkills();
+      this.refreshUsers();
+    }
+
+    /*
+     * REFRESH ENDPOINTS
+     */
+    refreshAgentState () {
+      let canRefresh = _lodash.find($ctrl.dashboard.widgets,(value) => value.type === $ctrl.keyAgentState);
+
+      if(!_Utils.isUndefinedOrNull(canRefresh)) {
+        //$ctrl.dataAgentsState = [];
+        //$ctrl.infoAgentState = [];
+        //_SCActions.updateWidgetsLoading($ctrl.dashboard.widgets,$ctrl.keyAgentState, true);
+
+        _$q.all([
+          _StatisticsService.refreshStatisticsAgentState($ctrl.headersApiAgentsState,
+            parseInt($ctrl.promisesInterval.AGENTS_STATE.timestamp),$ctrl.longpollingtimeout),
+          _StatisticsService.refreshStatisticsSummary($ctrl.headersApiInfoAgentsState,
+            parseInt($ctrl.promisesInterval.INFO_AGENTS_STATE.timestamp),$ctrl.longpollingtimeout)
+        ]).then((promises) => {
+          $ctrl.dataAgentsState = _SCActions.formatRowsAgentState(promises[0].data.rows);
+          $ctrl.infoAgentState = _SCActions.formatRowsInfoAgentState(promises[1].data.rows);
+
+          $ctrl.promisesInterval.AGENTS_STATE.timestamp = promises[0].data.timestamp;
+          $ctrl.promisesInterval.INFO_AGENTS_STATE.timestamp = promises[1].data.timestamp;
+
+          _SCActions.updateWidgetsLoading($ctrl.dashboard.widgets,$ctrl.keyAgentState, false);
+        }).catch(error =>{
+          _SCActions.updateWidgetsLoading($ctrl.dashboard.widgets,$ctrl.keyAgentState, false);
+          return error;
+        });
+      }
+    }
+
+    refreshSkills () {
+      let canRefresh = _lodash.find($ctrl.dashboard.widgets,(value) => value.type === $ctrl.keySkillStatus);
+
+      if(!_Utils.isUndefinedOrNull(canRefresh)) {
+        //$ctrl.dataSkillStatus = [];
+        //_SCActions.updateWidgetsLoading($ctrl.dashboard.widgets,$ctrl.keySkillStatus, true);
+
+        _StatisticsService.refreshStatisticsSkillStatus($ctrl.headersApiSkillStatus,
+          parseInt($ctrl.promisesInterval.SKILLS.timestamp), $ctrl.longpollingtimeout).then((result) => {
+          $ctrl.dataSkillStatus = _SCActions.formatRowsSkills(result.data.rows);
+          $ctrl.promisesInterval.SKILLS.timestamp = result.data.timestamp;
+          _SCActions.updateWidgetsLoading($ctrl.dashboard.widgets,$ctrl.keySkillStatus, false);
+        }).catch(error =>{
+          _SCActions.updateWidgetsLoading($ctrl.dashboard.widgets,$ctrl.keySkillStatus, false);
+          return error;
+        });
+      }
+    }
+
+    refreshUsers() {
+      let canRefresh = _lodash.find($ctrl.dashboard.widgets,(value) => value.type === $ctrl.keyUsers);
+
+      if(!_Utils.isUndefinedOrNull(canRefresh)) {
+        //$ctrl.dataUsers = [];
+        //_SCActions.updateWidgetsLoading($ctrl.dashboard.widgets,$ctrl.keyUsers, true);
+
+        _StatisticsService.getStatisticsUsers().then((result) => {
+
+          $ctrl.dataUsers = _SCActions.formatDataUsers(result.data);
+          _SCActions.updateWidgetsLoading($ctrl.dashboard.widgets,$ctrl.keyUsers, false);
+
+        }).catch(error =>{
+          _SCActions.updateWidgetsLoading($ctrl.dashboard.widgets,$ctrl.keyUsers, false);
+          return error;
+        });
+      }
+    }
+
+    /*
+    * Get Info Summary(PopUp) Agents State*/
+    getInfoAgentState(username) {
+      return this.infoAgentState[username][0];
+    }
+
+    /*
+    * Watching by each widget
+    * */
+    watchWidgetXY(widget, saveDefer) {
+      let unregister = _$scope.$watch(function() {
+        return widget;
+      },function (newValue) {
+        if(!_Utils.isUndefinedOrNull(newValue.row) && !_Utils.isUndefinedOrNull(newValue.col)) {
+          saveDefer.resolve(newValue);
+          unregister();
+        }
+      });
+    }
+
+    addWidget(key) {
+      let widget = _SCActions.getWidget(key),
+          saveDefer = _$q.defer();
+
+      this.watchWidgetXY(widget, saveDefer);
+      this.dashboard.widgets.push(widget);
+
+      saveDefer.promise.then(() => {
+        //Send API --Save Widgets when col, row are defined .
+      });
+    }
+
+    removeWidget(widget) {
+      let position = this.dashboard.widgets.indexOf(widget);
+
+      if(position >= 0) {
+        this.dashboard.widgets.splice(position, 1);
+      }
+    }
+
+    configWidget(widget) {
+      this.widgetSettings = _lodash.cloneDeep(widget);
+
+      this.settingsModalInstance = _ModalManager.open({
+        animation: false,
+        size: 'md',
+        backdrop: 'static',
+        controllerAs: '$ctrl',
+        appendTo: angular.element('#statistics-settings-modal-container'),
+        template: '<statistics-settings-modal></statistics-settings-modal>'
+      });
+
+      this.settingsModalInstance.result
+        .then(result => {
+            if (result.isRemoved) {
+              this.removeWidget(widget);
+            }
+            else {
+              //send to update widget ((result.widget)
+              widget.name = result.widget.name;
+              widget.row = result.widget.row;
+              widget.col = result.widget.col;
+              widget.sizeX = result.widget.sizeX;
+              widget.sizeY = result.widget.sizeY;
+            }
+          },
+          () => {
+          });
+    }
+
+    enableRefreshAdd() {
+      let isLoading = false;
+      _lodash.forEach(this.dashboard.widgets, (value) => {
+        isLoading = isLoading || value.isLoading ;
+      });
+
+      return isLoading;
+    }
+
+    enableItemsAdd(key) {
+      return !_Utils.isUndefinedOrNull(_lodash.find(this.dashboard.widgets,(value) => value.type === key));
+    }
   }
 
-  SupervisorConsoleListsController.$inject = [];
+  SupervisorConsoleListsController.$inject = [
+    '$interval',
+    '$q',
+    '$scope',
+    'ModalManager',
+    'StatisticsService',
+    'SupervisorConsoleActions',
+    'Utils',
+    'lodash'
+  ];
 
   angular.module('fakiyaMainApp')
     .component('supervisor.console.lists',

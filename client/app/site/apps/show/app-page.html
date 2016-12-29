@@ -7,7 +7,7 @@
 <div class="row app-page" ng-show="$ctrl.application.appFullName">
     <h3 class="title_section col-md-12 col-sm-12">Five9 <span>{{$ctrl.application.appFullName}}</span>
     <a class="pull-right title-back" ui-sref="ap.apps">Back to apps</a></h3>
-    
+
     <div class="row">
         <div class="app-fixed-logo-container">
             <div class="app-page-img-container">
@@ -21,7 +21,7 @@
         </div>
         <div class="col-md-10 col-sm-9 app-page-detail">
             {{$ctrl.application.description}}
-            <div class="screen-container" ng-show="$ctrl.application.appStatus!==$ctrl.appStatus.COMING_SOON">
+            <div class="screen-container" ng-if="$ctrl.application.appName === 'al' || $ctrl.application.appName === 'rqa'">
                 <h4 class="app-page-subtitle">Screenshots</h4>
                 <div class="app-screens-container row">
                     <div class="app-screen-img">
@@ -46,9 +46,15 @@
             <div class="screen-container" ng-if="$ctrl.application.appName === 'sc'">
                 <h4 class="app-page-subtitle">Screenshots</h4>
                 <div class="app-screens-container row">
-                    <div class="app-screen-img">
-                        <img class="img-responsive" ng-src="assets/sc/images/screenshots/app-screen1.jpg" alt="screen1">
-                    </div>
+                  <div class="app-screen-img">
+                    <img class="img-responsive app-image-margin" ng-src="assets/sc/images/screenshots/app-screen1.jpg" alt="screen1">
+                  </div>
+                  <div class="app-screen-img">
+                    <img class="img-responsive app-image-margin" ng-src="assets/sc/images/screenshots/app-screen2.jpg" alt="screen2">
+                  </div>
+                  <div class="app-screen-img">
+                    <img class="img-responsive app-image-margin" ng-src="assets/sc/images/screenshots/app-screen3.jpg" alt="screen3">
+                  </div>
                 </div>
             </div>
             <div class="screen-container" ng-if="$ctrl.application.appName === 'ra'">
@@ -75,4 +81,4 @@
         </div>
       </div>
 </div>
-</div> 
+</div>

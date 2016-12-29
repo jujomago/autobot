@@ -11,6 +11,7 @@ angular.module('fakiyaMainApp', [
   'ngStorage',
   'ngMessages',
   'angular-jwt',
+  'angularMoment',
   'gridster'
 ])
   .config(function ($urlRouterProvider, $locationProvider, $httpProvider, $urlMatcherFactoryProvider) {

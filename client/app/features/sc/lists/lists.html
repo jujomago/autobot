@@ -7,18 +7,34 @@
     </div>
     <div class="row">
       <div class="title-container">
-        <img src="assets/sc/images/f9-sm.png">
+        <img src="assets/sc/images/f9-sm.png" height="90px">
         <span>Supervisor Console</span>
       </div>
 
       <div class="actions-container">
-        <div class="searchbox_container">
-          <input type="search"
-                 ng-model="$ctrl.search.name"
-                 class="searchbox sc-search"
-                 placeholder="Search"
-                 ng-change="$ctrl.filteringBySearch()">
-          <span class="sc-search"></span>
+        <div class="sc-icons-header">
+        <!--  <button class="icon-button-sc"
+                  ng-click="$ctrl.refreshWidgets()"
+                  data-ng-disabled="$ctrl.enableRefresh()"
+                  data-ng-class="{'disabled-refresh-add': $ctrl.enableRefreshAdd()}">
+            <span class="sc-icon sc-refresh"></span>
+          </button> -->
+        </div>
+        <div class="add-container">
+          <div class="dropdown-sc">
+            <button class="dropbtn-sc"
+                    data-ng-disabled="$ctrl.enableRefreshAdd()"
+                    data-ng-class="{'disabled-refresh-add': $ctrl.enableRefreshAdd()}">
+              Add
+            </button>
+            <div class="dropdown-content-sc">
+              <a data-ng-click="$ctrl.addWidget(option.key)"
+                 ng-repeat="option in $ctrl.widgetTypes"
+                 data-ng-class="{'disabled-refresh-add': $ctrl.enableRefreshAdd() || $ctrl.enableItemsAdd(option.key)}">
+                {{option.label}}
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -32,28 +48,39 @@
     </div>
   </div>
   <div class="sc-body">
-    <div gridster="$ctrl.gridOptions" class="left-item">
+    <div gridster="$ctrl.dashboardOptions" class="left-item">
       <ul>
-        <li gridster-item="item"
-            ng-repeat="item in $ctrl.standardItems">
-          <div class="sc-box">
-
+        <li gridster-item="widget"
+            ng-repeat="widget in $ctrl.dashboard.widgets">
+            <div class="flex-container-sc" ng-show="widget.isLoading">
+            <div class="loading-container-sc">
+              <img src="/assets/rqa/images/Loading.gif">
+              <p>Loading</p>
+            </div> 
+          </div> 
+          <div class="sc-box" ng-show="!widget.isLoading">
             <div class="sc-box-header">
               <div class="title">
-                {{item.name}}
+                {{widget.name}}
               </div>
               <div class="container-buttons-table">
                 <button class="icon-button-sc">
                   <span class="sc-icon sc-reports"></span>
-                  </button>
-                  <button class="icon-button-sc" ng-class="{'active': true}">
+                </button>
+                <button class="icon-button-sc" ng-class="{'active': true}">
                   <span class="sc-icon sc-bar"></span>
+                </button>
+                <button class="icon-button-sc" ng-click="$ctrl.configWidget(widget)">
+                  <span class="sc-icon sc-cog"></span>
+                </button>
+                <button class="icon-button-sc-danger" ng-click="$ctrl.removeWidget(widget)">
+                  <span class="sc-icon sc-trash"></span>
                 </button>
               </div>
             </div>
 
             <div class="box-content">
-              <div class="row content-table" data-ng-include="item.template"></div>
+              <div class="row content-table" data-ng-include="widget.template"></div>
             </div>
           </div>
         </li>
@@ -61,4 +88,6 @@
     </div>
   </div>
 </div>
+
+<div id="statistics-settings-modal-container"></div>
 

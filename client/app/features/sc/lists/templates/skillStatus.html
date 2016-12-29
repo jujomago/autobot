@@ -17,10 +17,10 @@
         <td>
           {{ skill.onCall}}
         </td>
-        <td ng-class="skill.class">
+        <td ng-class="skill.classInReady">
           {{skill.inReady}}
         </td>
-        <td ng-class="skill.classQueue">
+        <td ng-class="skill.classCallsQueue">
           {{skill.callsInQueue}}
         </td>
         <td>
@@ -28,9 +28,6 @@
         </td>
         <td>
           {{skill.longestWait}}
-        </td>
-        <td>
-          {{skill.callTimeQueue}}
         </td>
       </tr>
     </tbody>

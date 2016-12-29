@@ -92,7 +92,7 @@ class HomeComponent {
   	this.openedPopups['default'] = false;
   	this.openedPopups.date = false;
   	keys.forEach(key => {
-  		this.openedPopups[key] = false; 
+  		this.openedPopups[key] = false;
   	});
   	this.selectedPopover = null;
   }

@@ -9,12 +9,15 @@
     <tbody>
       <tr ng-repeat="agent in $ctrl.dataAgentsState">
       <td>
-      <abx-tooltip model="agent.info"></abx-tooltip>
+        <div class="abx-tooltip">
+          <abx-tooltip model="$ctrl.getInfoAgentState(agent.username)"></abx-tooltip>
+          {{agent.username}}
+        </div>
       </td>
       <td>
         {{agent.fullName}}
       </td>
-      <td ng-class="agent.class">
+      <td ng-class="agent.classState">
         {{ agent.state}}
       </td>
       <td ng-class="agent.classDuration">
@@ -22,9 +25,6 @@
       </td>
       <td>
         {{agent.callType}}
-      </td>
-      <td>
-        {{agent.reason}}
       </td>
       <td>
         {{agent.reasonDuration}}
