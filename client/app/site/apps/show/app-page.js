@@ -5,6 +5,9 @@ angular.module('fakiyaMainApp')
     $stateProvider
       .state('ap.page', {
         url: '/apps/:appName',
-        template: '<apppage></apppage>' 
+        template: '<apppage></apppage>' ,
+          params:{
+            service:null
+          }
       });
   });
