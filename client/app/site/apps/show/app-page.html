@@ -12,7 +12,7 @@
         <div class="app-fixed-logo-container">
             <div class="app-page-img-container">
                 <img class="img-responsive" ng-src="assets/{{$ctrl.application.appName}}/images/logo-sm.jpg" abx-default-image-switch="/assets/default/images/logo-sm.jpg" alt="logo {{$ctrl.application.appFullName}}" />
-                <div ng-show="$ctrl.application.appStatus!==$ctrl.appStatus.COMING_SOON && $ctrl.application.appName === 'al'">
+                <div ng-show="!$ctrl.serviceApp && $ctrl.application.appStatus!==$ctrl.appStatus.COMING_SOON">
                     <button class="btn btn-black" ng-show="$ctrl.application.isInstalled" ng-click="$ctrl.selectInstalledApp()">Open</button>
                     <button class="btn btn-black" ng-show="!$ctrl.application.isInstalled" ng-click="$ctrl.selectNoInstalledApp()">Get</button>
                     <p ng-repeat="requirement in $ctrl.application.appRequirements">{{requirement}}</p>
