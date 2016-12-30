@@ -76,11 +76,11 @@
 
       //$interval promises
       this.promisesInterval = {};
-      this.refreshTime = 30000; //30 Seconds
+      this.refreshTime = 35000; //35 Seconds
 
-      //Is 2000ms as the recommended value for longPollingTimeout.
+      //Is 5000ms as the recommended value for longPollingTimeout.
       //Statistics Web Services API Reference Guide
-      this.longpollingtimeout = 2000;
+      this.longpollingtimeout = 5000;
 
     }
 
