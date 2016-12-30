@@ -22,7 +22,7 @@
 				this.getApp();				
 			}else{			
 				this.application =  {
-					appName: this.serviceApp.path,
+					appName: this.serviceApp.name,
 					appFullName: this.serviceApp.fullName,
 					description: this.serviceApp.description,
 					list: this.serviceApp.list,
