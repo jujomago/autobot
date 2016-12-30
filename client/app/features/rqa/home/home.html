@@ -8,7 +8,7 @@
     		<span class="rqa-icon rqa-refresh"></span>
     	</button>
 		<div class="display-inline-block fixed-margin-left-10">
-			<button class="icon-button"  ng-click="$ctrl.selectReports()" ng-class="{'active': $ctrl.open && !$ctrl.isFilter}">
+			<button class="icon-button">
 				<span class="rqa-icon rqa-reports"></span>
 			</button>
 			<button class="icon-button" ng-click="$ctrl.switchFilters()" ng-class="{'active': $ctrl.open && $ctrl.isFilter}">
@@ -131,14 +131,7 @@
 							{{call['DISPOSITION']}}
 						</td>
 						<td>
-							<a href="https://s3-us-west-1.amazonaws.com/enterprise9/Demo/recording001.wma" download>
-								{{call['RECORDINGS']}}
-							</a>
-						</td>
-						<td>
-							<a href uib-popover-template="'score'" popover-class="abx-popover" popover-trigger="mouseenter" popover-placement="left" ng-click="$ctrl.openModal()">
-								50
-							</a>
+							{{call['RECORDINGS']}}
 						</td>
 					</tr>
 				</tbody>
