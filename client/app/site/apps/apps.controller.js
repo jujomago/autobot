@@ -4,6 +4,7 @@
     let _$state, _$anchorScroll, _$stateParams;
     let _GetHomePage;
 
+
     class AppsComponent {
         constructor($stateParams, $state, $anchorScroll, AppsService, GetHomePage, EnumManager, DummyServices) {
             this.partners = [];
