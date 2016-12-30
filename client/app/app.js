@@ -10,7 +10,9 @@ angular.module('fakiyaMainApp', [
   'ui.mask',
   'ngStorage',
   'ngMessages',
-  'angular-jwt'
+  'angular-jwt',
+  'angularMoment',
+  'gridster'
 ])
   .config(function ($urlRouterProvider, $locationProvider, $httpProvider, $urlMatcherFactoryProvider) {
     $urlRouterProvider.otherwise('/404');
@@ -38,17 +40,17 @@ angular.module('fakiyaMainApp', [
       }
     };
     Global.maxSize=7;
-    angular.element($window).on('resize', function () {				
-				let widthWindow = $window.innerWidth;				       
+    angular.element($window).on('resize', function () {
+				let widthWindow = $window.innerWidth;
 				if(widthWindow<=870)
 				{
-					Global.maxSize=3;                  
+					Global.maxSize=3;
 				}
 				else
 				{
-					Global.maxSize=7;           
+					Global.maxSize=7;
 				}
-			});      
+			});
 
     //--------Temporary patch, this will be removed---------------------
     $rootScope.$on('$stateChangeStart', function (event,toState,toParams) {

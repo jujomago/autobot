@@ -1,0 +1,37 @@
+  <table class="sc-table">
+    <thead>
+      <tr>
+        <th ng-repeat="header in $ctrl.headersAgentsState">
+          {{header}}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="agent in $ctrl.dataAgentsState">
+      <td>
+        <div class="abx-tooltip">
+          <abx-tooltip model="$ctrl.getInfoAgentState(agent.username)"></abx-tooltip>
+          {{agent.username}}
+        </div>
+      </td>
+      <td>
+        {{agent.fullName}}
+      </td>
+      <td ng-class="agent.classState">
+        {{ agent.state}}
+      </td>
+      <td ng-class="agent.classDuration">
+        {{agent.stateDuration}}
+      </td>
+      <td>
+        {{agent.callType}}
+      </td>
+      <td>
+        {{agent.reasonDuration}}
+      </td>
+      <td>
+        {{agent.reasonSince}}
+      </td>
+      </tr>
+    </tbody>
+  </table>

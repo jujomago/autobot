@@ -1,0 +1,28 @@
+  <table class="sc-table">
+    <thead>
+      <tr>
+        <th ng-repeat="header in $ctrl.headersUsers">
+          {{header}}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="user in $ctrl.dataUsers">
+        <td>
+          {{user.username}}
+        </td>
+       <!-- <td>
+          {{user.fullName}}
+        </td> -->
+        <td>
+          {{ user.accountType}}
+        </td>
+        <!-- <td>
+          {{ user.sessionStart}}
+        </td>
+        <td>
+          {{ user.station}}
+        </td> -->
+      </tr>
+    </tbody>
+  </table>

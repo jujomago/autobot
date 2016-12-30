@@ -1,0 +1,59 @@
+<div>
+  <form name="_form" class="form-horizontal" ng-submit="submit(_form)">
+    <div class="modal-header">
+      <button type="button" class="close" ng-click="$ctrl.cancel()" aria-hidden="true">&times;</button>
+      <h3>Widget Settings</h3>
+    </div>
+
+    <div class="modal-body">
+      <div class="form-group" ng-class="{error: _form.name.$error && _form.submitted}">
+        <label class="control-label col-md-3">Name</label>
+        <div class="col-md-9">
+          <input name="name" type="text" ng-model="$ctrl.widget.name" class="form-control" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group" ng-class="{error: _form.sizeX.$error && _form.submitted}">
+            <label class="control-label col-md-6">Width</label>
+            <div class="col-md-6">
+              <input name="sizeX" ng-model="$ctrl.widget.sizeX" class="form-control" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label col-md-6">Height</label>
+            <div class="col-md-6">
+              <input name="sizeY" ng-model="$ctrl.widget.sizeY" class="form-control" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group" ng-class="{error: _form.sizeX.$error && _form.submitted}">
+            <label class="control-label col-md-6">Column</label>
+            <div class="col-md-6">
+              <input name="col" ng-model="$ctrl.widget.col" class="form-control" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label col-md-6">Row</label>
+            <div class="col-md-6">
+              <input name="row" ng-model="$ctrl.widget.row" class="form-control" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <a ng-click="$ctrl.remove()" class="btn btn-danger pull-left" tabindex="-1">Delete</a>
+      <a ng-click="$ctrl.cancel()" class="btn btn-default" tabindex="-1">Cancel</a>
+      <button ng-click="$ctrl.save()" class="btn btn-primary">Save</button>
+    </div>
+  </form>
+</div>

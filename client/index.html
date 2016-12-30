@@ -13,6 +13,7 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(client) app/vendor.css -->
       <!-- bower:css -->
+      <link rel="stylesheet" href="bower_components/angular-gridster/dist/angular-gridster.css" />
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -60,13 +61,18 @@
       <script src="bower_components/angular-messages/angular-messages.js"></script>
       <script src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
       <script src="bower_components/angular-ui-mask/dist/mask.js"></script>
+      <script src="bower_components/javascript-detect-element-resize/detect-element-resize.js"></script>
+      <script src="bower_components/angular-gridster/src/angular-gridster.js"></script>
+      <script src="bower_components/moment/moment.js"></script>
+      <script src="bower_components/angular-moment/angular-moment.js"></script>
+      <script src="bower_components/moment-timezone/builds/moment-timezone-with-data-2010-2020.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:js(.tmp) app/app.js -->
       <script src="app/app.js"></script>
       <!-- injector:js -->
       <script src="components/util/util.module.js"></script>
-      <script src="app/features/al/lists/edit/upload/checkDNCModal/checkDNCModal.js"></script>
+      <script src="app/features/al/lists/edit/upload/contactModal/contactModal.controller.js"></script>
       <script src="app/directives/abxAutoPlacementPopover/abxAutoPlacementPopover.directive.js"></script>
       <script src="app/directives/abxCheckPhone/abxCheckPhone.directive.js"></script>
       <script src="app/directives/abxClosableMessage/abxClosableMessage.directive.js"></script>
@@ -90,9 +96,11 @@
       <script src="app/directives/abxTooltip/abxTooltip.directive.js"></script>
       <script src="app/factories/AccountManager/AccountManager.service.js"></script>
       <script src="app/factories/Actions/List/EditListActions.service.js"></script>
+      <script src="app/factories/Actions/SC/SupervisorConsoleActions.service.js"></script>
       <script src="app/factories/AlertDialog/AlertDialog.service.js"></script>
       <script src="app/factories/Base64Manager/Base64Manager.service.js"></script>
       <script src="app/factories/ConfirmAsync/ConfirmAsync.service.js"></script>
+      <script src="app/factories/DateTime/DateTime.service.js"></script>
       <script src="app/factories/DncMessages/DncMessages.service.js"></script>
       <script src="app/factories/DummyServices/DummyServices.service.js"></script>
       <script src="app/factories/EnumManager/EnumManager.service.js"></script>
@@ -152,8 +160,8 @@
       <script src="app/features/al/lists/edit/mapping/mapping.controller.js"></script>
       <script src="app/features/al/lists/edit/setting/setting.controller.js"></script>
       <script src="app/features/al/lists/edit/upload/checkDNCModal/checkDNCModal.controller.js"></script>
+      <script src="app/features/al/lists/edit/upload/checkDNCModal/checkDNCModal.js"></script>
       <script src="app/directives/abxAutoFocus/abxAutoFocus.directive.js"></script>
-      <script src="app/features/al/lists/edit/upload/contactModal/contactModal.controller.js"></script>
       <script src="app/features/al/lists/edit/upload/contactModal/contactModal.js"></script>
       <script src="app/features/al/lists/edit/upload/upload.controller.js"></script>
       <script src="app/features/al/lists/list/list.controller.js"></script>
@@ -179,6 +187,8 @@
       <script src="app/features/rqa/home/qaFormModal/qaFormModal.controller.js"></script>
       <script src="app/features/rqa/home/qaFormModal/qaFormModal.js"></script>
       <script src="app/features/sc/lists/lists.controller.js"></script>
+      <script src="app/features/sc/lists/statisticsSettingsModal/statisticsSettingsModal.controller.js"></script>
+      <script src="app/features/sc/lists/statisticsSettingsModal/statisticsSettingsModal.js"></script>
       <script src="app/features/sc/sc.js"></script>
       <script src="app/filters/camelToHuman/camelToHuman.filter.js"></script>
       <script src="app/filters/removeUnderscore/removeUnderscore.filter.js"></script>
@@ -195,6 +205,8 @@
       <script src="app/services/f9/ReportsService/ReportsService.service.js"></script>
       <script src="app/services/f9/SkillsService/SkillsService.service.js"></script>
       <script src="app/services/f9/UsersService/UsersService.service.js"></script>
+      <script src="app/services/sc/ConfigurationsService/ConfigurationsService.service.js"></script>
+      <script src="app/services/sc/StatisticsService/StatisticsService.service.js"></script>
       <script src="app/site/404/404.controller.js"></script>
       <script src="app/site/404/404.js"></script>
       <script src="app/site/accounts/activate/activation.controller.js"></script>
