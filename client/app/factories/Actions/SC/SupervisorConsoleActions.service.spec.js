@@ -117,10 +117,10 @@ describe('Service:SupervisorConsoleActions', () => {
         key: 'USERS',
         ui: [
           'USERNAME',
-          'FULL NAME',
-          'ACCOUNT TYPE',
-          'SESSION START',
-          'STATION'
+         // 'FULL NAME',
+          'ACCOUNT TYPE'
+         // 'SESSION START',
+         // 'STATION'
         ],
         api: ''//UsersAPI has not headers, is a Object.
       },
@@ -432,23 +432,23 @@ describe('Service:SupervisorConsoleActions', () => {
                 },
                 {
                   'label':'Avg Call Time',
-                  'value':'0'
+                  'value':'00:00:00'
                 },
                 {
                   'label':'Avg Wrap Time',
-                  'value':'0'
+                  'value':'00:00:00'
                 },
                 {
                   'label':'Avg Idle Time',
-                  'value':'0'
+                  'value':'00:00:00'
                 },
                 {
                   'label':'Avg Not Ready Time',
-                  'value':'0'
+                  'value':'00:00:00'
                 },
                 {
                   'label':'Avg Handle Time',
-                  'value':'0'
+                  'value':'00:00:00'
                 }
               ]
             }
@@ -467,23 +467,23 @@ describe('Service:SupervisorConsoleActions', () => {
                 },
                 {
                   'label':'Avg Call Time',
-                  'value':'0'
+                  'value':'00:00:00'
                 },
                 {
                   'label':'Avg Wrap Time',
-                  'value':'0'
+                  'value':'00:00:00'
                 },
                 {
                   'label':'Avg Idle Time',
-                  'value':'0'
+                  'value':'00:00:00'
                 },
                 {
                   'label':'Avg Not Ready Time',
-                  'value':'0'
+                  'value':'00:00:00'
                 },
                 {
                   'label':'Avg Handle Time',
-                  'value':'0'
+                  'value':'00:00:00'
                 }
               ]
             }
@@ -502,29 +502,28 @@ describe('Service:SupervisorConsoleActions', () => {
                 },
                 {
                   label:'Avg Call Time',
-                  value:'0'
+                  value:'00:00:00'
                 },
                 {
                   label:'Avg Wrap Time',
-                  value:'0'
+                  value:'00:00:00'
                 },
                 {
                   label:'Avg Idle Time',
-                  value:'0'
+                  value:'00:00:00'
                 },
                 {
                   label:'Avg Not Ready Time',
-                  value:'0'
+                  value:'00:00:00'
                 },
                 {
                   label:'Avg Handle Time',
-                  value:'0'
+                  value:'00:00:00'
                 }
               ]
             }
           ]
         };
-
         expect(_SCActions.formatRowsInfoAgentState(DATA_REQUEST.INFO_AGENTS_STATE.rows)).to.deep.equal(EXPECTED);
       });
 

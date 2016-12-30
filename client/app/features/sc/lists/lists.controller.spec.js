@@ -171,10 +171,10 @@ describe('Component: SupervisorConsoleDashboard', () => {
         key: 'USERS',
         ui: [
           'USERNAME',
-          'FULL NAME',
-          'ACCOUNT TYPE',
-          'SESSION START',
-          'STATION'
+          //'FULL NAME',
+          'ACCOUNT TYPE'
+          //'SESSION START',
+          //'STATION'
         ],
         api: ''//UsersAPI has not headers, is a Object.
       },
@@ -485,23 +485,23 @@ describe('Component: SupervisorConsoleDashboard', () => {
               },
               {
                 'label':'Avg Call Time',
-                'value':'0'
+                'value':'00:00:00'
               },
               {
                 'label':'Avg Wrap Time',
-                'value':'0'
+                'value':'00:00:00'
               },
               {
                 'label':'Avg Idle Time',
-                'value':'0'
+                'value':'00:00:00'
               },
               {
                 'label':'Avg Not Ready Time',
-                'value':'0'
+                'value':'00:00:00'
               },
               {
                 'label':'Avg Handle Time',
-                'value':'0'
+                'value':'00:00:00'
               }
             ]
           }
@@ -520,23 +520,23 @@ describe('Component: SupervisorConsoleDashboard', () => {
               },
               {
                 'label':'Avg Call Time',
-                'value':'0'
+                'value':'00:00:00'
               },
               {
                 'label':'Avg Wrap Time',
-                'value':'0'
+                'value':'00:00:00'
               },
               {
                 'label':'Avg Idle Time',
-                'value':'0'
+                'value':'00:00:00'
               },
               {
                 'label':'Avg Not Ready Time',
-                'value':'0'
+                'value':'00:00:00'
               },
               {
                 'label':'Avg Handle Time',
-                'value':'0'
+                'value':'00:00:00'
               }
             ]
           }
@@ -555,23 +555,23 @@ describe('Component: SupervisorConsoleDashboard', () => {
               },
               {
                 label:'Avg Call Time',
-                value:'0'
+                value:'00:00:00'
               },
               {
                 label:'Avg Wrap Time',
-                value:'0'
+                value:'00:00:00'
               },
               {
                 label:'Avg Idle Time',
-                value:'0'
+                value:'00:00:00'
               },
               {
                 label:'Avg Not Ready Time',
-                value:'0'
+                value:'00:00:00'
               },
               {
                 label:'Avg Handle Time',
-                value:'0'
+                value:'00:00:00'
               }
             ]
           }
@@ -680,23 +680,23 @@ describe('Component: SupervisorConsoleDashboard', () => {
             },
             {
               'label':'Avg Call Time',
-              'value':'0'
+              'value':'00:00:00'
             },
             {
               'label':'Avg Wrap Time',
-              'value':'0'
+              'value':'00:00:00'
             },
             {
               'label':'Avg Idle Time',
-              'value':'0'
+              'value':'00:00:00'
             },
             {
               'label':'Avg Not Ready Time',
-              'value':'0'
+              'value':'00:00:00'
             },
             {
               'label':'Avg Handle Time',
-              'value':'0'
+              'value':'00:00:00'
             }
           ]
         },
@@ -713,23 +713,23 @@ describe('Component: SupervisorConsoleDashboard', () => {
             },
             {
               label:'Avg Call Time',
-              value:'0'
+              value:'00:00:00'
             },
             {
               label:'Avg Wrap Time',
-              value:'0'
+              value:'00:00:00'
             },
             {
               label:'Avg Idle Time',
-              value:'0'
+              value:'00:00:00'
             },
             {
               label:'Avg Not Ready Time',
-              value:'0'
+              value:'00:00:00'
             },
             {
               label:'Avg Handle Time',
-              value:'0'
+              value:'00:00:00'
             }
           ]
         },
@@ -746,23 +746,23 @@ describe('Component: SupervisorConsoleDashboard', () => {
             },
             {
               'label':'Avg Call Time',
-              'value':'0'
+              'value':'00:00:00'
             },
             {
               'label':'Avg Wrap Time',
-              'value':'0'
+              'value':'00:00:00'
             },
             {
               'label':'Avg Idle Time',
-              'value':'0'
+              'value':'00:00:00'
             },
             {
               'label':'Avg Not Ready Time',
-              'value':'0'
+              'value':'00:00:00'
             },
             {
               'label':'Avg Handle Time',
-              'value':'0'
+              'value':'00:00:00'
             }
           ]
         }
@@ -806,23 +806,23 @@ describe('Component: SupervisorConsoleDashboard', () => {
                     },
                     {
                       'label':'Avg Call Time',
-                      'value':'0'
+                      'value':'00:00:00'
                     },
                     {
                       'label':'Avg Wrap Time',
-                      'value':'0'
+                      'value':'00:00:00'
                     },
                     {
                       'label':'Avg Idle Time',
-                      'value':'0'
+                      'value':'00:00:00'
                     },
                     {
                       'label':'Avg Not Ready Time',
-                      'value':'0'
+                      'value':'00:00:00'
                     },
                     {
                       'label':'Avg Handle Time',
-                      'value':'0'
+                      'value':'00:00:00'
                     }
                   ]
                 }
