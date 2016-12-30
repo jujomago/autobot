@@ -4,9 +4,8 @@
 	let _AppsService, _GetHomePage;
 	class AppPageComponent {
 
-		constructor($stateParams, $state, AppsService, GetHomePage, EnumManager) {
-			this.appName = $stateParams.appName;
-			this.serviceApp = $stateParams.service;
+		constructor($stateParams, $state, AppsService, GetHomePage, EnumManager,DummyServices) {
+			this.appName = $stateParams.appName;			
 			this.appDescription = $stateParams.description;
 			this.appList = $stateParams.list;	
 			this.message = { show: false };
@@ -16,14 +15,12 @@
 			this.application = {};
 			_$state = $state;
 			this.name = '';
-			
+			this.serviceApp=DummyServices.getData(this.appName)[0];
 		}
 		$onInit() {
-			console.log(this.serviceApp);			
-			if(this.serviceApp===null){				
+			if(['tfsg','tfss','tfsb','ccc'].indexOf(this.appName)===-1){						
 				this.getApp();				
-			}
-			else{				
+			}else{			
 				this.application =  {
 					appName: this.serviceApp.path,
 					appFullName: this.serviceApp.fullName,
@@ -56,7 +53,7 @@
 		}
 	}
 
-	AppPageComponent.$inject = ['$stateParams', '$state', 'AppsService', 'GetHomePage', 'EnumManager'];
+	AppPageComponent.$inject = ['$stateParams', '$state', 'AppsService', 'GetHomePage', 'EnumManager','DummyServices'];
 
 	angular.module('fakiyaMainApp')
 		.component('apppage', {
