@@ -1,7 +1,7 @@
 (function(){
   'use strict';
   let _ConfirmAsync, _ListService, _lodash, _ContactFieldsService, ctrl, _FieldFormatter, _EditListActions ,_Utils, _$state, _$stateParams,
-      _$filter, _ModalManager, _PromptDialog, _AlertDialog, _phones, _registeredPhones;
+      _$filter, _ModalManager, _PromptDialog, _AlertDialog, _phones, _registeredPhones, _DncMessages;
 
   const DNC_ERROR_MESSAGE = {title: 'DNC Scrub', body: 'All your records have been found valid.\nYou may continue uploading the list.'};
   function _registerPhone(contact, key){
@@ -111,7 +111,8 @@ class UploadListController {
         AlertDialog,
         Utils,
         EditListActions,
-        Global
+        Global,
+        DncMessages
       ) {
       this.currentPage = 1;
       this.sortKey = '';
@@ -148,6 +149,7 @@ class UploadListController {
       _PromptDialog = PromptDialog;
       _ContactFieldsService = ContactFieldsService;
       _AlertDialog = AlertDialog;
+      _DncMessages=DncMessages;
       _Utils = Utils;
       _EditListActions = EditListActions;
       this.listName = _$stateParams.name;
@@ -386,31 +388,64 @@ class UploadListController {
     return _FieldFormatter.formatField(field, value);
   }
   removeDnc(list){
-    let invalids = list
-    .reduce((map, item)=>{
-      map[item.phone] = true;
-      return map;
-    }, {});
+
+    let invalids=list;
     let rows = [];
-    _lodash.each(this.list, (contact, index) => {
+    let numInvalidContacts=0;
+    let messageBody='';
+   _lodash.each(this.list, (contact, index) => {
       let item = [];
-      if(invalids[contact.number1]){
-        item.push('Number1');
+      let reason=[];
+      let indexNumber1=_lodash.findIndex(invalids,{'phone':contact.number1});
+      let indexNumber2=_lodash.findIndex(invalids,{'phone':contact.number2});
+      let indexNumber3=_lodash.findIndex(invalids,{'phone':contact.number3});
+
+
+      if(indexNumber1>=0){
+          item.push('Number1');
+          reason.push(_DncMessages.getMessage(invalids[indexNumber1].status));
       }
-      if(invalids[contact.number2]){
-        item.push('Number2');
+
+      if(indexNumber2>=0){
+          item.push('Number2');
+          reason.push(_DncMessages.getMessage(invalids[indexNumber2].status));
       }
-      if(invalids[contact.number3]){
-        item.push('Number3');
+
+      if(indexNumber3>=0){
+          item.push('Number3');
+          reason.push(_DncMessages.getMessage(invalids[indexNumber3].status));
       }
+
       if(item.length===0){
-        this.valids.push(contact);
-      }
-      else{
-        rows.push([index+1, item.join(', ')]);
+          this.valids.push(contact);
+      }else{
+          numInvalidContacts++;
+          let curIndex=index+1;
+          _lodash.each(item,(el,i)=>{
+               rows.push([curIndex, el, reason[i]]);
+          });
       }
     });
-    return _PromptDialog.open({title: 'DNC Scrub', body: `${rows.length} of ${this.list.length} records have been found invalid.\nYou may remove the invalid records before updating the list.`, listDetail: {headerList: 'Invalid records', cols: ['Line', 'Field'], rows: rows}}, {okText: 'Remove records'});
+
+    if(numInvalidContacts>1){
+
+      messageBody=`${numInvalidContacts} of ${this.list.length} ${(this.list.length>1)?'records':'record'} have`;
+    }else{
+      messageBody=`${numInvalidContacts} of ${this.list.length} ${(this.list.length>1)?'records':'record'} has`;
+    }
+    return _PromptDialog.open({
+            title: 'DNC Scrub',
+            body: `${messageBody} been found invalid.\nYou may remove the invalid records before updating the list.`,
+            listDetail: {
+                headerList: 'Invalid records',
+                cols: ['Line', 'Field','Reason'],
+                rows: rows
+            }
+        },
+        {
+            okText: 'Remove records',
+            cancelText:'Keep records'
+        });
   }
   generatePhones(){
     this.phones = _loadPhones(this.list);
@@ -466,7 +501,8 @@ class UploadListController {
   'AlertDialog',
   'Utils',
   'EditListActions',
-  'Global'
+  'Global',
+  'DncMessages'
 ];
 angular.module('fakiyaMainApp')
   .component('alUploadList', {
@@ -476,5 +512,4 @@ angular.module('fakiyaMainApp')
     templateUrl: 'app/features/al/lists/edit/upload/upload.html',
     controller: UploadListController
   });
-
 })();

@@ -90,8 +90,34 @@
         padding-top: 15px;
         padding-left: 8px;
     }
+
+    .table-both-scrolls{
+      width: 100%;
+      max-height: 199px;
+      overflow: auto;
+      margin-bottom: 20px;
+      border-color:#e6e6e6;
+      border-style: solid;
+      border-width:0 1px;
+/*      -ms-overflow-style: -ms-autohiding-scrollbar;
+
+      -webkit-overflow-scrolling: touch;*/
+      .table-summary{
+        margin-bottom: 0;
+        @media (min-width: 768px) {
+          table-layout: inherit;
+        }
+        thead th{
+          padding-right: 85px;
+        }
+        .wrapText span{
+            white-space: nowrap;
+        }
+      }
+    }
+
     .table-summary{
-        border: 1px solid @gray;
+        //border: 1px solid @gray;
         border-top:0;
         border-bottom: 0;
         caption,thead th{

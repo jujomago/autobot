@@ -1,9 +1,11 @@
 <div class="al-theme dnc-modal">
     <div class="modal-header" ng-class="{ 'fixed-bottom-50': $ctrl.validating}">
-    	<div class="close-container">
+    	  <div class="close-container">
         	<button type="button" class="close circle_close_alert" ng-click="$ctrl.dismiss()"></button>
         </div>
-        <h4 class="modal-title">DNC Scrub</h4>
+        <div class="dnclogo">
+          <img src="assets/default/images/dncscrublogo.gif" alt="dnc scrub logo">
+        </div>
         <p class="header-instructions" ng-if="!$ctrl.validating">Please enter your login ID</p>
     </div>
     <div class="modal-body">
@@ -11,21 +13,22 @@
             <form name="formList" novalidate ng-submit="formList.$valid && $ctrl.validate()" class="custom_form dnc-form form-horizontal">
                 <div class="fixed-margin-bottom-30">
     				<div class="inputminimal" ng-class="{ 'has-error': formList['login-id'].$validatenvalid && formList.$submitted }">
-    					<label for="id">Login ID</label>					
+    					<label for="id">Login ID</label>
     					<span>
     						<input type="text" name="login-id" required="true" ng-model="$ctrl.loginId" ng-change="$ctrl.changeText()"/>
     					</span>
     				</div>
                     <div class="errorMessagesModal" ng-messages="formList['login-id'].$error" ng-show="formList.$submitted || formList['login-id'].$dirty || $ctrl.errorId">
                         <p ng-message="required">This field is required</p>
-                        <p ng-show="$ctrl.errorId">Invalid Login ID</p>          
+                        <p ng-show="$ctrl.errorId">Invalid Login ID</p>
                     </div>
                 </div>
                 <div class="modal-button-container remove-spaces-inline">
-                  <button class="btn btn-blue" type="submit">Validate</button>
+                  <button class="btn btn-blue" type="submit">Validate</button><br/>
+                    <a href="mailto:dnc@autoboxcorp.com?subject=Request for DNC account" class="linkmail">Need a DNC scrub account?</a>
                 </div>  
             </form>
-	        
+
         </div>
         <div ng-if="$ctrl.validating">
         	 <div  class="loader_indicator">

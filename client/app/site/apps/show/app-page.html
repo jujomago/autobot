@@ -5,14 +5,14 @@
 
 
 <div class="row app-page" ng-show="$ctrl.application.appFullName">
-    <h3 class="title_section col-md-12 col-sm-12">Five9 <span>{{$ctrl.application.appFullName}}</span>
+    <h3 class="title_section col-md-12 col-sm-12">{{$ctrl.application.partner}} <span>{{$ctrl.application.appFullName}}</span>
     <a class="pull-right title-back" ui-sref="ap.apps">Back to apps</a></h3>
 
     <div class="row">
         <div class="app-fixed-logo-container">
             <div class="app-page-img-container">
                 <img class="img-responsive" ng-src="assets/{{$ctrl.application.appName}}/images/logo-sm.jpg" abx-default-image-switch="/assets/default/images/logo-sm.jpg" alt="logo {{$ctrl.application.appFullName}}" />
-                <div ng-show="$ctrl.application.appStatus!==$ctrl.appStatus.COMING_SOON">
+                <div ng-show="$ctrl.application.appStatus!==$ctrl.appStatus.COMING_SOON && $ctrl.application.appName === 'al'">
                     <button class="btn btn-black" ng-show="$ctrl.application.isInstalled" ng-click="$ctrl.selectInstalledApp()">Open</button>
                     <button class="btn btn-black" ng-show="!$ctrl.application.isInstalled" ng-click="$ctrl.selectNoInstalledApp()">Get</button>
                     <p ng-repeat="requirement in $ctrl.application.appRequirements">{{requirement}}</p>
@@ -21,7 +21,8 @@
         </div>
         <div class="col-md-10 col-sm-9 app-page-detail">
             {{$ctrl.application.description}}
-            <div class="screen-container" ng-if="$ctrl.application.appName === 'al'">
+            <div ng-bind-html="$ctrl.application.list"></div>
+            <div class="screen-container" ng-show="$ctrl.application.appStatus!==$ctrl.appStatus.COMING_SOON && $ctrl.application.appName === 'al'">
                 <h4 class="app-page-subtitle">Screenshots</h4>
                 <div class="app-screens-container row">
                     <div class="app-screen-img">
