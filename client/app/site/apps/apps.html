@@ -1,7 +1,7 @@
 <div class="theme-full-height">
 	<div class="row al-theme" >
 		<section class="row apps-page-container">
-			<h3 class="title_section">Autobox apps</h3>
+			<h3 class="title_section">Autobox Apps and Services</h3>
 			<div class="center-loading" ng-if="!$ctrl.found">
 				<abx-load-indicator text="Loading Apps"> </abx-load-indicator>
 			</div>
@@ -41,6 +41,27 @@
 					</div>
 				</div>
 			</div>
+      <div class="partner-container" ng-if="$ctrl.found">
+        <b>Services</b>
+        <div class="rows apps-container">
+          <div class="col-md-2-5 col-sm-6 col-xs-12" ng-repeat="item in $ctrl.services">
+            <div class="image-container">
+              <a ui-sref="ap.page({appName: item.name, service:item})">
+                <img ng-src="assets/{{item.name}}/logo-sm.png"
+                     abx-default-image-switch="/assets/tf/logo-sm.png">
+              </a>
+            </div>
+            <div class="title-container">
+              <a ui-sref="ap.page({appName: item.name, service:item})">
+                <h3 class="appsTittle">{{item.partner}} {{item.fullName}}</h3>
+              </a>
+            </div>
+            <a ui-sref="ap.page({appName: item.name, service:item})">
+              <p>{{ item.description | limitTo: 130 }} {{ item.description.length > 130 ? '...' : ''}}</p>
+            </a>
+          </div>
+        </div>
+      </div>
 		</section>
 	</div>
 </div>
