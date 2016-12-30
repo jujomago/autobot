@@ -147,6 +147,22 @@
       {
         key: 'AFTER CALL WORK',
         class: 'afterCallWork-state'
+      },
+      {
+        key: 'ON PREVIEW',
+        class: 'onPreview-state'
+      },
+      {
+        key: 'ON VOICEMAIL',
+        class: 'onVoicemail-state'
+      },
+      {
+        key: 'UNKNOWN',
+        class: 'unknown-state'
+      },
+      {
+        key: 'RINGING',
+        class: 'ringing-state'
       }
     ],
       classSkillsStatus = [
