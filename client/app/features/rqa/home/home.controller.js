@@ -35,7 +35,7 @@ function _getMonthRange(month){
 }
 class HomeComponent {
   constructor(ReportsService, ModalManager) {
-   this.headers = ['DATE', 'CLIENT', 'TELEPHONE', 'AGENT', 'CAMPAIGN', 'DISPOSITIONS', 'CALL RECORDING', 'QA SCORE'];
+   this.headers = ['DATE', 'CLIENT', 'TELEPHONE', 'AGENT', 'CAMPAIGN', 'DISPOSITIONS', 'CALL RECORDING'];
    this.notUsedFilters = [{key: 'CUSTOMER NAME', value: ''}, {key: 'DNIS', value: ''}, {key: 'AGENT NAME', value: ''}, {key: 'CAMPAIGN', value: ''}, {key: 'DISPOSITION', value: ''}];
    this.dates = [{key: 'Last hour', function: _getHoursRange, value: 1},{key: 'Last 2 hours', function: _getHoursRange, value: 2},{key: 'Last 4 hours', function: _getHoursRange, value: 4},{key: 'Today', function: _getDaysRange, value: 0},{key: 'Yesterday', function: _getDaysRange, value: 1},{key: 'This week', function: _getWeeksRange, value: 6},{key: 'Last 2 weeks', function: _getWeeksRange, value: 13},{key: 'This month', function: _getMonthRange, value: 0},{key: 'Last month', function: _getMonthRange, value: 1}];
    this.tmpSelectedDate = this.dates[5];
