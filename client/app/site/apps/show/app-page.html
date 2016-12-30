@@ -21,7 +21,7 @@
         </div>
         <div class="col-md-10 col-sm-9 app-page-detail">
             {{$ctrl.application.description}}
-            <div class="screen-container" ng-if="$ctrl.application.appName === 'al' || $ctrl.application.appName === 'rqa'">
+            <div class="screen-container" ng-if="$ctrl.application.appName === 'al'">
                 <h4 class="app-page-subtitle">Screenshots</h4>
                 <div class="app-screens-container row">
                     <div class="app-screen-img">
@@ -32,6 +32,20 @@
                     </div>
                      <div class="app-screen-img">
                         <img  class="img-responsive app-image-margin" ng-src="assets/al/images/screenshots/app-screen3.jpg" alt="screen3">
+                    </div>
+                </div>
+            </div>
+            <div class="screen-container" ng-if="$ctrl.application.appName === 'rqa'">
+                <h4 class="app-page-subtitle">Screenshots</h4>
+                <div class="app-screens-container row">
+                    <div class="app-screen-img">
+                        <img class="img-responsive app-image-margin" ng-src="assets/rqa/images/screenshots/app-screen1.jpg" alt="screen1">
+                    </div>
+                     <div class="app-screen-img">
+                        <img class="img-responsive app-image-margin" ng-src="assets/rqa/images/screenshots/app-screen2.jpg" alt="screen2">
+                    </div>
+                     <div class="app-screen-img">
+                        <img  class="img-responsive app-image-margin" ng-src="assets/rqa/images/screenshots/app-screen3.jpg" alt="screen3">
                     </div>
                 </div>
             </div>
