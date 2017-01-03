@@ -540,7 +540,12 @@ describe('Component: alUploadList', function () {
           ListComponent.removeDnc(mockListPhones);
           expect(mockPrompt.config).to.eql({
             'okText':'Remove records',
-            'cancelText':'Keep records'
+            'cancelText':'Keep records',
+            imageTitle: {
+              class: 'dnclogo text-center fixed-margin-bottom-17',
+              src: 'assets/default/images/dncscrublogo.gif',
+              alt: 'dnc scrub logo'
+            }
           });
       });
 
