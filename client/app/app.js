@@ -69,7 +69,7 @@ angular.module('fakiyaMainApp', [
         promise = ReportsService.isRunning('%$&unexisting_identifier)(*&^%^', 'rqa');
         appLoggedin = 'isLoggedInToRqa';
       }
-      else if(!toParams.isLoggedInToSc && toState.name.indexOf('ap.sc')>-1){
+      else if(!toParams.isLoggedInToSc && toState.name === 'ap.sc'){
         let ReportsService = $injector.get('ReportsService');
         event.preventDefault();
         promise = ReportsService.isRunning('%$&unexisting_identifier)(*&^%^', 'sc');
