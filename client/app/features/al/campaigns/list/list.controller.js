@@ -14,7 +14,7 @@
       this.numPerPage = 10;
       this.beginNext = 0;
       this.quantities = [5, 10, 15, 20];
-      this.toggleCampaignRow = -1;
+      this.toggleCampaignRow = null;
       this.toggleStatusRow=-1;
       this.message = { show: false }; 
       this.typeCampaignFilter = '';   
@@ -74,10 +74,10 @@
 
 
 
-    deleteCampaign(campaign, indexRow) {
+    deleteCampaign(campaign) {
       return _ConfirmAsync('Are you sure to delete "' + campaign.name + '"?')
         .then(() => {
-          this.toggleCampaignRow = indexRow;
+          this.toggleCampaignRow = campaign.name;
           return _CampaignService.deleteCampaign(campaign.name);
         })
         .then(response => {
@@ -85,7 +85,7 @@
             let index = this.campaigns.indexOf(campaign);
 
             this.campaigns.splice(index, 1);
-            this.toggleCampaignRow = -1;
+            this.toggleCampaignRow = null;
             this.message={ show: true,
                            type: 'success',
                            text: 'Campaign Deleted Successfully',
@@ -95,6 +95,7 @@
           }
         })
         .catch(error =>{
+           this.toggleCampaignRow = null;
            if(error){ this.message={ show: true, type: 'danger', text: error.errorMessage || error }; }
            return error;
         });

@@ -3,7 +3,10 @@
     	<div class="close-container">
         	<button type="button" class="close circle_close_alert" ng-click="dismiss()"></button>
         </div>
-        <h4 class="modal-title">{{content.title}}</h4>
+        <div ng-if="config.imageTitle" class="{{config.imageTitle.class?config.imageTitle.class:''}}">
+          <img src="{{config.imageTitle.src}}" alt="{{config.imageTitle.alt}}">
+        </div>
+        <h4 ng-if="!config.imageTitle" class="modal-title">{{content.title}}</h4>
     </div>
     <div class="modal-body al-theme">
         <div>

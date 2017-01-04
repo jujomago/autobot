@@ -60,19 +60,19 @@ angular.module('fakiyaMainApp', [
       if(!toParams.isLoggedInToAl && toState.name.indexOf('.al.')>-1){
         let ListService=$injector.get('ListsService');
         event.preventDefault();
-        promise =ListService.getList('%$&unexisting_list)(*&^%^', {headers: {appName: 'al'}});
+        promise =ListService.createList({}, 'al');
         appLoggedin = 'isLoggedInToAl';
       }
       else if(!toParams.isLoggedInToRqa && toState.name.indexOf('.rqa.')>-1){
-        let ReportsService = $injector.get('ReportsService');
+        let ListService = $injector.get('ListsService');
         event.preventDefault();
-        promise = ReportsService.isRunning('%$&unexisting_identifier)(*&^%^', 'rqa');
+        promise = ListService.createList({}, 'rqa');
         appLoggedin = 'isLoggedInToRqa';
       }
-      else if(!toParams.isLoggedInToSc && toState.name.indexOf('ap.sc')>-1){
-        let ReportsService = $injector.get('ReportsService');
+      else if(!toParams.isLoggedInToSc && toState.name === 'ap.sc'){
+        let ListService = $injector.get('ListsService');
         event.preventDefault();
-        promise = ReportsService.isRunning('%$&unexisting_identifier)(*&^%^', 'sc');
+        promise = ListService.createList({}, 'sc');
         appLoggedin = 'isLoggedInToSc';
       }
        if(promise){

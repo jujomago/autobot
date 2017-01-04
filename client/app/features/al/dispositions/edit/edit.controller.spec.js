@@ -26,7 +26,7 @@ describe('Component:DispositionEditComponent', function () {
     });
 
     httpBackend.whenGET(url => (url.indexOf('.html') !== -1)).respond(200);
-    httpBackend.whenGET(appConfig.apiUri+'/f9/admin/lists/%$&unexisting_list)(*&^%^').respond(200);
+    httpBackend.whenPOST(appConfig.apiUri+'/f9/admin/lists').respond(200);
   }));
   describe('#save', () => {
     it('=> should return Status 200, updated OK"', () => {

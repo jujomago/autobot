@@ -34,7 +34,7 @@ describe('Component: al.users.create', function() {
         });
 
          httpBackend.whenGET(url=>(url.indexOf('.html') !== -1)).respond(200);
-         httpBackend.whenGET(appConfig.apiUri+'/f9/admin/lists/%$&unexisting_list)(*&^%^').respond(200);
+         httpBackend.whenPOST(appConfig.apiUri+'/f9/admin/lists').respond(200);
 
     }));
 

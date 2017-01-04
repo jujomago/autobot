@@ -128,6 +128,7 @@ describe('Component: al.campaigns.list', function () {
 
       ListComponent.deleteCampaign({ name: 'somecampaign' }, 8)
         .then(() => {
+          expect(ListComponent.toggleCampaignRow).to.equal(null);
           expect(ListComponent.message.show).to.equal(true);
           expect(ListComponent.message.type).to.equal('success');
           expect(ListComponent.message.text).to.equal('Campaign Deleted Successfully');

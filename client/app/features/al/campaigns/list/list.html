@@ -41,7 +41,7 @@
       </thead>
       <tbody>
         <tr ng-repeat="item in ($ctrl.filteredCampaigns=($ctrl.campaigns  | filter:{type:$ctrl.typeCampaignFilter} | filter:$ctrl.search | orderBy:$ctrl.sortKey:$ctrl.reverse) | limitTo:$ctrl.numPerPage:$ctrl.beginNext )"
-            ng-class="{'danger' : $ctrl.toggleCampaignRow==$index, 'warning': $ctrl.toggleStatusRow==$index}">
+            ng-class="{'danger' : $ctrl.toggleCampaignRow===item.name, 'warning': $ctrl.toggleStatusRow==$index}">
             <td>
               <a href ng-click="$ctrl.getDetail(item)">{{item.name}}</a>
             </td>
@@ -54,7 +54,7 @@
                       ng-click="$ctrl.updateState(item,$index)" ng-init="item.statusBtnText=(item.state==='RUNNING')?'Stop':'Start'" ng-disabled="(item.statusBtnText==='Starting' || item.statusBtnText=='Stopping')">
                       {{ item.statusBtnText }}
               </button>
-              <a href class="circle_delete" ng-click="$ctrl.deleteCampaign(item,$index)" ng-hide="$ctrl.toggleCampaignRow==$index"></a>
+              <a href class="circle_delete" ng-click="$ctrl.deleteCampaign(item)" ng-class="{'disabled-x-circle': $ctrl.toggleCampaignRow===item.name, 'circle_delete': $ctrl.toggleCampaignRow!==item.name}" ng-disabled="$ctrl.deletedRow === item.name"></a>
             </td>
         </tr>
       </tbody>
