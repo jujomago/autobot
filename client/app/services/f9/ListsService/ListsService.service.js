@@ -43,10 +43,14 @@
                 })
                 .catch(err => _HandleError(err, result));
         }
-        createList(list) {
+        createList(list, appName) {
+            let config = {};
+            if(appName){
+                config.headers = {appName: appName};
+            }
             var result = { data: null, statusCode: 201, errorMessage: '' };
 
-            return _$http.post(this.endPointUrl, list)
+            return _$http.post(this.endPointUrl, list, config)
                 .then(response => {
                         result.data = response.data;
                         return result;
